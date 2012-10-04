@@ -1,7 +1,7 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
-application: romancesapp
-version: 2012-10-04-1912
+application: singlesapp
+version: 2012-10-04-2306
 runtime: python
 api_version: 1
 
@@ -10,23 +10,23 @@ default_expiration: "30d"
 
 handlers:
 - url: /favicon.ico
-  static_files: rs/static/auto-generated-2012-10-04-1912/img/Discrete/favicon.ico
-  upload: rs/static/auto-generated-2012-10-04-1912/img/Discrete/favicon.ico
+  static_files: rs/static/img/Single/favicon.ico
+  upload: rs/static/img/Single/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location
 # for each new build name to ensure that out-of-date static files will not be accessed through
 # cached data (since the directory name changes, old caches will not be hit)
 
-- url: /rs/static/auto-generated-2012-10-04-1912
-  static_dir: rs/static/auto-generated-2012-10-04-1912
+- url: /rs/static
+  static_dir: rs/static
   
-- url: /rs/static/auto-generated-2012-10-04-1912
-  static_dir: rs/static/auto-generated-2012-10-04-1912
+- url: /rs/proprietary/static
+  static_dir: rs/proprietary/static
   
 - url: /robots.txt
-  static_files: rs/static/auto-generated-2012-10-04-1912/robots.txt
-  upload: rs/static/auto-generated-2012-10-04-1912/robots.txt
+  static_files: rs/static/robots.txt
+  upload: rs/static/robots.txt
 
 - url: /rs/admin/.*
   script: main.py

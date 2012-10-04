@@ -471,7 +471,7 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
         if delete_or_enable == "delete":
             utils.kill_user_sessions(userobject.user_tracker)
         
-        template = loader.get_template("logout_helpers/goodbye_message.html")
+        template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
         context = Context({
             'html_for_delete_account': html_for_delete_account, 
             'build_name': settings.BUILD_NAME,})
