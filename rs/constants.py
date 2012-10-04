@@ -257,13 +257,13 @@ IS_ADULT = False # used in determining what sort of behavior (ie. photo uploads)
 
 if settings.BUILD_NAME == "Discrete":
     # Special case for the "discrete" site, because we don't want to explicitly say the name of the site in the address field
-    sender_address = u"RS - Customer Support <support@%s.com>" % domain_name_dict[settings.BUILD_NAME]
-    sender_address_html = u"RS - Customer Support &lt;support@%s.com&gt;" % domain_name_dict[settings.BUILD_NAME]
-    admin_address = u"Admin <admin@%s.com>" % domain_name_dict[settings.BUILD_NAME]
+    sender_address = u"RS - Customer Support <support@%s>" % domain_name_dict[settings.BUILD_NAME]
+    sender_address_html = u"RS - Customer Support &lt;support@%s&gt;" % domain_name_dict[settings.BUILD_NAME]
+    admin_address = u"Admin <admin@%s>" % domain_name_dict[settings.BUILD_NAME]
 else:
-    sender_address = u"%s - Customer Support <support@%s.com>" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
-    sender_address_html = u"%s - Customer Support &lt;support@%s.com&gt;" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
-    admin_address = u"Admin <admin@%s.com>" % domain_name_dict[settings.BUILD_NAME]
+    sender_address = u"%s - Customer Support <support@%s>" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
+    sender_address_html = u"%s - Customer Support &lt;support@%s&gt;" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
+    admin_address = u"Admin <admin@%s>" % domain_name_dict[settings.BUILD_NAME]
     
     
 if settings.BUILD_NAME == "Discrete":
