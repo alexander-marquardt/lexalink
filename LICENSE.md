@@ -5,9 +5,9 @@ Copyright (C) 2012
 
 Lexalink - a free social network and dating website platform for the Google App Engine. 
 
-Original author: Alexander Marquardt
-Documentation and additional information: http://www.LexaLink.com
-Git source code repository: https://github.com/lexalink/LexaLink.git 
+Original author: Alexander Marquardt  
+Documentation and additional information: http://www.LexaLink.com  
+Git source code repository: https://github.com/lexalink/LexaLink.git  
 
 Please consider contributing your enhancements and modifications to the LexaLink community, 
 
