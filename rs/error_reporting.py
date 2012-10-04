@@ -32,7 +32,7 @@ import traceback, sys, os, StringIO, re
 import settings
 import logging
 
-import rs.utils_top_level, rs.http_utils
+from rs import utils_top_level, http_utils
 
 def log_exception(logging_function, *args, **kwds):
     """Signal handler to log an exception or error condition for which we want further details 
