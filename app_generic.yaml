@@ -1,0 +1,55 @@
+application: lingoloft
+version: yyyy-mm-dd-hhhh
+runtime: python
+api_version: 1
+
+# define when static files expire
+default_expiration: "30d"
+
+handlers:
+- url: /favicon.ico
+  static_files: rs/versioned_static/img/BUILD_NAME/favicon.ico
+  upload: rs/versioned_static/img/BUILD_NAME/favicon.ico
+
+
+# The static directory will contain CSS, JS, Images, etc. We re-map the directory location
+# for each new build name to ensure that out-of-date static files will not be accessed through
+# cached data (since the directory name changes, old caches will not be hit)
+
+- url: /rs/versioned_static
+  static_dir: rs/versioned_static
+  
+- url: /rs/proprietary/proprietary_versioned_static
+  static_dir: rs/proprietary/proprietary_versioned_static
+  
+- url: /robots.txt
+  static_files: rs/versioned_static/robots.txt
+  upload: rs/versioned_static/robots.txt
+
+- url: /rs/admin/.*
+  script: main.py
+  login: admin
+
+# if the videochat_window URL is called directly, then we execute the code to display the videochat
+- url: /videochat_window/video_phone.html
+  script: main.py
+  
+  
+# due to the way that Flash calls the other assets, they appear to be in the /videochat_window/ "directory", and therefore
+# we expose these assets as static files so that the Flash can access them without having to modify the FlashBuilder-generated files
+# Note: we have two symbolic links that point to the flash files. This is necessary because we cannot have static files and
+# templates in the same directory (but we need them in the same directory).
+- url: /videochat_window
+  static_dir: rs/templates/video_phone_symlink2/FLASH_FILES_DIR 
+
+  
+# catch all other urls with the main program (defined in urls.py)
+- url: /.*
+  script: main.py
+
+builtins:
+- remote_api: off
+- appstats: off
+
+inbound_services:
+- warmup

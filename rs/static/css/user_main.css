@@ -1,0 +1,587 @@
+@charset "utf-8";
+
+/*
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating website platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+*/
+
+
+body {
+
+}
+
+
+table .cl-nav-item /*only applies to this class if it is found inside a table cell -- called "Descendant Selector"*/
+{
+	font-size: 14px;
+	padding: 4px;
+	text-decoration:none;
+	font-weight:bold;
+	text-align:center;
+	color: white;
+}
+
+
+table .cl-nav-item-text-color-override /*only applies to this class if it is found inside a table cell -- called "Descendant Selector"*/
+{
+	color: #FFC0CB;
+}
+
+
+
+table#id-mail-header 
+{
+    width: 700px;
+}
+
+#id-search-container
+{
+	text-align: right;
+	padding: 3px;
+	vertical-align: middle;
+    border-width: 1px;
+	border-color: gray;
+	border-style: solid;
+	background-color:  #e3e3e3;
+    margin-right: 3px;
+    margin-left: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+table#id-search-table, table#id-search-by-name-table
+{
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+.cl-refine-search {
+    border-width: 1px;    
+    border-color: gray;
+	border-style: solid;
+	background-color:  #e3e3e3;
+    padding: 4px;
+    margin-right: 3px;
+}
+
+th.cl-title{
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+
+
+td.cl-search-td-container
+{
+	padding: 15px
+}
+
+
+td.cl-search-td, td.cl-paypal-td
+{
+	vertical-align: middle;
+	text-align: center;
+}
+
+td.cl-search-td-right-align
+{
+	vertical-align: middle;
+	text-align: right;
+	padding: 1px;
+}
+
+td.cl-search-td-left-align
+{
+	vertical-align: middle;
+	text-align: left;
+	padding: 1px;
+}
+
+td.cl-search-td-first
+{
+    vertical-align: middle;
+	text-align: left;
+	width: 15px;
+}
+
+td.cl-search-td-last
+{
+    vertical-align: middle;
+	text-align: left;
+	width: 15px;
+}
+
+td.cl-nav-td {
+	vertical-align: middle;
+	text-align: center;
+	border-right: 1px solid white;
+	width: 220px;
+}
+
+td#id-nav-td-first {
+	width: 140px;
+}
+
+/* strange behaviour of the browser requires a requires inclusion of the cl-nav-td format info for the last td item*/
+td#id-nav-td-last { 
+	vertical-align: middle;
+	text-align: center;
+	border-right: hidden;
+	width: 140px;
+}
+
+table#id-photo-table
+{
+	width: 400px;
+	margin: 0px;
+}
+table#id-photo-table-for-edit
+{
+	width: 540px;
+	margin: 0px;
+}
+td.cl-photo-td-img
+{
+	width: 65px;
+	height: 65px;
+	vertical-align: middle;
+	text-align: center;
+    border: 2px solid #777777;
+    background: url(../img/med_photo_bg.png) repeat-x;
+}
+
+td#id-contact-table
+{ 
+}
+td.cl-contact-td
+{
+	width: 100px;
+	vertical-align: top;
+	text-align: center;
+	padding-right: 5px;
+	padding-left: 5px;
+	font-size: 10px;
+	color: #AAAAAA;
+}
+
+td.cl-photo-td-private-img
+{
+	width: 65px;
+	height: 65px;
+	vertical-align: middle;
+	text-align: center;
+    border: 2px solid #88167E;
+    background: url(../img/med_photo_bg.png) center repeat-x;
+}
+
+
+td.cl-photo-options-select-td
+{
+	vertical-align: middle;
+	text-align: center;
+}
+td.cl-photo-options-label-td
+{
+	width: 125px; /* 125px aligns the actual photos with the buttons below */
+	font-weight: bold;
+	vertical-align: middle;
+	text-align: right;
+	padding-right: 10px;
+}
+.cl-photo-img 
+{ 
+	vertical-align: middle;
+	margin-right: auto;
+	margin-left: auto;
+}
+td.cl-mark_conversation-td 
+{
+	vertical-align: top;
+}
+
+
+.cl-side-bar
+{
+	color:black;
+	/*background-color: black;*/
+	border:1px solid red;
+	text-align:left;
+	padding: 5px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.cl-submit, .cl-cancel
+{
+        background: url(../img/GraySlice.jpg) center repeat-x;
+	color: white;
+	font-weight: normal;
+	border: 3px solid white;
+}
+
+.cl-submit-as-text
+{
+	font-weight: normal;
+	border: 0px;
+}
+
+.cl-manage_messages-button
+{
+	color: black;
+	font-weight: normal;
+	font-size: 10px;
+	border: 1px solid gray;
+}
+.cl-profile-photo-table
+{
+	margin-bottom: 15px;
+}
+td.cl-profile-photo-td-img
+{
+	height: 120px;
+	width: 120px;
+    
+	/*padding: 10px;*/
+	vertical-align: middle;
+	text-align: center;
+    border: 2px solid #777777;
+    background: url(../img/med_photo_bg.png) center repeat-x;
+	/*background: url(../img/ProfilePhotoBackground.png) center no-repeat;*/
+}
+
+.cl-side-bar a { text-decoration: none; color: red; }
+.cl-side-bar a:hover {	text-decoration: underline; color: #FF00A7; }
+
+.cl-search_results a { text-decoration: none; color: black; }
+.cl-search_results a:hover {	text-decoration: underline; color: red; }
+
+.cl-mailbox_results a { text-decoration: none; color: #666666;}
+.cl-mailbox_results a:hover {	text-decoration: none; color: red;}
+.cl-mailbox_results a:hover span {	text-decoration: none; color: red;}
+
+
+.cl-contacts_page a { text-decoration: none; color: red; font-weight: normal;}
+.cl-contacts_page a:hover {	text-decoration: underline; color: black; font-weight: normal;}
+
+.cl-mail-header-td a { text-decoration: none; color: gray; }
+.cl-mail-header-td a:hover {	text-decoration: underline; color: red; }
+
+.cl-manage_messages-links a { text-decoration: none; color: black; font-weight: bold;}
+.cl-manage_messages-links a:hover { text-decoration: none; color: red; font-weight: bold;}
+
+
+.cl-main-body
+{
+	text-align: justify;
+	padding-right: 10px;
+}
+
+.cl-right-align 
+{
+	text-align: right;
+}
+
+.cl-center-align 
+{
+	text-align: center;
+}
+
+
+
+#id-link-des, #link-des h6
+{
+        color: #FFC0CB;
+}
+
+
+
+.cl-search-button
+{
+	font-size: 11px;
+	width: 135px;
+}
+
+.cl-gray-box 
+{
+	border: 1px solid #666666;
+	background: #FAFAFA;
+}
+
+td.cl-td-left-align-user_main
+{
+    text-align: left;
+    width: 135px;
+}
+
+
+td.cl-left-align-user-summary-text-narrower
+{
+	text-align: left;
+	vertical-align: bottom;
+	width: 50px;
+	padding-right: 5px;
+}
+td.cl-left-align-user-summary-text-normal
+{
+	text-align: left;
+	vertical-align: bottom;
+	width: 80px;
+	padding-right: 5px;
+}
+td.cl-left-align-user-summary-text-for-languages
+{
+	text-align: left;
+	vertical-align: bottom;
+	width: 105px;
+	padding-right: 10px;
+}
+td.cl-left-align-user-summary-text-170px
+{
+	text-align: left;
+	vertical-align: bottom;
+	width: 170px;
+}
+td.cl-left-align-user-summary-text-230px
+{
+	text-align: left;
+	vertical-align: bottom;
+	width: 230px;
+}
+
+table.cl-table-user-summary
+{
+	margin-bottom: 8px;
+}
+
+td.cl-mail-header-td
+{
+	text-align: center;
+}
+
+th.cl-search-box-header {
+    text-align: center;
+    font-size: 13px;   
+}
+
+td.cl-first-mail-icon-td
+{
+	vertical-align: top;
+	text-align: center;
+	font-size: 10px;
+	color: #666666;
+	padding: 1px;
+	width: 60px;
+}
+
+
+td.cl-mail-icon-td
+{
+	vertical-align: middle;
+	text-align: left;
+	font-size: 9px;
+	color: #AAAAAA;
+	padding: 1px;
+}
+
+
+
+table.cl-mail-icon-table-60px
+{
+	margin: 0px;
+	width: 60px;
+	text-align: center;
+}
+
+table.cl-mail-icon-table-80px
+{
+	margin: 0px;
+	width: 80px;
+	text-align: center;
+}
+
+table.cl-mail-icon-table-120px
+{
+	margin: 0px;
+	width: 120px;
+	text-align: center;
+}
+
+.cl-mail_seperator {
+	background: url(../img/mail_seperator.png) top center repeat-x;
+}
+
+.cl-search_seperator {
+	height: 10px;
+	background: url(../img/mail_seperator.png) top center repeat-x;
+}
+
+
+.cl-single_diamond-status-background {
+    background-color: #FBF4FB;
+}
+
+.cl-double_diamond-status-background {
+    background-color: #FBF4FB;
+}
+
+.cl-triple_diamond-status-background {
+    background-color: #FBF4FB;
+}
+
+.cl-four_diamond-status-background {
+    background-color: #FBF4FB;
+}
+
+.cl-five_diamond-status-background {
+    background-color: #FBF4FB;
+}
+
+table.cl-paypal-table {
+    margin-bottom: 5px;
+}
+
+table.cl-pay-instructions {
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+
+table.cl-pay-instructions td {
+    text-align: right;
+    padding: 2px;
+}
+
+
+
+div#id-show_spinner_while_loading
+{
+    display: none;
+    width:100px;
+    height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background:url(../img/large-ajax-loader.gif) no-repeat center;
+    text-align:center;
+    padding:10px;
+    font:normal 16px Tahoma, Geneva, sans-serif;
+    border:0px;
+    margin-left: -50px;
+    margin-top: -50px;
+    z-index:100;
+    overflow: auto;
+}
+
+/* **** The following section is used for customizing the login scree *** */
+
+td.cl-login-td-left-side-stub { /* defines the height of the login tables and widht of left "padding" cell for each table*/
+	height: 520px;
+	width: 20px;
+}
+
+
+td.cl-login-td-right-side-stub { width: 10px; }/* defines the width of the right "padding" cell for each table */
+
+
+td.cl-td-right-align-login
+{
+	text-align: right;
+	vertical-align: text-top;
+	width: 200px;
+	font-size: 11pt;
+}
+
+td.cl-td-left-align-login
+{
+	text-align: left;
+	vertical-align: text-top;
+	width: 200px;
+	font-size: 11pt;
+}
+
+
+td.cl-td-horizontal-bar {
+	font-size: 100%;
+	vertical-align: middle;
+	font-size: 20px;
+	height: 28px;
+	padding: 0px;
+    color: white;
+}
+
+td#id-td-horizontal-bar-first-cell
+{
+	width: 300px;
+	text-align: left;
+	font-size: 20px;
+	vertical-align: middle;
+	padding-left: 30px;
+}
+
+td#id-td-horizontal-bar-second-cell
+{
+	width: 320px;
+	text-align: right;
+	font-size: 16px;
+	vertical-align: middle;
+}
+
+td.cl-td-horizontal-bar-input-field {
+	vertical-align: middle;
+}
+
+
+td.cl-registration-big-prompt-td {
+	font-size: 18pt;
+	font-weight: bold;
+    text-align: center;
+}
+
+
+td.cl-registration-big-prompt-td {
+	font-size: 18pt;
+	font-weight: bold;
+    text-align: center;
+}
+
+/* allow the user to click on the image to get into the results */
+#id-image-link {
+        position: absolute;
+        top: 180px;
+        left: 20px;
+        width: 400px;
+        height: 520px;
+        background-color: transparent;
+}
+
+
+
+
+/* *** End login customizations *** */

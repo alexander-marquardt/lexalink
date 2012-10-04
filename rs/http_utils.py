@@ -1,0 +1,48 @@
+
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012 
+#
+# Lexalink - a free social network and dating website platform for the Google App Engine. 
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git 
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community, 
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+
+from django import http
+from django.utils import simplejson
+
+def redirect_to_url(request, redirect_url):
+    
+    if request.REQUEST.get("is_ajax_call", 'no') == 'yes':
+        response_dict = {}
+        response_dict['redirect_url'] = redirect_url
+        json_response = simplejson.dumps(response_dict)
+        return http.HttpResponse(json_response, mimetype='text/javascript')
+    else:
+        return http.HttpResponseRedirect(redirect_url)
+
+def ajax_compatible_http_response(request, html, http_response_function = http.HttpResponse):
+        
+    if request.REQUEST.get("is_ajax_call", 'no') == 'yes':
+        response_dict = {}
+        response_dict['html'] = html
+        json_response = simplejson.dumps(response_dict)
+        return http_response_function(json_response, mimetype='text/javascript')    
+    else:
+        return http_response_function(html)

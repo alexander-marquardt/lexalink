@@ -1,0 +1,82 @@
+{% load i18n %}
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+<table id="id-horiz-bar-table" class="nav-button-link-format">
+    <tr>
+
+        {% if text_override_for_navigation_bar %}
+            <td class="cl-nav-item cl-nav-item-text-color-override ">{{ text_override_for_navigation_bar }}</td>
+        {% else %}
+            {% if guest_user_data_fields.registered_user_bool %}
+                <td class="cl-nav-td" id="id-nav-td-first">
+                    <span class="cl-nav-item cl-nav-item-text-color-override">
+                        {{ primary_user_presentation_data_fields.username }}</span>
+                </td>
+
+                <td class="cl-nav-td cl-nav-item"><a
+                    href="{% url rs/user_home display_uid=primary_user_presentation_data_fields.owner_uid %}"
+                        rel="address:{% url rs/user_home display_uid=primary_user_presentation_data_fields.owner_uid %}">
+                {% trans "My Profile" %}</a></td>
+
+
+                <td class="cl-nav-td cl-nav-item">
+                    <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                            rel="address:{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                        {% trans "Messages" %}</a>
+                    {% if primary_user_presentation_data_fields.owner_message_count %}
+                    <a href="{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                            rel="address:{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                        [{{ primary_user_presentation_data_fields.owner_message_count }} {% trans "unread" %}]</a>
+                    {% endif %}
+                </td>
+
+
+                {% if primary_user_presentation_data_fields.new_contact_count %}
+                <td class="cl-nav-td cl-nav-item"><a
+                        href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                        rel="address:{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                            {% trans "Contacts" %}
+                    [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]</a></td>
+                {% else %}
+                <td class="cl-nav-td cl-nav-item"><a
+                        href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                        rel="address:{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                    {% trans "Contacts" %}</a></td>
+                {% endif %}
+
+                <td id="id-nav-td-last" class=  "cl-nav-item">
+                    <a href="{% url views.logout %}"
+                     rel="address:{% url views.logout %}">{% trans "Exit" %}</a></td>
+            {% else %}
+                <td class="cl-nav-item cl-nav-item-text-color-override ">
+                {% trans "You have entered in" %} {{ app_name }} {% trans "with a guest account" %}
+            {% endif %}
+        {% endif %}
+
+    </tr>
+</table>

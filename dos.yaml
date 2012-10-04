@@ -1,0 +1,115 @@
+blacklist:
+
+######### Malicious Users
+- subnet: 85.61.67.234/32
+  description: Spain - user that is threatining other users - can remove this in the future since IP will change
+
+- subnet: 190.245.241.105/32
+  description: User enters from Argentina, and posts profiles of hot chicks "in spain" - designed for getting webcam customers
+
+######### Proxy Servers (ordered by IP address)
+
+- subnet: 62.82.107.0/24
+  description: Spain - 62.82.107.252
+
+- subnet: 69.22.186.0/24
+  description: US - GIGLINX -  69.22.186.138
+
+- subnet: 72.55.168.0/24
+  description: Proxy server in Canada 72.55.168.89
+
+- subnet: 77.109.9.0/24
+  description: Proxy server Ukraine 77.109.9.189
+
+- subnet: 82.131.170.0/24
+  description: Proxy server Hungary 82.131.170.200
+
+- subnet: 82.223.130.0/24
+  description: Proxy server in Spain - 82.223.130.40
+
+- subnet: 84.25.123.0/24
+  description: Proxy server (in Netherlands) - 84.25.123.69
+
+- subnet: 87.106.245.0/24
+  description: Proxy server (in Germany) - 87.106.245.165
+
+- subnet: 92.62.57.0/24
+  description: Proxy Russia - 92.62.57.107
+
+- subnet: 110.164.189.0/24
+  description: Proxy server Thailand - 110.164.189.146
+
+
+- subnet: 117.239.40.0/24
+  description: Proxy India -  117.239.40.66
+  
+- subnet: 120.89.49.0/24
+  description: Proxy server (Philipines) - 120.89.49.19
+
+- subnet: 173.244.183.0/24
+  description: Proxy server (United States) - 173.244.183.34
+
+- subnet: 190.16.36.0/24
+  description: Confirmed proxy server Argentina - 190.16.36.113
+
+- subnet: 198.36.222.0/24
+  description: Proxy server (US) - 198.36.222.8
+
+- subnet: 200.29.216.0/24
+  description: Proxy server (Chile) - 200.29.216.146
+
+- subnet: 200.110.19.0/24
+  description: Proxy server (Peru) - 200.110.19.213
+
+- subnet: 207.219.7.0/24
+  description: Telus proxy server Canada  - 207.219.7.136
+
+- subnet: 209.226.31.0/24  
+  description: Proxy server (Canada) - 209.226.31.245
+
+- subnet: 210.101.131.0/24
+  description: Confirmed proxy server (in Korea) - 210.101.131.234
+
+- subnet:  212.88.157.0/24
+  description: Confirmed proxy server in Germany  212.88.157.202
+
+- subnet: 213.221.7.0/24
+  description: Russian proxy 213.221.7.251
+
+######## Forbidden countries (ordered by IP address)
+  
+- subnet: 41.82.0.0/16
+  description: Senegal - 41.82.84.131/41.82.68.77/41.82.72.215
+
+- subnet: 41.83.0.0/16
+  description: Senegal - 41.83.13.136
+
+- subnet: 41.93.0.0/16
+  description: Ghana - 41.93.133.237
+
+- subnet: 41.138.0.0/16
+  description: Nigerian scammers - 41.138.176.40
+
+- subnet: 41.155.0.0/16
+  description: Nigerian scammers (Starcomms Limited) - 41.155.64.209/41.155.98.235
+
+- subnet: 41.184.0.0/16
+  description: Nigerian scammers  - 41.184.17.90/41.184.130.129
+
+- subnet: 41.207.0.0/16
+  description: Togo - 41.207.160.94
+
+- subnet: 41.208.0.0/16
+  description: Societe Nationale Des Telecommunications Du Senega  - original address 41.208.134.175/41.208.161.165
+
+- subnet: 41.214.0.0/16
+  description: Senegal - 41.214.32.72/41.214.65.21
+
+- subnet: 82.128.0.0/16
+  description: Nigerian scammers - 82.128.62.217
+
+- subnet: 196.207.0.0/16
+  description: Societe Nationale Des Telecommunications Du Senega - original address 196.207.218.206
+
+- subnet: 213.154.0.0/16
+  description: Senegal - 213.154.94.215/213.154.94.44

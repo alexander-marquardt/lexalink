@@ -1,0 +1,136 @@
+{% load i18n %}
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+<script type="text/javascript">
+    // script to expand the locations menu as country and region are selected.
+
+    $(document).ready(function() {
+
+        var default_text = new Object();
+        default_text['region'] = '{% trans "Select region" %}';
+        default_text['sub_region'] = '{% trans "Select sub-region" %}';
+        default_text['not_available'] = '{% trans "Not defined yet" %}';
+        var id_prefix = "#id-signup_fields";
+
+        var country_id = id_prefix + "-country";
+        var region_id = id_prefix + "-region";
+        var sub_region_id = id_prefix + "-sub_region";
+
+        $("#id-signup_fields-region").hide();
+        $("#id-signup_fields-sub_region").hide();
+
+
+        // If previous posted values are available for the location, then load the appropriate drop-down menus and set
+        // the values to reflect previous selection
+        if ($('#id-hidden_country').val()) {
+
+            // load options available for the region
+            load_selector_options(region_id, $('#id-hidden_country').val(), default_text['region'], true, $('#id-hidden_region').val(),
+                    default_text['not_available'], "{{ live_static_dir }}", "/rs/ajax/get_location_options/");
+
+            // if the region value is defined and is set to "----", then this indicates that the
+            // region has not been selected -- therefore don't display the sub_region
+            // if it is defined and not "----", then it should be displayed
+            if ($('#id-hidden_region').val() && $('#id-hidden_region').val() != "----") {
+                load_selector_options(sub_region_id, $('#id-hidden_region').val(), default_text['sub_region'], true, $('#id-hidden_sub_region').val(),
+                        default_text['not_available'], "{{ live_static_dir }}", "/rs/ajax/get_location_options/");
+
+            }
+        }
+
+        load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
+
+    });
+
+</script>
+
+<!-- Note: the following form submissions are caught by the javascript following the form declaration -->
+{% if not html_for_previously_posted_values %}
+<!-- DO NOT BREAK THE FOLLOWING "onsubmit" over multiple lines - it will break it -->
+    <form method=POST id="submit-signup-form" action="{% url views.login %}"
+          onsubmit="return confirm('{% blocktrans with build_name as build_name and minimum_registration_age as age %}I confirm that I am {{ age }} or older and that I have read and accept the terms and conditions for using {{ build_name }} {% endblocktrans %}')">
+{% else %}
+    <form method=POST id="submit-signup-form" action="{% url views.login %}">
+{% endif %}
+
+        <input type=hidden name=login_type value=signup_fields>
+        <input type=hidden id="id-signup_fields-password_hashed" name=password_hashed value="replace_this">
+        <table id="table-right-login">
+
+            <!-- This table is written with a dummy first colum which is used
+         to ensure the height of the table. Therefore, all a second table is
+         actually contained inside the second colum of the main table. -->
+            <tr>
+                <td class="cl-login-td-left-side-stub">&nbsp;</td>
+                <!-- dummy cell -->
+                <td> <!-- this cell actually contains the rest of the table -->
+                    <table> <!-- inner table -->
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
+                        </tr>
+                        <tr>
+                            <td class="cl-registration-small-prompt-td">({% trans "it only takes 30 seconds" %})
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                        {{ html_for_signup|safe }}
+                        <tr>
+                            <td></td>
+                            <td><input type="submit" value='{% trans " Register me" %}!'/>
+                            </td>
+                        </tr>
+                        <!-- force space below the login options -->
+                        <!--<tr><td class="cl-login-td-right-side-stub">&nbsp;</td></tr> --><!-- dummy cell -->
+                    </table>
+                    <!-- end the inner table -->
+                </td>
+                <!-- end inner table container data cell -->
+                <td class="cl-login-td-right-side-stub">&nbsp;</td>
+                <!-- dummy cell -->
+            </tr>
+            <!-- end container data row -->
+        </table>
+        <!-- end outer table -->
+    </form>
+
+
+<script type="text/javascript">
+    // In the current fully ajax implementation, it is not possible to press the back button and see what was entered --
+    // eventually we should remove this code and let  jquery.address pass in the values on the URL as a GET -- however,
+    // this will require hashing the password before submission - which means that we will need to implement server-side
+    // password validity checking ... so, for the moment this has not yet been done...
+
+    handle_ajax_form_submission('#submit-signup-form', '#id-body_main_html');
+
+
+</script>
+

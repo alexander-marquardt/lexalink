@@ -1,0 +1,445 @@
+{% load i18n %}
+
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+{% if viewed_profile_data_fields.account_has_been_removed_message %}
+<div class="grid_9 alpha omega cl-center-text">
+    <br><br>
+    {{ viewed_profile_data_fields.account_has_been_removed_message|safe }}
+    <br><br>
+</div>
+{% endif %}
+
+
+{% if unregistered_user_welcome_text %}
+<div class="grid_2 alpha"><strong>¡Bienvenido!</strong></div>
+<div class="grid_7 omega">
+    <div class="cl-color-text">
+        {{ unregistered_user_welcome_text|safe }}
+    </div>
+
+</div> <!-- grid_7 -->
+<div class="grid_9 alpha omega cl-divider-line"></div>
+{% endif %}
+
+
+
+
+<!-- WELCCOME SECTION -->
+{% if primary_user_profile_data_fields.display_welcome_section %}
+<div class="grid_2 alpha"><strong>¡{% trans "Welcome" %}!</strong></div>
+<div class="grid_7 omega">
+
+    {% if primary_user_profile_data_fields.new_user_welcome_text %}
+    {{ primary_user_profile_data_fields.new_user_welcome_text|safe }}
+    {% endif %}
+
+    {% if primary_user_profile_data_fields.user_has_no_photo_text %}
+    {{ primary_user_profile_data_fields.user_has_no_photo_text|safe }}
+    {% endif %}
+
+    {% if primary_user_profile_data_fields.no_about_user_section_warning %}
+    {{ primary_user_profile_data_fields.no_about_user_section_warning|safe }}
+    {% endif %}
+
+    {% if primary_user_profile_data_fields.email_is_not_entered_text %}
+    {{ primary_user_profile_data_fields.email_is_not_entered_text|safe }}
+    {% endif %}
+
+
+</div> <!-- grid_7 -->
+
+<div class="grid_9 alpha omega cl-divider-line"></div>
+{% endif %}
+<!-- END Welcome Section -->
+<!------------------------------------------------------------>
+
+<div class="cl-clear"></div>
+<!--{% if viewed_profile_data_fields.diamond_status %}-->
+    <!--<div class="grid_9 alpha alpha omega cl-center-text">-->
+    <!--<br><img class="cl-{{ viewed_profile_data_fields.diamond_status }}-status-element" src="/{{ live_static_dir }}/img/diamond_club/{{ viewed_profile_data_fields.diamond_status }}.png">-->
+    <!--</div>-->
+<!--{% endif %}-->
+<div class="grid_9 alpha alpha omega cl-left-text">
+    <br>
+    {% if primary_user_profile_data_fields.is_primary_user %}
+        <span class="cl-header-format">{% trans "My Profile (visible to the other members)" %}</span><br><br>
+
+    {% else %}
+        <div class="grid_9 alpha omega cl-text-large-format"><strong>
+            {% if not viewed_profile_data_fields.account_has_been_removed_message %}
+            {% trans "Profile of" %}
+            {{ viewed_profile_data_fields.display_username }}
+            {% else %}
+            {% trans "Eliminated" %}
+            {% endif %}
+        </strong></div>
+        <div class="cl-clear"></div>
+        <br>
+        {% if html_for_main.current_status_value %}
+            <br>
+
+            <div class="grid_2 alpha"><strong>{% trans "Headline:" %} </strong></div>
+            <div class="grid_7 omega"> {{ html_for_main.current_status_value|safe }}<br><br></div>
+        {% endif %}
+    {% endif %}
+</div>
+<div class="grid_9 alpha omega">&nbsp;</div> <!-- spacer -->
+
+<!-- the following only returns a value if it is the primary user. Will return html for editing the current_satus value -->
+{% if not viewed_profile_data_fields.account_has_been_removed_message %}
+    {{ html_for_main.current_status|safe }}
+{% endif %}
+
+<!------------------------------------------------------------>
+{% if primary_user_profile_data_fields.is_primary_user %}
+
+<!-- PHOTO SECTION -->
+<script type="text/javascript">
+
+    // Script for loading photos after clicking edit and photo-options form after
+    // "edit" link has been clicked.
+    $(document).ready(function() {
+        $('#id-edit-photos-submit-data-section').hide();
+
+
+        $("#id-edit-photos-link a").click(function() {
+            var load_url = '/rs/ajax/load_photos_for_edit/' + rnd() + "/";
+            $('#id-photo-table-for-ajax-load').load(load_url, function() {
+                fancybox_setup($("a.cl-fancybox-profile-gallery", this));
+            });
+            $('#id-edit-photos-submit-data-section').show();
+            return false; // ensure that browser doesn't navigate to the href page!
+        });
+    });
+
+</script>
+{% endif %}
+
+
+<!------------------------------------------------------------>
+<!-- "signup fields" section - allow user to modify their initial signup settings 
+     such as sex, age, etc.. -->
+{{ html_for_main.signup_fields|safe }}
+
+<!------------------------------------------------------------>
+<!-- "languages" section - generates current language options, and calls checkboxes to edit
+     if the user wishes - only for LikeLanguage will the come before the use description-->
+{% ifequal build_name "LikeLanguage" %}
+{{ html_for_main.languages|safe }}
+{{ html_for_main.languages_to_learn|safe }}
+{% endifequal %}
+
+
+<!------------------------------------------------------------>
+<!-- "Photos" section -->
+
+<!-- only show photos section for non-eliminated profiles -->
+{% if not viewed_profile_data_fields.account_has_been_removed_message or primary_user_profile_data_fields.is_primary_user %}
+    {% if primary_user_profile_data_fields.is_primary_user %}
+        <div class="cl-clear"></div>
+        <div class="alpha omega grid_9 ">
+            <strong>{% trans "Photos" %}:</strong>
+
+            <div id="id-edit-photos-link">
+                <a href="{% url rs/user_home display_uid=primary_user_profile_data_fields.owner_uid %}">
+                    ({% trans "edit" %}/{% trans "upload" %} {% trans "photos" %})
+                </a>
+            </div>
+        </div>    <!-- end grid_9 -->
+    {% endif %}
+
+    {% if viewed_profile_data_fields.show_photos_section %}
+        <div class="cl-clear"></div>
+        <div class="grid_2 alpha">
+            <div id="id-profile-photo-table-for-ajax-load">
+                {{ html_for_main.profile_photo|safe }}
+            </div>
+        </div> <!-- end grid_2 -->
+        
+        <div class="grid_7 omega">
+            {% include "user_main_helpers/photos.html" %}
+        </div> <!-- end grid10 omega -->
+
+        <div class="grid_9 alpha omega">
+            <!-- this is just a dummy spacer -->
+            &nbsp;
+        </div>
+        <div class="cl-clear"></div>
+    {% endif %}
+{% endif %}
+
+
+<!------------------------------------------------------------>
+<!-- "Contact" section (mail textbox and contact icons)-->
+
+
+
+{% if not primary_user_profile_data_fields.is_primary_user %}
+
+{% if registered_user_bool %}
+<!-- add a gray divider -->
+<div class="grid_9 alpha omega cl-divider-line"></div>
+{% include "user_main_helpers/view_other_profile_extra_stuff.html" %}
+{% endif %}
+
+{% endif %}
+
+
+<!------------------------------------------------------------>
+<!-- "about me" (text description) section -->
+{% if not viewed_profile_data_fields.account_has_been_removed_message %}
+    {{ html_for_main.about_user|safe }}
+{% endif %}
+
+
+<div class="grid_9 alpha omega">
+    <!-- this is just a dummy spacer -->
+    &nbsp;
+</div>
+<div class="cl-clear"></div>
+
+
+<!------------------------------------------------------------>
+<!-- "details" section - allow user to specify additional information, like hieght, body-type, etc.
+     -->
+{% ifnotequal build_name "LikeLanguage" %}
+{{ html_for_main.details_fields|safe }}
+{% endifnotequal %}
+
+
+
+<!------------------------------------------------------------>
+<!-- "languages" section - generates current language options, and calls checkboxes to edit
+     if the user wishes -->
+
+
+
+{% if build_name != "FriendBazaar" %}
+        
+    {% if build_name != "LikeLanguage" %}
+        {{ html_for_main.languages|safe }}
+    {% endif %}
+
+    <!------------------------------------------------------------>
+    <!-- "entertainment" section -->
+    {{ html_for_main.entertainment|safe }}
+
+    <!------------------------------------------------------------>
+    <!-- "sports" section -->
+    {{ html_for_main.athletics|safe }}
+
+{% else  %}
+    <div class="cl-clear"></div>
+    <div class="grid_2 alpha">
+        <strong>{% trans "Last entrance:" %}</strong>
+    </div> <!-- end grid_2 -->
+    <div class="grid_7 omega">
+        <!-- for other users viewing this profile, show the "current_entrance" as the last time the user was in the system -->
+        {{ viewed_profile_data_fields.current_entrance|safe }}
+    </div> <!-- end grid10 omega -->
+    <div class="grid_9 alpha omega"><p>&nbsp;</p></div>
+    <div class="cl-clear"></div>
+
+
+    <div class="grid_9 alpha omega cl-divider-line"></div>
+    <div class="cl-clear"></div>
+    <div class="grid_9 alpha omega"><p>&nbsp;</p></div>
+
+    <!------------------------------------------------------------>
+
+    <div class="cl-clear"></div>
+    <div class="grid_9 alpha omega cl-left-text cl-text-large-format">
+        <strong>{% blocktrans %}Activities that I am interested in and/or that I would "sell" my time for{% endblocktrans %}
+            {% if primary_user_profile_data_fields.is_primary_user %}
+                {% blocktrans with primary_user_profile_data_fields.max_checkbox_values_in_combined_ix_list as num %}(a maximum of {{ num }} activities may be selected){% endblocktrans %}
+            {% endif %}
+         </strong><br><br><br>
+    </div>
+
+{{ html_for_main.for_sale_going_out|safe }}
+{{ html_for_main.for_sale_athletics|safe }}
+{{ html_for_main.for_sale_outdoor_activities|safe }}
+{{ html_for_main.for_sale_hanging_out|safe }}
+{{ html_for_main.for_sale_dancing|safe }}
+{{ html_for_main.for_sale_domestic_help|safe }}
+{{ html_for_main.for_sale_culture_and_sightseeing|safe }}
+{{ html_for_main.for_sale_games|safe }}
+{{ html_for_main.for_sale_hobbies|safe }}
+{{ html_for_main.for_sale_music|safe }}
+{{ html_for_main.for_sale_languages|safe }}
+
+
+{% endif %}
+        
+<!------------------------------------------------------------>
+<!-- "turn_ons" section -->
+{% if build_name == "RomanceSecreto" or build_name == "LesbianHeart" or build_name == "GaySetup" or build_name == "SwingerPlex" %}
+{{ html_for_main.turn_ons|safe }}
+{% endif %}
+<!------------------------------------------------------------>
+
+{% if build_name == "RomanceSecreto" or build_name == "GaySetup" or build_name == "SwingerPlex" %}
+{{ html_for_main.erotic_encounters|safe }}
+{% endif %}
+
+
+{% if build_name != "FriendBazaar" %}
+<div class="cl-clear"></div>
+<div class="grid_2 alpha">
+    <strong>{% trans "Last entrance:" %}</strong>
+</div> <!-- end grid_2 -->
+<div class="grid_7 omega">
+    <!-- for other users viewing this profile, show the "current_entrance" as the last time the user was in the system -->
+    {{ viewed_profile_data_fields.current_entrance|safe }}
+</div> <!-- end grid10 omega -->
+{% endif %}
+
+<!--
+    <div class="cl-clear"></div> 
+    <div class="grid_2 alpha">   
+        <strong>Previous entrance</strong>
+    </div>
+    <div class="grid_7 omega" >
+        {{ viewed_profile_data_fields.last_entrance|safe }}
+    </div> -->
+
+<div class="grid_9 alpha omega"><p>&nbsp;</p></div>
+<div class="cl-clear"></div>
+
+
+{% if primary_user_profile_data_fields.is_primary_user %}
+<!------------------------------------------------------------>
+<div class="grid_9 alpha omega cl-divider-line"></div>
+<div class="cl-clear"></div>
+<div class="grid_9 alpha omega"><p>&nbsp;</p></div>
+
+<!------------------------------------------------------------>
+
+<div class="cl-clear"></div>
+<div class="grid_9 alpha omega cl-left-text cl-text-large-format">
+    <strong>{% trans "Administrative stuff (never displayed publicly)" %}</strong><br><br><br>
+</div>
+
+
+<div class="cl-clear"></div>
+<div class="grid_2 alpha">
+    <strong>{% trans "VIP Status" %}:</strong><br>
+</div> <!-- end grid_2 -->
+
+<div class="grid_7 omega">
+    <div>
+        <p>
+        {% if primary_user_profile_data_fields.diamond_status_expiry_friendly_text %}
+            {% blocktrans with  primary_user_profile_data_fields.diamond_status_expiry_friendly_text as expires%}
+            You currently have VIP status that will expire {{ expires }}.{% endblocktrans %}
+        {% else %}
+            {% trans "You currently do not have VIP status" %}.
+        {% endif %}
+
+        </p>
+    </div>
+</div> <!-- end grid10 omega -->
+<div class="cl-clear"></div>
+<!------------------------------------------------------------>
+<!-- "email_address" section - allow user to enter email address if desired -->
+
+<div class="cl-clear"></div>
+{{ html_for_main.email_address|safe }}
+{{ html_for_main.email_options|safe }}
+
+
+<!------------------------------------------------------------>
+<!-- change password -->
+{{ html_for_main.change_password_fields|safe }}
+
+<!------------------------------------------------------------>
+<div class="cl-clear"></div>
+<div class="grid_2 alpha">
+    <strong>{% trans "See my profile:" %}</strong><br>
+    <a href="{% url rs/other display_uid=viewed_profile_data_fields.display_uid %}"
+            rel="address:{% url rs/other display_uid=viewed_profile_data_fields.display_uid %}">
+        ({% trans "click here" %})
+    </a>
+</div> <!-- end grid_2 -->
+
+<div class="grid_7 omega">
+    <div>
+        <p>{% trans "If you want to see how your profile will appear." %}
+        </p>
+    </div>
+    <!-- end searchcontainer-->
+</div> <!-- end grid10 omega -->
+
+
+<div class="cl-clear"></div>
+<div class="grid_9 alpha omega">&nbsp;<br></div>
+
+
+<div class="cl-clear"></div>
+<div class="grid_2 alpha">
+    <strong>{% trans "Eliminate your profile:" %}</strong><br>
+    <!-- note, we call the same function to eliminate or enable an elimiated profile
+essentially we just toggle a bit -->
+    {% if not viewed_profile_data_fields.account_has_been_removed_message %}
+    <a HREF="javascript:confirm_decision('{% trans " Are you sure you want to eliminate your profile?"%}',
+    '{% url delete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
+    {% else %}
+    <a HREF="javascript:confirm_decision('Enable this profile?',
+            '{% url enable_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
+    {% endif %}
+
+</div>
+
+<div class="grid_7 omega">
+    <div><p>{% trans "If you want to eliminate your profile/account." %}</p>
+    </div>
+</div>
+
+
+<br><br><br><br><br>
+
+{% endif %}
+
+
+<div class="cl-clear"></div>
+
+<!-- 
+DEBUGGING INFO:
+{{ viewed_profile_data_fields.debugging_html }} 
+-->
+{% if not viewed_profile_data_fields.account_has_been_removed_message %}
+{% if not primary_user_profile_data_fields.is_primary_user %}
+{% if registered_user_bool %}
+<div id="id-report-unacceptable-profile-div">
+    {{ html_for_main.report_unacceptable_profile|safe }}
+</div>
+{% endif %}
+{% endif %}
+{% endif %}
+

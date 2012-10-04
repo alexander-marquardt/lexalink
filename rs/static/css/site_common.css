@@ -1,0 +1,438 @@
+@charset "utf-8";
+
+/*
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating website platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+*/
+
+
+body {
+	font-family: Arial, Verdana, SunSans-Regular, Sans-Serif;
+	border-top: 0px;
+	/* color: #333333; /* almost-white/light gray */
+	font-size: 12px;
+	padding: 0px 0px;
+    color: #333333; /* the text color */
+	}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight:bold;
+}
+
+h1 {
+    font-size: 14pt;
+}
+h2 {
+    font-size: 12pt;
+}
+
+h3 {
+    font-size: 10pt;
+}
+
+input { /* used for defining the characteristics of input text boxes and anything else with "input" tag. */
+	font-family: Arial, Verdana, SunSans-Regular, Sans-Serif;
+}
+
+/* set the color for the text links. Note that anchors inside ui-widget must be delared so that the default
+   ui-widget coloring is over-ridden */
+a {text-decoration: none; color:#B857AB ; } /* #B857AB close to purple */
+a:hover {text-decoration: underline; color:#EB485D ; } /* #EB485D soft RED */
+
+.cl-same-color-as-default-anchor {
+    color:#B857AB ;
+}
+
+.color-ul {
+    list-style-position: inside;
+    margin: 0 0 0 0;
+    color: #B857AB ;
+}
+
+.color-ul li {
+    margin-left: 0px;
+    color: #B857AB ;
+}
+
+.color-ul li a {
+    color: #B857AB ;
+}
+
+.color-ul li a:hover {
+    color: #EB485D ;
+}
+
+.cl-ad-link a {text-decoration: none; color:#EB485D ; } /* #EB485D soft RED */
+.cl-ad-link  a:hover {text-decoration: underline; color:#B857AB ; } /* #B857AB close to purple */
+
+.cl-color-text {
+	color: #88167e;
+}
+.cl-no-color-text {
+	color: #333333;
+}
+
+.cl-light-text {
+	color: #E3BCDD;
+}
+
+.cl-warning-text, .cl-icon-active-color-text {
+	color: #EB485D;
+}
+.cl-secondary-icon-active-color-text{
+	color: #D68D2A;
+}
+
+.cl-gray-text {
+	color: #808080;
+}
+
+.cl-black-text {
+    color: #000000;
+}
+
+.cl-bold-text {
+    font-weight: bold;
+}
+
+.nav-button-link-format a {text-decoration: none; color: #FFC0CB;}
+.nav-button-link-format-register a {text-decoration: none; color: white; }
+.nav-button-link-format a:hover {text-decoration: underline; color: #EB485D;} /* soft RED */
+
+.info-link-format a {text-decoration: none; color: #808080; font-weight: normal;}  /* gray */
+.info-link-format a:hover {text-decoration: underline; color: #EB485D; } /* soft RED */
+
+.fancybox-title-float a {text-decoration: none; color: #FFFFFF;}
+.fancybox-title-float a:hover {text-decoration: underline; color: #E3BCDD; } /* soft RED */
+
+
+.cl-footer {
+    padding: 3px 0px 8px 0px;
+}
+
+
+p {
+	overflow: hidden;
+	padding: 0;
+	text-align: left;
+}
+
+select {
+/*	height: 18px;
+	font-size: 11px; */
+	padding: 0;
+}
+
+
+.cl-content-background {
+	/* white background for content*/
+	background: #ffffff ; 
+}
+
+
+table.rometo-advertising-table
+{
+	table-layout: fixed; 
+	margin: 0px;
+	border: 1px solid #CCCCCC;
+}
+
+td.rometo-advertising-td-header-footer {
+    background: url(../img/advertisements/header-footer-slice.jpg);
+	width: 156px;
+    height: 35px;
+	padding: 2px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	font-size: 12px;
+	text-align: center;
+    vertical-align: middle;
+	color: #FFFFFF;
+}
+
+td.rometo-advertising-td-highlight-text {
+	font-size: 12px;
+	text-align: center;
+	color: #EB485D; /* soft red */
+}
+
+td.rometo-advertising-td-gray-text {
+	font-size: 12px;
+	text-align: center;
+	color: #666666; 
+}
+
+#id-top-banner
+{
+	vertical-align: top;
+	text-align: left;
+	height: 110px;
+}
+
+#id-beside-top-banner-top {
+	vertical-align: bottom;
+	height: 75px;
+}
+#id-beside-top-banner-bottom {
+	vertical-align: bottom;
+	height: 35px;
+}
+
+
+.cl-text-24pt-format {font-size: 24px;}
+.cl-text-big-format {font-size: 20px;}
+.cl-text-large-format {font-size: 18px;}
+.cl-text-medium-format {font-size: 16px;}
+.cl-text-14pt-format {font-size: 14px;}
+.cl-text-12pt-format {font-size: 12px;}
+.cl-text-10pt-format {font-size: 10px;}
+.cl-text-8pt-format {font-size: 8px;}
+
+.cl-header-format {
+font-size: 18px;
+font-weight: bold;
+}
+
+.cl-center-text
+{
+	text-align:center;
+}
+.cl-right-text
+{
+	text-align:right;
+}
+.cl-left-text
+{
+	text-align:left;
+}
+
+.cl-padding-5px {
+        padding: 5px;
+}
+
+
+.underline {text-decoration: underline}
+
+
+
+.cl-hide { 
+	visibility: hidden;
+	height: 1px;
+	width: 1px;
+}
+
+
+.cl-standard-dropdown-width-px {
+	width: 150px;
+	font-size: 11px;
+}
+
+/* the following class is used for shrinking the dropdown menu so that a spinner can be shown beside it
+ * while it is loading new values */
+.cl-spinner-dropdown-width-px {
+	width: 125px;
+	font-size: 11px;
+}
+
+.cl-narrow-textinput-width-px {
+	width: 80px;
+	height: 12px;
+	vertical-align: text-bottom;
+	font-size: 11px;
+}
+.cl-nick-textinput-width-px {
+	width: 133px;
+	height: 12px;
+	vertical-align: text-bottom;
+	font-size: 11px;
+}
+
+.cl-standard-textinput-width-px {
+	width: 140px;
+	font-size: 11px;
+}
+
+.cl-wide-textinput-width-px {
+	width: 250px;
+	font-size: 11px;
+}
+
+.cl-very-wide-textinput-width-px {
+	width: 400px;
+	font-size: 11px;
+}
+
+.cl-standard-textarea {
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	font-size: 11px;
+	width: 538px;
+	border: 1px solid #666666;
+}
+
+.cl-standard-textarea-ie6 {
+	font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
+	font-size: 11px;
+	width: 536px;
+	border: 1px solid #666666;
+}
+
+.cl-full-width {
+	width: 100%;
+}
+
+.cl-divider-line {
+    height:1px;
+	background-color: #D3D3D3;
+	clear:both;
+    font-size: 0px;
+}
+
+
+.cl-float_right
+{
+    float: right;
+}
+
+.cl-grid_8px 
+{
+	width: 8px;
+}
+
+.cl-grid_40px 
+{
+	width: 40px;
+}
+
+.cl-grid_60px 
+{
+	width: 60px;
+}
+
+.cl-grid_80px 
+{
+	width: 80px;
+}
+
+.cl-grid_120px 
+{
+	width: 120px;
+}
+
+.cl-grid_160px {
+	width: 160px;
+}
+
+.cl-grid_458px {
+	width: 458px;
+}
+
+.cl-grid_478px {
+	width: 478px;
+}
+
+.cl-grid_410px {
+	width: 410px;
+}
+.cl-grid_760px {
+    width: 760px;
+}
+
+.cl-height_60px {
+    height: 60px;
+}
+
+.cl-height_100px {
+    height: 100px;
+}
+
+.cl-prefix_40px {
+	padding-left: 40px;
+}
+
+.cl-prefix_10px {
+	padding-left: 10px;
+}
+
+.cl-small-help-message	{
+	font-size:10px;
+	background-color: rgb(253, 253, 253);
+	border-width:1px;
+	border-color: #D3D3D3;
+}
+
+table#id-horiz-bar-table {
+	table-layout: auto;
+	margin-bottom: 0px;
+}
+table#id-nav-table
+{
+	table-layout: fixed; 
+	margin-bottom: 8px;
+}
+
+table.cl-table-no-margin 
+{
+	margin: 0px;
+}
+
+.cl-default-input-text-prompt { color: #a1a1a1;}
+
+td.cl-info-td
+{
+	vertical-align: middle;
+	text-align: center;
+	padding: 5px;
+}
+
+
+td.cl-info-60px-width-td 
+{
+        width: 60px;
+}
+td.cl-info-100px-width-td 
+{
+        width: 100px;
+}
+td.cl-info-150px-width-td 
+{
+        width: 150px;
+}
+td.cl-info-200px-width-td 
+{
+        width: 200px;
+}
+
+table.cl-float-right {
+        float: right;
+}
+
+.cl-nobold {
+    font-weight: normal;
+}
+
+
+.cl-8pt-txt {
+    font-size: 8pt;
+}

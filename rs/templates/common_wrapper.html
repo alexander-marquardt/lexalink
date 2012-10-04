@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html>
+<head>
+
+
+    <script type="text/javascript">
+
+        // check if we are running an old version of IE (before version 8.0)
+        var lt_ie8 = false;
+        var disable_jquery_address = false;
+        var rmsie = /(msie) ([\w.]+)/;
+        //var rchrome_frame = /chromeframe/;
+        var useragent_lower_case = navigator.userAgent.toLowerCase();
+        var lt_ie8_match = rmsie.exec(useragent_lower_case);
+        var remove_chatboxes = false;
+        //var chrome_frame_match = rchrome_frame.exec(useragent_lower_case);
+        if (lt_ie8_match && lt_ie8_match[2] < 8.0) {
+            lt_ie8 = true;
+            disable_jquery_address = true;
+        }
+
+        {% if wrapper_data_fields.disable_jquery_address %}
+            disable_jquery_address = true;
+        {% endif %}
+
+        var href = location.href;
+        var pathname = location.pathname;
+        var host = location.host;
+        var protocol = location.protocol;
+        var query = location.search;
+        // The following code is responsible for redirecting any standard (non-ajax)
+        // URLs to their corresponding ajaxified URL.
+
+        if (!disable_jquery_address) {
+            // check if this is a non-ajax URL that should be re-mapped to ajax URL
+            var ajax_pattern = /\/jx\//;
+
+            if (!href.match(ajax_pattern)) {
+                // if it is not specified in ajax with hash URL format (ie /ajax/#!) then we re-direct
+                window.location.replace( protocol + "//" + host + "/jx/#!" + pathname + query);
+            }
+        }
+        else {
+            // if this is an ajax URL running on IE7 or IE6, then we should re-map it to a non-ajax URL
+            var ajax_pattern = /\/jx\/#!(.*)/;
+            var match_result = href.match(ajax_pattern)
+            if (match_result) {
+                window.location.replace(protocol + "//" + host + match_result[1]);
+            }
+        }
+
+        {% if wrapper_data_fields.debugging_enabled %}
+            var debugging_enabled = true;
+            // TESTING - DISABLE AJAX TEMPORARILY
+            //disable_jquery_address = true;
+        {% else %}
+            var debugging_enabled = false;
+        {% endif %}
+
+
+    </script>
+
+    <!-- force check to see if page has been updated -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="description" content="{{ meta_info.content_description }}">
+    <meta name = "keywords" content="{{  meta_info.keywords_description }}">
+    <meta name="robots" content="{{ meta_info.web_crawler_access }}">
+
+    <title>{{  meta_info.page_title }}</title>
+
+    {% include "user_main_helpers/import_main_css_and_js.html" %}
+    
+    <!-- Google Analytics -->
+    {% include "analytics.html" %}
+
+</head>
+
+
+<body>
+
+    
+
+    <div class="cl-clear" id="id-debugging-common_wrapper-1"></div>
+    <div class="container_12 cl-shadow-container ">
+
+
+
+
+        <!-- in order to improve responsiveness, we modify the contents inside the body using javascript (if available)
+             and if javascript not enabled, we will re-generate the entire page. In both cases it is useful to abstract
+             the body (which is reloaded often) from the header -->
+        <div  id="id-body_main_html" >
+        {{ body_main_html }}
+        </div>
+
+
+        <!-- end .container_12 -->
+
+        <!-- the following div is only used for debugging/logging status -->
+        <div class="cl-clear" id="id-debugging-common_wrapper-2"></div>
+        <!--<div class="page grid_12 cl-content-background" style="display:none;"></div>-->
+    </div>
+
+
+    
+    {% include "user_main_helpers/chat.html" %}
+
+    <div id="id-show_spinner_while_loading" style="display:none;">
+    </div>
+
+
+
+
+
+</body>
+</html>

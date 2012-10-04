@@ -1,0 +1,135 @@
+{% load i18n %}
+
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+<!-- Note: the following text is required by the javascript, but must be sent as part of the HTML
+           in order for the language translation to properly work (since javascript files are static) -->
+<div id="id-internet-down-dialog" title="Warning" style="display: none; ">
+    <p>
+        {% trans "It appears that your internet connection is not functioning correctly." %}</p>
+</div>
+
+
+<div id="id-session-closed-dialog" title="Warning" style="display: none; ">
+    <p>
+    {% blocktrans with build_name as build_name%}
+        Your session has closed - you must re-login to continue to use {{ build_name }}.
+    {% endblocktrans %}
+    </p>
+</div>
+
+
+<div id="id-go-offline-chat-button-text" style="display:none;">
+    {% trans "Go offline" %}
+</div>
+
+<div id="id-go-online-chat-button-text" style="display:none;">
+    {% trans "Go online" %}
+</div>
+
+
+<div id="id-no-contacts-text" style="display:none;">
+    {% trans "None of your contacts are logged into their chat at the moment" %}
+</div>
+
+<div id="id-no-groups-text" style="display:none;">
+    {% trans "There are no chat groups currently available. Why don't you create one?" %}
+</div>
+
+
+<div id="id-chat-contact-title-text" style="display:none;">
+    {% trans "Online chat friends" %}
+</div>
+
+<div id="id-chat-contact-title-idle-text" style="display:none;">
+    {% trans "(Idle)" %}
+</div>
+
+<div id="id-chat-contact-title-offline-text" style="display:none;">
+    {% trans "Offline" %}
+</div>
+
+<div id="id-chat-contact-title-away-text" style="display:none;">
+    {% trans "(Away)" %}
+</div>
+
+<div id="id-chat-contact-main-box-offline-text" style="display:none;">
+    {% trans "You are currently offline. You must go online to see your contacts." %}
+</div>
+
+
+<div id="id-chat-contact-main-box-loading-text" style="display:none;">
+    {% trans "We are loading your online contact list. This may take a few moments." %}
+</div>
+
+<div id="id-chat-groups-box-loading-text" style="display:none;">
+    {% trans "We are loading available chat groups. This may take a few moments." %}
+</div>
+
+
+<div id="id-chat-contact-title-loading-text" style="display:none;">
+    {% trans "loading" %}
+</div>
+
+<div id="id-chat-group-title-text" style="display:none;">
+    {% trans "Chat groups" %}
+</div>
+
+<div id="id-create-group-button-text" style="display:none;">
+    {% trans "Create a group" %}
+</div>
+
+<div id="id-videocall-button-text" style="display:none;">
+    {% trans "Video call" %}
+</div>
+
+<div id="id-chat_group_members-button-text" style="display:none;">
+    {% trans "Group members" %}
+</div>
+
+<div id="id-error-dialog-box" style="display:none;">
+</div>
+
+<div id="id-group_members-dialog-box" style="display:none;">
+</div>
+
+
+<div id="id-create-group-dialog" style="display:none;">
+    <div id="id-edit-create_new_group-section">
+        {% trans "Please enter the group name to create and join:" %}
+        <br><br>
+        <form id="id-create_new_group-form" method="POST">
+        <input type="create_new_group" maxlength="16" name="create_new_group_name"
+               id="id-create-new-group-input" class="cl-standard-textinput-width-px"><br>
+
+        <table> <tbody><tr>
+              <td><input type="button" value='{% trans "Create a group" %}' id="id-submit-create_new_group" class="cl-submit" style="color: white;"></td>
+        </tr> </tbody></table>
+        </form>
+    </div>
+</div>

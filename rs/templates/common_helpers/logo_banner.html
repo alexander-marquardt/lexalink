@@ -1,0 +1,99 @@
+{% load i18n %}
+
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+    <div class="grid_12 cl-banner-background">
+        <div class="grid_8 alpha" id="id-top-banner">
+            {% if not primary_user_presentation_data_fields.username %}
+            <!-- have cliking on logo link back to registration page -->
+            <a href="/">
+            {% endif %}
+
+            {% if proprietary_static_dir_exists %}
+            <img src="/{{ live_proprietary_static_dir }}/img/{{build_name}}/{{ build_name }}.png" align="middle" alt="{{ build_name }}.com">
+            {% else %}
+            <img src="/{{ live_static_dir }}/img/Default/default_logo.png" align="middle" alt="{{ build_name }}.com">
+            {% endif %}
+                
+            {% if not primary_user_presentation_data_fields.username %}
+            </a>
+            {% endif %}
+        </div>
+
+
+{% if not hide_logo_banner_links %}
+
+        <div class="grid_4 omega cl-right-text cl-language-selector" id="id-beside-top-banner-top">
+
+
+            <table class="cl-float-right">
+                <tr>
+                    {% for lang in LANGUAGES %}
+                        <td class="cl-info-td"><a class="cl-setlang" href="/setlang/{{ lang.0 }}" rel="address:/{{ lang.0 }}{{ request.path_info }}" >{{ lang.1 }}</a></td>
+                    {% endfor %}
+
+            </table>
+        </div>
+        <div class="grid_4 omega cl-right-text info-link-format" id="id-beside-top-banner-bottom">
+            <table class="cl-float-right">
+                <tr>
+                    <td>&nbsp;</td>
+
+                    <td class="cl-info-td"><a href="{% url views.welcome %}" rel="address:{% url views.welcome %}">
+                        {% trans "About" %} {{ app_name }}</a></td>
+
+                    {% ifequal app_name "RomanceSecreto" %}
+                        <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
+                                                    align="middle" alt=""></td>
+                        <td class="cl-info-td"><a href="{% url views.press %}" rel="address:{% url views.press %}">{% trans "Press" %}</a></td>
+                    {% endifequal %}
+
+
+                    {% if not primary_user_presentation_data_fields.username or general_information_data_fields.show_login_link_override %}
+                    <!-- if the user is logged in, don't bother showing the register/enter button -->
+                        {% ifnotequal general_information_data_fields.link_to_hide "login" %}
+                            <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
+                                                        align="middle" alt=""></td>
+                            <td class="cl-info-td cl-info-100px-width-td" align="middle"><a href="/">
+                                {% trans "Register / Enter" %}</a></td>
+                        {% endifnotequal %}
+                    {% endif %}
+
+
+                </tr>
+            </table>
+
+        </div>
+
+{% endif %}
+
+    </div>
+    <!-- end banner container div -->
+    <div class="cl-clear"></div>
+
+
