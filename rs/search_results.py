@@ -44,6 +44,8 @@ from constants import ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN
 from localizations import *
 import store_data, utils, error_reporting
 import rendering, text_fields, utils_top_level, vip_status_support
+import search_utils
+
 from django.utils.translation import ugettext
 
 try:
@@ -303,19 +305,7 @@ def generate_html_for_search_results(request, query_results_keys):
     return generated_html
 
 
-def get_additional_description_from_sex_and_preference(sex_key_val, preference_key_val):
-    additional_description = ''    
-    
-    if sex_key_val == "male" and preference_key_val == "male":
-        additional_description = " (%s)" % ugettext("Gay men")
-    elif sex_key_val == "female" and preference_key_val == "female":
-        additional_description = " (%s)" % ugettext("Lesbian")
-        
-    if settings.BUILD_NAME == "Swinger":
-        if sex_key_val == "couple" or preference_key_val == "couple":
-            additional_description = ". %s" % ugettext("Contacts for swingers")
-        
-    return additional_description
+
 
 #####################################
 def setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, paging_cursor):
@@ -478,7 +468,7 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
             else:
                 preference_title = u''
                 
-            get_additional_description = get_additional_description_from_sex_and_preference(search_vals_dict['sex'], search_vals_dict['preference'])
+            get_additional_description = search_utils.get_additional_description_from_sex_and_preference(search_vals_dict['sex'], search_vals_dict['preference'])
                 
             start_title = u"%s%s%s. " % (sex_title, preference_title, get_additional_description)
         else: 
