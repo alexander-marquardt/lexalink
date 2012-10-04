@@ -1,7 +1,7 @@
 LexaLink platform for social network and dating websites
 =============
 
-LexaLink is a free and open-source platform for quickly deploying social networking and dating websites. 
+LexaLink is a free and open-source platform for quickly deploying social networking and dating websites on the Google App Engine.
 
 Documentation and Installation Instructions
 -------------------------------------------
