@@ -496,5 +496,6 @@ template_common_fields = {'build_name': settings.BUILD_NAME,
                           'num_chat_friends_for_free_clients' :  GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
                           'num_chat_friends_for_vip_clients' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED,  
                           'google_ad_160x600' : GOOGLE_AD_160x600,
-                          'google_ad_728x90' : GOOGLE_AD_728x90
+                          'google_ad_728x90' : GOOGLE_AD_728x90,
+                          'analytics_id' : settings.ANALYTICS_ID,
                           }

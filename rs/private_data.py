@@ -129,3 +129,16 @@ except:
     # only enable this if you have added the file rs/proprietary/search_engine_overrides.py with appropriate
     # function declarations as required by the code that is ignored by this boolean.
     SEO_OVERRIDES_ENABLED = False    
+    
+    
+    # If you want to use google analytics to track your page statistics, you will need an 
+    # identifier for each page. 
+    analytics_id_dict = {
+        "Friend"   : 'UA-YOUR-IDX-X',
+        "Discrete" : 'UA-YOUR-IDX-X',
+        "Language" : 'UA-YOUR-IDX-X',
+        "Single"   : 'UA-YOUR-IDX-X',
+        "Lesbian"  : 'UA-YOUR-IDX-X',
+        "Swinger"  : 'UA-YOUR-IDX-X',
+        "Gay"      : 'UA-YOUR-IDX-X',
+    }    

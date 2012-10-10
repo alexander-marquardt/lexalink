@@ -150,7 +150,7 @@
 <!------------------------------------------------------------>
 <!-- "languages" section - generates current language options, and calls checkboxes to edit
      if the user wishes - only for LikeLanguage will the come before the use description-->
-{% ifequal build_name "LikeLanguage" %}
+{% ifequal build_name "Language" %}
 {{ html_for_main.languages|safe }}
 {{ html_for_main.languages_to_learn|safe }}
 {% endifequal %}
@@ -228,7 +228,7 @@
 <!------------------------------------------------------------>
 <!-- "details" section - allow user to specify additional information, like hieght, body-type, etc.
      -->
-{% ifnotequal build_name "LikeLanguage" %}
+{% ifnotequal build_name "Language" %}
 {{ html_for_main.details_fields|safe }}
 {% endifnotequal %}
 
@@ -240,9 +240,9 @@
 
 
 
-{% if build_name != "FriendBazaar" %}
+{% if build_name != "Friend" %}
         
-    {% if build_name != "LikeLanguage" %}
+    {% if build_name != "Language" %}
         {{ html_for_main.languages|safe }}
     {% endif %}
 
@@ -299,17 +299,17 @@
         
 <!------------------------------------------------------------>
 <!-- "turn_ons" section -->
-{% if build_name == "RomanceSecreto" or build_name == "LesbianHeart" or build_name == "GaySetup" or build_name == "SwingerPlex" %}
+{% if build_name == "Discrete" or build_name == "Lesbian" or build_name == "Gay" or build_name == "Swinger" %}
 {{ html_for_main.turn_ons|safe }}
 {% endif %}
 <!------------------------------------------------------------>
 
-{% if build_name == "RomanceSecreto" or build_name == "GaySetup" or build_name == "SwingerPlex" %}
+{% if build_name == "Discrete" or build_name == "Gay" or build_name == "Swinger" %}
 {{ html_for_main.erotic_encounters|safe }}
 {% endif %}
 
 
-{% if build_name != "FriendBazaar" %}
+{% if build_name != "Friend" %}
 <div class="cl-clear"></div>
 <div class="grid_2 alpha">
     <strong>{% trans "Last entrance:" %}</strong>
