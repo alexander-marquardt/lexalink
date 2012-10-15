@@ -6,7 +6,7 @@
     <!-- don't show ads on the debug build - we don't want to generate additional traffic to the google adservers, and don't
     want to risk accidental clicks / however, show in the cygwin / windows version.-->
 
-        {{ google_ad_728x90 }}
+        {{ google_ad_728x90|safe }}
 
     {% endif %}
 {% endif %}

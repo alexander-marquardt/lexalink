@@ -166,7 +166,7 @@ msgstr "Correo electrónico"
 
 #: rs/callbacks_from_html.py:102
 msgid "About myself and what I am looking for"
-msgstr "Descripción sobre mí y lo que estoy buscando:"
+msgstr "Descripción sobre mí y lo que estoy buscando"
 
 #: rs/callbacks_from_html.py:112
 msgid "Headline"
