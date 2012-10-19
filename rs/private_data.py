@@ -46,7 +46,7 @@ except:
     
     app_name_dict = {
         # Edit the following values to reflect the names that you have chosen for each of your sites.
-        'Discrete' : 'Your-Site-Name-Here', 
+        'Discrete' : 'Your-Site-Name-Here', #ie. "RomanceSecreto"
         'Language':  'Your-Site-Name-Here', 
         'Single' :   'Your-Site-Name-Here',
         'Lesbian':   'Your-Site-Name-Here',
@@ -59,7 +59,7 @@ except:
         # Update the following values to reflect the domain of each of your sites (do *not* put www in front, since 
         # this is also used in the email addresses). Generally, this should be the same as the value in the app_name_dict
         # but lower case, and followed by the appropriate top level domain qualifier.
-        'Discrete' : 'your-site-name-here.com', 
+        'Discrete' : 'your-site-name-here.com', #ie "romancesecreto.com"
         'Language':  'your-site-name-here.com', 
         'Single' :   'your-site-name-here.com',
         'Lesbian':   'your-site-name-here.com',
