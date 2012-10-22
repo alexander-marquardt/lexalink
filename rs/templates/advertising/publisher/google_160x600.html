@@ -1,7 +1,6 @@
 <div class="cl-clear"></div>
 
         
-{% if advertising_info.enable_google_ads %}
 
     {% if not general_information_data_fields.settings_debug_flag or general_information_data_fields.is_cygwin %}
     <!-- don't show ads on the debug build - we don't want to generate additional traffic to the google adservers, and don't
@@ -18,6 +17,5 @@
         {{ google_ad_160x600|safe }}
         
     {% endif %}
-{% endif %}
 
 <div class="cl-clear"></div>

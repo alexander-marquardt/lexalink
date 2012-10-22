@@ -198,8 +198,14 @@ if settings.BUILD_NAME == "Swinger":
     pages_to_advertise.append('Gay')
 if settings.BUILD_NAME ==  'Gay':
     pages_to_advertise.append('Swinger')
-if settings.BUILD_NAME != "Friend":
-    pages_to_advertise.append('Friend')
+#if settings.BUILD_NAME != "Friend":
+    #pages_to_advertise.append('Friend')
+    
+
+if settings.BUILD_NAME != 'Discrete':
+    MAX_NUM_PAGES_TO_ADVERTISE =  4
+else:
+    MAX_NUM_PAGES_TO_ADVERTISE = 2
     
 # set a flag that determines if google ads will be shown - we don't attempt to show ads
 # on the more edgy sites since this could cause problems / risk of removal from the adsense program
@@ -209,6 +215,12 @@ if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Language' \
 else:
     enable_google_ads = False
     
+    
+# set a flag that determines if ashley madison ads will be shown
+if settings.BUILD_NAME == 'Discrete':
+    enable_ashley_madison_ads = True
+else:
+    enable_ashley_madison_ads = False
     
 # The following data structure is used for converting between the named values for the amount of time between
 # message notifications and numerical values which can be looked up. The values reflect the number of hours

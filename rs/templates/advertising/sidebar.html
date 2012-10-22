@@ -30,10 +30,20 @@
 <div id="id-advertising-sidebar" class="grid_custom cl-grid_160px alpha omega cl-float_right">
 
     <br><br>
+    {% if advertising_info.enable_google_ads %}
 
-    {% include 'advertising/publisher/google_160x600.html' %}
-    {% include 'advertising/publisher/google_160x600.html' %}
+        {% include 'advertising/publisher/google_160x600.html' %}
+        {% include 'advertising/publisher/google_160x600.html' %}
 
+    {% endif %}
+
+    {% if advertising_info.enable_ashley_madison_ads %}
+
+        <!-- ashley madison advertisements are enabled -->
+        {{ advertising_info.ashley_madison_sidebar_ad|safe }}
+
+    {% endif %}
+    
     <br><br>    
     {% if refined_links_html %}
         <div class="cl-refine-search">
