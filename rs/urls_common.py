@@ -30,17 +30,16 @@ from django.conf.urls.defaults import *
 from rs import views, ajax, store_data, search_results, mailbox, display_contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, site_configuration, channel_support, vip_status_support, \
-     videochat, rendering
+     videochat, rendering, sitemaps
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
 import gaesessions
 import logging
 
 urlpatterns = patterns('',
-    (r'^vip-invite/(?P<referring_code>.+)/$', views.login),    
     url(r'^$', views.login, name="views.login"),
     (r'^/$', views.login),     
-   
+    
     #(r'^ajax/$', rendering.render_main_html, {'generated_html': '', 'render_wrapper_only' : True}), 
         
     (r'^setlang/(?P<lang_code>[\w]{2})/$', site_configuration.set_language_and_redirect_back),    
@@ -222,6 +221,13 @@ urlpatterns = patterns('',
     # Videochat URLs
     (r'^videochat_server/$', videochat.videochat_server),
     (r'^videochat_window/video_phone.html$', videochat.videochat_window),
+    
+    ###############################################
+    # Sitemap generation and sitemap display links
+    (r'^rs/admin/generate_sitemaps/$', sitemaps.generate_sitemaps),
+    
+    (r'^sitemap_index-(?P<sitemap_index_number>[\d]+).xml$', sitemaps.get_sitemap_index),    
+    (r'^sitemap-(?P<sitemap_number>[\d]+).xml$', sitemaps.get_sitemap),
     
     ########################################################################################3
     # Administrative/Batch stuff

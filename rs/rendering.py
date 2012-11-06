@@ -138,6 +138,9 @@ def get_ashley_madison_bottom_banner_ad(request):
     
     banner_html = ''
     
+    # temporarily disable the bottom banner
+    return banner_html
+    
     if proprietary_ads_found:
         if len(advertisements.ashley_madison_horiz_banner_ads[request.LANGUAGE_CODE]) >= 1:
             idx = random.randint(0, len(advertisements.ashley_madison_horiz_banner_ads[request.LANGUAGE_CODE]) - 1)

@@ -44,6 +44,7 @@ from django.core.validators import email_re
 from django.template import loader, Context
 
 from models import UserModel
+import models
 import email_utils
 from constants import offset_values, ABOUT_USER_MIN_DESCRIPTION_LEN
 from google.appengine.ext import db 
@@ -59,6 +60,8 @@ import html2text
 import constants, settings
     
 from google.appengine.runtime import DeadlineExceededError
+
+
 
 def send_new_feature_email(userobject, return_message_html = False):
     
@@ -425,79 +428,7 @@ def batch_send_email(request):
         #error_reporting.log_exception(logging.critical)
         #return http.HttpResponseServerError()
    
-    
-
-    
-#from django.forms.fields import email_re
-    
-#def batch_fix(request):
-
-    #pass
-    
-    #""" This function scans the database for profiles that need to be fixed
-    #"""
-    #PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
-    
-    ## Note: to use cursors, filter parameters must be the same for all queries. 
-    ## This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    ## why the code wasn't working).
-    
-    #try:
-        
-        #batch_cursor = None
-        
-        #if request.method == 'POST':
-            #batch_cursor = request.POST.get('batch_cursor',None)          
-            
-        #generated_html = 'Updating userobjects:<br><br>'
-        
-        #logging.info("Paging new page with cursor %s" % batch_cursor)
-                
-        #query_filter_dict = {}    
-
-        #query_filter_dict['is_real_user = '] = True
-        #query_filter_dict['user_is_marked_for_elimination = '] = False
-        
-        #order_by = "__key__"
-        ##order_by = "-last_login_string"
-        
-        
-        #query = UserModel.all().order(order_by)
-        #for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            #query = query.filter(query_filter_key, query_filter_value)
-
  
-        #if batch_cursor:
-            #query.with_cursor(batch_cursor)
-                                   
-        #userobject_batch = query.fetch(PAGESIZE)
-                
-        #if not userobject_batch:
-            ## there are no more objects - break out of this function.
-            #info_message = "No more objects found - Exiting function<br>\n"
-            #logging.info(info_message)
-            #return http.HttpResponse(info_message)
-
-        #for userobject in userobject_batch:  
-            #try:
-                #info_message = "**Writing %s userobject<br>\n" % userobject.username
-                #store_data.copy_principal_user_data_fields_into_ix_lists(userobject)
-                #generated_html += info_message
-                #logging.info(info_message)     
-                #utils.put_userobject(userobject)
-            #except:
-                #error_reporting.log_exception(logging.critical)  
-                
-        ## queue up more jobs
-        #batch_cursor = query.cursor()
-        #path = request.path_info
-        #taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
-
-        #return http.HttpResponse(generated_html)
-    #except:
-        #error_reporting.log_exception(logging.critical)
-        #return http.HttpResponseServerError()
-    
 
 import login_utils
 def batch_fix_unique_last_login(request):
@@ -1115,9 +1046,7 @@ def batch_fix_remove_all_users_with_given_ip_or_name(request, ip_to_remove = Non
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()
     
-    
-    
-    
+
    
 #def batch_create_username_combinations_list(request):
 

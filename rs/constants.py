@@ -184,6 +184,12 @@ NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 3 # can only send X messages to anot
 
 MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we will store for a single profile in the UserTracker object.
 
+# Define how many user profiles will be linked to in a single sitemap file.
+SITEMAP_MAX_ENTRIES_FOR_USERMODEL = 2000
+# Define how many user profile sitemap files will be linked within a single index file.
+SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
+
+
 # define the list of pages which we want to advertise
 pages_to_advertise = []
 if settings.BUILD_NAME != 'Discrete' and settings.BUILD_NAME != "Friend" and settings.BUILD_NAME != "Language":

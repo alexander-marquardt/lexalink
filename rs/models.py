@@ -935,5 +935,55 @@ class MarkUnacceptableProfile(BaseModel):
 class VideoPhoneUserInfo(BaseModel):
     m_window_identifier = db.StringProperty(required=False, default="")
     m_identity = db.StringProperty(required=False, default="")
-    m_updatetime =  db.DateTimeProperty(auto_now_add = True) 
+    m_updatetime =  db.DateTimeProperty(auto_now = True) 
             
+            
+            
+class SiteMap(BaseModel):
+    # Contains XML sitemap data. This can used as a base class for both sitemaps, as well as for 
+    # sitemap indexes. 
+    
+    # Since we have multiple sitemaps, we give each sitemap a unique and user-readable number. This
+    # will be used in the URL for accessing the sitemap -- ie http://www.foo.com/sitemap-[site_map_number].xml
+    sitemap_number = db.IntegerProperty(default = None)  # default to None to hard crash if we have code error
+    
+    # track how many URLs have been written to this object - this is used for detecting when we have 
+    # reached the limit for the number of URLs permitted per sitemap, at which point a new sitemap
+    # will be created.
+    num_entries = db.IntegerProperty(default = 0) 
+    
+    # the following two values are really only for debugging in the future, should anything strange happen
+    creationtime =  db.DateTimeProperty(auto_now_add = True) # track creation time of this object
+    updatetime =  db.DateTimeProperty(auto_now = True) # track the last time that this object is written
+    
+    # This is the actual contents of the sitemap - but it only includes the "<url>"-related xml - does not contain
+    # the xml version declaration or the "urlset" definition - these will be dynamically added when the 
+    # xml is requested. These are intentionally left out because it would make it more complex to add
+    # new URLs to the sitemap (would not be a simple concatenation of the new "<url>" data - it would require
+    # removing closing tags for the xml that we have excluded before adding the new <url> data, and then 
+    # re-writing the closing tags)
+    internal_xml = db.TextProperty(default = '')
+
+    # we store a reference to the key of the last userobject so that we only add 
+    # userobjects that are newer than the last userobject added to the sitemap.
+    # This contains a string representation of the object key
+    last_object_id = db.StringProperty(default = '')
+       
+    
+class SiteMapUserModel(SiteMap):
+    # Note: inherits from SiteMapXMLContainer, which defines most of the important structures that
+    # are required.
+    # This class specifically contains sitemap data for URLs of User Profiles. 
+    pass
+
+
+class SiteMapUserModelIndex(SiteMap):
+    
+    # This class specifically contains sitemap index data that indicates the UserModel sitemap files
+    pass
+
+
+class FakeParent(BaseModel):
+    # Used by any models that require a parent (in order to be considered in the same entity group)
+    pass
+
