@@ -1798,11 +1798,8 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
     sharding.increment("number_of_new_users_shard_counter")
 
     # setup structures for chat
-    owner_uid = str(userobject.key())
-    chat_friend_tracker = models.ChatFriendTracker(key_name=owner_uid)
-    chat_friend_tracker.put()    
-    
-    
+    owner_uid = str(userobject.key()) 
+
     # userobject will be put in the function that called this. 
     return userobject 
     
@@ -2079,7 +2076,6 @@ def check_and_fix_userobject(userobject, lang_code):
         is_modified = False
         
         owner_uid = str(userobject.key())
-        chat_friend_tracker = models.ChatFriendTracker.get_by_key_name(owner_uid)
                       
         # define the fields that we want to verify are set, and define the value to assign to them if they are not set.
         # The following values are manditory for all builds. 

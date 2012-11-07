@@ -10,32 +10,6 @@ indexes:
 # your application using appcfg.py.
 
 
-- kind: ChatMessage
-  properties:
-  - name: uid1
-  - name: uid2
-  - name: chat_msg_time_string
-
-- kind: ChatMessage
-  properties:
-  - name: uid1
-  - name: uid2
-  - name: chat_msg_time_string
-    direction: desc
-    
-- kind: ChatMessage
-  properties:
-  - name: uid1
-  - name: chat_msg_time_string
-    direction: desc
-
-
-- kind: ChatMessage
-  ancestor: yes
-  properties:
-  - name: chat_msg_time_string
-    direction: desc
-
 
 - kind: InitiateContactModel
   properties:

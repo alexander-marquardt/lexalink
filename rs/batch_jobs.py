@@ -710,74 +710,7 @@ def deferred_copy_mailbox_model(request):
         return http.HttpResponseServerError("Error")
     
     return http.HttpResponse("OK")
-            
-    
-def batch_fix_chat_friend_tracker(request):
-
-    
-    """ This function scans the database for profiles that need to be fixed
-    """
-    PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
-    
-    # Note: to use cursors, filter parameters must be the same for all queries. 
-    # This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    # why the code wasn't working).
-    
-    
-    try:
-        
-        batch_cursor = None
-        
-        if request.method == 'POST':
-            batch_cursor = request.POST.get('batch_cursor',None)          
-            
-        generated_html = 'Updating UserModel objects:<br><br>'
-        
-        logging.info("Paging new page with cursor %s" % batch_cursor)
-                
-        query_filter_dict = {}    
-        query_filter_dict['is_real_user = '] = True
-        order_by = "__key__"
-
-        query = UserModel.all().order(order_by)
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)
-            
-        if batch_cursor:
-            query.with_cursor(batch_cursor)
-                                   
-        object_batch = query.fetch(PAGESIZE)
-                
-        if not object_batch:
-            # there are no more objects - break out of this function.
-            info_message = "No more objects found - Exiting function<br>\n"
-            logging.info(info_message)
-            return http.HttpResponse(info_message)
-
-        for userobject in object_batch:  
-            try:
-                logging.info("Checking userobject %s" % userobject.username)
-                owner_uid = str(userobject.key())
-                chat_friend_tracker = models.ChatFriendTracker.get_by_key_name(owner_uid)
-                if not chat_friend_tracker:
-                    logging.info("***Fixing userobject %s****" % userobject.username)
-                    chat_friend_tracker = models.ChatFriendTracker(key_name=owner_uid)
-                    chat_friend_tracker.put()
-
- 
-            except:
-                error_reporting.log_exception(logging.critical)  
-                
-        # queue up more jobs
-        batch_cursor = query.cursor()
-        path = request.path_info
-        taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
-
-        return http.HttpResponse(generated_html)
-    except:
-        error_reporting.log_exception(logging.critical)
-        return http.HttpResponseServerError()
-    
+               
         
 def deferred_fix_initiate_contact_model(request):
     
