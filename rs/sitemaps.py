@@ -39,3 +39,7 @@ except:
     def get_sitemap_index(request, sitemap_index_number):
         return http.HttpResponse("Code for generating sitemaps is not defined. Please contact Lexabit Inc. for support.")
 
+    def get_highest_sitemap_index_number():
+        # If this function is called here (as opposed to from my_sitemaps) then sitemaps are not defined
+        # and therefore the number returned is zero.
+        return 0

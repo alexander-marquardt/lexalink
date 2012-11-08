@@ -303,4 +303,7 @@ urlpatterns = patterns('',
         
     # Test stuff
     (r'^rs/test/render_notification_control/$', email_utils.render_notification_control_html),
+    
+    # robots.txt
+    (r'^robots.txt$', views.robots_txt),
 )

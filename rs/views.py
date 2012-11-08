@@ -52,7 +52,7 @@ from utils import passhash, get_new_contact_count_sum, return_time_difference_in
 import mailbox 
 import debugging
 import admin, mailbox, login_utils, channel_support
-import email_utils, backup_data, utils_top_level
+import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, site_configuration
 from django import http
 import http_utils, common_data_structs
@@ -904,3 +904,21 @@ def crawler_auth(request):
     except:
         error_reporting.log_exception(logging.critical)
           
+
+
+def robots_txt(request):
+    
+    # generates the robots.txt file, including links to the sitemap_index files.
+    
+    number_of_sitemaps = sitemaps.get_highest_sitemap_index_number()
+    sitemaps_links = ''
+    if number_of_sitemaps:
+        for idx in range(0, number_of_sitemaps):
+            sitemap_number = idx + 1
+            sitemaps_links += 'sitemap: http://www.%(domain_name)s/sitemap_index-%(sitemap_number)s.xml' % {
+                'domain_name' : settings.DOMAIN_NAME,
+                'sitemap_number' : sitemap_number,}
+    
+    logging.info("sitemaps_links %s" % sitemaps_links)    
+    http_response = render_to_response("robots.txt", {'sitemaps_links' : sitemaps_links})
+    return http_response

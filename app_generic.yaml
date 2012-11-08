@@ -22,10 +22,6 @@ handlers:
 - url: /rs/proprietary/proprietary_versioned_static
   static_dir: rs/proprietary/proprietary_versioned_static
   
-- url: /robots.txt
-  static_files: rs/versioned_static/robots.txt
-  upload: rs/versioned_static/robots.txt
-
 - url: /rs/admin/.*
   script: main.py
   login: admin
