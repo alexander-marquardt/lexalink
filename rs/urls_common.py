@@ -263,8 +263,8 @@ urlpatterns = patterns('',
     
     (r'^rs/admin/send_generic_email_message/$', email_utils.send_generic_email_message,{}),    
     (r'^rs/admin/send_confirmation_email/$', email_utils.send_confirmation_email,{}), 
-    (r'^rs/admin/send_vip_invitiation_email/$', email_utils.send_vip_invitiation_email,{}),    
-           
+    (r'^rs/admin/send_vip_invitiation_email/$', email_utils.send_vip_invitiation_email,{}),   
+        
     #(r'^rs/admin/deferred_copy_mailbox_model/$', batch_jobs.deferred_copy_mailbox_model),
     #(r'^rs/admin/deferred_copy_have_had_contact/$', batch_jobs.deferred_copy_have_had_contact),
     #(r'^rs/admin/deferred_fix_initiate_contact_model/$', batch_jobs.deferred_fix_initiate_contact_model),

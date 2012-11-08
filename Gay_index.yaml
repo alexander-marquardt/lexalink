@@ -10,7 +10,6 @@ indexes:
 # your application using appcfg.py.
 
 
-
 - kind: InitiateContactModel
   properties:
   - name: blocked_stored

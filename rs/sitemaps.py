@@ -27,28 +27,15 @@
 from django import http
 
 try:
-    from rs.proprietary import my_sitemaps
-    sitemaps_code_exists = True
-except:
-    sitemaps_code_exists = False
+    from rs.proprietary.my_sitemaps import *
     
+except: 
+    def generate_sitemaps(request):
+        return http.HttpResponse("Code for generating sitemaps is not defined. Please contact Lexabit Inc. for support.")
     
-def generate_sitemaps(request):
+    def get_sitemap(request, sitemap_number):
+        return http.HttpResponse("Code for generating sitemaps is not defined. Please contact Lexabit Inc. for support.")
     
-    if sitemaps_code_exists:
-        return my_sitemaps.generate_sitemaps(request)
-    else:
+    def get_sitemap_index(request, sitemap_index_number):
         return http.HttpResponse("Code for generating sitemaps is not defined. Please contact Lexabit Inc. for support.")
 
-def get_sitemap(request, sitemap_number):
-    if sitemaps_code_exists:
-        return my_sitemaps.get_sitemap(request, sitemap_number)
-    else:
-        return http.HttpResponse("Code for generating sitemaps is not defined. Please contact Lexabit Inc. for support.")
-
-def get_sitemap_index(request, sitemap_index_number):
-    
-    if sitemaps_code_exists:
-        return my_sitemaps.get_sitemap_index(request, sitemap_index_number)
-    else:
-        return http.HttpResponse("Code for generating sitemaps is not defined. Please contact Lexabit Inc. for support.")
