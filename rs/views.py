@@ -915,7 +915,7 @@ def robots_txt(request):
     if number_of_sitemaps:
         for idx in range(0, number_of_sitemaps):
             sitemap_number = idx + 1
-            sitemaps_links += 'sitemap: http://www.%(domain_name)s/sitemap_index-%(sitemap_number)s.xml' % {
+            sitemaps_links += 'sitemap: http://www.%(domain_name)s/sitemap_index-%(sitemap_number)s.xml\n' % {
                 'domain_name' : settings.DOMAIN_NAME,
                 'sitemap_number' : sitemap_number,}
     
