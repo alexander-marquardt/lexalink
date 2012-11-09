@@ -286,7 +286,6 @@ urlpatterns = patterns('',
     
     
     (r'^rs/admin/cleanup_sessions/$', gaesessions.cleanup_sessions),
-    (r'^rs/admin/cleanup_sessions_launcher/$', gaesessions.cleanup_sessions_launcher),
     
     (r'^rs/admin/manually_give_paid_status/(?P<username>[\w]+)/(?P<num_credits>[\w]+)/$', vip_status_support.manually_give_paid_status),
     (r'^rs/admin/manually_remove_paid_status/(?P<username>[\w]+)/$', vip_status_support.manually_remove_paid_status),

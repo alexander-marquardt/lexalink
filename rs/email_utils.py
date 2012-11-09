@@ -815,11 +815,6 @@ def batch_email_notification_launcher(request):
                                  # task has completed and finished updating all of the notification status/trackers. 
         taskqueue.add(queue_name = 'mail-queue', countdown = countdown_time, url='/rs/admin/email_new_contacts/')
         
-        # re-queue this this task (batch_email_notification_launcher) to run again so that it keeps running for
-        # eternity.
-        countdown_time = 20 * 60 # wait X minutes (*60 seconds) before re-launching
-        taskqueue.add(queue_name = 'mail-queue', countdown = countdown_time, url='/rs/admin/batch_email_notification_launcher/')
-    
         return http.HttpResponse("batch emails launched OK")
     except:
         error_reporting.log_exception(logging.critical)

@@ -539,26 +539,10 @@ def cleanup_sessions(request):
         if num_cleaned_up >= 500:
             # re-schedule to cleanup remaining sessions immideately, since we didn't get them all in the previous cleanup
             logging.warning("Re-launching session cleanup since we did not get all in the previous")
-            time.sleep(0.5) # just in case it takes a few milliseconds for the DB to get updated
+            time.sleep(1.0) # just in case it takes a few milliseconds for the DB to get updated
             taskqueue.add(queue_name = 'cleanup-sessions-queue', url='/rs/admin/cleanup_sessions/')
             
         return http.HttpResponse("OK")
     except:
         error_reporting.log_exception(logging.critical)
         return http.HttpResponse("Fail")   
-
-def cleanup_sessions_launcher(request):
-    # control task for queuing up batch notification jobs.
-    
-    # Queue up the profiles that have new messages
-    try:
-        # queue emails to users that have a new message
-        taskqueue.add(queue_name = 'cleanup-sessions-queue', url='/rs/admin/cleanup_sessions/')
-        # Queue up the profiles that have new contacts (winks etc.)
-        countdown_time = 12 * 60 * 60 # we wait for 12 hours to re-launch. 
-        taskqueue.add(queue_name = 'cleanup-sessions-queue', countdown = countdown_time, url='/rs/admin/cleanup_sessions_launcher/')
-        return http.HttpResponse("Cleanup sessions launcher launched OK")
-    except:
-        error_reporting.log_exception(logging.critical)
-        return http.HttpResponseServerError()    
-    

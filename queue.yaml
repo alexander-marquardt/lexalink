@@ -14,7 +14,3 @@ queue:
 - name: deferred-queue
   rate: 500/s
   bucket_size: 100
-
-
-- name: cleanup-sessions-queue
-  rate: 100000/d
