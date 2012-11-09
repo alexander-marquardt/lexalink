@@ -32,7 +32,7 @@
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-11-09-0111'
+VERSION_ID = '2012-11-09-2152'
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -44,7 +44,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_TIME_STAMPED_STATIC_FILES = True
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
@@ -67,8 +67,8 @@ if BATCH_BUILD_NAME == '':
     # the build name.
     
     #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
-    #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
-    BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
+    BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
+    #BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
     #BUILD_NAME = 'Gay'       # originally used for GaySetup.com

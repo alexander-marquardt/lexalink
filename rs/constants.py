@@ -192,27 +192,41 @@ SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
 
 # define the list of pages which we want to advertise
 pages_to_advertise = []
-if settings.BUILD_NAME != 'Discrete' and settings.BUILD_NAME != "Friend" and settings.BUILD_NAME != "Language":
-    pages_to_advertise.append('Discrete')
-if settings.BUILD_NAME != 'Language':
-    pages_to_advertise.append('Language')
-if settings.BUILD_NAME != 'Single':
+
+if settings.BUILD_NAME == 'Discrete':
+    # Swinger, Gay, and Lesbian ads will be dynamically added depending on the search criteria.
+    # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
+    # relevant
     pages_to_advertise.append('Single')
-if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Discrete' or settings.BUILD_NAME == "Swinger":
-    pages_to_advertise.append('Lesbian')
-if settings.BUILD_NAME == "Swinger":
-    pages_to_advertise.append('Gay')
-if settings.BUILD_NAME ==  'Gay':
+
+if settings.BUILD_NAME == 'Gay':
+    pages_to_advertise.append('Discrete')
     pages_to_advertise.append('Swinger')
-#if settings.BUILD_NAME != "Friend":
-    #pages_to_advertise.append('Friend')
+    
+if settings.BUILD_NAME == 'Single':
+    # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
+    pages_to_advertise.append('Friend')
+    pages_to_advertise.append('Language')
+    
+if settings.BUILD_NAME == 'Lesbian':
+    pages_to_advertise == pages_to_advertise('Single')
+    pages_to_advertise.append('Friend')
+    pages_to_advertise.append('Language')
+    
+if settings.BUILD_NAME == "Swinger":
+    pages_to_advertise.append('Discrete')
+    pages_to_advertise.append('Gay')
+    pages_to_advertise.append('Lesbian')
+    
+if settings.BUILD_NAME == 'Friend':
+    pages_to_advertise == pages_to_advertise.append('Single')
+    pages_to_advertise.append('Language')
+    
+if settings.BUILD_NAME == 'Language':
+    pages_to_advertise == pages_to_advertise.append('Single')
+    pages_to_advertise.append('Friend')
     
 
-if settings.BUILD_NAME != 'Discrete':
-    MAX_NUM_PAGES_TO_ADVERTISE =  4
-else:
-    MAX_NUM_PAGES_TO_ADVERTISE = 2
-    
 # set a flag that determines if google ads will be shown - we don't attempt to show ads
 # on the more edgy sites since this could cause problems / risk of removal from the adsense program
 if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Language' \
@@ -221,6 +235,14 @@ if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Language' \
 else:
     enable_google_ads = False
     
+enable_internal_ads = True
+
+if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' :
+    MAX_NUM_PAGES_TO_ADVERTISE = 4
+else:
+    MAX_NUM_PAGES_TO_ADVERTISE = 2
+
+
     
 # set a flag that determines if ashley madison ads will be shown
 if settings.BUILD_NAME == 'Discrete':

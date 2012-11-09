@@ -57,7 +57,7 @@ def get_my_internal_advertisements(additional_ads_to_append = []):
         # code to randomly select from a list of advertisements that are appropriate for the current website.
         pages_to_advertise = list(constants.pages_to_advertise) # make a copy of the original list
         pages_to_advertise.extend(additional_ads_to_append)
-        num_pages_to_advertise = constants.MAX_NUM_PAGES_TO_ADVERTISE
+        num_pages_to_advertise = min(constants.MAX_NUM_PAGES_TO_ADVERTISE, len(pages_to_advertise))
         
         # Randomly select pages from the list
         
@@ -95,7 +95,7 @@ def get_additional_ads_to_append(request, userobject = None):
         userobject_sex = None
         userobject_preference = None
 
-    if settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Swinger":
+    if settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Discrete":
         # let the lesbians and gays know about our other websites
         if (userobject_sex == 'male' and userobject_preference == 'male') or \
            ( sex == 'male' and preference == 'male'):
@@ -294,7 +294,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         meta_info['keywords_description'] =  meta_info['page_title']
 
         advertising_info = constants.PassDataToTemplate()            
-        if not constants.enable_google_ads :
+        if  constants.enable_internal_ads :
             ad_list = get_my_internal_advertisements(additional_ads_to_append)
             ad_template_list = []
             for val in ad_list:
@@ -307,7 +307,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         if enable_ads:
             if constants.enable_ashley_madison_ads:
                 advertising_info.ashley_madison_bottom_banner_ad = get_ashley_madison_bottom_banner_ad(request)
-                advertising_info.ashley_madison_sidebar_ad = get_ashley_madison_sidebar_ad(request)
+                advertising_info.ashley_madison_sidebar_ad1 = get_ashley_madison_sidebar_ad(request)
+                advertising_info.ashley_madison_sidebar_ad2 = get_ashley_madison_sidebar_ad(request)
            
         advertising_info.enable_ads = enable_ads
         advertising_info.enable_google_ads = constants.enable_google_ads
