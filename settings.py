@@ -44,7 +44,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
@@ -66,8 +66,8 @@ if BATCH_BUILD_NAME == '':
     # we are interested in executing. Be sure to re-boot the development server each time you change
     # the build name.
     
-    #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
-    BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
+    BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
+    #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
     #BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com

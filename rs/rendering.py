@@ -48,7 +48,7 @@ except:
 if settings.BUILD_NAME == "Friend":
     import friend_bazaar_specific_code
 
-def get_my_internal_advertisements(additional_ads_to_append = []):
+def get_my_internal_advertisements():
     
     ad_list = []
     
@@ -56,7 +56,6 @@ def get_my_internal_advertisements(additional_ads_to_append = []):
         
         # code to randomly select from a list of advertisements that are appropriate for the current website.
         pages_to_advertise = list(constants.pages_to_advertise) # make a copy of the original list
-        pages_to_advertise.extend(additional_ads_to_append)
         num_pages_to_advertise = min(constants.MAX_NUM_PAGES_TO_ADVERTISE, len(pages_to_advertise))
         
         # Randomly select pages from the list
@@ -295,11 +294,16 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
 
         advertising_info = constants.PassDataToTemplate()            
         if  constants.enable_internal_ads :
-            ad_list = get_my_internal_advertisements(additional_ads_to_append)
+            ad_list = get_my_internal_advertisements()
             ad_template_list = []
             for val in ad_list:
                 ad_template_list.append('proprietary_ads/%s.html/' % val)
             advertising_info.ad_template_list = ad_template_list    
+            
+            additional_ads_template_list = []
+            for val in additional_ads_to_append:
+                additional_ads_template_list.append('proprietary_ads/%s.html/' % val)
+            advertising_info.additional_ads_template_list = additional_ads_template_list
         else:
             advertising_info.ad_template_list = []          
             

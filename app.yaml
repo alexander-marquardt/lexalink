@@ -1,6 +1,6 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
-application: languageapp
+application: singlesapp
 version: 2012-11-09-2152
 runtime: python
 api_version: 1
@@ -10,19 +10,19 @@ default_expiration: "30d"
 
 handlers:
 - url: /favicon.ico
-  static_files: rs/static/auto-generated-2012-11-09-2152/img/Language/favicon.ico
-  upload: rs/static/auto-generated-2012-11-09-2152/img/Language/favicon.ico
+  static_files: rs/static/img/Single/favicon.ico
+  upload: rs/static/img/Single/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location
 # for each new build name to ensure that out-of-date static files will not be accessed through
 # cached data (since the directory name changes, old caches will not be hit)
 
-- url: /rs/static/auto-generated-2012-11-09-2152
-  static_dir: rs/static/auto-generated-2012-11-09-2152
+- url: /rs/static
+  static_dir: rs/static
   
-- url: /rs/static/auto-generated-2012-11-09-2152
-  static_dir: rs/static/auto-generated-2012-11-09-2152
+- url: /rs/proprietary/static
+  static_dir: rs/proprietary/static
   
 - url: /rs/admin/.*
   script: main.py

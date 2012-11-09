@@ -160,16 +160,16 @@ table.rometo-advertising-table
 }
 
 td.rometo-advertising-td-header-footer {
-    background: url(../img/advertisements/header-footer-slice.jpg);
+    /*background: url(../img/advertisements/header-footer-slice.jpg);*/
 	width: 156px;
-    height: 35px;
+    /*height: 35px;*/
 	padding: 2px;
 	padding-top: 4px;
 	padding-bottom: 4px;
 	font-size: 12px;
 	text-align: center;
     vertical-align: middle;
-	color: #FFFFFF;
+	/*color: #FFFFFF;*/
 }
 
 td.rometo-advertising-td-highlight-text {

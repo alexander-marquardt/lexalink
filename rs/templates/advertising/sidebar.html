@@ -28,7 +28,11 @@
 {% if advertising_info.enable_ads %}
 <div id="id-advertising-sidebar" class="grid_custom cl-grid_160px alpha omega cl-float_right">
 
-    <br><br>
+    {% for ad in advertising_info.additional_ads_template_list %}
+        {% include ad %}
+    {% endfor %}
+    <p>
+    
     {% if advertising_info.enable_google_ads %}
         {% include 'advertising/publisher/google_160x600.html' %}
     {% endif %}
@@ -37,11 +41,11 @@
         <!-- ashley madison advertisements are enabled -->
         {{ advertising_info.ashley_madison_sidebar_ad1|safe }}
     {% endif %}
-    <br><br>
+    <p>
     {% for ad in advertising_info.ad_template_list %}
         {% include ad %}
     {% endfor %}
-    <br><br>
+    <p>
     {% if advertising_info.enable_google_ads %}
         {% include 'advertising/publisher/google_160x600.html' %}
     {% endif %}
@@ -51,7 +55,7 @@
         {{ advertising_info.ashley_madison_sidebar_ad1|safe }}
     {% endif %}
     
-    <br><br>    
+    <p>    
     {% if refined_links_html %}
         <div class="cl-refine-search">
         {{ refined_links_html|safe }}

@@ -4851,7 +4851,7 @@ msgstr "De los creadores de %(app_name)s"
 #: rs/proprietary/templates/proprietary_ads/Friend.html:9
 #: rs/templates/login.html:163
 msgid "Be a friend and make money"
-msgstr ""
+msgstr "Buscar amigos y ganar dinero"
 
 #: rs/proprietary/templates/proprietary_ads/Language.html:9
 msgid "Practice languages and meet people from all around the world for free"
