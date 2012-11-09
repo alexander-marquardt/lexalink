@@ -378,7 +378,7 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
         # multiple values.
 
             
-        if settings.BUILD_NAME == "LikeLanguage": # setup Language
+        if settings.BUILD_NAME == "Language": # setup Language
             # Note: the language_to_teach and language_to_learn are reversed. Eg. I want to learn
             # spanish (my language_to_learn = Spanish) therefore, I want to see people whose 
             # languages list contains at least Spanish.             
@@ -386,7 +386,7 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
             query_filter_dict['languages = '] = search_vals_dict['language_to_learn']
             query_filter_dict['languages_to_learn = '] = search_vals_dict['language_to_teach']
             
-        elif settings.BUILD_NAME == "FriendBazaar": # Setup Friend
+        elif settings.BUILD_NAME == "Friend": # Setup Friend
             
             query_filter_dict['friend_price_ix_list'] = search_vals_dict['friend_price']
             

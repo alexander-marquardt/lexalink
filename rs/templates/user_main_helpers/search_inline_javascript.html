@@ -52,7 +52,7 @@
         set_dropdown_options_and_settings(search_url, id_prefix, default_text, false, "{{ live_static_dir }}", is_registered_user);
         load_location_settings_on_change(id_prefix, default_text, false, "{{ live_static_dir }}");
 
-        {% if build_name == "FriendBazaar" %}
+        {% if build_name == "Friend" %}
             load_for_sale_to_buy_on_change(id_prefix, default_text, "{{ live_static_dir }}");
             update_currency_on_country_change(id_prefix, "{{ live_static_dir }}");
         {% endif %}
