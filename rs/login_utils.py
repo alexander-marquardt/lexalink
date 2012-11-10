@@ -406,9 +406,7 @@ def clear_old_session(request):
     # Used for clearing old sessions
     
     try:
-        # Note: we don't erase the data from the database since this would slow down the logout - the jobs running
-        # in the task-queue will clear expired sessions on a periodic basis.
-        request.session.terminate(clear_data = False)
+        request.session.terminate(clear_data = True)
     except:
         error_reporting.log_exception(logging.critical)  
         
