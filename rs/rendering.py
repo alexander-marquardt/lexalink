@@ -71,46 +71,57 @@ def get_additional_ads_to_append(request, userobject = None):
 
     additional_ads_to_append = []
     
+    try:
+        if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
+            # we don't currently append any additional advertisements. 
+            return additional_ads_to_append
+        
+        # the following two values should only be available if the user has submitted a search request - otherwise
+        # they should not be defined (hopefully)
+        search_preference = request.GET.get('preference', '')
+        search_sex = request.GET.get('sex', '')
+        search_relationship_status = request.GET.get('relationship_status', '')
+        
+        if userobject:
+            search_preferences = userobject.search_preferences2
+            if not search_preference:
+                search_preference = search_preferences.preference
+            if not search_sex:
+                search_sex = search_preferences.sex
+            if not search_relationship_status:
+                search_relationship_status = search_preferences.relationship_status
+                
+            userobject_sex = userobject.sex
+            userobject_preference = userobject.preference
+            userobject_relationship_status = userobject.relationship_status
+        else:
+            userobject_sex = None
+            userobject_preference = None
+            userobject_relationship_status = None
     
-    if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
-        # we don't currently append any additional advertisements. 
-        return additional_ads_to_append
-    
-    # the following two values should only be available if the user has submitted a search request - otherwise
-    # they should not be defined (hopefully)
-    preference = request.GET.get('preference', '')
-    sex = request.GET.get('sex', '')
-    
-    if userobject:
-        search_preferences = userobject.search_preferences2
-        if not preference:
-            preference = search_preferences.preference
-        if not sex:
-            sex = search_preferences.sex
-            
-        userobject_sex = userobject.sex
-        userobject_preference = userobject.preference
-    else:
-        userobject_sex = None
-        userobject_preference = None
+        if settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Discrete":
+            # let the lesbians and gays know about our other websites
+            if (userobject_sex == 'male' and userobject_preference == 'male') or \
+               ( search_sex == 'male' and search_preference == 'male'):
+                additional_ads_to_append.append("Gay")
+            if (userobject_sex == 'female' and userobject_preference == 'female') or \
+               (search_sex == 'female' and search_preference == 'female'):
+                additional_ads_to_append.append("Lesbian")
+                
+        if settings.BUILD_NAME == "Discrete":
+            # Let the swingers know about Swinger
+            if (userobject_sex == 'couple' or userobject_preference == 'couple') or \
+               (search_sex == 'couple' or search_preference == 'couple'):
+                additional_ads_to_append.append("Swinger")
+                
+            if (userobject_relationship_status == 'single' or search_relationship_status == 'single'):
+                additional_ads_to_append.append("Single")
+                
 
-    if settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Discrete":
-        # let the lesbians and gays know about our other websites
-        if (userobject_sex == 'male' and userobject_preference == 'male') or \
-           ( sex == 'male' and preference == 'male'):
-            additional_ads_to_append.append("Gay")
-        if (userobject_sex == 'female' and userobject_preference == 'female') or \
-           (sex == 'female' and preference == 'female'):
-            additional_ads_to_append.append("Lesbian")
-            
-    if settings.BUILD_NAME == "Discrete":
-        # Let the swingers know about Swinger
-        if (userobject_sex == 'couple' or userobject_preference == 'couple') or \
-           (sex == 'couple' or preference == 'couple'):
-            additional_ads_to_append.append("Swinger")
-            
+    except:
+        error_reporting.log_exception(logging.critical)  
+        
     return additional_ads_to_append
-
     
 try:
     from rs.proprietary import advertisements

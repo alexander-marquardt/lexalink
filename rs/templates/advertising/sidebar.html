@@ -28,38 +28,45 @@
 {% if advertising_info.enable_ads %}
 <div id="id-advertising-sidebar" class="grid_custom cl-grid_160px alpha omega cl-float_right">
 
+    <br>
     {% for ad in advertising_info.additional_ads_template_list %}
         {% include ad %}
+        <br><br>
     {% endfor %}
-    <p>
+    
     
     {% if advertising_info.enable_google_ads %}
         {% include 'advertising/publisher/google_160x600.html' %}
+        <br><br>
     {% endif %}
     
     {% if advertising_info.enable_ashley_madison_ads %}
         <!-- ashley madison advertisements are enabled -->
         {{ advertising_info.ashley_madison_sidebar_ad1|safe }}
+        <br><br>
     {% endif %}
-    <p>
+    
     {% for ad in advertising_info.ad_template_list %}
         {% include ad %}
+        <br><br>
     {% endfor %}
-    <p>
+
     {% if advertising_info.enable_google_ads %}
         {% include 'advertising/publisher/google_160x600.html' %}
+        <br><br>
     {% endif %}
         
     {% if advertising_info.enable_ashley_madison_ads %}
         <!-- ashley madison advertisements are enabled -->
-        {{ advertising_info.ashley_madison_sidebar_ad1|safe }}
+        {{ advertising_info.ashley_madison_sidebar_ad2|safe }}
+        <br><br>
     {% endif %}
-    
-    <p>    
+        
     {% if refined_links_html %}
         <div class="cl-refine-search">
         {{ refined_links_html|safe }}
         </div>
+        <br><br>
     {% endif %}
 
     <div class="cl-clear"></div>
