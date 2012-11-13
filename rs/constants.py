@@ -209,7 +209,7 @@ if settings.BUILD_NAME == 'Single':
     pages_to_advertise.append('Language')
     
 if settings.BUILD_NAME == 'Lesbian':
-    pages_to_advertise == pages_to_advertise('Single')
+    pages_to_advertise == pages_to_advertise.append('Single')
     pages_to_advertise.append('Friend')
     pages_to_advertise.append('Language')
     

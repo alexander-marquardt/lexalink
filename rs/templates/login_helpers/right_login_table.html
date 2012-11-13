@@ -31,9 +31,9 @@
     $(document).ready(function() {
 
         var default_text = new Object();
-        default_text['region'] = '{% trans "Select region" %}';
-        default_text['sub_region'] = '{% trans "Select sub-region" %}';
-        default_text['not_available'] = '{% trans "Not defined yet" %}';
+        default_text['region'] = '{% trans "Select Region" %}';
+        default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
+        default_text['not_available'] = '{% trans "Not Defined Yet" %}';
         var id_prefix = "#id-signup_fields";
 
         var country_id = id_prefix + "-country";
@@ -72,7 +72,7 @@
 {% if not html_for_previously_posted_values %}
 <!-- DO NOT BREAK THE FOLLOWING "onsubmit" over multiple lines - it will break it -->
     <form method=POST id="submit-signup-form" action="{% url views.login %}"
-          onsubmit="return confirm('{% blocktrans with build_name as build_name and minimum_registration_age as age %}I confirm that I am {{ age }} or older and that I have read and accept the terms and conditions for using {{ build_name }} {% endblocktrans %}')">
+          onsubmit="return confirm('{% blocktrans with app_name as app_name and minimum_registration_age as age %}I confirm that I am {{ age }} or older and that I have read and accept the terms and conditions for using {{ app_name }} {% endblocktrans %}')">
 {% else %}
     <form method=POST id="submit-signup-form" action="{% url views.login %}">
 {% endif %}

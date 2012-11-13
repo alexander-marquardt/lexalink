@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-12 22:23+0100\n"
+"POT-Creation-Date: 2012-11-13 15:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:699 rs/display_contacts.py:335 rs/forms.py:1133
+#: rs/ajax.py:699 rs/display_contacts.py:335 rs/forms.py:1141
 #: rs/login_utils.py:244 rs/rendering.py:389 rs/store_data.py:1582
 #: rs/views.py:300 rs/views.py:788
 msgid ""
@@ -105,7 +105,7 @@ msgstr ""
 msgid "More details about me"
 msgstr ""
 
-#: rs/callbacks_from_html.py:97 rs/search_results.py:171
+#: rs/callbacks_from_html.py:97 rs/search_results.py:174
 #: rs/user_profile_details.py:204
 msgid "Languages I speak"
 msgstr ""
@@ -347,8 +347,8 @@ msgstr ""
 #: rs/display_contacts.py:136
 #, python-format
 msgid ""
-"Since the last time you entered in %(build_name)s.com, %(previous_login)s, "
-"you have received"
+"Since the last time you entered in %(app_name)s.com, %(previous_login)s, you "
+"have received"
 msgstr ""
 
 #: rs/display_contacts.py:186
@@ -601,7 +601,7 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: rs/forms.py:310 rs/search_results.py:101
+#: rs/forms.py:310 rs/search_results.py:104
 msgid "See profile of:"
 msgstr "See profile and get in contact with:"
 
@@ -647,84 +647,90 @@ msgstr ""
 
 #: rs/forms.py:790
 #, python-format
-msgid "%(sex)s seeking %(preference)s in %(location)s"
+msgid "%(relationship_status)s %(sex)s Seeking %(preference)s in %(location)s"
 msgstr ""
 
-#: rs/forms.py:796
+#: rs/forms.py:797
+#, python-format
+msgid ""
+"%(sex)s Seeking %(preference)s for %(relationship_status)s in %(location)s"
+msgstr ""
+
+#: rs/forms.py:804
 #, python-format
 msgid ""
 "Language profile title %(languages)s %(location)s %(languages_to_learn)s"
 msgstr ""
-"%(languages)s speaker looking to practice: %(languages_to_learn)s. Currently "
-"in: %(location)s"
+"%(languages)s Speaker Looking To Practice: %(languages_to_learn)s. Currently "
+"In: %(location)s"
 
-#: rs/forms.py:801
+#: rs/forms.py:809
 #, python-format
-msgid "%(sex)s in %(location)s"
+msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/forms.py:923
+#: rs/forms.py:931
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
 msgstr ""
 
-#: rs/forms.py:924
+#: rs/forms.py:932
 msgid "inside the \"captcha\""
 msgstr ""
 
-#: rs/forms.py:980
+#: rs/forms.py:988
 msgid "Remove report"
 msgstr ""
 
-#: rs/forms.py:982
+#: rs/forms.py:990
 msgid "Report this profile"
 msgstr ""
 
-#: rs/forms.py:1081
+#: rs/forms.py:1089
 msgid "Sent correctly"
 msgstr ""
 
-#: rs/forms.py:1082
+#: rs/forms.py:1090
 msgid "Not sent, try again"
 msgstr ""
 
-#: rs/forms.py:1100
+#: rs/forms.py:1108
 msgid "Before sending it!"
 msgstr ""
 
-#: rs/forms.py:1101
+#: rs/forms.py:1109
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 
-#: rs/forms.py:1115
+#: rs/forms.py:1123
 msgid "Send message"
 msgstr ""
 
-#: rs/forms.py:1178
+#: rs/forms.py:1186
 msgid "Verify"
 msgstr ""
 
-#: rs/forms.py:1239 rs/forms.py:1324
+#: rs/forms.py:1247 rs/forms.py:1332
 msgid "Search Box"
 msgstr ""
 
-#: rs/forms.py:1240
+#: rs/forms.py:1248
 msgid "Specify the profiles that you would like to see"
 msgstr ""
 
-#: rs/forms.py:1289 rs/forms.py:1321
+#: rs/forms.py:1297 rs/forms.py:1329
 msgid "Search"
 msgstr ""
 
-#: rs/forms.py:1316
+#: rs/forms.py:1324
 msgid "Username to search for"
 msgstr ""
 
-#: rs/forms.py:1325
+#: rs/forms.py:1333
 msgid "Specify the username that you would like to see"
 msgstr ""
 
@@ -1206,8 +1212,7 @@ msgstr ""
 msgid "None selected"
 msgstr ""
 
-#: rs/friend_bazaar_specific_code.py:228 rs/user_profile_main_data.py:115
-#: rs/user_profile_main_data.py:137
+#: rs/friend_bazaar_specific_code.py:228
 msgid "Other (details in profile)"
 msgstr ""
 
@@ -2383,7 +2388,7 @@ msgstr ""
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:1034 rs/search_results.py:851 rs/search_results.py:862
+#: rs/mailbox.py:1034 rs/search_results.py:854 rs/search_results.py:865
 msgid "Next"
 msgstr ""
 
@@ -2488,100 +2493,100 @@ msgstr ""
 msgid "Finished"
 msgstr ""
 
-#: rs/search_results.py:140
+#: rs/search_results.py:143
 msgid "About me"
 msgstr ""
 
-#: rs/search_results.py:179
+#: rs/search_results.py:182
 msgid "Native language"
 msgstr ""
 
-#: rs/search_results.py:247
+#: rs/search_results.py:250
 msgid "Last entrance"
 msgstr ""
 
-#: rs/search_results.py:459 rs/search_results.py:495
+#: rs/search_results.py:462 rs/search_results.py:498
 #, python-format
 msgid "generated_search_title %(sex)s"
 msgstr "%(sex)s"
 
-#: rs/search_results.py:462 rs/search_results.py:480 rs/search_results.py:497
+#: rs/search_results.py:465 rs/search_results.py:483 rs/search_results.py:500
 msgid "All people (feminine)"
 msgstr "All people"
 
-#: rs/search_results.py:464 rs/user_profile_main_data.py:84
+#: rs/search_results.py:467
 msgid "All lesbian types"
 msgstr ""
 
-#: rs/search_results.py:467
+#: rs/search_results.py:470
 #, python-format
 msgid "generated_search_title %(preference)s"
 msgstr "seeking %(preference)s"
 
-#: rs/search_results.py:477
+#: rs/search_results.py:480
 #, python-format
 msgid "generated_search_title %(language_to_learn)s"
 msgstr "%(language_to_learn)s speakers"
 
-#: rs/search_results.py:483
+#: rs/search_results.py:486
 #, python-format
 msgid "generated_search_title %(language_to_teach)s"
 msgstr "that want to learn %(language_to_teach)s"
 
-#: rs/search_results.py:489
+#: rs/search_results.py:492
 #, python-format
 msgid "Sex: %(sex)s"
 msgstr ""
 
-#: rs/search_results.py:500
+#: rs/search_results.py:503
 #, python-format
 msgid "interested in %(for_sale_sub_menu)s"
 msgstr ""
 
-#: rs/search_results.py:503
+#: rs/search_results.py:506
 #, python-format
 msgid "interested in %(for_sale)s"
 msgstr ""
 
-#: rs/search_results.py:509
+#: rs/search_results.py:512
 #, python-format
 msgid "Price: %(friend_price)s. Currency: %(friend_currency)s"
 msgstr ""
 
-#: rs/search_results.py:513
+#: rs/search_results.py:516
 #, python-format
 msgid "Price: %(friend_price)s"
 msgstr ""
 
-#: rs/search_results.py:525
+#: rs/search_results.py:528
 #, python-format
 msgid "generated_search_title %(location)s"
 msgstr "In: %(location)s"
 
-#: rs/search_results.py:527
+#: rs/search_results.py:530
 msgid "In: The entire world"
 msgstr "In: The entire world"
 
-#: rs/search_results.py:530
+#: rs/search_results.py:533
 #, python-format
 msgid "generated_search_title %(age)s"
 msgstr "Age: %(age)s"
 
-#: rs/search_results.py:535
+#: rs/search_results.py:538
 msgid "Ordered by"
 msgstr ""
 
-#: rs/search_results.py:539
+#: rs/search_results.py:542
 #, python-format
 msgid "Status generated_search_title %(relationship_status)s"
 msgstr "Relationship status: %(relationship_status)s"
 
-#: rs/search_results.py:543
+#: rs/search_results.py:546
 #, python-format
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:723
+#: rs/search_results.py:726
 msgid "Showing results for"
 msgstr ""
 
@@ -2896,7 +2901,6 @@ msgstr ""
 #: rs/user_profile_details.py:172 rs/user_profile_details.py:203
 #: rs/user_profile_details.py:294 rs/user_profile_details.py:337
 #: rs/user_profile_details.py:380 rs/user_profile_details.py:424
-#: rs/user_profile_main_data.py:159 rs/user_profile_main_data.py:194
 msgid "Prefer not to say"
 msgstr ""
 
@@ -3373,7 +3377,7 @@ msgid "Verify new password"
 msgstr "Verify new password&nbsp;"
 
 #: rs/user_profile_main_data.py:77
-msgid "Not important"
+msgid "Not Important"
 msgstr ""
 
 #: rs/user_profile_main_data.py:78
@@ -3385,7 +3389,11 @@ msgid "Show All"
 msgstr ""
 
 #: rs/user_profile_main_data.py:82
-msgid "All people"
+msgid "All People"
+msgstr ""
+
+#: rs/user_profile_main_data.py:84
+msgid "All Lesbian Types"
 msgstr ""
 
 #: rs/user_profile_main_data.py:93 rs/user_profile_main_data.py:112
@@ -3401,7 +3409,7 @@ msgid "Male"
 msgstr ""
 
 #: rs/user_profile_main_data.py:95 rs/user_profile_main_data.py:109
-msgid "Swinger (couple)"
+msgid "Swinger (Couple)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:96 rs/user_profile_main_data.py:114
@@ -3422,7 +3430,7 @@ msgid "Males"
 msgstr ""
 
 #: rs/user_profile_main_data.py:103 rs/user_profile_main_data.py:121
-msgid "Swingers (couples)"
+msgid "Swingers (Couples)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:104 rs/user_profile_main_data.py:126
@@ -3430,20 +3438,24 @@ msgstr ""
 msgid "Transvestites / Transgendered"
 msgstr ""
 
+#: rs/user_profile_main_data.py:115 rs/user_profile_main_data.py:137
+msgid "Other (Details In Profile)"
+msgstr ""
+
 #: rs/user_profile_main_data.py:127 rs/user_profile_main_data.py:147
-msgid "Others (details in profile)"
+msgid "Others (Details In Profile)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:132
-msgid "Active gay"
+msgid "Active Gay"
 msgstr ""
 
 #: rs/user_profile_main_data.py:133
-msgid "Passive gay"
+msgid "Passive Gay"
 msgstr ""
 
 #: rs/user_profile_main_data.py:134
-msgid "Versatile gay"
+msgid "Versatile Gay"
 msgstr ""
 
 #: rs/user_profile_main_data.py:135
@@ -3451,15 +3463,15 @@ msgid "Bisexual"
 msgstr ""
 
 #: rs/user_profile_main_data.py:142
-msgid "Active gays"
+msgid "Active Gays"
 msgstr ""
 
 #: rs/user_profile_main_data.py:143
-msgid "Passive gays"
+msgid "Passive Gays"
 msgstr ""
 
 #: rs/user_profile_main_data.py:144
-msgid "Versatile gays"
+msgid "Versatile Gays"
 msgstr ""
 
 #: rs/user_profile_main_data.py:145
@@ -3478,6 +3490,10 @@ msgstr ""
 msgid "Married"
 msgstr ""
 
+#: rs/user_profile_main_data.py:159 rs/user_profile_main_data.py:194
+msgid "Prefer Not To Say"
+msgstr ""
+
 #: rs/user_profile_main_data.py:166
 msgid "Secret"
 msgstr ""
@@ -3491,87 +3507,87 @@ msgid "Dating"
 msgstr ""
 
 #: rs/user_profile_main_data.py:184 rs/user_profile_main_data.py:232
-msgid "Long-term relationship"
+msgid "Long Term Relationship"
 msgstr ""
 
 #: rs/user_profile_main_data.py:199
-msgid "People who don't specify"
+msgid "People Who Don't Specify"
 msgstr ""
 
 #: rs/user_profile_main_data.py:215
-msgid "Femme (feminine lesbian)"
+msgid "Femme (Feminine Lesbian)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:216
-msgid "Bisexual lesbian"
+msgid "Bisexual Lesbian"
 msgstr ""
 
 #: rs/user_profile_main_data.py:217
-msgid "Butch (masculine lesbian)"
+msgid "Butch (Masculine Lesbian)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:218
-msgid "Unlabeled lesbian"
+msgid "Unlabeled Lesbian"
 msgstr ""
 
 #: rs/user_profile_main_data.py:222
-msgid "Femmes (feminine lesbians)"
+msgid "Femmes (Feminine Lesbians)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:223
-msgid "Bisexual lesbians"
+msgid "Bisexual Lesbians"
 msgstr ""
 
 #: rs/user_profile_main_data.py:224
-msgid "Butches (masculine lesbians)"
+msgid "Butches (Masculine Lesbians)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:225
-msgid "Unlabeled lesbians"
+msgid "Unlabeled Lesbians"
 msgstr ""
 
 #: rs/user_profile_main_data.py:233
-msgid "Physical relationship"
+msgid "Physical Relationship"
 msgstr ""
 
 #: rs/user_profile_main_data.py:297
-msgid "Completed profiles first"
+msgid "Completed Profiles First"
 msgstr ""
 
 #: rs/user_profile_main_data.py:298
-msgid "Recent logins first"
+msgid "Recent Logins First"
 msgstr ""
 
-#: rs/user_profile_main_data.py:308 rs/utils.py:231
-msgid "I am currently in"
+#: rs/user_profile_main_data.py:308
+msgid "I Am Currently In"
 msgstr ""
 
 #: rs/user_profile_main_data.py:310
-msgid "I / We live in"
+msgid "I / We Live In"
 msgstr ""
 
 #: rs/user_profile_main_data.py:312
-msgid "I live in"
+msgid "I Live In"
 msgstr ""
 
 #: rs/user_profile_main_data.py:317
-msgid "I prefer"
+msgid "I Prefer"
 msgstr ""
 
 #: rs/user_profile_main_data.py:319
-msgid "I / We would like to meet"
+msgid "I / We Would Like To Meet"
 msgstr ""
 
 #: rs/user_profile_main_data.py:321
-msgid "I would like to meet"
-msgstr "I&nbsp;would&nbsp;like&nbsp;to&nbsp;meet"
+msgid "I Would Like To Meet"
+msgstr ""
 
 #: rs/user_profile_main_data.py:325
-msgid "Email address (confidential)"
+msgid "Email Address (Confidential)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:326
-msgid "Verify password"
+msgid "Verify Password"
 msgstr ""
 
 #: rs/user_profile_main_data.py:327
@@ -3579,27 +3595,27 @@ msgid "Password"
 msgstr ""
 
 #: rs/user_profile_main_data.py:328
-msgid "Username (visible to others)"
-msgstr "Username&nbsp;(visible&nbsp;to&nbsp;others)"
-
-#: rs/user_profile_main_data.py:331 rs/utils.py:218
-msgid "I am"
+msgid "Username (Visible To Others)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:332 rs/utils.py:224
-msgid "My age"
+#: rs/user_profile_main_data.py:331
+msgid "I Am"
+msgstr ""
+
+#: rs/user_profile_main_data.py:332
+msgid "My Age"
 msgstr ""
 
 #: rs/user_profile_main_data.py:334
-msgid "I am / We are"
+msgid "I Am / We Are"
 msgstr ""
 
 #: rs/user_profile_main_data.py:335
-msgid "My / Our age (average)"
+msgid "My / Our Age (Average)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:338 rs/user_profile_main_data.py:557
-msgid "Sub region"
+#: rs/user_profile_main_data.py:338
+msgid "Sub Region"
 msgstr ""
 
 #: rs/user_profile_main_data.py:339 rs/user_profile_main_data.py:556
@@ -3607,27 +3623,27 @@ msgid "Region"
 msgstr ""
 
 #: rs/user_profile_main_data.py:342
-msgid "My relationship status"
-msgstr "My&nbsp;relationship&nbsp;status"
+msgid "My Relationship Status"
+msgstr "My&nbsp;Relationship&nbsp;Status"
 
 #: rs/user_profile_main_data.py:344
-msgid "My / Our relationship status"
-msgstr ""
+msgid "My / Our Relationship Status"
+msgstr "My&nbsp;/&nbsp;Our&nbsp;Relationship&nbsp;Status"
 
 #: rs/user_profile_main_data.py:346
-msgid "Type of relationship"
-msgstr "Type&nbsp;of&nbsp;relation"
+msgid "Type Of Relationship"
+msgstr ""
 
 #: rs/user_profile_main_data.py:348 rs/user_profile_main_data.py:586
-msgid "Language that I want to practice"
-msgstr "Language&nbsp;to&nbsp;practice"
+msgid "Language That I Want To Practice"
+msgstr ""
 
 #: rs/user_profile_main_data.py:349
-msgid "My native language"
-msgstr "My&nbsp;native&nbsp;language"
+msgid "My Native Language"
+msgstr "My&nbsp;Native&nbsp;Language"
 
 #: rs/user_profile_main_data.py:351
-msgid "My price/hour"
+msgid "My Price/Hour"
 msgstr ""
 
 #: rs/user_profile_main_data.py:352 rs/user_profile_main_data.py:608
@@ -3638,6 +3654,10 @@ msgstr ""
 #: rs/user_profile_main_data.py:555
 msgid "Country"
 msgstr "Country"
+
+#: rs/user_profile_main_data.py:557
+msgid "Sub region"
+msgstr ""
 
 #: rs/user_profile_main_data.py:558
 msgid "Sex"
@@ -3652,39 +3672,39 @@ msgid "Order"
 msgstr ""
 
 #: rs/user_profile_main_data.py:563
-msgid "I would like to see"
-msgstr "I&nbsp;would&nbsp;like&nbsp;to&nbsp;see"
+msgid "I Would Like To See"
+msgstr "I&nbsp;Would&nbsp;Like&nbsp;To&nbsp;See"
 
 #: rs/user_profile_main_data.py:565
-msgid "That are interested in"
-msgstr "That&nbsp;are&nbsp;interested&nbsp;in"
+msgid "That Are Interested In"
+msgstr "That&nbsp;Are&nbsp;Interested&nbsp;In"
 
 #: rs/user_profile_main_data.py:567
-msgid "That prefer"
-msgstr "That&nbsp;prefer"
+msgid "That Prefer"
+msgstr "That&nbsp;Prefer"
 
 #: rs/user_profile_main_data.py:568
-msgid "Their age"
-msgstr "Their&nbsp;age"
+msgid "Their Age"
+msgstr "Their&nbsp;Age"
 
-#: rs/user_profile_main_data.py:570 rs/utils.py:220
-msgid "Relationship status"
-msgstr "Relationship&nbsp;status"
+#: rs/user_profile_main_data.py:570
+msgid "Relationship Status"
+msgstr "Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:572 rs/utils.py:223
-msgid "Looking for"
-msgstr "Looking&nbsp;for"
+#: rs/user_profile_main_data.py:572
+msgid "Looking For"
+msgstr "Looking&nbsp;For"
 
 #: rs/user_profile_main_data.py:587
-msgid "In exchange for (I speak)"
+msgid "In Exchange For (I Speak)"
 msgstr ""
 
 #: rs/user_profile_main_data.py:588
-msgid "With people that are"
+msgid "With People That Are"
 msgstr ""
 
 #: rs/user_profile_main_data.py:607
-msgid "Price/hour"
+msgid "Price/Hour"
 msgstr ""
 
 #: rs/user_profile_main_data.py:724 rs/user_profile_main_data.py:725
@@ -3703,9 +3723,17 @@ msgstr ""
 msgid "and other (languages)..."
 msgstr "and others..."
 
+#: rs/utils.py:218
+msgid "I am"
+msgstr ""
+
 #: rs/utils.py:219
 msgid "Preference"
 msgstr ""
+
+#: rs/utils.py:220
+msgid "Relationship status"
+msgstr "Relationship&nbsp;status"
 
 #: rs/utils.py:221
 msgid "I fluently speak"
@@ -3715,12 +3743,24 @@ msgstr ""
 msgid "I want to practice"
 msgstr ""
 
+#: rs/utils.py:223
+msgid "Looking for"
+msgstr "Looking&nbsp;for"
+
+#: rs/utils.py:224
+msgid "My age"
+msgstr ""
+
 #: rs/utils.py:225
 msgid "My price"
 msgstr ""
 
 #: rs/utils.py:229
 msgid "In location"
+msgstr ""
+
+#: rs/utils.py:231
+msgid "I am currently in"
 msgstr ""
 
 #: rs/utils.py:522
@@ -3780,34 +3820,34 @@ msgstr ""
 msgid ", and"
 msgstr ""
 
-#: rs/utils.py:1430
+#: rs/utils.py:1441
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to info@%"
 "(app_name)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1435
+#: rs/utils.py:1446
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1440
+#: rs/utils.py:1451
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1447
+#: rs/utils.py:1458
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1454
+#: rs/utils.py:1465
 msgid "This user profile has been eliminated"
 msgstr ""
 
@@ -3827,795 +3867,81 @@ msgstr ""
 msgid "terms.html"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:45
-#: rs/proprietary/search_engine_overrides.py:46
-#: rs/proprietary/search_engine_overrides.py:67
-msgid "TAG Free dating"
-msgstr "Free dating"
-
-#: rs/proprietary/search_engine_overrides.py:47
-msgid "TAG Confidential dating"
-msgstr "Confidential dating"
-
-#: rs/proprietary/search_engine_overrides.py:48
-#: rs/proprietary/search_engine_overrides.py:49
-msgid "TAG Free confidential dating"
-msgstr "Free confidential dating"
-
-#: rs/proprietary/search_engine_overrides.py:50
-#: rs/proprietary/search_engine_overrides.py:68
-#: rs/proprietary/search_engine_overrides.py:82
-msgid "TAG Free chat"
-msgstr "Free chat"
-
-#: rs/proprietary/search_engine_overrides.py:51
-#: rs/proprietary/search_engine_overrides.py:69
-#: rs/proprietary/search_engine_overrides.py:83
-msgid "TAG Chat for free"
-msgstr "Chat for free"
-
-#: rs/proprietary/search_engine_overrides.py:52
-#: rs/proprietary/search_engine_overrides.py:70
-#: rs/proprietary/search_engine_overrides.py:84
-msgid "TAG Chat online"
-msgstr "Chat online"
-
-#: rs/proprietary/search_engine_overrides.py:53
-#: rs/proprietary/search_engine_overrides.py:71
-msgid "TAG Free chat online"
-msgstr "Free chat online"
-
-#: rs/proprietary/search_engine_overrides.py:54
-#: rs/proprietary/search_engine_overrides.py:86
-msgid "TAG Online chat"
-msgstr "Online chat"
-
-#: rs/proprietary/search_engine_overrides.py:55
-#: rs/proprietary/search_engine_overrides.py:56
-#: rs/proprietary/search_engine_overrides.py:87
-#: rs/proprietary/search_engine_overrides.py:88
-msgid "TAG Free online chat"
-msgstr "Free online chat"
-
-#: rs/proprietary/search_engine_overrides.py:57
-#: rs/proprietary/search_engine_overrides.py:89
-msgid "TAG Free friends"
-msgstr "Free friends"
-
-#: rs/proprietary/search_engine_overrides.py:58
-#: rs/proprietary/search_engine_overrides.py:90
-msgid "TAG Make friends"
-msgstr "Make friends"
-
-#: rs/proprietary/search_engine_overrides.py:59
-#: rs/proprietary/search_engine_overrides.py:96
-msgid "TAG Look for friends"
-msgstr "Look for friends"
-
-#: rs/proprietary/search_engine_overrides.py:60
-#: rs/proprietary/search_engine_overrides.py:97
-msgid "TAG Look for friends for free"
-msgstr "Look for friends for free"
-
-#: rs/proprietary/search_engine_overrides.py:61
-#: rs/proprietary/search_engine_overrides.py:98
-msgid "TAG Look for friendship"
-msgstr "Look for friendship"
-
-#: rs/proprietary/search_engine_overrides.py:62
-msgid "TAG Free hookup"
-msgstr "Free hookup"
-
-#: rs/proprietary/search_engine_overrides.py:63
-msgid "TAG Flirt for free"
-msgstr "Flirt for free"
-
-#: rs/proprietary/search_engine_overrides.py:64
-msgid "TAG Flirt contacts"
-msgstr "Flirt contacts"
-
-#: rs/proprietary/search_engine_overrides.py:65
-#: rs/proprietary/search_engine_overrides.py:99
-msgid "TAG Meet people"
-msgstr "Meet people"
-
-#: rs/proprietary/search_engine_overrides.py:66
-#: rs/proprietary/search_engine_overrides.py:100
-msgid "TAG Meet people for free"
-msgstr "Meet people for free"
-
-#: rs/proprietary/search_engine_overrides.py:78
-#: rs/proprietary/search_engine_overrides.py:101
-msgid "TAG Free dating for serious singles"
-msgstr "Free dating for serious singles"
-
-#: rs/proprietary/search_engine_overrides.py:79
-msgid "TAG Free dating for singles"
-msgstr "Free dating for serious singles"
-
-#: rs/proprietary/search_engine_overrides.py:80
-msgid "TAG Dating for singles"
-msgstr "Dating for singles"
-
-#: rs/proprietary/search_engine_overrides.py:81
-msgid "TAG Serious dating"
-msgstr "Serious dating"
-
-#: rs/proprietary/search_engine_overrides.py:85
-msgid "TAG Free chat online."
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:91
-#: rs/proprietary/search_engine_overrides.py:289
-#: rs/proprietary/search_engine_overrides.py:290
-msgid "TAG Make friends for free"
-msgstr "Make friends for free"
-
-#: rs/proprietary/search_engine_overrides.py:92
-#: rs/proprietary/search_engine_overrides.py:291
-msgid "TAG Free friendship"
-msgstr "Free friendship"
-
-#: rs/proprietary/search_engine_overrides.py:93
-#: rs/proprietary/search_engine_overrides.py:292
-msgid "TAG Meet friends"
-msgstr "Meet friends"
-
-#: rs/proprietary/search_engine_overrides.py:94
-#: rs/proprietary/search_engine_overrides.py:288
-#: rs/proprietary/search_engine_overrides.py:293
-msgid "TAG Meet friends for free"
-msgstr "Meet friends for free"
-
-#: rs/proprietary/search_engine_overrides.py:95
-#: rs/proprietary/search_engine_overrides.py:294
-msgid "TAG Make friendships"
-msgstr "Make friendships"
-
-#: rs/proprietary/search_engine_overrides.py:109
-msgid "TAG Discrete - Find a guy"
-msgstr "RomanceSecreto - Find a guy"
-
-#: rs/proprietary/search_engine_overrides.py:110
-msgid "TAG Discrete - Find a man"
-msgstr "RomanceSecreto - Find a man"
-
-#: rs/proprietary/search_engine_overrides.py:111
-msgid "TAG Discrete - Meet a guy"
-msgstr "RomanceSecreto - Meet a guy"
-
-#: rs/proprietary/search_engine_overrides.py:112
-msgid "TAG Discrete - Meet a man"
-msgstr "RomanceSecreto - Meet a man"
-
-#: rs/proprietary/search_engine_overrides.py:113
-msgid "TAG Discrete - How to meet a guy"
-msgstr "RomanceSecreto - How to meet a guy"
-
-#: rs/proprietary/search_engine_overrides.py:114
-msgid "TAG Discrete - How to meet a man"
-msgstr "RomanceSecreto - How to meet a man"
-
-#: rs/proprietary/search_engine_overrides.py:119
-msgid "TAG Discrete - Find a girl"
-msgstr "RomanceSecreto - Find a girl"
-
-#: rs/proprietary/search_engine_overrides.py:120
-msgid "TAG Discrete - Find a woman"
-msgstr "RomanceSecreto - Find a woman"
-
-#: rs/proprietary/search_engine_overrides.py:121
-msgid "TAG Discrete - Meet a girl"
-msgstr "RomanceSecreto - Meet a girl"
-
-#: rs/proprietary/search_engine_overrides.py:122
-msgid "TAG Discrete - Meet a woman"
-msgstr "RomanceSecreto - Meet a woman"
-
-#: rs/proprietary/search_engine_overrides.py:123
-msgid "TAG Discrete - How to meet a girl"
-msgstr "RomanceSecreto - How to meet a girl"
-
 #: rs/proprietary/search_engine_overrides.py:124
-msgid "TAG Discrete - How to meet a woman"
-msgstr "RomanceSecreto - How to meet a woman"
-
-#: rs/proprietary/search_engine_overrides.py:129
-#: rs/proprietary/search_engine_overrides.py:130
-msgid "TAG Free transvestites"
-msgstr "Free transvestites"
-
-#: rs/proprietary/search_engine_overrides.py:131
-msgid "TAG Transvestite dating"
-msgstr "Transvestite dating"
-
-#: rs/proprietary/search_engine_overrides.py:132
-msgid "TAG Transvestite, transexual, and transgendered dating"
-msgstr "Transvestite, transexual, and transgendered dating"
-
-#: rs/proprietary/search_engine_overrides.py:136
-#: rs/proprietary/search_engine_overrides.py:337
-msgid "TAG Swinging"
-msgstr "Swinging"
-
-#: rs/proprietary/search_engine_overrides.py:137
-msgid "TAG Swinging contacts"
-msgstr "Swinging contacts"
-
-#: rs/proprietary/search_engine_overrides.py:138
-#: rs/proprietary/search_engine_overrides.py:139
-#: rs/proprietary/search_engine_overrides.py:140
-#: rs/proprietary/search_engine_overrides.py:141
-msgid "TAG Free swinging contacts"
-msgstr "Free swinging contacts"
-
-#: rs/proprietary/search_engine_overrides.py:142
-msgid "TAG For swingers"
-msgstr "For swingers"
-
-#: rs/proprietary/search_engine_overrides.py:149
-msgid "TAG SingletonSearch - Find a single guy"
-msgstr "SingletonSearch - Find a single guy"
-
-#: rs/proprietary/search_engine_overrides.py:150
-msgid "TAG SingletonSearch - Find a single man"
-msgstr "SingletonSearch - Find a single man"
-
-#: rs/proprietary/search_engine_overrides.py:151
-msgid "TAG SingletonSearch - Meet a single guy"
-msgstr "SingletonSearch - Meet a single guy"
-
-#: rs/proprietary/search_engine_overrides.py:152
-msgid "TAG SingletonSearch - Meet a single man"
-msgstr "SingletonSearch - Meet a single man"
-
-#: rs/proprietary/search_engine_overrides.py:153
-msgid "TAG SingletonSearch - How to meet a single guy"
-msgstr "SingletonSearch - How to meet a single guy"
-
-#: rs/proprietary/search_engine_overrides.py:154
-msgid "TAG SingletonSearch - How to meet a single man"
-msgstr "SingletonSearch - How to meet a single man"
-
-#: rs/proprietary/search_engine_overrides.py:155
-msgid "TAG SingletonSearch - Where to find a boyfriend"
-msgstr "SingletonSearch - Where to find a boyfriend"
-
-#: rs/proprietary/search_engine_overrides.py:156
-msgid "TAG SingletonSearch - How to find a boyfriend"
-msgstr "SingletonSearch - How to find a boyfriend"
-
-#: rs/proprietary/search_engine_overrides.py:157
-msgid "TAG SingletonSearch - Search for a boyfriend"
-msgstr "SingletonSearch - Search for a boyfriend"
-
-#: rs/proprietary/search_engine_overrides.py:162
-msgid "TAG SingletonSearch - Find a single girl"
-msgstr "SingletonSearch - Find a single girl"
-
-#: rs/proprietary/search_engine_overrides.py:163
-msgid "TAG SingletonSearch - Find a single woman"
-msgstr "SingletonSearch - Find a single woman"
-
-#: rs/proprietary/search_engine_overrides.py:164
-msgid "TAG SingletonSearch - Meet a single girl"
-msgstr "SingletonSearch - Meet a single girl"
-
-#: rs/proprietary/search_engine_overrides.py:165
-msgid "TAG SingletonSearch - Meet a single woman"
-msgstr "SingletonSearch - Meet a single woman"
-
-#: rs/proprietary/search_engine_overrides.py:166
-msgid "TAG SingletonSearch - How to meet a single girl"
-msgstr "SingletonSearch - How to meet a single girl"
-
-#: rs/proprietary/search_engine_overrides.py:167
-msgid "TAG SingletonSearch - How to meet a single woman"
-msgstr "SingletonSearch - How to meet a single woman"
-
-#: rs/proprietary/search_engine_overrides.py:168
-msgid "TAG SingletonSearch - Where to find a girlfriend"
-msgstr "SingletonSearch - Where to find a girlfriend"
-
-#: rs/proprietary/search_engine_overrides.py:169
-msgid "TAG SingletonSearch - How to find a girlfriend"
-msgstr "SingletonSearch - How to find a girlfriend"
-
-#: rs/proprietary/search_engine_overrides.py:170
-msgid "TAG SingletonSearch - Search for a girlfriend"
-msgstr "SingletonSearch - Search for a girlfriend"
-
-#: rs/proprietary/search_engine_overrides.py:174
-msgid "TAG Free lesbian dating"
-msgstr "Free lesbian dating"
-
-#: rs/proprietary/search_engine_overrides.py:175
-msgid "TAG Meet lesbians"
-msgstr "Meet lesbians"
-
-#: rs/proprietary/search_engine_overrides.py:176
-msgid "TAG Lesbian seeking lesbian"
-msgstr "Lesbian seeking lesbian"
-
-#: rs/proprietary/search_engine_overrides.py:177
-msgid "TAG Seeking lesbian"
-msgstr "Seeking lesbian"
-
-#: rs/proprietary/search_engine_overrides.py:178
-msgid "TAG Seeking lesbian for free"
-msgstr "Seeking lesbian for free"
-
-#: rs/proprietary/search_engine_overrides.py:179
-msgid "Search for a lesbian partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:180
-msgid "Searching for a lesbian partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:181
-msgid "Find a lesbian partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:182
-msgid "Meet a lesbian partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:183
-msgid "Lesbian dating"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:184
-#: rs/proprietary/search_engine_overrides.py:185
-#: rs/proprietary/templates/proprietary_ads/Lesbian.html:9
-#: rs/templates/login.html:169
-msgid "Free lesbian dating"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:189
-msgid "TAG Free gay dating"
-msgstr "Free gay dating"
-
-#: rs/proprietary/search_engine_overrides.py:190
-msgid "TAG Meet gays"
-msgstr "Meet gays"
-
-#: rs/proprietary/search_engine_overrides.py:191
-msgid "TAG Gay seeking gay"
-msgstr "Gay seeking gay"
-
-#: rs/proprietary/search_engine_overrides.py:192
-msgid "TAG Gay lover"
-msgstr "Gay lover"
-
-#: rs/proprietary/search_engine_overrides.py:193
-msgid "TAG Seeking gay"
-msgstr "Seeking gay"
-
-#: rs/proprietary/search_engine_overrides.py:194
-msgid "TAG Seeking gay lover"
-msgstr "Seeking gay lover"
-
-#: rs/proprietary/search_engine_overrides.py:195
-msgid "Search for a gay partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:196
-msgid "Searching for a gay partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:197
-msgid "Find a gay partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:198
-msgid "Meet a gay partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:199
-msgid "Searching for a gay lover"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:200
-msgid "Search for a gay lover"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:201
-msgid "Find a gay lover"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:202
-msgid "Meet a gay lover"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:203
-msgid "Gay dating"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:204
-#: rs/proprietary/search_engine_overrides.py:205
-#: rs/proprietary/search_engine_overrides.py:486
-#: rs/proprietary/templates/proprietary_ads/Gay.html:9
-#: rs/templates/login.html:151
-msgid "Free gay dating"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:213
-#: rs/proprietary/search_engine_overrides.py:225
-msgid "TAG Seeking a male"
-msgstr "Seeking a males"
-
-#: rs/proprietary/search_engine_overrides.py:214
-#: rs/proprietary/search_engine_overrides.py:226
-msgid "TAG Seeking a man"
-msgstr "Seeking a man"
-
-#: rs/proprietary/search_engine_overrides.py:215
-msgid "TAG Seeking a male for free"
-msgstr "Seeking a male for for free"
-
-#: rs/proprietary/search_engine_overrides.py:216
-msgid "TAG Seeking a man for free"
-msgstr "Seeking a man for free"
-
-#: rs/proprietary/search_engine_overrides.py:217
-msgid "TAG I want to meet a male"
-msgstr "I want to meet a male"
-
-#: rs/proprietary/search_engine_overrides.py:218
-msgid "TAG I want to meet a man"
-msgstr "I want to meet a man"
-
-#: rs/proprietary/search_engine_overrides.py:219
-msgid "TAG I want to meet a male for free"
-msgstr "I want to meet a male for free"
-
-#: rs/proprietary/search_engine_overrides.py:220
-msgid "TAG I want to meet a man for free"
-msgstr "I want to meet a man for free"
-
-#: rs/proprietary/search_engine_overrides.py:221
-msgid "TAG Searching for a male"
-msgstr "Searching for a male"
-
-#: rs/proprietary/search_engine_overrides.py:222
-msgid "TAG Searching for a man"
-msgstr "Searching for a man"
-
-#: rs/proprietary/search_engine_overrides.py:223
-msgid "TAG Searching for a male for free"
-msgstr "Searching for a male for free"
-
-#: rs/proprietary/search_engine_overrides.py:224
-msgid "TAG Searching for for a man for free"
-msgstr "Searching for for a man for free"
-
-#: rs/proprietary/search_engine_overrides.py:231
-#: rs/proprietary/search_engine_overrides.py:243
-msgid "TAG Seeking a female"
-msgstr "Seeking a female"
-
-#: rs/proprietary/search_engine_overrides.py:232
-#: rs/proprietary/search_engine_overrides.py:244
-msgid "TAG Seeking a woman"
-msgstr "Seeking a woman"
-
-#: rs/proprietary/search_engine_overrides.py:233
-msgid "TAG Seeking a female for free"
-msgstr "Seeking a female for free"
-
-#: rs/proprietary/search_engine_overrides.py:234
-msgid "TAG Seeking for a woman for free"
-msgstr "Seeking for a woman for free"
-
-#: rs/proprietary/search_engine_overrides.py:235
-msgid "TAG I want to meet a female"
-msgstr "I want to meet a female"
-
-#: rs/proprietary/search_engine_overrides.py:236
-msgid "TAG I want to meet a woman"
-msgstr "I want to meet a woman"
-
-#: rs/proprietary/search_engine_overrides.py:237
-msgid "TAG I want to meet a female for free"
-msgstr "I want to meet a female for free"
-
-#: rs/proprietary/search_engine_overrides.py:238
-msgid "TAG I want to meet a woman for free"
-msgstr "I want to meet a woman for free"
-
-#: rs/proprietary/search_engine_overrides.py:239
-msgid "TAG Searching for a female"
-msgstr "Searching for a female"
-
-#: rs/proprietary/search_engine_overrides.py:240
-msgid "TAG Searching for a woman"
-msgstr "Searching for a woman"
-
-#: rs/proprietary/search_engine_overrides.py:241
-msgid "TAG Searching for a female for free"
-msgstr "Searching for a female for free"
-
-#: rs/proprietary/search_engine_overrides.py:242
-msgid "TAG Searching for for a woman for free"
-msgstr "Searching for for a woman for free"
-
-#: rs/proprietary/search_engine_overrides.py:256
-#: rs/proprietary/search_engine_overrides.py:265
-msgid "TAG Casual dating"
-msgstr "Casual dating"
-
-#: rs/proprietary/search_engine_overrides.py:257
-msgid "TAG Singles dating"
-msgstr "Singles dating"
-
-#: rs/proprietary/search_engine_overrides.py:258
-#: rs/proprietary/search_engine_overrides.py:259
-msgid "TAG Free singles dating"
-msgstr "Free singles dating"
-
-#: rs/proprietary/search_engine_overrides.py:264
-msgid "TAG Discrete - Infidelity dating"
-msgstr "RomanceSecreto - Infidelity dating"
-
-#: rs/proprietary/search_engine_overrides.py:266
-msgid "TAG Casual relationships"
-msgstr "Casual relationships"
-
-#: rs/proprietary/search_engine_overrides.py:267
-msgid "TAG Discrete - Have an affair"
-msgstr "RomanceSecreto - Have an affair"
-
-#: rs/proprietary/search_engine_overrides.py:268
-msgid "TAG Discrete - Find a lover"
-msgstr "RomanceSecreto - Find a lover"
-
-#: rs/proprietary/search_engine_overrides.py:269
-msgid "TAG Search for a lover"
-msgstr "Search for a lover"
-
-#: rs/proprietary/search_engine_overrides.py:273
-msgid "TAG Married dating"
-msgstr "Married dating"
-
-#: rs/proprietary/search_engine_overrides.py:274
-msgid "TAG Discrete - For cheating spouses"
-msgstr "RomanceSecreto - For cheating spouses"
-
-#: rs/proprietary/search_engine_overrides.py:275
-msgid "TAG Discrete - Unfaithful partners"
-msgstr "RomanceSecreto - Unfaithful partners"
-
-#: rs/proprietary/search_engine_overrides.py:276
-msgid "TAG Infidelity chat"
-msgstr "Infidelity chat"
-
-#: rs/proprietary/search_engine_overrides.py:277
-msgid "TAG Seeking a lover"
-msgstr "Seeking a lover"
-
-#: rs/proprietary/search_engine_overrides.py:287
-msgid "TAG Meet friends free"
-msgstr "Meet friends free"
-
-#: rs/proprietary/search_engine_overrides.py:299
-msgid "TAG Find a boyfriend or girlfriend"
-msgstr "Find a boyfriend or girlfriend"
-
-#: rs/proprietary/search_engine_overrides.py:300
-msgid "TAG Find a boyfriend or girlfriend for free"
-msgstr "Find a boyfriend or girlfriend for free"
-
-#: rs/proprietary/search_engine_overrides.py:301
-msgid "TAG Meet a boyfriend or girlfriend"
-msgstr "Meet a boyfriend or girlfriend"
-
-#: rs/proprietary/search_engine_overrides.py:302
-msgid "TAG Meet a boyfriend or girlfriend for free"
-msgstr "Meet a boyfriend or girlfriend for free"
-
-#: rs/proprietary/search_engine_overrides.py:303
-msgid "TAG Search for a boyfriend or girlfriend"
-msgstr "Search for a boyfriend or girlfriend"
-
-#: rs/proprietary/search_engine_overrides.py:304
-msgid "TAG Search for a boyfriend or girlfriend for free"
-msgstr "Search for a boyfriend or girlfriend for free"
-
-#: rs/proprietary/search_engine_overrides.py:308
-msgid "TAG Seeking a relationship"
-msgstr "Seeking a relationship"
-
-#: rs/proprietary/search_engine_overrides.py:309
-msgid "TAG Find love"
-msgstr "Find love"
-
-#: rs/proprietary/search_engine_overrides.py:310
-msgid "TAG Find your soul mate"
-msgstr "Find your soul mate"
-
-#: rs/proprietary/search_engine_overrides.py:311
-msgid "TAG Meet your soul mate"
-msgstr "Meet your soul mate"
-
-#: rs/proprietary/search_engine_overrides.py:312
-msgid "TAG Search for your soul mate"
-msgstr "Search for your soul mate"
-
-#: rs/proprietary/search_engine_overrides.py:313
-msgid "TAG Singles looking for relationships"
-msgstr "Singles looking for relationships"
-
-#: rs/proprietary/search_engine_overrides.py:322
-#: rs/proprietary/search_engine_overrides.py:325 rs/templates/login.html:145
-msgid "Free swinger contacts"
-msgstr "Free swinger contacts"
-
-#: rs/proprietary/search_engine_overrides.py:323
-#: rs/proprietary/search_engine_overrides.py:328
-msgid "Swinger contacts"
-msgstr "Swinger contacts"
-
-#: rs/proprietary/search_engine_overrides.py:324
-msgid "Contacts for swinging"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:326
-#: rs/proprietary/search_engine_overrides.py:327
-msgid "Free contacts for swinging"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:329
-msgid "Swinging couples"
-msgstr "Swinging couples"
-
-#: rs/proprietary/search_engine_overrides.py:330
-msgid "Online swinger club "
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:331
-msgid "Meet swingers"
-msgstr "Meet swingers"
-
-#: rs/proprietary/search_engine_overrides.py:332
-msgid "Meet swingers for free"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:333
-msgid "Search for swingers"
-msgstr "Search for swingers"
-
-#: rs/proprietary/search_engine_overrides.py:334
-msgid "Search for swingers for free"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:335
-msgid "Contact swingers"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:336
-msgid "Contact swingers for free"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:346
-#: rs/proprietary/search_engine_overrides.py:347
-#: rs/proprietary/search_engine_overrides.py:348
-#: rs/proprietary/search_engine_overrides.py:352
-#: rs/proprietary/search_engine_overrides.py:359 rs/templates/login.html:157
-msgid "Free language exchange"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:349
-#: rs/proprietary/search_engine_overrides.py:350
-#: rs/proprietary/search_engine_overrides.py:351
-msgid "Language exchange"
-msgstr "Language exchange"
-
-#: rs/proprietary/search_engine_overrides.py:353
-msgid "Free language chat"
-msgstr "Free language chat"
-
-#: rs/proprietary/search_engine_overrides.py:354
-msgid "Find a conversation partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:355
-msgid "Meet a conversation partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:356
-msgid "Search for a conversation partner"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:357
-msgid "Practice foreign languages"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:358
-msgid "Free conversation exchange"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:360
-msgid "Chat with foreigners"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:361
-msgid "Free chat foreign languages"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:367
-msgid "Make money meeting friends"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:471
 msgid "Free - chat, flirt, and hookup - confidential online dating"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:474
+#: rs/proprietary/search_engine_overrides.py:127
 msgid ""
 "Free - online dating for singles - meet people, chat with friends, search "
 "for a partner, and find love"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:477
+#: rs/proprietary/search_engine_overrides.py:130
 msgid ""
 "Free - language exchange - practice foreign languages - meet people from "
 "around the world - chat with international friends"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:480
+#: rs/proprietary/search_engine_overrides.py:133
 msgid ""
 "Free - online dating for lesbians - lesbian chat - search for a lesbian "
 "partner and find lesbian love"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:483
+#: rs/proprietary/search_engine_overrides.py:136
 msgid ""
 "Free classy contacts for swingers. Swinging lifestyle. Partner swapping."
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:489
+#: rs/proprietary/search_engine_overrides.py:139
+#: rs/proprietary/templates/proprietary_ads/Gay.html:9
+#: rs/templates/login.html:151
+msgid "Free gay dating"
+msgstr ""
+
+#: rs/proprietary/search_engine_overrides.py:142
 msgid "meet people and have fun"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:511
+#: rs/proprietary/search_engine_overrides.py:164
 msgid "Free - confidential dating and intimate encounters"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:514
+#: rs/proprietary/search_engine_overrides.py:167
 msgid ""
 "Free - online dating, personals, chat, and friends - exclusively for singles"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:517
+#: rs/proprietary/search_engine_overrides.py:170
 msgid "Free - language exchange - chat with international friends"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:520
+#: rs/proprietary/search_engine_overrides.py:173
 msgid ""
 "Free - online dating for lesbians, lesbian personals, lesbian chat, and "
 "lesbian friends"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:523
+#: rs/proprietary/search_engine_overrides.py:176
 msgid ""
 "Free - swinging contacts - profiles, photos, personals and chat - made for "
 "classy swingers"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:526
+#: rs/proprietary/search_engine_overrides.py:179
 msgid "Free - gay dating - profiles, photos, personals and chat"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:667
+#: rs/proprietary/search_engine_overrides.py:320
 msgid "seeking"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:669
+#: rs/proprietary/search_engine_overrides.py:322
 msgid "in exchange for"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:709
+#: rs/proprietary/search_engine_overrides.py:362
 msgid "Refine your search results"
 msgstr ""
 
@@ -4630,6 +3956,11 @@ msgstr ""
 
 #: rs/proprietary/templates/proprietary_ads/Language.html:9
 msgid "Practice languages and meet people from all around the world for free"
+msgstr ""
+
+#: rs/proprietary/templates/proprietary_ads/Lesbian.html:9
+#: rs/templates/login.html:169
+msgid "Free lesbian dating"
 msgstr ""
 
 #: rs/proprietary/templates/proprietary_ads/Single.html:9
@@ -4947,6 +4278,14 @@ msgstr ""
 msgid "Free confidential dating"
 msgstr ""
 
+#: rs/templates/login.html:145
+msgid "Free swinger contacts"
+msgstr "Free swinger contacts"
+
+#: rs/templates/login.html:157
+msgid "Free language exchange"
+msgstr ""
+
 #: rs/templates/login.html:171
 msgid "Are you already registered (female)? Enter here:"
 msgstr "Are you already registered? Enter here:"
@@ -5044,7 +4383,7 @@ msgstr ""
 #, python-format
 msgid ""
 "I confirm that I am %(age)s or older and that I have read and accept the "
-"terms and conditions for using %(build_name)s "
+"terms and conditions for using %(app_name)s "
 msgstr ""
 
 #: rs/templates/login_helpers/right_login_table.html:96
@@ -5068,7 +4407,7 @@ msgstr ""
 msgid ""
 "\n"
 "        Your session has closed - you must re-login to continue to use %"
-"(build_name)s.\n"
+"(app_name)s.\n"
 "    "
 msgstr ""
 
@@ -5371,6 +4710,396 @@ msgid ""
 "        the associated action):"
 msgstr ""
 
+#~ msgid "TAG Free dating"
+#~ msgstr "Free dating"
+
+#~ msgid "TAG Confidential dating"
+#~ msgstr "Confidential dating"
+
+#~ msgid "TAG Free confidential dating"
+#~ msgstr "Free confidential dating"
+
+#~ msgid "TAG Free chat"
+#~ msgstr "Free chat"
+
+#~ msgid "TAG Chat for free"
+#~ msgstr "Chat for free"
+
+#~ msgid "TAG Chat online"
+#~ msgstr "Chat online"
+
+#~ msgid "TAG Free chat online"
+#~ msgstr "Free chat online"
+
+#~ msgid "TAG Online chat"
+#~ msgstr "Online chat"
+
+#~ msgid "TAG Free online chat"
+#~ msgstr "Free online chat"
+
+#~ msgid "TAG Free friends"
+#~ msgstr "Free friends"
+
+#~ msgid "TAG Make friends"
+#~ msgstr "Make friends"
+
+#~ msgid "TAG Look for friends"
+#~ msgstr "Look for friends"
+
+#~ msgid "TAG Look for friends for free"
+#~ msgstr "Look for friends for free"
+
+#~ msgid "TAG Look for friendship"
+#~ msgstr "Look for friendship"
+
+#~ msgid "TAG Free hookup"
+#~ msgstr "Free hookup"
+
+#~ msgid "TAG Flirt for free"
+#~ msgstr "Flirt for free"
+
+#~ msgid "TAG Flirt contacts"
+#~ msgstr "Flirt contacts"
+
+#~ msgid "TAG Meet people"
+#~ msgstr "Meet people"
+
+#~ msgid "TAG Meet people for free"
+#~ msgstr "Meet people for free"
+
+#~ msgid "TAG Free dating for serious singles"
+#~ msgstr "Free dating for serious singles"
+
+#~ msgid "TAG Free dating for singles"
+#~ msgstr "Free dating for serious singles"
+
+#~ msgid "TAG Dating for singles"
+#~ msgstr "Dating for singles"
+
+#~ msgid "TAG Serious dating"
+#~ msgstr "Serious dating"
+
+#~ msgid "TAG Make friends for free"
+#~ msgstr "Make friends for free"
+
+#~ msgid "TAG Free friendship"
+#~ msgstr "Free friendship"
+
+#~ msgid "TAG Meet friends"
+#~ msgstr "Meet friends"
+
+#~ msgid "TAG Meet friends for free"
+#~ msgstr "Meet friends for free"
+
+#~ msgid "TAG Make friendships"
+#~ msgstr "Make friendships"
+
+#~ msgid "TAG Discrete - Find a guy"
+#~ msgstr "RomanceSecreto - Find a guy"
+
+#~ msgid "TAG Discrete - Find a man"
+#~ msgstr "RomanceSecreto - Find a man"
+
+#~ msgid "TAG Discrete - Meet a guy"
+#~ msgstr "RomanceSecreto - Meet a guy"
+
+#~ msgid "TAG Discrete - Meet a man"
+#~ msgstr "RomanceSecreto - Meet a man"
+
+#~ msgid "TAG Discrete - How to meet a guy"
+#~ msgstr "RomanceSecreto - How to meet a guy"
+
+#~ msgid "TAG Discrete - How to meet a man"
+#~ msgstr "RomanceSecreto - How to meet a man"
+
+#~ msgid "TAG Discrete - Find a girl"
+#~ msgstr "RomanceSecreto - Find a girl"
+
+#~ msgid "TAG Discrete - Find a woman"
+#~ msgstr "RomanceSecreto - Find a woman"
+
+#~ msgid "TAG Discrete - Meet a girl"
+#~ msgstr "RomanceSecreto - Meet a girl"
+
+#~ msgid "TAG Discrete - Meet a woman"
+#~ msgstr "RomanceSecreto - Meet a woman"
+
+#~ msgid "TAG Discrete - How to meet a girl"
+#~ msgstr "RomanceSecreto - How to meet a girl"
+
+#~ msgid "TAG Discrete - How to meet a woman"
+#~ msgstr "RomanceSecreto - How to meet a woman"
+
+#~ msgid "TAG Free transvestites"
+#~ msgstr "Free transvestites"
+
+#~ msgid "TAG Transvestite dating"
+#~ msgstr "Transvestite dating"
+
+#~ msgid "TAG Transvestite, transexual, and transgendered dating"
+#~ msgstr "Transvestite, transexual, and transgendered dating"
+
+#~ msgid "TAG Swinging"
+#~ msgstr "Swinging"
+
+#~ msgid "TAG Swinging contacts"
+#~ msgstr "Swinging contacts"
+
+#~ msgid "TAG Free swinging contacts"
+#~ msgstr "Free swinging contacts"
+
+#~ msgid "TAG For swingers"
+#~ msgstr "For swingers"
+
+#~ msgid "TAG SingletonSearch - Find a single guy"
+#~ msgstr "SingletonSearch - Find a single guy"
+
+#~ msgid "TAG SingletonSearch - Find a single man"
+#~ msgstr "SingletonSearch - Find a single man"
+
+#~ msgid "TAG SingletonSearch - Meet a single guy"
+#~ msgstr "SingletonSearch - Meet a single guy"
+
+#~ msgid "TAG SingletonSearch - Meet a single man"
+#~ msgstr "SingletonSearch - Meet a single man"
+
+#~ msgid "TAG SingletonSearch - How to meet a single guy"
+#~ msgstr "SingletonSearch - How to meet a single guy"
+
+#~ msgid "TAG SingletonSearch - How to meet a single man"
+#~ msgstr "SingletonSearch - How to meet a single man"
+
+#~ msgid "TAG SingletonSearch - Where to find a boyfriend"
+#~ msgstr "SingletonSearch - Where to find a boyfriend"
+
+#~ msgid "TAG SingletonSearch - How to find a boyfriend"
+#~ msgstr "SingletonSearch - How to find a boyfriend"
+
+#~ msgid "TAG SingletonSearch - Search for a boyfriend"
+#~ msgstr "SingletonSearch - Search for a boyfriend"
+
+#~ msgid "TAG SingletonSearch - Find a single girl"
+#~ msgstr "SingletonSearch - Find a single girl"
+
+#~ msgid "TAG SingletonSearch - Find a single woman"
+#~ msgstr "SingletonSearch - Find a single woman"
+
+#~ msgid "TAG SingletonSearch - Meet a single girl"
+#~ msgstr "SingletonSearch - Meet a single girl"
+
+#~ msgid "TAG SingletonSearch - Meet a single woman"
+#~ msgstr "SingletonSearch - Meet a single woman"
+
+#~ msgid "TAG SingletonSearch - How to meet a single girl"
+#~ msgstr "SingletonSearch - How to meet a single girl"
+
+#~ msgid "TAG SingletonSearch - How to meet a single woman"
+#~ msgstr "SingletonSearch - How to meet a single woman"
+
+#~ msgid "TAG SingletonSearch - Where to find a girlfriend"
+#~ msgstr "SingletonSearch - Where to find a girlfriend"
+
+#~ msgid "TAG SingletonSearch - How to find a girlfriend"
+#~ msgstr "SingletonSearch - How to find a girlfriend"
+
+#~ msgid "TAG SingletonSearch - Search for a girlfriend"
+#~ msgstr "SingletonSearch - Search for a girlfriend"
+
+#~ msgid "TAG Free lesbian dating"
+#~ msgstr "Free lesbian dating"
+
+#~ msgid "TAG Meet lesbians"
+#~ msgstr "Meet lesbians"
+
+#~ msgid "TAG Lesbian seeking lesbian"
+#~ msgstr "Lesbian seeking lesbian"
+
+#~ msgid "TAG Seeking lesbian"
+#~ msgstr "Seeking lesbian"
+
+#~ msgid "TAG Seeking lesbian for free"
+#~ msgstr "Seeking lesbian for free"
+
+#~ msgid "TAG Free gay dating"
+#~ msgstr "Free gay dating"
+
+#~ msgid "TAG Meet gays"
+#~ msgstr "Meet gays"
+
+#~ msgid "TAG Gay seeking gay"
+#~ msgstr "Gay seeking gay"
+
+#~ msgid "TAG Gay lover"
+#~ msgstr "Gay lover"
+
+#~ msgid "TAG Seeking gay"
+#~ msgstr "Seeking gay"
+
+#~ msgid "TAG Seeking gay lover"
+#~ msgstr "Seeking gay lover"
+
+#~ msgid "TAG Seeking a male"
+#~ msgstr "Seeking a males"
+
+#~ msgid "TAG Seeking a man"
+#~ msgstr "Seeking a man"
+
+#~ msgid "TAG Seeking a male for free"
+#~ msgstr "Seeking a male for for free"
+
+#~ msgid "TAG Seeking a man for free"
+#~ msgstr "Seeking a man for free"
+
+#~ msgid "TAG I want to meet a male"
+#~ msgstr "I want to meet a male"
+
+#~ msgid "TAG I want to meet a man"
+#~ msgstr "I want to meet a man"
+
+#~ msgid "TAG I want to meet a male for free"
+#~ msgstr "I want to meet a male for free"
+
+#~ msgid "TAG I want to meet a man for free"
+#~ msgstr "I want to meet a man for free"
+
+#~ msgid "TAG Searching for a male"
+#~ msgstr "Searching for a male"
+
+#~ msgid "TAG Searching for a man"
+#~ msgstr "Searching for a man"
+
+#~ msgid "TAG Searching for a male for free"
+#~ msgstr "Searching for a male for free"
+
+#~ msgid "TAG Searching for for a man for free"
+#~ msgstr "Searching for for a man for free"
+
+#~ msgid "TAG Seeking a female"
+#~ msgstr "Seeking a female"
+
+#~ msgid "TAG Seeking a woman"
+#~ msgstr "Seeking a woman"
+
+#~ msgid "TAG Seeking a female for free"
+#~ msgstr "Seeking a female for free"
+
+#~ msgid "TAG Seeking for a woman for free"
+#~ msgstr "Seeking for a woman for free"
+
+#~ msgid "TAG I want to meet a female"
+#~ msgstr "I want to meet a female"
+
+#~ msgid "TAG I want to meet a woman"
+#~ msgstr "I want to meet a woman"
+
+#~ msgid "TAG I want to meet a female for free"
+#~ msgstr "I want to meet a female for free"
+
+#~ msgid "TAG I want to meet a woman for free"
+#~ msgstr "I want to meet a woman for free"
+
+#~ msgid "TAG Searching for a female"
+#~ msgstr "Searching for a female"
+
+#~ msgid "TAG Searching for a woman"
+#~ msgstr "Searching for a woman"
+
+#~ msgid "TAG Searching for a female for free"
+#~ msgstr "Searching for a female for free"
+
+#~ msgid "TAG Searching for for a woman for free"
+#~ msgstr "Searching for for a woman for free"
+
+#~ msgid "TAG Casual dating"
+#~ msgstr "Casual dating"
+
+#~ msgid "TAG Singles dating"
+#~ msgstr "Singles dating"
+
+#~ msgid "TAG Free singles dating"
+#~ msgstr "Free singles dating"
+
+#~ msgid "TAG Discrete - Infidelity dating"
+#~ msgstr "RomanceSecreto - Infidelity dating"
+
+#~ msgid "TAG Discrete - Have an affair"
+#~ msgstr "RomanceSecreto - Have an affair"
+
+#~ msgid "TAG Discrete - Find a lover"
+#~ msgstr "RomanceSecreto - Find a lover"
+
+#~ msgid "TAG Search for a lover"
+#~ msgstr "Search for a lover"
+
+#~ msgid "TAG Married dating"
+#~ msgstr "Married dating"
+
+#~ msgid "TAG Discrete - For cheating spouses"
+#~ msgstr "RomanceSecreto - For cheating spouses"
+
+#~ msgid "TAG Discrete - Unfaithful partners"
+#~ msgstr "RomanceSecreto - Unfaithful partners"
+
+#~ msgid "TAG Infidelity chat"
+#~ msgstr "Infidelity chat"
+
+#~ msgid "TAG Seeking a lover"
+#~ msgstr "Seeking a lover"
+
+#~ msgid "TAG Meet friends free"
+#~ msgstr "Meet friends free"
+
+#~ msgid "TAG Find a boyfriend or girlfriend"
+#~ msgstr "Find a boyfriend or girlfriend"
+
+#~ msgid "TAG Find a boyfriend or girlfriend for free"
+#~ msgstr "Find a boyfriend or girlfriend for free"
+
+#~ msgid "TAG Meet a boyfriend or girlfriend"
+#~ msgstr "Meet a boyfriend or girlfriend"
+
+#~ msgid "TAG Meet a boyfriend or girlfriend for free"
+#~ msgstr "Meet a boyfriend or girlfriend for free"
+
+#~ msgid "TAG Search for a boyfriend or girlfriend"
+#~ msgstr "Search for a boyfriend or girlfriend"
+
+#~ msgid "TAG Search for a boyfriend or girlfriend for free"
+#~ msgstr "Search for a boyfriend or girlfriend for free"
+
+#~ msgid "TAG Seeking a relationship"
+#~ msgstr "Seeking a relationship"
+
+#~ msgid "TAG Find love"
+#~ msgstr "Find love"
+
+#~ msgid "TAG Find your soul mate"
+#~ msgstr "Find your soul mate"
+
+#~ msgid "TAG Meet your soul mate"
+#~ msgstr "Meet your soul mate"
+
+#~ msgid "TAG Search for your soul mate"
+#~ msgstr "Search for your soul mate"
+
+#~ msgid "TAG Singles looking for relationships"
+#~ msgstr "Singles looking for relationships"
+
+#~ msgid "Swinger contacts"
+#~ msgstr "Swinger contacts"
+
+#~ msgid "Meet swingers"
+#~ msgstr "Meet swingers"
+
+#~ msgid "Search for swingers"
+#~ msgstr "Search for swingers"
+
+#~ msgid "Language exchange"
+#~ msgstr "Language exchange"
+
+#~ msgid "Free language chat"
+#~ msgstr "Free language chat"
+
 #~ msgid ""
 #~ "List of benefits for registering with %(app_name)s.\n"
 #~ "    "
@@ -5404,9 +5133,6 @@ msgstr ""
 
 #~ msgid "1. Language that I want to practice"
 #~ msgstr "1. Language&nbsp;that&nbsp;I&nbsp;want&nbsp;to&nbsp;learn"
-
-#~ msgid "4b. Region"
-#~ msgstr "4b.&nbsp;Region"
 
 #~ msgid "4c. Sub region"
 #~ msgstr "4c.&nbsp;Sub&nbsp;region"

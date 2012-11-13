@@ -74,14 +74,14 @@ class UserSpec():
     #define fields that will show up in the "simple" search bar on the users main page
     
     # define don't care in the languages that we will use
-    dont_care_tuple = ('----',)        +  ugettext_tuple(ugettext("Not important"))
+    dont_care_tuple = ('----',)        +  ugettext_tuple(ugettext("Not Important"))
     anything_tuple = ('----',)        +  ugettext_tuple(ugettext("Anything"))
     show_all_tuple = ('----',)        +  ugettext_tuple(ugettext("Show All"))
     
     if settings.BUILD_NAME != "Lesbian":
-        gender_dont_care_tuple = ('----',) +  ugettext_tuple(ugettext("All people"))
+        gender_dont_care_tuple = ('----',) +  ugettext_tuple(ugettext("All People"))
     else:
-        gender_dont_care_tuple = ('----',) +  ugettext_tuple(ugettext("All lesbian types"))
+        gender_dont_care_tuple = ('----',) +  ugettext_tuple(ugettext("All Lesbian Types"))
 
 
     # define the genders that will be used for registering and searching the database. Will be populated
@@ -92,7 +92,7 @@ class UserSpec():
         gender_categories = [
             ('female',)        + ugettext_tuple(ugettext('Female')), 
             ('male',)          + ugettext_tuple(ugettext('Male')), 
-            ('couple',)        + ugettext_tuple(ugettext('Swinger (couple)')),
+            ('couple',)        + ugettext_tuple(ugettext('Swinger (Couple)')),
             ('tstvtg',)        + ugettext_tuple(ugettext('Transvestite / Transgendered'))]    
         
         # Note, we define two seperate fields below because gender_*search*_categories will have don't care added, while
@@ -100,51 +100,51 @@ class UserSpec():
         gender_preference_categories =  [
             ('female',)        + ugettext_tuple(ugettext('Females')), 
             ('male',)          + ugettext_tuple(ugettext('Males')), 
-            ('couple',)        + ugettext_tuple(ugettext('Swingers (couples)')),
+            ('couple',)        + ugettext_tuple(ugettext('Swingers (Couples)')),
             ('tstvtg',)        + ugettext_tuple(ugettext('Transvestites / Transgendered'))] 
         
  
     if settings.BUILD_NAME =='Swinger':
         gender_categories = [
-            ('couple',)            + ugettext_tuple(ugettext('Swinger (couple)')),
+            ('couple',)            + ugettext_tuple(ugettext('Swinger (Couple)')),
             #('gay_couple',)        + ugettext_tuple(ugettext('Swingers (Male+Male)  - singular')),
             #('lesbian_couple',)    + ugettext_tuple(ugettext('Swingers (Female+Female) - singular')),
             ('female',)            + ugettext_tuple(ugettext('Female')), 
             ('male',)              + ugettext_tuple(ugettext('Male')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestite / Transgendered')),
-            ('other',)             + ugettext_tuple(ugettext('Other (details in profile)')),
+            ('other',)             + ugettext_tuple(ugettext('Other (Details In Profile)')),
             ]    
         
         # Note, we define two seperate fields below because gender_search_categories will have don't care added, while
         # gender_categories should not be modified.
         gender_preference_categories =  [
-            ('couple',)            + ugettext_tuple(ugettext('Swingers (couples)')),
+            ('couple',)            + ugettext_tuple(ugettext('Swingers (Couples)')),
             #('gay_couple',)        + ugettext_tuple(ugettext('Swingers (Male+Male) - plural')),
             #('lesbian_couple',)    + ugettext_tuple(ugettext('Swingers (Female+Female) - plural')),
             ('female',)            + ugettext_tuple(ugettext('Females')), 
             ('male',)              + ugettext_tuple(ugettext('Males')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestites / Transgendered')),
-            ('other',)             + ugettext_tuple(ugettext('Others (details in profile)')),
+            ('other',)             + ugettext_tuple(ugettext('Others (Details In Profile)')),
             ]   
         
     if settings.BUILD_NAME =='Gay':
         gender_categories = [
-            ('active',)            + ugettext_tuple(ugettext('Active gay')),
-            ('passive',)        + ugettext_tuple(ugettext('Passive gay')),
-            ('versatile',)    + ugettext_tuple(ugettext('Versatile gay')),
+            ('active',)            + ugettext_tuple(ugettext('Active Gay')),
+            ('passive',)        + ugettext_tuple(ugettext('Passive Gay')),
+            ('versatile',)    + ugettext_tuple(ugettext('Versatile Gay')),
             ('bisexual',)            + ugettext_tuple(ugettext('Bisexual')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestite / Transgendered')),
-            ('other',)             + ugettext_tuple(ugettext('Other (details in profile)')),
+            ('other',)             + ugettext_tuple(ugettext('Other (Details In Profile)')),
             ]    
         
         
         gender_preference_categories = [
-            ('active',)            + ugettext_tuple(ugettext('Active gays')),
-            ('passive',)        + ugettext_tuple(ugettext('Passive gays')),
-            ('versatile',)    + ugettext_tuple(ugettext('Versatile gays')),
+            ('active',)            + ugettext_tuple(ugettext('Active Gays')),
+            ('passive',)        + ugettext_tuple(ugettext('Passive Gays')),
+            ('versatile',)    + ugettext_tuple(ugettext('Versatile Gays')),
             ('bisexual',)            + ugettext_tuple(ugettext('Bisexuals')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestites / Transgendered')),
-            ('other',)             + ugettext_tuple(ugettext('Others (details in profile)')),
+            ('other',)             + ugettext_tuple(ugettext('Others (Details In Profile)')),
             ]    
         
  
@@ -156,7 +156,7 @@ class UserSpec():
             ('single',)        + ugettext_tuple(ugettext('Single')), 
             ('in_relation',)   + ugettext_tuple(ugettext('Attached')),
             ('married',)       + ugettext_tuple(ugettext('Married')),
-            ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say'))
+            ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer Not To Say'))
         ]
         # relationship_search_categories specifies what status people are allowed to search_for. 
         relationship_search_categories = [dont_care_tuple,
@@ -181,7 +181,7 @@ class UserSpec():
         relationship_categories = [
             ('friendship',)    + ugettext_tuple(ugettext('Friendship')), 
             ('dating',)        + ugettext_tuple(ugettext('Dating')),
-            ('relationship',)   + ugettext_tuple(ugettext('Long-term relationship')),
+            ('relationship',)   + ugettext_tuple(ugettext('Long Term Relationship')),
         ]
         # relationship_search_categories specifies what status people are allowed to search_for. 
         relationship_search_categories = [anything_tuple] + relationship_categories
@@ -191,12 +191,12 @@ class UserSpec():
         gender_categories = [
             ('female',)        + ugettext_tuple(ugettext('Female')), 
             ('male', )         + ugettext_tuple(ugettext('Male')),
-            ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say')),        
+            ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer Not To Say')),        
         ]      
         gender_preference_categories =  [ # only used for setting up the gender_search_categories below
             ('female',)        + ugettext_tuple(ugettext('Females')), 
             ('male',)          + ugettext_tuple(ugettext('Males')),
-            ('prefer_no_say',) + ugettext_tuple(ugettext("People who don't specify")),       
+            ('prefer_no_say',) + ugettext_tuple(ugettext("People Who Don't Specify")),       
         ]               
         
       
@@ -212,25 +212,25 @@ class UserSpec():
 
     elif settings.BUILD_NAME == 'Lesbian': 
         gender_categories = [
-            ('femme',)       + ugettext_tuple(ugettext('Femme (feminine lesbian)')),
-            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual lesbian')),
-            ('butch',)     + ugettext_tuple(ugettext('Butch (masculine lesbian)')), 
-            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled lesbian")),
+            ('femme',)       + ugettext_tuple(ugettext('Femme (Feminine Lesbian)')),
+            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual Lesbian')),
+            ('butch',)     + ugettext_tuple(ugettext('Butch (Masculine Lesbian)')), 
+            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled Lesbian")),
         ]   
         # Note: this is different than gender categories since it is pluralized.
         gender_preference_categories =  [
-            ('femme',)       + ugettext_tuple(ugettext('Femmes (feminine lesbians)')),
-            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual lesbians')),
-            ('butch',)     + ugettext_tuple(ugettext('Butches (masculine lesbians)')), 
-            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled lesbians")),
+            ('femme',)       + ugettext_tuple(ugettext('Femmes (Feminine Lesbians)')),
+            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual Lesbians')),
+            ('butch',)     + ugettext_tuple(ugettext('Butches (Masculine Lesbians)')), 
+            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled Lesbians")),
         ]    
         
         # relationship_categories specifies what status people are allowed to declare. 
         relationship_categories = [
             ('friendship',)    + ugettext_tuple(ugettext('Friendship')), 
             ('dating',)        + ugettext_tuple(ugettext('Dating')),
-            ('relationship',)   + ugettext_tuple(ugettext('Long-term relationship')),
-            ('sexual_relationship',)   + ugettext_tuple(ugettext('Physical relationship')),
+            ('relationship',)   + ugettext_tuple(ugettext('Long Term Relationship')),
+            ('sexual_relationship',)   + ugettext_tuple(ugettext('Physical Relationship')),
         ]
         # relationship_search_categories specifies what status people are allowed to search_for. 
         relationship_search_categories = [anything_tuple] + relationship_categories
@@ -294,8 +294,8 @@ class UserSpec():
     age_search_categories = [dont_care_tuple,] + age_categories
     
     order_categories = [
-        ('unique_last_login',) + ugettext_tuple(ugettext('Completed profiles first')), 
-        ('last_login_string',) + ugettext_tuple(ugettext('Recent logins first')), ]    
+        ('unique_last_login',) + ugettext_tuple(ugettext('Completed Profiles First')), 
+        ('last_login_string',) + ugettext_tuple(ugettext('Recent Logins First')), ]    
     
     # signup_fields is an dictionary indicating the input fields that are available. 
     # If new input fields are added, then required must be set to false until it is guaranteed that the database 
@@ -305,50 +305,50 @@ class UserSpec():
     # Note that the "label" is the information that appears for the field in the login/signup page
     # The "label" is the information taht appears beside the field in the search section. 
     if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
-        signup_country_label_tuple = ugettext_tuple(ugettext('I am currently in'))
+        signup_country_label_tuple = ugettext_tuple(ugettext('I Am Currently In'))
     elif settings.BUILD_NAME == "Swinger":
-        signup_country_label_tuple = ugettext_tuple(ugettext('I / We live in'))
+        signup_country_label_tuple = ugettext_tuple(ugettext('I / We Live In'))
     else:
-        signup_country_label_tuple = ugettext_tuple(ugettext('I live in'))
+        signup_country_label_tuple = ugettext_tuple(ugettext('I Live In'))
 
         
 
     if settings.BUILD_NAME == "Lesbian":
-        signup_preference_label_tuple = ugettext_tuple(ugettext('I prefer'))
+        signup_preference_label_tuple = ugettext_tuple(ugettext('I Prefer'))
     elif settings.BUILD_NAME == "Swinger":
-        signup_preference_label_tuple = ugettext_tuple(ugettext('I / We would like to meet'))
+        signup_preference_label_tuple = ugettext_tuple(ugettext('I / We Would Like To Meet'))
     else:
-        signup_preference_label_tuple = ugettext_tuple(ugettext('I would like to meet'))
+        signup_preference_label_tuple = ugettext_tuple(ugettext('I Would Like To Meet'))
 
         
 
-    signup_email_address_label_tuple = ugettext_tuple(ugettext('Email address (confidential)'))
-    signup_password_verify_label_tuple = ugettext_tuple(ugettext('Verify password'))
+    signup_email_address_label_tuple = ugettext_tuple(ugettext('Email Address (Confidential)'))
+    signup_password_verify_label_tuple = ugettext_tuple(ugettext('Verify Password'))
     signup_password_label_tuple = ugettext_tuple(ugettext('Password'))
-    signup_username_label_tuple = ugettext_tuple(ugettext('Username (visible to others)'))
+    signup_username_label_tuple = ugettext_tuple(ugettext('Username (Visible To Others)'))
     
     if settings.BUILD_NAME != "Swinger":
-        signup_sex_label_tuple = ugettext_tuple(ugettext('I am'))
-        signup_age_label_tuple = ugettext_tuple(ugettext('My age'))
+        signup_sex_label_tuple = ugettext_tuple(ugettext('I Am'))
+        signup_age_label_tuple = ugettext_tuple(ugettext('My Age'))
     else:
-        signup_sex_label_tuple = ugettext_tuple(ugettext('I am / We are'))
-        signup_age_label_tuple = ugettext_tuple(ugettext('My / Our age (average)'))
+        signup_sex_label_tuple = ugettext_tuple(ugettext('I Am / We Are'))
+        signup_age_label_tuple = ugettext_tuple(ugettext('My / Our Age (Average)'))
 
 
-    signup_sub_region_label_tuple = ugettext_tuple(ugettext('Sub region'))
+    signup_sub_region_label_tuple = ugettext_tuple(ugettext('Sub Region'))
     signup_region_label_tuple = ugettext_tuple(ugettext('Region'))
     
     if settings.BUILD_NAME == 'Discrete' or settings.BUILD_NAME == 'Gay':
-        signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My relationship status')) # this is the clients status
+        signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My Relationship Status')) # this is the clients status
     elif settings.BUILD_NAME == 'Swinger':
-        signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My / Our relationship status')) 
+        signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My / Our Relationship Status')) 
     elif settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Lesbian':
-        signup_relationship_status_label_tuple = ugettext_tuple(ugettext('Type of relationship')) # this is the clients status
+        signup_relationship_status_label_tuple = ugettext_tuple(ugettext('Type Of Relationship')) # this is the clients status
     elif settings.BUILD_NAME == 'Language' :
-        signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language that I want to practice'))
-        signup_native_language_label_tuple = ugettext_tuple(ugettext('My native language'))
+        signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))
+        signup_native_language_label_tuple = ugettext_tuple(ugettext('My Native Language'))
     elif settings.BUILD_NAME == 'Friend':
-        signup_friend_price_tuple = ugettext_tuple(ugettext('My price/hour'))
+        signup_friend_price_tuple = ugettext_tuple(ugettext('My Price/Hour'))
         signup_friend_currency_tuple = ugettext_tuple(ugettext('Currency'))
     else:
         assert(False)
@@ -560,16 +560,16 @@ class UserSpec():
     search_query_order_label_tuple = ugettext_tuple(ugettext('Order'))       
     
     if settings.BUILD_NAME != 'Language' and settings.BUILD_NAME != "Friend":
-        search_sex_label_tuple = ugettext_tuple(ugettext('I would like to see'))
+        search_sex_label_tuple = ugettext_tuple(ugettext('I Would Like To See'))
         if settings.BUILD_NAME != 'Lesbian':
-            search_preference_label_tuple = ugettext_tuple(ugettext('That are interested in'))
+            search_preference_label_tuple = ugettext_tuple(ugettext('That Are Interested In'))
         else:
-            search_preference_label_tuple = ugettext_tuple(ugettext('That prefer'))
-        search_age_label_tuple = ugettext_tuple(ugettext('Their age')) # this is the age that the client is searching for
+            search_preference_label_tuple = ugettext_tuple(ugettext('That Prefer'))
+        search_age_label_tuple = ugettext_tuple(ugettext('Their Age')) # this is the age that the client is searching for
         if settings.BUILD_NAME == 'Discrete' or settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == "Swinger":
-            search_relationship_status_label_tuple = ugettext_tuple(ugettext('Relationship status')) # this is the clients status
+            search_relationship_status_label_tuple = ugettext_tuple(ugettext('Relationship Status')) # this is the clients status
         else: #Single and Lesbian
-            search_relationship_status_label_tuple = ugettext_tuple(ugettext('Looking for')) # this is the type of relationship they want
+            search_relationship_status_label_tuple = ugettext_tuple(ugettext('Looking For')) # this is the type of relationship they want
             
         search_sex_label_num = "1."
         search_preference_label_num = "2."
@@ -583,9 +583,9 @@ class UserSpec():
             
     else: 
         if settings.BUILD_NAME == "Language":
-            search_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language that I want to practice'))
-            search_language_to_teach_label_tuple = ugettext_tuple(ugettext('In exchange for (I speak)'))
-            search_sex_label_tuple = ugettext_tuple(ugettext('With people that are'))
+            search_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))
+            search_language_to_teach_label_tuple = ugettext_tuple(ugettext('In Exchange For (I Speak)'))
+            search_sex_label_tuple = ugettext_tuple(ugettext('With People That Are'))
             search_age_label_tuple = ugettext_tuple(ugettext('Age')) # this is the age that the client is searching for
             search_query_order_label_tuple = ugettext_tuple(ugettext('Order'))
             
@@ -604,7 +604,7 @@ class UserSpec():
             # Note: the other Friend labels are defined directly in friend_bazaar_specific_code.py 
             #       (I wanted to define them here, but this would require importing this file into friend_bazaar_specific_code
             #        which would create a circular dependency since we also have imported friend_bazaar_specific_code into this module)
-            search_friend_price_tuple = ugettext_tuple(ugettext('Price/hour'))
+            search_friend_price_tuple = ugettext_tuple(ugettext('Price/Hour'))
             signup_friend_currency_tuple = ugettext_tuple(ugettext('Currency'))            
 
             #label_nums['for_sale'] = "1a."  # see friend_bazaar_specific_code.py for definition

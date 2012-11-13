@@ -1094,6 +1094,17 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                 if not isinstance(field_val, list):
                     if field_val and field_val != "----" and field_name != 'username' and field_name != 'bookmark':
                         return_dict[field_name] = field_dictionary_by_field_name[lookup_field_name][lang_idx][field_val]
+                        
+                        if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
+                            if field_name == "relationship_status" and lang_idx == localizations.input_field_lang_idx['es']:
+                                if field_vals_dict['sex'] == 'male' or field_vals_dict['sex'] == 'other':
+                                    return_dict[field_name] = re.sub('@', 'o', return_dict[field_name])
+                                elif field_vals_dict['sex'] == 'female' or field_vals_dict['sex'] == 'couple' or field_vals_dict['sex'] == 'tstvtg':
+                                    return_dict[field_name] = re.sub('@', 'a', return_dict[field_name])
+                                else:
+                                    pass # no substitution necessary
+                                
+                            
                 else:
                     field_vals_list_dict = field_val
                     return_dict[field_name] = generic_html_generator_for_list(lang_idx, lookup_field_name, field_vals_list_dict, 

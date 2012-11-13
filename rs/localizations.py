@@ -669,7 +669,7 @@ def populate_country_options():
         
         # Only append the following to the search values -- not valid for logging in
         # or for selecting where the user lives.
-        option_html = u"<option value='----'>%s\n" % (translate_text(lang_code, (ugettext("All countries"))))
+        option_html = u"<option value='----'>%s\n" % (translate_text(lang_code, (ugettext("All Countries"))))
         country_search_options[lang_idx].append(option_html)
         
         # Sort the "important" country list
@@ -681,7 +681,7 @@ def populate_country_options():
         country_options[lang_idx].append(u"<option value='----'>----\n")    
         country_search_options[lang_idx].append(u"<option value='----'>----\n")    
         
-        option_html = u"<option value='----'>%s\n" % (translate_text(lang_code, (ugettext("All countries"))))
+        option_html = u"<option value='----'>%s\n" % (translate_text(lang_code, (ugettext("All Countries"))))
         country_search_options[lang_idx].append(option_html)
         
         # Sort the "normal" country list

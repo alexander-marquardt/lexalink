@@ -1,6 +1,6 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
-application: romancesapp
+application: lesbianapplication
 version: 2012-11-10-xxxx
 runtime: python
 api_version: 1
@@ -10,8 +10,8 @@ default_expiration: "30d"
 
 handlers:
 - url: /favicon.ico
-  static_files: rs/static/img/Discrete/favicon.ico
-  upload: rs/static/img/Discrete/favicon.ico
+  static_files: rs/static/img/Lesbian/favicon.ico
+  upload: rs/static/img/Lesbian/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location

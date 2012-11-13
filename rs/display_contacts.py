@@ -133,8 +133,8 @@ def generate_new_contacts_html(userobject):
         
         previous_last_login_in_friendly_format = return_time_difference_in_friendly_format(userobject.previous_last_login)
         text_since_last_login = \
-            ugettext(u"Since the last time you entered in %(build_name)s.com, %(previous_login)s, you have received")\
-            % {'build_name': settings.BUILD_NAME, 'previous_login' : previous_last_login_in_friendly_format}
+            ugettext(u"Since the last time you entered in %(app_name)s.com, %(previous_login)s, you have received")\
+            % {'app_name': settings.APP_NAME, 'previous_login' : previous_last_login_in_friendly_format}
 
         generated_html += u"""
         <div class="cl-clear"></div> 

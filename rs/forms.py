@@ -786,25 +786,33 @@ class FormUtils():
                              
         vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
                          
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-            base_title = u"%s" % (ugettext("%(sex)s seeking %(preference)s in %(location)s") % {
-                'sex': vals_in_curr_language_dict['sex'], 'location': vals_in_curr_language_dict['location'], 
+        if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
+            base_title = u"%s" % (ugettext("%(relationship_status)s %(sex)s Seeking %(preference)s In %(location)s") % {
+                'relationship_status' : vals_in_curr_language_dict['relationship_status'],
+                'sex': vals_in_curr_language_dict['sex'], 
+                'location': vals_in_curr_language_dict['location'], 
                 'preference' : vals_in_curr_language_dict['preference']})
             
+        elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
+            base_title = u"%s" % (ugettext("%(sex)s Seeking %(preference)s For %(relationship_status)s In %(location)s") % {
+                'relationship_status' : vals_in_curr_language_dict['relationship_status'],                
+                'sex': vals_in_curr_language_dict['sex'], 
+                'location': vals_in_curr_language_dict['location'], 
+                'preference' : vals_in_curr_language_dict['preference']})
+            
+        elif settings.BUILD_NAME == "Language":
+            base_title = u"%s. " % ugettext("Language profile title %(languages)s %(location)s %(languages_to_learn)s") % {
+            'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
+            'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
+        elif settings.BUILD_NAME == 'Friend':
+            activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
+            base_title = u"%s. " % (ugettext("%(sex)s In %(location)s") % {
+                'sex': vals_in_curr_language_dict['sex'],
+                'location' : vals_in_curr_language_dict['location'],
+            })
+            base_title += u"%s" % activity_summary
         else:
-            if settings.BUILD_NAME == "Language":
-                base_title = u"%s. " % ugettext("Language profile title %(languages)s %(location)s %(languages_to_learn)s") % {
-                'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
-                'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
-            elif settings.BUILD_NAME == 'Friend':
-                activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
-                base_title = u"%s. " % (ugettext("%(sex)s in %(location)s") % {
-                    'sex': vals_in_curr_language_dict['sex'],
-                    'location' : vals_in_curr_language_dict['location'],
-                })
-                base_title += u"%s" % activity_summary
-            else:
-                assert(0)        
+            assert(0)        
     
         return base_title
     
@@ -813,7 +821,7 @@ class FormUtils():
         # returns a description of the current profile that is suitable for display in a URL
         profile_url_description = cls.get_base_userobject_title(lang_code, userobject)
         profile_url_description = profile_url_description.replace(' ' , '-')
-        profile_url_description = re.sub('[,;()]', '', profile_url_description)
+        profile_url_description = re.sub('[,;()/]', '', profile_url_description)
         profile_url_description = urllib.quote(profile_url_description.encode('utf8')) # escape unicode chars for URL    
         return profile_url_description
     
@@ -826,15 +834,6 @@ class FormUtils():
         lang_idx = localizations.input_field_lang_idx[lang_code]
         
         try:
-
-            if settings.SEO_OVERRIDES_ENABLED:
-                try:
-                    tagline = search_engine_overrides.profile_title_taglines[userobject.title_tag_type][userobject.title_tag_idx][lang_idx]
-                except:
-                    tagline = ''
-                    logging.critical("title_tag_type %s title_tag_idx %s lang_idx %s" % (userobject.title_tag_type, userobject.title_tag_idx, lang_idx))
-            else:
-                tagline = ''
                 
             if settings.SEO_OVERRIDES_ENABLED:
                 meta_description_tag = search_engine_overrides.get_main_page_meta_description_common_part()
@@ -842,7 +841,7 @@ class FormUtils():
                 meta_description_tag = ''
                 
             base_title = cls.get_base_userobject_title(lang_code, userobject)
-            generated_title = u"%s. %s" % (base_title, tagline)
+            generated_title = u"%s." % (base_title)
             meta_description = u"%s. %s" %(meta_description_tag, base_title)
 
         except:
