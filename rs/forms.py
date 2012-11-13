@@ -30,7 +30,7 @@
 
 from django.http import HttpResponse
 
-import logging
+import logging, re, urllib
 
 import settings
 
@@ -57,9 +57,9 @@ from django.utils.translation import ugettext
 
 
 # note/TODO: This entire module is pretty ugly and could be greatly simplified (both for code efficiency and 
-# for understandibility). -- excuse: it was one of the first pieces of python/web code I ever wrote ..
-# Instead of trying to combine a bunch of functionality into a single function, split the functions into
-# more specific units that do one thing, and only one thing.
+# for understandibility). -- it was one of the first pieces of python/web code I wrote ..
+# Instead of trying to combine a bunch of functionality into generic multi-use functions, split the 
+# functions into more specific units that do one thing, and only one thing.
 
 #############################################
 
@@ -771,6 +771,53 @@ class FormUtils():
             return ''
     
     ####   
+    
+    @classmethod
+    def get_base_userobject_title(cls, lang_code, userobject):
+        # Gets the main part of the user profile title -- before adding in SEO optimizations
+        # and anything else.
+        
+        
+        lang_idx = localizations.input_field_lang_idx[lang_code]        
+        field_vals_dict = {}
+
+        for field_name in cls.fields_for_title_generation:
+            field_vals_dict[field_name] = getattr(userobject, field_name)
+                             
+        vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
+                         
+        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+            base_title = u"%s" % (ugettext("%(sex)s seeking %(preference)s in %(location)s") % {
+                'sex': vals_in_curr_language_dict['sex'], 'location': vals_in_curr_language_dict['location'], 
+                'preference' : vals_in_curr_language_dict['preference']})
+            
+        else:
+            if settings.BUILD_NAME == "Language":
+                base_title = u"%s. " % ugettext("Language profile title %(languages)s %(location)s %(languages_to_learn)s") % {
+                'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
+                'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
+            elif settings.BUILD_NAME == 'Friend':
+                activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
+                base_title = u"%s. " % (ugettext("%(sex)s in %(location)s") % {
+                    'sex': vals_in_curr_language_dict['sex'],
+                    'location' : vals_in_curr_language_dict['location'],
+                })
+                base_title += u"%s" % activity_summary
+            else:
+                assert(0)        
+    
+        return base_title
+    
+    @classmethod
+    def get_profile_url_description(cls, lang_code, userobject):
+        # returns a description of the current profile that is suitable for display in a URL
+        profile_url_description = cls.get_base_userobject_title(lang_code, userobject)
+        profile_url_description = profile_url_description.replace(' ' , '-')
+        profile_url_description = re.sub('[,;()]', '', profile_url_description)
+        profile_url_description = urllib.quote(profile_url_description.encode('utf8')) # escape unicode chars for URL    
+        return profile_url_description
+    
+    
     @classmethod
     def generate_title_and_meta_description_for_current_profile(cls, lang_code, userobject):
         # given the userobject that is passed in, generate a text string that is appropriate for display
@@ -779,15 +826,7 @@ class FormUtils():
         lang_idx = localizations.input_field_lang_idx[lang_code]
         
         try:
-   
-            field_vals_dict = {}
 
-                
-            for field_name in cls.fields_for_title_generation:
-                field_vals_dict[field_name] = getattr(userobject, field_name)
-                                 
-            vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
-            
             if settings.SEO_OVERRIDES_ENABLED:
                 try:
                     tagline = search_engine_overrides.profile_title_taglines[userobject.title_tag_type][userobject.title_tag_idx][lang_idx]
@@ -802,31 +841,9 @@ class FormUtils():
             else:
                 meta_description_tag = ''
                 
-            if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                base_title = u"%s" % (ugettext("%(sex)s seeking %(preference)s. In %(location)s") % {
-                    'sex': vals_in_curr_language_dict['sex'], 'location': vals_in_curr_language_dict['location'], 
-                    'preference' : vals_in_curr_language_dict['preference']})
-                generated_title = u"%s. %s." % (base_title, tagline)
-                meta_description = u"%s. %s." % (meta_description_tag, base_title)
-                
-            else:
-                if settings.BUILD_NAME == "Language":
-                    base_title = u"%s. " % ugettext("Language profile title %(languages)s %(location)s %(languages_to_learn)s") % {
-                    'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
-                    'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
-                elif settings.BUILD_NAME == 'Friend':
-                    activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
-                    base_title = u"%s. " % (ugettext("%(sex)s in %(location)s") % {
-                        'sex': vals_in_curr_language_dict['sex'],
-                        'location' : vals_in_curr_language_dict['location'],
-                    })
-                    base_title += u"%s" % activity_summary
-                else:
-                    assert(0)
-                    
-                    
-                generated_title = u"%s%s" % (base_title, tagline)
-                meta_description = u"%s%s" %(meta_description_tag, base_title)
+            base_title = cls.get_base_userobject_title(lang_code, userobject)
+            generated_title = u"%s. %s" % (base_title, tagline)
+            meta_description = u"%s. %s" %(meta_description_tag, base_title)
 
         except:
             error_reporting.log_exception(logging.critical)       

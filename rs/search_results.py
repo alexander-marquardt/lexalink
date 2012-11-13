@@ -28,9 +28,11 @@
 """ This module is responsible for generating the results of user searches. 
 It will generate HTML based on the criteria specified in the user-search parameters. """
 import datetime, logging
+
 from django.core.urlresolvers import reverse
 from django.utils.encoding import smart_unicode
 from django import http
+
 
 from google.appengine.api import memcache
 
@@ -95,8 +97,9 @@ def display_userobject_first_half_summary(request, userobject):
                 #'static_dir' : settings.LIVE_STATIC_DIR, 'diamond_status' : diamond_status}
             #generated_html += u'<div class="grid_9 alpha omega"> &nbsp;</div>\n'
 
-    
-        userobject_href =  reverse("rs/other", kwargs={'display_uid' :str(userobject.key())})
+        profile_url_description = forms.FormUtils.get_profile_url_description(request.LANGUAGE_CODE, userobject)
+        userobject_href =  reverse("userprofile", kwargs={'display_uid' :str(userobject.key()),
+                                                          'profile_url_description' : profile_url_description})
     
         heading_text = ugettext("See profile of:")
         generated_html += u'<div class="grid_9 alpha omega cl-text-14pt-format">\

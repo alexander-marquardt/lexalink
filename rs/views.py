@@ -74,7 +74,7 @@ from callbacks_from_html import MyHTMLCallbackGenerator
 
 
 #############################################
-def user_main(request, display_uid, is_primary_user = False):
+def user_main(request, display_uid, is_primary_user = False, profile_url_description = None):
     # The users "main" page, after logging in. Will show their profile.
     # display_uid - is the object key of the profile currently displayed -- if the client is viewing other
     #       users, then the uid references the other users object. If the client is viewing their own

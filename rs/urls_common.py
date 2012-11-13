@@ -67,6 +67,7 @@ urlpatterns = patterns('',
     
     url(r'^rs/user_home/(?P<display_uid>[\w|-]+)/$', views.user_main, {'is_primary_user': True}, name="rs/user_home"),    
     url(r'^rs/other/(?P<display_uid>[\w|-]+)/$', views.user_main, {'is_primary_user': False}, name="rs/other"),
+    url(r'^uid-(?P<display_uid>[\w|-]+)/(?P<profile_url_description>.+)/$', views.user_main, {'is_primary_user': False}, name="userprofile"),
     
     
     url(r'^search/$', search_results.generate_search_results, name="search_gen"),

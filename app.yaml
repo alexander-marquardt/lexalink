@@ -1,7 +1,7 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
-application: singlesapp
-version: 2012-11-09-2152
+application: romancesapp
+version: 2012-11-10-xxxx
 runtime: python
 api_version: 1
 
@@ -10,8 +10,8 @@ default_expiration: "30d"
 
 handlers:
 - url: /favicon.ico
-  static_files: rs/static/img/Single/favicon.ico
-  upload: rs/static/img/Single/favicon.ico
+  static_files: rs/static/img/Discrete/favicon.ico
+  upload: rs/static/img/Discrete/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location

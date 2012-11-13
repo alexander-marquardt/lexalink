@@ -856,7 +856,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 
         $("#id-chatbox-" + box_name + "-list li").click(function(e){
             var anchor = $(this).find('a');
-            var box_id =  anchor.data("uid");
+            var box_id =  anchor.data("uid"); // jquery .data() operator
             var box_title = $(this).text();
 
             var type_of_conversation;
