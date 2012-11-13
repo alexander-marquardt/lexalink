@@ -118,8 +118,9 @@ function report_javascript_error_on_server(status_text) {
     });
 
 
-    if (debugging_enabled)
-        alert("Error: " + status_text);
+    //if (debugging_enabled)
+        // Disable this alert - is annoying and not currently needed
+        //alert("Error: " + status_text);
 }
 
 function report_javascript_debugging_info_on_server(status_text) {
