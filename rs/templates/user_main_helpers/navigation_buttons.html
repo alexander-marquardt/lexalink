@@ -39,8 +39,8 @@
                 </td>
 
                 <td class="cl-nav-td cl-nav-item"><a
-                    href="{% url rs/user_home display_uid=primary_user_presentation_data_fields.owner_uid %}"
-                        rel="address:{% url rs/user_home display_uid=primary_user_presentation_data_fields.owner_uid %}">
+                    href="{% url edit_profile_url display_id=primary_user_presentation_data_fields.owner_id %}"
+                        rel="address:{% url edit_profile_url display_id=primary_user_presentation_data_fields.owner_id %}">
                 {% trans "My Profile" %}</a></td>
 
 

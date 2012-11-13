@@ -54,6 +54,7 @@ import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, site_configuration
+from rs import profile_utils
 from django import http
 import http_utils, common_data_structs
 
@@ -74,7 +75,13 @@ from callbacks_from_html import MyHTMLCallbackGenerator
 
 
 #############################################
-def user_main(request, display_uid, is_primary_user = False, profile_url_description = None):
+def redirect_to_user_main(request, display_uid, is_primary_user = False, profile_url_description = None):
+    # function that will redirect this out-of-date URL to the correct new URL format
+    userobject = db.get(db.Key(display_uid))
+    redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
+    return http_utils.redirect_to_url(request, redirect_url)   
+
+def user_main(request, display_id, is_primary_user = False, profile_url_description = None):
     # The users "main" page, after logging in. Will show their profile.
     # display_uid - is the object key of the profile currently displayed -- if the client is viewing other
     #       users, then the uid references the other users object. If the client is viewing their own
@@ -83,6 +90,9 @@ def user_main(request, display_uid, is_primary_user = False, profile_url_descrip
     #    that belong to other users in the system. This means that edit is enabled, and private
     #    is displayed.
     try:
+        display_key = db.Key.from_path('UserModel', long(display_id))
+        display_uid = str(display_key)
+        
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
     
         # Do not remove these initializations unless you are 100% sure that the variable has been set in ALL branches.
@@ -105,11 +115,13 @@ def user_main(request, display_uid, is_primary_user = False, profile_url_descrip
         
         if owner_userobject:
             owner_uid = request.session['userobject_str']
+            owner_id = owner_userobject.key().id()
             registered_user_bool = True # viewing user is logged in
             link_to_hide = 'login'
         else:
             owner_userobject = None
             owner_uid = ''
+            owner_id = ''
             registered_user_bool = False
             # take away all permissions if this is a non-logged-in user
             is_primary_user = False
@@ -135,35 +147,37 @@ def user_main(request, display_uid, is_primary_user = False, profile_url_descrip
                 # Re-direct to the display_uid profile view (without any permissions)-- the logged in user has 
                 # attempted to enter into another users private area (probably by manually
                 # modifying the URL). 
-                redirect_url = reverse("rs/other", kwargs = {'display_uid' : display_uid})
+                display_userobject = db.get(db.Key(display_uid))
+                redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)                
                 return http_utils.redirect_to_url(request, redirect_url)
                       
-        
-            # Show the new user the welcome text, only for as long as the user has not yet 
-            # done a search for other clients (we use this as an indicator that they understand
-            # how the system works, and so do not need the welcome message any longer)
-    
-            if not owner_userobject.search_preferences2.user_has_done_a_search:
-                new_user_welcome_text = u"%s<br><br>" % text_fields.welcome_text
-            if not owner_userobject.email_address_is_valid:
-                email_is_not_entered_text = u"%s<br><br>" % text_fields.email_is_not_entered_text
-                             
-            # Note: we use the has_about_user boolean instead of just checking against the default value of "----"
-            # because this allows us to continue to show the warning message until they have entered the minimum
-            # number of characters in their description.
-            if not owner_userobject.has_about_user:
-                # this value is over-written for all languages (including english) to give more descriptive text.
-                no_about_user_section_warning = ugettext("""It is recommendable that you write a description of at 
-    least %(num_chars)s characters""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN)}
-                no_about_user_section_warning += u"<br><br>"
-            
-            if not (owner_userobject.unique_last_login_offset_ref.has_public_photo_offset or \
-                    owner_userobject.unique_last_login_offset_ref.has_private_photo_offset):
-                user_has_no_photo_text = u"%s<br><br>" % text_fields.user_has_no_photo_text
             else:
-                user_has_no_photo_text = ''
+                # Show the new user the welcome text, only for as long as the user has not yet 
+                # done a search for other clients (we use this as an indicator that they understand
+                # how the system works, and so do not need the welcome message any longer)
                 
-            display_userobject = owner_userobject
+                display_userobject = owner_userobject
+        
+                if not owner_userobject.search_preferences2.user_has_done_a_search:
+                    new_user_welcome_text = u"%s<br><br>" % text_fields.welcome_text
+                if not owner_userobject.email_address_is_valid:
+                    email_is_not_entered_text = u"%s<br><br>" % text_fields.email_is_not_entered_text
+                                 
+                # Note: we use the has_about_user boolean instead of just checking against the default value of "----"
+                # because this allows us to continue to show the warning message until they have entered the minimum
+                # number of characters in their description.
+                if not owner_userobject.has_about_user:
+                    # this value is over-written for all languages (including english) to give more descriptive text.
+                    no_about_user_section_warning = ugettext("""It is recommendable that you write a description of at 
+        least %(num_chars)s characters""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN)}
+                    no_about_user_section_warning += u"<br><br>"
+                
+                if not (owner_userobject.unique_last_login_offset_ref.has_public_photo_offset or \
+                        owner_userobject.unique_last_login_offset_ref.has_private_photo_offset):
+                    user_has_no_photo_text = u"%s<br><br>" % text_fields.user_has_no_photo_text
+                else:
+                    user_has_no_photo_text = ''
+                    
         else:
             # get the "display" user object based on the uid key passed in -- the current client is viewing
             # someone else's profile
@@ -248,6 +262,7 @@ def user_main(request, display_uid, is_primary_user = False, profile_url_descrip
             primary_user_profile_data_fields.no_about_user_section_warning = no_about_user_section_warning
             primary_user_profile_data_fields.max_checkbox_values_in_combined_ix_list = constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST
             primary_user_profile_data_fields.owner_uid = owner_uid
+            primary_user_profile_data_fields.owner_id = owner_id
             primary_user_profile_data_fields.is_adult = constants.IS_ADULT
             
             if diamond_status:
@@ -555,6 +570,7 @@ def login(request, is_admin_login = False, referring_code = None):
                     if userobject:
                         # success, user is in database and has entered correct data
                         owner_uid = str(userobject.key())
+                        owner_id = userobject.key().id()
                         
                         # make sure that the userobject has all the parts that the code expects it to have.
                         store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
@@ -625,15 +641,15 @@ def login(request, is_admin_login = False, referring_code = None):
                         # create "in-the-cloud" backups of the userobject
                         backup_data.update_or_create_userobject_backups(request, userobject)
     
-                        logging.info("Logging in User: %s IP: %s country code: %s -re-directing to user_home" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
+                        logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
     
                         # Set language to whatever the user used the last time they were logged in. 
                         lang_code = userobject.search_preferences2.lang_code
                         assert(site_configuration.set_language_in_session(request, lang_code))
                         # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
                         # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
-                        redirect_url = "/%(lang_code)s/rs/user_home/%(display_uid)s/" % {
-                                'lang_code': lang_code, 'display_uid':owner_uid}                        
+                        redirect_url = "/%(lang_code)s/edit_profile/%(owner_id)s/" % {
+                                'lang_code': lang_code, 'owner_id':owner_id}                        
                         return http_utils.redirect_to_url(request, redirect_url)                        
 
                     else:

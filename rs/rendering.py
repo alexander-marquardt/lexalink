@@ -189,6 +189,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         # render the HTML for the majority of pages that will be seen by users... However, individual profiles are rendered by views.user_main
         if userobject:
             owner_uid = str(userobject.key())
+            owner_id = userobject.key().id()
             owner_message_count = userobject.unread_mail_count_ref.unread_contact_count
             new_contact_count = utils.get_new_contact_count_sum(userobject.new_contact_counter_ref)
             registered_user_bool = True
@@ -200,7 +201,9 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         else:
             registered_user_bool = False
             username = ''
-            display_uid = owner_uid = ''
+            display_uid = ''
+            owner_uid = ''
+            owner_id = ''
             owner_message_count = new_contact_count = 0
             if not hide_why_to_register:
                 why_to_register = ugettext("Remember the following benefits of registering with %(app_name)s.") % {'app_name': settings.APP_NAME}
@@ -243,6 +246,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields.email_address = email_address
         primary_user_presentation_data_fields.username_obfuscated = utils.AES16_Functionality.EncodeAES(username)
         primary_user_presentation_data_fields.owner_uid = owner_uid
+        primary_user_presentation_data_fields.owner_id = owner_id
         primary_user_presentation_data_fields.owner_message_count = owner_message_count
         primary_user_presentation_data_fields.new_contact_count = new_contact_count
         primary_user_presentation_data_fields.max_active_polling_delay = constants.MAX_ACTIVE_POLLING_DELAY_IN_CLIENT

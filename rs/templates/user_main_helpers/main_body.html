@@ -167,7 +167,7 @@
             <strong>{% trans "Photos" %}:</strong>
 
             <div id="id-edit-photos-link">
-                <a href="{% url rs/user_home display_uid=primary_user_profile_data_fields.owner_uid %}">
+                <a href="{% url edit_profile_url display_id=primary_user_profile_data_fields.owner_id %}">
                     ({% trans "edit" %}/{% trans "upload" %} {% trans "photos" %})
                 </a>
             </div>

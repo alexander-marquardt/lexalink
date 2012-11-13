@@ -46,7 +46,7 @@ from constants import ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN
 from localizations import *
 import store_data, utils, error_reporting
 import rendering, text_fields, utils_top_level, vip_status_support
-import search_utils
+import search_utils, profile_utils
 
 from django.utils.translation import ugettext
 
@@ -97,9 +97,7 @@ def display_userobject_first_half_summary(request, userobject):
                 #'static_dir' : settings.LIVE_STATIC_DIR, 'diamond_status' : diamond_status}
             #generated_html += u'<div class="grid_9 alpha omega"> &nbsp;</div>\n'
 
-        profile_url_description = forms.FormUtils.get_profile_url_description(request.LANGUAGE_CODE, userobject)
-        userobject_href =  reverse("userprofile", kwargs={'display_uid' :str(userobject.key()),
-                                                          'profile_url_description' : profile_url_description})
+        userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject)
     
         heading_text = ugettext("See profile of:")
         generated_html += u'<div class="grid_9 alpha omega cl-text-14pt-format">\

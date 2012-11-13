@@ -1526,3 +1526,4 @@ class AES16_Functionality():
     @classmethod
     def DecodeAES(cls, txt):
         return cls.cipher.decrypt(base64.urlsafe_b64decode(txt)).rstrip(cls.PADDING)
+
