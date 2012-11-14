@@ -75,7 +75,7 @@ from callbacks_from_html import MyHTMLCallbackGenerator
 
 
 #############################################
-def redirect_to_user_main(request, display_uid, is_primary_user = False, profile_url_description = None):
+def redirect_to_user_main(request, display_uid,  is_primary_user = False):
     # function that will redirect this out-of-date URL to the correct new URL format
     userobject = db.get(db.Key(display_uid))
     redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
@@ -93,7 +93,9 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
         display_key = db.Key.from_path('UserModel', long(display_id))
         display_uid = str(display_key)
         
-        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
+        lang_code = request.LANGUAGE_CODE
+        lang_idx = localizations.input_field_lang_idx[lang_code]
+        
     
         # Do not remove these initializations unless you are 100% sure that the variable has been set in ALL branches.
         new_user_welcome_text = ""
@@ -148,7 +150,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
                 # attempted to enter into another users private area (probably by manually
                 # modifying the URL). 
                 display_userobject = db.get(db.Key(display_uid))
-                redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)                
+                redirect_url = profile_utils.get_userprofile_href(lang_code, display_userobject)                
                 return http_utils.redirect_to_url(request, redirect_url)
                       
             else:
@@ -190,9 +192,9 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
                 # This is done for cases where the user has changed some aspect of their profile description 
                 # (country, sex, etc.), so that the URL will be re-directed to reflect the new values.
                 quoted_profile_url_description = urllib.quote(profile_url_description.encode('utf8'))
-                expected_profile_url_description = forms.FormUtils.get_profile_url_description(request.LANGUAGE_CODE, display_userobject)
+                expected_profile_url_description = forms.FormUtils.get_profile_url_description(lang_code, display_userobject)
                 if quoted_profile_url_description != expected_profile_url_description:
-                    redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
+                    redirect_url = profile_utils.get_userprofile_href(lang_code, display_userobject)
                     logging.debug("redirecting from %s to %s\n" % (quoted_profile_url_description, expected_profile_url_description))
                     return http.HttpResponsePermanentRedirect(redirect_url)
                     
@@ -206,7 +208,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
                     # For example, we want to be sure that we don't re-direct a bad uid key that is already in the
                     # application name of current application.
                     new_userobject = db.get(db.Key(new_uid))
-                    redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, new_userobject)
+                    redirect_url = profile_utils.get_userprofile_href(lang_code, new_userobject)
                     return http.HttpResponsePermanentRedirect(redirect_url)
 
                 else:
@@ -223,8 +225,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
                 (html_for_mail_history_summary, have_sent_messages_object) =\
                  mailbox.get_mail_history_summary(request, owner_userobject, display_userobject)
         
-        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-        (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(request.LANGUAGE_CODE, display_userobject)
+        (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(lang_code, display_userobject)
       
         html_for_main = MyHTMLCallbackGenerator(request, display_userobject, is_primary_user, owner_userobject, have_sent_messages_object)
                
@@ -290,6 +291,8 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
         viewed_profile_data_fields.last_entrance = last_entrance    
         viewed_profile_data_fields.display_username = display_username
         viewed_profile_data_fields.display_uid = display_uid
+        viewed_profile_data_fields.display_id = display_id
+        viewed_profile_data_fields.profile_url_description = forms.FormUtils.get_profile_url_description(lang_code, display_userobject)
         viewed_profile_data_fields.current_entrance = current_entrance
         viewed_profile_data_fields.html_for_mail_history_summary = html_for_mail_history_summary
         viewed_profile_data_fields.account_has_been_removed_message = account_has_been_removed_message

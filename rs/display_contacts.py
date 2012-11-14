@@ -38,6 +38,7 @@ from forms import MyHTMLSearchBarGenerator
 from constants import ContactIconText, MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY
 from utils import requires_login
 from utils import return_time_difference_in_friendly_format, get_new_contact_count_sum
+from rs import profile_utils
 import queries, rendering, localizations, error_reporting, logging
 import utils, utils_top_level
 import http_utils
@@ -167,7 +168,7 @@ def generate_new_contacts_html(userobject):
                     
 
 
-def generate_contacts_html(userobject):
+def generate_contacts_html(userobject, lang_code):
     # generates the html that will show the contents of the users contact lists .
 
     generated_html = ''
@@ -296,7 +297,8 @@ def generate_contacts_html(userobject):
                         strong_close = ""         
                     
                     date_stored =  return_time_difference_in_friendly_format(date, data_precision = 1)
-                    profile_href = reverse("rs/other", kwargs={'display_uid' :str(profile.key())})
+                    profile_href = profile_utils.get_userprofile_href(lang_code, profile, is_primary_user=False)
+                    
                     
                     generated_html += u'<a href="%s" rel="address:%s">%s %s</a>\n' % (profile_href, profile_href, strong_open, profile.username, )
                     generated_html += u'%s %s<br>' % (date_stored, strong_close)
@@ -325,7 +327,7 @@ def generate_contacts_display(request , owner_uid):
     
         userobject =  utils_top_level.get_object_from_string(owner_uid)
         username = userobject.username
-        generated_html = generate_contacts_html(userobject)
+        generated_html = generate_contacts_html(userobject, request.LANGUAGE_CODE)
         
         # note must declare lang_idx = lang_idx for this to work since other parameters appear before it.
         return rendering.render_main_html(request, generated_html, userobject)

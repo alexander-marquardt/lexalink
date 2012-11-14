@@ -624,7 +624,7 @@ def load_send_mail(request, other_uid):
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
         other_userobject = db.get(db.Key(other_uid))
-        generated_html = mailbox.generate_mail_message_display_html(userobject, other_userobject)
+        generated_html = mailbox.generate_mail_message_display_html(userobject, other_userobject, request.LANGUAGE_CODE)
     except:
         error_reporting.log_exception(logging.critical)
         generated_html = "Error"
@@ -756,7 +756,7 @@ def load_mail_history(request, bookmark_key_str, other_uid):
 
             
         is_first_message = False
-        generated_html = mailbox.generate_messages_html(query_for_message, is_first_message, userobject, other_uid)
+        generated_html = mailbox.generate_messages_html(query_for_message, is_first_message, userobject, other_uid, request.LANGUAGE_CODE)
         
     except:
         error_reporting.log_exception(logging.critical)

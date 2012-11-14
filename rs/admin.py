@@ -34,10 +34,11 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedire
 from django import http
 from django.utils.translation import ugettext
 
-import settings
+import settings 
 
 import error_reporting, logging
 import models, utils, sharding, constants, store_data, login_utils
+from rs import profile_utils
 
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -188,7 +189,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             photo_object_key_str = str(photo_object.key())
             photo_parentobject = photo_object.parent_object
             
-            profile_href = "/rs/other/%s/" % str(photo_parentobject.key())
+            profile_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, photo_parentobject, is_primary_user=False)
             
             if photo_object.has_been_reviewed:
                 url_for_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("medium", photo_object_key_str)

@@ -51,6 +51,7 @@ import localizations
 import error_reporting
 import rendering, text_fields
 import models, constants, http_utils
+from rs import profile_utils
 
 CONTACTS_PAGESIZE = 10 # number of contacts to show on a page.
 SINGLE_CONVERSATION_PAGESIZE = 10 # show X sent/received messages
@@ -324,7 +325,7 @@ def generate_mailbox_headers(owner_uid, mailbox_name):
     
 ##############################################
 
-def generate_messages_html(query_for_message, is_first_message, userobject, other_uid):
+def generate_messages_html(query_for_message, is_first_message, userobject, other_uid, lang_code):
     # loops over the passed in query results, and prints out the corresponding individual messsages
     
     
@@ -347,7 +348,7 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
             is_first_message = False
             
             generated_html += u'<div class="grid_9 alpha omega cl-mailbox_results cl-mail_seperator">\n'
-            profile_href = reverse("rs/other", kwargs={'display_uid' : str(profile.key())})
+            profile_href = profile_utils.get_userprofile_href(lang_code, profile, is_primary_user=False)
 
         
             # get profile photo
@@ -442,7 +443,7 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
     return generated_html
     
 ###########################################################################
-def generate_mail_message_display_html(userobject, other_userobject):
+def generate_mail_message_display_html(userobject, other_userobject, lang_code):
     # This routine generates the display of a "conversation" between users in the system.
     # Ie. It shows all messages exchanged between two users.
 
@@ -483,7 +484,8 @@ def generate_mail_message_display_html(userobject, other_userobject):
         other_profile = have_sent_messages_object.other_ref
     
         to_uid = str(other_profile.key())
-        other_profile_href = reverse("rs/other", kwargs={'display_uid' : to_uid})
+        other_profile_href = profile_utils.get_userprofile_href(lang_code, other_profile, is_primary_user=False)
+        
         
         from_uid = str(userobject.key())
         
@@ -540,7 +542,7 @@ def generate_mail_message_display_html(userobject, other_userobject):
         # used for determining if a seperating line will be placed above the message
         is_first_message = True
         
-        generated_html += generate_messages_html(query_for_message, is_first_message, userobject, to_uid)
+        generated_html += generate_messages_html(query_for_message, is_first_message, userobject, to_uid, lang_code)
             
         generated_html += u'</div>' # gray message container
         generated_html += u'</div>' # outer container
@@ -576,7 +578,7 @@ def mail_message_display(request, owner_uid, other_uid):
         
         generated_html = ''
         generated_html += generate_mailbox_headers(owner_uid, mailbox_name = '')  
-        generated_html += generate_mail_message_display_html(userobject, other_userobject)
+        generated_html += generate_mail_message_display_html(userobject, other_userobject, request.LANGUAGE_CODE)
             
         return rendering.render_main_html(request, generated_html, userobject)
     except:
@@ -745,7 +747,7 @@ def display_conversation_summary(request, have_sent_messages_object,
             generated_html += u'</div>' #end internal grid_9
             generated_html += u'<div class="grid_9 alpha omega">' # internal grid_9            
             
-            other_userobject_href = reverse("rs/other", kwargs={'display_uid' : str(other_userobject.key())}) 
+            other_userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, other_userobject, is_primary_user=False)
 
             
             generated_html += '<div class="cl-grid_160px  grid_custom alpha omega">\n'

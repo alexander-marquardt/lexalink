@@ -382,8 +382,8 @@
 <div class="cl-clear"></div>
 <div class="grid_2 alpha">
     <strong>{% trans "See my profile:" %}</strong><br>
-    <a href="{% url rs/other display_uid=viewed_profile_data_fields.display_uid %}"
-            rel="address:{% url rs/other display_uid=viewed_profile_data_fields.display_uid %}">
+    <a href="{% url user_profile_url display_id=viewed_profile_data_fields.display_id profile_url_description=viewed_profile_data_fields.profile_url_description %}"
+            rel="address:{% url user_profile_url display_id=viewed_profile_data_fields.display_id profile_url_description=viewed_profile_data_fields.profile_url_description %}">
         ({% trans "click here" %})
     </a>
 </div> <!-- end grid_2 -->
