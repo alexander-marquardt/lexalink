@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-13 15:54+0100\n"
+"POT-Creation-Date: 2012-11-14 12:14+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -82,8 +82,8 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:699 rs/display_contacts.py:335 rs/forms.py:1141
-#: rs/login_utils.py:244 rs/rendering.py:389 rs/store_data.py:1582
-#: rs/views.py:300 rs/views.py:788
+#: rs/login_utils.py:244 rs/rendering.py:393 rs/store_data.py:1582
+#: rs/views.py:325 rs/views.py:814
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -112,7 +112,7 @@ msgstr "Mis datos"
 msgid "More details about me"
 msgstr "Más datos sobre mí"
 
-#: rs/callbacks_from_html.py:97 rs/search_results.py:174
+#: rs/callbacks_from_html.py:97 rs/search_results.py:172
 #: rs/user_profile_details.py:204
 msgid "Languages I speak"
 msgstr "Idiomas que hablo"
@@ -660,7 +660,7 @@ msgstr "Un Saludo"
 msgid "Warning"
 msgstr "Atención"
 
-#: rs/forms.py:310 rs/search_results.py:104
+#: rs/forms.py:310 rs/search_results.py:102
 msgid "See profile of:"
 msgstr "Ver perfil y contactar con:"
 
@@ -717,12 +717,12 @@ msgstr ""
 "%(sex)s Busca %(preference)s Para %(relationship_status)s En %(location)s"
 
 #: rs/forms.py:804
-#, python-format
 msgid ""
-"Language profile title %(languages)s %(location)s %(languages_to_learn)s"
+"Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %"
+"(location)s"
 msgstr ""
-"Hablante De %(languages)s Busca Hablante De %(languages_to_learn)s. "
-"Actualmente En: %(location)s"
+"Hablante De %(languages)s Busca Hablantes De %(languages_to_learn)s En %"
+"(location)s"
 
 #: rs/forms.py:809
 #, python-format
@@ -2255,7 +2255,7 @@ msgid "EH"
 msgstr "Sáhara Occidental"
 
 #: rs/localizations.py:672 rs/localizations.py:684
-msgid "All countries"
+msgid "All Countries"
 msgstr "Todos Los Países"
 
 #: rs/login_utils.py:221
@@ -2270,7 +2270,7 @@ msgstr "Hemos eliminado el perfil de"
 msgid "We have enabled the profile of"
 msgstr "Hemos habilitado el perfil de"
 
-#: rs/login_utils.py:478 rs/login_utils.py:507 rs/views.py:850
+#: rs/login_utils.py:478 rs/login_utils.py:507 rs/views.py:876
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -2477,7 +2477,7 @@ msgstr "Marcar como favorito"
 msgid "You don't have any messages in this mailbox"
 msgstr "No tienes mensajes en este buzon"
 
-#: rs/mailbox.py:1034 rs/search_results.py:854 rs/search_results.py:865
+#: rs/mailbox.py:1034 rs/search_results.py:852 rs/search_results.py:863
 msgid "Next"
 msgstr "Siguiente"
 
@@ -2510,12 +2510,12 @@ msgstr ""
 "Si el mensaje que te han enviado no es cortés y relacionado con lo que has "
 "especificado en tu descripción, márcalo como spam sin responder."
 
-#: rs/rendering.py:206 rs/views.py:124
+#: rs/rendering.py:209 rs/views.py:136
 #, python-format
 msgid "Remember the following benefits of registering with %(app_name)s."
 msgstr "Recuerda las siguientes ventajas de registrarte en %(app_name)s.com:"
 
-#: rs/rendering.py:208 rs/views.py:126
+#: rs/rendering.py:211 rs/views.py:138
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:146
 #, python-format
 msgid "List of benefits for registering with %(app_name)s."
@@ -2526,7 +2526,7 @@ msgstr ""
 "respeta tu privacidad. Tu perfil tiene un área pública y un área privada. "
 "Sólo los socios que invites pueden ver tus fotos privadas."
 
-#: rs/rendering.py:221 rs/views.py:119
+#: rs/rendering.py:224 rs/views.py:131
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2599,100 +2599,100 @@ msgstr ""
 msgid "Finished"
 msgstr "Terminado"
 
-#: rs/search_results.py:143
+#: rs/search_results.py:141
 msgid "About me"
 msgstr "Sobre mi"
 
-#: rs/search_results.py:182
+#: rs/search_results.py:180
 msgid "Native language"
 msgstr "Idioma materno"
 
-#: rs/search_results.py:250
+#: rs/search_results.py:248
 msgid "Last entrance"
 msgstr "Última entrada"
 
-#: rs/search_results.py:462 rs/search_results.py:498
+#: rs/search_results.py:460 rs/search_results.py:496
 #, python-format
 msgid "generated_search_title %(sex)s"
 msgstr "%(sex)s"
 
-#: rs/search_results.py:465 rs/search_results.py:483 rs/search_results.py:500
+#: rs/search_results.py:463 rs/search_results.py:481 rs/search_results.py:498
 msgid "All people (feminine)"
 msgstr "Todas las personas"
 
-#: rs/search_results.py:467
+#: rs/search_results.py:465
 msgid "All lesbian types"
 msgstr "Todo tipo de lesbianas"
 
-#: rs/search_results.py:470
+#: rs/search_results.py:468
 #, python-format
 msgid "generated_search_title %(preference)s"
 msgstr "buscando %(preference)s"
 
-#: rs/search_results.py:480
+#: rs/search_results.py:478
 #, python-format
 msgid "generated_search_title %(language_to_learn)s"
 msgstr "Hablantes de %(language_to_learn)s"
 
-#: rs/search_results.py:486
+#: rs/search_results.py:484
 #, python-format
 msgid "generated_search_title %(language_to_teach)s"
 msgstr "que quieren aprender %(language_to_teach)s"
 
-#: rs/search_results.py:492
+#: rs/search_results.py:490
 #, python-format
 msgid "Sex: %(sex)s"
 msgstr "Sexo: %(sex)s"
 
-#: rs/search_results.py:503
+#: rs/search_results.py:501
 #, python-format
 msgid "interested in %(for_sale_sub_menu)s"
 msgstr "interesado en %(for_sale_sub_menu)s"
 
-#: rs/search_results.py:506
+#: rs/search_results.py:504
 #, python-format
 msgid "interested in %(for_sale)s"
 msgstr "interesado en %(for_sale)s"
 
-#: rs/search_results.py:512
+#: rs/search_results.py:510
 #, python-format
 msgid "Price: %(friend_price)s. Currency: %(friend_currency)s"
 msgstr "Precio: %(friend_price)s. Moneda: %(friend_currency)s"
 
-#: rs/search_results.py:516
+#: rs/search_results.py:514
 #, python-format
 msgid "Price: %(friend_price)s"
 msgstr "Precio: %(friend_price)s"
 
-#: rs/search_results.py:528
+#: rs/search_results.py:526
 #, python-format
 msgid "generated_search_title %(location)s"
 msgstr "En: %(location)s"
 
-#: rs/search_results.py:530
+#: rs/search_results.py:528
 msgid "In: The entire world"
 msgstr "En: Todo el mundo"
 
-#: rs/search_results.py:533
+#: rs/search_results.py:531
 #, python-format
 msgid "generated_search_title %(age)s"
 msgstr "Edad: %(age)s"
 
-#: rs/search_results.py:538
+#: rs/search_results.py:536
 msgid "Ordered by"
 msgstr "Ordenado por"
 
-#: rs/search_results.py:542
+#: rs/search_results.py:540
 #, python-format
 msgid "Status generated_search_title %(relationship_status)s"
 msgstr "Estado: %(relationship_status)s"
 
-#: rs/search_results.py:546
+#: rs/search_results.py:544
 #, python-format
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "Para: %(relationship_status)s"
 
-#: rs/search_results.py:726
+#: rs/search_results.py:724
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
@@ -3537,6 +3537,12 @@ msgstr "No Importa"
 msgid "Anything"
 msgstr "Cualquier Tipo De Relacion"
 
+#: rs/user_profile_main_data.py:79
+#: rs/templates/user_main_helpers/search_inline_javascript.html:40
+#: rs/templates/user_main_helpers/search_inline_javascript.html:41
+msgid "Show All"
+msgstr "Mostrar Todos"
+
 #: rs/user_profile_main_data.py:82
 msgid "All People"
 msgstr "Todos"
@@ -3709,7 +3715,7 @@ msgstr "Últimas Entradas Primero"
 
 #: rs/user_profile_main_data.py:308
 msgid "I Am Currently In"
-msgstr "Actualmente Estoy En"
+msgstr "Actualmente&nbsp;Estoy&nbsp;En"
 
 #: rs/user_profile_main_data.py:310
 msgid "I / We Live In"
@@ -4011,18 +4017,17 @@ msgstr ""
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
-#: rs/views.py:156
-#, python-format
+#: rs/views.py:171
 msgid ""
 "It is recommendable that you write a description of at \n"
-"    least %(num_chars)s characters"
+"        least %(num_chars)s characters"
 msgstr ""
 "Te recomendamos que <strong>escribas una descripción de más de %(num_chars)s "
 "carácteres </strong> (casi 2 líneas). Sin una descripción, muchas personas "
 "no responderán a tus mensajes. Ademas, los perfiles más completos saldrán "
 "más arriba en los resultados del buscador."
 
-#: rs/views.py:832
+#: rs/views.py:858
 msgid "terms.html"
 msgstr "proprietary/terminos.html"
 
@@ -4960,11 +4965,6 @@ msgstr "Todas Las Regiones"
 msgid "All Sub-Regions"
 msgstr "Todas Las Sub-Regiones"
 
-#: rs/templates/user_main_helpers/search_inline_javascript.html:40
-#: rs/templates/user_main_helpers/search_inline_javascript.html:41
-msgid "Show All"
-msgstr "Mostrar Todos"
-
 #: rs/templates/user_main_helpers/simple_search_form.html:40
 msgid "Search By Name"
 msgstr "Buscar Por Nombre / Nick"
@@ -4994,6 +4994,12 @@ msgstr ""
 "\n"
 "<strong>Opciones para ponerte en contacto con %(viewed_profile_name)s.</"
 "strong><br>(Haz clic en el icono para activar o eliminar la acción asociada):"
+
+#~ msgid ""
+#~ "Language profile title %(languages)s %(location)s %(languages_to_learn)s"
+#~ msgstr ""
+#~ "Hablante De %(languages)s Busca Hablante De %(languages_to_learn)s. "
+#~ "Actualmente En: %(location)s"
 
 #~ msgid "TAG Free dating"
 #~ msgstr "Contactos gratis"

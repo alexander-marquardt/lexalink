@@ -36,6 +36,7 @@ def redirect_to_url(request, redirect_url):
         return http.HttpResponse(json_response, mimetype='text/javascript')
     else:
         return http.HttpResponseRedirect(redirect_url)
+      
 
 def ajax_compatible_http_response(request, html, http_response_function = http.HttpResponse):
         

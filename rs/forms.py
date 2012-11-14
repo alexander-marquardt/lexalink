@@ -801,12 +801,12 @@ class FormUtils():
                 'preference' : vals_in_curr_language_dict['preference']})
             
         elif settings.BUILD_NAME == "Language":
-            base_title = u"%s. " % ugettext("Language profile title %(languages)s %(location)s %(languages_to_learn)s") % {
+            base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
             'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
             'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
         elif settings.BUILD_NAME == 'Friend':
             activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
-            base_title = u"%s. " % (ugettext("%(sex)s In %(location)s") % {
+            base_title = u"%s" % (ugettext("%(sex)s In %(location)s") % {
                 'sex': vals_in_curr_language_dict['sex'],
                 'location' : vals_in_curr_language_dict['location'],
             })
@@ -820,8 +820,8 @@ class FormUtils():
     def get_profile_url_description(cls, lang_code, userobject):
         # returns a description of the current profile that is suitable for display in a URL
         profile_url_description = cls.get_base_userobject_title(lang_code, userobject)
-        profile_url_description = profile_url_description.replace(' ' , '-')
         profile_url_description = re.sub('[,;()/]', '', profile_url_description)
+        profile_url_description = re.sub(r'\s+' , '-', profile_url_description)        
         profile_url_description = urllib.quote(profile_url_description.encode('utf8')) # escape unicode chars for URL    
         return profile_url_description
     

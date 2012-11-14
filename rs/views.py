@@ -79,7 +79,7 @@ def redirect_to_user_main(request, display_uid, is_primary_user = False, profile
     # function that will redirect this out-of-date URL to the correct new URL format
     userobject = db.get(db.Key(display_uid))
     redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
-    return http_utils.redirect_to_url(request, redirect_url)   
+    return http.HttpResponsePermanentRedirect(redirect_url)  
 
 def user_main(request, display_id, is_primary_user = False, profile_url_description = None):
     # The users "main" page, after logging in. Will show their profile.
@@ -184,6 +184,18 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
             try:
                 display_userobject = db.get(db.Key(display_uid))
                 assert(display_userobject)
+                
+                # if the description portion of the URL does not match what we expect for the current profile, then
+                # re-direct to a URL with the correct description.
+                # This is done for cases where the user has changed some aspect of their profile description 
+                # (country, sex, etc.), so that the URL will be re-directed to reflect the new values.
+                quoted_profile_url_description = urllib.quote(profile_url_description.encode('utf8'))
+                expected_profile_url_description = forms.FormUtils.get_profile_url_description(request.LANGUAGE_CODE, display_userobject)
+                if quoted_profile_url_description != expected_profile_url_description:
+                    redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
+                    logging.debug("redirecting from %s to %s\n" % (quoted_profile_url_description, expected_profile_url_description))
+                    return http.HttpResponsePermanentRedirect(redirect_url)
+                    
             except BadRequestError:
                 # The request to the datastore service has one or more invalid properties. This has occured after moving
                 # data from one application to another, and people/google have stored URLs that contain stale display_uid strings.
@@ -193,12 +205,10 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
                     # to prevent infinite loop, only redirect if the "new_uid" is different from the "display_uid"
                     # For example, we want to be sure that we don't re-direct a bad uid key that is already in the
                     # application name of current application.
-                    redirect_url = reverse("rs/other", kwargs = {'display_uid' : new_uid})
-                    
-                    if not request.REQUEST.get("is_ajax_call", ''):
-                        return http.HttpResponsePermanentRedirect(redirect_url)
-                    else:
-                        return http_utils.redirect_to_url(request, redirect_url)
+                    new_userobject = db.get(db.Key(new_uid))
+                    redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, new_userobject)
+                    return http.HttpResponsePermanentRedirect(redirect_url)
+
                 else:
                     raise Exception("Bad display_uid passed into views.user_main")
             except:
@@ -292,7 +302,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
                                   or display_userobject.unique_last_login_offset_ref.has_private_photo_offset
         
         template = loader.get_template("user_main_helpers/main_body.html")
-        context = Context({
+        context = Context(dict({
             'primary_user_profile_data_fields': primary_user_profile_data_fields,
             'viewed_profile_data_fields': viewed_profile_data_fields,
             'search_bar': search_bar,
@@ -300,7 +310,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
             'unregistered_user_welcome_text': unregistered_user_welcome_text  ,
             'registered_user_bool': registered_user_bool,
             'build_name': settings.BUILD_NAME,
-            })
+            }, **constants.template_common_fields))
     
         generated_html = template.render(context)
         
