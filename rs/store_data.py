@@ -865,7 +865,7 @@ def invalidate_memcache_for_friends_lists(owner_uid):
     check_friends_online_last_update_memcache_key = constants.CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
     memcache.delete(check_friends_online_last_update_memcache_key)
     
-    online_contacts_names_dict_memcache_key = constants.ONLINE_CONTACTS_NAMES_MEMCACHE_PREFIX + owner_uid
+    online_contacts_names_dict_memcache_key = constants.ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
     memcache.delete(online_contacts_names_dict_memcache_key)
 
 def modify_active_initiate_contact_object(action, initiate_contact_object, userobject_key, other_userobject_key, override_minimum_delay = False):
