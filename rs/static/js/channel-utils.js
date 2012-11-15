@@ -631,6 +631,11 @@ var chan_utils = new function () {
 
         this.displayAsListWithHrefs = function (group_id, sorted_list_of_names_with_uids) {
 
+            /* This code displays the list of users that are currently members of a group discussion. Each username
+             * includes a hyberlink to the profile of the given user. 
+             */
+            /* This code looks very similar to jquery.ui.chatbox.displayAsList() - check if they can be merged into a common function */
+
             try {
 
                 var display_list = '<ul id="id-chatbox-group_members-list' + group_id + '" class = "ui-chatbox-ul">';

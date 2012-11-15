@@ -828,10 +828,11 @@ var displayAsList = function (box_name, dict_to_display) {
 
     var display_list = '<ul id="id-chatbox-' + box_name + '-list" class = "ui-chatbox-ul">';
     for (var uid in dict_to_display) {
+        var nid = dict_to_display[uid]['nid'];
         var display_name = dict_to_display[uid]['user_or_group_name'];
         var url_description = dict_to_display[uid]['url_description'];
         // by writing values with data-variable_name format, we can use jquery.data() operator to pull out the value later
-        display_list += '<li><a data-uid="' + uid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';
+        display_list += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';
     }
     display_list += '</ul>';
 

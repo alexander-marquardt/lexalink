@@ -267,6 +267,9 @@ def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
         userdict[profile_key] = {}
         userdict[profile_key]['user_or_group_name'] = profile.username
         userdict[profile_key]['url_description'] = forms.FormUtils.get_profile_url_description(lang_code, profile)
+        # The database id should eventually be used as the key for this dictionary, but this requires 
+        # changing a lot of other code to make it work. Temporarily, we just pass in as "nid" 
+        userdict[profile_key]['nid'] = profile.key().id()
 
     return userdict
 
@@ -416,10 +419,10 @@ def get_chat_groups_dict(overwrite_memcache = False):
         chat_groups_dict = {}
         chat_groups_query_results = query_chat_groups()
         for chat_group in chat_groups_query_results:
-            group_uid = str(chat_group.key())
-            chat_groups_dict[group_uid] = {}
-            chat_groups_dict[group_uid]['user_or_group_name'] = chat_group.group_name
-            chat_groups_dict[group_uid]['num_group_members'] = chat_group.number_of_group_members
+            group_key = str(chat_group.key())
+            chat_groups_dict[group_key] = {}
+            chat_groups_dict[group_key]['user_or_group_name'] = chat_group.group_name
+            chat_groups_dict[group_key]['num_group_members'] = chat_group.number_of_group_members
             
         memcache.set(global_chat_groups_dict_memcache_key, chat_groups_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
 
