@@ -55,11 +55,11 @@ def initialize_main_and_group_boxes_on_server(request):
             
             # expire the timer on the memcache for group updates, so that we immediately send the new list
             chat_group_timer_memcache_key = "chat_group_timer_memcache_key_" + owner_uid
-            user_group_list_is_up_to_date = memcache.delete(chat_group_timer_memcache_key)
+            memcache.delete(chat_group_timer_memcache_key)
             
             # same for friends list
             check_friends_online_last_update_memcache_key = constants.CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
-            contacts_names_dict = memcache.delete(check_friends_online_last_update_memcache_key)
+            memcache.delete(check_friends_online_last_update_memcache_key)
         else:
             # user is not logged in (probably session timed out)-- do nothing
             pass
@@ -233,14 +233,14 @@ def poll_server_for_status_and_new_messages(request):
             # we set the memcache to expire after a certian amount of time, and only if it is expired
             # will we generate a new friends list - this is done like this to reduce server loading. 
             check_friends_online_last_update_memcache_key = constants.CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
-            contacts_names_dict = memcache.get(check_friends_online_last_update_memcache_key)
-            if contacts_names_dict is None:
+            contacts_info_dict = memcache.get(check_friends_online_last_update_memcache_key)
+            if contacts_info_dict is None:
                 # get the data structure that represents the "friends online" for the current user.
-                contacts_names_dict = chat_support.get_friends_online_dict(owner_uid);
-                memcache.set(check_friends_online_last_update_memcache_key, contacts_names_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
+                contacts_info_dict = chat_support.get_friends_online_dict(owner_uid);
+                memcache.set(check_friends_online_last_update_memcache_key, contacts_info_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
            
                 # only send the contacts list if memcache timed-out (we use the memcache as a timer)
-                response_dict['contacts_names_dict'] = contacts_names_dict    
+                response_dict['contacts_info_dict'] = contacts_info_dict    
             
             
 

@@ -185,11 +185,11 @@ var chan_utils = new function () {
                 }
 
                 var message;
-                if (json_response.hasOwnProperty('contacts_names_dict')) {
-                    if (!$.isEmptyObject(json_response.contacts_names_dict)) {
+                if (json_response.hasOwnProperty('contacts_info_dict')) {
+                    if (!$.isEmptyObject(json_response.contacts_info_dict)) {
 
-                        updateChatControlBox("main", json_response.contacts_names_dict);
-                        updateBoxTitles(json_response.contacts_names_dict);
+                        updateChatControlBox("main", json_response.contacts_info_dict);
+                        updateBoxTitles(json_response.contacts_info_dict);
                     }
                     else {
                         message = $("#id-no-contacts-text").text();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010, Wen Pu (dexterpu at gmail dot com)
+ * Orignal Copyright 2010, Wen Pu (dexterpu at gmail dot com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -8,7 +8,8 @@
  * Depends on jquery.ui.core, jquery.ui.widiget, jquery.ui.effect
  * 
  * Also uses some styles for jquery.ui.dialog
- * 
+ *
+ * Extensive LexaLink related modifications made by Alexander Marquardt
  */
 
 

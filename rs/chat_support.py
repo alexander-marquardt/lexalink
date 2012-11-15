@@ -314,9 +314,9 @@ def get_friends_online_dict(owner_uid):
     #
     # The data returned will be in the form of a dictionary with the userid as the key, and the username as the value
     
-    online_contacts_names_dict_memcache_key = constants.ONLINE_CONTACTS_NAMES_MEMCACHE_PREFIX + owner_uid
-    online_contacts_names_dict = memcache.get(online_contacts_names_dict_memcache_key)
-    if online_contacts_names_dict is None:
+    online_contacts_info_dict_memcache_key = constants.ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
+    online_contacts_info_dict = memcache.get(online_contacts_info_dict_memcache_key)
+    if online_contacts_info_dict is None:
     
         # get the uid's of *all* "chat friends"
         all_friends_dict_memcache_key = constants.ALL_FRIENDS_DICT_MEMCACHE_PREFIX + owner_uid
@@ -327,20 +327,20 @@ def get_friends_online_dict(owner_uid):
             memcache.set(all_friends_dict_memcache_key, userdict, constants.ALL_CHAT_FRIENDS_DICT_EXPIRY)
         
         # get the uid's of the *online* "chat friends"
-        online_contacts_names_dict = {}
+        online_contacts_info_dict = {}
         for uid in userdict:
             online_status = get_user_online_status(uid)
             if online_status != OFFLINE and online_status != TIMEOUT: # for purposes of chat list update, offline and timeout are the same
                 if online_status == ACTIVE:
                     # user is ACTIVE (online)
-                    online_contacts_names_dict[uid] = userdict[uid]
+                    online_contacts_info_dict[uid] = userdict[uid]
                 else:
-                    online_contacts_names_dict[uid] = "%s (%s)" % (userdict[uid], online_status)    
+                    online_contacts_info_dict[uid] = "%s (%s)" % (userdict[uid], online_status)    
                     
-        memcache.add(online_contacts_names_dict_memcache_key, online_contacts_names_dict, \
+        memcache.add(online_contacts_info_dict_memcache_key, online_contacts_info_dict, \
                      constants.SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE)
                 
-    return (online_contacts_names_dict);
+    return (online_contacts_info_dict);
 
 
 
