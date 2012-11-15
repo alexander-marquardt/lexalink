@@ -1949,7 +1949,7 @@ def store_new_user_after_verify(request, fake_request=None):
         welcome_new_user(request)
     
         owner_uid = str(userobject.key())
-        owner_id = userobject.key().id()
+        owner_nid = userobject.key().id()
         
     except:
         # if there is any failure in the signup process, clean up all the data stored, and send the user back to the login page with the data that they
@@ -1982,7 +1982,7 @@ def store_new_user_after_verify(request, fake_request=None):
     # log information about this users login time, and IP address
     utils.update_ip_address_on_user_tracker(userobject.user_tracker)
 
-    home_url = reverse("edit_profile_url", kwargs={'display_id' : owner_id})  
+    home_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
     logging.info("Registered/Logging in User: %s IP: %s country code: %s - re-directing to edit_profile_url: %s" % (
         userobject.username, os.environ['REMOTE_ADDR'], request.META.get('HTTP_X_APPENGINE_COUNTRY', None), home_url))
     return home_url

@@ -81,7 +81,7 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
     redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
     return http.HttpResponsePermanentRedirect(redirect_url)  
 
-def user_main(request, display_id, is_primary_user = False, profile_url_description = None):
+def user_main(request, display_nid, is_primary_user = False, profile_url_description = None):
     # The users "main" page, after logging in. Will show their profile.
     # display_uid - is the object key of the profile currently displayed -- if the client is viewing other
     #       users, then the uid references the other users object. If the client is viewing their own
@@ -90,7 +90,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
     #    that belong to other users in the system. This means that edit is enabled, and private
     #    is displayed.
     try:
-        display_key = db.Key.from_path('UserModel', long(display_id))
+        display_key = db.Key.from_path('UserModel', long(display_nid))
         display_uid = str(display_key)
         
         lang_code = request.LANGUAGE_CODE
@@ -117,13 +117,13 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
         
         if owner_userobject:
             owner_uid = request.session['userobject_str']
-            owner_id = owner_userobject.key().id()
+            owner_nid = owner_userobject.key().id()
             registered_user_bool = True # viewing user is logged in
             link_to_hide = 'login'
         else:
             owner_userobject = None
             owner_uid = ''
-            owner_id = ''
+            owner_nid = ''
             registered_user_bool = False
             # take away all permissions if this is a non-logged-in user
             is_primary_user = False
@@ -273,7 +273,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
             primary_user_profile_data_fields.no_about_user_section_warning = no_about_user_section_warning
             primary_user_profile_data_fields.max_checkbox_values_in_combined_ix_list = constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST
             primary_user_profile_data_fields.owner_uid = owner_uid
-            primary_user_profile_data_fields.owner_id = owner_id
+            primary_user_profile_data_fields.owner_nid = owner_nid
             primary_user_profile_data_fields.is_adult = constants.IS_ADULT
             
             if diamond_status:
@@ -291,7 +291,7 @@ def user_main(request, display_id, is_primary_user = False, profile_url_descript
         viewed_profile_data_fields.last_entrance = last_entrance    
         viewed_profile_data_fields.display_username = display_username
         viewed_profile_data_fields.display_uid = display_uid
-        viewed_profile_data_fields.display_id = display_id
+        viewed_profile_data_fields.display_nid = display_nid
         viewed_profile_data_fields.profile_url_description = forms.FormUtils.get_profile_url_description(lang_code, display_userobject)
         viewed_profile_data_fields.current_entrance = current_entrance
         viewed_profile_data_fields.html_for_mail_history_summary = html_for_mail_history_summary
@@ -583,7 +583,7 @@ def login(request, is_admin_login = False, referring_code = None):
                     if userobject:
                         # success, user is in database and has entered correct data
                         owner_uid = str(userobject.key())
-                        owner_id = userobject.key().id()
+                        owner_nid = userobject.key().id()
                         
                         # make sure that the userobject has all the parts that the code expects it to have.
                         store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
@@ -661,8 +661,8 @@ def login(request, is_admin_login = False, referring_code = None):
                         assert(site_configuration.set_language_in_session(request, lang_code))
                         # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
                         # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
-                        redirect_url = "/%(lang_code)s/edit_profile/%(owner_id)s/" % {
-                                'lang_code': lang_code, 'owner_id':owner_id}                        
+                        redirect_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
+                                'lang_code': lang_code, 'owner_nid':owner_nid}                        
                         return http_utils.redirect_to_url(request, redirect_url)                        
 
                     else:

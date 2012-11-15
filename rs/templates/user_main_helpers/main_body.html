@@ -167,7 +167,7 @@
             <strong>{% trans "Photos" %}:</strong>
 
             <div id="id-edit-photos-link">
-                <a href="{% url edit_profile_url display_id=primary_user_profile_data_fields.owner_id %}">
+                <a href="{% url edit_profile_url display_nid=primary_user_profile_data_fields.owner_nid %}">
                     ({% trans "edit" %}/{% trans "upload" %} {% trans "photos" %})
                 </a>
             </div>
@@ -382,8 +382,8 @@
 <div class="cl-clear"></div>
 <div class="grid_2 alpha">
     <strong>{% trans "See my profile:" %}</strong><br>
-    <a href="{% url user_profile_url display_id=viewed_profile_data_fields.display_id profile_url_description=viewed_profile_data_fields.profile_url_description %}"
-            rel="address:{% url user_profile_url display_id=viewed_profile_data_fields.display_id profile_url_description=viewed_profile_data_fields.profile_url_description %}">
+    <a href="{% url user_profile_url display_nid=viewed_profile_data_fields.display_nid profile_url_description=viewed_profile_data_fields.profile_url_description %}"
+            rel="address:{% url user_profile_url display_nid=viewed_profile_data_fields.display_nid profile_url_description=viewed_profile_data_fields.profile_url_description %}">
         ({% trans "click here" %})
     </a>
 </div> <!-- end grid_2 -->

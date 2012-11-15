@@ -34,6 +34,7 @@ import logging
 
 import utils, error_reporting, queries, logging
 import models, constants, settings
+from rs import forms
 
 from utils_top_level import deserialize_entities, serialize_entities
 import utils_top_level
@@ -247,19 +248,25 @@ def get_user_online_status(owner_uid):
         error_reporting.log_exception(logging.critical)
         return OFFLINE
         
-def get_dict_of_friends_uids_and_usernames(userobject_key):
+def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
     
-    # returns an array of all of the users that are "chat_friends" of the current user
+    # returns an array of all of the users that are "chat_friends" of the current user. The returned list
+    # contains all chat_friends of the current user, irrespective of if they are currently online/connected
+    # to the chat.
     
     userdict = {}
+    
+    # Note: the "connected" in the following function does not refer to online status - it refers to the fact
+    # that two users are "connected" in the sense that they have agreed to be "chat friends"
     contact_query_results = queries.query_initiate_contact_by_type_of_contact(userobject_key, "chat_friend", None , 
                                                                               constants.MAX_CHAT_FRIEND_REQUESTS_ALLOWED,
                                                                               "connected")
     for contact in contact_query_results:
         profile = getattr(contact, 'displayed_profile')
         profile_key = str(profile.key())
-        userdict[profile_key] = profile.username
-        
+        userdict[profile_key] = {}
+        userdict[profile_key]['user_or_group_name'] = profile.username
+        userdict[profile_key]['url_description'] = forms.FormUtils.get_profile_url_description(lang_code, profile)
 
     return userdict
 
@@ -307,35 +314,38 @@ def get_group_members_dict(group_id):
     return group_members_names_dict
     
 
-def get_friends_online_dict(owner_uid):
+def get_friends_online_dict(lang_code, owner_uid):
     
     # Returns a dictionary object containing the users that are currently online and in the 
     # "chat_friends" list of the current user. 
     #
     # The data returned will be in the form of a dictionary with the userid as the key, and the username as the value
     
-    online_contacts_info_dict_memcache_key = constants.ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
+    # We include the language code in the memcache key because if the user changes languages we want to ensure
+    # that the URL descriptions are returned in the correct language - which means that we have to query the 
+    # database if the new language has not previously been loaded.
+    online_contacts_info_dict_memcache_key = lang_code + constants.ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
     online_contacts_info_dict = memcache.get(online_contacts_info_dict_memcache_key)
     if online_contacts_info_dict is None:
     
         # get the uid's of *all* "chat friends"
         all_friends_dict_memcache_key = constants.ALL_FRIENDS_DICT_MEMCACHE_PREFIX + owner_uid
-        userdict = memcache.get(all_friends_dict_memcache_key)
-        if userdict is None:
+        user_info_dict = memcache.get(all_friends_dict_memcache_key)
+        if user_info_dict is None:
             userobject_key = db.Key(owner_uid)
-            userdict = get_dict_of_friends_uids_and_usernames(userobject_key)
-            memcache.set(all_friends_dict_memcache_key, userdict, constants.ALL_CHAT_FRIENDS_DICT_EXPIRY)
+            user_info_dict = get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key)
+            memcache.set(all_friends_dict_memcache_key, user_info_dict, constants.ALL_CHAT_FRIENDS_DICT_EXPIRY)
         
-        # get the uid's of the *online* "chat friends"
+        # Scna throug the entire list of chat_friends, and create a dictionary that is keyed by the
+        # uid's of the *online* "chat friends, and that contains relevant information about each 
+        # user (such as name, url_description, current online status (active, idle), and possibly other stuff in 
+        # in the future)"
         online_contacts_info_dict = {}
-        for uid in userdict:
+        for uid in user_info_dict:
             online_status = get_user_online_status(uid)
             if online_status != OFFLINE and online_status != TIMEOUT: # for purposes of chat list update, offline and timeout are the same
-                if online_status == ACTIVE:
-                    # user is ACTIVE (online)
-                    online_contacts_info_dict[uid] = userdict[uid]
-                else:
-                    online_contacts_info_dict[uid] = "%s (%s)" % (userdict[uid], online_status)    
+                online_contacts_info_dict[uid] = user_info_dict[uid]
+                online_contacts_info_dict[uid]['user_online_status'] = online_status
                     
         memcache.add(online_contacts_info_dict_memcache_key, online_contacts_info_dict, \
                      constants.SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE)
@@ -404,12 +414,13 @@ def get_chat_groups_dict(overwrite_memcache = False):
         
     if chat_groups_dict is None:
         chat_groups_dict = {}
-        
         chat_groups_query_results = query_chat_groups()
         for chat_group in chat_groups_query_results:
-            group_key = str(chat_group.key())
-            chat_groups_dict[group_key] = "<span>[%2s]</span> <span>%s</span>" % (chat_group.number_of_group_members, chat_group.group_name) 
-
+            group_uid = str(chat_group.key())
+            chat_groups_dict[group_uid] = {}
+            chat_groups_dict[group_uid]['user_or_group_name'] = chat_group.group_name
+            chat_groups_dict[group_uid]['num_group_members'] = chat_group.number_of_group_members
+            
         memcache.set(global_chat_groups_dict_memcache_key, chat_groups_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
 
     return chat_groups_dict        

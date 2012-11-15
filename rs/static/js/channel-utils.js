@@ -189,7 +189,7 @@ var chan_utils = new function () {
                     if (!$.isEmptyObject(json_response.contacts_info_dict)) {
 
                         updateChatControlBox("main", json_response.contacts_info_dict);
-                        updateBoxTitles(json_response.contacts_info_dict);
+                        updateUserChatBoxTitles(json_response.contacts_info_dict);
                     }
                     else {
                         message = $("#id-no-contacts-text").text();
@@ -201,7 +201,7 @@ var chan_utils = new function () {
                     if (!$.isEmptyObject(json_response.chat_groups_dict)) {
 
                         updateChatControlBox("groups", json_response.chat_groups_dict);
-                        updateBoxTitles(json_response.chat_groups_dict);
+                        updateGroupChatBoxTitles(json_response.chat_groups_dict);
                     }
                     else {
                         message = $("#id-no-groups-text").text();

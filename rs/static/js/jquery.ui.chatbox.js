@@ -828,8 +828,10 @@ var displayAsList = function (box_name, dict_to_display) {
 
     var display_list = '<ul id="id-chatbox-' + box_name + '-list" class = "ui-chatbox-ul">';
     for (var uid in dict_to_display) {
-        var display_name = dict_to_display[uid];
-        display_list += '<li><a data-uid="' + uid + '" href = "#">' + display_name + '</a>';
+        var display_name = dict_to_display[uid]['user_or_group_name'];
+        var url_description = dict_to_display[uid]['url_description'];
+        // by writing values with data-variable_name format, we can use jquery.data() operator to pull out the value later
+        display_list += '<li><a data-uid="' + uid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';
     }
     display_list += '</ul>';
 
@@ -883,17 +885,31 @@ var updateChatControlBox = function (box_name, dict_to_display) {
     }
 };
 
-var updateBoxTitles = function(titles_from_uid_dict) {
+var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
-        for (var uid in titles_from_uid_dict) {
-            var chatbox_title = titles_from_uid_dict[uid];
+        for (var uid in contacts_info_dict) {
+            if (contacts_info_dict[uid]['user_online_status'] != 'active') {
+                var chatbox_title = contacts_info_dict[uid]['user_or_group_name'] + " [" + contacts_info_dict[uid]['user_online_status'] + "]";
+            } else {
+                var chatbox_title = contacts_info_dict[uid]['user_or_group_name'];
+            }
             chatboxManager.changeBoxtitle(uid, chatbox_title);
         }
     } catch(err) {
-        report_try_catch_error( err, "updateBoxTitles");
+        report_try_catch_error( err, "updateUserChatBoxTitles");
     }
 };
 
+var updateGroupChatBoxTitles = function(chat_groups_dict) {
+    try {
+        for (var gid in chat_groups_dict) {
+            var chatbox_title = chat_groups_dict[gid]['user_or_group_name'] + " [" + chat_groups_dict[gid]['num_group_members'] + "]";
+            chatboxManager.changeBoxtitle(gid, chatbox_title);
+        }
+    } catch(err) {
+        report_try_catch_error( err, "updateGroupChatBoxTitles");
+    }
+};
 
 var setupContactsAndGroupsBoxes = function(online_status_on_page_reload) {
 

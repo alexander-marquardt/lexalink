@@ -198,6 +198,8 @@ def poll_server_for_status_and_new_messages(request):
     
    
     try:
+        lang_code = request.LANGUAGE_CODE
+        
         new_update_time_string = str(datetime.datetime.now())
         response_dict = {}
     
@@ -236,7 +238,7 @@ def poll_server_for_status_and_new_messages(request):
             contacts_info_dict = memcache.get(check_friends_online_last_update_memcache_key)
             if contacts_info_dict is None:
                 # get the data structure that represents the "friends online" for the current user.
-                contacts_info_dict = chat_support.get_friends_online_dict(owner_uid);
+                contacts_info_dict = chat_support.get_friends_online_dict(lang_code, owner_uid);
                 memcache.set(check_friends_online_last_update_memcache_key, contacts_info_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
            
                 # only send the contacts list if memcache timed-out (we use the memcache as a timer)

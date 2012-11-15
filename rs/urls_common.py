@@ -65,8 +65,8 @@ urlpatterns = patterns('',
     url(r'^rs/delete_account/(?P<owner_uid>[\w|-]+)/$', login_utils.delete_or_enable_account, {'delete_or_enable': 'delete'}, name="delete_account"),
     url(r'^rs/enable_account/(?P<owner_uid>[\w|-]+)/$', login_utils.delete_or_enable_account, {'delete_or_enable': 'enable'}, name="enable_account"),
     
-    url(r'^edit_profile/(?P<display_id>\d+)/$', views.user_main, {'is_primary_user': True}, name="edit_profile_url"),    
-    url(r'^profile/(?P<display_id>\d+)/(?P<profile_url_description>.+)/$', views.user_main, {'is_primary_user': False}, name="user_profile_url"),
+    url(r'^edit_profile/(?P<display_nid>\d+)/$', views.user_main, {'is_primary_user': True}, name="edit_profile_url"),    
+    url(r'^profile/(?P<display_nid>\d+)/(?P<profile_url_description>.+)/$', views.user_main, {'is_primary_user': False}, name="user_profile_url"),
     
     # The following URLs are what we used to use for displaying user profiles, and should redirect to the 
     # new URL so that search engines and others will update and use the correct value

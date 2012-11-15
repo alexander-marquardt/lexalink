@@ -139,9 +139,9 @@ MAX_NUM_PARTICIPANTS_PER_GROUP = 40 # If a group has more than this number of pa
 ALL_CHAT_FRIENDS_DICT_EXPIRY = SECONDS_PER_HOUR # How often will we hit the database for *all* "chat friends" of a user, versus pulling out of memcache
 CHAT_MESSAGE_CUTOFF_CHARS = 200 #allow this many chars at a time in a single text message
 
-ALL_FRIENDS_DICT_MEMCACHE_PREFIX = "all_friends_dict_"
-ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX = "online_contacts_names_dict_"
-CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "check_friends_online_last_update_"
+ALL_FRIENDS_DICT_MEMCACHE_PREFIX = "_all_friends_dict_"
+ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX = "_online_contacts_names_dict_"
+CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_last_update_"
 
 NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for Language - number of languages to show
 
