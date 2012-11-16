@@ -215,18 +215,18 @@ var chan_utils = new function () {
 
                     for (var group_id in json_response.chat_group_members) {
                         var group_members_dict = json_response.chat_group_members[group_id];
-                        var sorted_list_of_names_with_uids = chan_utils_self.sort_group_members_by_name(group_members_dict);
+                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_group_members_by_name(group_members_dict);
 
                         if (!chan_utils_self.list_of_usernames_in_each_group.hasOwnProperty(group_id)) {
-                            chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_uids;
+                            chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_user_info;
                         }
 
-                        if ( ! chan_utils_self.check_if_group_members_are_the_same(sorted_list_of_names_with_uids, chan_utils_self.list_of_usernames_in_each_group[group_id])) {
-                            chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_uids;
+                        if ( ! chan_utils_self.check_if_group_members_are_the_same(sorted_list_of_names_with_user_info, chan_utils_self.list_of_usernames_in_each_group[group_id])) {
+                            chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_user_info;
                             $("#id-group_members-dialog-box-" + group_id).effect("highlight", {color:'#FFEEFF'}, 3000);
                         }
 
-                        var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_uids);
+                        var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info);
                         $("#id-group_members-dialog-box-" + group_id).html(display_list);
                     }
                 }
@@ -581,14 +581,20 @@ var chan_utils = new function () {
 
         this.sort_group_members_by_name = function(group_members_dict) {
 
-            // returns a 2D array containing [name, uid] pairs, and sorted by name
+            // returns a 2D array containing [name, user_info_dict] pairs, and sorted by name
+            // where user_info_dict is a dictionary with keys for 'username' and 'nid'
 
             try {
 
-                var sorted_list_of_names_with_uids = []; // 2D array that will contain [name, uid]
+                var sorted_list_of_names_with_uids = []; // 2D array that will contain [name, user_info_dict]
 
                 for (var uid in group_members_dict) {
-                    sorted_list_of_names_with_uids.push([group_members_dict[uid], uid]);
+                    user_info_dict = {};
+                    user_info_dict['uid'] = uid;
+                    user_info_dict['nid'] = group_members_dict[uid]['nid'];
+                    user_info_dict['url_description'] = group_members_dict[uid]['url_description'];
+                    
+                    sorted_list_of_names_with_uids.push([group_members_dict[uid]['username'], user_info_dict]);
                 }
 
                 sorted_list_of_names_with_uids.sort(function(a,b) { return a[0] < b[0] ? -1 : 1;});
@@ -630,7 +636,7 @@ var chan_utils = new function () {
         };
 
 
-        this.displayAsListWithHrefs = function (group_id, sorted_list_of_names_with_uids) {
+        this.displayAsListWithHrefs = function (group_id, sorted_list_of_names_with_user_info) {
 
             /* This code displays the list of users that are currently members of a group discussion. Each username
              * includes a hyberlink to the profile of the given user. 
@@ -640,13 +646,15 @@ var chan_utils = new function () {
             try {
 
                 var display_list = '<ul id="id-chatbox-group_members-list' + group_id + '" class = "ui-chatbox-ul">';
-                var array_length = sorted_list_of_names_with_uids.length;
+                var array_length = sorted_list_of_names_with_user_info.length;
 
                 for (var idx=0; idx < array_length; idx ++) {
 
-                    var display_name = sorted_list_of_names_with_uids[idx][0];
-                    var uid = sorted_list_of_names_with_uids[idx][1];
-                    var href = "/" + template_chatbox_vars.language + "/rs/other/" + uid + "/";
+                    var display_name = sorted_list_of_names_with_user_info[idx][0];
+                    var uid = sorted_list_of_names_with_user_info[idx][1]['uid'];
+                    var nid = sorted_list_of_names_with_user_info[idx][1]['nid'];
+                    var url_description = sorted_list_of_names_with_user_info[idx][1]['url_description'];
+                    var href = "/" + template_chatbox_vars.language + "/profile/" + nid + "/" + url_description + "/";
                     display_list += '<li><a data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
                 }
                 display_list += '</ul>';

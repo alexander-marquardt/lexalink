@@ -277,7 +277,7 @@ def poll_server_for_status_and_new_messages(request):
                     # the list of members (group chat and the display of who is in the group are two different windows)
                     response_dict['chat_group_members'] = {}
                     for group_id in list_of_open_chat_groups_members_boxes_on_client:
-                        response_dict['chat_group_members'][group_id] = chat_support.get_group_members_dict(group_id)
+                        response_dict['chat_group_members'][group_id] = chat_support.get_group_members_dict(lang_code, group_id)
                 
                         
             
@@ -325,17 +325,8 @@ def poll_server_for_status_and_new_messages(request):
                         for msg_object in recent_chat_messages:
                             response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"].append(msg_object.chat_msg_time_string)
                             response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"][msg_object.chat_msg_time_string] = msg_object.chat_msg_text
+                            response_dict['conversation_tracker'][other_uid]["sender_username_dict"][msg_object.chat_msg_time_string] = msg_object.sender_username
                             
-                            if type_of_conversation == "one_on_one":
-                                response_dict['conversation_tracker'][other_uid]["sender_username_dict"][msg_object.chat_msg_time_string] = msg_object.sender_username
-                            elif type_of_conversation == "group":
-                                # if it is a group, add links to the usernames inside the chat window
-                                href = reverse("rs/other", kwargs={'display_uid' : msg_object.uid2})
-                                response_dict['conversation_tracker'][other_uid]["sender_username_dict"][msg_object.chat_msg_time_string] = \
-                                             "<a href='%s' rel='address:%s'>%s</a>" % (href, href, msg_object.sender_username)
-                                
-                            else:
-                                assert(False)
                         response_dict['conversation_tracker'][other_uid]["last_update_time_string"] = open_conversation_object.current_chat_message_time_string
                                  
         else: # *not* 'userobject_str' in request.session

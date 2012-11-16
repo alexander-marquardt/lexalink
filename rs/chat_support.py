@@ -269,10 +269,12 @@ def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
         userdict[profile_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, profile_uid)
         # The profile.key().id() should eventually be used as the key for this dictionary, but this requires 
         # changing a lot of other code to make it work. Temporarily, we just pass in as "nid" 
-        userdict[profile_uid]['nid'] = profile.key().id()
+        userdict[profile_uid]['nid'] =  utils.get_nid_from_uid(profile_uid)
         userdict[profile_uid]['num_group_members'] = "Not used" 
 
     return userdict
+
+    
 
 def get_username_from_uid(uid):
     # function that looks up the username based on the uid. 
@@ -289,10 +291,11 @@ def get_username_from_uid(uid):
     return username
 
 
-def get_group_members_dict(group_id):
+def get_group_members_dict(lang_code, group_id):
     """ 
     Returns a dictionary object containing the users that are in the group indicated by group_id.
-    The dictionary will contain a dictionary with key=uid, and val=username.
+    The dictionary will contain a dictionary with key=uid which contains a sub-dictionary with keys
+    'username' and 'nid' which contain associated vlaues. 
     """
     group_members_names_dict = {} # in case of exception, we return an empty dictionary
     
@@ -308,7 +311,10 @@ def get_group_members_dict(group_id):
             group_members_list = group_tracker_object.group_members_list
             
             for member_uid in group_members_list:
-                group_members_names_dict[member_uid] = get_username_from_uid(member_uid)
+                group_members_names_dict[member_uid] = {}
+                group_members_names_dict[member_uid]['username'] = get_username_from_uid(member_uid)
+                group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
+                group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
                 
             memcache.set(memcache_key, group_members_names_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
         
