@@ -825,20 +825,7 @@ var chatboxManager = function() {
 }();
 
 
-var displayAsList = function (box_name, dict_to_display) {
 
-    var display_list = '<ul id="id-chatbox-' + box_name + '-list" class = "ui-chatbox-ul">';
-    for (var uid in dict_to_display) {
-        var nid = dict_to_display[uid]['nid'];
-        var display_name = dict_to_display[uid]['user_or_group_name'];
-        var url_description = dict_to_display[uid]['url_description'];
-        // by writing values with data-variable_name format, we can use jquery.data() operator to pull out the value later
-        display_list += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';
-    }
-    display_list += '</ul>';
-
-    return display_list;
-};
 
 var updateChatControlBox = function (box_name, dict_to_display) {
     // used for updating the "main" and the "groups" chatboxes -- in the case of the main box, it will
@@ -848,16 +835,16 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 
     try {
 
-        var display_list = displayAsList(box_name, dict_to_display);
+        if (box_name == "groups") {
+            add_num_group_members_to_name = true
+        } else {
+            add_num_group_members_to_name = false
+        }
+        var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(dict_to_display, add_num_group_members_to_name);
+        var display_list = chan_utils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
 
         $("#" + box_name).chatbox("option", "boxManager").refreshBox(display_list);
 
-        if (box_name == "main") {
-            $("#" + box_name + ">ul#id-chatbox-" + box_name + "-list>li").tsort();
-        }
-        if (box_name == "groups") {
-            $("#" + box_name + ">ul#id-chatbox-" + box_name + "-list>li").tsort("span:eq(1)").tsort("span:eq(0)", {order:"desc"});
-        }
 
         $("#id-chatbox-" + box_name + "-list li").click(function(e){
             var anchor = $(this).find('a');

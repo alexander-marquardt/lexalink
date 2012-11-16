@@ -319,7 +319,7 @@ def poll_server_for_status_and_new_messages(request):
                         response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"] = {}
                         
                         if type_of_conversation == "one_on_one":
-                            response_dict['conversation_tracker'][other_uid]["nid"] = db.Key(other_uid).id()                       
+                            response_dict['conversation_tracker'][other_uid]["nid"] = utils.get_nid_from_uid(other_uid)                       
                             response_dict['conversation_tracker'][other_uid]["url_description"] = profile_utils.get_profile_url_description(lang_code, other_uid)
 
                         for msg_object in recent_chat_messages:

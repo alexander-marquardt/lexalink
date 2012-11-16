@@ -201,8 +201,9 @@ var chan_utils = new function () {
                 if (json_response.hasOwnProperty('chat_groups_dict')) {
                     if (!$.isEmptyObject(json_response.chat_groups_dict)) {
 
-                        updateChatControlBox("groups", json_response.chat_groups_dict);
-                        updateGroupChatBoxTitles(json_response.chat_groups_dict);
+                        var chat_groups_dict = json_response.chat_groups_dict;
+                        updateChatControlBox("groups", chat_groups_dict);
+                        updateGroupChatBoxTitles(chat_groups_dict);
                     }
                     else {
                         message = $("#id-no-groups-text").text();
@@ -215,7 +216,7 @@ var chan_utils = new function () {
 
                     for (var group_id in json_response.chat_group_members) {
                         var group_members_dict = json_response.chat_group_members[group_id];
-                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_group_members_by_name(group_members_dict);
+                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_user_or_groups_by_name(group_members_dict, false);
 
                         if (!chan_utils_self.list_of_usernames_in_each_group.hasOwnProperty(group_id)) {
                             chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_user_info;
@@ -226,7 +227,7 @@ var chan_utils = new function () {
                             $("#id-group_members-dialog-box-" + group_id).effect("highlight", {color:'#FFEEFF'}, 3000);
                         }
 
-                        var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info);
+                        var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
                         $("#id-group_members-dialog-box-" + group_id).html(display_list);
                     }
                 }
@@ -579,22 +580,31 @@ var chan_utils = new function () {
             }
         };
 
-        this.sort_group_members_by_name = function(group_members_dict) {
+        this.sort_user_or_groups_by_name = function(users_or_groups_dict, add_num_group_members_to_name) {
 
             // returns a 2D array containing [name, user_info_dict] pairs, and sorted by name
             // where user_info_dict is a dictionary with keys for 'username' and 'nid'
+            //
+            // if add_num_group_members_to_name is true, then we will prepend the number of members currently
+            // in a chatgroup to the chatgroup name, before sorting -- this guarantees that more popular groups
+            // are shown at the top of the list.
 
             try {
 
                 var sorted_list_of_names_with_uids = []; // 2D array that will contain [name, user_info_dict]
 
-                for (var uid in group_members_dict) {
-                    user_info_dict = {};
-                    user_info_dict['uid'] = uid;
-                    user_info_dict['nid'] = group_members_dict[uid]['nid'];
-                    user_info_dict['url_description'] = group_members_dict[uid]['url_description'];
-                    
-                    sorted_list_of_names_with_uids.push([group_members_dict[uid]['username'], user_info_dict]);
+                for (var uid in users_or_groups_dict) {
+                    var user_or_group_info_dict = {};
+                    user_or_group_info_dict['uid'] = uid;
+                    user_or_group_info_dict['nid'] = users_or_groups_dict[uid]['nid'];
+                    user_or_group_info_dict['url_description'] = users_or_groups_dict[uid]['url_description'];
+                    if (add_num_group_members_to_name) {
+                        var num_group_members = users_or_groups_dict[uid]['num_group_members'];
+                        user_or_group_name = "[" + num_group_members + "] " + users_or_groups_dict[uid]['user_or_group_name'];
+                    } else {
+                        user_or_group_name = users_or_groups_dict[uid]['user_or_group_name'];
+                    }
+                    sorted_list_of_names_with_uids.push([user_or_group_name, user_or_group_info_dict]);
                 }
 
                 sorted_list_of_names_with_uids.sort(function(a,b) { return a[0] < b[0] ? -1 : 1;});
@@ -636,16 +646,15 @@ var chan_utils = new function () {
         };
 
 
-        this.displayAsListWithHrefs = function (group_id, sorted_list_of_names_with_user_info) {
+        this.displayAsListWithHrefs = function (box_name, sorted_list_of_names_with_user_info, include_href) {
 
             /* This code displays the list of users that are currently members of a group discussion. Each username
              * includes a hyberlink to the profile of the given user. 
              */
-            /* This code looks very similar to jquery.ui.chatbox.displayAsList() - check if they can be merged into a common function */
 
             try {
 
-                var display_list = '<ul id="id-chatbox-group_members-list' + group_id + '" class = "ui-chatbox-ul">';
+                var display_list = '<ul id="id-chatbox-' + box_name + '-list' + '" class = "ui-chatbox-ul">';
                 var array_length = sorted_list_of_names_with_user_info.length;
 
                 for (var idx=0; idx < array_length; idx ++) {
@@ -654,8 +663,12 @@ var chan_utils = new function () {
                     var uid = sorted_list_of_names_with_user_info[idx][1]['uid'];
                     var nid = sorted_list_of_names_with_user_info[idx][1]['nid'];
                     var url_description = sorted_list_of_names_with_user_info[idx][1]['url_description'];
-                    var href = "/" + template_chatbox_vars.language + "/profile/" + nid + "/" + url_description + "/";
-                    display_list += '<li><a data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
+                    if (include_href) {
+                        var href = "/" + template_chatbox_vars.language + "/profile/" + nid + "/" + url_description + "/";
+                        display_list += '<li><a data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
+                    } else {
+                        display_list += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';
+                    }
                 }
                 display_list += '</ul>';
 
@@ -666,7 +679,7 @@ var chan_utils = new function () {
             return false;  // prevent lint warnings
         };
 
-
+        
         this.close_group_members_dialog = function(group_id) {
 
             try{
