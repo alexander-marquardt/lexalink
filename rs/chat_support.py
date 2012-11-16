@@ -34,7 +34,7 @@ import logging
 
 import utils, error_reporting, queries, logging
 import models, constants, settings
-from rs import forms
+from rs import forms, profile_utils
 
 from utils_top_level import deserialize_entities, serialize_entities
 import utils_top_level
@@ -263,14 +263,14 @@ def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
                                                                               "connected")
     for contact in contact_query_results:
         profile = getattr(contact, 'displayed_profile')
-        profile_key = str(profile.key())
-        userdict[profile_key] = {}
-        userdict[profile_key]['user_or_group_name'] = profile.username
-        userdict[profile_key]['url_description'] = forms.FormUtils.get_profile_url_description(lang_code, profile)
+        profile_uid = str(profile.key())
+        userdict[profile_uid] = {}
+        userdict[profile_uid]['user_or_group_name'] = profile.username
+        userdict[profile_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, profile_uid)
         # The profile.key().id() should eventually be used as the key for this dictionary, but this requires 
         # changing a lot of other code to make it work. Temporarily, we just pass in as "nid" 
-        userdict[profile_key]['nid'] = profile.key().id()
-        userdict[profile_key]['num_group_members'] = "Not used" 
+        userdict[profile_uid]['nid'] = profile.key().id()
+        userdict[profile_uid]['num_group_members'] = "Not used" 
 
     return userdict
 

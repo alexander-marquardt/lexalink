@@ -816,16 +816,7 @@ class FormUtils():
     
         return base_title
     
-    @classmethod
-    def get_profile_url_description(cls, lang_code, userobject):
-        # returns a description of the current profile that is suitable for display in a URL
-        profile_url_description = cls.get_base_userobject_title(lang_code, userobject)
-        profile_url_description = re.sub('[,;()/]', '', profile_url_description)
-        profile_url_description = re.sub(r'\s+' , '-', profile_url_description)        
-        profile_url_description = urllib.quote(profile_url_description.encode('utf8')) # escape unicode chars for URL    
-        return profile_url_description
-    
-    
+
     @classmethod
     def generate_title_and_meta_description_for_current_profile(cls, lang_code, userobject):
         # given the userobject that is passed in, generate a text string that is appropriate for display

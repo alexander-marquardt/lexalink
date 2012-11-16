@@ -37,7 +37,7 @@ from django.utils.translation import ugettext
 
 import time, logging, datetime
 
-import utils, utils_top_level, constants, error_reporting, chat_support
+from rs import utils, utils_top_level, constants, error_reporting, chat_support, profile_utils
 
 
 def initialize_main_and_group_boxes_on_server(request):
@@ -319,10 +319,8 @@ def poll_server_for_status_and_new_messages(request):
                         response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"] = {}
                         
                         if type_of_conversation == "one_on_one":
-                            response_dict['conversation_tracker'][other_uid]["nid"] = db.Key(other_uid).id()     
-                            # This is a hack - if the other user logs out, but the owner chat window is still open,
-                            # The url_description will be undefined..                     
-                            response_dict['conversation_tracker'][other_uid]["url_description"] = contacts_info_dict[other_uid]['url_description']
+                            response_dict['conversation_tracker'][other_uid]["nid"] = db.Key(other_uid).id()                       
+                            response_dict['conversation_tracker'][other_uid]["url_description"] = profile_utils.get_profile_url_description(lang_code, other_uid)
 
                         for msg_object in recent_chat_messages:
                             response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"].append(msg_object.chat_msg_time_string)

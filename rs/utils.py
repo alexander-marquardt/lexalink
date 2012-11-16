@@ -358,11 +358,14 @@ def put_userobject(userobject):
         # return without writing the userobject!!
         return
         
-    userobject.put()
-    # use "memcache.set" since we must overwrite any old data
-    userobject_key_str = str(userobject.key()) 
-    memcache_key_str = userobject_key_str + settings.VERSION_ID
-    memcache.set(memcache_key_str, serialize_entities(userobject), constants.SECONDS_PER_MONTH)
+    # Invalidate the memcached url_description for this userprofile since it has potentially changed.
+    uid = str(userobject.key())
+    for lang_tuple in settings.LANGUAGES:
+        lang_code = lang_tuple[0]
+        url_description_memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid + settings.VERSION_ID
+        memcache_status = memcache.delete(url_description_memcache_key_str)
+        
+    put_object(userobject)
                  
     ## invalidate the profile summary memcache - it is now stale.
     #for lang_tuple in settings.LANGUAGES:

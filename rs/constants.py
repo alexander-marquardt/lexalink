@@ -142,6 +142,7 @@ CHAT_MESSAGE_CUTOFF_CHARS = 200 #allow this many chars at a time in a single tex
 ALL_FRIENDS_DICT_MEMCACHE_PREFIX = "_all_friends_dict_"
 ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX = "_online_contacts_info_dict_"
 CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_last_update_"
+PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_url_description_memcache_prefix_"
 
 NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for Language - number of languages to show
 
