@@ -158,7 +158,8 @@ var chan_utils = new function () {
                             chan_utils_self.last_update_time_string_dict[other_uid] = conversation_tracker_dict[other_uid].last_update_time_string;
 
                             // calling addBox just makes sure that it exists
-                            chatboxManager.addBox(other_uid, chatbox_title, true, true, false, type_of_conversation);
+                            chatboxManager.addBox(other_uid, chatbox_title, true, true, false, type_of_conversation,
+                                    conversation_tracker_dict[other_uid]['nid'], conversation_tracker_dict[other_uid]['url_description']);
 
                             // load the message history into the chatbox
                             for (var msg_time_idx in array_of_chat_msg_time_strings) {
@@ -438,7 +439,7 @@ var chan_utils = new function () {
                 var groups_box_id = "groups";
                 var type_of_conversation = "Not used/Not available";
                 var groups_box_title = $("id-chat-group-title-text").text();
-                chatboxManager.addBox(groups_box_id, groups_box_title, false, false, false, type_of_conversation);
+                chatboxManager.addBox(groups_box_id, groups_box_title, false, false, false, type_of_conversation, '', '');
                 var message = $("#id-chat-groups-box-loading-text").text();
                 $("#groups").chatbox("option", "boxManager").refreshBox(message);
             } catch(err) {

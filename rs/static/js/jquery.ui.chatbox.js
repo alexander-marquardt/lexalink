@@ -581,13 +581,13 @@ var chatboxManager = function() {
             }
         };
 
-        var hyperlinkBoxtitle = function (box_id) {
+        var hyperlinkBoxtitle = function (box_id,  nid, url_description) {
             // this should wrap the title (which can change) with an anchor and href that
             // links to the associated users profile
 
             if ($("#"+ box_id).length>0) { // make sure the element exists
                 // add hyperlink to allow clicking on title to view the user profile
-                var href = "/" + template_chatbox_vars.language + "/rs/other/" + box_id + "/";
+                var href = "/" + template_chatbox_vars.language + "/profile/" + nid + "/" + url_description + "/";
                 var hyperlink_to_profile = '<a href="' + href +'" rel="address:' + href + '"></a>';
                 $("#"+ box_id).chatbox("option", "boxManager").hyperlinkWrapBoxTitle(hyperlink_to_profile);
             }
@@ -721,8 +721,9 @@ var chatboxManager = function() {
         };
 
 
-        // caller should guarantee the uniqueness of id
-        var addBox = function(box_id, box_title, allow_elimination, include_chatbox_input, highlight_box_enabled, type_of_conversation) {
+        // caller should guarantee the uniqueness of box_id
+        var addBox = function(box_id, box_title, allow_elimination, include_chatbox_input, highlight_box_enabled,
+                              type_of_conversation, nid, url_description) {
 
             try {
                 var idx1 = $.inArray(box_id, showList);
@@ -786,7 +787,7 @@ var chatboxManager = function() {
                     if (box_id != "main" && box_id != "groups" && open_box_on_server) {
                         if (type_of_conversation != "group") {
                             // group conversations will not have a hyperlink in the title, since there is no associated profile
-                            chatboxManager.hyperlinkBoxtitle(box_id, type_of_conversation);
+                            chatboxManager.hyperlinkBoxtitle(box_id, nid, url_description);
 
                             // Note: box_id for chatboxes is the uid of the other user
                             $("#" + box_id).chatbox("option", "boxManager").uiChatboxVideoButton(box_id);
@@ -862,6 +863,8 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             var anchor = $(this).find('a');
             var box_id =  anchor.data("uid"); // jquery .data() operator
             var box_title = $(this).text();
+            var url_description = dict_to_display[box_id]['url_description'];
+            var nid = dict_to_display[box_id]['nid'];
 
             var type_of_conversation;
             if (box_name == "main") {
@@ -875,7 +878,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
                 type_of_conversation = "Error in javascript - invalid box_name";
             }
 
-            chatboxManager.addBox(box_id, box_title, true, true, true, type_of_conversation);
+            chatboxManager.addBox(box_id, box_title, true, true, true, type_of_conversation, nid, url_description);
             return false;
         });
 
@@ -921,7 +924,7 @@ var setupContactsAndGroupsBoxes = function(online_status_on_page_reload) {
         var allow_elimination = false, include_chatbox_input = false, highlight_box_enabled = false;
         var type_of_conversation = 'Not used/Not valid'; // not used for contact and group boxes
         chatboxManager.addBox(main_box_id, main_box_title, allow_elimination, include_chatbox_input,
-                highlight_box_enabled, type_of_conversation);
+                highlight_box_enabled, type_of_conversation, '', '');
         // Add the button that allows the user to specify if they want to go online/offline
         $("#" + main_box_id).chatbox("option", "boxManager").uiChatboxOnlineSelector();
         $("#" + main_box_id).chatbox("option", "boxManager").addClassToUIChatboxLog("ui-chatbox-log-override-height-for-main");
@@ -930,7 +933,7 @@ var setupContactsAndGroupsBoxes = function(online_status_on_page_reload) {
         var groups_box_id = "groups";
         var groups_box_title = $("#id-chat-group-title-text").text();
         chatboxManager.addBox(groups_box_id, groups_box_title, allow_elimination, include_chatbox_input,
-                highlight_box_enabled, type_of_conversation);
+                highlight_box_enabled, type_of_conversation, '', '');
         $("#" + groups_box_id).chatbox("option", "boxManager").uiChatboxCreateGroupButton();
         $("#" + groups_box_id).chatbox("option", "boxManager").addClassToUIChatboxLog("ui-chatbox-log-override-height-for-main");
         $("#" + groups_box_id).chatbox("option", "boxManager").minimizeBox();
