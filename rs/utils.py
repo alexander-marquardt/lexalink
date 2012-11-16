@@ -1530,3 +1530,15 @@ class AES16_Functionality():
     def DecodeAES(cls, txt):
         return cls.cipher.decrypt(base64.urlsafe_b64decode(txt)).rstrip(cls.PADDING)
 
+def get_nid_from_uid(uid):
+    # function that looks up the nid [ie. key().id()] based on the uid. 
+    memcache_key = constants.NID_MEMCACHE_PREFIX + uid
+    nid = memcache.get(memcache_key)    
+    
+    if nid is None:
+        userobject = utils_top_level.get_object_from_string(uid)
+        nid = userobject.key().id()
+        memcache.set(memcache_key, nid, constants.SECONDS_PER_DAY)
+    
+    return nid
+    

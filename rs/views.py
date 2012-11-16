@@ -117,7 +117,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         
         if owner_userobject:
             owner_uid = request.session['userobject_str']
-            owner_nid = owner_userobject.key().id()
+            owner_nid = utils.get_nid_from_uid(owner_uid)
             registered_user_bool = True # viewing user is logged in
             link_to_hide = 'login'
         else:
@@ -583,7 +583,7 @@ def login(request, is_admin_login = False, referring_code = None):
                     if userobject:
                         # success, user is in database and has entered correct data
                         owner_uid = str(userobject.key())
-                        owner_nid = userobject.key().id()
+                        owner_nid = utils.get_nid_from_uid(owner_uid)
                         
                         # make sure that the userobject has all the parts that the code expects it to have.
                         store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
