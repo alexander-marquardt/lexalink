@@ -607,7 +607,7 @@ def load_send_mail_from_profile(request, other_uid, show_checkbox_beside_summary
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
         (generated_html, have_sent_messages_object) = \
-         mailbox.get_mail_history_summary(request, userobject, db.get(db.Key(other_uid)),  show_checkbox_beside_summary)
+         mailbox.get_mail_history_summary(request, userobject, utils_top_level.get_object_from_string(other_uid),  show_checkbox_beside_summary)
     except:
         error_reporting.log_exception(logging.critical)
         generated_html = "Error"
@@ -747,7 +747,7 @@ def load_mail_history(request, bookmark_key_str, other_uid):
     try:
         owner_uid = request.session['userobject_str']
         userobject =  utils_top_level.get_userobject_from_request(request)
-        other_userobject = db.get(db.Key(other_uid))
+        other_userobject = utils_top_level.get_object_from_string(other_uid)
             
         # get messages that are older or equal to the bookmark -- get an additional message that will be
         # used as the next bookmark (hence the SINGLE_CONVERSATION_PAGESIZE +1)

@@ -77,7 +77,7 @@ from callbacks_from_html import MyHTMLCallbackGenerator
 #############################################
 def redirect_to_user_main(request, display_uid,  is_primary_user = False):
     # function that will redirect this out-of-date URL to the correct new URL format
-    userobject = db.get(db.Key(display_uid))
+    userobject = utils_top_level.get_object_from_string(display_uid)
     redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
     return http.HttpResponsePermanentRedirect(redirect_url)  
 
@@ -149,7 +149,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 # Re-direct to the display_uid profile view (without any permissions)-- the logged in user has 
                 # attempted to enter into another users private area (probably by manually
                 # modifying the URL). 
-                display_userobject = db.get(db.Key(display_uid))
+                display_userobject = utils_top_level.get_object_from_string(display_uid)
                 redirect_url = profile_utils.get_userprofile_href(lang_code, display_userobject)                
                 return http_utils.redirect_to_url(request, redirect_url)
                       
@@ -184,7 +184,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             # get the "display" user object based on the uid key passed in -- the current client is viewing
             # someone else's profile
             try:
-                display_userobject = db.get(db.Key(display_uid))
+                display_userobject = utils_top_level.get_object_from_string(display_uid)
                 assert(display_userobject)
                 
                 # if the description portion of the URL does not match what we expect for the current profile, then
@@ -207,7 +207,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                     # to prevent infinite loop, only redirect if the "new_uid" is different from the "display_uid"
                     # For example, we want to be sure that we don't re-direct a bad uid key that is already in the
                     # application name of current application.
-                    new_userobject = db.get(db.Key(new_uid))
+                    new_userobject = utils_top_level.get_object_from_string(new_uid)
                     redirect_url = profile_utils.get_userprofile_href(lang_code, new_userobject)
                     return http.HttpResponsePermanentRedirect(redirect_url)
 

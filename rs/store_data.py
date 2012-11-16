@@ -135,7 +135,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         else:
             # this has been called by the administrator while reviewing photos - the session
             # does not contain the current userobject reference.
-            userobject = db.get(db.Key(owner_uid))
+            userobject = utils_top_level.get_object_from_string(owner_uid)
     
         if request.method != 'POST':
             return HttpResponseBadRequest()
@@ -955,7 +955,7 @@ def store_initiate_contact(request, to_uid):
         
         possible_actions = ('wink', 'favorite', 'kiss', 'key', 'chat_friend', 'blocked')
         other_userobject_key = db.Key(to_uid)
-        other_userobject = db.get(other_userobject_key)
+        other_userobject = utils_top_level.get_object_from_string(to_uid)
         
         if request.method != 'POST':
             return HttpResponseBadRequest()
@@ -1235,8 +1235,8 @@ def update_users_have_sent_messages(sender_userobject, receiver_userobject, rece
     
         for (owner_ref, other_ref) in owner_other_ref_def:
             
-            owner_userobject = db.get(owner_ref)
-            other_userobject = db.get(other_ref)
+            owner_userobject = utils_top_level.get_object_from_string(str(owner_ref))
+            other_userobject = utils_top_level.get_object_from_string(str(other_ref))
             
             #try:
                 #if owner_ref == sender_userobject_key:
@@ -1350,7 +1350,7 @@ def actually_store_send_mail(sender_userobject, to_uid, text):
         else:
             sender_is_blocked = False
         
-        receiver_userobject = db.get(receiver_userobject_key)
+        receiver_userobject = utils_top_level.get_object_from_string(receiver_uid)
         # only update the have_sent_messages if the user is not blocked
         update_users_have_sent_messages(sender_userobject, receiver_userobject, sender_is_blocked)
 
@@ -1660,7 +1660,7 @@ def store_report_unacceptable_profile(request, display_uid):
         
         count_unacceptable_profile = increase_reporting_or_reporter_unacceptable_count(models.CountUnacceptableProfile, displayed_uid_key, increase_or_decrease_count)
         if count_unacceptable_profile.count >= NUM_REPORTS_FOR_UNACCEPTABLE_PROFILE:
-            displayed_profile = db.get(displayed_uid_key)
+            displayed_profile = utils_top_level.get_object_from_string(display_uid)
             error_message = """Profile %s has been reported as unacceptable %s times<br>
             Most recent report by: %s who has reported %s profiles as unacceptable.<br>""" \
                           % (displayed_profile.username, count_unacceptable_profile.count, sender_userobject.username, count_reporting_profile.count)
@@ -1675,7 +1675,7 @@ def store_report_unacceptable_profile(request, display_uid):
             
             if count_unacceptable_profile.num_times_reported_in_small_time_window > constants.SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN:
                 # if this user has been reported as unacceptable by many users in a short time period, then we ban their account and block their IP
-                displayed_profile = db.get(displayed_uid_key)    
+                displayed_profile = utils_top_level.get_object_from_string(display_uid)    
                 blocked_ip = displayed_profile.last_login_ip_address
                 
                 # Note could consider calling batch_jobs.batch_fix_remove_all_users_with_given_ip_or_name to remove all profiles that have

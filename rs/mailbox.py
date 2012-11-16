@@ -573,7 +573,7 @@ def mail_message_display(request, owner_uid, other_uid):
         userobject =  utils_top_level.get_object_from_string(owner_uid)
             
         username = userobject.username
-        other_userobject = db.get(db.Key(other_uid))
+        other_userobject =utils_top_level.get_object_from_string(other_uid)
     
         
         generated_html = ''

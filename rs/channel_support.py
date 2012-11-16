@@ -551,7 +551,7 @@ def store_create_new_group(request):
                 current_groups_count += 1
                 memcache.set(memcache_key, current_groups_count, constants.SECONDS_BETWEEN_EXPIRE_MAX_CHAT_GROUPS_PER_USER)
 
-                userobject = db.get(db.Key(owner_uid))
+                userobject = utils_top_level.get_object_from_string(owner_uid)
                 group_gid = chat_support.create_chat_group(new_group_name, userobject.username, owner_uid)
                 
             open_new_chatbox_internal(sender_username, owner_uid, group_gid, type_of_conversation = "group")

@@ -162,7 +162,7 @@ def send_confirmation_email(request):
         translation.activate(lang_code)        
                 
         try:
-            userobject = db.get(db.Key(uid))
+            userobject = utils_top_level.get_object_from_string(uid)
             # don't know how/why this can happen, but it may return a None object occasionally
             assert(userobject != None)
         except:
@@ -323,7 +323,7 @@ def change_notification_settings(request, subscription_option, username, hash_of
     
     def userobject_txn(owner_uid, subscription_option):
         # run update of user subscription option in transaction to prevent conflicts with other writes to the userobject.
-        userobject =  db.get(db.Key(owner_uid)) 
+        userobject =  utils_top_level.get_object_from_string(owner_uid)
         userobject.email_options[0] = subscription_option
         put_userobject(userobject)
         return userobject
@@ -474,7 +474,7 @@ def send_new_message_notification_email(request):
     try:
         userobject = None
         uid = request.POST.get('uid', None)
-        userobject = db.get(db.Key(uid)) # if uid is not found or doesn't exist this will trigger an exception
+        userobject = utils_top_level.get_object_from_string(uid) # if uid is not found or doesn't exist this will trigger an exception
         if  userobject.user_is_marked_for_elimination:
             # Not necessarily an error, since eliminated profiles can now receive winks, keys, etc. 
             # Instead of sending an email, just return with a standard (non-error) HttpResponse
