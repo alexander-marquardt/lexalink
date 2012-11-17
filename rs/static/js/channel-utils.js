@@ -600,7 +600,8 @@ var chan_utils = new function () {
                     user_or_group_info_dict['url_description'] = users_or_groups_dict[uid]['url_description'];
                     if (add_num_group_members_to_name) {
                         var num_group_members = users_or_groups_dict[uid]['num_group_members'];
-                        user_or_group_name = "[" + num_group_members + "] " + users_or_groups_dict[uid]['user_or_group_name'];
+                        var num_members_str = FormatNumberLength(num_group_members, 2)
+                        user_or_group_name = "[" + num_members_str + "] " + users_or_groups_dict[uid]['user_or_group_name'];
                     } else {
                         user_or_group_name = users_or_groups_dict[uid]['user_or_group_name'];
                     }

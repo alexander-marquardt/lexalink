@@ -1188,3 +1188,13 @@ function handle_form_ajax_json_response(json_response, target_id) {
         report_try_catch_error( err, "handle_form_ajax_json_response");
     }
 }
+
+function FormatNumberLength(num, length) {
+    // funtion that takes a number, and a length, and prints out a string representation of that number
+    // with leading blanks to ensure that the string is the desired length
+    var r = "" + num;
+    while (r.length < length) {
+        r = " " + r;
+    }
+    return r;
+}
