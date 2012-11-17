@@ -29,6 +29,7 @@
 # This code generates the drop down menus and text boxes that are used for input forms throughout the code.
 
 from django.http import HttpResponse
+from google.appengine.api import memcache
 
 import logging, re, urllib
 
@@ -774,54 +775,71 @@ class FormUtils():
     
     @classmethod
     def get_base_userobject_title(cls, lang_code, userobject):
-        # Gets the main part of the user profile title -- before adding in SEO optimizations
-        # and anything else.
+        # Gets the main part of the user profile title (before adding in SEO optimizations
+        # and anything else -- which we currently are not doing)
         
         
-        lang_idx = localizations.input_field_lang_idx[lang_code]        
-        field_vals_dict = {}
-
-        for field_name in cls.fields_for_title_generation:
-            field_vals_dict[field_name] = getattr(userobject, field_name)
-                             
-        vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
-                         
-        if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
-            # check if this profile is gay (male seeking male) or lesbian .. if so, add the appropriate
-            # word to the profile description.
-            extra_detail = utils.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
+        try:
+            # Use memcache to reduce server loading - once the title for the current profile is made
+            # it will not change unless the user changes their profile. 
+            # Every time the user profile is written, this memcache will be invalidated (this is 
+            # taken care of in put_userobject)
+            uid = str(userobject.key())
+            memcache_key_str = lang_code + constants.PROFILE_TITLE_MEMCACHE_PREFIX + uid
+            base_title = memcache.get(memcache_key_str)
+            if base_title is not None:
+                # memcache hit!
+                return base_title
             
-            base_title = u"%s" % (ugettext("%(relationship_status)s %(sex)s Seeking %(extra_detail)s %(preference)s In %(location)s") % {
-                'relationship_status' : vals_in_curr_language_dict['relationship_status'],
-                'sex': vals_in_curr_language_dict['sex'], 
-                'location': vals_in_curr_language_dict['location'], 
-                'preference' : vals_in_curr_language_dict['preference'],
-                'extra_detail' : extra_detail})
+            else:                
+                lang_idx = localizations.input_field_lang_idx[lang_code]        
+                field_vals_dict = {}
+        
+                for field_name in cls.fields_for_title_generation:
+                    field_vals_dict[field_name] = getattr(userobject, field_name)
+                                     
+                vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
+                                 
+                if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
+                    # check if this profile is gay (male seeking male) or lesbian .. if so, add the appropriate
+                    # word to the profile description.
+                    extra_detail = utils.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
+                    
+                    base_title = u"%s" % (ugettext("%(relationship_status)s %(sex)s Seeking%(extra_detail)s %(preference)s In %(location)s") % {
+                        'relationship_status' : vals_in_curr_language_dict['relationship_status'],
+                        'sex': vals_in_curr_language_dict['sex'], 
+                        'location': vals_in_curr_language_dict['location'], 
+                        'preference' : vals_in_curr_language_dict['preference'],
+                        'extra_detail' : extra_detail})
+                    
+                elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
+                    extra_detail = utils.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)            
+                    base_title = u"%s" % (ugettext("%(sex)s Seeking%(extra_detail)s %(preference)s For %(relationship_status)s In %(location)s") % {
+                        'relationship_status' : vals_in_curr_language_dict['relationship_status'],                
+                        'sex': vals_in_curr_language_dict['sex'], 
+                        'location': vals_in_curr_language_dict['location'], 
+                        'extra_detail' : extra_detail,
+                        'preference' : vals_in_curr_language_dict['preference']})
+                    
+                elif settings.BUILD_NAME == "Language":
+                    base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
+                    'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
+                    'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
+                    
+                elif settings.BUILD_NAME == 'Friend':
+                    activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
+                    base_title = u"%s" % (ugettext("%(sex)s In %(location)s") % {
+                        'sex': vals_in_curr_language_dict['sex'],
+                        'location' : vals_in_curr_language_dict['location'],
+                    })
+                    base_title += u"%s" % activity_summary
+                else:
+                    assert(0)        
             
-        elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
-            base_title = u"%s" % (ugettext("%(sex)s Seeking %(preference)s For %(relationship_status)s In %(location)s") % {
-                'relationship_status' : vals_in_curr_language_dict['relationship_status'],                
-                'sex': vals_in_curr_language_dict['sex'], 
-                'location': vals_in_curr_language_dict['location'], 
-                'preference' : vals_in_curr_language_dict['preference']})
-            
-        elif settings.BUILD_NAME == "Language":
-            base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
-            'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
-            'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
-            
-        elif settings.BUILD_NAME == 'Friend':
-            activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
-            base_title = u"%s" % (ugettext("%(sex)s In %(location)s") % {
-                'sex': vals_in_curr_language_dict['sex'],
-                'location' : vals_in_curr_language_dict['location'],
-            })
-            base_title += u"%s" % activity_summary
-        else:
-            assert(0)        
-    
-        return base_title
-    
+                return base_title
+        except:
+            error_reporting.log_exception(logging.critical)       
+            return ''                
 
     @classmethod
     def generate_title_and_meta_description_for_current_profile(cls, lang_code, userobject):

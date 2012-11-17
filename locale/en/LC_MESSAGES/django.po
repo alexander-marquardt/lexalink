@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-17 20:26+0100\n"
+"POT-Creation-Date: 2012-11-17 20:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,7 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:699 rs/display_contacts.py:337 rs/forms.py:1138
+#: rs/ajax.py:699 rs/display_contacts.py:337 rs/forms.py:1140
 #: rs/login_utils.py:244 rs/rendering.py:393 rs/store_data.py:1571
 #: rs/views.py:328 rs/views.py:817
 msgid ""
@@ -652,86 +652,87 @@ msgid ""
 "(location)s"
 msgstr ""
 
-#: rs/forms.py:802
+#: rs/forms.py:803
 #, python-format
 msgid ""
-"%(sex)s Seeking %(preference)s For %(relationship_status)s In %(location)s"
+"%(sex)s Seeking %(extra_detail)s %(preference)s For %(relationship_status)s "
+"In %(location)s"
 msgstr ""
 
-#: rs/forms.py:809
+#: rs/forms.py:811
 #, python-format
 msgid ""
 "Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %"
 "(location)s"
 msgstr ""
 
-#: rs/forms.py:815
+#: rs/forms.py:817
 #, python-format
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/forms.py:928
+#: rs/forms.py:930
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
 msgstr ""
 
-#: rs/forms.py:929
+#: rs/forms.py:931
 msgid "inside the \"captcha\""
 msgstr ""
 
-#: rs/forms.py:985
+#: rs/forms.py:987
 msgid "Remove report"
 msgstr ""
 
-#: rs/forms.py:987
+#: rs/forms.py:989
 msgid "Report this profile"
 msgstr ""
 
-#: rs/forms.py:1086
+#: rs/forms.py:1088
 msgid "Sent correctly"
 msgstr ""
 
-#: rs/forms.py:1087
+#: rs/forms.py:1089
 msgid "Not sent, try again"
 msgstr ""
 
-#: rs/forms.py:1105
+#: rs/forms.py:1107
 msgid "Before sending it!"
 msgstr ""
 
-#: rs/forms.py:1106
+#: rs/forms.py:1108
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 
-#: rs/forms.py:1120
+#: rs/forms.py:1122
 msgid "Send message"
 msgstr ""
 
-#: rs/forms.py:1183
+#: rs/forms.py:1185
 msgid "Verify"
 msgstr ""
 
-#: rs/forms.py:1244 rs/forms.py:1329
+#: rs/forms.py:1246 rs/forms.py:1331
 msgid "Search Box"
 msgstr ""
 
-#: rs/forms.py:1245
+#: rs/forms.py:1247
 msgid "Specify the profiles that you would like to see"
 msgstr ""
 
-#: rs/forms.py:1294 rs/forms.py:1326
+#: rs/forms.py:1296 rs/forms.py:1328
 msgid "Search"
 msgstr ""
 
-#: rs/forms.py:1321
+#: rs/forms.py:1323
 msgid "Username to search for"
 msgstr ""
 
-#: rs/forms.py:1330
+#: rs/forms.py:1332
 msgid "Specify the username that you would like to see"
 msgstr ""
 

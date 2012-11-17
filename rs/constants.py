@@ -140,9 +140,11 @@ ALL_CHAT_FRIENDS_DICT_EXPIRY = SECONDS_PER_HOUR # How often will we hit the data
 CHAT_MESSAGE_CUTOFF_CHARS = 200 #allow this many chars at a time in a single text message
 
 # include the version identifier in the memcache prefix for objects that have a probability of changing
-# between version upates - currently this is done for the userobject
+# between version upates - currently this is done for the userobject and any other objects that use
+# utils.put_object() for writing to the database
 BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + settings.VERSION_ID + "_"
-PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_url_description_memcache_prefix_"  + settings.VERSION_ID + "_"
+PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_memcache_prefix_"  + settings.VERSION_ID + "_"
+PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_memcache_prefix_"  + settings.VERSION_ID + "_"
 
 # In general we don't want to clear all of the chat related memcaches every time that we update the version
 # of code - however, if we have been modifying the chat functionality then we do wish to force an update. 

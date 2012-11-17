@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-17 20:26+0100\n"
+"POT-Creation-Date: 2012-11-17 20:35+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -81,7 +81,7 @@ msgstr ""
 "Ya sois \"Chat amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:699 rs/display_contacts.py:337 rs/forms.py:1138
+#: rs/ajax.py:699 rs/display_contacts.py:337 rs/forms.py:1140
 #: rs/login_utils.py:244 rs/rendering.py:393 rs/store_data.py:1571
 #: rs/views.py:328 rs/views.py:817
 msgid ""
@@ -705,21 +705,22 @@ msgid "No primary photo"
 msgstr "Sin&nbsp;foto&nbsp;principal"
 
 #: rs/forms.py:794
-msgid ""
-"%(relationship_status)s %(sex)s Seeking %(extra_detail)s %(preference)s In %"
-"(location)s"
-msgstr ""
-"%(sex)s %(relationship_status)s Busca %(preference)s %(extra_detail)s En %"
-"(location)s"
-
-#: rs/forms.py:802
 #, python-format
 msgid ""
-"%(sex)s Seeking %(preference)s For %(relationship_status)s In %(location)s"
+"%(relationship_status)s %(sex)s Seeking%(extra_detail)s %(preference)s In %"
+"(location)s"
 msgstr ""
-"%(sex)s Busca %(preference)s Para %(relationship_status)s En %(location)s"
+"%(sex)s %(relationship_status)s Busca %(preference)s%(extra_detail)s En %"
+"(location)s"
 
-#: rs/forms.py:809
+#: rs/forms.py:803
+msgid ""
+"%(sex)s Seeking%(extra_detail)s %(preference)s For %(relationship_status)s "
+"In %(location)s"
+msgstr ""
+"%(sex)s Busca %(preference)s%(extra_detail)s Para %(relationship_status)s En %(location)s"
+
+#: rs/forms.py:811
 #, python-format
 msgid ""
 "Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %"
@@ -728,12 +729,12 @@ msgstr ""
 "Hablante De %(languages)s Busca Hablantes De %(languages_to_learn)s En %"
 "(location)s"
 
-#: rs/forms.py:815
+#: rs/forms.py:817
 #, python-format
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/forms.py:928
+#: rs/forms.py:930
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
@@ -741,31 +742,31 @@ msgstr ""
 "Si no puedes leer las palabras en la \"captcha\", puedes elegir otras "
 "palabras haciendo clic en el símbolo"
 
-#: rs/forms.py:929
+#: rs/forms.py:931
 msgid "inside the \"captcha\""
 msgstr "dentro de la \"captcha\""
 
-#: rs/forms.py:985
+#: rs/forms.py:987
 msgid "Remove report"
 msgstr "Quitar denuncia"
 
-#: rs/forms.py:987
+#: rs/forms.py:989
 msgid "Report this profile"
 msgstr "Denunciar este perfil"
 
-#: rs/forms.py:1086
+#: rs/forms.py:1088
 msgid "Sent correctly"
 msgstr "Enviado correctamente"
 
-#: rs/forms.py:1087
+#: rs/forms.py:1089
 msgid "Not sent, try again"
 msgstr "No enviado, intentalo de nuevo"
 
-#: rs/forms.py:1105
+#: rs/forms.py:1107
 msgid "Before sending it!"
 msgstr "¡Antes de enviarlo!"
 
-#: rs/forms.py:1106
+#: rs/forms.py:1108
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
@@ -775,31 +776,31 @@ msgstr ""
 "su perfil, algo más que \"Hola guapa ¿que tal?\"? Sino, tu cuenta podria ser "
 "marcada como spam."
 
-#: rs/forms.py:1120
+#: rs/forms.py:1122
 msgid "Send message"
 msgstr "Enviar mensaje"
 
-#: rs/forms.py:1183
+#: rs/forms.py:1185
 msgid "Verify"
 msgstr "Verificar"
 
-#: rs/forms.py:1244 rs/forms.py:1329
+#: rs/forms.py:1246 rs/forms.py:1331
 msgid "Search Box"
 msgstr "El Buscador"
 
-#: rs/forms.py:1245
+#: rs/forms.py:1247
 msgid "Specify the profiles that you would like to see"
 msgstr "Especifica los perfiles que te gustaría ver"
 
-#: rs/forms.py:1294 rs/forms.py:1326
+#: rs/forms.py:1296 rs/forms.py:1328
 msgid "Search"
 msgstr "Buscar"
 
-#: rs/forms.py:1321
+#: rs/forms.py:1323
 msgid "Username to search for"
 msgstr "Nombre de usuario a buscar"
 
-#: rs/forms.py:1330
+#: rs/forms.py:1332
 msgid "Specify the username that you would like to see"
 msgstr "Especifica el nombre del usuario que te gustaría ver"
 
