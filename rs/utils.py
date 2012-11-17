@@ -55,10 +55,7 @@ import user_profile_main_data, localizations, models, error_reporting, utils_top
 from Crypto.Cipher import AES
 import base64
 
-try:
-    from proprietary import search_engine_overrides
-except:
-    pass
+from rs.import_search_engine_overrides import *
 
 #############################################
 def requires_login(view):
@@ -1540,20 +1537,3 @@ def get_nid_from_uid(uid):
     return nid
     
     
-def get_additional_description_from_sex_and_preference(sex_key_val, preference_key_val, pluralize = True):
-    additional_description = ''    
-    
-    if sex_key_val == "male" and preference_key_val == "male":
-        if pluralize:
-            additional_description = " (%s)" % ugettext("Gay men")
-        else:
-            additional_description = " Gay"
-            
-    elif sex_key_val == "female" and preference_key_val == "female":
-        if pluralize:
-            additional_description = " (%s)" % ugettext("Lesbians")
-        else:
-            additional_description = " %s" % ugettext("Lesbian")
-        
-        
-    return additional_description    

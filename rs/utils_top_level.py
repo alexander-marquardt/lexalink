@@ -109,3 +109,22 @@ def deserialize_entities(data):
     else:
         return [db.model_from_protobuf(entity_pb.EntityProto(x)) for x in data]
     
+
+
+def get_additional_description_from_sex_and_preference(sex_key_val, preference_key_val, pluralize = True):
+    additional_description = ''    
+    
+    if sex_key_val == "male" and preference_key_val == "male":
+        if pluralize:
+            additional_description = " (%s)" % ugettext("Gay men")
+        else:
+            additional_description = " Gay"
+            
+    elif sex_key_val == "female" and preference_key_val == "female":
+        if pluralize:
+            additional_description = " (%s)" % ugettext("Lesbians")
+        else:
+            additional_description = " %s" % ugettext("Lesbian")
+        
+        
+    return additional_description    
