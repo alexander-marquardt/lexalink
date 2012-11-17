@@ -79,6 +79,7 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
     # function that will redirect this out-of-date URL to the correct new URL format
     userobject = utils_top_level.get_object_from_string(display_uid)
     redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
+    logging.debug("Re-directing old url for uid: %s to new url %s" % (display_uid, redirect_url))
     return http.HttpResponsePermanentRedirect(redirect_url)  
 
 def user_main(request, display_nid, is_primary_user = False, profile_url_description = None):
@@ -195,7 +196,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 expected_profile_url_description = profile_utils.get_profile_url_description(lang_code, display_uid)
                 if quoted_profile_url_description != expected_profile_url_description:
                     redirect_url = profile_utils.get_userprofile_href(lang_code, display_userobject)
-                    logging.debug("redirecting from %s to %s\n" % (quoted_profile_url_description, expected_profile_url_description))
+                    logging.info("redirecting from %s to %s\n" % (quoted_profile_url_description, expected_profile_url_description))
                     return http.HttpResponsePermanentRedirect(redirect_url)
                     
             except BadRequestError:
