@@ -216,7 +216,7 @@ var chan_utils = new function () {
 
                     for (var group_id in json_response.chat_group_members) {
                         var group_members_dict = json_response.chat_group_members[group_id];
-                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_user_or_groups_by_name(group_members_dict, false);
+                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_user_or_groups_by_name(group_members_dict, false, true);
 
                         if (!chan_utils_self.list_of_usernames_in_each_group.hasOwnProperty(group_id)) {
                             chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_user_info;
@@ -580,7 +580,7 @@ var chan_utils = new function () {
             }
         };
 
-        this.sort_user_or_groups_by_name = function(users_or_groups_dict, add_num_group_members_to_name) {
+        this.sort_user_or_groups_by_name = function(users_or_groups_dict, add_num_group_members_to_name, sort_ascending) {
 
             // returns a 2D array containing [name, user_info_dict] pairs, and sorted by name
             // where user_info_dict is a dictionary with keys for 'username' and 'nid'
@@ -608,7 +608,11 @@ var chan_utils = new function () {
                     sorted_list_of_names_with_uids.push([user_or_group_name, user_or_group_info_dict]);
                 }
 
-                sorted_list_of_names_with_uids.sort(function(a,b) { return a[0] < b[0] ? -1 : 1;});
+                if (sort_ascending) {
+                    sorted_list_of_names_with_uids.sort(function(a,b) { return a[0] < b[0] ? -1 : 1;});
+                } else {
+                    sorted_list_of_names_with_uids.sort(function(a,b) { return a[0] > b[0] ? -1 : 1;});                    
+                }
                 return sorted_list_of_names_with_uids;
             } catch(err) {
                 report_try_catch_error( err, "sort_group_members_by_name");

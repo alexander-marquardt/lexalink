@@ -836,11 +836,13 @@ var updateChatControlBox = function (box_name, dict_to_display) {
     try {
 
         if (box_name == "groups") {
-            add_num_group_members_to_name = true
+            var add_num_group_members_to_name = true
+            var sort_ascending = false;
         } else {
-            add_num_group_members_to_name = false
+            var add_num_group_members_to_name = false
+            var sort_ascending = true;
         }
-        var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(dict_to_display, add_num_group_members_to_name);
+        var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(dict_to_display, add_num_group_members_to_name, sort_ascending);
         var display_list = chan_utils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
 
         $("#" + box_name).chatbox("option", "boxManager").refreshBox(display_list);
