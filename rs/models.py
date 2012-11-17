@@ -579,13 +579,7 @@ class UserModel(BaseModel):
         # For some reason ListProperty fields must be "required".
         vars()[category] = db.StringListProperty(required=True) 
             
-        
-    #### Fields for auto-generating titles that will cause more search engine hits
-    # tag_type determines which tag list this users title tag will be pulled from
-    title_tag_type = db.StringProperty(required = True, default = 'base')
-    # given the list determined by tag_type, we use tag_idx to indicate which particular tag will be shown.
-    title_tag_idx = db.IntegerProperty(required = True, default = 0)
-        
+                
     #### fields for keeping track of photos that have been uploaded
     # set up an anonymous reference to the photos -- so that we automatically have a reference
     # to the profile photo, without having to do a query. Read about it at:

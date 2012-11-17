@@ -597,17 +597,6 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
                         (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
                          login_utils.get_or_create_unique_last_login(userobject, userobject.username)
  
-        if update_title:
-            # Update the title tag for the user profile
-            if settings.SEO_OVERRIDES_ENABLED:
-                if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                    (userobject.title_tag_type, userobject.title_tag_idx) = \
-                     search_engine_overrides.get_title_ref(userobject.sex, userobject.preference, 
-                                                           userobject.relationship_status)
-                else:
-                    (userobject.title_tag_type, userobject.title_tag_idx) = search_engine_overrides.get_title_ref_base_only()
-            else:
-                (userobject.title_tag_type, userobject.title_tag_idx) = ("base", 0)
                 
         if is_signup_fields:
             # copy the current field into the search index list for the current field
@@ -1902,17 +1891,6 @@ def store_new_user_after_verify(request, fake_request=None):
         userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, request.LANGUAGE_CODE) 
         userobject = setup_new_user_defaults_and_structures(userobject, login_dict['username'], request.LANGUAGE_CODE)
 
-        
-        # Assign title tag to new users
-        if settings.SEO_OVERRIDES_ENABLED:
-            if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                (userobject.title_tag_type, userobject.title_tag_idx) = \
-                 search_engine_overrides.get_title_ref(userobject.sex, userobject.preference, 
-                                                       userobject.relationship_status) 
-            else:
-                (userobject.title_tag_type, userobject.title_tag_idx) = search_engine_overrides.get_title_ref_base_only()
-        else:
-            (userobject.title_tag_type, userobject.title_tag_idx) = ("base", 0)
         
         # store indication of email address validity (syntactically valid )
         if login_dict['email_address'] == '----':

@@ -1,7 +1,7 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
-application: languageapp
-version: 2012-11-17-0235
+application: romancesapp
+version: 2012-11-17-0445
 runtime: python
 api_version: 1
 
@@ -10,8 +10,8 @@ default_expiration: "30d"
 
 handlers:
 - url: /favicon.ico
-  static_files: rs/static/img/Language/favicon.ico
-  upload: rs/static/img/Language/favicon.ico
+  static_files: rs/static/img/Discrete/favicon.ico
+  upload: rs/static/img/Discrete/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location

@@ -787,11 +787,16 @@ class FormUtils():
         vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
                          
         if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
-            base_title = u"%s" % (ugettext("%(relationship_status)s %(sex)s Seeking %(preference)s In %(location)s") % {
+            # check if this profile is gay (male seeking male) or lesbian .. if so, add the appropriate
+            # word to the profile description.
+            extra_detail = utils.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
+            
+            base_title = u"%s" % (ugettext("%(relationship_status)s %(sex)s Seeking %(extra_detail)s %(preference)s In %(location)s") % {
                 'relationship_status' : vals_in_curr_language_dict['relationship_status'],
                 'sex': vals_in_curr_language_dict['sex'], 
                 'location': vals_in_curr_language_dict['location'], 
-                'preference' : vals_in_curr_language_dict['preference']})
+                'preference' : vals_in_curr_language_dict['preference'],
+                'extra_detail' : extra_detail})
             
         elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
             base_title = u"%s" % (ugettext("%(sex)s Seeking %(preference)s For %(relationship_status)s In %(location)s") % {
@@ -804,6 +809,7 @@ class FormUtils():
             base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
             'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
             'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
+            
         elif settings.BUILD_NAME == 'Friend':
             activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
             base_title = u"%s" % (ugettext("%(sex)s In %(location)s") % {
