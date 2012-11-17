@@ -50,7 +50,7 @@ def get_object_from_string(object_str):
     if not object_str:
         return None           
 
-    memcache_key_str = object_str + settings.VERSION_ID
+    memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + object_str 
     return_object = deserialize_entities(memcache.get(memcache_key_str))
     if return_object is not None:
         #logging.debug("get_object_from_string HIT **********")

@@ -14,7 +14,7 @@ def get_profile_url_description(lang_code, uid):
     # Note: if the userprofile is updated, then this memcache entry should be deleted as it could 
     # potentially be out of date. This is taken care of in the put_userobject() function. 
     # Do not change the following memcache key without also changing it in the put_userobject function.
-    memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid + settings.VERSION_ID
+    memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid
     profile_url_description = memcache.get(memcache_key_str)
     if profile_url_description is not None:
         return profile_url_description

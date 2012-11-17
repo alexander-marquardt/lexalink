@@ -332,7 +332,7 @@ def put_object(object_to_put):
     """
     
     object_to_put.put()
-    memcache_key_str = str(object_to_put.key()) + settings.VERSION_ID
+    memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + str(object_to_put.key())
     memcache.set(memcache_key_str, serialize_entities(object_to_put), constants.SECONDS_PER_MONTH)
     
 
@@ -362,7 +362,7 @@ def put_userobject(userobject):
     uid = str(userobject.key())
     for lang_tuple in settings.LANGUAGES:
         lang_code = lang_tuple[0]
-        url_description_memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid + settings.VERSION_ID
+        url_description_memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid
         memcache_status = memcache.delete(url_description_memcache_key_str)
         
     put_object(userobject)

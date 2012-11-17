@@ -49,14 +49,15 @@ TIMEOUT = "timeout" # timeout is when the user has been inactive for so long tha
 OFFLINE = "offline" # offline is when the user explicity goes offline (will not go online if they become active)
 
 
+
 # memcache key prefixes
-OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX = "open_conversations_memcache_dictionary_"
-CHAT_FRIEND_TRACKER_PREFIX = "chat_friend_tracker_"
-CURRENTLY_OPEN_CONVERSATIONS_PREFIX = "currently_open_conversations_"
-CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "chat_group_members_dict_memecache_prefix_"
-CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "chat_group_members_names_memcache_prefix_"
-CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "memcache_message_number_memcache_prefix_"
-CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "memcache_message_object_memcache_prefix_"
+OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX = "open_conversations_memcache_dictionary_" + constants.FORCE_UPDATE_STRING
+CHAT_FRIEND_TRACKER_PREFIX = "chat_friend_tracker_" + constants.FORCE_UPDATE_STRING
+CURRENTLY_OPEN_CONVERSATIONS_PREFIX = "currently_open_conversations_" + constants.FORCE_UPDATE_STRING
+CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "chat_group_members_dict_memecache_prefix_" + constants.FORCE_UPDATE_STRING
+CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "chat_group_members_names_memcache_prefix_" + constants.FORCE_UPDATE_STRING
+CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "memcache_message_number_memcache_prefix_" + constants.FORCE_UPDATE_STRING
+CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "memcache_message_object_memcache_prefix_" + constants.FORCE_UPDATE_STRING
 
 
 def get_open_conversation_tracker_object(owner_uid, other_uid):
