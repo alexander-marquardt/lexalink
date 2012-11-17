@@ -358,6 +358,8 @@ def put_userobject(userobject):
         # return without writing the userobject!!
         return
         
+    put_object(userobject)
+                 
     # Invalidate the memcached url_description for this userprofile since it has potentially changed.
     uid = str(userobject.key())
     for lang_tuple in settings.LANGUAGES:
@@ -365,14 +367,6 @@ def put_userobject(userobject):
         url_description_memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid
         memcache_status = memcache.delete(url_description_memcache_key_str)
         
-    put_object(userobject)
-                 
-    ## invalidate the profile summary memcache - it is now stale.
-    #for lang_tuple in settings.LANGUAGES:
-        #lang = lang_tuple[0]
-        #summary_memcache_key_str = "userobject_summary:" + lang + ":" + userobject_key_str + ":" + settings.VERSION_ID
-        #memcache.delete(summary_memcache_key_str)
-    
     
 def do_query(model_to_query, query_filter_dict, order_by = None):
     # This is a helper function that takes care of querying the database.
@@ -1542,3 +1536,21 @@ def get_nid_from_uid(uid):
     
     return nid
     
+    
+def get_additional_description_from_sex_and_preference(sex_key_val, preference_key_val, pluralize = True):
+    additional_description = ''    
+    
+    if sex_key_val == "male" and preference_key_val == "male":
+        if pluralize:
+            additional_description = " (%s)" % ugettext("Gay men")
+        else:
+            additional_description = " (Gay)"
+            
+    elif sex_key_val == "female" and preference_key_val == "female":
+        if pluralize:
+            additional_description = " (%s)" % ugettext("Lesbians")
+        else:
+            additional_description = " (%s)" % ugettext("Lesbian")
+        
+        
+    return additional_description    
