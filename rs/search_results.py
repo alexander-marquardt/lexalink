@@ -46,7 +46,7 @@ from constants import ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN
 from localizations import *
 import store_data, utils, error_reporting
 import rendering, text_fields, utils_top_level, vip_status_support
-import search_utils, profile_utils
+import profile_utils
 
 from django.utils.translation import ugettext
 
