@@ -58,6 +58,7 @@ CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "chat_group_members_dict_memecache_pr
 CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "chat_group_members_names_memcache_prefix_" + constants.FORCE_UPDATE_STRING
 CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "memcache_message_number_memcache_prefix_" + constants.FORCE_UPDATE_STRING
 CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "memcache_message_object_memcache_prefix_" + constants.FORCE_UPDATE_STRING
+CHAT_GROUPS_LIST_MEMCACHE_KEY = "_chat_groups_list_memcache_key_" + constants.FORCE_UPDATE_STRING
 
 
 def get_open_conversation_tracker_object(owner_uid, other_uid):
@@ -416,7 +417,9 @@ def create_chat_group(group_name, group_creator_name, group_creator_uid_string):
 def get_chat_groups_dict(overwrite_memcache = False):
     # returns a dictionary containing the currently available chat groups 
     
-    global_chat_groups_dict_memcache_key = "global_chat_groups_dict_memcache_key_"
+    # The chat groups list is a globally accessable memcache object, and therefore the key doesn't depend
+    # on uid or any other variable.
+    global_chat_groups_dict_memcache_key = CHAT_GROUPS_LIST_MEMCACHE_KEY
     
     if not overwrite_memcache:
         chat_groups_dict = memcache.get(global_chat_groups_dict_memcache_key)
