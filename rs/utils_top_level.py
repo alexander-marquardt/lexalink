@@ -34,6 +34,7 @@
 from google.appengine.ext import db 
 from google.appengine.api.datastore import entity_pb
 from google.appengine.api import memcache
+from django.utils.translation import ugettext
 
 import logging
 

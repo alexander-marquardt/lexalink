@@ -55,7 +55,10 @@ import user_profile_main_data, localizations, models, error_reporting, utils_top
 from Crypto.Cipher import AES
 import base64
 
-from rs.import_search_engine_overrides import *
+try:
+    from rs.proprietary import search_engine_overrides
+except:
+    pass
 
 #############################################
 def requires_login(view):

@@ -469,7 +469,7 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
             else:
                 preference_title = u''
                 
-            get_additional_description = utils.get_additional_description_from_sex_and_preference(search_vals_dict['sex'], search_vals_dict['preference'], pluralize = True)
+            get_additional_description = utils_top_level.get_additional_description_from_sex_and_preference(search_vals_dict['sex'], search_vals_dict['preference'], pluralize = True)
                 
             start_title = u"%s%s%s. " % (sex_title, preference_title, get_additional_description)
         else: 
