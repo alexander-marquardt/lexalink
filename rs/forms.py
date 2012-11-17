@@ -46,11 +46,8 @@ import queries
 import captcha
 import constants, utils_top_level
 import utils, error_reporting, text_fields
+from rs.import_search_engine_overrides import *
 
-try:
-    from proprietary import search_engine_overrides
-except:
-    pass
 
 # keep this at the bottom to ensure that it is not overwritten by a lambda imported from 
 # another module

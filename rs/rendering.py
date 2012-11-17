@@ -39,11 +39,8 @@ import forms, admin, utils, error_reporting, logging
 from models import UserModel
 from forms import FormUtils
 import constants, text_fields, time, chat_support, localizations, http_utils, common_data_structs
+from rs.import_search_engine_overrides import *
 
-try:
-    from rs.proprietary import search_engine_overrides
-except:
-    pass
 
 if settings.BUILD_NAME == "Friend":
     import friend_bazaar_specific_code

@@ -51,14 +51,11 @@ from models import UnreadMailCount, CountInitiateContact
 from utils_top_level import serialize_entities, deserialize_entities
 
 import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
+from rs.import_search_engine_overrides import *
 
 from Crypto.Cipher import AES
 import base64
 
-try:
-    from rs.proprietary import search_engine_overrides
-except:
-    pass
 
 #############################################
 def requires_login(view):

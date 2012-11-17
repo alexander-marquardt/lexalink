@@ -60,11 +60,8 @@ import backup_data, error_reporting
 import login_utils, utils, sharding, utils_top_level, models
 import constants, models, localizations, text_fields, site_configuration
 import friend_bazaar_specific_code
+from rs.import_search_engine_overrides import *
 
-try:
-    from proprietary import search_engine_overrides
-except:
-    pass
 
 NUM_REPORTS_FOR_UNACCEPTABLE_PROFILE = 3 # how many times does a profile have to be marked as unacceptable before we generate a warning
 

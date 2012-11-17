@@ -47,13 +47,10 @@ from localizations import *
 import store_data, utils, error_reporting
 import rendering, text_fields, utils_top_level, vip_status_support
 import profile_utils
+from rs.import_search_engine_overrides import *
 
 from django.utils.translation import ugettext
 
-try:
-    from rs.proprietary import search_engine_overrides
-except:
-    pass
 
 if settings.BUILD_NAME == "Friend":
     import friend_bazaar_specific_code
