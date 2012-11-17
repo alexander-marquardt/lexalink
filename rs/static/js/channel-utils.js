@@ -716,9 +716,9 @@ var chan_utils = new function () {
                         chan_utils_self.close_group_members_dialog(group_id);
                     }
                 });
-                $("#id-group_members-dialog-box-" + group_id ).parent().css({position : "fixed"});
+                //$("#id-group_members-dialog-box-" + group_id ).parent().css({position : "fixed"});
 
-
+                chan_utils_self.last_time_we_updated_chat_groups_members_boxes = 0; // this will force list to be displayed immediately
                 poll_server_for_status_and_new_messages(); // poll the server so that the list will be updated right away.
             } catch (err) {
                 report_try_catch_error( err, "open_group_members_dialog");
