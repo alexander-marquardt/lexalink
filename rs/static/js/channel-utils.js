@@ -82,7 +82,7 @@ var chan_utils = new function () {
                 chan_utils_self.string_of_messages_in_queue = '';
 
                 chan_utils_self.list_of_open_chat_groups_members_boxes = [];
-                chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes = 3 * 1000; // every 3 seconds
+                chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes = 10 * 1000; // every 10 seconds
                 chan_utils_self.last_time_we_updated_chat_groups_members_boxes = ( new Date()).getTime();
                 chan_utils_self.list_of_usernames_in_each_group = {}; // dictionary indexed by group_id, which contains lists of the usernames -- this is used for checking if list has changed so we can highlight it
             }

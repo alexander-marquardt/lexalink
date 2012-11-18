@@ -39,9 +39,6 @@ import time, logging, datetime
 
 from rs import utils, utils_top_level, constants, error_reporting, chat_support, profile_utils
 
-# limit the number of updates that we send to the user with respect to which members are in a chat group
-CHAT_GROUP_UPDATE_MEMBER_LIST_TIMER_MEMCACHE_KEY = "_chat_group_update_member_list_timer_memcache_key_"
-
 def initialize_main_and_group_boxes_on_server(request):
     # ensures that the main and group boxes have an open_conversation object assigned - this is 
     # needed for tracking the "is_minimized" status. 
@@ -266,21 +263,16 @@ def poll_server_for_status_and_new_messages(request):
             # seconds, which tells us to send a new list to the user (if they have indicated that the userlist is open
             # on their browser)
             if list_of_open_chat_groups_members_boxes_on_client:
-                # the client has open chat groups, so check if we need to send an update based on the timer
-                chat_group_update_member_list_timer_memcache_key = lang_code + CHAT_GROUP_UPDATE_MEMBER_LIST_TIMER_MEMCACHE_KEY + owner_uid
-                list_of_open_chat_groups_members_boxes_on_client_is_up_to_date = memcache.get(chat_group_update_member_list_timer_memcache_key)
-                if list_of_open_chat_groups_members_boxes_on_client_is_up_to_date is None:
-                    memcache.set(chat_group_update_member_list_timer_memcache_key, True, 
-                                 constants.SECONDS_BETWEEN_SEND_CHAT_GROUP_MEMBERS_TO_USER)
+                # the client has open chat groups, send updated list of which members are in each group
                     
-                    # loop over list_of_open_chat_groups_members_boxes_on_client and get the members in each group
-                    # notice that this is not a list of the members for all groups that the user currently has open,
-                    # it is a list of the members for the groups that the user currently has a window open that has
-                    # the list of members (group chat and the display of who is in the group are two different windows)
-                    response_dict['chat_group_members'] = {}
-                    for group_id in list_of_open_chat_groups_members_boxes_on_client:
-                        response_dict['chat_group_members'][group_id] = chat_support.get_group_members_dict(lang_code, group_id)
-                
+                # loop over list_of_open_chat_groups_members_boxes_on_client and get the members in each group
+                # notice that this is not a list of the members for all groups that the user currently has open,
+                # it is a list of the members for the groups that the user currently has a window open that has
+                # the list of members (group chat and the display of who is in the group are two different windows)
+                response_dict['chat_group_members'] = {}
+                for group_id in list_of_open_chat_groups_members_boxes_on_client:
+                    response_dict['chat_group_members'][group_id] = chat_support.get_group_members_dict(lang_code, group_id)
+            
                         
             
             response_dict['conversation_tracker'] = {} 

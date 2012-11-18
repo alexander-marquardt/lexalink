@@ -128,7 +128,6 @@ MAX_CHARS_IN_GROUP_NAME = 20
                                         
 SECONDS_BETWEEN_UPDATE_CHAT_GROUPS = 5 # we can frequently update this memcache, because it is common for all users (cost is amortized across all users)
 SECONDS_BETWEEN_GET_CHAT_GROUPS = 20   # This value determines how often we send an updated group list to each client
-SECONDS_BETWEEN_SEND_CHAT_GROUP_MEMBERS_TO_USER = 5 # if the user has the dialog box open that tells who is in a chat group, this tell how often to update it
 
 MAX_CHAT_GROUPS_PER_USER = 5 # if the user tries to create more than this number of chat groups, an error is returned
 SECONDS_BETWEEN_EXPIRE_MAX_CHAT_GROUPS_PER_USER = SECONDS_PER_HOUR # when to reset the constraint on the number of chat groups that the user can create
