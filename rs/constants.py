@@ -142,8 +142,9 @@ CHAT_MESSAGE_CUTOFF_CHARS = 200 #allow this many chars at a time in a single tex
 # between version upates - currently this is done for the userobject and any other objects that use
 # utils.put_object() for writing to the database
 BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + settings.VERSION_ID + "_"
-PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_memcache_prefix_"  + settings.VERSION_ID + "_"
-PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_memcache_prefix_"  + settings.VERSION_ID + "_"
+PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + settings.VERSION_ID + "_"
+PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + settings.VERSION_ID + "_"
+PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + settings.VERSION_ID
 
 # In general we don't want to clear all of the chat related memcaches every time that we update the version
 # of code - however, if we have been modifying the chat functionality then we do wish to force an update. 

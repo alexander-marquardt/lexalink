@@ -261,24 +261,24 @@ def get_userobject_summary_with_memcache_check(request, userobject_key):
     memcache. 
     
     Have not benchmarked to see if this actually makes a difference ... it might not be worth the added complexity. 
+    
+    This memcache must be invalidates every time that the userobject is written, and is taken care of in put_userobject().
     """
     
-    #if not userobject_key:
-        #return None
+    if not userobject_key:
+        return None
     
-    #lang = request.LANGUAGE_CODE    
-    #userobject_key_str = str(userobject_key)
-    #userobject = utils_top_level.get_object_from_string(userobject_key_str)  
+    lang_code = request.LANGUAGE_CODE    
+    uid = str(userobject_key)
+    userobject = utils_top_level.get_object_from_string(uid)  
 
-    #memcache_key_str = "userobject_summary:" + lang + ":" + userobject_key_str + ":" + settings.VERSION_ID
-    #summary_first_half_html = memcache.get(memcache_key_str)
-    #if summary_first_half_html is None:
-        ## compute the userobject summary and update memcache
-        #summary_first_half_html = display_userobject_first_half_summary(request, userobject)
-        #memcache.set(memcache_key_str, summary_first_half_html, constants.SECONDS_PER_MONTH)
-        
-    userobject = utils_top_level.get_object_from_string(str(userobject_key)) 
-    summary_first_half_html = display_userobject_first_half_summary(request, userobject)        
+    summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
+    summary_first_half_html = memcache.get(summary_first_half_memcache_key_str)
+    if summary_first_half_html is None:
+        # compute the userobject summary and update memcache
+        summary_first_half_html = display_userobject_first_half_summary(request, userobject)
+        memcache.set(summary_first_half_memcache_key_str, summary_first_half_html, constants.SECONDS_PER_MONTH)
+              
     summary_second_half_html = display_userobject_second_half_summary(userobject)
         
     return summary_first_half_html + summary_second_half_html

@@ -363,9 +363,12 @@ def put_userobject(userobject):
         lang_code = lang_tuple[0]
         url_description_memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid
         memcache_status = memcache.delete(url_description_memcache_key_str)
+        
         profile_title_memcache_key_str = lang_code + constants.PROFILE_TITLE_MEMCACHE_PREFIX + uid
         memcache_status = memcache.delete(profile_title_memcache_key_str)
         
+        summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
+        memcache_status = memcache.delete(summary_first_half_memcache_key_str)
         
     
 def do_query(model_to_query, query_filter_dict, order_by = None):
