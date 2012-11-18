@@ -229,7 +229,7 @@ var chan_utils = new function () {
 
                         var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
                         $("#id-group_members-dialog-box-" + group_id).html(display_list);
-                        chan_utils_self.showListHoverDescriptions(group_id, sorted_list_of_names_with_user_info)
+                        chan_utils_self.showListHoverDescriptions(group_id, group_members_dict)
                     }
                 }
 
@@ -685,12 +685,15 @@ var chan_utils = new function () {
             return false;  // prevent lint warnings
         };
 
-        this.showListHoverDescriptions = function(box_name, sorted_list_of_names_with_user_info) {
-            var array_length = sorted_list_of_names_with_user_info.length;
-            for (var idx=0; idx < array_length; idx ++) {
-                var nid = sorted_list_of_names_with_user_info[idx][1]['nid'];
-                var url_description = sorted_list_of_names_with_user_info[idx][1]['url_description'];                
-                $("#dlist-" +box_name + "-" + nid).attr('title', url_description);
+        this.showListHoverDescriptions = function(box_name, group_members_dict) {
+            try {
+                for (var uid in group_members_dict) {
+                    var nid = group_members_dict[uid]['nid'];
+                    var profile_title = group_members_dict[uid]['profile_title'];
+                    $("#dlist-" +box_name + "-" + nid).attr('title', profile_title);
+                }
+            } catch(err) {
+                report_try_catch_error( err, "showListHoverDescriptions");
             }
         }
 

@@ -226,7 +226,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 (html_for_mail_history_summary, have_sent_messages_object) =\
                  mailbox.get_mail_history_summary(request, owner_userobject, display_userobject)
         
-        (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(lang_code, display_userobject)
+        (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(lang_code, display_uid)
       
         html_for_main = MyHTMLCallbackGenerator(request, display_userobject, is_primary_user, owner_userobject, have_sent_messages_object)
                

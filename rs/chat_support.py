@@ -322,6 +322,7 @@ def get_group_members_dict(lang_code, group_id):
                 group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                 group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
                 group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
+                group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
                 
             memcache.set(memcache_key, group_members_names_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
         

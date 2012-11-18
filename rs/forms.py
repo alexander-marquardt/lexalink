@@ -44,8 +44,7 @@ from constants import field_formats , MAIL_TEXTAREA_ROWS
 from localizations import input_field_lang_idx
 import queries
 import captcha
-import constants, utils_top_level
-import utils, error_reporting, text_fields
+from rs import utils, error_reporting, text_fields, profile_utils
 from rs.import_search_engine_overrides import *
 
 
@@ -63,17 +62,6 @@ from django.utils.translation import ugettext
 
 class FormUtils():
     # container for the classes that help to generate the forms for input.
-    fields_for_title_generation   = []
-    
-    # define which fields can be used in generating titles for profiles and search results. 
-    if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-        fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region']
-    elif settings.BUILD_NAME == "Language":
-        fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region', 'languages', 'languages_to_learn']    
-    elif settings.BUILD_NAME == "Friend":
-        fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region',]
-    else:
-        assert(0)
 
    
     
@@ -768,91 +756,10 @@ class FormUtils():
             error_reporting.log_exception(logging.critical)       
             return ''
     
-    ####   
-    @classmethod
-    def replace_prefer_no_say(cls, val_to_check, default_value, replacement_string):
-        if val_to_check == 'prefer_no_say':
-            return replacement_string
-        else:
-            return default_value       
-    
-    @classmethod
-    def get_base_userobject_title(cls, lang_code, userobject):
-        # Gets the main part of the user profile title (before adding in SEO optimizations
-        # and anything else -- which we currently are not doing)
-        
-        
-        try:
-            # Use memcache to reduce server loading - once the title for the current profile is made
-            # it will not change unless the user changes their profile. 
-            # Every time the user profile is written, this memcache will be invalidated (this is 
-            # taken care of in put_userobject)
-            uid = str(userobject.key())
-            memcache_key_str = lang_code + constants.PROFILE_TITLE_MEMCACHE_PREFIX + uid
-            base_title = memcache.get(memcache_key_str)
-            if base_title is not None:
-                # memcache hit!
-                return base_title
-            
-            else:                
-                lang_idx = localizations.input_field_lang_idx[lang_code]        
-                field_vals_dict = {}
-        
-                for field_name in cls.fields_for_title_generation:
-                    field_vals_dict[field_name] = getattr(userobject, field_name)
-                                     
-                vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
-                                 
-                if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
-                    # check if this profile is gay (male seeking male) or lesbian .. if so, add the appropriate
-                    # word to the profile description.
-                    extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
-                    
-                    relationship_status = cls.replace_prefer_no_say(field_vals_dict['relationship_status'], "%s " % vals_in_curr_language_dict['relationship_status'], '')
 
-                    base_title = u"%s" % (ugettext("%(relationship_status)s%(sex)sSeeking%(extra_detail)s%(preference)sIn%(location)s") % {
-                        'relationship_status' : relationship_status,
-                        'sex': "%s " % vals_in_curr_language_dict['sex'], 
-                        'location': " %s" % vals_in_curr_language_dict['location'], 
-                        'preference' : " %s " % vals_in_curr_language_dict['preference'],
-                        'extra_detail' :  extra_detail})
-                    
-                elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
-                    sex = cls.replace_prefer_no_say(field_vals_dict['sex'], "%s " % vals_in_curr_language_dict['sex'], "%s " % ugettext("Lesbian"))
-                    preference = cls.replace_prefer_no_say(field_vals_dict['preference'], " %s " % vals_in_curr_language_dict['preference'], " %s " % ugettext("Lesbian"))
-
-                        
-                    extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], \
-                                field_vals_dict['preference'], pluralize = False)            
-                    base_title = u"%s" % (ugettext("%(sex)sSeeking%(extra_detail)s%(preference)sFor %(relationship_status)s In %(location)s") % {
-                        'relationship_status' : vals_in_curr_language_dict['relationship_status'],                
-                        'sex': sex, 
-                        'location': vals_in_curr_language_dict['location'], 
-                        'extra_detail' : extra_detail,
-                        'preference' : preference})
-                    
-                elif settings.BUILD_NAME == "Language":
-                    base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
-                    'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
-                    'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
-                    
-                elif settings.BUILD_NAME == 'Friend':
-                    activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
-                    base_title = u"%s" % (ugettext("%(sex)s In %(location)s") % {
-                        'sex': vals_in_curr_language_dict['sex'],
-                        'location' : vals_in_curr_language_dict['location'],
-                    })
-                    base_title += u"%s" % activity_summary
-                else:
-                    assert(0)        
-            
-                return base_title
-        except:
-            error_reporting.log_exception(logging.critical)       
-            return ''                
 
     @classmethod
-    def generate_title_and_meta_description_for_current_profile(cls, lang_code, userobject):
+    def generate_title_and_meta_description_for_current_profile(cls, lang_code, uid):
         # given the userobject that is passed in, generate a text string that is appropriate for display
         # in the title of the webpage. 
         generated_title = meta_description = ''
@@ -865,7 +772,7 @@ class FormUtils():
             else:
                 meta_description_tag = ''
                 
-            base_title = cls.get_base_userobject_title(lang_code, userobject)
+            base_title = profile_utils.get_base_userobject_title(lang_code, uid)
             generated_title = u"%s." % (base_title)
             meta_description = u"%s. %s" %(meta_description_tag, base_title)
 
