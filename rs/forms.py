@@ -802,8 +802,13 @@ class FormUtils():
                     # word to the profile description.
                     extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
                     
-                    base_title = u"%s" % (ugettext("%(relationship_status)s %(sex)s Seeking%(extra_detail)s %(preference)s In %(location)s") % {
-                        'relationship_status' : vals_in_curr_language_dict['relationship_status'],
+                    if field_vals_dict['relationship_status'] == 'prefer_no_say':
+                        relationship_status = ''
+                    else:
+                        relationship_status = "%s " % vals_in_curr_language_dict['relationship_status']
+                        
+                    base_title = u"%s" % (ugettext("%(relationship_status)s%(sex)s Seeking%(extra_detail)s %(preference)s In %(location)s") % {
+                        'relationship_status' : relationship_status,
                         'sex': vals_in_curr_language_dict['sex'], 
                         'location': vals_in_curr_language_dict['location'], 
                         'preference' : vals_in_curr_language_dict['preference'],
