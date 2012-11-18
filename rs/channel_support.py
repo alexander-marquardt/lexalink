@@ -39,6 +39,8 @@ import time, logging, datetime
 
 from rs import utils, utils_top_level, constants, error_reporting, chat_support, profile_utils
 
+# limit the number of updates that we send to the user with respect to which members are in a chat group
+CHAT_GROUP_UPDATE_MEMBER_LIST_TIMER_MEMCACHE_KEY = "_chat_group_update_member_list_timer_memcache_key_"
 
 def initialize_main_and_group_boxes_on_server(request):
     # ensures that the main and group boxes have an open_conversation object assigned - this is 
@@ -108,7 +110,7 @@ def delete_uid_from_group(owner_uid, group_id):
         utils.put_object(group_tracker_object)
         
         # expire the memcache for the list of users that are currently in the group
-        memcache.delete(chat_support.CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id)
+        chat_support.expire_group_members_dict_memcache(group_id)
         
     except ValueError:
         # if owner_uid is not in the list, we get an expected ValueError
@@ -265,7 +267,7 @@ def poll_server_for_status_and_new_messages(request):
             # on their browser)
             if list_of_open_chat_groups_members_boxes_on_client:
                 # the client has open chat groups, so check if we need to send an update based on the timer
-                chat_group_update_member_list_timer_memcache_key = "chat_group_update_member_list_timer_memcache_key_" + owner_uid
+                chat_group_update_member_list_timer_memcache_key = lang_code + CHAT_GROUP_UPDATE_MEMBER_LIST_TIMER_MEMCACHE_KEY + owner_uid
                 list_of_open_chat_groups_members_boxes_on_client_is_up_to_date = memcache.get(chat_group_update_member_list_timer_memcache_key)
                 if list_of_open_chat_groups_members_boxes_on_client_is_up_to_date is None:
                     memcache.set(chat_group_update_member_list_timer_memcache_key, True, 
@@ -466,7 +468,8 @@ def open_new_chatbox_internal(username, owner_uid, other_uid, type_of_conversati
                 
                 # expire the memcache for the list of users that are currently in the group - since 
                 # we have just added a new user the memcached list is out of date
-                memcache.delete(chat_support.CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id)                
+                chat_support.expire_group_members_dict_memcache(group_id)
+                             
                 
         # Note: do not move the following call to update_or_create_open_conversation_tracker to above the 
         # store_chat_message call, or it will cause the message to appear twice.

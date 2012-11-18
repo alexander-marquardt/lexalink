@@ -32,7 +32,7 @@
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-11-17-2345'
+VERSION_ID = '2012-11-18-0045'
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 

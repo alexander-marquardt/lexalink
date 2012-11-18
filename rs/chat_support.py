@@ -51,13 +51,13 @@ OFFLINE = "offline" # offline is when the user explicity goes offline (will not 
 
 
 # memcache key prefixes
-OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX = "open_conversations_memcache_dictionary_" + constants.FORCE_UPDATE_STRING
-CHAT_FRIEND_TRACKER_PREFIX = "chat_friend_tracker_" + constants.FORCE_UPDATE_STRING
-CURRENTLY_OPEN_CONVERSATIONS_PREFIX = "currently_open_conversations_" + constants.FORCE_UPDATE_STRING
-CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "chat_group_members_dict_memecache_prefix_" + constants.FORCE_UPDATE_STRING
-CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "chat_group_members_names_memcache_prefix_" + constants.FORCE_UPDATE_STRING
-CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "memcache_message_number_memcache_prefix_" + constants.FORCE_UPDATE_STRING
-CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "memcache_message_object_memcache_prefix_" + constants.FORCE_UPDATE_STRING
+OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX = "_open_conversations_memcache_dictionary_" + constants.FORCE_UPDATE_STRING
+CHAT_FRIEND_TRACKER_PREFIX = "_chat_friend_tracker_" + constants.FORCE_UPDATE_STRING
+CURRENTLY_OPEN_CONVERSATIONS_PREFIX = "_currently_open_conversations_" + constants.FORCE_UPDATE_STRING
+CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "_chat_group_members_dict_memecache_prefix_" + constants.FORCE_UPDATE_STRING
+CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "_chat_group_members_names_memcache_prefix_" + constants.FORCE_UPDATE_STRING
+CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "_memcache_message_number_memcache_prefix_" + constants.FORCE_UPDATE_STRING
+CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "_memcache_message_object_memcache_prefix_" + constants.FORCE_UPDATE_STRING
 CHAT_GROUPS_LIST_MEMCACHE_KEY = "_chat_groups_list_memcache_key_" + constants.FORCE_UPDATE_STRING
 
 
@@ -292,19 +292,24 @@ def get_username_from_uid(uid):
     
     return username
 
+def expire_group_members_dict_memcache(group_id):
+    
+    for lang_tuple in settings.LANGUAGES:
+        lang_code = lang_tuple[0]
+        memcache.delete(lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id)   
 
 def get_group_members_dict(lang_code, group_id):
     """ 
     Returns a dictionary object containing the users that are in the group indicated by group_id.
     The dictionary will contain a dictionary with key=uid which contains a sub-dictionary with keys
-    'username' and 'nid' which contain associated vlaues. 
+    'username' and 'nid'and 'url_description' which contain associated vlaues. 
     """
     group_members_names_dict = {} # in case of exception, we return an empty dictionary
     
     try:
-        memcache_key = CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id  
-        
+        memcache_key = lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id  
         group_members_names_dict = memcache.get(memcache_key)
+        
         if group_members_names_dict is None:
         
             group_members_names_dict = {} # must initialize as a dictionary since it is currently None
@@ -348,7 +353,7 @@ def get_friends_online_dict(lang_code, owner_uid):
             user_info_dict = get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key)
             memcache.set(all_friends_dict_memcache_key, user_info_dict, constants.ALL_CHAT_FRIENDS_DICT_EXPIRY)
         
-        # Scna throug the entire list of chat_friends, and create a dictionary that is keyed by the
+        # Scan throug the entire list of chat_friends, and create a dictionary that is keyed by the
         # uid's of the *online* "chat friends, and that contains relevant information about each 
         # user (such as name, url_description, current online status (active, idle), and possibly other stuff in 
         # in the future)"
