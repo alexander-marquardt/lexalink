@@ -117,15 +117,15 @@ def get_additional_description_from_sex_and_preference(sex_key_val, preference_k
     
     if sex_key_val == "male" and preference_key_val == "male":
         if pluralize:
-            additional_description = " (%s)" % ugettext("Gay men")
+            additional_description = " (%s) " % ugettext("Gay men")
         else:
-            additional_description = " Gay"
+            additional_description = " Gay "
             
     elif sex_key_val == "female" and preference_key_val == "female":
         if pluralize:
-            additional_description = " (%s)" % ugettext("Lesbians")
+            additional_description = " (%s) " % ugettext("Lesbians")
         else:
-            additional_description = " %s" % ugettext("Lesbian")
+            additional_description = " %s " % ugettext("Lesbian")
         
         
     return additional_description    

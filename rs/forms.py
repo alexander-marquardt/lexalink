@@ -769,6 +769,12 @@ class FormUtils():
             return ''
     
     ####   
+    @classmethod
+    def replace_prefer_no_say(cls, val_to_check, default_value, replacement_string):
+        if val_to_check == 'prefer_no_say':
+            return replacement_string
+        else:
+            return default_value       
     
     @classmethod
     def get_base_userobject_title(cls, lang_code, userobject):
@@ -802,26 +808,28 @@ class FormUtils():
                     # word to the profile description.
                     extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
                     
-                    if field_vals_dict['relationship_status'] == 'prefer_no_say':
-                        relationship_status = ''
-                    else:
-                        relationship_status = "%s " % vals_in_curr_language_dict['relationship_status']
-                        
-                    base_title = u"%s" % (ugettext("%(relationship_status)s%(sex)s Seeking%(extra_detail)s %(preference)s In %(location)s") % {
+                    relationship_status = cls.replace_prefer_no_say(field_vals_dict['relationship_status'], "%s " % vals_in_curr_language_dict['relationship_status'], '')
+
+                    base_title = u"%s" % (ugettext("%(relationship_status)s%(sex)sSeeking%(extra_detail)s%(preference)sIn%(location)s") % {
                         'relationship_status' : relationship_status,
-                        'sex': vals_in_curr_language_dict['sex'], 
-                        'location': vals_in_curr_language_dict['location'], 
-                        'preference' : vals_in_curr_language_dict['preference'],
-                        'extra_detail' : extra_detail})
+                        'sex': "%s " % vals_in_curr_language_dict['sex'], 
+                        'location': " %s" % vals_in_curr_language_dict['location'], 
+                        'preference' : " %s " % vals_in_curr_language_dict['preference'],
+                        'extra_detail' :  extra_detail})
                     
                 elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
-                    extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)            
-                    base_title = u"%s" % (ugettext("%(sex)s Seeking%(extra_detail)s %(preference)s For %(relationship_status)s In %(location)s") % {
+                    sex = cls.replace_prefer_no_say(field_vals_dict['sex'], "%s " % vals_in_curr_language_dict['sex'], "%s " % ugettext("Lesbian"))
+                    preference = cls.replace_prefer_no_say(field_vals_dict['preference'], " %s " % vals_in_curr_language_dict['preference'], " %s " % ugettext("Lesbian"))
+
+                        
+                    extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], \
+                                field_vals_dict['preference'], pluralize = False)            
+                    base_title = u"%s" % (ugettext("%(sex)sSeeking%(extra_detail)s%(preference)sFor %(relationship_status)s In %(location)s") % {
                         'relationship_status' : vals_in_curr_language_dict['relationship_status'],                
-                        'sex': vals_in_curr_language_dict['sex'], 
+                        'sex': sex, 
                         'location': vals_in_curr_language_dict['location'], 
                         'extra_detail' : extra_detail,
-                        'preference' : vals_in_curr_language_dict['preference']})
+                        'preference' : preference})
                     
                 elif settings.BUILD_NAME == "Language":
                     base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
