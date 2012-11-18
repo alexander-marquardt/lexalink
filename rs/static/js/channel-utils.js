@@ -229,6 +229,7 @@ var chan_utils = new function () {
 
                         var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
                         $("#id-group_members-dialog-box-" + group_id).html(display_list);
+                        chan_utils_self.showListHoverDescriptions(group_id, sorted_list_of_names_with_user_info)
                     }
                 }
 
@@ -670,7 +671,7 @@ var chan_utils = new function () {
                     var url_description = sorted_list_of_names_with_user_info[idx][1]['url_description'];
                     if (include_href) {
                         var href = "/" + template_chatbox_vars.language + "/profile/" + nid + "/" + url_description + "/";
-                        display_list += '<li><a data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
+                        display_list += '<li><a id="dlist-' + box_name + '-' + nid + '" data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
                     } else {
                         display_list += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';
                     }
@@ -683,6 +684,15 @@ var chan_utils = new function () {
             }
             return false;  // prevent lint warnings
         };
+
+        this.showListHoverDescriptions = function(box_name, sorted_list_of_names_with_user_info) {
+            var array_length = sorted_list_of_names_with_user_info.length;
+            for (var idx=0; idx < array_length; idx ++) {
+                var nid = sorted_list_of_names_with_user_info[idx][1]['nid'];
+                var url_description = sorted_list_of_names_with_user_info[idx][1]['url_description'];                
+                $("#dlist-" +box_name + "-" + nid).attr('title', url_description);
+            }
+        }
 
         
         this.close_group_members_dialog = function(group_id) {
