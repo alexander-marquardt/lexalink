@@ -92,7 +92,9 @@ def get_base_userobject_title(lang_code, uid):
                 relationship_status = replace_value('prefer_no_say', field_vals_dict['relationship_status'], "%s " % vals_in_curr_language_dict['relationship_status'], '')
                 preference = replace_value('other', field_vals_dict['preference'], vals_in_curr_language_dict['preference'], ugettext("Contacts"))
                 if settings.BUILD_NAME == "Gay":
-                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], ugettext("Gay"))
+                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], "Gay")
+                elif settings.BUILD_NAME == "Swinger":
+                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], "Swinger")                    
                 else:
                     sex = vals_in_curr_language_dict['sex']
 
