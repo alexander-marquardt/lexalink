@@ -246,10 +246,14 @@ indexes:
   - name: last_login_string
     direction: desc
 
-
-
-  # NEW - Replacement for UsersHaveHadContact
-
+# The following is used for sitemap generation
+- kind: UserModel
+  properties:
+  - name: is_real_user
+  - name: user_is_marked_for_elimination
+  - name: creation_date
+  
+  
 - kind: UsersHaveSentMessages
   properties:
   - name: mailbox_to_display_this_contact_message
