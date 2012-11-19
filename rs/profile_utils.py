@@ -51,8 +51,8 @@ def get_userprofile_href(lang_code, userobject, is_primary_user = False):
     return userobject_href
 
 
-def replace_prefer_no_say(val_to_check, default_value, replacement_string):
-    if val_to_check == 'prefer_no_say':
+def replace_value(val_to_replace, val_to_check, default_value, replacement_string):
+    if val_to_check == val_to_replace:
         return replacement_string
     else:
         return default_value       
@@ -89,18 +89,23 @@ def get_base_userobject_title(lang_code, uid):
                 # word to the profile description.
                 extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
                 
-                relationship_status = replace_prefer_no_say(field_vals_dict['relationship_status'], "%s " % vals_in_curr_language_dict['relationship_status'], '')
+                relationship_status = replace_value('prefer_no_say', field_vals_dict['relationship_status'], "%s " % vals_in_curr_language_dict['relationship_status'], '')
+                preference = replace_value('other', field_vals_dict['preference'], vals_in_curr_language_dict['preference'], ugettext("Contacts"))
+                if settings.BUILD_NAME == "Gay":
+                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], ugettext("Gay"))
+                else:
+                    sex = vals_in_curr_language_dict['sex']
 
                 base_title = u"%s" % (ugettext("%(relationship_status)s%(sex)sSeeking%(extra_detail)s%(preference)sIn%(location)s") % {
                     'relationship_status' : relationship_status,
-                    'sex': "%s " % vals_in_curr_language_dict['sex'], 
+                    'sex': "%s " % sex, 
                     'location': " %s" % vals_in_curr_language_dict['location'], 
-                    'preference' : " %s " % vals_in_curr_language_dict['preference'],
+                    'preference' : " %s " % preference,
                     'extra_detail' :  extra_detail})
                 
             elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
-                sex = replace_prefer_no_say(field_vals_dict['sex'], "%s " % vals_in_curr_language_dict['sex'], "%s " % ugettext("Lesbian"))
-                preference = replace_prefer_no_say(field_vals_dict['preference'], " %s " % vals_in_curr_language_dict['preference'], " %s " % ugettext("Lesbian"))
+                sex = replace_value('prefer_no_say', field_vals_dict['sex'], "%s " % vals_in_curr_language_dict['sex'], "%s " % ugettext("Lesbian"))
+                preference = replace_value('prefer_no_say', field_vals_dict['preference'], " %s " % vals_in_curr_language_dict['preference'], " %s " % ugettext("Lesbian"))
 
                     
                 extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], \

@@ -1097,7 +1097,10 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                         
                         if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
                             if field_name == "relationship_status" and lang_idx == localizations.input_field_lang_idx['es']:
-                                if field_vals_dict['sex'] == 'male' or field_vals_dict['sex'] == 'other' or field_vals_dict['sex'] == 'tstvtg':
+                                if settings.BUILD_NAME == "Gay":
+                                    # all profiles in Gay site are male - give Spanish masculine ending "o"
+                                    return_dict[field_name] = re.sub('@', 'o', return_dict[field_name])                                    
+                                elif field_vals_dict['sex'] == 'male' or field_vals_dict['sex'] == 'other' or field_vals_dict['sex'] == 'tstvtg':
                                     return_dict[field_name] = re.sub('@', 'o', return_dict[field_name])
                                 elif field_vals_dict['sex'] == 'female' or field_vals_dict['sex'] == 'couple':
                                     return_dict[field_name] = re.sub('@', 'a', return_dict[field_name])
