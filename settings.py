@@ -32,7 +32,7 @@
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-11-18-0821'
+VERSION_ID = '2012-11-19-1721'
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -71,7 +71,7 @@ if BATCH_BUILD_NAME == '':
     BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
-    #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
+    BUILD_NAME = 'Gay'       # originally used for GaySetup.com
     #BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
 
 else:

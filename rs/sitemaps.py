@@ -25,11 +25,13 @@
 ################################################################################
 
 from django import http
+from rs import error_reporting
+import logging
 
 try:
-    from rs.proprietary.my_sitemaps import *
+    from rs.proprietary.my_sitemaps import * 
     
-except: 
+except:
     def generate_sitemaps(request):
         return http.HttpResponse("Code for generating sitemaps is not defined. Please contact Lexabit Inc. for support.")
     
@@ -43,3 +45,6 @@ except:
         # If this function is called here (as opposed to from my_sitemaps) then sitemaps are not defined
         # and therefore the number returned is zero.
         return 0
+    
+    # Notify of all other errors
+    error_reporting.log_exception(logging.warning)

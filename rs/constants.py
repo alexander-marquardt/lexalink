@@ -203,6 +203,9 @@ SITEMAP_MAX_ENTRIES_FOR_USERMODEL = 2000
 # Define how many user profile sitemap files will be linked within a single index file.
 SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
 
+# TESTING CODE  - REMOVE THESE TWO LINES
+SITEMAP_MAX_ENTRIES_FOR_USERMODEL = 2000
+SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
 
 # define the list of pages which we want to advertise
 pages_to_advertise = []

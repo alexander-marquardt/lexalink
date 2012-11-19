@@ -958,10 +958,14 @@ class SiteMap(BaseModel):
     # re-writing the closing tags)
     internal_xml = db.TextProperty(default = '')
 
-    # we store a reference to the key of the last userobject so that we only add 
-    # userobjects that are newer than the last userobject added to the sitemap.
-    # This contains a string representation of the object key
-    last_object_id = db.StringProperty(default = '')
+    # we store a reference to the key of the last userobject - mostly for informational purposes 
+    # If this is a container for user profiles, then this contains a string representation of the object key
+    # If this is a container for sitemap objects, then this contains the number of the most recent sitemap object
+    last_object_id = db.StringProperty(default = None)
+    
+    # Track the creation time of the last object (or sitemap) that has been included in the internal_xml. This 
+    # allows us to then start the next query immediately after this object.
+    creation_time_of_last_id =  db.DateTimeProperty(default = None)
        
     
 class SiteMapUserModel(SiteMap):
