@@ -192,8 +192,13 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 # re-direct to a URL with the correct description.
                 # This is done for cases where the user has changed some aspect of their profile description 
                 # (country, sex, etc.), so that the URL will be re-directed to reflect the new values.
-                quoted_profile_url_description = urllib.quote(profile_url_description.encode('utf8'))
-                expected_profile_url_description = profile_utils.get_profile_url_description(lang_code, display_uid)
+                if profile_url_description:
+                    quoted_profile_url_description = urllib.quote(profile_url_description.encode('utf8'))
+                else:
+                    quoted_profile_url_description = None
+                    
+                    
+                expected_profile_url_description = profile_utils.get_profile_url_description(lang_code, display_uid)                    
                 if quoted_profile_url_description != expected_profile_url_description:
                     redirect_url = profile_utils.get_userprofile_href(lang_code, display_userobject)
                     logging.info("redirecting from %s to %s\n" % (quoted_profile_url_description, expected_profile_url_description))
