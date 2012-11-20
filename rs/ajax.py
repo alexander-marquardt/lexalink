@@ -326,7 +326,7 @@ def get_photo(request, photo_object_key_str, photo_size = 'small', is_admin_logi
             if is_admin_login:
                 has_key_to_private_photos = True
                 
-            if not photo_object.is_private or has_key_to_private_photos:
+            if (not photo_object.is_private and photo_object.is_approved) or has_key_to_private_photos:
                 #build the response
                 photo_img = getattr(photo_object, photo_size, None)
                 response = HttpResponse(photo_img)

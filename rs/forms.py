@@ -30,6 +30,7 @@
 
 from django.http import HttpResponse
 from google.appengine.api import memcache
+from google.appengine.api import users
 
 import logging, re, urllib
 
@@ -346,7 +347,7 @@ class FormUtils():
             # Check if the primary use has the key to view private photos of the display_user. \
             # However, if the primary user is viewing, then show them their own profile. (note, if the primary
             # user is viewing their profile as others see it, then is_primary_user will be set to False)
-            if primary_userobject and primary_userobject.username == constants.ADMIN_USERNAME:
+            if primary_userobject and primary_userobject.username == constants.ADMIN_USERNAME and users.is_current_user_admin():
                 is_admin = True
             else:
                 is_admin = False
@@ -424,7 +425,7 @@ class FormUtils():
                         # Note: the following code ensure that ADMIN will be shown all private photos - however
                         # for added security, we use the "admin" URL, which requires that an admin account is logged
                         # into google (in addition to ADMIN being logged into the website).
-                        if photo_object.is_private:
+                        if photo_object.is_private or not photo_object.is_approved:
                             url_for_photo = '/rs/admin/ajax/get_small_photo/%s.png' % (photo_object_key_str)
                             url_for_large_photo = '/rs/admin/ajax/get_large_photo/%s.png' % (photo_object_key_str)   
                         else:
