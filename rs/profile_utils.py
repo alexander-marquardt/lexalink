@@ -32,7 +32,7 @@ def get_profile_url_description(lang_code, uid):
         return profile_url_description
     else:
         profile_url_description = get_base_userobject_title(lang_code, uid)
-        profile_url_description = re.sub('[,;()/]', '', profile_url_description)
+        profile_url_description = re.sub('[,;()/:]', ' ', profile_url_description)
         profile_url_description = re.sub(r'\s+' , '-', profile_url_description)        
         profile_url_description = urllib.quote(profile_url_description.encode('utf8')) # escape unicode chars for URL    
         memcache.set(memcache_key_str, profile_url_description, constants.SECONDS_PER_MONTH)

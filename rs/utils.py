@@ -988,8 +988,9 @@ def get_friend_bazaar_specific_interests_in_current_language(userobject, lang_id
     
     try:
     
+        
         for current_field in user_profile_main_data.UserSpec.list_of_activity_categories:
-    
+            # Side note: If we update the python version, the order of these elements might change - this will make old URLs obsolete. 
             list_for_current_field = getattr(userobject, current_field)
             
             for (idx, field_val) in enumerate(list_for_current_field):
@@ -1013,12 +1014,12 @@ def get_friend_bazaar_specific_interests_in_current_language(userobject, lang_id
                 break;
             
         if len(activity_list) > 0:
-            generated_html += u"%s " % ugettext("Interested in:")
+            generated_html += u" %s " % ugettext("Interested in:")
             generated_html += ", ".join(activity_list[:-1])
             if len(activity_list) > 1:
-                generated_html += "%s %s. " % (ugettext(", and"), activity_list[-1])
+                generated_html += "%s %s" % (ugettext(", and"), activity_list[-1])
             else:
-                generated_html += "%s. " % activity_list[-1]
+                generated_html += "%s" % activity_list[-1]
                 
 
         return generated_html
