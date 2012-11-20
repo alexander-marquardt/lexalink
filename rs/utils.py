@@ -1356,20 +1356,6 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
     # to doing a query, we need to have the keys updated to the new HR datastore (which can't be done until
     # we have actually moved to the new HR datastore)
     
-    ## FOLLOWING CODE WILL BE DELETED AFTER MOVING ALL APPS TO HR DATASTORE (and running batch functions to update
-    ## InitiateContactModel objects to have the correct key)
-    #query_filter_dict = {}    
-    #query_filter_dict['viewer_profile = '] = viewer_userobject_key
-    #query_filter_dict['displayed_profile = '] = display_userobject_key
-    #order_by = "__key__"
-    
-    #query = models.InitiateContactModel.all().order(order_by)
-    #for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        #query = query.filter(query_filter_key, query_filter_value)
-    #initiate_contact_object = query.get()
-    #if initiate_contact_object:
-        #return initiate_contact_object
-    ## TODO: ELIMINATE ABOVE CODE ONCE TRANSITION TO HR DATASTORE IS COMPLETE (for all builds)
         
     object_key_name = str(viewer_userobject_key) + str(display_userobject_key) 
     initiate_contact_key = db.Key.from_path('InitiateContactModel', object_key_name)
