@@ -314,7 +314,7 @@ def get_photo(request, photo_object_key_str, photo_size = 'small', is_admin_logi
            
             has_key_to_private_photos = False
             
-            if photo_object.is_private and 'userobject_str' in request.session:
+            if (photo_object.is_private or not photo_object.is_approved) and 'userobject_str' in request.session:
                 primary_userobject_key = db.Key(request.session['userobject_str'])
                 display_userobject_key = photo_object.parent_object.key()
                 
@@ -362,7 +362,7 @@ def get_photo(request, photo_object_key_str, photo_size = 'small', is_admin_logi
 def load_profile_photo(request):
     # This should only be called on the profile of the "owner" when they are editing/uploading photos
     userobject = utils_top_level.get_userobject_from_request(request)
-    return HttpResponse(FormUtils.generate_profile_photo_html(userobject, text_fields.photo_encouragement_text, 
+    return HttpResponse(FormUtils.generate_profile_photo_html(request.LANGUAGE_CODE, userobject, text_fields.photo_encouragement_text, 
                                                               is_primary_user = True))
 
 @ajax_call_requires_login
@@ -373,12 +373,12 @@ def load_photos(request):
     # or editing photos. If this is ever called by other users, then the values that we are currently
     # passing into the function below will have to be changed to include the other profile userobject,
     # and to disallow "is_primary_user" access.
-    return HttpResponse(FormUtils.generate_photos_html(userobject, userobject, is_primary_user = True))
+    return HttpResponse(FormUtils.generate_photos_html(request.LANGUAGE_CODE, userobject, userobject, is_primary_user = True))
 
 @ajax_call_requires_login
 def load_photos_for_edit(request):
     userobject = utils_top_level.get_userobject_from_request(request)
-    return HttpResponse(FormUtils.generate_photos_html(userobject, userobject,
+    return HttpResponse(FormUtils.generate_photos_html(request.LANGUAGE_CODE, userobject, userobject,
                             edit=True, table_id = 'id-photo-table-for-edit', is_primary_user = True))
 @ajax_call_requires_login
 def load_photo_upload_form_url(request):

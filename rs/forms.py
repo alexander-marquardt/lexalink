@@ -269,7 +269,7 @@ class FormUtils():
         
     ####
     @classmethod
-    def generate_profile_photo_html(cls, userobject_ref, profile_no_photo_text, photo_href = "", photo_size = "medium",
+    def generate_profile_photo_html(cls, lang_code, userobject_ref, profile_no_photo_text, photo_href = "", photo_size = "medium",
                                     checkbox_html = '', icon_html = '', is_primary_user = False):
 
         generated_html = ''
@@ -279,7 +279,8 @@ class FormUtils():
             
             (photo_object_key_str, photo_object) = cls.get_profile_photo_and_key(userobject)
     
-           
+            displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, str(userobject.key()))
+            img_alt_text = "%s: %s" % (userobject.username, displayed_profile_title)   
             
             if photo_size == "medium":
                 td_class = u"cl-profile-photo-td-img"
@@ -303,9 +304,9 @@ class FormUtils():
                                             
 
                     
-                generated_html += u'<a class="%s" rel=%s href="%s" title="%s"><img class = "%s" src = "%s"><br>\n' % (
+                generated_html += u'<a class="%s" rel=%s href="%s" title="%s"><img class = "%s" src = "%s" alt="%s"><br>\n' % (
                 "cl-fancybox-profile-gallery", "cl-profile-gallery", 
-                url_for_large_photo, fancybox_title, 'cl-photo-img', url_for_photo) 
+                url_for_large_photo, fancybox_title, 'cl-photo-img', url_for_photo, img_alt_text) 
                     
             else:
                 if userobject_ref.user_is_marked_for_elimination:
@@ -324,7 +325,7 @@ class FormUtils():
 
     ####
     @classmethod
-    def generate_photos_html(cls, display_userobject, primary_userobject, edit=False, table_id = "id-photo-table",
+    def generate_photos_html(cls, lang_code, display_userobject, primary_userobject, edit=False, table_id = "id-photo-table",
                              is_primary_user = False):
         # Generates the HTML code that contains references to the photos that are stored
         # in the database for the current user. 
@@ -338,6 +339,8 @@ class FormUtils():
             #photo_objects = display_userobject.photomodel_set.order('creation_date').fetch(MAX_NUM_PHOTOS)
             photo_objects_keys = PhotoModel.all(keys_only=True).filter('parent_object =', display_userobject).fetch(MAX_NUM_PHOTOS)
             num_photos = len(photo_objects_keys)
+            displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, str(display_userobject.key()))
+            img_alt_text = "%s: %s" % (display_userobject.username, displayed_profile_title)
             
             num_photos_in_current_row = 0
             
@@ -432,13 +435,13 @@ class FormUtils():
                             url_for_photo = '/rs/ajax/get_small_photo/%s.png' % (photo_object_key_str)
                             url_for_large_photo = '/rs/ajax/get_large_photo/%s.png' % (photo_object_key_str)  
                             
-                    # if it is not private (is public), and it is approved, then show it with unrestricted access..
+                    # if it is not private (is public), and it is approved, then show it with unrestricted access.
                     if not photo_object.is_private and photo_object.is_approved:
-                        title = ""
+                        title = img_alt_text
                         html_for_photo_row[current_photo_row] += u'<td class="%s" >\
-                            <a class="%s" rel=%s href="%s" title="%s"><img  class = "%s" src="%s" alt=""></a></td>\n'  % \
+                            <a class="%s" rel=%s href="%s" title="%s"><img  class = "%s" src="%s" alt="%s"></a></td>\n'  % \
                             ('cl-photo-td-img', "cl-fancybox-profile-gallery", "cl-user-photo-gallery", 
-                             url_for_large_photo, title, 'cl-photo-img', url_for_photo)
+                             url_for_large_photo, title, 'cl-photo-img', url_for_photo, img_alt_text)
                         
                         if is_primary_user and not edit:
                             html_for_photo_designation_row[current_photo_row] += u'<td class="cl-center-align">%s</td>' %\
@@ -446,7 +449,13 @@ class FormUtils():
                         
                     else:
                         # otherwise, it is a private photo, change the background
-                        title = text_fields.photo_is_private_text
+                        if photo_object.is_private:
+                            title = text_fields.photo_is_private_text
+                        else:
+                            # if it is not private, but it will not be displayed publicly then it still has not been 
+                            # approved. 
+                            title = ugettext("Approving photo")
+                            
                         if has_key_to_private_photos:
                             html_for_photo_row[current_photo_row] += u'<td class="%s" >\
                                 <a class="%s" rel=%s href="%s" title="%s"><img  class = "%s" src="%s" alt=""></a></td>\n'  % \

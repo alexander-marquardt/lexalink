@@ -47,6 +47,7 @@ class MyHTMLCallbackGenerator():
         
         try:
             self.request = request
+            self.lang_code = request.LANGUAGE_CODE
             self.lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
             self.is_primary_user = is_primary_user
             
@@ -166,16 +167,16 @@ class MyHTMLCallbackGenerator():
         return generated_html
     
     def photos(self):
-        return FormUtils.generate_photos_html(self.display_userobject_ref, self.primary_userobject_ref, 
+        return FormUtils.generate_photos_html(self.lang_code, self.display_userobject_ref, self.primary_userobject_ref, 
                                               is_primary_user = self.is_primary_user)
 
     def profile_photo(self):
         if self.is_primary_user:
-            return FormUtils.generate_profile_photo_html(self.display_userobject_ref, text_fields.photo_encouragement_text, 
+            return FormUtils.generate_profile_photo_html(self.lang_code, self.display_userobject_ref, text_fields.photo_encouragement_text, 
                                                          is_primary_user = self.is_primary_user)
         else: # this is a profile that is being viewed by non-owner
             photo_message = get_photo_message(self.display_userobject_ref)
-            return FormUtils.generate_profile_photo_html(self.display_userobject_ref, photo_message)
+            return FormUtils.generate_profile_photo_html(self.lang_code, self.display_userobject_ref, photo_message)
         
 
     

@@ -66,7 +66,7 @@ def display_userobject_first_half_summary(request, userobject):
     
     try:
         
-    
+        lang_code = request.LANGUAGE_CODE
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
         lang_idx_offset = lang_idx + 1        
         
@@ -117,7 +117,7 @@ def display_userobject_first_half_summary(request, userobject):
         # get userobject photo
         generated_html += '<div class="grid_2 alpha">\n'
         
-        generated_html += FormUtils.generate_profile_photo_html(userobject, photo_message, userobject_href, photo_size="medium")
+        generated_html += FormUtils.generate_profile_photo_html(lang_code, userobject, photo_message, userobject_href, photo_size="medium")
     
     
         generated_html += '</div> <!-- end grid2 -->\n'

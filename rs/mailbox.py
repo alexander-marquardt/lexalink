@@ -356,7 +356,7 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
             # divider line
             generated_html += u'<strong>%s: <a href="%s" rel="address:%s">%s</a></strong>\n' % (
                 ugettext("From"), profile_href, profile_href, profile.username)     
-            generated_html += FormUtils.generate_profile_photo_html(profile, text_fields.no_photo, profile_href, "small")
+            generated_html += FormUtils.generate_profile_photo_html(lang_code, profile, text_fields.no_photo, profile_href, "small")
             generated_html += u'</div> <!-- end grid2 -->\n'
      
      
@@ -501,7 +501,7 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
                 
         
         
-        generated_html += FormUtils.generate_profile_photo_html(other_profile, text_fields.no_photo, "", "small")
+        generated_html += FormUtils.generate_profile_photo_html(lang_code, other_profile, text_fields.no_photo, "", "small")
         generated_html += u'</div> <!-- div id="id-edit-%(section_name)s-link -->'
         generated_html += u'</div> <!-- end grid2 -->\n'
         
@@ -760,7 +760,7 @@ def display_conversation_summary(request, have_sent_messages_object,
             value="%(have_sent_messages_key)s"> </td>\n '  % {'have_sent_messages_key':have_sent_messages_key}
 
             
-            generated_html += FormUtils.generate_profile_photo_html(other_userobject, text_fields.no_photo, \
+            generated_html += FormUtils.generate_profile_photo_html(lang_code, other_userobject, text_fields.no_photo, \
                                 other_userobject_href, "small", checkbox_html = checkbox_html, icon_html = icon_html)
             #if diamond_status:
                 #generated_html += '<div class="cl-grid_160px  grid_custom alpha omega cl-center-text">\n'
