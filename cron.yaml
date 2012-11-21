@@ -1,7 +1,7 @@
 cron:
 - description: Update sitemaps with new user profiles
   url: /rs/admin/generate_sitemaps/
-  schedule: every 5 hours
+  schedule: every 20 hours
   
 - description: Send notifications of new contacts and new messages
   url: /rs/admin/batch_email_notification_launcher/
