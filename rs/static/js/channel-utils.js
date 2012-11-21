@@ -284,6 +284,7 @@ var chan_utils = new function () {
                 var list_of_open_chat_groups_members_boxes_to_pass = [];
                 var current_time = (new Date().getTime());
                 var request_update = false;
+                
                 if (current_time - chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes >
                         chan_utils_self.last_time_we_updated_chat_groups_members_boxes ) {
                     chan_utils_self.last_time_we_updated_chat_groups_members_boxes = (new Date()).getTime();
@@ -725,6 +726,7 @@ var chan_utils = new function () {
                 }
 
                 chan_utils_self.list_of_open_chat_groups_members_boxes.push(group_id);
+                
                 $("#id-group_members-dialog-box-" + group_id ).dialog({
                     width: 100,
                     title: box_title,
@@ -733,7 +735,6 @@ var chan_utils = new function () {
                         chan_utils_self.close_group_members_dialog(group_id);
                     }
                 });
-                //$("#id-group_members-dialog-box-" + group_id ).parent().css({position : "fixed"});
 
                 chan_utils_self.last_time_we_updated_chat_groups_members_boxes = 0; // this will force list to be displayed immediately
                 poll_server_for_status_and_new_messages(); // poll the server so that the list will be updated right away.

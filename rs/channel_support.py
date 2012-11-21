@@ -258,10 +258,6 @@ def poll_server_for_status_and_new_messages(request):
                 memcache.set(chat_group_timer_memcache_key, True, constants.SECONDS_BETWEEN_GET_CHAT_GROUPS)
                 response_dict['chat_groups_dict'] = chat_groups_dict     
                 
-            # Likewise, to save bandwidth, we do not want to continually send updates about which users are currently in each
-            # group. Therefore we use a memcache timer that will expire every SECONDS_BETWEEN_SEND_CHAT_GROUP_MEMBERS_TO_USER
-            # seconds, which tells us to send a new list to the user (if they have indicated that the userlist is open
-            # on their browser)
             if list_of_open_chat_groups_members_boxes_on_client:
                 # the client has open chat groups, send updated list of which members are in each group
                     
@@ -272,8 +268,6 @@ def poll_server_for_status_and_new_messages(request):
                 response_dict['chat_group_members'] = {}
                 for group_id in list_of_open_chat_groups_members_boxes_on_client:
                     response_dict['chat_group_members'][group_id] = chat_support.get_group_members_dict(lang_code, group_id)
-            
-                        
             
             response_dict['conversation_tracker'] = {} 
             open_conversation_objects = chat_support.query_currently_open_conversations(owner_uid)
