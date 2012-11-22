@@ -312,7 +312,7 @@ class FormUtils():
                 if userobject_ref.user_is_marked_for_elimination:
                     generated_html += u'%s\n' % ugettext("Eliminated")
                 elif photo_object and not photo_object.is_approved:
-                    generated_html += u'%s\n' % ugettext("Approving photo")
+                    generated_html += u'%s\n' % ugettext("Approving (within 24 hours)")
                 else:
                     generated_html += u'%s\n' % (profile_no_photo_text)
                     
@@ -454,7 +454,7 @@ class FormUtils():
                         else:
                             # if it is not private, but it will not be displayed publicly then it still has not been 
                             # approved. 
-                            title = ugettext("Approving photo")
+                            title = ugettext("Approving photo for public (within 24 hours)")
                             
                         if has_key_to_private_photos:
                             html_for_photo_row[current_photo_row] += u'<td class="%s" >\
@@ -472,7 +472,7 @@ class FormUtils():
                             else:
                                 # we are still waiting for approval for this photo.
                                 html_for_photo_designation_row[current_photo_row] += u'<td class="cl-center-align">%s</td>\n' %\
-                                                              ugettext("Approving photo")
+                                                              ugettext("Approving (within 24 hours)")
                     
                     
                     if edit:
