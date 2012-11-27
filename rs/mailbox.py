@@ -607,6 +607,7 @@ def display_conversation_summary(request, have_sent_messages_object,
     
     try:
     
+        lang_code =  request.LANGUAGE_CODE
         generated_html = ''
         num_lines_to_show = MAIL_SUMMARY_NUM_LINES_TO_SHOW
         some_messages_not_shown = False
