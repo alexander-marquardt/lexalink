@@ -3674,7 +3674,7 @@ msgstr "Personas Que No Lo Han Especificado"
 
 #: rs/user_profile_main_data.py:215
 msgid "Femme (Feminine Lesbian)"
-msgstr "Femme (Lesbiana Feminina)"
+msgstr "Femme (Lesbiana Femenina)"
 
 #: rs/user_profile_main_data.py:216
 msgid "Bisexual Lesbian"
@@ -3690,7 +3690,7 @@ msgstr "Lesbiana Sin Etiqueta"
 
 #: rs/user_profile_main_data.py:222
 msgid "Femmes (Feminine Lesbians)"
-msgstr "Femmes (Lesbianas Femininas)"
+msgstr "Femmes (Lesbianas Femeninas)"
 
 #: rs/user_profile_main_data.py:223
 msgid "Bisexual Lesbians"
