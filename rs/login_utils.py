@@ -470,9 +470,9 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
             utils.kill_user_sessions(userobject.user_tracker)
         
         template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
-        context = Context({
+        context = Context(dict({
             'html_for_delete_account': html_for_delete_account, 
-            'build_name': settings.BUILD_NAME,})
+            'build_name': settings.BUILD_NAME,}, **constants.template_common_fields))
         
         generated_html = template.render(context)
         nav_bar_text = ugettext("You have exited")
