@@ -277,7 +277,7 @@ def get_userobject_summary_with_memcache_check(request, userobject_key):
     if summary_first_half_html is None:
         # compute the userobject summary and update memcache
         summary_first_half_html = display_userobject_first_half_summary(request, userobject)
-        memcache.set(summary_first_half_memcache_key_str, summary_first_half_html, constants.SECONDS_PER_MONTH)
+        memcache.set(summary_first_half_memcache_key_str, summary_first_half_html, constants.SECONDS_PER_DAY)
               
     summary_second_half_html = display_userobject_second_half_summary(userobject)
         
