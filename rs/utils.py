@@ -359,6 +359,9 @@ def put_userobject(userobject):
                  
     # Invalidate the memcached url_description for this userprofile since it has potentially changed.
     uid = str(userobject.key())
+    
+    invalidate_user_summary_memcache(uid)
+    
     for lang_tuple in settings.LANGUAGES:
         lang_code = lang_tuple[0]
         url_description_memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid
@@ -367,9 +370,15 @@ def put_userobject(userobject):
         profile_title_memcache_key_str = lang_code + constants.PROFILE_TITLE_MEMCACHE_PREFIX + uid
         memcache_status = memcache.delete(profile_title_memcache_key_str)
         
+
+def invalidate_user_summary_memcache(uid):
+    # invalidates the profile summary that is stored in memcache - this should be done when 
+    # changes to the user profile are made, including any modifications to the photos that
+    # have been uploaded - also, when photos are approved this should be called. 
+    for lang_tuple in settings.LANGUAGES:
+        lang_code = lang_tuple[0]
         summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
         memcache_status = memcache.delete(summary_first_half_memcache_key_str)
-        
     
 def do_query(model_to_query, query_filter_dict, order_by = None):
     # This is a helper function that takes care of querying the database.

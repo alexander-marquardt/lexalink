@@ -89,52 +89,62 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
 
     if request.method == 'POST': 
         
-        delete_photo_list_of_keys = request.POST.getlist('delete_photo')
-        for key in delete_photo_list_of_keys:
+        def store_options_for_photo_key(key, review_action_dict):
             photo_object = db.get(key)
             parent_uid = str(photo_object.parent_object.key())
             # if we deleted a photo, we need to recompute the photo-based offsets
-            store_data.store_photo_options(request, parent_uid, is_admin_photo_review = True, review_action_dict = {'delete' : key})
+            store_data.store_photo_options(request, parent_uid, is_admin_photo_review = True, review_action_dict = review_action_dict)            
+        
+        delete_photo_list_of_keys = request.POST.getlist('delete_photo')
+        for key in delete_photo_list_of_keys:
+            # delete the photo and recompute the photo-based offsets            
+            store_options_for_photo_key(key, review_action_dict = {'delete' : key})
             num_photos_deleted += 1
             
         mark_private_photo_list_of_keys = request.POST.getlist('mark_private_photo')
         for key in mark_private_photo_list_of_keys:
             try:
+                # if we mark a photo private, we need to recompute the photo-based offsets                
                 # this could fail if we just deleted the photo - but then wy would we be marking it private .. 
-                photo_object = db.get(key)
-                parent_uid = str(photo_object.parent_object.key())
-                # if we mark a photo private, we need to recompute the photo-based offsets
-                store_data.store_photo_options(request, parent_uid, is_admin_photo_review = True, review_action_dict = {'is_private' : key})
+                store_options_for_photo_key(key, review_action_dict = {'is_private' : key})
                 num_photos_marked_private += 1     
             except:
-                # if it fails, just ignore it since it failed because the photo was just deleted
-                pass            
+                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
+                error_reporting.log_exception(logging.error)            
             
+            
+        def approve_or_unapprove_photo(key, is_approved):
+            photo_object = db.get(key)
+            photo_object.is_approved = is_approved
+            utils.put_object(photo_object)
+                
+            # We need to invalidate the profile summary since it has potentially changed based on the approval/dis-approval
+            # of the photo.
+            parent_uid = str(photo_object.parent_object.key())
+            utils.invalidate_user_summary_memcache(parent_uid)              
             
         approve_photo_list_of_keys = request.POST.getlist('approve_photo')
         # Photo has been approved as a public photo
         for key in approve_photo_list_of_keys:
             try:
                 # this could fail if we just deleted the photo
-                photo_object = db.get(key)
-                photo_object.is_approved = True
-                utils.put_object(photo_object)
-                num_photos_approved += 1     
+                approve_or_unapprove_photo(key, True)    
+                num_photos_approved += 1  
             except:
-                # if it fails, just ignore it since it failed because the photo was just deleted
-                pass
+                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
+                error_reporting.log_exception(logging.error)
+
             
         unapprove_photo_list_of_keys = request.POST.getlist('unapprove_photo')
         for key in unapprove_photo_list_of_keys:
             try:
                 # this could fail if we just deleted the photo
-                photo_object = db.get(key)
-                photo_object.is_approved = False
-                utils.put_object(photo_object)
-                num_photos_unapproved += 1     
+                approve_or_unapprove_photo(key, False)  
+                num_photos_unapproved += 1
+                
             except:
-                # if it fails, just ignore it since it failed because the photo was just deleted
-                pass            
+                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
+                error_reporting.log_exception(logging.error)        
             
         reviewed_photo_list_of_keys = request.POST.getlist('reviewed_photo')
         # Photo has been reviewed - means that we have looked at it and determined that it doesn't need to be deleted
@@ -151,8 +161,8 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
                 utils.put_object(photo_object)
                 num_photos_reviewed += 1     
             except:
-                # if it fails, just ignore it since it failed because the photo was just deleted
-                pass            
+                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
+                error_reporting.log_exception(logging.error)         
             
     generated_html += 'Deleted %d photos<br>\n' % num_photos_deleted
     generated_html += 'Marked private %d photos<br>\n' % num_photos_marked_private

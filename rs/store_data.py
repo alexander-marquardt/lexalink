@@ -106,8 +106,8 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
     # then re-direct back to the user profile.
     # - uid - id of current user
     # 
-    # If this is called by the administrato/photo review - then we deal with only one photo at a time
-    # meaning that there are no lists of phot keys etc. posted to this function.
+    # If this is called by the administrator/photo review - then we deal with only one photo at a time
+    # meaning that there are no lists of photo keys etc. posted to this function.
     #
     # if is_admin_photo_review is True, then we will not write the userobject to the database, but we
     # *will* write the userobject.unique_last_login_offset_ref to the database to reflect any 
@@ -217,7 +217,8 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
             (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
              login_utils.get_or_create_unique_last_login(userobject, userobject.username)
             put_userobject(userobject)       
-            
+           
+        utils.invalidate_user_summary_memcache(owner_uid) 
         return HttpResponse('Success')
     
     except:
@@ -2077,7 +2078,7 @@ def check_and_fix_userobject(userobject, lang_code):
         
         for field in UserProfileDetails.enabled_checkbox_fields_list:
             if field == 'languages':
-                execution_dict[field] = (lambda x: x, ([default_languages_field_value,],)),
+                execution_dict[field] = (lambda x: x, ([default_languages_field_value,],))
             else:
                 execution_dict[field] = (lambda x: x, (['prefer_no_say',],))
         
