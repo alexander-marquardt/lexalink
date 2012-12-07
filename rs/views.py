@@ -77,10 +77,29 @@ from callbacks_from_html import MyHTMLCallbackGenerator
 #############################################
 def redirect_to_user_main(request, display_uid,  is_primary_user = False):
     # function that will redirect this out-of-date URL to the correct new URL format
-    userobject = utils_top_level.get_object_from_string(display_uid)
-    redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
-    logging.debug("Re-directing old url for uid: %s to new url %s" % (display_uid, redirect_url))
-    return http.HttpResponsePermanentRedirect(redirect_url)  
+    try:
+        userobject = utils_top_level.get_object_from_string(display_uid)
+        redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
+        logging.debug("Re-directing old url for uid: %s to new url %s" % (display_uid, redirect_url))
+        return http.HttpResponsePermanentRedirect(redirect_url)  
+    
+    except BadRequestError:
+        # The request to the datastore service has one or more invalid properties. This has occured after moving
+        # data from one application to another, and people/google have stored URLs that contain stale display_uid strings.
+        error_reporting.log_exception(logging.info, error_message = "Incorrect display_uid app identifier, re-directing")
+        new_uid = utils.convert_string_key_from_old_app_to_current_app(display_uid)
+        if new_uid != display_uid:
+            # to prevent infinite loop, only redirect if the "new_uid" is different from the "display_uid"
+            # For example, we want to be sure that we don't re-direct a bad uid key that is already in the
+            # application name of current application.
+            logging.debug("Stale uid (from old application identifier): %s converted to %s" % (display_uid, new_uid))            
+            return redirect_to_user_main(request, new_uid, is_primary_user)
+        else:
+            raise Exception("Bad display_uid passed into views.user_main")
+    except:
+        error_reporting.log_exception(logging.critical)        
+        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+
 
 def user_main(request, display_nid, is_primary_user = False, profile_url_description = None):
     # The users "main" page, after logging in. Will show their profile.
@@ -204,21 +223,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                     logging.info("redirecting from %s to %s\n" % (quoted_profile_url_description, expected_profile_url_description))
                     return http.HttpResponsePermanentRedirect(redirect_url)
                     
-            except BadRequestError:
-                # The request to the datastore service has one or more invalid properties. This has occured after moving
-                # data from one application to another, and people/google have stored URLs that contain stale display_uid strings.
-                error_reporting.log_exception(logging.info, error_message = "Incorrect display_uid app identifier, re-directing")
-                new_uid = utils.convert_string_key_from_old_app_to_current_app(display_uid)
-                if new_uid != display_uid:
-                    # to prevent infinite loop, only redirect if the "new_uid" is different from the "display_uid"
-                    # For example, we want to be sure that we don't re-direct a bad uid key that is already in the
-                    # application name of current application.
-                    new_userobject = utils_top_level.get_object_from_string(new_uid)
-                    redirect_url = profile_utils.get_userprofile_href(lang_code, new_userobject)
-                    return http.HttpResponsePermanentRedirect(redirect_url)
 
-                else:
-                    raise Exception("Bad display_uid passed into views.user_main")
             except:
                 error_message = "Unable to get userobject for display_uid %s" % display_uid
                 error_reporting.log_exception(logging.error, error_message = error_message)
@@ -328,11 +333,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                                           page_meta_description = meta_description)
     
     except:
-        
-        from django.http import HttpResponseServerError
-        error_reporting.log_exception(logging.critical)
-        txt = ugettext('Internal error - this error has been logged, and will be investigated immediately')
-        return http_utils.ajax_compatible_http_response(request, txt, HttpResponseServerError)
+        error_reporting.log_exception(logging.critical)        
+        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
 
         
 
@@ -817,11 +819,8 @@ def login(request, is_admin_login = False, referring_code = None):
         return http_response
     
     except: 
-        
-        from django.http import HttpResponseServerError
-        error_reporting.log_exception(logging.critical)
-        txt = ugettext('Internal error - this error has been logged, and will be investigated immediately')
-        return http_utils.ajax_compatible_http_response(request, txt, HttpResponseServerError)
+        return utils.return_and_report_internal_error()
+
 
         
 #############################################

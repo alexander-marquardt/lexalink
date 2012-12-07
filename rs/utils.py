@@ -38,7 +38,7 @@ import gaesessions
 import http_utils
 
 
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext, ungettext
 
@@ -1530,3 +1530,8 @@ def get_nid_from_uid(uid):
     return nid
     
     
+def return_and_report_internal_error():
+    
+    error_reporting.log_exception(logging.critical)
+    txt = ugettext('Internal error - this error has been logged, and will be investigated immediately')
+    return http_utils.ajax_compatible_http_response(request, txt, HttpResponseServerError)
