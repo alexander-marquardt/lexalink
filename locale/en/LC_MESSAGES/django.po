@@ -2496,7 +2496,7 @@ msgstr ""
 #, python-format
 msgid ""
 "If you have a problem or suggestion, please send us a message at: "
-"<strong>info@%(app_name)s.com</strong>."
+"<strong>support@%(app_name)s.com</strong>."
 msgstr ""
 
 #: rs/reset_password.py:174
@@ -3823,7 +3823,7 @@ msgstr ""
 #: rs/utils.py:1431
 #, python-format
 msgid ""
-"If you see any other profiles like this, please send an email to info@%"
+"If you see any other profiles like this, please send an email to support@%"
 "(app_name)s to notify us of the user name."
 msgstr ""
 

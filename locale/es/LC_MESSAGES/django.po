@@ -2605,9 +2605,9 @@ msgstr "El correo electrónico %(email_address)s no es válido."
 #, python-format
 msgid ""
 "If you have a problem or suggestion, please send us a message at: "
-"<strong>info@%(app_name)s.com</strong>."
+"<strong>support@%(app_name)s.com</strong>."
 msgstr ""
-"Si tienes algun problema o sugerencia, envíanos un mensaje a: <strong>info@%"
+"Si tienes algun problema o sugerencia, envíanos un mensaje a: <strong>support@%"
 "(app_name)s.com</strong>."
 
 #: rs/reset_password.py:174
@@ -3981,10 +3981,10 @@ msgstr ", y"
 #: rs/utils.py:1431
 #, python-format
 msgid ""
-"If you see any other profiles like this, please send an email to info@%"
+"If you see any other profiles like this, please send an email to support@%"
 "(app_name)s to notify us of the user name."
 msgstr ""
-"Si ves algun otro perfil como este, por favor envíanos un mensaje a info@%"
+"Si ves algun otro perfil como este, por favor envíanos un mensaje a support@%"
 "(app_name)s para notificarnos del nick / nombre de usuario."
 
 #: rs/utils.py:1436

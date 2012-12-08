@@ -1437,7 +1437,7 @@ def get_removed_user_reason_html(removed_userobject):
     notify_text = ''
     
     # include special text to warn users about scammer profiles and tell them why profiles have been eliminated
-    notify_us_of_similar_profiles_text = u"<br><br>%s" % ugettext("If you see any other profiles like this, please send an email to info@%(app_name)s to notify us of the user name.") % {
+    notify_us_of_similar_profiles_text = u"<br><br>%s" % ugettext("If you see any other profiles like this, please send an email to support@%(app_name)s to notify us of the user name.") % {
                     'app_name' : settings.APP_NAME}
     
     if removed_userobject.reason_for_profile_removal == "terms":

@@ -168,7 +168,7 @@ def submit_email_for_reset_password(request):
         else:
             generated_html += u"<p><p>%s" % ugettext("%(email_address)s is not a valid email address" % {'email_address' : email_address})
 
-        generated_html += u"<p><p>%s" % ugettext("If you have a problem or suggestion, please send us a message at: <strong>info@%(app_name)s.com</strong>.") % {
+        generated_html += u"<p><p>%s" % ugettext("If you have a problem or suggestion, please send us a message at: <strong>support@%(app_name)s.com</strong>.") % {
             'app_name': settings.APP_NAME}
         
         navigation_text = ugettext("Finished") ;    
