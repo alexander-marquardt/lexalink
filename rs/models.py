@@ -101,11 +101,7 @@ class UniqueLastLoginOffsets(BaseModel):
     has_turn_ons_offset = db.BooleanProperty(required=False, default=False, indexed = False)
     has_erotic_encounters_offset = db.BooleanProperty(required=False, default=False, indexed = False)
     has_email_address_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_single_diamond_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_double_diamond_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_triple_diamond_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_four_diamond_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_five_diamond_offset = db.BooleanProperty(required=False, default=False, indexed = False)
+
     
 class UserSearchPreferences2(BaseModel):
     # This classs contain the stored parameters from the last search that the user has done.
@@ -651,10 +647,9 @@ class UserModel(BaseModel):
     #    "fake" - fake profile used to bait someone to pay site
     reason_for_profile_removal = db.StringProperty(required = False, default=None)
     
-    # client_paid_status can be "single_diamond", "double_diamond", or "triple_diamond" - Note, we must store this 
-    # directly on the userobject so that we can efficiently display the correct status in search results, emails, etc.
-    # Note: "paid_status" does not mean that they paid - we also give paid status for inviting friends, etc..
-    # this is a mis-nomer.
+    # client_paid_status - if this is any value other than None, then the client is a VIP. In the future, we may
+    # wish to include special status for different VIP levels, in which case we will write specific strings into 
+    # this data field.
     client_paid_status = db.StringProperty(required = False, default = None)
     client_paid_status_expiry = db.DateTimeProperty(auto_now_add = True)
     
@@ -677,11 +672,7 @@ class PaymentInfo(BaseModel):
     num_credits_awarded = db.IntegerProperty(required=False, default=0)
     
     txn_id = db.StringProperty(required = False, default=None)
-    #date_of_expiry = db.DateTimeProperty(required=False)
     
-    ## client status can currently be "single_diamond", "double_diamond", or "triple_diamond" - this can be expanded or modified
-    ## in the future. 
-    client_paid_status = db.StringProperty(required = False, default='')
         
 class FriendRegsitrationTracker(BaseModel):
     

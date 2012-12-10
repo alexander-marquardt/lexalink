@@ -254,8 +254,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields.online_status_on_page_reload = online_status_on_page_reload
         primary_user_presentation_data_fields.do_not_try_to_dynamically_load_search_values = do_not_try_to_dynamically_load_search_values
         
-        primary_user_presentation_data_fields.monetary_value_of_credits_awarded = u"%s€" % constants.reverse_lookup_client_paid_status_num_credits_awarded_for_euros[constants.CREDITS_AWARDED_FOR_A_REFERRAL]
-
         primary_user_presentation_data_fields.paypal_en_button_id = settings.PAYPAL_EN_BUTTON_ID
         primary_user_presentation_data_fields.paypal_es_button_id = settings.PAYPAL_ES_BUTTON_ID
         primary_user_presentation_data_fields.paypal_sandbox_button_id = settings.PAYPAL_SANDBOX_BUTTON_ID

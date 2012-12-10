@@ -80,11 +80,7 @@
 <!------------------------------------------------------------>
 
 <div class="cl-clear"></div>
-<!--{% if viewed_profile_data_fields.diamond_status %}-->
-    <!--<div class="grid_9 alpha alpha omega cl-center-text">-->
-    <!--<br><img class="cl-{{ viewed_profile_data_fields.diamond_status }}-status-element" src="/{{ live_static_dir }}/img/diamond_club/{{ viewed_profile_data_fields.diamond_status }}.png">-->
-    <!--</div>-->
-<!--{% endif %}-->
+
 <div class="grid_9 alpha alpha omega cl-left-text">
     <br>
     {% if primary_user_profile_data_fields.is_primary_user %}
@@ -355,8 +351,8 @@
 <div class="grid_7 omega">
     <div>
         <p>
-        {% if primary_user_profile_data_fields.diamond_status_expiry_friendly_text %}
-            {% blocktrans with  primary_user_profile_data_fields.diamond_status_expiry_friendly_text as expires%}
+        {% if primary_user_profile_data_fields.vip_status_expiry_friendly_text %}
+            {% blocktrans with  primary_user_profile_data_fields.vip_status_expiry_friendly_text as expires%}
             You currently have VIP status that will expire {{ expires }}.{% endblocktrans %}
         {% else %}
             {% trans "You currently do not have VIP status" %}.

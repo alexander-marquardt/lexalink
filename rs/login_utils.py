@@ -114,12 +114,6 @@ def generate_get_string_for_passing_login_fields(post_dict):
     
     return url_get_string
 
-#def clear_diamond_status_from_unique_last_login_offset_ref(unique_last_login_offset_ref):
-    
-    #for k, v in constants.client_paid_status_number_of_days.iteritems():
-        #setattr(unique_last_login_offset_ref, "has_" + k + "_offset", False)
-
-    #unique_last_login_offset_ref.put()
 
 def create_and_put_unique_last_login_offset_ref():
     

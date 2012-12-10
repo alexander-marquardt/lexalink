@@ -101,7 +101,7 @@ def send_new_feature_email(userobject, return_message_html = False):
                            'app_name' : 'FriendBazaar', 
                            'site_type' : ugettext('website to meet people, make friends, and to earn money'),
                            'num_messages_for_free_clients' : constants.MAX_EMAILS_PER_DAY,
-                           'num_messages_for_vip_clients' : constants.diamond_status_num_messages_allowed['single_diamond'],
+                           'num_messages_for_vip_clients' : constants.vip_num_messages_allowed,
                            'num_chat_friends_for_free_clients' : constants.GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
                            'num_chat_friends_for_vip_clients' : constants.MAX_CHAT_FRIEND_REQUESTS_ALLOWED,
                            })

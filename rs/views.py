@@ -269,7 +269,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         else:
             display_welcome_section = False
             
-        (diamond_status, ignore_this) = utils.get_diamond_status(display_userobject)
+        (vip_status) = utils.get_vip_status(display_userobject)
         
         # The following data fields are shown to the logged in user when they are viewing their own profile -- mostly
         # suggestions on what they need to do to make their profile complete.
@@ -287,14 +287,14 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             primary_user_profile_data_fields.owner_nid = owner_nid
             primary_user_profile_data_fields.is_adult = constants.IS_ADULT
             
-            if diamond_status:
-                #primary_user_profile_data_fields.diamond_status_text = constants.diamond_status_text[diamond_status]
+            if vip_status:
+                # Let the user know when their VIP status will expire
                 datetime_to_display = display_userobject.client_paid_status_expiry
-                primary_user_profile_data_fields.diamond_status_expiry_friendly_text = \
+                primary_user_profile_data_fields.vip_status_expiry_friendly_text = \
                     utils.return_time_difference_in_friendly_format(datetime_to_display, capitalize = False, data_precision = 3, time_is_in_past = False)
             else:
-                primary_user_profile_data_fields.diamond_status_expiry_friendly_text = None            
-                #primary_user_profile_data_fields.diamond_status_text = None
+                primary_user_profile_data_fields.vip_status_expiry_friendly_text = None            
+
                                 
         # The following data fields are shown in the profile being viewed (including if it is the profile of the logged in user)
         viewed_profile_data_fields = constants.PassDataToTemplate()
@@ -309,7 +309,6 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         viewed_profile_data_fields.account_has_been_removed_message = account_has_been_removed_message
         viewed_profile_data_fields.debugging_html = debugging_html
         
-        viewed_profile_data_fields.diamond_status = diamond_status
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 
         # photo boxes -- allows us to hide the photo section if no photos are present
         viewed_profile_data_fields.show_photos_section = is_primary_user or display_userobject.unique_last_login_offset_ref.has_public_photo_offset \
@@ -581,7 +580,7 @@ def login(request, is_admin_login = False, referring_code = None):
                             
                             # if backup exists, and there is no "real" userobject, report an error.
                             if backup_userobject and not real_userobject:
-                                error_message  = u"""El perfil de %s (entered with username_email=%s) has appeared as backup objects, 
+                                error_message  = u"""The profile of %s (entered with username_email=%s) has appeared as backup objects, 
                                 but primary object is not found (this condition can also occur if the user has erased their email address, but it remains
                                 in the backup objects and then they try to enter using their email address). 
                                 """ % (backup_userobject.username, login_dict['username_email']) 
@@ -616,16 +615,15 @@ def login(request, is_admin_login = False, referring_code = None):
                             userobject.last_login =  datetime.datetime.now()   
                             userobject.last_login_string = str(userobject.last_login)
                                                     
-                            if userobject.client_paid_status and userobject.client_paid_status_expiry < datetime.datetime.now():
-                                # client has lost their "diamond" status - clear from both the userobject and and the 
+                            if not utils.get_vip_status(userobject):
+                                # client has lost their VIP status - clear from both the userobject and and the 
                                 # unique_last_login_offset structures.
                                 userobject.client_paid_status = None
                                 userobject.client_is_exempt_from_spam_captchas = False
-                                #login_utils.clear_diamond_status_from_unique_last_login_offset_ref(userobject.unique_last_login_offset_ref)
                                 
                                 # this user up until now has not had to solve any captchas since he was a VIP member - therefore, it is possible
                                 # that his spam_tracker has accumulated a number of times being reported as spammer. We don't want to punish people
-                                # after they lose their diamond status, and so we set the number of captchas solved to be equal to the number of times
+                                # after they lose their vip status, and so we set the number of captchas solved to be equal to the number of times
                                 # reported as a spammer (this means that any previous spam messages will not require that a new captcha be solved). 
                                 userobject.spam_tracker.number_of_captchass_solved_total = userobject.spam_tracker.num_times_reported_as_spammer_total
                                 userobject.spam_tracker.put()
@@ -830,7 +828,7 @@ def welcome_html():
     template = loader.select_template(["proprietary_html_content/welcome_message.html", "common_helpers/default_welcome_message.html"])
     context = Context(dict({
                        'num_messages_for_free_clients' : constants.MAX_EMAILS_PER_DAY,
-                       'num_messages_for_vip_clients' : constants.diamond_status_num_messages_allowed['single_diamond'],
+                       'num_messages_for_vip_clients' : constants.vip_num_messages_allowed,
                        'num_chat_friends_for_free_clients' : constants.GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
                        'num_chat_friends_for_vip_clients' : constants.MAX_CHAT_FRIEND_REQUESTS_ALLOWED,                           
                        }, **constants.template_common_fields))

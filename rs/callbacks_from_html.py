@@ -202,8 +202,8 @@ class MyHTMLCallbackGenerator():
             if not userobject.client_paid_status:
                 num_emails_per_day = MAX_EMAILS_PER_DAY
             else:
-                # diamond sponsor has extra messages allocated
-                num_emails_per_day = constants.diamond_status_num_messages_allowed[userobject.client_paid_status]
+                # VIP member has extra messages allocated
+                num_emails_per_day = constants.vip_num_messages_allowed
                                 
             
             if userobject.spam_tracker.datetime_first_mail_sent_today + \

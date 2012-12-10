@@ -75,25 +75,16 @@ def display_userobject_first_half_summary(request, userobject):
         if userobject.last_login_string == None or userobject.unique_last_login == None:
             logging.warning("last_login values set to none for userobject %s" % userobject.username)  
             
-            
-        (diamond_status, highlight_results_class) = utils.get_diamond_status(userobject)
-
+        
         generated_html = ''
         
-        generated_html += u'<div class="grid_9 alpha omega cl-search_results %s">\n' % highlight_results_class
+        generated_html += u'<div class="grid_9 alpha omega cl-search_results">\n'
         generated_html += u'<!-- following line defines the horizontal bar -->'
         generated_html += u'<div class = "grid_9 alpha omega cl-divider-line" ></div>'
         generated_html += u'<div class="grid_9 alpha omega cl-search_seperator" ></div>'
     
         generated_html += u'<div class="grid_9 alpha omega"> &nbsp;</div>\n'
     
-        #if diamond_status:
-            #generated_html += u"""<div class="grid_9 alpha omega">
-            #<img class="cl-%(diamond_status)s-status-element" src="/%(static_dir)s/img/diamond_club/%(diamond_status)s.png">
-            #</div>\n""" % {
-                #'static_dir' : settings.LIVE_STATIC_DIR, 'diamond_status' : diamond_status}
-            #generated_html += u'<div class="grid_9 alpha omega"> &nbsp;</div>\n'
-
         userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject)
     
         heading_text = ugettext("See profile of:")
@@ -687,9 +678,9 @@ def generate_search_results(request, type_of_search = "normal"):
             generated_title = generate_title_for_current_search(search_vals_dict, lang_idx, extended_results = False)
             
             if settings.SEO_OVERRIDES_ENABLED:
-                generated_meta_description = "%s. %s" % (search_engine_overrides.get_main_page_meta_description_common_part(), generated_title)
+                generated_meta_description = u"%s. %s" % (search_engine_overrides.get_main_page_meta_description_common_part(), generated_title)
             else:
-                generated_meta_description = ''
+                generated_meta_description = u''
                 
             generated_header = generate_title_for_current_search(search_vals_dict, lang_idx, extended_results = True)
             
@@ -706,7 +697,7 @@ def generate_search_results(request, type_of_search = "normal"):
             search_vals_dict["search_by_name"] = request.GET.get("search_by_name",'').upper()
             generated_header = "%s" % search_vals_dict["search_by_name"]
             generated_title = generated_header
-            generated_meta_description = ''
+            generated_meta_description = u''
             refined_links_html = ''
             post_action = "/%s/search_by_name/" % (request.LANGUAGE_CODE)
             
@@ -867,7 +858,6 @@ def generate_search_results(request, type_of_search = "normal"):
         generated_html = generated_html_top + generated_html_submit_search_first_half + \
                        generated_html_body + generated_html_submit_search_second_half
         
-    
         return rendering.render_main_html(request, generated_html, userobject, page_title = generated_title, 
                                           refined_links_html = refined_links_html, show_social_buttons = True,
                                           page_meta_description = generated_meta_description)

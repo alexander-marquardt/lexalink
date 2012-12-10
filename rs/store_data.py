@@ -1531,8 +1531,8 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 if not sender_userobject.client_paid_status:
                     num_emails_per_day = MAX_EMAILS_PER_DAY
                 else:
-                    # diamond sponsor has extra messages allocated
-                    num_emails_per_day = constants.diamond_status_num_messages_allowed[sender_userobject.client_paid_status]
+                    # VIP member has extra messages allocated
+                    num_emails_per_day = constants.vip_num_messages_allowed
                                 
             
                 if spam_tracker.num_mails_sent_today >= num_emails_per_day:

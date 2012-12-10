@@ -1470,18 +1470,14 @@ Please do not send emails or contact them in any manner, since their goal is to 
 
     return generated_html
 
-def get_diamond_status(userobject):
-    # remove this function at some point in the future - I am leaving it in for now just in case
-    # we wish to enable it at some time. 
-    diamond_status = None
-    highlight_results_class  = ''
+def get_vip_status(userobject):
+    
+    vip_status = None
     if userobject.client_paid_status and userobject.client_paid_status_expiry > datetime.datetime.now():
-        # This is a "diamond" club member - highlight their profile and indicate their elevated status.
-        diamond_status = userobject.client_paid_status
-        #highlight_results_class = "cl-%s-status-background" % diamond_status
-        
-        
-    return(diamond_status, highlight_results_class)
+        # This is a VIP member - return their current status.
+        vip_status = userobject.client_paid_status
+
+    return(vip_status)
 
 
 

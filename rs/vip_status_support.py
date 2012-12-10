@@ -29,7 +29,7 @@
 import urllib
 import urllib2
 import logging
-import error_reporting
+import error_reporting, email_utils
 import settings, constants, models, login_utils, utils_top_level, utils, store_data
 import datetime
 from models import UserModel
@@ -100,7 +100,7 @@ def instant_payment_notification(request):
       txn_id = parameters['txn_id']
       currency = parameters['mc_currency']
       amount = parameters['mc_gross']
-      email = parameters['payer_email']
+      payer_email = parameters['payer_email']
             
       userobject = utils_top_level.get_object_from_string(uid)
 
@@ -109,12 +109,22 @@ def instant_payment_notification(request):
       else:
         assert(0)
         
-      update_userobject_vip_status(userobject,  num_credits_awarded, captcha_exempt = True)         
+      update_userobject_vip_status(userobject,  num_credits_awarded, payer_email)         
       store_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id)
       return HttpResponse("OK")
 
   except:
     error_reporting.log_exception(logging.critical, request=request)
+    
+    try:
+      # This is serious enough, that it warrants sending an email to the administrator. We don't include any extra
+      # information such as username, or email address, since these values might not be available, and could cause the 
+      # message to trigger an exception
+      message_content = """Paypal error - User not awarded VIP status - check paypal to see who has sent funds and
+      check if status is correctly set"""
+      email_utils.send_admin_alert_email(message_content)
+    except:
+      error_reporting.log_exception(logging.critical)
 
   return HttpResponseServerError("Error")
 
@@ -139,6 +149,8 @@ def instant_payment_notification(request):
 
 def store_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id):
   
+  # This stores information about the user that has made the payment. This is stored for informational purposes.
+  
   try:
    
     amount_paid_times_100 = int(float(amount) * 100)
@@ -155,9 +167,7 @@ def store_payment_and_update_structures(userobject, currency, amount, num_credit
       payment_object.date_paid = datetime.datetime.now()
       payment_object.num_credits_awarded = num_credits_awarded
       payment_object.txn_id = txn_id
-      
-      #payment_object.client_paid_status = client_paid_status
-      #payment_object.date_of_expiry = datetime.datetime.now() + datetime.timedelta(days = days_to_expiry)
+
       payment_object.put()
     else:
       logging.warning("Not processing IPN transaction ID %s since it is already stored" % txn_id)
@@ -168,100 +178,69 @@ def store_payment_and_update_structures(userobject, currency, amount, num_credit
   return num_credits_awarded
 
 
-def get_new_vip_status_and_expiry(previous_paid_status, previous_expiry, num_credits_to_apply):
-  # this function relates to when we used to differentiate between differnt VIP status-levels. It can probably
-  # be greatly simplified given that (now) the only difference is in the number of days that they have VIP status.
-  
+def get_new_vip_status_and_expiry(previous_expiry, num_credits_to_apply):
+
   # Compares the previous_paid_status, and the just_paid_status, and sets the new_paid_status to the higher of the two.
   # Also, either adds just_paid_extra_days to the previous_expiry, or just computes a new expiry_date if not available.
   # returns (new_paid_status, new_expiry_date)
   
   # initialize in case of error
-  (new_paid_status, new_expiry_date) = (previous_paid_status, previous_expiry)
+  (just_paid_status, new_expiry_date) = (None, previous_expiry)
   
   try:
     if num_credits_to_apply > 0:
       
-      # need to handle the case that the number of credits that are being cashed in exceed the number of status
-      # levels that we have available. In this case, we give maximum status level, and just increase the number of
-      # days until expiry.
-      if num_credits_to_apply <= constants.reverse_lookup_client_paid_status_credit_amounts[constants.max_status_allowed]:
-        just_paid_status = constants.client_paid_status_credit_amounts[num_credits_to_apply]
-        just_paid_extra_days = constants.client_paid_status_number_of_days[just_paid_status]  
-        logging.debug("1 just_paid_extra_days %s" % just_paid_extra_days)
+      just_paid_extra_days = constants.client_paid_status_credit_amounts[num_credits_to_apply]  
+      just_paid_status = "%d credits (%d days) applied on %s" % (num_credits_to_apply, just_paid_extra_days, datetime.datetime.now())
+      logging.debug(just_paid_status)
 
-      else:
-        just_paid_status = constants.max_status_allowed
-        credits_beyond_max = num_credits_to_apply - constants.reverse_lookup_client_paid_status_credit_amounts[constants.max_status_allowed]
-        logging.debug("credits_beyond_max %s" % credits_beyond_max)
-        days_beyond_max = (credits_beyond_max / constants.credits_required_for_each_level_beyond_max) * constants.days_awarded_for_each_level_beyond_max
-        logging.debug("days_beyond_max %s" % days_beyond_max)
-        just_paid_extra_days = constants.client_paid_status_number_of_days[just_paid_status]  + days_beyond_max
-        logging.debug("2 just_paid_extra_days %s" % just_paid_extra_days)
-
-    
       # store payment related information on the userobject.
-      
+    
       if previous_expiry <= datetime.datetime.now():
         # previous_paid_status has expired - so just assign the new values
-        new_paid_status = just_paid_status
         new_expiry_date = datetime.datetime.now() + datetime.timedelta(days = just_paid_extra_days) 
         
       else:
-        # If the just_paid_status is higher than the previous_paid_status
-        # then set the new status to the just_paid_status, otherwise, the user keeps their old status and it's expiry is just extended. 
-        # This provides an incentive for users to continue paying monthly quotas before their previous status expires.
-                
+        # Need to take into account previously purchased credits, and add them to the newly acquired credits.
         new_expiry_date = previous_expiry + datetime.timedelta(days = just_paid_extra_days)  
-      
-        if previous_paid_status:
-          # make sure that previous_paid_status is not None, so that the following if statement can execute
-          if constants.reverse_lookup_client_paid_status_credit_amounts[just_paid_status] > \
-             constants.reverse_lookup_client_paid_status_credit_amounts[previous_paid_status]:
-            # only if the new status is higher than the previous status should we update. 
-            new_paid_status = just_paid_status
-          else:
-            # the just_paid_status is the same or lower than as the existing (previous) paid_status, and therefore we 
-            # allow the user to keep their previous_paid_status value (which is better for the user)
-            new_paid_status = previous_paid_status
-            
-        else: # this user did not have a previous paid_status, therefore we assign it the new value.
-          new_paid_status = just_paid_status
-
+        
   except:
     error_reporting.log_exception(logging.critical)
     
-  return (new_paid_status, new_expiry_date)
+  return (just_paid_status, new_expiry_date)
   
   
-def update_userobject_vip_status(userobject,  num_credits_to_apply, captcha_exempt = False):
+def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email):
 
   # updates VIP status on the userobject to reflect the new num_credits_to_apply that have either
   # been purchased or awarded to the userobject profile. 
     
   try:
     
-    if userobject.client_is_exempt_from_spam_captchas == False:
-      # if the client is already exempt (True) we don't want to overwrite it here - he will keep this status as long
-      # as he maintains VIP status. After his status expires, this value will be cleared on his next login (in views.py).
-      # This is principally designed to prevent people that were awarded VIP status just for signing up from being exempt
-      # from having to solve captchas.
-      userobject.client_is_exempt_from_spam_captchas = captcha_exempt
+    userobject.client_is_exempt_from_spam_captchas = True
 
     (userobject.client_paid_status, userobject.client_paid_status_expiry) = \
-      get_new_vip_status_and_expiry(userobject.client_paid_status, userobject.client_paid_status_expiry, 
-                                    num_credits_to_apply)
+      get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_credits_to_apply)
     
-    # clear and update the offsets for showing this user higher up in the search results.
-    for k, v in constants.client_paid_status_number_of_days.iteritems():
-        setattr(userobject.unique_last_login_offset_ref, "has_" + k + "_offset", False)
-    setattr(userobject.unique_last_login_offset_ref, "has_" + userobject.client_paid_status + "_offset", True)
-    userobject.unique_last_login_offset_ref.put()
+    utils.put_userobject(userobject)
     
-    (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-      login_utils.get_or_create_unique_last_login(userobject, userobject.username)
+    message_content = """VIP status awarded:
+    App name: %(app_name)s 
+    Payer email: %(payer_email)s
+    User: %(username)s (%(email_address)s)
+    Credits applied: %(num_credits)s
+    Expiry date: %(expiry)s
+    Status: %(status)s
+    """ % {'app_name' : settings.APP_NAME, 
+           'payer_email' : payer_email,
+           'username':  userobject.username, 
+           'email_address' : userobject.email_address,
+           'num_credits' : num_credits_to_apply, 
+           'expiry' : userobject.client_paid_status_expiry,
+           'status' : userobject.client_paid_status}
     
-    utils.put_userobject(userobject)    
+    email_utils.send_admin_alert_email(message_content)
+    
   except:
     error_reporting.log_exception(logging.critical) 
     
@@ -274,14 +253,13 @@ def manually_give_paid_status(request, username, num_credits):
     query_filter_dict = {}    
     query_filter_dict['username'] = username.upper()
     query_filter_dict['is_real_user'] = True
-    
-  
+
     query = UserModel.all()
     for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
         query = query.filter(query_filter_key, query_filter_value)
     userobject = query.get()
 
-    update_userobject_vip_status(userobject,  num_credits) 
+    update_userobject_vip_status(userobject,  num_credits, payer_email = "N/A - manually awarded") 
     
     return http_utils.ajax_compatible_http_response(request, "Done")
   
@@ -305,9 +283,7 @@ def manually_remove_paid_status(request, username):
     userobject.client_paid_status_expiry = datetime.datetime.now()
     userobject.client_paid_status = None
     utils.put_userobject(userobject)
-    
-    login_utils.clear_diamond_status_from_unique_last_login_offset_ref(userobject.unique_last_login_offset_ref)
-    
+        
     return http_utils.ajax_compatible_http_response(request, "Done")
   
   except:

@@ -719,12 +719,10 @@ def display_conversation_summary(request, have_sent_messages_object,
                     status_for_time = mail_status
 
         date_sent = "%s %s" % (status_for_time, date_sent)
-                
-        (diamond_status, highlight_results_class) = utils.get_diamond_status(other_userobject)
-       
+                       
         if show_checkbox_beside_summary:
             generated_html += u'<div id="id-have_sent_messages-%s" class="grid_9 alpha omega \
-            cl-mailbox_results cl-mail_seperator %s"><br>\n' % (have_sent_messages_key, highlight_results_class)            
+            cl-mailbox_results cl-mail_seperator"><br>\n' % (have_sent_messages_key)            
             
         else:
             generated_html += u'<div id="id-have_sent_messages-%s" class="grid_9 alpha omega \
@@ -763,11 +761,7 @@ def display_conversation_summary(request, have_sent_messages_object,
             
             generated_html += FormUtils.generate_profile_photo_html(lang_code, other_userobject, text_fields.no_photo, \
                                 other_userobject_href, "small", checkbox_html = checkbox_html, icon_html = icon_html)
-            #if diamond_status:
-                #generated_html += '<div class="cl-grid_160px  grid_custom alpha omega cl-center-text">\n'
-                #generated_html += u""" <img class="cl-%(diamond_status)s-status-element" src="/%(static_dir)s/img/diamond_club/%(diamond_status)s.png"><br><br>\n""" % {
-                    #'static_dir' : settings.LIVE_STATIC_DIR, 'diamond_status' : diamond_status}  
-                #generated_html += u'</div> <!-- end grid_160px -->\n'
+
                 
             generated_html += u'</div> <!-- end grid_160px -->\n'
         

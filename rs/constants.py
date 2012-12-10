@@ -357,8 +357,6 @@ field_formats = {'right_align_login' :         'cl-td-right-align-login',
                  'status_field_length' : 100,}
 
 
-
-
 client_paid_status_num_credits_awarded_for_euros = {
     # credits are multiplied by 100 so that we can represent fractions up to tenths and hundredth. Ie.
     # 500 credits (internally) will be represented to the user as 5 credits. 
@@ -375,52 +373,16 @@ reverse_lookup_client_paid_status_num_credits_awarded_for_euros = {}
 for k,v in client_paid_status_num_credits_awarded_for_euros.iteritems():
     reverse_lookup_client_paid_status_num_credits_awarded_for_euros[v] = k
 
-max_status_allowed = 'five_diamond'
-credits_required_for_each_level_beyond_max = 1000
-days_awarded_for_each_level_beyond_max = 90
-
 client_paid_status_credit_amounts = {
-    1000: 'single_diamond',
-    2000: 'double_diamond',
-    3000: 'triple_diamond',
-    4000: 'four_diamond' ,
-    5000: 'five_diamond',
+    1000: 31,
+    2000: 92,
+    3000: 182,
+    4000: 274 ,
+    5000: 365,
     }
 
-reverse_lookup_client_paid_status_credit_amounts = {}
-for k,v in client_paid_status_credit_amounts.iteritems():
-    reverse_lookup_client_paid_status_credit_amounts[v] = k
 
-FREE_STATUS_LEVEL = 'single_diamond'
-CREDITS_AWARDED_FOR_A_REFERRAL = reverse_lookup_client_paid_status_credit_amounts[FREE_STATUS_LEVEL]
-
-
-client_paid_status_number_of_days = {
-    'single_diamond' : 31,
-    'double_diamond' : 92,
-    'triple_diamond' : 182,
-    'four_diamond'   : 274,
-    'five_diamond'   : 365,
-    }
-
-no_diamond_status_text = ugettext_lazy("No VIP")
-
-#diamond_status_text = {
-    #'single_diamond' : ugettext_lazy("One Diamond"),
-    #'double_diamond' : ugettext_lazy("Two Diamond"),
-    #'triple_diamond' : ugettext_lazy("Three Diamond"),
-    #'four_diamond'   : ugettext_lazy("Four Diamond"),
-    #'five_diamond'   : ugettext_lazy("Five Diamond"),
-    #}
-
-diamond_status_num_messages_allowed = {
-    'single_diamond' : 10,
-    'double_diamond' : 10,
-    'triple_diamond' : 10,
-    'four_diamond'   : 10,
-    'five_diamond'   : 10,
-    
-}
+vip_num_messages_allowed = 10
 
 type_of_site_for_vip_invite = {
     'Discrete' : ugettext_lazy('confidential dating'),
@@ -452,11 +414,6 @@ offset_values = {'has_profile_photo_offset':24,
                  'has_turn_ons_offset': 0.1,
                  'has_erotic_encounters_offset':0.1,
                  'has_email_address_offset': 0,
-                 #'has_single_diamond_offset' : 1,
-                 #'has_double_diamond_offset' : 1.5,
-                 #'has_triple_diamond_offset' : 2,
-                 #'has_four_diamond_offset' : 2.5,
-                 #'has_five_diamond_offset' : 3,
                  }
 
 
@@ -545,7 +502,7 @@ template_common_fields = {'build_name': settings.BUILD_NAME,
                           'live_proprietary_static_dir': settings.LIVE_PROPRIETARY_STATIC_DIR,  
                           'proprietary_static_dir_exists': settings.PROPRIETARY_STATIC_DIR_EXISTS,
                           'num_messages_for_free_clients': MAX_EMAILS_PER_DAY,
-                          'num_messages_for_vip_clients' : diamond_status_num_messages_allowed['single_diamond'],
+                          'num_messages_for_vip_clients' : vip_num_messages_allowed,
                           'num_chat_friends_for_free_clients' :  GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
                           'num_chat_friends_for_vip_clients' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED,  
                           'google_ad_160x600' : GOOGLE_AD_160x600,

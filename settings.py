@@ -32,7 +32,7 @@
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-12-07-2117'
+VERSION_ID = '2012-12-10-2246'
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -103,6 +103,7 @@ if BUILD_STAGING:
     # we are uploading the code for the "Discrete" website to a staging appid - this is used for debugging the code
     # in the actual AppEngine (in-the-cloud) environment without uploading it to the live server. 
     app_id_dict['Discrete'] = staging_appid, 
+    
 if TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp'
 
