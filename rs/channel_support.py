@@ -324,7 +324,7 @@ def poll_server_for_status_and_new_messages(request):
         # if there is an error - such as the user not having a session, return "expired_session" so that the script will 
         # stop polling
         response_dict['user_online_status'] = "expired_session"
-        error_reporting.log_exception(logging.critical)
+        error_reporting.log_exception(logging.error)
         
     json_response = simplejson.dumps(response_dict)
     return http.HttpResponse(json_response, mimetype='text/javascript')
