@@ -224,13 +224,13 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
     
     utils.put_userobject(userobject)
     
-    message_content = """VIP status awarded:
-    App name: %(app_name)s 
-    Payer email: %(payer_email)s
-    User: %(username)s (%(email_address)s)
-    Credits applied: %(num_credits)s
-    Expiry date: %(expiry)s
-    Status: %(status)s
+    message_content = """VIP status awarded:<br>
+    App name: %(app_name)s<br>
+    Payer email: %(payer_email)s<br>
+    User: %(username)s (%(email_address)s)<br>
+    Credits applied: %(num_credits)s<br>
+    Expiry date: %(expiry)s<br>
+    Status: %(status)s<br>
     """ % {'app_name' : settings.APP_NAME, 
            'payer_email' : payer_email,
            'username':  userobject.username, 
