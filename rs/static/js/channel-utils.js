@@ -42,7 +42,7 @@ var chan_utils = new function () {
         //********************************
         /* Private function declarations */
 
-        var initialization = function(owner_uid, owner_username, max_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout) {
+        var initialization = function(owner_uid, owner_username, max_active_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout) {
             // initialize the dialog box that will be used for alerting the user to unknown conditions
 
             try {
@@ -52,7 +52,7 @@ var chan_utils = new function () {
 
                 chan_utils_self.initial_in_focus_polling_delay = 750; // when the chatbox input has focus, we poll at a fast speed (up until they go "idle" or leave focus)
                 chan_utils_self.initial_message_polling_delay = 2500; //how often to poll for new messages when focus is not in the chatbox input
-                chan_utils_self.message_polling_delay_ceiling = max_polling_delay * 1000; // convert seconds to ms
+                chan_utils_self.active_polling_delay_ceiling = max_active_polling_delay * 1000; // convert seconds to ms
 
                 // Note, the decay multipliers are only used if the user is "active" (not "idle" or "away"). If they are "idle" or "away", a constant (slow) polling
                 // rate is currently used.
@@ -321,19 +321,22 @@ var chan_utils = new function () {
                 // we use a pseudo-exponentially increasing delay for controlling how often to poll the serever
                 // because if a user is active, we want to poll more often, and if they have not done any action
                 // we dramatically slow down the server polling - we can experimentally determine a good value
+
+
                 clearTimeout(chan_utils_self.chat_message_timeoutID);
 
                 if (chan_utils_self.user_online_status == "active") {
                     // for active user sessions, make sure that the delay has not exceeded the maximum, since
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
-                    if (current_message_polling_delay > chan_utils_self.message_polling_delay_ceiling) {
-                        current_message_polling_delay = chan_utils_self.message_polling_delay_ceiling;
+                    if (current_message_polling_delay > chan_utils_self.active_polling_delay_ceiling) {
+                        current_message_polling_delay = chan_utils_self.active_polling_delay_ceiling;
                     } else {
-                        chan_utils_self.current_message_polling_delay = current_message_polling_delay * chan_utils_self.decay_multiplier;
+                        current_message_polling_delay = current_message_polling_delay * chan_utils_self.decay_multiplier;
+                        chan_utils_self.current_message_polling_delay = current_message_polling_delay;
                     }
                 }
-                chan_utils_self.chat_message_timeoutID = setTimeout(poll_server_for_status_and_new_messages,current_message_polling_delay);
+                chan_utils_self.chat_message_timeoutID = setTimeout(poll_server_for_status_and_new_messages, current_message_polling_delay);
 
             } catch(err) {
                 report_try_catch_error( err, "set_message_polling_timeout_and_schedule_poll");
@@ -784,12 +787,12 @@ var chan_utils = new function () {
 
         // the following is a globally visible function declaration
         this.setup_and_channel_for_current_client = function(owner_uid, owner_username,
-                max_polling_delay, idle_polling_delay, away_polling_delay,
+                max_active_polling_delay, idle_polling_delay, away_polling_delay,
                 idle_timeout, away_timeout, online_status_on_page_reload) {
             // Sets up a "channel" (which is technically not a channel, but longer-term, we will use channels instead of polling)
 
             try {
-                initialization(owner_uid, owner_username, max_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout);
+                initialization(owner_uid, owner_username, max_active_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout);
 
                 if (online_status_on_page_reload != "disabled") {
                     var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
