@@ -40,13 +40,14 @@ from utils_top_level import deserialize_entities, serialize_entities
 import utils_top_level
 
 # online status strings
-ONLINE = "online"
-ACTIVE = "active"
-IDLE = "idle"
-AWAY = "away"
+OFFLINE = "offline" # offline is when the user explicity goes offline (will not go online if they become active)
+
+ONLINE = "online" # When the user activates their chat boxes, they can then be assigned one of hte following values
+ACTIVE = "active" # user is actively using the website
+IDLE = "idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
+AWAY = "away"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
 TIMEOUT = "timeout" # timeout is when the user has been inactive for so long that they are effectively offline so they will
                     # not appear as online in contact lists  -- but they will go "online" if they become active
-OFFLINE = "offline" # offline is when the user explicity goes offline (will not go online if they become active)
 
 
 
