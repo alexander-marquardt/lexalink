@@ -787,7 +787,7 @@ var chatboxManager = function() {
                     if (box_id != "main" && box_id != "groups" && open_box_on_server) {
                         if (type_of_conversation != "group") {
                             // group conversations will not have a hyperlink in the title, since there is no associated profile
-                            chatboxManager.hyperlinkBoxtitle(box_id, nid, url_description);
+                            hyperlinkBoxtitle(box_id, nid, url_description);
 
                             // Note: box_id for chatboxes is the uid of the other user
                             $("#" + box_id).chatbox("option", "boxManager").uiChatboxVideoButton(box_id);
@@ -809,6 +809,50 @@ var chatboxManager = function() {
             }
         };
 
+        var track_user_activity_for_online_status = function () {
+
+            try {
+                // setup the timers for detecting user online/idle status
+                bind_online_status_event_handlers();
+
+                setIdleTimeout(chan_utils_self.idle_timeout);
+                setAwayTimeout(chan_utils_self.away_timeout);
+
+                document.onIdle = function() {
+                    var new_main_title = $('#id-chat-contact-title-idle-text').text();
+                    changeOpacityOfAllBoxes(0.75);
+                    if (chan_utils.user_online_status != "offline") { // only allow changes of activity status if user is "online"
+                        changeBoxtitle("main", new_main_title);
+                        chan_utils.user_online_status = "idle";
+                        chan_utils.current_message_polling_delay = chan_utils.idle_polling_delay;
+                        chan_utils.update_user_online_status_on_server(chan_utils.user_online_status);
+
+                    }
+                };
+                document.onAway = function() {
+                    var new_main_title = $('#id-chat-contact-title-away-text').text();
+                    changeOpacityOfAllBoxes(0.25);
+                    if (chan_utils.user_online_status != "offline") { // only allow changes of activity status if user is "online"
+                        changeBoxtitle("main", new_main_title);
+                        chan_utils.user_online_status = "away";
+                        chan_utils.current_message_polling_delay = chan_utils.away_polling_delay;
+                        chan_utils.update_user_online_status_on_server(chan_utils.user_online_status);
+                    }
+                };
+                document.onBack = function(isIdle, isAway) {
+                    var new_main_title = $('#id-chat-contact-title-text').text();
+                    changeOpacityOfAllBoxes(1);
+                    if (chan_utils.user_online_status != "offline") { // only allow changes of activity status if user is "online"
+                        changeBoxtitle("main", new_main_title);
+                        chan_utils.user_online_status = "active";
+                        chan_utils.update_user_online_status_on_server(chan_utils.user_online_status);
+                        chan_utils.set_message_polling_timeout_and_schedule_poll(chan_utils.initial_message_polling_delay);
+                    }
+                };
+            } catch(err) {
+                report_try_catch_error( err, "track_user_activity_for_online_status");
+            }
+        };
 
         return {
             addBox : addBox,
@@ -816,7 +860,8 @@ var chatboxManager = function() {
             changeOpacityOfAllBoxes: changeOpacityOfAllBoxes,
             changeBoxtitle: changeBoxtitle,
             hyperlinkBoxtitle: hyperlinkBoxtitle,
-            resize_boxes_if_necessary: resize_boxes_if_necessary
+            resize_boxes_if_necessary: resize_boxes_if_necessary,
+            track_user_activity_for_online_status: track_user_activity_for_online_status
         };
     } catch(err) {
         report_try_catch_error( err, "chatboxManager");
@@ -836,10 +881,10 @@ var updateChatControlBox = function (box_name, dict_to_display) {
     try {
 
         if (box_name == "groups") {
-            var add_num_group_members_to_name = true
+            var add_num_group_members_to_name = true;
             var sort_ascending = false;
         } else {
-            var add_num_group_members_to_name = false
+            var add_num_group_members_to_name = false;
             var sort_ascending = true;
         }
         var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(dict_to_display, add_num_group_members_to_name, sort_ascending);

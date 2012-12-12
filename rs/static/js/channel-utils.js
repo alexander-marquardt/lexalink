@@ -237,7 +237,7 @@ var chan_utils = new function () {
                 if (new_one_on_one_message_received) {
                     // reset the message polling delay to the initial value, since this user appears to now
                     // be involved in a conversation.
-                    set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
+                    chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
                 }
             }
             catch(err) {
@@ -246,31 +246,6 @@ var chan_utils = new function () {
         };
 
 
-        var set_message_polling_timeout_and_schedule_poll = function(current_message_polling_delay) {
-
-            try {
-
-                // we use a pseudo-exponentially increasing delay for controlling how often to poll the serever
-                // because if a user is active, we want to poll more often, and if they have not done any action
-                // we dramatically slow down the server polling - we can experimentally determine a good value
-                clearTimeout(chan_utils_self.chat_message_timeoutID);
-
-                if (chan_utils_self.user_online_status == "active") {
-                    // for active user sessions, make sure that the delay has not exceeded the maximum, since
-                    // we are growing the delay. For idle/away, this number is constant, and therefore
-                    // we don't need to look at the ceiling or increase the value.
-                    if (current_message_polling_delay > chan_utils_self.message_polling_delay_ceiling) {
-                        current_message_polling_delay = chan_utils_self.message_polling_delay_ceiling;
-                    } else {
-                        chan_utils_self.current_message_polling_delay = current_message_polling_delay * chan_utils_self.decay_multiplier;
-                    }
-                }
-                chan_utils_self.chat_message_timeoutID = setTimeout(poll_server_for_status_and_new_messages,current_message_polling_delay);
-
-            } catch(err) {
-                report_try_catch_error( err, "set_message_polling_timeout_and_schedule_poll");
-            }
-        };
 
 
 
@@ -334,54 +309,38 @@ var chan_utils = new function () {
             }
         };
 
-        var track_user_activity_for_online_status = function () {
 
-            try {
-                // setup the timers for detecting user online/idle status
-                bind_online_status_event_handlers();
-
-                setIdleTimeout(chan_utils_self.idle_timeout);
-                setAwayTimeout(chan_utils_self.away_timeout);
-
-                document.onIdle = function() {
-                    var new_main_title = $('#id-chat-contact-title-idle-text').text();
-                    chatboxManager.changeOpacityOfAllBoxes(0.75);
-                    if (chan_utils_self.user_online_status != "offline") { // only allow changes of activity status if user is "online"
-                        chatboxManager.changeBoxtitle("main", new_main_title);
-                        chan_utils_self.user_online_status = "idle";
-                        chan_utils_self.current_message_polling_delay = chan_utils_self.idle_polling_delay;
-                        chan_utils_self.update_user_online_status_on_server(chan_utils_self.user_online_status);
-
-                    }
-                };
-                document.onAway = function() {
-                    var new_main_title = $('#id-chat-contact-title-away-text').text();
-                    chatboxManager.changeOpacityOfAllBoxes(0.25);
-                    if (chan_utils_self.user_online_status != "offline") { // only allow changes of activity status if user is "online"
-                        chatboxManager.changeBoxtitle("main", new_main_title);
-                        chan_utils_self.user_online_status = "away";
-                        chan_utils_self.current_message_polling_delay = chan_utils_self.away_polling_delay;
-                        chan_utils_self.update_user_online_status_on_server(chan_utils_self.user_online_status);
-                    }
-                };
-                document.onBack = function(isIdle, isAway) {
-                    var new_main_title = $('#id-chat-contact-title-text').text();
-                    chatboxManager.changeOpacityOfAllBoxes(1);
-                    if (chan_utils_self.user_online_status != "offline") { // only allow changes of activity status if user is "online"
-                        chatboxManager.changeBoxtitle("main", new_main_title);
-                        chan_utils_self.user_online_status = "active";
-                        chan_utils_self.update_user_online_status_on_server(chan_utils_self.user_online_status);
-                        set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
-                    }
-                };
-            } catch(err) {
-                report_try_catch_error( err, "track_user_activity_for_online_status");
-            }
-        };
 
 
         //*******************************
         /* Public function declarations */
+
+        this.set_message_polling_timeout_and_schedule_poll = function(current_message_polling_delay) {
+
+            try {
+
+                // we use a pseudo-exponentially increasing delay for controlling how often to poll the serever
+                // because if a user is active, we want to poll more often, and if they have not done any action
+                // we dramatically slow down the server polling - we can experimentally determine a good value
+                clearTimeout(chan_utils_self.chat_message_timeoutID);
+
+                if (chan_utils_self.user_online_status == "active") {
+                    // for active user sessions, make sure that the delay has not exceeded the maximum, since
+                    // we are growing the delay. For idle/away, this number is constant, and therefore
+                    // we don't need to look at the ceiling or increase the value.
+                    if (current_message_polling_delay > chan_utils_self.message_polling_delay_ceiling) {
+                        current_message_polling_delay = chan_utils_self.message_polling_delay_ceiling;
+                    } else {
+                        chan_utils_self.current_message_polling_delay = current_message_polling_delay * chan_utils_self.decay_multiplier;
+                    }
+                }
+                chan_utils_self.chat_message_timeoutID = setTimeout(poll_server_for_status_and_new_messages,current_message_polling_delay);
+
+            } catch(err) {
+                report_try_catch_error( err, "set_message_polling_timeout_and_schedule_poll");
+            }
+        };
+
 
         this.set_focusin_polling_delay = function () {
             try {
@@ -462,8 +421,8 @@ var chan_utils = new function () {
 
         this.start_polling = function() {
             try {
-                set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
-                track_user_activity_for_online_status();
+                chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
+                chatboxManager.track_user_activity_for_online_status();
             } catch(err) {
                 report_try_catch_error( err, "start_polling");
             }
@@ -795,7 +754,7 @@ var chan_utils = new function () {
                         },
                         complete: function () {
                             // reset the message polling delay - we use the "in_focus" delay, since we know that the user is in the chatbox
-                            set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_in_focus_polling_delay);
+                            chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_in_focus_polling_delay);
                             chan_utils_self.sending_message_is_locked_mutex = false;
 
                             // finally, send messages that have been queued while waiting for the server to respond
