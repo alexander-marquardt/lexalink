@@ -132,6 +132,8 @@ except:
 def get_ashley_madison_sidebar_ad(request):
     
     banner_html = ''
+    # Temporarily disable Ashley Madison advertisments.
+    return banner_html
     
     if proprietary_ads_found:
         if len(advertisements.ashley_madison_sidebar_ads[request.LANGUAGE_CODE]) >= 1:

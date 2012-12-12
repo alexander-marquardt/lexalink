@@ -119,7 +119,7 @@ var chan_utils = new function () {
                 var new_one_on_one_message_received = false;
 
                 if (json_response.hasOwnProperty('user_online_status')) {
-                    if (json_response.user_online_status == "offline" || json_response.user_online_status == "expired_session") {
+                    if (json_response.user_online_status == "disabled" || json_response.user_online_status == "expired_session") {
                         // the user has indicated that he wishes to go offline (or has expired session). If we have received this message,
                         // we are running in a javascript session that is still actively polling, and is therefore
                         // not offline on the client side. We must stop the client from polling in the current window.
@@ -295,7 +295,7 @@ var chan_utils = new function () {
                             internet_connection_is_down();
                         },
                         complete: function() {
-                            if (chan_utils_self.user_online_status != "offline") {
+                            if (chan_utils_self.user_online_status != "disabled") {
                                 // only poll if the user has not "logged off"  in this window or another window
                                 chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
                                 chan_utils_self.polling_is_locked_mutex = false;
@@ -371,7 +371,7 @@ var chan_utils = new function () {
                 var new_main_title = $('#id-chat-contact-title-disactivated-text').text();
                 $('#id-go-offline-button').hide();
                 $('#id-go-online-button').show();
-                chan_utils_self.user_online_status = "offline";
+                chan_utils_self.user_online_status = "disabled";
 
                 chan_utils_self.stop_polling_server();
                 chatboxManager.closeAllChatBoxes();
@@ -389,8 +389,8 @@ var chan_utils = new function () {
                 var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
-                chan_utils_self.user_online_status = "active"; // must use "active" instead of "online" since online is reserved for reversing "offline"
-                chan_utils_self.update_user_online_status_on_server("online"); // intentionally pass in "online" to force over-ride of the "offline"
+                chan_utils_self.user_online_status = "active"; // must use "active" instead of "enable" since enabled is reserved for reversing "disabled"
+                chan_utils_self.update_user_online_status_on_server("enabled"); // intentionally pass in "enable" to force over-ride of the "disabled"
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -791,7 +791,7 @@ var chan_utils = new function () {
             try {
                 initialization(owner_uid, owner_username, max_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout);
 
-                if (online_status_on_page_reload != "offline") {
+                if (online_status_on_page_reload != "disabled") {
                     var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                     chan_utils_self.start_polling();
                     $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);

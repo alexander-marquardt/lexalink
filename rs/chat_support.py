@@ -39,15 +39,17 @@ from rs import forms, profile_utils
 from utils_top_level import deserialize_entities, serialize_entities
 import utils_top_level
 
-# online status strings
-OFFLINE = "offline" # offline is when the user explicity goes offline (will not go online if they become active)
+# Chat enabled/disabled strings
+CHAT_DISABLED = "disabled" # disable is when the user explicity closes their chat (will not go online if they become active
+                    # until they click on "enable/open chat" button)
+CHAT_ENABLED = "enabled" # Indicates that the user has opened the chatboxes and chat is enabled
 
-ONLINE = "online" # When the user activates their chat boxes, they can then be assigned one of hte following values
-ACTIVE = "active" # user is actively using the website
-IDLE = "idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
-AWAY = "away"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
-TIMEOUT = "timeout" # timeout is when the user has been inactive for so long that they are effectively offline so they will
-                    # not appear as online in contact lists  -- but they will go "online" if they become active
+# When chat is enabled, user status can be one of the following values.
+CHAT_ACTIVE = "active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
+CHAT_IDLE = "idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
+CHAT_AWAY = "away"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
+CHAT_TIMEOUT = "timeout" # timeout is when the user has been inactive for so long that they are effectively offline so they will
+                         # not appear as online in contact lists  -- but they will go "active" if they do anything
 
 
 
@@ -181,17 +183,17 @@ def update_user_online_status(owner_uid, user_status):
         # If the user is "offline" (meaning they have disabled the chat), the only status that can enable the other
         # user status (active, idle, away) is if they pass in ONLINE - in this case, we will store the status as 
         # ACTIVE
-        if chat_friend_tracker.user_online_status != OFFLINE and user_status != ONLINE:
+        if chat_friend_tracker.user_online_status != CHAT_DISABLED and user_status != CHAT_ENABLED:
             # If user is offline, we don't update, because multiple windows on the client can be attempting
             # to update after the user has already closed a chatbox in one window. If the 
             # user has closed the chatbox in one window, that the same conversation should not continue 
             # to poll in other windows (this is why we don't update if the user_online_status is set to offline).
             chat_friend_tracker.user_online_status = user_status
             
-        elif user_status == ONLINE:
+        elif user_status == CHAT_ENABLED:
             # Over-ride current status by passing in an ONLINE, 
             # which we store as ACTIVE (remember that we should *never* store ONLINE as a valid status
-            chat_friend_tracker.user_online_status = ACTIVE
+            chat_friend_tracker.user_online_status = CHAT_ACTIVE
             
             # Ensure that both the chat friends and groups windows are maximized
             update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
@@ -210,11 +212,11 @@ def get_polling_response_time_from_current_status(user_online_status):
     # with the client side javascript. Ie. if the client is rapidly polling, then we can diagnose a logout/dropped
     # connection much faster than if the browser is in "Away" state, and only polls every 10 minutes. 
     
-    if user_online_status == ACTIVE:
+    if user_online_status == CHAT_ACTIVE:
         return constants.MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT
-    elif user_online_status == IDLE:
+    elif user_online_status == CHAT_IDLE:
         return constants.IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT
-    elif user_online_status == AWAY:
+    elif user_online_status == CHAT_AWAY:
         return constants.AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT
     else:
         # for example, if user status is "online" this will trigger an error, since "online" status should
@@ -233,23 +235,23 @@ def get_user_online_status(owner_uid):
         chat_friend_tracker = deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
         if chat_friend_tracker is not None:
 
-            if chat_friend_tracker.user_online_status == OFFLINE:
-                return OFFLINE # indicates that the user has intentionally logged-off - in this case we close all javascript sessions
+            if chat_friend_tracker.user_online_status == CHAT_DISABLED:
+                return CHAT_DISABLED # indicates that the user has intentionally logged-off - in this case we close all javascript sessions
             else:
                 polling_response_time = get_polling_response_time_from_current_status(chat_friend_tracker.user_online_status)
                 if chat_friend_tracker.connection_verified_time +\
                    datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
                     return chat_friend_tracker.user_online_status
                 else:
-                    return TIMEOUT
+                    return CHAT_TIMEOUT
         else:
             # we don't know their status, but return TIMEOUT which means they haven't checked in in a long time (and they will
             # therefore not show up in their friends lists until their status is changed to something other than TIMEOUT).
-            return TIMEOUT
+            return CHAT_TIMEOUT
         
     except:
         error_reporting.log_exception(logging.critical)
-        return OFFLINE
+        return CHAT_DISABLED
         
 def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
     
@@ -362,7 +364,7 @@ def get_friends_online_dict(lang_code, owner_uid):
         online_contacts_info_dict = {}
         for uid in user_info_dict:
             online_status = get_user_online_status(uid)
-            if online_status != OFFLINE and online_status != TIMEOUT: # for purposes of chat list update, offline and timeout are the same
+            if online_status != CHAT_DISABLED and online_status != CHAT_TIMEOUT: # for purposes of chat list update, offline and timeout are the same
                 online_contacts_info_dict[uid] = user_info_dict[uid]
                 online_contacts_info_dict[uid]['user_online_status'] = online_status
                     
