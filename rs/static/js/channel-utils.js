@@ -367,8 +367,8 @@ var chan_utils = new function () {
                 // we only want a *single* interaction with the server when the user clicks the
                 // offline button. This function takes care of the rest of the functionality after
                 // server has been informed of the new status.
-                var offline_message = $('#id-chat-contact-main-box-offline-text').text();
-                var new_main_title = $('#id-chat-contact-title-offline-text').text();
+                var offline_message = $('#id-chat-contact-main-box-disactivated-text').text();
+                var new_main_title = $('#id-chat-contact-title-disactivated-text').text();
                 $('#id-go-offline-button').hide();
                 $('#id-go-online-button').show();
                 chan_utils_self.user_online_status = "offline";
@@ -805,7 +805,7 @@ var chan_utils = new function () {
                     catch_window_resize_events();
                 } else {
                     // user is offline
-                    var offline_message = $('#id-chat-contact-main-box-offline-text').text();
+                    var offline_message = $('#id-chat-contact-main-box-disactivated-text').text();
                     $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
                 }
             } catch (err) {

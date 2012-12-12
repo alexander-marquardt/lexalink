@@ -270,7 +270,7 @@ var initJqueryUiChatbox = function($){
                     uiChatboxOnlineSelector: function () {
                         try {
                             var self=this;
-                            var go_offline_text = $('#id-go-offline-chat-button-text').html();
+                            var go_offline_text = $('#id-disactivate-chat-button-text').html();
                             self.elem.uiChatboxTitlebar.after($('<button class="ui-chatbox-submit-button ' +
                                     'ui-remove-corner-all"' +
                                     'id="id-go-offline-button">' + go_offline_text + '</button>'));
@@ -285,7 +285,7 @@ var initJqueryUiChatbox = function($){
                                 return false;
                             });
 
-                            var go_online_text = $('#id-go-online-chat-button-text').html();
+                            var go_online_text = $('#id-activate-chat-button-text').html();
                             $('#id-go-offline-button').after($('<button class="ui-chatbox-submit-button ' +
                                     'ui-remove-corner-all"' +
                                     'id="id-go-online-button">' + go_online_text + '</button>'));
