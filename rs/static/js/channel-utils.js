@@ -30,11 +30,8 @@
 
 
 
-
-
-
 var chan_utils = new function () {
-    // Notice the "new" in the function declaration - this creates an object as opposed to a class.
+    // Notice the "new" in the function declaration - this creates an object as opposed to a function or class.
 
     try {
 
@@ -85,6 +82,8 @@ var chan_utils = new function () {
                 chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes = 10 * 1000; // every 10 seconds
                 chan_utils_self.last_time_we_updated_chat_groups_members_boxes = ( new Date()).getTime();
                 chan_utils_self.list_of_usernames_in_each_group = {}; // dictionary indexed by group_id, which contains lists of the usernames -- this is used for checking if list has changed so we can highlight it
+
+                chan_utils_self.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
             }
             catch(err) {
                 report_try_catch_error( err, "initialization");
@@ -298,7 +297,7 @@ var chan_utils = new function () {
                         complete: function() {
                             if (chan_utils_self.user_online_status != "offline") {
                                 // only poll if the user has not "logged off"  in this window or another window
-                                set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
+                                chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
                                 chan_utils_self.polling_is_locked_mutex = false;
                             }
                         }
@@ -422,7 +421,6 @@ var chan_utils = new function () {
         this.start_polling = function() {
             try {
                 chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
-                chatboxManager.track_user_activity_for_online_status();
             } catch(err) {
                 report_try_catch_error( err, "start_polling");
             }

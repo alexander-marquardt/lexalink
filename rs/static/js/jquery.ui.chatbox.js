@@ -12,6 +12,13 @@
  * Extensive LexaLink related modifications made by Alexander Marquardt
  */
 
+/*var chatbox_gobals = new function() { // new instantiates an object
+    chatbox_self = this;
+
+    chatbox_self.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
+
+}*/
+
 
 function AddEliminationToWidget(self) {
     // This is the code that adds the "eliminate" (the X) in the top right corner
@@ -813,12 +820,11 @@ var chatboxManager = function() {
 
             try {
                 // setup the timers for detecting user online/idle status
-                bind_online_status_event_handlers();
+                idle_params = {};
+                idle_params.idle_timeout = chan_utils.idle_timeout;
+                idle_params.away_timeout = chan_utils.away_timeout;
 
-                setIdleTimeout(chan_utils_self.idle_timeout);
-                setAwayTimeout(chan_utils_self.away_timeout);
-
-                document.onIdle = function() {
+                idle_params.onIdle = function() {
                     var new_main_title = $('#id-chat-contact-title-idle-text').text();
                     changeOpacityOfAllBoxes(0.75);
                     if (chan_utils.user_online_status != "offline") { // only allow changes of activity status if user is "online"
@@ -829,7 +835,7 @@ var chatboxManager = function() {
 
                     }
                 };
-                document.onAway = function() {
+                idle_params.onAway = function() {
                     var new_main_title = $('#id-chat-contact-title-away-text').text();
                     changeOpacityOfAllBoxes(0.25);
                     if (chan_utils.user_online_status != "offline") { // only allow changes of activity status if user is "online"
@@ -839,7 +845,7 @@ var chatboxManager = function() {
                         chan_utils.update_user_online_status_on_server(chan_utils.user_online_status);
                     }
                 };
-                document.onBack = function(isIdle, isAway) {
+                idle_params.onBack = function(isIdle, isAway) {
                     var new_main_title = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
                     if (chan_utils.user_online_status != "offline") { // only allow changes of activity status if user is "online"
@@ -849,6 +855,11 @@ var chatboxManager = function() {
                         chan_utils.set_message_polling_timeout_and_schedule_poll(chan_utils.initial_message_polling_delay);
                     }
                 };
+                
+
+                chatbox_idle_object = IdleClass(idle_params);
+                return chatbox_idle_object;
+
             } catch(err) {
                 report_try_catch_error( err, "track_user_activity_for_online_status");
             }
@@ -868,8 +879,6 @@ var chatboxManager = function() {
     }
 
 }();
-
-
 
 
 var updateChatControlBox = function (box_name, dict_to_display) {
