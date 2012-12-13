@@ -318,7 +318,7 @@ def delete_uid_from_group(owner_uid, group_id):
         utils.put_object(group_tracker_object)
         
         # expire the memcache for the list of users that are currently in the group
-        chat_support.expire_group_members_dict_memcache(group_id)
+        expire_group_members_dict_memcache(group_id)
         
     except ValueError:
         # if owner_uid is not in the list, we get an expected ValueError
@@ -328,7 +328,7 @@ def delete_uid_from_group(owner_uid, group_id):
         # Unknown error - we should investigate this
         error_reporting.log_exception(logging.critical)
 
-def get_group_members_dict(lang_code, group_id):
+def get_group_members_dict(lang_code, group_uid):
     """ 
     Returns a dictionary object containing the users that are in the group indicated by group_id.
     The dictionary will contain a dictionary with key=uid which contains a sub-dictionary with keys
@@ -337,14 +337,14 @@ def get_group_members_dict(lang_code, group_id):
     group_members_names_dict = {} # in case of exception, we return an empty dictionary
     
     try:
-        memcache_key = lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id  
+        memcache_key = lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_uid  
         group_members_names_dict = memcache.get(memcache_key)
         
         if group_members_names_dict is None:
         
             group_members_names_dict = {} # must initialize as a dictionary since it is currently None
         
-            group_tracker_object = utils_top_level.get_object_from_string(group_id)
+            group_tracker_object = utils_top_level.get_object_from_string(group_uid)
             group_members_list = group_tracker_object.group_members_list
             
             for member_uid in group_members_list:
@@ -357,7 +357,7 @@ def get_group_members_dict(lang_code, group_id):
                     group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
                     group_members_names_dict[member_uid]['user_online_status'] = online_status
                 else:
-                    delete_uid_from_group(owner_uid, group_uid)
+                    delete_uid_from_group(member_uid, group_uid)
                     
             memcache.set(memcache_key, group_members_names_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
         
