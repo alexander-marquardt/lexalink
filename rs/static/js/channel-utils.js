@@ -660,7 +660,9 @@ var chan_utils = new function () {
                 for (var uid in group_members_dict) {
                     var nid = group_members_dict[uid]['nid'];
                     var profile_title = group_members_dict[uid]['profile_title'];
-                    $("#dlist-" +box_name + "-" + nid).attr('title', profile_title);
+                    // since the actual link is surrounded by a <li> declaration, and we want to show the title
+                    // when any part of the <li> is hovered over, we select the parent of the anchor.
+                    $("#dlist-" +box_name + "-" + nid).parent().attr('title', profile_title);
                 }
             } catch(err) {
                 report_try_catch_error( err, "showListHoverDescriptions");
@@ -697,7 +699,7 @@ var chan_utils = new function () {
                 chan_utils_self.list_of_open_chat_groups_members_boxes.push(group_id);
                 
                 $("#id-group_members-dialog-box-" + group_id ).dialog({
-                    width: 100,
+                    width: 200,
                     title: box_title,
                     position: ['right', 'top'],
                     close: function(){
