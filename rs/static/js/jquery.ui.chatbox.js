@@ -546,6 +546,9 @@ var chatboxManager = function() {
         var boxList = new Array();
         // list of boxes shown on the page
         var showList = new Array();
+        // type of conversation that each box_id contains
+        var type_of_conversation_for_box_id = {};
+
         // list of first names, for in-page demo
         var user_name = null;
 
@@ -621,8 +624,7 @@ var chatboxManager = function() {
             var initial_length = showList.length;
             for(var idx = initial_length - 1; idx > 0; idx--) {
                 var box_id = showList[idx];
-                showList.splice(idx, 1);
-                $("#"+ box_id).chatbox("option", "boxManager").hideBox();
+                boxClosedCallback(box_id, type_of_conversation_for_box_id[box_id]);
             }
         };
 
@@ -634,6 +636,7 @@ var chatboxManager = function() {
                 var idx = $.inArray(box_id, showList);
                 if(idx != -1) {
                     showList.splice(idx, 1);
+                    $("#"+ box_id).chatbox("option", "boxManager").hideBox();
                     diff = current_chatbox_width + config.gap;
                     for(var i = idx; i < showList.length; i++) {
                         offset = $("#" + showList[i]).chatbox("option", "offset");
@@ -760,6 +763,7 @@ var chatboxManager = function() {
                     var offset_from_right = getNextOffset(showList.length);
                     var box_width;
 
+                    type_of_conversation_for_box_id[box_id] = type_of_conversation;
                     open_box_on_server = true;
 
                     if (box_id == 'main') {
