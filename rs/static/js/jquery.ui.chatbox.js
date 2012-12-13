@@ -584,11 +584,6 @@ var chatboxManager = function() {
                 // add hyperlink to allow clicking on title to view the user profile
                 $("#"+ box_id).chatbox("option", "boxManager").changeBoxTitle(new_title);
             }
-
-            // check if there is an associated "group members" box open
-            if ($("#id-group_members-dialog-box-" + box_id).length > 0) {
-                $("#id-group_members-dialog-box-" + box_id).dialog("option", "title", new_title)
-            }
         };
 
         var hyperlinkBoxtitle = function (box_id,  nid, url_description) {
@@ -909,7 +904,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
         $("#id-chatbox-" + box_name + "-list li").click(function(e){
             var anchor = $(this).find('a');
             var box_id =  anchor.data("uid"); // jquery .data() operator
-            var box_title = $(this).text();
+            var box_title = dict_to_display[box_id]['user_or_group_name'];
             var url_description = dict_to_display[box_id]['url_description'];
             var nid = dict_to_display[box_id]['nid'];
 
@@ -956,8 +951,18 @@ var updateUserChatBoxTitles = function(contacts_info_dict) {
 var updateGroupChatBoxTitles = function(chat_groups_dict) {
     try {
         for (var gid in chat_groups_dict) {
-            var chatbox_title = chat_groups_dict[gid]['user_or_group_name'] + " [" + chat_groups_dict[gid]['num_group_members'] + "]";
+            var chatbox_name = chat_groups_dict[gid]['user_or_group_name'];
+            var chatbox_title = chatbox_name + " [" + chat_groups_dict[gid]['num_group_members'] + "]";
             chatboxManager.changeBoxtitle(gid, chatbox_title);
+
+            // check if there is an associated "group members" box open and update the title
+            // on this box if it exists (note: we do not include the number of users in this box since
+            // the number does not always precisely match the number of users in the group due to update delays
+            // and since the number of members is already shown in other locations.
+            if ($("#id-group_members-dialog-box-" + gid).length > 0) {
+                $("#id-group_members-dialog-box-" + gid).dialog("option", "title", chatbox_name)
+            }
+            
         }
     } catch(err) {
         report_try_catch_error( err, "updateGroupChatBoxTitles");
