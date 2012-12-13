@@ -44,7 +44,7 @@ function submit_create_new_group_post(section_name) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $("#id-error-dialog-box").dialog();
-                $("#id-error-dialog-box").text(textStatus);
+                $("#id-error-dialog-box").text(jqXHR.responseText);
                 report_ajax_error(textStatus, errorThrown, "submit_create_new_group_post");
             },
             complete: function(response) {
