@@ -112,6 +112,10 @@ def delete_uid_from_group(owner_uid, group_id):
     except ValueError:
         # if owner_uid is not in the list, we get an expected ValueError
         pass
+    
+    except:
+        # Unknown error - we should investigate this
+        error_reporting.log_exception(logging.critical)
             
 
     

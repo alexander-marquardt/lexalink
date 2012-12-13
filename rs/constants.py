@@ -114,15 +114,17 @@ IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * IDLE_POLLING_DELAY_IN_CLIENT # am
 AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
-INACTIVITY_TIME_BEFORE_IDLE = SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
-INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # seconds before marking the user as "away"
+NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
+INACTIVITY_TIME_BEFORE_IDLE = NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
+NUM_MINUTES_INACTIVE_BEFORE_AWAY = 10
+INACTIVITY_TIME_BEFORE_AWAY = NUM_MINUTES_INACTIVE_BEFORE_AWAY * SECONDS_PER_MINUTE # seconds before marking the user as "away"
 
 #SECONDS_BETWEEN_CHAT_FRIEND_TRACKER_DB_WRITE = 30 # to control how often we write the current users online status to the database
 SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE = 10 # for memcaching the *online* friends list, before re-checking the database to see who is still online
 SECONDS_BETWEEN_GET_FRIENDS_ONLINE = 10 # for limiting the number of times that we send the list to the client. Note, we send the list
                                         # more often than the list is "updated" (from DB) -- this is good for ensuring that multiple tabs, 
                                         # etc will periodically receive a list of contacts, even if it is not totally up-to-date.
-SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP = 10 * SECONDS_PER_MINUTE # every 10 minutes we will verify that all of the members of each chat group are still online,
+SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP = 30 # every X seconds we will verify that all of the members of each chat group are still online,
                                                  # and if they are no longer online, they will be removed from the group
 MAX_CHARS_IN_GROUP_NAME = 20
                                         

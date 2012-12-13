@@ -180,19 +180,19 @@ def update_user_online_status(owner_uid, user_status):
         # leave this assert in
         assert(chat_friend_tracker)
             
-        # If the user is "offline" (meaning they have disabled the chat), the only status that can enable the other
-        # user status (active, idle, away) is if they pass in ONLINE - in this case, we will store the status as 
+        # If the user has disabled their chat, then the only status that can enable the other
+        # user status (active, idle, away) is if they pass in CHAT_ENABLED - in this case, we will store the status as 
         # ACTIVE
         if chat_friend_tracker.user_online_status != CHAT_DISABLED and user_status != CHAT_ENABLED:
-            # If user is offline, we don't update, because multiple windows on the client can be attempting
+            # If chat is disabled, we don't update, because multiple windows on the client can be attempting
             # to update after the user has already closed a chatbox in one window. If the 
             # user has closed the chatbox in one window, that the same conversation should not continue 
-            # to poll in other windows (this is why we don't update if the user_online_status is set to offline).
+            # to poll in other windows (this is why we don't update if the user_online_status is set to "disabled").
             chat_friend_tracker.user_online_status = user_status
             
         elif user_status == CHAT_ENABLED:
-            # Over-ride current status by passing in an ONLINE, 
-            # which we store as ACTIVE (remember that we should *never* store ONLINE as a valid status
+            # Over-ride current status by passing in an CHAT_ENABLED, 
+            # which we store as ACTIVE (remember that we should *never* store CHAT_ENABLED as a valid status
             chat_friend_tracker.user_online_status = CHAT_ACTIVE
             
             # Ensure that both the chat friends and groups windows are maximized
