@@ -890,13 +890,13 @@ var updateChatControlBox = function (box_name, dict_to_display) {
     try {
 
         if (box_name == "groups") {
-            var add_num_group_members_to_name = true;
+            // we are updating the list of chat groups
             var sort_ascending = false;
         } else {
-            var add_num_group_members_to_name = false;
+            // we are updating the list of chat friends
             var sort_ascending = true;
         }
-        var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(dict_to_display, add_num_group_members_to_name, sort_ascending);
+        var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(box_name, dict_to_display, sort_ascending);
         var display_list = chan_utils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
 
         $("#" + box_name).chatbox("option", "boxManager").refreshBox(display_list);
@@ -936,10 +936,12 @@ var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
         for (var uid in contacts_info_dict) {
             if (contacts_info_dict[uid]['user_online_status'] != 'active') {
-                var chatbox_title = contacts_info_dict[uid]['user_or_group_name'] + " [" + contacts_info_dict[uid]['user_online_status'] + "]";
+                online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_online_status'] + '-text').text();
             } else {
-                var chatbox_title = contacts_info_dict[uid]['user_or_group_name'];
+                online_status = '';
             }
+            var chatbox_title = contacts_info_dict[uid]['user_or_group_name'] + online_status;
+            
             chatboxManager.changeBoxtitle(uid, chatbox_title);
         }
     } catch(err) {

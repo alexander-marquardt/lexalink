@@ -215,7 +215,7 @@ var chan_utils = new function () {
 
                     for (var group_id in json_response.chat_group_members) {
                         var group_members_dict = json_response.chat_group_members[group_id];
-                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_user_or_groups_by_name(group_members_dict, false, true);
+                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_user_or_groups_by_name("members", group_members_dict, true);
 
                         if (!chan_utils_self.list_of_usernames_in_each_group.hasOwnProperty(group_id)) {
                             chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_user_info;
@@ -542,7 +542,7 @@ var chan_utils = new function () {
             }
         };
 
-        this.sort_user_or_groups_by_name = function(users_or_groups_dict, add_num_group_members_to_name, sort_ascending) {
+        this.sort_user_or_groups_by_name = function(box_name, users_or_groups_dict, sort_ascending) {
 
             // returns a 2D array containing [name, user_info_dict] pairs, and sorted by name
             // where user_info_dict is a dictionary with keys for 'username' and 'nid'
@@ -560,12 +560,21 @@ var chan_utils = new function () {
                     user_or_group_info_dict['uid'] = uid;
                     user_or_group_info_dict['nid'] = users_or_groups_dict[uid]['nid'];
                     user_or_group_info_dict['url_description'] = users_or_groups_dict[uid]['url_description'];
-                    if (add_num_group_members_to_name) {
+                    if (box_name === "groups") {
                         var num_group_members = users_or_groups_dict[uid]['num_group_members'];
                         var num_members_str = FormatNumberLength(num_group_members, 2)
                         user_or_group_name = "[" + num_members_str + "] " + users_or_groups_dict[uid]['user_or_group_name'];
                     } else {
-                        user_or_group_name = users_or_groups_dict[uid]['user_or_group_name'];
+                        if (box_name != "main" &&  box_name != "members") {
+                            throw "Error in sort_user_or_groups_by_name";
+                        }
+                        // this is the "main" box which contains list of contacts online
+                        if (users_or_groups_dict[uid]['user_online_status'] != "active") {
+                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_online_status'] + '-text').text();
+                        } else {
+                            online_status = '';
+                        }
+                        user_or_group_name = users_or_groups_dict[uid]['user_or_group_name']  + online_status;
                     }
                     sorted_list_of_names_with_uids.push([user_or_group_name, user_or_group_info_dict]);
                 }

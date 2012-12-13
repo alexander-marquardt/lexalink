@@ -321,12 +321,16 @@ def get_group_members_dict(lang_code, group_id):
             group_members_list = group_tracker_object.group_members_list
             
             for member_uid in group_members_list:
-                group_members_names_dict[member_uid] = {}
-                group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
-                group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
-                group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
-                group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
+                online_status = get_user_online_status(member_uid)
+                if online_status != CHAT_DISABLED and online_status != CHAT_TIMEOUT:                    
+                    group_members_names_dict[member_uid] = {}
+                    group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
+                    group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
+                    group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
+                    group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
+                    group_members_names_dict[member_uid]['user_online_status'] = online_status
                 
+                    
             memcache.set(memcache_key, group_members_names_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
         
     except:

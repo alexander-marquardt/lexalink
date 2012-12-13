@@ -533,6 +533,8 @@ def store_create_new_group(request):
                 group_gid = chat_support.create_chat_group(new_group_name, userobject.username, owner_uid)
                 
             open_new_chatbox_internal(sender_username, owner_uid, group_gid, type_of_conversation = "group")
+            
+            # reset the memcache for the chat_groups
             chat_support.get_chat_groups_dict(overwrite_memcache = True)
             
             # expire the timer on the memcache for group updates, so that we immediately send the new list
