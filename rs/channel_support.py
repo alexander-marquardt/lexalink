@@ -169,7 +169,7 @@ def close_all_chatboxes_on_server(request):
             owner_uid = request.session['userobject_str']
             close_all_chatboxes_internal(owner_uid)
         else:
-            # Chatboxes should have automatically been closed after session expires - due to the fact that "offline" status
+            # Chatboxes should have automatically been closed after session expires - due to the fact that CHAT_DISABLED status
             # is returned when polling status when a session is not passed in.
             error_reporting.log_exception(logging.warning, error_message = "User tried to close all chatboxes after session expired")
             
@@ -229,8 +229,8 @@ def poll_server_for_status_and_new_messages(request):
             
             response_dict['channel_status'] = 'OK'
             
-            # the user_online_status is used for propagating "offline" status through multiple windows
-            # if the user has more than one window/tab open. "online" is not propagated, but users can manually
+            # the user_online_status is used for propagating CHAT_DISABLED status through multiple windows
+            # if the user has more than one window/tab open. CHAT_ENABLED is not propagated, but users can manually
             # go online in multiple windows if necessary.
             response_dict['user_online_status'] = chat_support.get_user_online_status(owner_uid)
             
@@ -343,28 +343,34 @@ def process_message_to_chat_group(from_uid, group_uid, is_minimized):
         type_of_conversation = "group"
         
         CHAT_GROUP_MEMBERS_CLEANUP_MEMCACHE_PREFIX = "chat_group_members_cleanup_memcache_prefix_"
-        
-        chat_support.update_or_create_open_conversation_tracker(from_uid, group_uid, is_minimized, type_of_conversation)
-        
+               
+        verify_from_uid_is_in_group = False
         group_tracker_object = utils_top_level.get_object_from_string(group_uid)
         for owner_uid in group_tracker_object.group_members_list:
             
             if from_uid == owner_uid:
                 # we know that the sender is online and we have already updated the senders conversation_tracker, so
                 # we skip the rest of this iteration of the loop.
-                continue
+                verify_from_uid_is_in_group = True
                 
-            # check if we need to verify users online status. 
+            # check if we need to verify users online status (by checking if the memcache entry has expired). 
             memcache_key = CHAT_GROUP_MEMBERS_CLEANUP_MEMCACHE_PREFIX + owner_uid
             user_online_status = memcache.get(memcache_key)
             if user_online_status is None:
                 user_online_status = chat_support.get_user_online_status(owner_uid)
                 memcache.set(memcache_key, user_online_status, constants.SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP)
                 
-            if user_online_status == "offline" or user_online_status == "timeout":
+            if user_online_status == chat_support.CHAT_DISABLED or user_online_status == chat_support.CHAT_TIMEOUT:
                 delete_uid_from_group(owner_uid, group_uid)
             else:
                 chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, is_minimized, type_of_conversation)
+            
+        if not verify_from_uid_is_in_group:
+            # the user that has sent a message to this group is not currently in the list of members
+            # in the group. This could happen if they have "timed out" (for example a dropped connection
+            # that came back), but they are now trying to send a message to a group that they still have
+            # displayed on their screen. 
+            open_new_chatbox_internal(from_uid, group_uid, type_of_conversation)
             
     except:
         error_reporting.log_exception(logging.critical)
@@ -441,7 +447,7 @@ def post_message(request):
 
         
 
-def open_new_chatbox_internal(username, owner_uid, other_uid, type_of_conversation):
+def open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation):
     
 
     try:
@@ -477,14 +483,11 @@ def open_new_chatbox(request):
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-            
-            assert('username' in request.session)
-            username = request.session['username']
-                
+                            
             other_uid = request.POST.get('other_uid', 'Error: other_uid not posted')
             if other_uid != "main" and other_uid != "groups":
                 type_of_conversation = request.POST.get('type_of_conversation', 'Error: type_of_conversation not posted')
-                open_new_chatbox_internal(username, owner_uid, other_uid, type_of_conversation)   
+                open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation)   
 
             response =  http.HttpResponse()
         else:
@@ -536,7 +539,7 @@ def store_create_new_group(request):
                 userobject = utils_top_level.get_object_from_string(owner_uid)
                 group_gid = chat_support.create_chat_group(new_group_name, userobject.username, owner_uid)
                 
-            open_new_chatbox_internal(sender_username, owner_uid, group_gid, type_of_conversation = "group")
+            open_new_chatbox_internal(owner_uid, group_gid, type_of_conversation = "group")
             
             # reset the memcache for the chat_groups
             chat_support.get_chat_groups_dict(overwrite_memcache = True)

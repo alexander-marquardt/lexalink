@@ -162,7 +162,7 @@ def update_user_online_status(owner_uid, user_status):
     # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
     # online/idle/away/logged off. 
     #
-    # user_status: ACTIVE, IDLE, AWAY, OFFLINE (to go offline), and ONLINE (to go online)
+    # user_status: ACTIVE, IDLE, AWAY, CHAT_DISABLED (to go offline), and CHAT_ENABLED (to go online)
 
     # chat_friend_tracker should be pulled out memcache. 
     
