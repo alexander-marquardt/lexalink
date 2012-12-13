@@ -90,32 +90,7 @@ def set_minimize_chat_box_status(request):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseBadRequest("Error");     
     
-    
-def delete_uid_from_group(owner_uid, group_id):
-    
-    # note that in this case, the "other_uid" is the identifier of the group
-    
-    group_tracker_object = utils_top_level.get_object_from_string(group_id)
-    
-    try:
-        # need to make sure that the current users uid is in the list of group members
-        
-        idx  = group_tracker_object.group_members_list.index(owner_uid)
-        
-        del group_tracker_object.group_members_list[idx]
-        group_tracker_object.number_of_group_members -= 1
-        utils.put_object(group_tracker_object)
-        
-        # expire the memcache for the list of users that are currently in the group
-        chat_support.expire_group_members_dict_memcache(group_id)
-        
-    except ValueError:
-        # if owner_uid is not in the list, we get an expected ValueError
-        pass
-    
-    except:
-        # Unknown error - we should investigate this
-        error_reporting.log_exception(logging.critical)
+
             
 
     
@@ -137,7 +112,7 @@ def close_chat_box(request):
             assert('username' in request.session)
             username = request.session['username']
             
-            delete_uid_from_group(owner_uid, other_uid)
+            chat_support.delete_uid_from_group(owner_uid, other_uid)
             
         chat_support.delete_open_conversation_tracker_object(owner_uid, other_uid)
 
@@ -155,7 +130,7 @@ def close_all_chatboxes_internal(owner_uid):
         for open_conversation_object in open_conversation_objects:
             other_uid = open_conversation_object.other_uid
             if open_conversation_object.type_of_conversation == "group" : 
-                delete_uid_from_group(owner_uid, other_uid)
+                chat_support.delete_uid_from_group(owner_uid, other_uid)
                 
             chat_support.delete_open_conversation_tracker_object(owner_uid, other_uid)
     except:
@@ -361,7 +336,7 @@ def process_message_to_chat_group(from_uid, group_uid, is_minimized):
                 memcache.set(memcache_key, user_online_status, constants.SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP)
                 
             if user_online_status == chat_support.CHAT_DISABLED or user_online_status == chat_support.CHAT_TIMEOUT:
-                delete_uid_from_group(owner_uid, group_uid)
+                chat_support.delete_uid_from_group(owner_uid, group_uid)
             else:
                 chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, is_minimized, type_of_conversation)
             

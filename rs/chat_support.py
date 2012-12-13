@@ -300,6 +300,33 @@ def expire_group_members_dict_memcache(group_id):
     for lang_tuple in settings.LANGUAGES:
         lang_code = lang_tuple[0]
         memcache.delete(lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id)   
+        
+    
+def delete_uid_from_group(owner_uid, group_id):
+    
+    # note that in this case, the "other_uid" is the identifier of the group
+    
+    group_tracker_object = utils_top_level.get_object_from_string(group_id)
+    
+    try:
+        # need to make sure that the current users uid is in the list of group members
+        
+        idx  = group_tracker_object.group_members_list.index(owner_uid)
+        
+        del group_tracker_object.group_members_list[idx]
+        group_tracker_object.number_of_group_members -= 1
+        utils.put_object(group_tracker_object)
+        
+        # expire the memcache for the list of users that are currently in the group
+        chat_support.expire_group_members_dict_memcache(group_id)
+        
+    except ValueError:
+        # if owner_uid is not in the list, we get an expected ValueError
+        pass
+    
+    except:
+        # Unknown error - we should investigate this
+        error_reporting.log_exception(logging.critical)
 
 def get_group_members_dict(lang_code, group_id):
     """ 
@@ -329,7 +356,8 @@ def get_group_members_dict(lang_code, group_id):
                     group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
                     group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
                     group_members_names_dict[member_uid]['user_online_status'] = online_status
-                
+                else:
+                    delete_uid_from_group(owner_uid, group_uid)
                     
             memcache.set(memcache_key, group_members_names_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
         

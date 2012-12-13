@@ -124,8 +124,9 @@ SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE = 10 # for memcaching the *online* fri
 SECONDS_BETWEEN_GET_FRIENDS_ONLINE = 10 # for limiting the number of times that we send the list to the client. Note, we send the list
                                         # more often than the list is "updated" (from DB) -- this is good for ensuring that multiple tabs, 
                                         # etc will periodically receive a list of contacts, even if it is not totally up-to-date.
-SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP = 30 # every X seconds we will verify that all of the members of each chat group are still online,
-                                                 # and if they are no longer online, they will be removed from the group
+SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP = 5 # every X seconds we will verify that all of the members of each chat group are still online,
+                                               # and if they are no longer online, they will be removed from the group. This is split across
+                                               # many group members, and so updating often has an amortized cost.
 MAX_CHARS_IN_GROUP_NAME = 20
                                         
 SECONDS_BETWEEN_UPDATE_CHAT_GROUPS = 5 # we can frequently update this memcache, because it is common for all users (cost is amortized across all users)
