@@ -936,7 +936,7 @@ var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
         for (var uid in contacts_info_dict) {
             if (contacts_info_dict[uid]['user_online_status'] != 'active') {
-                online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_online_status'] + '-text').text();
+                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['user_online_status'] + '-text').text();
             } else {
                 online_status = '';
             }
