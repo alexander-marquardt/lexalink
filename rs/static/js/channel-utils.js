@@ -80,7 +80,7 @@ var chan_utils = new function () {
 
                 chan_utils_self.list_of_open_chat_groups_members_boxes = [];
                 chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes = 10 * 1000; // every 10 seconds
-                chan_utils_self.last_time_we_updated_chat_groups_members_boxes = ( new Date()).getTime();
+                chan_utils_self.last_time_we_updated_chat_groups_members_boxes = 0;
                 chan_utils_self.list_of_usernames_in_each_group = {}; // dictionary indexed by group_id, which contains lists of the usernames -- this is used for checking if list has changed so we can highlight it
 
                 chan_utils_self.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
@@ -254,30 +254,29 @@ var chan_utils = new function () {
             // on an exponentially declining schedule (exponentially increasing delay).
 
             try {
-
-                var list_of_open_chat_groups_members_boxes_to_pass = [];
-                var current_time = (new Date().getTime());
-                var request_update = false;
-                
-                if (current_time - chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes >
-                        chan_utils_self.last_time_we_updated_chat_groups_members_boxes ) {
-                    chan_utils_self.last_time_we_updated_chat_groups_members_boxes = (new Date()).getTime();
-                    // since we want to request new lists of group members, we must pass in the group_ids of the
-                    // groups that we want updated.
-                    list_of_open_chat_groups_members_boxes_to_pass = chan_utils_self.list_of_open_chat_groups_members_boxes;
-                }
-
-                var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
-                    //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
-                    'user_online_status': chan_utils_self.user_online_status,
-                    'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
-                var json_stringified_post = $.toJSON(json_post_dict);
-
-
                 // prevent multiple polls from happening at the same time
 
                 if (!chan_utils_self.polling_is_locked_mutex && !chan_utils_self.sending_message_is_locked_mutex) {
                     chan_utils_self.polling_is_locked_mutex = true;
+
+
+                    var list_of_open_chat_groups_members_boxes_to_pass = [];
+                    var current_time = (new Date().getTime());
+
+                    if (current_time - chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes >
+                            chan_utils_self.last_time_we_updated_chat_groups_members_boxes ) {
+                        chan_utils_self.last_time_we_updated_chat_groups_members_boxes = (new Date()).getTime();
+                        // since we want to request new lists of group members, we must pass in the group_ids of the
+                        // groups that we want updated.
+                        list_of_open_chat_groups_members_boxes_to_pass = chan_utils_self.list_of_open_chat_groups_members_boxes;
+                    }
+
+                    var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
+                        //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
+                        'user_online_status': chan_utils_self.user_online_status,
+                        'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
+                    var json_stringified_post = $.toJSON(json_post_dict);
+                    
 
                     $.ajax({
                         type: 'post',
