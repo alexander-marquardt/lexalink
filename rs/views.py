@@ -66,7 +66,7 @@ try:
 except:
     pass
 
-from chat_support import update_user_online_status
+import chat_support
 
 # do not move this above other imports, or the ugettext could be replaced by an imported lambda function
 from django.utils.translation import ugettext
@@ -655,7 +655,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         store_session(request, userobject)
                         
                         # force user to appear online in the chat boxes (from module chat_support)
-                        update_user_online_status(owner_uid, "online")
+                        chat_support.update_user_online_status(owner_uid, chat_support.CHAT_ENABLED)
     
                         # create "in-the-cloud" backups of the userobject
                         backup_data.update_or_create_userobject_backups(request, userobject)
@@ -887,7 +887,6 @@ def logout(request, html_for_delete_account = ''):
         
         login_utils.clear_old_session(request)
         response.delete_cookie(settings.SESSION_COOKIE_NAME)
-        #response.delete_cookie(settings.LANGUAGE_COOKIE_NAME)
         return response
     except:
         error_reporting.log_exception(logging.critical)
