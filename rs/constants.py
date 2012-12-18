@@ -105,14 +105,14 @@ SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN = 4 # if this numb
 BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 
 
-MAX_ACTIVE_POLLING_DELAY_IN_CLIENT = 30 # Cap on the number of *scheduled* seconds between polls from the server (reality can take more time)
-# taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
-MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * MAX_ACTIVE_POLLING_DELAY_IN_CLIENT  
+CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT = 30 # Cap on the number of *scheduled* seconds between polls from the client (reality can take more time)
+CHAT_IDLE_POLLING_DELAY_IN_CLIENT = 60 # when user status is idle, how many seconds between polls
+CHAT_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 
-IDLE_POLLING_DELAY_IN_CLIENT = 60 # when user status is idle, how many seconds between polls
-IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
-AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
-AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+# taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
+CHAT_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT  
+CHAT_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * CHAT_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+CHAT_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * CHAT_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
 NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
 INACTIVITY_TIME_BEFORE_IDLE = NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"

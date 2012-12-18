@@ -160,7 +160,7 @@ def update_user_online_status(owner_uid, user_status):
 
     # ChatFriendTracker is indexed by the uid of the owner - this structure is used for keeping track of
     # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
-    # online/idle/away/logged off. 
+    # enabled/idle/away/logged off. 
     #
     # user_status: ACTIVE, IDLE, AWAY, CHAT_DISABLED (to go offline), and CHAT_ENABLED (to go online)
 
@@ -213,13 +213,13 @@ def get_polling_response_time_from_current_status(user_online_status):
     # connection much faster than if the browser is in "Away" state, and only polls every 10 minutes. 
     
     if user_online_status == CHAT_ACTIVE:
-        return constants.MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT
+        return constants.CHAT_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT
     elif user_online_status == CHAT_IDLE:
-        return constants.IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT
+        return constants.CHAT_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT
     elif user_online_status == CHAT_AWAY:
-        return constants.AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT
+        return constants.CHAT_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT
     else:
-        # for example, if user status is "online" this will trigger an error, since "online" status should
+        # for example, if user status is "enabled" this will trigger an error, since "enabled" status should
         # never be stored in the database (see description of ChatFriendTracker in models.py for more information)
         error_reporting.log_exception(logging.critical, error_message = "user_online_status = %s" % user_online_status)
         return 0

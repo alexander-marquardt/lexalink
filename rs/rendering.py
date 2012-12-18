@@ -248,9 +248,9 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields.owner_nid = owner_nid
         primary_user_presentation_data_fields.owner_message_count = owner_message_count
         primary_user_presentation_data_fields.new_contact_count = new_contact_count
-        primary_user_presentation_data_fields.max_active_polling_delay = constants.MAX_ACTIVE_POLLING_DELAY_IN_CLIENT
-        primary_user_presentation_data_fields.idle_polling_delay = constants.IDLE_POLLING_DELAY_IN_CLIENT
-        primary_user_presentation_data_fields.away_polling_delay = constants.AWAY_POLLING_DELAY_IN_CLIENT
+        primary_user_presentation_data_fields.max_active_polling_delay = constants.CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT
+        primary_user_presentation_data_fields.idle_polling_delay = constants.CHAT_IDLE_POLLING_DELAY_IN_CLIENT
+        primary_user_presentation_data_fields.away_polling_delay = constants.CHAT_AWAY_POLLING_DELAY_IN_CLIENT
         primary_user_presentation_data_fields.inactivity_time_before_idle = constants.INACTIVITY_TIME_BEFORE_IDLE
         primary_user_presentation_data_fields.inactivity_time_before_away = constants.INACTIVITY_TIME_BEFORE_AWAY
         primary_user_presentation_data_fields.online_status_on_page_reload = online_status_on_page_reload
