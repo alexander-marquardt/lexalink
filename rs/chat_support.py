@@ -170,11 +170,19 @@ def update_chat_online_status(owner_uid, user_status):
 
         assert(user_status)
         
+        ##### chat_friend_tracker ###### 
+        # Track user preference for online status -  values allowed: 
+        # CHAT_ACTIVE, CHAT_IDLE, CHAT_AWAY, CHAT_DISABLED 
+        # we do not store CHAT_ENABLED as a value, however
+        # in order to over-ride a CHAT_DISABLED status, the client javascript will pass in a CHAT_ENABLED value 
+        # If a CHAT_ENABLED value is passed in, it will be stored as CHAT_ACTIVE           
+        
         chat_friend_tracker_memcache_key = CHAT_FRIEND_TRACKER_PREFIX + owner_uid
         chat_friend_tracker = deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
         
         if chat_friend_tracker is None:
-            chat_friend_tracker = models.ChatFriendTracker()
+         
+            chat_friend_tracker = models.OnlineStatusTracker()
 
                         
         # leave this assert in
@@ -183,17 +191,17 @@ def update_chat_online_status(owner_uid, user_status):
         # If the user has disabled their chat, then the only status that can enable the other
         # user status (active, idle, away) is if they pass in CHAT_ENABLED - in this case, we will store the status as 
         # ACTIVE
-        if chat_friend_tracker.chat_online_status != CHAT_DISABLED and user_status != CHAT_ENABLED:
+        if chat_friend_tracker.online_status != CHAT_DISABLED and user_status != CHAT_ENABLED:
             # If chat is disabled, we don't update, because multiple windows on the client can be attempting
             # to update after the user has already closed a chatbox in one window. If the 
             # user has closed the chatbox in one window, that the same conversation should not continue 
             # to poll in other windows (this is why we don't update if the chat_online_status is set to "disabled").
-            chat_friend_tracker.chat_online_status = user_status
+            chat_friend_tracker.online_status = user_status
             
         elif user_status == CHAT_ENABLED:
             # Over-ride current status by passing in an CHAT_ENABLED, 
             # which we store as ACTIVE (remember that we should *never* store CHAT_ENABLED as a valid status
-            chat_friend_tracker.chat_online_status = CHAT_ACTIVE
+            chat_friend_tracker.online_status = CHAT_ACTIVE
             
             # Ensure that both the chat friends and groups windows are maximized
             update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
@@ -235,13 +243,13 @@ def get_chat_online_status(owner_uid):
         chat_friend_tracker = deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
         if chat_friend_tracker is not None:
 
-            if chat_friend_tracker.chat_online_status == CHAT_DISABLED:
+            if chat_friend_tracker.online_status == CHAT_DISABLED:
                 return CHAT_DISABLED # indicates that the user has intentionally logged-off - in this case we close all javascript sessions
             else:
-                polling_response_time = get_polling_response_time_from_current_status(chat_friend_tracker.chat_online_status)
+                polling_response_time = get_polling_response_time_from_current_status(chat_friend_tracker.online_status)
                 if chat_friend_tracker.connection_verified_time +\
                    datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
-                    return chat_friend_tracker.chat_online_status
+                    return chat_friend_tracker.online_status
                 else:
                     return CHAT_TIMEOUT
         else:

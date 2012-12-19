@@ -309,15 +309,15 @@ class UserTracker(BaseModel):
     # is entering with multiple accounts. This is the only way to truly track user behaviour.
         
     
-class ChatFriendTracker(BaseModel):
+class OnlineStatusTracker(BaseModel):
     # This data structure is currently only used for memcache storage (not written to database). Previously we
     # were writing the data to the database, but found that this cost money without much benefit since we don't 
     # need permanent storage of the chat friend status. 
     
-    # This is the class that keeps track of the current users chat/presence status, and the status of his 
-    # chat friends. Due to the fact that this structure will be accessed frequently, it should be memcached.
+    # This is the class that keeps track of the current users chat and online presence status
+    # Due to the fact that this structure will be accessed frequently, it should be memcached.
     
-    # For efficiency, we should key this object with the "name/ID" set to the uid string of the owner userobject - this
+    # For efficiency, we should key this object with the uid string of the owner userobject - this
     # will allows us to retrieve the object without having to look at the associated userobject to get the key.
     
     # The code that will maintain these data structures will act in the following manner:
@@ -336,14 +336,8 @@ class ChatFriendTracker(BaseModel):
     # still connected. -- this is the value that we use to determine if the user is "online"!
     connection_verified_time = db.DateTimeProperty(auto_now_add = True, indexed = False) 
 
-    # Track user preference for online status -  values allowed: "active", "idle", "away", "chat_disabled". Note:
-    # we do not store "chat_enabled" as a value, since this is covered by "active", "idle", "away" -- *however*
-    # in order to over-ride an "chat_disabled" status, the client javascript will pass in an "chat_enabled" value which
-    # is the only value that can over-ride "chat_disabled" - an "chat_enabled" value will be stored as
-    # "active". Notice that this allows us to seperate user "activity" from user "online status", meaning that
-    # the javascript (in a seperate window for example) can continue to pass in "active", "idle", "away" even if 
-    # the user is offline, without fear of accidently modifying the users online status.
-    chat_online_status = db.StringProperty(required=False, default="active", indexed = False)
+    # Track user preference for online status. 
+    online_status = db.StringProperty(required=False, default="active", indexed = False)
     
     
 class ChatMessage(BaseModel):

@@ -101,7 +101,7 @@ BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 # of code - however, if we have been modifying the chat functionality then we do wish to force an update. 
 # Change the following value if you want to force all chat-related memcaches to be refreshed when this
 # version of code is uploaded
-FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2012-12-19-1820_" 
+FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2012-12-19-1915_" 
 NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a query - Note: this limit is not only about memory utilization, but
                                 # also about how many messages we want to send to the user every time they re-load the chatbox. 
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
