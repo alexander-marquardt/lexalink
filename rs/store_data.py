@@ -846,13 +846,13 @@ def modify_passive_initiate_contact_object(chat_request_action_on_receiver, add_
 def invalidate_memcache_for_friends_lists(owner_uid):
     # invalidate memcache for chat structures for the user indicated in owner_uid - this ensures that they will 
     # receive a fresh friend list immediately. 
-    all_friends_dict_memcache_key = constants.ALL_FRIENDS_DICT_MEMCACHE_PREFIX + owner_uid
+    all_friends_dict_memcache_key = constants.ALL_CHAT_FRIENDS_DICT_MEMCACHE_PREFIX + owner_uid
     memcache.delete(all_friends_dict_memcache_key)
     
-    check_friends_online_last_update_memcache_key = constants.CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
+    check_friends_online_last_update_memcache_key = constants.CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
     memcache.delete(check_friends_online_last_update_memcache_key)
     
-    online_contacts_names_dict_memcache_key = constants.ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
+    online_contacts_names_dict_memcache_key = constants.ONLINE_CHAT_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
     memcache.delete(online_contacts_names_dict_memcache_key)
 
 def modify_active_initiate_contact_object(action, initiate_contact_object, userobject_key, other_userobject_key, override_minimum_delay = False):

@@ -336,14 +336,14 @@ class ChatFriendTracker(BaseModel):
     # still connected. -- this is the value that we use to determine if the user is "online"!
     connection_verified_time = db.DateTimeProperty(auto_now_add = True, indexed = False) 
 
-    # Track user preference for online status -  values allowed: "active", "idle", "away", "offline". Note:
-    # we do not store "online" as a value, since this is covered by "active", "idle", "away" -- *however*
-    # in order to over-ride an "offline" status, the client javascript will pass in an "online" value which
-    # is the only value that can over-ride "offline" - an "online" value will immediately be stored as
+    # Track user preference for online status -  values allowed: "active", "idle", "away", "chat_disabled". Note:
+    # we do not store "chat_enabled" as a value, since this is covered by "active", "idle", "away" -- *however*
+    # in order to over-ride an "chat_disabled" status, the client javascript will pass in an "chat_enabled" value which
+    # is the only value that can over-ride "chat_disabled" - an "chat_enabled" value will be stored as
     # "active". Notice that this allows us to seperate user "activity" from user "online status", meaning that
     # the javascript (in a seperate window for example) can continue to pass in "active", "idle", "away" even if 
     # the user is offline, without fear of accidently modifying the users online status.
-    user_online_status = db.StringProperty(required=False, default="active", indexed = False)
+    chat_online_status = db.StringProperty(required=False, default="active", indexed = False)
     
     
 class ChatMessage(BaseModel):

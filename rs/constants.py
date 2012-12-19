@@ -89,6 +89,19 @@ MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW = 2 # If they exceed this number o
 MAX_REGISTRATIONS_SINGLE_IP = 4 # single IP address will be denied if this number is exceeded within a single day. 
 
 
+SMALL_TIME_WINDOW_HOURS_FOR_COUNT_UNACCEPTABLE_PROFILE_REPORTS = 3 # hours
+SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN = 4 # if this number of reports is received within the window, profile and IP banned
+BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
+
+
+######################################################################
+## Chat Functionality Constants
+
+# In general we don't want to clear all of the chat related memcaches every time that we update the version
+# of code - however, if we have been modifying the chat functionality then we do wish to force an update. 
+# Change the following value if you want to force all chat-related memcaches to be refreshed when this
+# version of code is uploaded
+FORCE_UPDATE_STRING = "2012-12-19-1744_" 
 NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a query - Note: this limit is not only about memory utilization, but
                                 # also about how many messages we want to send to the user every time they re-load the chatbox. 
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
@@ -98,12 +111,6 @@ if settings.BUILD_NAME == 'Discrete':
     GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 3 
 else:
     GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 10 
-
-    
-SMALL_TIME_WINDOW_HOURS_FOR_COUNT_UNACCEPTABLE_PROFILE_REPORTS = 3 # hours
-SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN = 4 # if this number of reports is received within the window, profile and IP banned
-BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
-
 
 CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT = 30 # Cap on the number of *scheduled* seconds between polls from the client (reality can take more time)
 CHAT_IDLE_POLLING_DELAY_IN_CLIENT = 60 # when user status is idle, how many seconds between polls
@@ -127,6 +134,9 @@ SECONDS_BETWEEN_GET_FRIENDS_ONLINE = 10 # for limiting the number of times that 
 SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP = 5 # every X seconds we will verify that all of the members of each chat group are still online,
                                                # and if they are no longer online, they will be removed from the group. This is split across
                                                # many group members, and so updating often has an amortized cost.
+
+CHAT_MESSAGE_EXPIRY_TIME = 24 * SECONDS_PER_HOUR # expire chat messages after X hours 
+
 MAX_CHARS_IN_GROUP_NAME = 20
                                         
 SECONDS_BETWEEN_UPDATE_CHAT_GROUPS = 5 # we can frequently update this memcache, because it is common for all users (cost is amortized across all users)
@@ -141,6 +151,34 @@ MAX_NUM_PARTICIPANTS_PER_GROUP = 40 # If a group has more than this number of pa
 ALL_CHAT_FRIENDS_DICT_EXPIRY = SECONDS_PER_HOUR # How often will we hit the database for *all* "chat friends" of a user, versus pulling out of memcache
 CHAT_MESSAGE_CUTOFF_CHARS = 200 #allow this many chars at a time in a single text message
 
+ALL_CHAT_FRIENDS_DICT_MEMCACHE_PREFIX = "_all_friends_dict_" + FORCE_UPDATE_STRING
+ONLINE_CHAT_CONTACTS_INFO_MEMCACHE_PREFIX = "_online_contacts_info_dict_" + FORCE_UPDATE_STRING
+CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_last_update_" + FORCE_UPDATE_STRING
+
+## End Chat Functionality Constants
+######################################################################
+
+######################################################################
+## Online User Status Constants
+
+
+USER_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between polls from the client (reality can take more time)
+USER_IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
+USER_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
+
+# taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
+USER_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ACTIVE_POLLING_DELAY_IN_CLIENT  
+USER_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+USER_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+
+USER_NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
+USER_INACTIVITY_TIME_BEFORE_IDLE = USER_NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
+USER_NUM_MINUTES_INACTIVE_BEFORE_AWAY = 10
+USER_INACTIVITY_TIME_BEFORE_AWAY = USER_NUM_MINUTES_INACTIVE_BEFORE_AWAY * SECONDS_PER_MINUTE # seconds before marking the user as "away"
+
+## End Online User Status Constants
+######################################################################
+
 # include the version identifier in the memcache prefix for objects that have a probability of changing
 # between version upates - currently this is done for the userobject and any other objects that use
 # utils.put_object() for writing to the database
@@ -148,17 +186,8 @@ BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + settings.VERSION_ID + "_"
 PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + settings.VERSION_ID + "_"
 PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + settings.VERSION_ID + "_"
 PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + settings.VERSION_ID
+NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + settings.VERSION_ID
 
-# In general we don't want to clear all of the chat related memcaches every time that we update the version
-# of code - however, if we have been modifying the chat functionality then we do wish to force an update. 
-# Change the following value if you want to force all chat-related memcaches to be refreshed when this
-# version of code is uploaded
-FORCE_UPDATE_STRING = "2012-11-17_" 
-
-ALL_FRIENDS_DICT_MEMCACHE_PREFIX = "_all_friends_dict_" + FORCE_UPDATE_STRING
-ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX = "_online_contacts_info_dict_" + FORCE_UPDATE_STRING
-CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_last_update_" + FORCE_UPDATE_STRING
-NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + FORCE_UPDATE_STRING
 
 NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for Language - number of languages to show
 

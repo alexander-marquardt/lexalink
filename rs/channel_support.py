@@ -57,7 +57,7 @@ def initialize_main_and_group_boxes_on_server(request):
             memcache.delete(chat_group_timer_memcache_key)
             
             # same for friends list
-            check_friends_online_last_update_memcache_key = constants.CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
+            check_friends_online_last_update_memcache_key = constants.CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
             memcache.delete(check_friends_online_last_update_memcache_key)
         else:
             # user is not logged in (probably session timed out)-- do nothing
@@ -153,14 +153,14 @@ def close_all_chatboxes_on_server(request):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseBadRequest("Error");
 
-def update_user_online_status_on_server(request):
+def update_chat_online_status_on_server(request):
     
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-            user_online_status = request.POST.get('user_online_status', '')
-            assert(user_online_status)
-            chat_support.update_user_online_status(owner_uid, user_online_status)
+            chat_online_status = request.POST.get('chat_online_status', '')
+            assert(chat_online_status)
+            chat_support.update_chat_online_status(owner_uid, chat_online_status)
             response = "OK"
         else:
             response = "expired_session"
@@ -187,7 +187,7 @@ def poll_server_for_status_and_new_messages(request):
             if request.method == 'POST':
                 json_post_data = simplejson.loads(request.raw_post_data)
                 last_update_time_string_dict = json_post_data['last_update_time_string_dict']
-                user_online_status = json_post_data['user_online_status']
+                chat_online_status = json_post_data['chat_online_status']
                 
                 if 'list_of_open_chat_groups_members_boxes' in json_post_data:
                     list_of_open_chat_groups_members_boxes_on_client = json_post_data['list_of_open_chat_groups_members_boxes']
@@ -197,22 +197,22 @@ def poll_server_for_status_and_new_messages(request):
             else:
                 assert(False)
             
-            chat_support.update_user_online_status(owner_uid, user_online_status)
+            chat_support.update_chat_online_status(owner_uid, chat_online_status)
             
 
             assert(owner_uid == request.session['userobject_str'])
             
             response_dict['channel_status'] = 'OK'
             
-            # the user_online_status is used for propagating CHAT_DISABLED status through multiple windows
+            # the chat_online_status is used for propagating CHAT_DISABLED status through multiple windows
             # if the user has more than one window/tab open. CHAT_ENABLED is not propagated, but users can manually
             # go online in multiple windows if necessary.
-            response_dict['user_online_status'] = chat_support.get_user_online_status(owner_uid)
+            response_dict['chat_online_status'] = chat_support.get_chat_online_status(owner_uid)
             
             # we use memcache to prevent the friends online from being updated every time data is polled- 
             # we set the memcache to expire after a certian amount of time, and only if it is expired
             # will we generate a new friends list - this is done like this to reduce server loading. 
-            check_friends_online_last_update_memcache_key = constants.CHECK_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
+            check_friends_online_last_update_memcache_key = constants.CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
             contacts_info_dict = memcache.get(check_friends_online_last_update_memcache_key)
             if contacts_info_dict is None:
                 # get the data structure that represents the "friends online" for the current user.
@@ -297,12 +297,12 @@ def poll_server_for_status_and_new_messages(request):
                         response_dict['conversation_tracker'][other_uid]["last_update_time_string"] = open_conversation_object.current_chat_message_time_string
                                  
         else: # *not* 'userobject_str' in request.session
-            response_dict['user_online_status'] = "expired_session" 
+            response_dict['chat_online_status'] = "expired_session" 
             
     except:
         # if there is an error - such as the user not having a session, return "expired_session" so that the script will 
         # stop polling
-        response_dict['user_online_status'] = "expired_session"
+        response_dict['chat_online_status'] = "expired_session"
         error_reporting.log_exception(logging.error)
         
     json_response = simplejson.dumps(response_dict)
@@ -330,12 +330,12 @@ def process_message_to_chat_group(from_uid, group_uid, is_minimized):
                 
             # check if we need to verify users online status (by checking if the memcache entry has expired). 
             memcache_key = CHAT_GROUP_MEMBERS_CLEANUP_MEMCACHE_PREFIX + owner_uid
-            user_online_status = memcache.get(memcache_key)
-            if user_online_status is None:
-                user_online_status = chat_support.get_user_online_status(owner_uid)
-                memcache.set(memcache_key, user_online_status, constants.SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP)
+            chat_online_status = memcache.get(memcache_key)
+            if chat_online_status is None:
+                chat_online_status = chat_support.get_chat_online_status(owner_uid)
+                memcache.set(memcache_key, chat_online_status, constants.SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP)
                 
-            if user_online_status == chat_support.CHAT_DISABLED or user_online_status == chat_support.CHAT_TIMEOUT:
+            if chat_online_status == chat_support.CHAT_DISABLED or chat_online_status == chat_support.CHAT_TIMEOUT:
                 chat_support.delete_uid_from_group(owner_uid, group_uid)
             else:
                 chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, is_minimized, type_of_conversation)

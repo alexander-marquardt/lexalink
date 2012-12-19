@@ -156,7 +156,7 @@ def query_currently_open_conversations(owner_uid):
     return currently_open_conversations_list
 
     
-def update_user_online_status(owner_uid, user_status):
+def update_chat_online_status(owner_uid, user_status):
 
     # ChatFriendTracker is indexed by the uid of the owner - this structure is used for keeping track of
     # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
@@ -183,17 +183,17 @@ def update_user_online_status(owner_uid, user_status):
         # If the user has disabled their chat, then the only status that can enable the other
         # user status (active, idle, away) is if they pass in CHAT_ENABLED - in this case, we will store the status as 
         # ACTIVE
-        if chat_friend_tracker.user_online_status != CHAT_DISABLED and user_status != CHAT_ENABLED:
+        if chat_friend_tracker.chat_online_status != CHAT_DISABLED and user_status != CHAT_ENABLED:
             # If chat is disabled, we don't update, because multiple windows on the client can be attempting
             # to update after the user has already closed a chatbox in one window. If the 
             # user has closed the chatbox in one window, that the same conversation should not continue 
-            # to poll in other windows (this is why we don't update if the user_online_status is set to "disabled").
-            chat_friend_tracker.user_online_status = user_status
+            # to poll in other windows (this is why we don't update if the chat_online_status is set to "disabled").
+            chat_friend_tracker.chat_online_status = user_status
             
         elif user_status == CHAT_ENABLED:
             # Over-ride current status by passing in an CHAT_ENABLED, 
             # which we store as ACTIVE (remember that we should *never* store CHAT_ENABLED as a valid status
-            chat_friend_tracker.user_online_status = CHAT_ACTIVE
+            chat_friend_tracker.chat_online_status = CHAT_ACTIVE
             
             # Ensure that both the chat friends and groups windows are maximized
             update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
@@ -207,24 +207,24 @@ def update_user_online_status(owner_uid, user_status):
                 
             
                 
-def get_polling_response_time_from_current_status(user_online_status):
+def get_polling_response_time_from_current_status(chat_online_status):
     # we verify the expected polling response time depending on the status of the user. This is highly coordinated
     # with the client side javascript. Ie. if the client is rapidly polling, then we can diagnose a logout/dropped
     # connection much faster than if the browser is in "Away" state, and only polls every 10 minutes. 
     
-    if user_online_status == CHAT_ACTIVE:
+    if chat_online_status == CHAT_ACTIVE:
         return constants.CHAT_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT
-    elif user_online_status == CHAT_IDLE:
+    elif chat_online_status == CHAT_IDLE:
         return constants.CHAT_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT
-    elif user_online_status == CHAT_AWAY:
+    elif chat_online_status == CHAT_AWAY:
         return constants.CHAT_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT
     else:
         # for example, if user status is "enabled" this will trigger an error, since "enabled" status should
         # never be stored in the database (see description of ChatFriendTracker in models.py for more information)
-        error_reporting.log_exception(logging.critical, error_message = "user_online_status = %s" % user_online_status)
+        error_reporting.log_exception(logging.critical, error_message = "chat_online_status = %s" % chat_online_status)
         return 0
 
-def get_user_online_status(owner_uid):
+def get_chat_online_status(owner_uid):
     # Check if a user is online - this can be verified by checking the time of the last polling/checkin
     # and by checking that they have not logged-out (either from chat or from the website completely)
     
@@ -235,13 +235,13 @@ def get_user_online_status(owner_uid):
         chat_friend_tracker = deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
         if chat_friend_tracker is not None:
 
-            if chat_friend_tracker.user_online_status == CHAT_DISABLED:
+            if chat_friend_tracker.chat_online_status == CHAT_DISABLED:
                 return CHAT_DISABLED # indicates that the user has intentionally logged-off - in this case we close all javascript sessions
             else:
-                polling_response_time = get_polling_response_time_from_current_status(chat_friend_tracker.user_online_status)
+                polling_response_time = get_polling_response_time_from_current_status(chat_friend_tracker.chat_online_status)
                 if chat_friend_tracker.connection_verified_time +\
                    datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
-                    return chat_friend_tracker.user_online_status
+                    return chat_friend_tracker.chat_online_status
                 else:
                     return CHAT_TIMEOUT
         else:
@@ -348,14 +348,14 @@ def get_group_members_dict(lang_code, group_uid):
             group_members_list = group_tracker_object.group_members_list
             
             for member_uid in group_members_list:
-                online_status = get_user_online_status(member_uid)
+                online_status = get_chat_online_status(member_uid)
                 if online_status != CHAT_DISABLED and online_status != CHAT_TIMEOUT:                    
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
                     group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
                     group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
-                    group_members_names_dict[member_uid]['user_online_status'] = online_status
+                    group_members_names_dict[member_uid]['chat_online_status'] = online_status
                 else:
                     delete_uid_from_group(member_uid, group_uid)
                     
@@ -377,12 +377,12 @@ def get_friends_online_dict(lang_code, owner_uid):
     # We include the language code in the memcache key because if the user changes languages we want to ensure
     # that the URL descriptions are returned in the correct language - which means that we have to query the 
     # database if the new language has not previously been loaded.
-    online_contacts_info_dict_memcache_key = lang_code + constants.ONLINE_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
+    online_contacts_info_dict_memcache_key = lang_code + constants.ONLINE_CHAT_CONTACTS_INFO_MEMCACHE_PREFIX + owner_uid
     online_contacts_info_dict = memcache.get(online_contacts_info_dict_memcache_key)
     if online_contacts_info_dict is None:
     
         # get the uid's of *all* "chat friends"
-        all_friends_dict_memcache_key = constants.ALL_FRIENDS_DICT_MEMCACHE_PREFIX + owner_uid
+        all_friends_dict_memcache_key = constants.ALL_CHAT_FRIENDS_DICT_MEMCACHE_PREFIX + owner_uid
         user_info_dict = memcache.get(all_friends_dict_memcache_key)
         if user_info_dict is None:
             userobject_key = db.Key(owner_uid)
@@ -395,10 +395,10 @@ def get_friends_online_dict(lang_code, owner_uid):
         # in the future)"
         online_contacts_info_dict = {}
         for uid in user_info_dict:
-            online_status = get_user_online_status(uid)
+            online_status = get_chat_online_status(uid)
             if online_status != CHAT_DISABLED and online_status != CHAT_TIMEOUT: # for purposes of chat list update, offline and timeout are the same
                 online_contacts_info_dict[uid] = user_info_dict[uid]
-                online_contacts_info_dict[uid]['user_online_status'] = online_status
+                online_contacts_info_dict[uid]['chat_online_status'] = online_status
                     
         memcache.add(online_contacts_info_dict_memcache_key, online_contacts_info_dict, \
                      constants.SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE)
@@ -571,7 +571,7 @@ def store_chat_message_in_memcache(memcache_message_object_key, sender_username,
     chat_message.chat_msg_time_string = str(datetime.datetime.now())
     chat_message.chat_msg_text = message_text
     chat_message.sender_username = sender_username
-    success = memcache.set(memcache_message_object_key, serialize_entities(chat_message))
+    success = memcache.set(memcache_message_object_key, serialize_entities(chat_message), constants.CHAT_MESSAGE_EXPIRY_TIME)
     # returns True if successfully written to memcache, False if not set
     if not success:
         error_reporting.log_exception(logging.critical, error_message = "Failed to write chat message to memcache. Key: " + memcache_message_object_key)

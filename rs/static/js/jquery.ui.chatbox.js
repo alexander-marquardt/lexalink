@@ -281,7 +281,7 @@ var initJqueryUiChatbox = function($){
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "execute_go_offline_on_client" function
                                 chan_utils.close_all_chatboxes_on_server();
-                                chan_utils.update_user_online_status_on_server("disabled");
+                                chan_utils.update_chat_online_status_on_server("disabled");
                                 return false;
                             });
 
@@ -826,31 +826,31 @@ var chatboxManager = function() {
                 idle_params.onIdle = function() {
                     var new_main_title = $('#id-chat-contact-title-idle-text').text();
                     changeOpacityOfAllBoxes(0.75);
-                    if (chan_utils.user_online_status != "disabled") { // only allow changes of activity status if user is online
+                    if (chan_utils.chat_online_status != "disabled") { // only allow changes of activity status if user is online
                         changeBoxtitle("main", new_main_title);
-                        chan_utils.user_online_status = "idle";
+                        chan_utils.chat_online_status = "idle";
                         chan_utils.current_message_polling_delay = chan_utils.idle_polling_delay;
-                        chan_utils.update_user_online_status_on_server(chan_utils.user_online_status);
+                        chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
 
                     }
                 };
                 idle_params.onAway = function() {
                     var new_main_title = $('#id-chat-contact-title-away-text').text();
                     changeOpacityOfAllBoxes(0.25);
-                    if (chan_utils.user_online_status != "disabled") { // only allow changes of activity status if user is online
+                    if (chan_utils.chat_online_status != "disabled") { // only allow changes of activity status if user is online
                         changeBoxtitle("main", new_main_title);
-                        chan_utils.user_online_status = "away";
+                        chan_utils.chat_online_status = "away";
                         chan_utils.current_message_polling_delay = chan_utils.away_polling_delay;
-                        chan_utils.update_user_online_status_on_server(chan_utils.user_online_status);
+                        chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
                     }
                 };
                 idle_params.onBack = function(isIdle, isAway) {
                     var new_main_title = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
-                    if (chan_utils.user_online_status != "disabled") { // only allow changes of activity status if user is online
+                    if (chan_utils.chat_online_status != "disabled") { // only allow changes of activity status if user is online
                         changeBoxtitle("main", new_main_title);
-                        chan_utils.user_online_status = "active";
-                        chan_utils.update_user_online_status_on_server(chan_utils.user_online_status);
+                        chan_utils.chat_online_status = "active";
+                        chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
                         chan_utils.set_message_polling_timeout_and_schedule_poll(chan_utils.initial_message_polling_delay);
                     }
                 };
@@ -934,8 +934,8 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
         for (var uid in contacts_info_dict) {
-            if (contacts_info_dict[uid]['user_online_status'] != 'active') {
-                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['user_online_status'] + '-text').text();
+            if (contacts_info_dict[uid]['chat_online_status'] != 'active') {
+                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['chat_online_status'] + '-text').text();
             } else {
                 online_status = '';
             }

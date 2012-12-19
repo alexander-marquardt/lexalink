@@ -1535,7 +1535,7 @@ def get_nid_from_uid(uid):
     return nid
     
     
-def return_and_report_internal_error():
+def return_and_report_internal_error(request):
     
     error_reporting.log_exception(logging.critical)
     txt = ugettext('Internal error - this error has been logged, and will be investigated immediately')

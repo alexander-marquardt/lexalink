@@ -193,7 +193,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             new_contact_count = utils.get_new_contact_count_sum(userobject.new_contact_counter_ref)
             registered_user_bool = True
             why_to_register = ''
-            online_status_on_page_reload = chat_support.get_user_online_status(owner_uid)
+            online_status_on_page_reload = chat_support.get_chat_online_status(owner_uid)
             
             additional_ads_to_append = get_additional_ads_to_append(request, userobject)
     
