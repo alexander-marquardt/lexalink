@@ -37,12 +37,12 @@
         var obj = {};
         obj.owner_uid = "{{ primary_user_presentation_data_fields.owner_uid }}";
         obj.username =  "{{ primary_user_presentation_data_fields.username }}";
-        obj.max_active_polling_delay = "{{ primary_user_presentation_data_fields.max_active_polling_delay }}";
-        obj.idle_polling_delay = "{{ primary_user_presentation_data_fields.idle_polling_delay }}";
-        obj.away_polling_delay = "{{ primary_user_presentation_data_fields.away_polling_delay }}";
-        obj.inactivity_time_before_idle = "{{ primary_user_presentation_data_fields.inactivity_time_before_idle }}";
-        obj.inactivity_time_before_away = "{{ primary_user_presentation_data_fields.inactivity_time_before_away }}";
-        obj.online_status_on_page_reload = "{{ primary_user_presentation_data_fields.online_status_on_page_reload }}";
+        obj.chat_max_active_polling_delay = "{{ primary_user_presentation_data_fields.chat_max_active_polling_delay }}";
+        obj.chat_idle_polling_delay = "{{ primary_user_presentation_data_fields.chat_idle_polling_delay }}";
+        obj.chat_away_polling_delay = "{{ primary_user_presentation_data_fields.chat_away_polling_delay }}";
+        obj.chat_inactivity_time_before_idle = "{{ primary_user_presentation_data_fields.chat_inactivity_time_before_idle }}";
+        obj.chat_inactivity_time_before_away = "{{ primary_user_presentation_data_fields.chat_inactivity_time_before_away }}";
+        obj.chat_online_status_on_page_reload = "{{ primary_user_presentation_data_fields.chat_online_status_on_page_reload }}";
         obj.language = "{{ request.LANGUAGE_CODE }}";
         return obj;
     }();

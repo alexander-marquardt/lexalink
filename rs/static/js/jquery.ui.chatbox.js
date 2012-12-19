@@ -820,8 +820,8 @@ var chatboxManager = function() {
             try {
                 // setup the timers for detecting user online/idle status
                 idle_params = {};
-                idle_params.idle_timeout = chan_utils.idle_timeout;
-                idle_params.away_timeout = chan_utils.away_timeout;
+                idle_params.idle_timeout = chan_utils.chat_idle_timeout;
+                idle_params.away_timeout = chan_utils.chat_away_timeout;
 
                 idle_params.onIdle = function() {
                     var new_main_title = $('#id-chat-contact-title-idle-text').text();
@@ -829,7 +829,7 @@ var chatboxManager = function() {
                     if (chan_utils.chat_online_status != "chat_disabled") { // only allow changes of activity status if user is online
                         changeBoxtitle("main", new_main_title);
                         chan_utils.chat_online_status = "chat_idle";
-                        chan_utils.current_message_polling_delay = chan_utils.idle_polling_delay;
+                        chan_utils.current_message_polling_delay = chan_utils.chat_idle_polling_delay;
                         chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
 
                     }
@@ -840,7 +840,7 @@ var chatboxManager = function() {
                     if (chan_utils.chat_online_status != "chat_disabled") { // only allow changes of activity status if user is online
                         changeBoxtitle("main", new_main_title);
                         chan_utils.chat_online_status = "chat_away";
-                        chan_utils.current_message_polling_delay = chan_utils.away_polling_delay;
+                        chan_utils.current_message_polling_delay = chan_utils.chat_away_polling_delay;
                         chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
                     }
                 };
@@ -969,7 +969,7 @@ var updateGroupChatBoxTitles = function(chat_groups_dict) {
     }
 };
 
-var setupContactsAndGroupsBoxes = function(online_status_on_page_reload) {
+var setupContactsAndGroupsBoxes = function(chat_online_status_on_page_reload) {
 
     try {
 
@@ -993,7 +993,7 @@ var setupContactsAndGroupsBoxes = function(online_status_on_page_reload) {
         $("#" + groups_box_id).chatbox("option", "boxManager").minimizeBox();
 
 
-        if (online_status_on_page_reload == "chat_disabled") {
+        if (chat_online_status_on_page_reload == "chat_disabled") {
             chan_utils.execute_go_offline_on_client();
         }
         else {

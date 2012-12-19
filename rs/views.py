@@ -54,7 +54,7 @@ import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, site_configuration
-from rs import profile_utils
+from rs import profile_utils, online_presence_support
 from django import http
 import http_utils, common_data_structs
 
@@ -655,7 +655,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         store_session(request, userobject)
                         
                         # force user to appear online in the chat boxes (from module chat_support)
-                        chat_support.update_chat_online_status(owner_uid, chat_support.CHAT_ENABLED)
+                        channel_support.update_online_status(chat_support.ChatPresence, owner_uid, chat_support.ChatPresence.ENABLED)
     
                         # create "in-the-cloud" backups of the userobject
                         backup_data.update_or_create_userobject_backups(request, userobject)

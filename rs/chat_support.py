@@ -44,7 +44,7 @@ import utils_top_level
 
 
 class ChatPresence(object): 
-    # Define the values that will be used to define the chat presence for each user that has 
+    # Define the values that will be used to define the chat online presence for each user that has 
     # their chatboxes open.
     
     # disable is when the user explicity closes their chat (will not go online if they become active
@@ -60,7 +60,7 @@ class ChatPresence(object):
     # not appear as online in contact lists  -- but they will go "active" if they do anything    
     TIMEOUT = "chat_timeout" 
     
-    STATUS_TRACKER_PREFIX = "_chat_friend_tracker_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+    STATUS_MEMCACHE_TRACKER_PREFIX = "_chat_status_memcache_tracker_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
     # taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
     MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT  
@@ -168,63 +168,6 @@ def query_currently_open_conversations(owner_uid):
             currently_open_conversations_list.append(utils_top_level.deserialize_entities(open_conversations_dictionary[other_uid]))
 
     return currently_open_conversations_list
-
-    
-def update_chat_online_status(owner_uid, user_status):
-
-    # ChatFriendTracker is indexed by the uid of the owner - this structure is used for keeping track of
-    # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
-    # enabled/idle/away/logged off. 
-    #
-    # user_status: ACTIVE, IDLE, AWAY, DISABLED (to go offline), and ENABLED (to go online)
-
-    # chat_friend_tracker should be pulled out memcache. 
-    
-    try:
-
-        assert(user_status)
-        
-    
-        
-        chat_friend_tracker_memcache_key = ChatPresence.STATUS_TRACKER_PREFIX + owner_uid
-        chat_friend_tracker = utils_top_level.deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
-        
-        if chat_friend_tracker is None:
-         
-            chat_friend_tracker = models.OnlineStatusTracker()
-
-                        
-        # leave this assert in
-        assert(chat_friend_tracker)
-            
-        # If the user has disabled their chat, then the only status that can enable the other
-        # user status (active, idle, away) is if they pass in ENABLED - in this case, we will store the status as 
-        # ACTIVE
-        if chat_friend_tracker.online_status != ChatPresence.DISABLED and user_status != ChatPresence.ENABLED:
-            # If chat is disabled, we don't update, because multiple windows on the client can be attempting
-            # to update after the user has already closed a chatbox in one window. If the 
-            # user has closed the chatbox in one window, that the same conversation should not continue 
-            # to poll in other windows (this is why we don't update if the chat_online_status is set to "disabled").
-            chat_friend_tracker.online_status = user_status
-            
-        elif user_status == ChatPresence.ENABLED:
-            # Over-ride current status by passing in an ENABLED, 
-            # which we store as ACTIVE (remember that we should *never* store CHAT_ENABLED as a valid status
-            chat_friend_tracker.online_status = ChatPresence.ACTIVE
-            
-            # Ensure that both the chat friends and groups windows are maximized
-            update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
-            update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
-            
-        chat_friend_tracker.connection_verified_time = datetime.datetime.now()
-        memcache.set(chat_friend_tracker_memcache_key, utils_top_level.serialize_entities(chat_friend_tracker))  
-            
-    except:
-        error_reporting.log_exception(logging.critical)
-                
-            
-
-
 
         
 def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):

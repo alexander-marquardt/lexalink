@@ -160,7 +160,7 @@ def update_chat_online_status_on_server(request):
             owner_uid = request.session['userobject_str']
             chat_online_status = request.POST.get('chat_online_status', '')
             assert(chat_online_status)
-            chat_support.update_chat_online_status(owner_uid, chat_online_status)
+            update_online_status(chat_support.ChatPresence, owner_uid, chat_online_status)
             response = "OK"
         else:
             response = "expired_session"
@@ -170,7 +170,57 @@ def update_chat_online_status_on_server(request):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseBadRequest("Error");
     
+
     
+def update_online_status(PresenceClass, owner_uid, user_status):
+
+    # presence_tracker is indexed by the uid of the owner - this structure is used for keeping track of
+    # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
+    # enabled/idle/away/logged off. 
+    #
+    # user_status: ACTIVE, IDLE, AWAY, DISABLED (to go offline), and ENABLED (to go online)
+    #
+    # presence_tracker should be pulled out memcache. 
+    
+    try:
+
+        assert(user_status)
+        
+        presence_tracker_memcache_key = PresenceClass.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
+        presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
+        
+        if presence_tracker is None:
+         
+            presence_tracker = models.OnlineStatusTracker()
+            
+        # If the user has disabled their chat, then the only status that can enable the other
+        # user status (active, idle, away) is if they pass in ENABLED - in this case, we will store the status as 
+        # ACTIVE
+        if presence_tracker.online_status != PresenceClass.DISABLED and user_status != PresenceClass.ENABLED:
+            # If chat is disabled, we don't update, because multiple windows on the client can be attempting
+            # to update after the user has already closed a chatbox in one window. If the 
+            # user has closed the chatbox in one window, that the same conversation should not continue 
+            # to poll in other windows (this is why we don't update if the chat_online_status is set to "disabled").
+            presence_tracker.online_status = user_status
+            
+        elif user_status == PresenceClass.ENABLED:
+            # Over-ride current status by passing in an ENABLED, 
+            # which we store as ACTIVE (remember that we should *never* store CHAT_ENABLED as a valid status
+            presence_tracker.online_status = PresenceClass.ACTIVE
+            
+            if PresenceClass.__name__ == "ChatPresence":
+                # If this is an update of the users "Chat presence", then we 
+                # ensure that both the chat friends and groups windows are maximized
+                chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
+                chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
+            
+        presence_tracker.connection_verified_time = datetime.datetime.now()
+        memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entities(presence_tracker))  
+            
+    except:
+        error_reporting.log_exception(logging.critical)
+                
+            
     
 def poll_server_for_status_and_new_messages(request):
     
@@ -197,7 +247,7 @@ def poll_server_for_status_and_new_messages(request):
             else:
                 assert(False)
             
-            chat_support.update_chat_online_status(owner_uid, chat_online_status)
+            update_online_status(chat_support.ChatPresence, owner_uid, chat_online_status)
             
 
             assert(owner_uid == request.session['userobject_str'])

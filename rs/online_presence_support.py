@@ -20,11 +20,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ################################################################################
+
+# This module supports the reporting of the online presence. There are two types of 
+# presence, "chat presence" (user is logged into the chat), and "user presence" (user
+# is logged into the website). This module supports reporting of both types of presence.
+
+
 from google.appengine.api import memcache
 
 import logging, datetime
 
-from rs import error_reporting, utils_top_level
+from rs import error_reporting, utils_top_level, models
 
 
 
@@ -54,17 +60,17 @@ def get_online_status(PresenceClass, owner_uid):
     try:
         # check the memcache-only friend tracker login time, since this gives us an accurate reading of the
         # users activity
-        chat_friend_tracker_memcache_key = PresenceClass.STATUS_TRACKER_PREFIX + owner_uid
-        chat_friend_tracker = utils_top_level.deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
-        if chat_friend_tracker is not None:
+        presence_tracker_memcache_key = PresenceClass.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
+        presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
+        if presence_tracker is not None:
 
-            if chat_friend_tracker.online_status == PresenceClass.DISABLED:
+            if presence_tracker.online_status == PresenceClass.DISABLED:
                 return PresenceClass.DISABLED # indicates that the user has intentionally logged-off - in this case we close all javascript sessions
             else:
-                polling_response_time = get_polling_response_time_from_current_status(PresenceClass, chat_friend_tracker.online_status)
-                if chat_friend_tracker.connection_verified_time +\
+                polling_response_time = get_polling_response_time_from_current_status(PresenceClass, presence_tracker.online_status)
+                if presence_tracker.connection_verified_time +\
                    datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
-                    return chat_friend_tracker.online_status
+                    return presence_tracker.online_status
                 else:
                     return PresenceClass.TIMEOUT
         else:
@@ -75,3 +81,4 @@ def get_online_status(PresenceClass, owner_uid):
     except:
         error_reporting.log_exception(logging.critical)
         return PresenceClass.DISABLED
+    

@@ -100,9 +100,9 @@ function launch_chatboxes(){
             handle_submit_create_new_group("create_new_group");
 
             if (remove_chatboxes)
-                template_chatbox_vars.online_status_on_page_reload = "offline";
+                template_chatbox_vars.chat_online_status_on_page_reload = "offline";
             
-            setupContactsAndGroupsBoxes(template_chatbox_vars.online_status_on_page_reload);
+            setupContactsAndGroupsBoxes(template_chatbox_vars.chat_online_status_on_page_reload);
 
             // Open the socket that will be used for communicating from the browser to the server.
             // Note: since all chat goes through the server, the same socket will be used for channeling
@@ -110,12 +110,12 @@ function launch_chatboxes(){
             chan_utils.setup_and_channel_for_current_client(
                     template_chatbox_vars.owner_uid,
                     template_chatbox_vars.username,
-                    template_chatbox_vars.max_active_polling_delay,
-                    template_chatbox_vars.idle_polling_delay,
-                    template_chatbox_vars.away_polling_delay,
-                    template_chatbox_vars.inactivity_time_before_idle,
-                    template_chatbox_vars.inactivity_time_before_away,
-                    template_chatbox_vars.online_status_on_page_reload);
+                    template_chatbox_vars.chat_max_active_polling_delay,
+                    template_chatbox_vars.chat_idle_polling_delay,
+                    template_chatbox_vars.chat_away_polling_delay,
+                    template_chatbox_vars.chat_inactivity_time_before_idle,
+                    template_chatbox_vars.chat_inactivity_time_before_away,
+                    template_chatbox_vars.chat_online_status_on_page_reload);
 
             launch_chatboxes.chatboxes_launched = true;
         }

@@ -117,10 +117,8 @@ CHAT_IDLE_POLLING_DELAY_IN_CLIENT = 60 # when user status is idle, how many seco
 CHAT_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 
 
-NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
-INACTIVITY_TIME_BEFORE_IDLE = NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
-NUM_MINUTES_INACTIVE_BEFORE_AWAY = 10
-INACTIVITY_TIME_BEFORE_AWAY = NUM_MINUTES_INACTIVE_BEFORE_AWAY * SECONDS_PER_MINUTE # seconds before marking the user as "away"
+CHAT_INACTIVITY_TIME_BEFORE_IDLE = 2 * SECONDS_PER_MINUTE # time before we mark the user as "idle"
+CHAT_INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # time before marking the user as "away"
 
 SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE = 10 # for memcaching the *online* friends list, before re-checking the database to see who is still online
 SECONDS_BETWEEN_GET_FRIENDS_ONLINE = 10 # for limiting the number of times that we send the list to the client. Note, we send the list
@@ -155,16 +153,12 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 
 ######################################################################
 ## Online User Status Constants
-FORCE_UPDATE_USER_ONLINE_STATUS_MEMCACHE_STRING = "2012-12-19-1744_" 
+FORCE_UPDATE_USER_PRESENCE_MEMCACHE_STRING = "2012-12-19-1744_" 
 
-USER_ONLINE_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between polls from the client (reality can take more time)
+USER_ONLINE_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between updates from the client (reality can take more time)
 USER_ONLINE_IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
 USER_ONLINE_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 
-# taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
-USER_ONLINE_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ONLINE_ACTIVE_POLLING_DELAY_IN_CLIENT  
-USER_ONLINE_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ONLINE_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
-USER_ONLINE_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ONLINE_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
 USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
 USER_ONLINE_INACTIVITY_TIME_BEFORE_IDLE = USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"

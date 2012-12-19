@@ -42,7 +42,7 @@ var chan_utils = new function () {
         //********************************
         /* Private function declarations */
 
-        var initialization = function(owner_uid, owner_username, max_active_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout) {
+        var initialization = function(owner_uid, owner_username, chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay, chat_idle_timeout, chat_away_timeout) {
             // initialize the dialog box that will be used for alerting the user to unknown conditions
 
             try {
@@ -52,7 +52,7 @@ var chan_utils = new function () {
 
                 chan_utils_self.initial_in_focus_polling_delay = 750; // when the chatbox input has focus, we poll at a fast speed (up until they go "idle" or leave focus)
                 chan_utils_self.initial_message_polling_delay = 2500; //how often to poll for new messages when focus is not in the chatbox input
-                chan_utils_self.active_polling_delay_ceiling = max_active_polling_delay * 1000; // convert seconds to ms
+                chan_utils_self.active_polling_delay_ceiling = chat_max_active_polling_delay * 1000; // convert seconds to ms
 
                 // Note, the decay multipliers are only used if the user is "active" (not "idle" or "away"). If they are "idle" or "away", a constant (slow) polling
                 // rate is currently used.
@@ -60,12 +60,12 @@ var chan_utils = new function () {
                 chan_utils_self.decay_multiplier = chan_utils_self.focusout_and_active_decay_multiplier;
                 chan_utils_self.focusin_and_active_decay_multiplier = 1.1; // if the user has focus in the chatbox, we decay the polling frequency much less.
 
-                chan_utils_self.idle_polling_delay = idle_polling_delay * 1000;
-                chan_utils_self.away_polling_delay = away_polling_delay * 1000;
+                chan_utils_self.chat_idle_polling_delay = chat_idle_polling_delay * 1000;
+                chan_utils_self.chat_away_polling_delay = chat_away_polling_delay * 1000;
                 chan_utils_self.current_message_polling_delay = chan_utils_self.initial_message_polling_delay;
 
-                chan_utils_self.idle_timeout = idle_timeout * 1000;
-                chan_utils_self.away_timeout = away_timeout * 1000;
+                chan_utils_self.chat_idle_timeout = chat_idle_timeout * 1000;
+                chan_utils_self.chat_away_timeout = chat_away_timeout * 1000;
 
                 chan_utils_self.chat_message_timeoutID = null; // used for cancelling a re-scheduled poll for new messages
                 chan_utils_self.last_update_time_string_dict = {}; // shortcut for new Object() - uid is the key, and value is last update time
@@ -797,14 +797,14 @@ var chan_utils = new function () {
 
         // the following is a globally visible function declaration
         this.setup_and_channel_for_current_client = function(owner_uid, owner_username,
-                max_active_polling_delay, idle_polling_delay, away_polling_delay,
-                idle_timeout, away_timeout, online_status_on_page_reload) {
+                chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay,
+                chat_idle_timeout, chat_away_timeout, chat_online_status_on_page_reload) {
             // Sets up a "channel" (which is technically not a channel, but longer-term, we will use channels instead of polling)
 
             try {
-                initialization(owner_uid, owner_username, max_active_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout);
+                initialization(owner_uid, owner_username, chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay, chat_idle_timeout, chat_away_timeout);
 
-                if (online_status_on_page_reload != "chat_disabled") {
+                if (chat_online_status_on_page_reload != "chat_disabled") {
                     var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                     chan_utils_self.start_polling();
                     $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);
