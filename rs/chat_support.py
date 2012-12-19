@@ -40,28 +40,28 @@ from utils_top_level import deserialize_entities, serialize_entities
 import utils_top_level
 
 # Chat enabled/disabled strings
-CHAT_DISABLED = "disabled" # disable is when the user explicity closes their chat (will not go online if they become active
+CHAT_DISABLED = "chat_disabled" # disable is when the user explicity closes their chat (will not go online if they become active
                     # until they click on "enable/open chat" button)
-CHAT_ENABLED = "enabled" # Indicates that the user has opened the chatboxes and chat is enabled
+CHAT_ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
 
 # When chat is enabled, user status can be one of the following values.
-CHAT_ACTIVE = "active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
-CHAT_IDLE = "idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
-CHAT_AWAY = "away"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
-CHAT_TIMEOUT = "timeout" # timeout is when the user has been inactive for so long that they are effectively offline so they will
+CHAT_ACTIVE = "chat_active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
+CHAT_IDLE = "chat_idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
+CHAT_AWAY = "chat_away"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
+CHAT_TIMEOUT = "chat_timeout" # timeout is when the user has been inactive for so long that they are effectively offline so they will
                          # not appear as online in contact lists  -- but they will go "active" if they do anything
 
 
 
 # memcache key prefixes
-OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX = "_open_conversations_memcache_dictionary_" + constants.FORCE_UPDATE_STRING
-CHAT_FRIEND_TRACKER_PREFIX = "_chat_friend_tracker_" + constants.FORCE_UPDATE_STRING
-CURRENTLY_OPEN_CONVERSATIONS_PREFIX = "_currently_open_conversations_" + constants.FORCE_UPDATE_STRING
-CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "_chat_group_members_dict_memecache_prefix_" + constants.FORCE_UPDATE_STRING
-CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "_chat_group_members_names_memcache_prefix_" + constants.FORCE_UPDATE_STRING
-CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "_memcache_message_number_memcache_prefix_" + constants.FORCE_UPDATE_STRING
-CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "_memcache_message_object_memcache_prefix_" + constants.FORCE_UPDATE_STRING
-CHAT_GROUPS_LIST_MEMCACHE_KEY = "_chat_groups_list_memcache_key_" + constants.FORCE_UPDATE_STRING
+OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX = "_open_conversations_memcache_dictionary_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CHAT_FRIEND_TRACKER_PREFIX = "_chat_friend_tracker_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CURRENTLY_OPEN_CONVERSATIONS_PREFIX = "_currently_open_conversations_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "_chat_group_members_dict_memecache_prefix_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "_chat_group_members_names_memcache_prefix_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "_memcache_message_number_memcache_prefix_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "_memcache_message_object_memcache_prefix_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CHAT_GROUPS_LIST_MEMCACHE_KEY = "_chat_groups_list_memcache_key_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
 
 def get_open_conversation_tracker_object(owner_uid, other_uid):

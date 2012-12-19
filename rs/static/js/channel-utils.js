@@ -71,7 +71,7 @@ var chan_utils = new function () {
                 chan_utils_self.last_update_time_string_dict = {}; // shortcut for new Object() - uid is the key, and value is last update time
                 //chan_utils_self.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
 
-                chan_utils_self.chat_online_status = "active";
+                chan_utils_self.chat_online_status = "chat_active";
 
                 chan_utils_self.polling_is_locked_mutex = false; // use to ensure that we only have one polling request at a time - true when polling, false when free
                 chan_utils_self.sending_message_is_locked_mutex = false; // when we are sending a message, we prevent processing of polling responses
@@ -119,7 +119,7 @@ var chan_utils = new function () {
                 var new_one_on_one_message_received = false;
 
                 if (json_response.hasOwnProperty('chat_online_status')) {
-                    if (json_response.chat_online_status == "disabled" || json_response.chat_online_status == "expired_session") {
+                    if (json_response.chat_online_status == "chat_disabled" || json_response.chat_online_status == "expired_session") {
                         // the user has indicated that he wishes to go offline (or has expired session). If we have received this message,
                         // we are running in a javascript session that is still actively polling, and is therefore
                         // not offline on the client side. We must stop the client from polling in the current window.
@@ -324,7 +324,7 @@ var chan_utils = new function () {
 
                 clearTimeout(chan_utils_self.chat_message_timeoutID);
 
-                if (chan_utils_self.chat_online_status == "active") {
+                if (chan_utils_self.chat_online_status == "chat_active") {
                     // for active user sessions, make sure that the delay has not exceeded the maximum, since
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
@@ -391,8 +391,8 @@ var chan_utils = new function () {
                 var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
-                chan_utils_self.chat_online_status = "active"; // must use "active" instead of "enable" since enabled is reserved for reversing "disabled"
-                chan_utils_self.update_chat_online_status_on_server("enabled"); // intentionally pass in "enable" to force over-ride of the "disabled"
+                chan_utils_self.chat_online_status = "chat_active"; // must use "active" instead of "enable" since enabled is reserved for reversing "disabled"
+                chan_utils_self.update_chat_online_status_on_server("chat_enabled"); // intentionally pass in "enable" to force over-ride of the "disabled"
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -568,7 +568,7 @@ var chan_utils = new function () {
                             throw "Error in sort_user_or_groups_by_name";
                         }
                         // this is the "main" box which contains list of contacts online
-                        if (users_or_groups_dict[uid]['chat_online_status'] != "active") {
+                        if (users_or_groups_dict[uid]['chat_online_status'] != "chat_active") {
                             online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['chat_online_status'] + '-text').text();
                         } else {
                             online_status = '';
@@ -804,7 +804,7 @@ var chan_utils = new function () {
             try {
                 initialization(owner_uid, owner_username, max_active_polling_delay, idle_polling_delay, away_polling_delay, idle_timeout, away_timeout);
 
-                if (online_status_on_page_reload != "disabled") {
+                if (online_status_on_page_reload != "chat_disabled") {
                     var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                     chan_utils_self.start_polling();
                     $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);

@@ -101,7 +101,7 @@ BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 # of code - however, if we have been modifying the chat functionality then we do wish to force an update. 
 # Change the following value if you want to force all chat-related memcaches to be refreshed when this
 # version of code is uploaded
-FORCE_UPDATE_STRING = "2012-12-19-1744_" 
+FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2012-12-19-1820_" 
 NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a query - Note: this limit is not only about memory utilization, but
                                 # also about how many messages we want to send to the user every time they re-load the chatbox. 
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
@@ -126,7 +126,6 @@ INACTIVITY_TIME_BEFORE_IDLE = NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MIN
 NUM_MINUTES_INACTIVE_BEFORE_AWAY = 10
 INACTIVITY_TIME_BEFORE_AWAY = NUM_MINUTES_INACTIVE_BEFORE_AWAY * SECONDS_PER_MINUTE # seconds before marking the user as "away"
 
-#SECONDS_BETWEEN_CHAT_FRIEND_TRACKER_DB_WRITE = 30 # to control how often we write the current users online status to the database
 SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE = 10 # for memcaching the *online* friends list, before re-checking the database to see who is still online
 SECONDS_BETWEEN_GET_FRIENDS_ONLINE = 10 # for limiting the number of times that we send the list to the client. Note, we send the list
                                         # more often than the list is "updated" (from DB) -- this is good for ensuring that multiple tabs, 
@@ -151,30 +150,30 @@ MAX_NUM_PARTICIPANTS_PER_GROUP = 40 # If a group has more than this number of pa
 ALL_CHAT_FRIENDS_DICT_EXPIRY = SECONDS_PER_HOUR # How often will we hit the database for *all* "chat friends" of a user, versus pulling out of memcache
 CHAT_MESSAGE_CUTOFF_CHARS = 200 #allow this many chars at a time in a single text message
 
-ALL_CHAT_FRIENDS_DICT_MEMCACHE_PREFIX = "_all_friends_dict_" + FORCE_UPDATE_STRING
-ONLINE_CHAT_CONTACTS_INFO_MEMCACHE_PREFIX = "_online_contacts_info_dict_" + FORCE_UPDATE_STRING
-CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_last_update_" + FORCE_UPDATE_STRING
+ALL_CHAT_FRIENDS_DICT_MEMCACHE_PREFIX = "_all_friends_dict_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
+ONLINE_CHAT_CONTACTS_INFO_MEMCACHE_PREFIX = "_online_contacts_info_dict_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
+CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_last_update_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
 ## End Chat Functionality Constants
 ######################################################################
 
 ######################################################################
 ## Online User Status Constants
+FORCE_UPDATE_USER_ONLINE_STATUS_MEMCACHE_STRING = "2012-12-19-1744_" 
 
-
-USER_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between polls from the client (reality can take more time)
-USER_IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
-USER_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
+USER_ONLINE_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between polls from the client (reality can take more time)
+USER_ONLINE_IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
+USER_ONLINE_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 
 # taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
-USER_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ACTIVE_POLLING_DELAY_IN_CLIENT  
-USER_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
-USER_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+USER_ONLINE_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ONLINE_ACTIVE_POLLING_DELAY_IN_CLIENT  
+USER_ONLINE_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ONLINE_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+USER_ONLINE_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * USER_ONLINE_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
-USER_NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
-USER_INACTIVITY_TIME_BEFORE_IDLE = USER_NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
-USER_NUM_MINUTES_INACTIVE_BEFORE_AWAY = 10
-USER_INACTIVITY_TIME_BEFORE_AWAY = USER_NUM_MINUTES_INACTIVE_BEFORE_AWAY * SECONDS_PER_MINUTE # seconds before marking the user as "away"
+USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
+USER_ONLINE_INACTIVITY_TIME_BEFORE_IDLE = USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
+USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_AWAY = 10
+USER_ONLINE_INACTIVITY_TIME_BEFORE_AWAY = USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_AWAY * SECONDS_PER_MINUTE # seconds before marking the user as "away"
 
 ## End Online User Status Constants
 ######################################################################
