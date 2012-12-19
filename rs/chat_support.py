@@ -34,28 +34,42 @@ import logging
 
 import utils, error_reporting, queries, logging
 import models, constants, settings
-from rs import forms, profile_utils
+from rs import forms, profile_utils, online_presence_support
 
-from utils_top_level import deserialize_entities, serialize_entities
 import utils_top_level
 
 # Chat enabled/disabled strings
-CHAT_DISABLED = "chat_disabled" # disable is when the user explicity closes their chat (will not go online if they become active
-                    # until they click on "enable/open chat" button)
-CHAT_ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
+# In order to over-ride a CHAT_DISABLED status, the client javascript will pass in a ENABLED value 
+# If a ENABLED value is passed in, it will be stored as ACTIVE    
 
-# When chat is enabled, user status can be one of the following values.
-CHAT_ACTIVE = "chat_active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
-CHAT_IDLE = "chat_idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
-CHAT_AWAY = "chat_away"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
-CHAT_TIMEOUT = "chat_timeout" # timeout is when the user has been inactive for so long that they are effectively offline so they will
-                         # not appear as online in contact lists  -- but they will go "active" if they do anything
 
+class ChatPresence(object): 
+    # Define the values that will be used to define the chat presence for each user that has 
+    # their chatboxes open.
+    
+    # disable is when the user explicity closes their chat (will not go online if they become active
+    # until they click on "enable/open chat" button)
+    DISABLED = "chat_disabled"
+    ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
+
+    # When chat is enabled, user status can be one of the following values.
+    ACTIVE = "chat_active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
+    IDLE = "chat_idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
+    AWAY = "chat_away"    # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
+    # timeout is when the user has been inactive for so long that they are effectively offline so they will
+    # not appear as online in contact lists  -- but they will go "active" if they do anything    
+    TIMEOUT = "chat_timeout" 
+    
+    STATUS_TRACKER_PREFIX = "_chat_friend_tracker_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
+
+    # taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
+    MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT  
+    MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.CHAT_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+    MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.CHAT_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
 
 # memcache key prefixes
 OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX = "_open_conversations_memcache_dictionary_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
-CHAT_FRIEND_TRACKER_PREFIX = "_chat_friend_tracker_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 CURRENTLY_OPEN_CONVERSATIONS_PREFIX = "_currently_open_conversations_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX = "_chat_group_members_dict_memecache_prefix_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 CHAT_GROUP_MEMBERS_NAMES_MEMCACHE_PREFIX = "_chat_group_members_names_memcache_prefix_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
@@ -74,7 +88,7 @@ def get_open_conversation_tracker_object(owner_uid, other_uid):
     open_conversation_tracker_object = None
     if open_conversations_dictionary is not None:
         if other_uid in open_conversations_dictionary:
-            open_conversation_tracker_object = deserialize_entities(open_conversations_dictionary[other_uid])
+            open_conversation_tracker_object = utils_top_level.deserialize_entities(open_conversations_dictionary[other_uid])
                 
             
     return open_conversation_tracker_object
@@ -86,7 +100,7 @@ def put_open_conversation_tracker_object(owner_uid, other_uid, open_conversation
     open_conversations_dictionary = memcache.get(open_conversations_memcache_dictionary_key)
     if open_conversations_dictionary is None:
         open_conversations_dictionary = {}
-    open_conversations_dictionary[other_uid] = serialize_entities(open_conversation_tracker_object)
+    open_conversations_dictionary[other_uid] = utils_top_level.serialize_entities(open_conversation_tracker_object)
     memcache.set(open_conversations_memcache_dictionary_key, open_conversations_dictionary)
 
 
@@ -151,7 +165,7 @@ def query_currently_open_conversations(owner_uid):
     currently_open_conversations_list = []
     if open_conversations_dictionary is not None:
         for other_uid in open_conversations_dictionary:
-            currently_open_conversations_list.append(deserialize_entities(open_conversations_dictionary[other_uid]))
+            currently_open_conversations_list.append(utils_top_level.deserialize_entities(open_conversations_dictionary[other_uid]))
 
     return currently_open_conversations_list
 
@@ -162,7 +176,7 @@ def update_chat_online_status(owner_uid, user_status):
     # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
     # enabled/idle/away/logged off. 
     #
-    # user_status: ACTIVE, IDLE, AWAY, CHAT_DISABLED (to go offline), and CHAT_ENABLED (to go online)
+    # user_status: ACTIVE, IDLE, AWAY, DISABLED (to go offline), and ENABLED (to go online)
 
     # chat_friend_tracker should be pulled out memcache. 
     
@@ -170,15 +184,10 @@ def update_chat_online_status(owner_uid, user_status):
 
         assert(user_status)
         
-        ##### chat_friend_tracker ###### 
-        # Track user preference for online status -  values allowed: 
-        # CHAT_ACTIVE, CHAT_IDLE, CHAT_AWAY, CHAT_DISABLED 
-        # we do not store CHAT_ENABLED as a value, however
-        # in order to over-ride a CHAT_DISABLED status, the client javascript will pass in a CHAT_ENABLED value 
-        # If a CHAT_ENABLED value is passed in, it will be stored as CHAT_ACTIVE           
+    
         
-        chat_friend_tracker_memcache_key = CHAT_FRIEND_TRACKER_PREFIX + owner_uid
-        chat_friend_tracker = deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
+        chat_friend_tracker_memcache_key = ChatPresence.STATUS_TRACKER_PREFIX + owner_uid
+        chat_friend_tracker = utils_top_level.deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
         
         if chat_friend_tracker is None:
          
@@ -189,77 +198,34 @@ def update_chat_online_status(owner_uid, user_status):
         assert(chat_friend_tracker)
             
         # If the user has disabled their chat, then the only status that can enable the other
-        # user status (active, idle, away) is if they pass in CHAT_ENABLED - in this case, we will store the status as 
+        # user status (active, idle, away) is if they pass in ENABLED - in this case, we will store the status as 
         # ACTIVE
-        if chat_friend_tracker.online_status != CHAT_DISABLED and user_status != CHAT_ENABLED:
+        if chat_friend_tracker.online_status != ChatPresence.DISABLED and user_status != ChatPresence.ENABLED:
             # If chat is disabled, we don't update, because multiple windows on the client can be attempting
             # to update after the user has already closed a chatbox in one window. If the 
             # user has closed the chatbox in one window, that the same conversation should not continue 
             # to poll in other windows (this is why we don't update if the chat_online_status is set to "disabled").
             chat_friend_tracker.online_status = user_status
             
-        elif user_status == CHAT_ENABLED:
-            # Over-ride current status by passing in an CHAT_ENABLED, 
+        elif user_status == ChatPresence.ENABLED:
+            # Over-ride current status by passing in an ENABLED, 
             # which we store as ACTIVE (remember that we should *never* store CHAT_ENABLED as a valid status
-            chat_friend_tracker.online_status = CHAT_ACTIVE
+            chat_friend_tracker.online_status = ChatPresence.ACTIVE
             
             # Ensure that both the chat friends and groups windows are maximized
             update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
             update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
             
         chat_friend_tracker.connection_verified_time = datetime.datetime.now()
-        memcache.set(chat_friend_tracker_memcache_key, serialize_entities(chat_friend_tracker))  
+        memcache.set(chat_friend_tracker_memcache_key, utils_top_level.serialize_entities(chat_friend_tracker))  
             
     except:
         error_reporting.log_exception(logging.critical)
                 
             
-                
-def get_polling_response_time_from_current_status(chat_online_status):
-    # we verify the expected polling response time depending on the status of the user. This is highly coordinated
-    # with the client side javascript. Ie. if the client is rapidly polling, then we can diagnose a logout/dropped
-    # connection much faster than if the browser is in "Away" state, and only polls every 10 minutes. 
-    
-    if chat_online_status == CHAT_ACTIVE:
-        return constants.CHAT_MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT
-    elif chat_online_status == CHAT_IDLE:
-        return constants.CHAT_MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT
-    elif chat_online_status == CHAT_AWAY:
-        return constants.CHAT_MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT
-    else:
-        # for example, if user status is "enabled" this will trigger an error, since "enabled" status should
-        # never be stored in the database (see description of ChatFriendTracker in models.py for more information)
-        error_reporting.log_exception(logging.critical, error_message = "chat_online_status = %s" % chat_online_status)
-        return 0
 
-def get_chat_online_status(owner_uid):
-    # Check if a user is online - this can be verified by checking the time of the last polling/checkin
-    # and by checking that they have not logged-out (either from chat or from the website completely)
-    
-    try:
-        # check the memcache-only friend tracker login time, since this gives us an accurate reading of the
-        # users activity
-        chat_friend_tracker_memcache_key = CHAT_FRIEND_TRACKER_PREFIX + owner_uid
-        chat_friend_tracker = deserialize_entities(memcache.get(chat_friend_tracker_memcache_key))
-        if chat_friend_tracker is not None:
 
-            if chat_friend_tracker.online_status == CHAT_DISABLED:
-                return CHAT_DISABLED # indicates that the user has intentionally logged-off - in this case we close all javascript sessions
-            else:
-                polling_response_time = get_polling_response_time_from_current_status(chat_friend_tracker.online_status)
-                if chat_friend_tracker.connection_verified_time +\
-                   datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
-                    return chat_friend_tracker.online_status
-                else:
-                    return CHAT_TIMEOUT
-        else:
-            # we don't know their status, but return TIMEOUT which means they haven't checked in in a long time (and they will
-            # therefore not show up in their friends lists until their status is changed to something other than TIMEOUT).
-            return CHAT_TIMEOUT
-        
-    except:
-        error_reporting.log_exception(logging.critical)
-        return CHAT_DISABLED
+
         
 def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
     
@@ -356,8 +322,8 @@ def get_group_members_dict(lang_code, group_uid):
             group_members_list = group_tracker_object.group_members_list
             
             for member_uid in group_members_list:
-                online_status = get_chat_online_status(member_uid)
-                if online_status != CHAT_DISABLED and online_status != CHAT_TIMEOUT:                    
+                online_status = online_presence_support.get_online_status(ChatPresence, member_uid)
+                if online_status != ChatPresence.DISABLED and online_status != ChatPresence.TIMEOUT:                    
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
@@ -403,8 +369,8 @@ def get_friends_online_dict(lang_code, owner_uid):
         # in the future)"
         online_contacts_info_dict = {}
         for uid in user_info_dict:
-            online_status = get_chat_online_status(uid)
-            if online_status != CHAT_DISABLED and online_status != CHAT_TIMEOUT: # for purposes of chat list update, offline and timeout are the same
+            online_status = online_presence_support.get_online_status(ChatPresence, uid)
+            if online_status != ChatPresence.DISABLED and online_status != ChatPresence.TIMEOUT: # for purposes of chat list update, offline and timeout are the same
                 online_contacts_info_dict[uid] = user_info_dict[uid]
                 online_contacts_info_dict[uid]['chat_online_status'] = online_status
                     
@@ -512,7 +478,7 @@ def query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, ty
     # most recent messages that are stored in the memcache    
     for message_number in range(newest_message_number, lowest_message_number, -1):
         memcache_message_object_key = CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX + memcache_message_base_key + "_" + str(message_number)
-        chat_message_object = deserialize_entities(memcache.get(memcache_message_object_key))
+        chat_message_object = utils_top_level.deserialize_entities(memcache.get(memcache_message_object_key))
         if chat_message_object != None:
             if chat_message_object.chat_msg_time_string >= last_update_time_string:
                 list_of_chat_messages.append(chat_message_object)
@@ -579,7 +545,7 @@ def store_chat_message_in_memcache(memcache_message_object_key, sender_username,
     chat_message.chat_msg_time_string = str(datetime.datetime.now())
     chat_message.chat_msg_text = message_text
     chat_message.sender_username = sender_username
-    success = memcache.set(memcache_message_object_key, serialize_entities(chat_message), constants.CHAT_MESSAGE_EXPIRY_TIME)
+    success = memcache.set(memcache_message_object_key, utils_top_level.serialize_entities(chat_message), constants.CHAT_MESSAGE_EXPIRY_TIME)
     # returns True if successfully written to memcache, False if not set
     if not success:
         error_reporting.log_exception(logging.critical, error_message = "Failed to write chat message to memcache. Key: " + memcache_message_object_key)

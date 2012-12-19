@@ -37,7 +37,7 @@ from django.utils.translation import ugettext
 
 import time, logging, datetime
 
-from rs import utils, utils_top_level, constants, error_reporting, chat_support, profile_utils
+from rs import utils, utils_top_level, constants, error_reporting, chat_support, profile_utils, online_presence_support
 
 def initialize_main_and_group_boxes_on_server(request):
     # ensures that the main and group boxes have an open_conversation object assigned - this is 
@@ -207,7 +207,7 @@ def poll_server_for_status_and_new_messages(request):
             # the chat_online_status is used for propagating CHAT_DISABLED status through multiple windows
             # if the user has more than one window/tab open. CHAT_ENABLED is not propagated, but users can manually
             # go online in multiple windows if necessary.
-            response_dict['chat_online_status'] = chat_support.get_chat_online_status(owner_uid)
+            response_dict['chat_online_status'] = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
             
             # we use memcache to prevent the friends online from being updated every time data is polled- 
             # we set the memcache to expire after a certian amount of time, and only if it is expired
@@ -332,10 +332,10 @@ def process_message_to_chat_group(from_uid, group_uid, is_minimized):
             memcache_key = CHAT_GROUP_MEMBERS_CLEANUP_MEMCACHE_PREFIX + owner_uid
             chat_online_status = memcache.get(memcache_key)
             if chat_online_status is None:
-                chat_online_status = chat_support.get_chat_online_status(owner_uid)
+                chat_online_status = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
                 memcache.set(memcache_key, chat_online_status, constants.SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP)
                 
-            if chat_online_status == chat_support.CHAT_DISABLED or chat_online_status == chat_support.CHAT_TIMEOUT:
+            if chat_online_status == chat_support.ChatPresence.DISABLED or chat_online_status == chat_support.ChatPresence.TIMEOUT:
                 chat_support.delete_uid_from_group(owner_uid, group_uid)
             else:
                 chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, is_minimized, type_of_conversation)
