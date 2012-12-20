@@ -37,11 +37,11 @@
         var obj = {};
         obj.owner_uid = "{{ primary_user_presentation_data_fields.owner_uid }}";
         obj.username =  "{{ primary_user_presentation_data_fields.username }}";
-        obj.chat_max_active_polling_delay = "{{ primary_user_presentation_data_fields.chat_max_active_polling_delay }}";
-        obj.chat_idle_polling_delay = "{{ primary_user_presentation_data_fields.chat_idle_polling_delay }}";
-        obj.chat_away_polling_delay = "{{ primary_user_presentation_data_fields.chat_away_polling_delay }}";
-        obj.chat_inactivity_time_before_idle = "{{ primary_user_presentation_data_fields.chat_inactivity_time_before_idle }}";
-        obj.chat_inactivity_time_before_away = "{{ primary_user_presentation_data_fields.chat_inactivity_time_before_away }}";
+        obj.chat_max_active_polling_delay = "{{ primary_user_presentation_data_fields.chat_delay_constants.MAX_ACTIVE_POLLING_DELAY_IN_CLIENT }}";
+        obj.chat_idle_polling_delay = "{{ primary_user_presentation_data_fields.chat_delay_constants.IDLE_POLLING_DELAY_IN_CLIENT }}";
+        obj.chat_away_polling_delay = "{{ primary_user_presentation_data_fields.chat_delay_constants.AWAY_POLLING_DELAY_IN_CLIENT }}";
+        obj.chat_inactivity_time_before_idle = "{{ primary_user_presentation_data_fields.chat_delay_constants.INACTIVITY_TIME_BEFORE_IDLE }}";
+        obj.chat_inactivity_time_before_away = "{{ primary_user_presentation_data_fields.chat_delay_constants.INACTIVITY_TIME_BEFORE_AWAY }}";
         obj.chat_is_disabled = "{{ primary_user_presentation_data_fields.chat_is_disabled }}";
         obj.language = "{{ request.LANGUAGE_CODE }}";
         return obj;

@@ -63,9 +63,9 @@ class ChatPresence(object):
     STATUS_MEMCACHE_TRACKER_PREFIX = "_chat_status_memcache_tracker_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
     # taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
-    MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT  
-    MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.CHAT_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
-    MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.CHAT_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+    MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.ChatDelayConstants.MAX_ACTIVE_POLLING_DELAY_IN_CLIENT  
+    MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.ChatDelayConstants.IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+    MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.ChatDelayConstants.AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
 
 # memcache key prefixes

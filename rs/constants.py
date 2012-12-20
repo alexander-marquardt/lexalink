@@ -112,18 +112,19 @@ if settings.BUILD_NAME == 'Discrete':
 else:
     GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 10 
 
-CHAT_MAX_ACTIVE_POLLING_DELAY_IN_CLIENT = 30 # Cap on the number of *scheduled* seconds between polls from the client (reality can take more time)
-CHAT_IDLE_POLLING_DELAY_IN_CLIENT = 60 # when user status is idle, how many seconds between polls
-CHAT_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
+class ChatDelayConstants(object):
+    MAX_ACTIVE_POLLING_DELAY_IN_CLIENT = 30 # Cap on the number of *scheduled* seconds between polls from the client (reality can take more time)
+    IDLE_POLLING_DELAY_IN_CLIENT = 60 # when user status is idle, how many seconds between polls
+    AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 
-
-CHAT_INACTIVITY_TIME_BEFORE_IDLE = 2 * SECONDS_PER_MINUTE # time before we mark the user as "idle"
-CHAT_INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # time before marking the user as "away"
+    INACTIVITY_TIME_BEFORE_IDLE = 2 * SECONDS_PER_MINUTE # time before we mark the user as "idle"
+    INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # time before marking the user as "away"
 
 SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE = 10 # for memcaching the *online* friends list, before re-checking the database to see who is still online
 SECONDS_BETWEEN_GET_FRIENDS_ONLINE = 10 # for limiting the number of times that we send the list to the client. Note, we send the list
                                         # more often than the list is "updated" (from DB) -- this is good for ensuring that multiple tabs, 
                                         # etc will periodically receive a list of contacts, even if it is not totally up-to-date.
+
 SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP = 5 # every X seconds we will verify that all of the members of each chat group are still online,
                                                # and if they are no longer online, they will be removed from the group. This is split across
                                                # many group members, and so updating often has an amortized cost.
@@ -155,12 +156,14 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 ## Online User Presence Constants
 FORCE_UPDATE_USER_PRESENCE_MEMCACHE_STRING = "2012-12-19-1744_" 
 
-USER_PRESENCE_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between updates from the client (reality can take more time)
-USER_PRESENCE_IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
-USER_PRESENCE_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 
-USER_PRESENCE_INACTIVITY_TIME_BEFORE_IDLE = 2 * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
-USER_PRESENCE_INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # seconds before marking the user as "away"
+class UserPresenceConstants(object):
+    ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between updates from the client (reality can take more time)
+    IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
+    AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
+    
+    INACTIVITY_TIME_BEFORE_IDLE = 2 * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
+    INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # seconds before marking the user as "away"
 
 ## End Online User Status Constants
 ######################################################################
