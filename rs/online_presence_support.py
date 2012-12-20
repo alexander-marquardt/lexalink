@@ -65,7 +65,7 @@ def get_online_status(PresenceClass, owner_uid):
         if presence_tracker is not None:
 
             if presence_tracker.online_status == PresenceClass.DISABLED:
-                return PresenceClass.DISABLED # indicates that the user has intentionally logged-off - in this case we close all javascript sessions
+                return PresenceClass.DISABLED # indicates that the user has intentionally logged-off
             else:
                 polling_response_time = get_polling_response_time_from_current_status(PresenceClass, presence_tracker.online_status)
                 if presence_tracker.connection_verified_time +\

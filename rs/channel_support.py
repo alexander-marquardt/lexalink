@@ -200,7 +200,7 @@ def update_online_status(PresenceClass, owner_uid, user_status):
             # If chat is disabled, we don't update, because multiple windows on the client can be attempting
             # to update after the user has already closed a chatbox in one window. If the 
             # user has closed the chatbox in one window, that the same conversation should not continue 
-            # to poll in other windows (this is why we don't update if the chat_online_status is set to "disabled").
+            # to poll in other windows (this is why we don't update if the user_status is set to "disabled").
             presence_tracker.online_status = user_status
             
         elif user_status == PresenceClass.ENABLED:

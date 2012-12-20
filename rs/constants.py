@@ -152,18 +152,15 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 ######################################################################
 
 ######################################################################
-## Online User Status Constants
+## Online User Presence Constants
 FORCE_UPDATE_USER_PRESENCE_MEMCACHE_STRING = "2012-12-19-1744_" 
 
-USER_ONLINE_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between updates from the client (reality can take more time)
-USER_ONLINE_IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
-USER_ONLINE_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
+USER_PRESENCE_ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between updates from the client (reality can take more time)
+USER_PRESENCE_IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
+USER_PRESENCE_AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
 
-
-USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_IDLE = 2
-USER_ONLINE_INACTIVITY_TIME_BEFORE_IDLE = USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_IDLE * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
-USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_AWAY = 10
-USER_ONLINE_INACTIVITY_TIME_BEFORE_AWAY = USER_ONLINE_NUM_MINUTES_INACTIVE_BEFORE_AWAY * SECONDS_PER_MINUTE # seconds before marking the user as "away"
+USER_PRESENCE_INACTIVITY_TIME_BEFORE_IDLE = 2 * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
+USER_PRESENCE_INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # seconds before marking the user as "away"
 
 ## End Online User Status Constants
 ######################################################################
