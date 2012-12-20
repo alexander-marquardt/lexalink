@@ -255,7 +255,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields.owner_nid = owner_nid
         primary_user_presentation_data_fields.owner_message_count = owner_message_count
         primary_user_presentation_data_fields.new_contact_count = new_contact_count
-        primary_user_presentation_data_fields.chat_delay_constants = constants.ChatDelayConstants.__dict__
+        primary_user_presentation_data_fields.chat_delay_constants = constants.ChatDelayConstants
+        primary_user_presentation_data_fields.user_presence_constants = constants.UserPresenceConstants
         primary_user_presentation_data_fields.chat_is_disabled = chat_is_disabled
         primary_user_presentation_data_fields.do_not_try_to_dynamically_load_search_values = do_not_try_to_dynamically_load_search_values
         

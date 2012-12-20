@@ -32,7 +32,7 @@
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-12-10-2246'
+VERSION_ID = '2012-12-14-1433'
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -44,7 +44,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
@@ -273,6 +273,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/jx/'),        
     re.compile(r'^/rs/ajax/'),    
     re.compile(r'^/rs/channel_support/'),
+    re.compile(r'^/rs/user_presence/update_user_presence_on_server/'),
     re.compile(r'^/rs/admin/'),
     re.compile(r'^/rs/store_'),
     re.compile(r'^/rs/blobstore_photo_upload/'),

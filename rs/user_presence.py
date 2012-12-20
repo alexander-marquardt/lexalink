@@ -31,8 +31,11 @@
 # of the users chat connection, while "user presence" is more general, and applies to weather the user is actively using
 # the website.
 
-import constants
-from rs import channel_support, online_presence_support
+import logging
+from django.utils import simplejson
+from django import http
+
+from rs import constants, channel_support, online_presence_support, error_reporting
 
 class UserPresence(object): 
     # Define the values that will be used to define the chat online presence for each user that has 
@@ -53,9 +56,9 @@ class UserPresence(object):
     STATUS_MEMCACHE_TRACKER_PREFIX = "_user_presence_memcache_tracker_" + constants.FORCE_UPDATE_USER_PRESENCE_MEMCACHE_STRING
 
     # taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
-    MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.USER_PRESENCE_ACTIVE_POLLING_DELAY_IN_CLIENT  
-    MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.USER_PRESENCE_IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
-    MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.USER_PRESENCE_AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+    MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.UserPresenceConstants.ACTIVE_POLLING_DELAY_IN_CLIENT  
+    MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.UserPresenceConstants.IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
+    MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.UserPresenceConstants.AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
         
 def update_user_presence(request):
@@ -68,13 +71,23 @@ def update_user_presence(request):
             owner_uid = request.session['userobject_str']            
         
             if request.method == 'POST':
-                json_post_data = simplejson.loads(request.raw_post_data)
-                user_online_presence = json_post_data['user_online_presence']
+                user_online_presence = request.POST.get('user_online_presence', '')
+                assert(user_online_presence)
 
             channel_support.update_online_status(UserPresence, owner_uid, user_online_presence)
+            response = "OK"
+            
+        else:
+            # Users session has expired - just ignore the updates. (Note: we do not upate their online 
+            # status to TIMEOUT here, since they may have other sessions open in another browser, and we
+            # don't want to interfear with those other updates)
+            response = "expired_session"
+            
+        return http.HttpResponse(response)
             
     except:
         error_reporting.log_exception(logging.critical)           
+        return http.HttpResponseBadRequest("Error");
         
 
 def get_user_presence_status(owner_uid):

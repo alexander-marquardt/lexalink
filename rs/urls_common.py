@@ -30,7 +30,7 @@ from django.conf.urls.defaults import *
 from rs import views, ajax, store_data, search_results, mailbox, display_contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, site_configuration, channel_support, vip_status_support, \
-     videochat, rendering, sitemaps
+     videochat, rendering, sitemaps, user_presence
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
 import gaesessions
@@ -218,6 +218,8 @@ urlpatterns = patterns('',
     (r'^rs/channel_support/update_chat_online_status_on_server/[\w|-]+/$', channel_support.update_chat_online_status_on_server),
     (r'^rs/channel_support/set_minimize_chat_box_status/[\w|-]+/$', channel_support.set_minimize_chat_box_status),
     (r'^rs/channel_support/initialize_main_and_group_boxes_on_server/[\w|-]+/$', channel_support.initialize_main_and_group_boxes_on_server),
+    
+    (r'^rs/user_presence/update_user_presence_on_server/[\w|-]+/$', user_presence.update_user_presence),
     
     # Paypal feedback URLs
     (r'^paypal/ipn/$', vip_status_support.instant_payment_notification),
