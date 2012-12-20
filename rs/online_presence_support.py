@@ -62,23 +62,21 @@ def get_online_status(PresenceClass, owner_uid):
         # users activity
         presence_tracker_memcache_key = PresenceClass.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
         presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
+        online_status = PresenceClass.TIMEOUT
+        chat_boxes_status = PresenceClass.DISABLED
         if presence_tracker is not None:
 
-            if presence_tracker.online_status == PresenceClass.DISABLED:
-                return PresenceClass.DISABLED # indicates that the user has intentionally logged-off
-            else:
-                polling_response_time = get_polling_response_time_from_current_status(PresenceClass, presence_tracker.online_status)
-                if presence_tracker.connection_verified_time +\
-                   datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
-                    return presence_tracker.online_status
-                else:
-                    return PresenceClass.TIMEOUT
-        else:
-            # we don't know their status, but return TIMEOUT which means they haven't checked in in a long time (and they will
-            # therefore not show up in their friends lists until their status is changed to something other than TIMEOUT).
-            return PresenceClass.TIMEOUT
+            chat_boxes_status = presence_tracker.chat_boxes_status
+            
+            polling_response_time = get_polling_response_time_from_current_status(PresenceClass, presence_tracker.online_status)
+            if presence_tracker.connection_verified_time +\
+               datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
+                online_status = presence_tracker.online_status
+            
+        return (online_status, chat_boxes_status)
         
     except:
         error_reporting.log_exception(logging.critical)
-        return PresenceClass.DISABLED
+        online_status = PresenceClass.DISABLED
+        return (online_status, chat_boxes_status)
     

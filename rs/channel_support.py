@@ -159,8 +159,9 @@ def update_chat_online_status_on_server(request):
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
             chat_online_status = request.POST.get('chat_online_status', '')
+            chat_boxes_status = request.POST.get('chat_boxes_status', '')
             assert(chat_online_status)
-            update_online_status(chat_support.ChatPresence, owner_uid, chat_online_status)
+            update_online_status(chat_support.ChatPresence, owner_uid, chat_online_status, chat_boxes_status)
             response = "OK"
         else:
             response = "expired_session"
@@ -172,13 +173,14 @@ def update_chat_online_status_on_server(request):
     
 
     
-def update_online_status(PresenceClass, owner_uid, user_status):
+def update_online_status(PresenceClass, owner_uid, user_status, chat_boxes_status):
 
     # presence_tracker is indexed by the uid of the owner - this structure is used for keeping track of
     # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
     # enabled/idle/away/logged off. 
     #
-    # user_status: ACTIVE, IDLE, AWAY, DISABLED (to go offline), and ENABLED (to go online)
+    # user_status: ACTIVE, IDLE, AWAY
+    # chat_boxes_status: DISABLED (to go offline), and ENABLED (to go online)
     #
     # presence_tracker should be pulled out memcache. 
     
@@ -190,29 +192,15 @@ def update_online_status(PresenceClass, owner_uid, user_status):
         presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
         
         if presence_tracker is None:
-         
             presence_tracker = models.OnlineStatusTracker()
             
-        # If the user has disabled their chat, then the only status that can enable the other
-        # user status (active, idle, away) is if they pass in ENABLED - in this case, we will store the status as 
-        # ACTIVE
-        if presence_tracker.online_status != PresenceClass.DISABLED and user_status != PresenceClass.ENABLED:
-            # If chat is disabled, we don't update, because multiple windows on the client can be attempting
-            # to update after the user has already closed a chatbox in one window. If the 
-            # user has closed the chatbox in one window, that the same conversation should not continue 
-            # to poll in other windows (this is why we don't update if the user_status is set to "disabled").
-            presence_tracker.online_status = user_status
-            
-        elif user_status == PresenceClass.ENABLED:
-            # Over-ride current status by passing in an ENABLED, 
-            # which we store as ACTIVE (remember that we should *never* store CHAT_ENABLED as a valid status
-            presence_tracker.online_status = PresenceClass.ACTIVE
-            
-            if PresenceClass.__name__ == "ChatPresence":
-                # If this is an update of the users "Chat presence", then we 
-                # ensure that both the chat friends and groups windows are maximized
-                chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
-                chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
+        presence_tracker.online_status = user_status
+        presence_tracker.chat_boxes_status = chat_boxes_status
+
+        # If this is an update of the users "Chat presence", then we 
+        # ensure that both the chat friends and groups windows are maximized
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
             
         presence_tracker.connection_verified_time = datetime.datetime.now()
         memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entities(presence_tracker))  
@@ -236,8 +224,10 @@ def poll_server_for_status_and_new_messages(request):
         
             if request.method == 'POST':
                 json_post_data = simplejson.loads(request.raw_post_data)
+                
                 last_update_time_string_dict = json_post_data['last_update_time_string_dict']
                 chat_online_status = json_post_data['chat_online_status']
+                chat_boxes_status = json_post_data['chat_boxes_status']
                 
                 if 'list_of_open_chat_groups_members_boxes' in json_post_data:
                     list_of_open_chat_groups_members_boxes_on_client = json_post_data['list_of_open_chat_groups_members_boxes']
@@ -247,7 +237,7 @@ def poll_server_for_status_and_new_messages(request):
             else:
                 assert(False)
             
-            update_online_status(chat_support.ChatPresence, owner_uid, chat_online_status)
+            update_online_status(chat_support.ChatPresence, owner_uid, chat_online_status, chat_boxes_status)
             
 
             assert(owner_uid == request.session['userobject_str'])
@@ -257,7 +247,8 @@ def poll_server_for_status_and_new_messages(request):
             # the chat_online_status is used for propagating CHAT_DISABLED status through multiple windows
             # if the user has more than one window/tab open. CHAT_ENABLED is not propagated, but users can manually
             # go online in multiple windows if necessary.
-            response_dict['chat_online_status'] = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
+            (response_dict['chat_online_status'], response_dict['chat_boxes_status'])\
+                = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
             
             # we use memcache to prevent the friends online from being updated every time data is polled- 
             # we set the memcache to expire after a certian amount of time, and only if it is expired
@@ -347,13 +338,16 @@ def poll_server_for_status_and_new_messages(request):
                         response_dict['conversation_tracker'][other_uid]["last_update_time_string"] = open_conversation_object.current_chat_message_time_string
                                  
         else: # *not* 'userobject_str' in request.session
-            response_dict['chat_online_status'] = "expired_session" 
-            
+            (response_dict['chat_online_status'], response_dict['chat_boxes_status']) = \
+                ("expired_session" , chat_support.ChatPresence.DISABLED)
+
     except:
         # if there is an error - such as the user not having a session, return "expired_session" so that the script will 
         # stop polling
-        response_dict['chat_online_status'] = "expired_session"
+        (response_dict['chat_online_status'], response_dict['chat_boxes_status']) = \
+            ("expired_session" , chat_support.ChatPresence.DISABLED)
         error_reporting.log_exception(logging.error)
+
         
     json_response = simplejson.dumps(response_dict)
     return http.HttpResponse(json_response, mimetype='text/javascript')
@@ -366,9 +360,7 @@ def process_message_to_chat_group(from_uid, group_uid, is_minimized):
 
     try:
         type_of_conversation = "group"
-        
-        CHAT_GROUP_MEMBERS_CLEANUP_MEMCACHE_PREFIX = "chat_group_members_cleanup_memcache_prefix_"
-               
+                       
         verify_from_uid_is_in_group = False
         group_tracker_object = utils_top_level.get_object_from_string(group_uid)
         for owner_uid in group_tracker_object.group_members_list:
@@ -378,14 +370,9 @@ def process_message_to_chat_group(from_uid, group_uid, is_minimized):
                 # we skip the rest of this iteration of the loop.
                 verify_from_uid_is_in_group = True
                 
-            # check if we need to verify users online status (by checking if the memcache entry has expired). 
-            memcache_key = CHAT_GROUP_MEMBERS_CLEANUP_MEMCACHE_PREFIX + owner_uid
-            chat_online_status = memcache.get(memcache_key)
-            if chat_online_status is None:
-                chat_online_status = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
-                memcache.set(memcache_key, chat_online_status, constants.SECONDS_BETWEEN_CHAT_GROUP_MEMBERS_CLEANUP)
+            (chat_online_status, chat_box_status) = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
                 
-            if chat_online_status == chat_support.ChatPresence.DISABLED or chat_online_status == chat_support.ChatPresence.TIMEOUT:
+            if chat_box_status == chat_support.ChatPresence.DISABLED or chat_online_status == chat_support.ChatPresence.TIMEOUT:
                 chat_support.delete_uid_from_group(owner_uid, group_uid)
             else:
                 chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, is_minimized, type_of_conversation)
@@ -436,6 +423,7 @@ def post_message(request):
             sender_username = json_post_data['sender_username']
             
             type_of_conversation = json_post_data['type_of_conversation']
+            
         else:
             assert(False)       
         

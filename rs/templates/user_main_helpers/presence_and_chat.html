@@ -47,16 +47,6 @@
         return obj;
     }();
 
-    var template_user_presence_vars =  function() {
-        var obj = {};
-        obj.max_active_polling_delay = "{{ primary_user_presentation_data_fields.user_presence_constants.MAX_ACTIVE_POLLING_DELAY_IN_CLIENT }}";
-        obj.idle_polling_delay = "{{ primary_user_presentation_data_fields.user_presence_constants.IDLE_POLLING_DELAY_IN_CLIENT }}";
-        obj.away_polling_delay = "{{ primary_user_presentation_data_fields.user_presence_constants.AWAY_POLLING_DELAY_IN_CLIENT }}";
-        obj.inactivity_time_before_idle = "{{ primary_user_presentation_data_fields.user_presence_constants.INACTIVITY_TIME_BEFORE_IDLE }}";
-        obj.inactivity_time_before_away = "{{ primary_user_presentation_data_fields.user_presence_constants.INACTIVITY_TIME_BEFORE_AWAY }}";
-        return obj;
-    }();
-
 
 </script>
 
@@ -68,7 +58,6 @@
         if (!remove_chatboxes) {
             launch_chatboxes();
         }
-        launch_user_presence();
     });
 </script>
         

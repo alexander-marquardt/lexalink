@@ -54,7 +54,7 @@ import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, site_configuration
-from rs import profile_utils, online_presence_support, user_presence
+from rs import profile_utils, online_presence_support
 from django import http
 import http_utils, common_data_structs
 

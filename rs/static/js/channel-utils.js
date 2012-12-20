@@ -71,7 +71,8 @@ var chan_utils = new function () {
                 chan_utils_self.last_update_time_string_dict = {}; // shortcut for new Object() - uid is the key, and value is last update time
                 //chan_utils_self.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
 
-                chan_utils_self.chat_online_status = "chat_active";
+                chan_utils_self.chat_boxes_status = "chat_enabled"; // should be set to "chat_enabled" or "chat_disabled"
+                chan_utils_self.chat_online_status = "chat_active"; // should be "chat_active", "chat_idle", or "chat_away"
 
                 chan_utils_self.polling_is_locked_mutex = false; // use to ensure that we only have one polling request at a time - true when polling, false when free
                 chan_utils_self.sending_message_is_locked_mutex = false; // when we are sending a message, we prevent processing of polling responses
@@ -118,13 +119,10 @@ var chan_utils = new function () {
 
                 var new_one_on_one_message_received = false;
 
-                if (json_response.hasOwnProperty('chat_online_status')) {
-                    if (json_response.chat_online_status == "chat_disabled" || json_response.chat_online_status == "expired_session") {
-                        // the user has indicated that he wishes to go offline (or has expired session). If we have received this message,
-                        // we are running in a javascript session that is still actively polling, and is therefore
-                        // not offline on the client side. We must stop the client from polling in the current window.
-                        chan_utils_self.execute_go_offline_on_client();
-                    }
+                if (("chat_boxes_status" in json_response) && (json_response.chat_boxes_status == "chat_disabled") ||
+                   ("chat_online_status" in json_response) && (json_response.chat_online_status == "expired_session"))
+                {
+                    chan_utils_self.execute_go_offline_on_client();
                 }
 
 
@@ -274,7 +272,9 @@ var chan_utils = new function () {
                     var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
                         //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
                         'chat_online_status': chan_utils_self.chat_online_status,
+                        'chat_boxes_status' : chan_utils_self.chat_boxes_status,
                         'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
+                    
                     var json_stringified_post = $.toJSON(json_post_dict);
                     
 
@@ -294,7 +294,7 @@ var chan_utils = new function () {
                             internet_connection_is_down();
                         },
                         complete: function() {
-                            if (chan_utils_self.chat_online_status != "chat_disabled") {
+                            if (chan_utils_self.chat_boxes_status != "chat_disabled") {
                                 // only poll if the user has not "logged off"  in this window or another window
                                 chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
                             }
@@ -373,7 +373,7 @@ var chan_utils = new function () {
                 var new_main_title = $('#id-chat-contact-title-disactivated-text').text();
                 $('#id-go-offline-button').hide();
                 $('#id-go-online-button').show();
-                chan_utils_self.chat_online_status = "chat_disabled";
+                chan_utils_self.chat_boxes_status = "chat_disabled";
 
                 chan_utils_self.stop_polling_server();
                 chatboxManager.closeAllChatBoxes();
@@ -392,7 +392,7 @@ var chan_utils = new function () {
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
                 chan_utils_self.chat_online_status = "chat_active"; // must use "active" instead of "enable" since enabled is reserved for reversing "chat_disabled"
-                chan_utils_self.update_chat_online_status_on_server("chat_enabled"); // intentionally pass in "enable" to force over-ride of the "chat_disabled"
+                chan_utils_self.update_chat_online_status_on_server(chan_utils_self.chat_online_status, "chat_enabled");
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -508,11 +508,11 @@ var chan_utils = new function () {
             });
         };
 
-        this.update_chat_online_status_on_server = function(new_status) {
+        this.update_chat_online_status_on_server = function(new_chat_online_status, new_chat_boxes_status) {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/update_chat_online_status_on_server/' + rnd() + "/",
-                data: {'chat_online_status': new_status},
+                data: {'chat_online_status': new_chat_online_status, 'chat_boxes_status' : new_chat_boxes_status},
                 success: function (response) {
                     if (response == "expired_session") {
                         // if session is expired, send to login screen if they try to change their chat online status
@@ -740,8 +740,8 @@ var chan_utils = new function () {
                     'sender_username': chan_utils_self.owner_username,
                     'type_of_conversation' : type_of_conversation,
                     'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
-                    //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
-                    'chat_online_status': chan_utils_self.chat_online_status};
+                    'chat_online_status': chan_utils_self.chat_online_status,
+                    'chat_boxes_status' : chan_utils_self.chat_boxes_status};
 
 
                     $.ajax({

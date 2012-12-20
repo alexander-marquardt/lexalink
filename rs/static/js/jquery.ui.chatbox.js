@@ -281,7 +281,7 @@ var initJqueryUiChatbox = function($){
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "execute_go_offline_on_client" function
                                 chan_utils.close_all_chatboxes_on_server();
-                                chan_utils.update_chat_online_status_on_server("chat_disabled");
+                                chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status, "chat_disabled");
                                 return false;
                             });
 
@@ -826,33 +826,27 @@ var chatboxManager = function() {
                 idle_params.onIdle = function() {
                     var new_main_title = $('#id-chat-contact-title-idle-text').text();
                     changeOpacityOfAllBoxes(0.75);
-                    if (chan_utils.chat_online_status != "chat_disabled") { // only allow changes of activity status if user is online
-                        changeBoxtitle("main", new_main_title);
-                        chan_utils.chat_online_status = "chat_idle";
-                        chan_utils.current_message_polling_delay = chan_utils.chat_idle_polling_delay;
-                        chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
+                    changeBoxtitle("main", new_main_title);
+                    chan_utils.chat_online_status = "chat_idle";
+                    chan_utils.current_message_polling_delay = chan_utils.chat_idle_polling_delay;
+                    chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
 
-                    }
                 };
                 idle_params.onAway = function() {
                     var new_main_title = $('#id-chat-contact-title-away-text').text();
                     changeOpacityOfAllBoxes(0.25);
-                    if (chan_utils.chat_online_status != "chat_disabled") { // only allow changes of activity status if user is online
-                        changeBoxtitle("main", new_main_title);
-                        chan_utils.chat_online_status = "chat_away";
-                        chan_utils.current_message_polling_delay = chan_utils.chat_away_polling_delay;
-                        chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
-                    }
+                    changeBoxtitle("main", new_main_title);
+                    chan_utils.chat_online_status = "chat_away";
+                    chan_utils.current_message_polling_delay = chan_utils.chat_away_polling_delay;
+                    chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
                 };
                 idle_params.onBack = function(isIdle, isAway) {
                     var new_main_title = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
-                    if (chan_utils.chat_online_status != "chat_disabled") { // only allow changes of activity status if user is online
-                        changeBoxtitle("main", new_main_title);
-                        chan_utils.chat_online_status = "chat_active";
-                        chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
-                        chan_utils.set_message_polling_timeout_and_schedule_poll(chan_utils.initial_message_polling_delay);
-                    }
+                    changeBoxtitle("main", new_main_title);
+                    chan_utils.chat_online_status = "chat_active";
+                    chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
+                    chan_utils.set_message_polling_timeout_and_schedule_poll(chan_utils.initial_message_polling_delay);
                 };
                 
 

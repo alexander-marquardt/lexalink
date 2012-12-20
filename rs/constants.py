@@ -152,21 +152,6 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 ## End Chat Functionality Constants
 ######################################################################
 
-######################################################################
-## Online User Presence Constants
-FORCE_UPDATE_USER_PRESENCE_MEMCACHE_STRING = "2012-12-19-1744_" 
-
-
-class UserPresenceConstants(object):
-    ACTIVE_POLLING_DELAY_IN_CLIENT = 60 # Scheduled seconds between updates from the client (reality can take more time)
-    IDLE_POLLING_DELAY_IN_CLIENT = 120 # when user status is idle, how many seconds between polls
-    AWAY_POLLING_DELAY_IN_CLIENT = 300 # when user is away, how much delay between polls
-    
-    INACTIVITY_TIME_BEFORE_IDLE = 2 * SECONDS_PER_MINUTE # how many seconds before we mark the user as "idle"
-    INACTIVITY_TIME_BEFORE_AWAY = 10 * SECONDS_PER_MINUTE # seconds before marking the user as "away"
-
-## End Online User Status Constants
-######################################################################
 
 # include the version identifier in the memcache prefix for objects that have a probability of changing
 # between version upates - currently this is done for the userobject and any other objects that use

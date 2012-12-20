@@ -339,6 +339,9 @@ class OnlineStatusTracker(BaseModel):
     # Track user preference for online status. 
     online_status = db.StringProperty(required=False, default="active", indexed = False)
     
+    # Track if the chatboxes are enabled - valid values are defined in ChatPresence (DISABLED or ENABLED)
+    chat_boxes_status = db.StringProperty(required=False, indexed = False)
+    
     
 class ChatMessage(BaseModel):
     # Currently only written to memcache (not to database)
