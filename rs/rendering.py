@@ -38,7 +38,7 @@ import settings
 import forms, admin, utils, error_reporting, logging
 from models import UserModel
 from forms import FormUtils
-import constants, text_fields, time, chat_support, localizations, http_utils, common_data_structs
+import constants, text_fields, time, chat_support, localizations, http_utils, common_data_structs, channel_support, user_presence
 import online_presence_support
 from rs.import_search_engine_overrides import *
 
@@ -194,7 +194,15 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             new_contact_count = utils.get_new_contact_count_sum(userobject.new_contact_counter_ref)
             registered_user_bool = True
             why_to_register = ''
-            chat_online_status_on_page_reload = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
+            # Check if the user has disabled their chat - this will propagate through to all of the users open windows
+            # and will close the chat windows, and will stop polling from the chat boxes. 
+            chat_is_disabled = "yes" if online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid) == chat_support.ChatPresence.DISABLED else "no"
+            # Update user online presence - since we know that the user is logged in and has just requested a page to 
+            # be rendered, we are sure that they are active. Pass in an ENABLED value to update the online status, just
+            # in case we had previously marked their presence as DISABLED (so that we overwrite it). Note: one case where
+            # a DISABLED value could be stored, and then over-written would be when a user is logged into two different browsers
+            # and then logs out of one of the browsers, but continues to use the website in another browser.
+            channel_support.update_online_status(user_presence.UserPresence, owner_uid, user_presence.UserPresence.ENABLED)
             
             additional_ads_to_append = get_additional_ads_to_append(request, userobject)
     
@@ -213,7 +221,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             else:
                 why_to_register = ''
                 
-            chat_online_status_on_page_reload = "This should never be shown"
+            chat_is_disabled = "yes"
             
             additional_ads_to_append = get_additional_ads_to_append(request)
     
@@ -254,7 +262,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields.chat_away_polling_delay = constants.CHAT_AWAY_POLLING_DELAY_IN_CLIENT
         primary_user_presentation_data_fields.chat_inactivity_time_before_idle = constants.CHAT_INACTIVITY_TIME_BEFORE_IDLE
         primary_user_presentation_data_fields.chat_inactivity_time_before_away = constants.CHAT_INACTIVITY_TIME_BEFORE_AWAY
-        primary_user_presentation_data_fields.chat_online_status_on_page_reload = chat_online_status_on_page_reload
+        primary_user_presentation_data_fields.chat_is_disabled = chat_is_disabled
         primary_user_presentation_data_fields.do_not_try_to_dynamically_load_search_values = do_not_try_to_dynamically_load_search_values
         
         primary_user_presentation_data_fields.paypal_en_button_id = settings.PAYPAL_EN_BUTTON_ID

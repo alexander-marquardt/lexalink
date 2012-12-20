@@ -969,7 +969,7 @@ var updateGroupChatBoxTitles = function(chat_groups_dict) {
     }
 };
 
-var setupContactsAndGroupsBoxes = function(chat_online_status_on_page_reload) {
+var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
 
     try {
 
@@ -993,7 +993,7 @@ var setupContactsAndGroupsBoxes = function(chat_online_status_on_page_reload) {
         $("#" + groups_box_id).chatbox("option", "boxManager").minimizeBox();
 
 
-        if (chat_online_status_on_page_reload == "chat_disabled") {
+        if (chat_is_disabled == "yes") {
             chan_utils.execute_go_offline_on_client();
         }
         else {

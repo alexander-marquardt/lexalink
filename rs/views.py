@@ -54,7 +54,7 @@ import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, site_configuration
-from rs import profile_utils, online_presence_support
+from rs import profile_utils, online_presence_support, user_presence
 from django import http
 import http_utils, common_data_structs
 
@@ -886,6 +886,15 @@ def logout(request, html_for_delete_account = ''):
                                               do_not_try_to_dynamically_load_search_values = True)
         
         login_utils.clear_old_session(request)
+        
+        
+        # mark the user presence as "disabled" - which means that updates from other currently open windows will
+        # be ignored. If this is an error (for example, if the user is logged in to two seperate browsers, and has
+        # another session open), then we make sure that each time a logged-in user loads a new page that we pass in ENABLED
+        # status which guarantees that we will not accidently start to ignore activity from another session.
+        channel_support.update_online_status(user_presence.UserPresence, owner_uid, user_presence.UserPresence.DISABLED)
+        
+        
         response.delete_cookie(settings.SESSION_COOKIE_NAME)
         return response
     except:

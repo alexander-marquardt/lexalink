@@ -37,7 +37,7 @@ from django.utils.translation import ugettext
 
 import time, logging, datetime
 
-from rs import utils, utils_top_level, constants, error_reporting, chat_support, profile_utils, online_presence_support
+from rs import models, utils, utils_top_level, constants, error_reporting, chat_support, profile_utils, online_presence_support
 
 def initialize_main_and_group_boxes_on_server(request):
     # ensures that the main and group boxes have an open_conversation object assigned - this is 

@@ -42,7 +42,7 @@
         obj.chat_away_polling_delay = "{{ primary_user_presentation_data_fields.chat_away_polling_delay }}";
         obj.chat_inactivity_time_before_idle = "{{ primary_user_presentation_data_fields.chat_inactivity_time_before_idle }}";
         obj.chat_inactivity_time_before_away = "{{ primary_user_presentation_data_fields.chat_inactivity_time_before_away }}";
-        obj.chat_online_status_on_page_reload = "{{ primary_user_presentation_data_fields.chat_online_status_on_page_reload }}";
+        obj.chat_is_disabled = "{{ primary_user_presentation_data_fields.chat_is_disabled }}";
         obj.language = "{{ request.LANGUAGE_CODE }}";
         return obj;
     }();

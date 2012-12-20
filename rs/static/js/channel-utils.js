@@ -294,11 +294,11 @@ var chan_utils = new function () {
                             internet_connection_is_down();
                         },
                         complete: function() {
-                            if (chan_utils_self.chat_online_status != "disabled") {
+                            if (chan_utils_self.chat_online_status != "chat_disabled") {
                                 // only poll if the user has not "logged off"  in this window or another window
                                 chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
-                                chan_utils_self.polling_is_locked_mutex = false;
                             }
+                            chan_utils_self.polling_is_locked_mutex = false;
                         }
                     });
                 }
@@ -373,7 +373,7 @@ var chan_utils = new function () {
                 var new_main_title = $('#id-chat-contact-title-disactivated-text').text();
                 $('#id-go-offline-button').hide();
                 $('#id-go-online-button').show();
-                chan_utils_self.chat_online_status = "disabled";
+                chan_utils_self.chat_online_status = "chat_disabled";
 
                 chan_utils_self.stop_polling_server();
                 chatboxManager.closeAllChatBoxes();
@@ -391,8 +391,8 @@ var chan_utils = new function () {
                 var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
-                chan_utils_self.chat_online_status = "chat_active"; // must use "active" instead of "enable" since enabled is reserved for reversing "disabled"
-                chan_utils_self.update_chat_online_status_on_server("chat_enabled"); // intentionally pass in "enable" to force over-ride of the "disabled"
+                chan_utils_self.chat_online_status = "chat_active"; // must use "active" instead of "enable" since enabled is reserved for reversing "chat_disabled"
+                chan_utils_self.update_chat_online_status_on_server("chat_enabled"); // intentionally pass in "enable" to force over-ride of the "chat_disabled"
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -798,13 +798,13 @@ var chan_utils = new function () {
         // the following is a globally visible function declaration
         this.setup_and_channel_for_current_client = function(owner_uid, owner_username,
                 chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay,
-                chat_idle_timeout, chat_away_timeout, chat_online_status_on_page_reload) {
+                chat_idle_timeout, chat_away_timeout, chat_is_disabled) {
             // Sets up a "channel" (which is technically not a channel, but longer-term, we will use channels instead of polling)
 
             try {
                 initialization(owner_uid, owner_username, chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay, chat_idle_timeout, chat_away_timeout);
 
-                if (chat_online_status_on_page_reload != "chat_disabled") {
+                if (chat_is_disabled != "yes") {
                     var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                     chan_utils_self.start_polling();
                     $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);
