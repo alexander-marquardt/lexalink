@@ -39,8 +39,8 @@ class UserPresence(object):
     # their chatboxes open.
     
     
-    DISABLED = "user_presence_disabled" 
-    ENABLED = "user_presence_enabled" 
+    DISABLED = "Disabled is not currently used for user precence tracking" 
+    ENABLED = "Enabled is not currently used for user precence tracking" 
 
     # When chat is enabled, user status can be one of the following values.
     ACTIVE = "user_presence_active" # user is actively using the website (not only chat, but also navigating or moving the mouse)

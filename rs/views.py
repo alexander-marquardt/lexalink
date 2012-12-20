@@ -888,11 +888,9 @@ def logout(request, html_for_delete_account = ''):
         login_utils.clear_old_session(request)
         
         
-        # mark the user presence as "disabled" - which means that updates from other currently open windows will
-        # be ignored. If this is an error (for example, if the user is logged in to two seperate browsers, and has
-        # another session open), then we make sure that each time a logged-in user loads a new page that we pass in ENABLED
-        # status which guarantees that we will not accidently start to ignore activity from another session.
-        channel_support.update_online_status(user_presence.UserPresence, owner_uid, user_presence.UserPresence.DISABLED)
+        # mark the user presence as TIMEOUT (if another session is logged into a different browser, this will be
+        # over-written to reflect the status in the other session as soon as that session pings the server with its status)
+        channel_support.update_online_status(user_presence.UserPresence, owner_uid, user_presence.UserPresence.TIMEOUT)
         
         
         response.delete_cookie(settings.SESSION_COOKIE_NAME)

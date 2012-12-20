@@ -197,12 +197,10 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             # Check if the user has disabled their chat - this will propagate through to all of the users open windows
             # and will close the chat windows, and will stop polling from the chat boxes. 
             chat_is_disabled = "yes" if online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid) == chat_support.ChatPresence.DISABLED else "no"
+            
             # Update user online presence - since we know that the user is logged in and has just requested a page to 
-            # be rendered, we are sure that they are active. Pass in an ENABLED value to update the online status, just
-            # in case we had previously marked their presence as DISABLED (so that we overwrite it). Note: one case where
-            # a DISABLED value could be stored, and then over-written would be when a user is logged into two different browsers
-            # and then logs out of one of the browsers, but continues to use the website in another browser.
-            channel_support.update_online_status(user_presence.UserPresence, owner_uid, user_presence.UserPresence.ENABLED)
+            # be rendered, we are sure that they are active. The computational cost of this is very low.
+            channel_support.update_online_status(user_presence.UserPresence, owner_uid, user_presence.UserPresence.ACTIVE)
             
             additional_ads_to_append = get_additional_ads_to_append(request, userobject)
     
