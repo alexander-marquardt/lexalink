@@ -391,7 +391,8 @@ var chan_utils = new function () {
                 var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
-                chan_utils_self.chat_online_status = "chat_active"; // must use "active" instead of "enable" since enabled is reserved for reversing "chat_disabled"
+                chan_utils_self.chat_online_status = "chat_active";
+                chan_utils_self.chat_boxes_status = "chat_enabled";
                 chan_utils_self.update_chat_online_status_on_server(chan_utils_self.chat_online_status, "chat_enabled");
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
