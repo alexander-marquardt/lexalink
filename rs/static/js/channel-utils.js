@@ -394,7 +394,7 @@ var chan_utils = new function () {
                 $('#id-go-offline-button').show();
                 chan_utils_self.user_presence_status = "user_presence_active";
                 chan_utils_self.chat_boxes_status = "chat_enabled";
-                chan_utils_self.update_user_presence_and_chatbox_status_on_server(chan_utils_self.user_presence_status, "chat_enabled");
+                chan_utils_self.update_chat_boxes_status_on_server("chat_enabled");
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -525,6 +525,15 @@ var chan_utils = new function () {
                     report_ajax_error(textStatus, errorThrown, "update_user_presence_and_chatbox_status_on_server");
                 }
             });
+        };
+
+        this.update_chat_boxes_status_on_server = function(new_chat_boxes_status) {
+            chan_utils_self.update_user_presence_and_chatbox_status_on_server(chan_utils_self.user_presence_status, new_chat_boxes_status);
+        };
+
+
+        this.update_user_presence_status_on_server = function(new_user_presence_status) {
+            chan_utils_self.update_user_presence_and_chatbox_status_on_server(new_user_presence_status, chan_utils_self.chat_boxes_status);
         };
 
         this.call_process_json_most_recent_chat_messages = function(json_response) {

@@ -281,7 +281,7 @@ var initJqueryUiChatbox = function($){
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "execute_go_offline_on_client" function
                                 chan_utils.close_all_chatboxes_on_server();
-                                chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status, "chat_disabled");
+                                chan_utils.update_chat_boxes_status_on_server("chat_disabled");
                                 return false;
                             });
 
