@@ -42,7 +42,8 @@ var chan_utils = new function () {
         //********************************
         /* Private function declarations */
 
-        var initialization = function(owner_uid, owner_username, chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay, chat_idle_timeout, chat_away_timeout) {
+        var initialization = function(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, 
+                                      presence_idle_timeout, presence_away_timeout) {
             // initialize the dialog box that will be used for alerting the user to unknown conditions
 
             try {
@@ -52,7 +53,7 @@ var chan_utils = new function () {
 
                 chan_utils_self.initial_in_focus_polling_delay = 750; // when the chatbox input has focus, we poll at a fast speed (up until they go "idle" or leave focus)
                 chan_utils_self.initial_message_polling_delay = 2500; //how often to poll for new messages when focus is not in the chatbox input
-                chan_utils_self.active_polling_delay_ceiling = chat_max_active_polling_delay * 1000; // convert seconds to ms
+                chan_utils_self.active_polling_delay_ceiling = presence_max_active_polling_delay * 1000; // convert seconds to ms
 
                 // Note, the decay multipliers are only used if the user is "active" (not "idle" or "away"). If they are "idle" or "away", a constant (slow) polling
                 // rate is currently used.
@@ -60,19 +61,19 @@ var chan_utils = new function () {
                 chan_utils_self.decay_multiplier = chan_utils_self.focusout_and_active_decay_multiplier;
                 chan_utils_self.focusin_and_active_decay_multiplier = 1.1; // if the user has focus in the chatbox, we decay the polling frequency much less.
 
-                chan_utils_self.chat_idle_polling_delay = chat_idle_polling_delay * 1000;
-                chan_utils_self.chat_away_polling_delay = chat_away_polling_delay * 1000;
+                chan_utils_self.presence_idle_polling_delay = presence_idle_polling_delay * 1000;
+                chan_utils_self.presence_away_polling_delay = presence_away_polling_delay * 1000;
                 chan_utils_self.current_message_polling_delay = chan_utils_self.initial_message_polling_delay;
 
-                chan_utils_self.chat_idle_timeout = chat_idle_timeout * 1000;
-                chan_utils_self.chat_away_timeout = chat_away_timeout * 1000;
+                chan_utils_self.presence_idle_timeout = presence_idle_timeout * 1000;
+                chan_utils_self.presence_away_timeout = presence_away_timeout * 1000;
 
                 chan_utils_self.chat_message_timeoutID = null; // used for cancelling a re-scheduled poll for new messages
                 chan_utils_self.last_update_time_string_dict = {}; // shortcut for new Object() - uid is the key, and value is last update time
                 //chan_utils_self.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
 
                 chan_utils_self.chat_boxes_status = "chat_enabled"; // should be set to "chat_enabled" or "chat_disabled"
-                chan_utils_self.chat_online_status = "chat_active"; // should be "chat_active", "chat_idle", or "chat_away"
+                chan_utils_self.user_presence_status = "user_presence_active"; // should be "user_presence_active", "user_presence_idle", or "user_presence_away"
 
                 chan_utils_self.polling_is_locked_mutex = false; // use to ensure that we only have one polling request at a time - true when polling, false when free
                 chan_utils_self.sending_message_is_locked_mutex = false; // when we are sending a message, we prevent processing of polling responses
@@ -120,7 +121,7 @@ var chan_utils = new function () {
                 var new_one_on_one_message_received = false;
 
                 if (("chat_boxes_status" in json_response) && (json_response.chat_boxes_status == "chat_disabled") ||
-                   ("chat_online_status" in json_response) && (json_response.chat_online_status == "expired_session"))
+                   ("user_presence_status" in json_response) && (json_response.user_presence_status == "expired_session"))
                 {
                     chan_utils_self.execute_go_offline_on_client();
                 }
@@ -271,7 +272,7 @@ var chan_utils = new function () {
 
                     var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
                         //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
-                        'chat_online_status': chan_utils_self.chat_online_status,
+                        'user_presence_status': chan_utils_self.user_presence_status,
                         'chat_boxes_status' : chan_utils_self.chat_boxes_status,
                         'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
                     
@@ -324,7 +325,7 @@ var chan_utils = new function () {
 
                 clearTimeout(chan_utils_self.chat_message_timeoutID);
 
-                if (chan_utils_self.chat_online_status == "chat_active") {
+                if (chan_utils_self.user_presence_status == "user_presence_active") {
                     // for active user sessions, make sure that the delay has not exceeded the maximum, since
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
@@ -391,9 +392,9 @@ var chan_utils = new function () {
                 var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
-                chan_utils_self.chat_online_status = "chat_active";
+                chan_utils_self.user_presence_status = "user_presence_active";
                 chan_utils_self.chat_boxes_status = "chat_enabled";
-                chan_utils_self.update_chat_online_status_on_server(chan_utils_self.chat_online_status, "chat_enabled");
+                chan_utils_self.update_user_presence_and_chatbox_status_on_server(chan_utils_self.user_presence_status, "chat_enabled");
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -509,11 +510,11 @@ var chan_utils = new function () {
             });
         };
 
-        this.update_chat_online_status_on_server = function(new_chat_online_status, new_chat_boxes_status) {
+        this.update_user_presence_and_chatbox_status_on_server = function(new_user_presence_status, new_chat_boxes_status) {
             $.ajax({
                 type: 'post',
-                url:  '/rs/channel_support/update_chat_online_status_on_server/' + rnd() + "/",
-                data: {'chat_online_status': new_chat_online_status, 'chat_boxes_status' : new_chat_boxes_status},
+                url:  '/rs/channel_support/update_user_presence_and_chatbox_status_on_server/' + rnd() + "/",
+                data: {'user_presence_status': new_user_presence_status, 'chat_boxes_status' : new_chat_boxes_status},
                 success: function (response) {
                     if (response == "expired_session") {
                         // if session is expired, send to login screen if they try to change their chat online status
@@ -521,7 +522,7 @@ var chan_utils = new function () {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "update_chat_online_status_on_server");
+                    report_ajax_error(textStatus, errorThrown, "update_user_presence_and_chatbox_status_on_server");
                 }
             });
         };
@@ -569,8 +570,8 @@ var chan_utils = new function () {
                             throw "Error in sort_user_or_groups_by_name";
                         }
                         // this is the "main" box which contains list of contacts online
-                        if (users_or_groups_dict[uid]['chat_online_status'] != "chat_active") {
-                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['chat_online_status'] + '-text').text();
+                        if (users_or_groups_dict[uid]['user_presence_status'] != "user_presence_active") {
+                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_presence_status'] + '-text').text();
                         } else {
                             online_status = '';
                         }
@@ -741,7 +742,7 @@ var chan_utils = new function () {
                     'sender_username': chan_utils_self.owner_username,
                     'type_of_conversation' : type_of_conversation,
                     'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
-                    'chat_online_status': chan_utils_self.chat_online_status,
+                    'user_presence_status': chan_utils_self.user_presence_status,
                     'chat_boxes_status' : chan_utils_self.chat_boxes_status};
 
 
@@ -798,12 +799,12 @@ var chan_utils = new function () {
 
         // the following is a globally visible function declaration
         this.setup_and_channel_for_current_client = function(owner_uid, owner_username,
-                chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay,
-                chat_idle_timeout, chat_away_timeout, chat_is_disabled) {
+                presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay,
+                presence_idle_timeout, presence_away_timeout, chat_is_disabled) {
             // Sets up a "channel" (which is technically not a channel, but longer-term, we will use channels instead of polling)
 
             try {
-                initialization(owner_uid, owner_username, chat_max_active_polling_delay, chat_idle_polling_delay, chat_away_polling_delay, chat_idle_timeout, chat_away_timeout);
+                initialization(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, presence_idle_timeout, presence_away_timeout);
 
                 if (chat_is_disabled != "yes") {
                     var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();

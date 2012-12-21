@@ -100,22 +100,22 @@ function launch_chatboxes(){
             handle_submit_create_new_group("create_new_group");
 
             if (remove_chatboxes)
-                template_chatbox_vars.chat_is_disabled = "yes";
+                template_presence_vars.chat_is_disabled = "yes";
             
-            setupContactsAndGroupsBoxes(template_chatbox_vars.chat_is_disabled);
+            setupContactsAndGroupsBoxes(template_presence_vars.chat_is_disabled);
 
             // Open the socket that will be used for communicating from the browser to the server.
             // Note: since all chat goes through the server, the same socket will be used for channeling
             // all chats that a given user is currently participating in.
             chan_utils.setup_and_channel_for_current_client(
-                    template_chatbox_vars.owner_uid,
-                    template_chatbox_vars.username,
-                    template_chatbox_vars.chat_max_active_polling_delay,
-                    template_chatbox_vars.chat_idle_polling_delay,
-                    template_chatbox_vars.chat_away_polling_delay,
-                    template_chatbox_vars.chat_inactivity_time_before_idle,
-                    template_chatbox_vars.chat_inactivity_time_before_away,
-                    template_chatbox_vars.chat_is_disabled);
+                    template_presence_vars.owner_uid,
+                    template_presence_vars.username,
+                    template_presence_vars.max_active_polling_delay,
+                    template_presence_vars.idle_polling_delay,
+                    template_presence_vars.away_polling_delay,
+                    template_presence_vars.inactivity_time_before_idle,
+                    template_presence_vars.inactivity_time_before_away,
+                    template_presence_vars.chat_is_disabled);
 
             launch_chatboxes.chatboxes_launched = true;
         }

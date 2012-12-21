@@ -655,7 +655,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         store_session(request, userobject)
                         
                         # force user to appear online in the chat boxes (from module chat_support)
-                        channel_support.update_online_status(chat_support.ChatPresence, owner_uid, chat_support.ChatPresence.ENABLED)
+                        channel_support.update_online_status(owner_uid, constants.OnlinePresence.ENABLED)
     
                         # create "in-the-cloud" backups of the userobject
                         backup_data.update_or_create_userobject_backups(request, userobject)

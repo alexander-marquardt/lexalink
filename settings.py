@@ -273,7 +273,6 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/jx/'),        
     re.compile(r'^/rs/ajax/'),    
     re.compile(r'^/rs/channel_support/'),
-    re.compile(r'^/rs/user_presence/update_user_presence_on_server/'),
     re.compile(r'^/rs/admin/'),
     re.compile(r'^/rs/store_'),
     re.compile(r'^/rs/blobstore_photo_upload/'),

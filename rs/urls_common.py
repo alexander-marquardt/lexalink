@@ -215,7 +215,7 @@ urlpatterns = patterns('',
     (r'^rs/channel_support/close_chat_box/[\w|-]+/$', channel_support.close_chat_box),
     (r'^rs/channel_support/open_new_chatbox/[\w|-]+/$', channel_support.open_new_chatbox),
     (r'^rs/channel_support/close_all_chatboxes_on_server/[\w|-]+/$', channel_support.close_all_chatboxes_on_server),
-    (r'^rs/channel_support/update_chat_online_status_on_server/[\w|-]+/$', channel_support.update_chat_online_status_on_server),
+    (r'^rs/channel_support/update_user_presence_and_chatbox_status_on_server/[\w|-]+/$', channel_support.update_user_presence_and_chatbox_status_on_server),
     (r'^rs/channel_support/set_minimize_chat_box_status/[\w|-]+/$', channel_support.set_minimize_chat_box_status),
     (r'^rs/channel_support/initialize_main_and_group_boxes_on_server/[\w|-]+/$', channel_support.initialize_main_and_group_boxes_on_server),
         

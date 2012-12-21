@@ -43,29 +43,6 @@ import utils_top_level
 # If a ENABLED value is passed in, it will be stored as ACTIVE    
 
 
-class ChatPresence(object): 
-    # Define the values that will be used to define the chat online presence for each user that has 
-    # their chatboxes open.
-    
-    # disable is when the user explicity closes their chat (will not go online if they become active
-    # until they click on "enable/open chat" button)
-    DISABLED = "chat_disabled"
-    ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
-
-    # When chat is enabled, user status can be one of the following values.
-    ACTIVE = "chat_active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
-    IDLE = "chat_idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
-    AWAY = "chat_away"    # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
-    # timeout is when the user has been inactive for so long that they are effectively offline so they will
-    # not appear as online in contact lists  -- but they will go "active" if they do anything    
-    TIMEOUT = "chat_timeout" 
-    
-    STATUS_MEMCACHE_TRACKER_PREFIX = "_chat_status_memcache_tracker_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
-
-    # taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.
-    MAX_ACTIVE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.ChatDelayConstants.MAX_ACTIVE_POLLING_DELAY_IN_CLIENT  
-    MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.ChatDelayConstants.IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
-    MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * constants.ChatDelayConstants.AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
 
 # memcache key prefixes
@@ -265,14 +242,14 @@ def get_group_members_dict(lang_code, group_uid):
             group_members_list = group_tracker_object.group_members_list
             
             for member_uid in group_members_list:
-                (online_status, chat_boxes_status) = online_presence_support.get_online_status(ChatPresence, member_uid)
-                if chat_boxes_status != ChatPresence.DISABLED and online_status != ChatPresence.TIMEOUT:                    
+                (user_presence_status, chat_boxes_status) = online_presence_support.get_online_status(member_uid)
+                if chat_boxes_status != constants.ChatBoxStatus.DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT:                    
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
                     group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
                     group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
-                    group_members_names_dict[member_uid]['chat_online_status'] = online_status
+                    group_members_names_dict[member_uid]['user_presence_status'] = user_presence_status
                 else:
                     delete_uid_from_group(member_uid, group_uid)
                     
@@ -312,10 +289,10 @@ def get_friends_online_dict(lang_code, owner_uid):
         # in the future)"
         online_contacts_info_dict = {}
         for uid in user_info_dict:
-            (online_status, chat_boxes_status) = online_presence_support.get_online_status(ChatPresence, uid)
-            if chat_boxes_status != ChatPresence.DISABLED and online_status != ChatPresence.TIMEOUT: # for purposes of chat list update, offline and timeout are the same
+            (user_presence_status, chat_boxes_status) = online_presence_support.get_online_status(uid)
+            if chat_boxes_status != constants.ChatBoxStatus.DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT: # for purposes of chat list update, offline and timeout are the same
                 online_contacts_info_dict[uid] = user_info_dict[uid]
-                online_contacts_info_dict[uid]['chat_online_status'] = online_status
+                online_contacts_info_dict[uid]['user_presence_status'] = user_presence_status
                     
         memcache.add(online_contacts_info_dict_memcache_key, online_contacts_info_dict, \
                      constants.SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE)

@@ -337,7 +337,7 @@ class OnlineStatusTracker(BaseModel):
     connection_verified_time = db.DateTimeProperty(auto_now_add = True, indexed = False) 
 
     # Track user preference for online status. 
-    online_status = db.StringProperty(required=False, default="active", indexed = False)
+    user_presence_status = db.StringProperty(required=False, default="active", indexed = False)
     
     # Track if the chatboxes are enabled - valid values are defined in ChatPresence (DISABLED or ENABLED)
     chat_boxes_status = db.StringProperty(required=False, indexed = False)

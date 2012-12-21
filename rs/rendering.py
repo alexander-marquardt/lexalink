@@ -196,12 +196,12 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             why_to_register = ''
             # Check if the user has disabled their chat - this will propagate through to all of the users open windows
             # and will close the chat windows, and will stop polling from the chat boxes. 
-            (online_status, chat_boxes_status) = online_presence_support.get_online_status(chat_support.ChatPresence, owner_uid)
-            chat_is_disabled = "yes" if chat_boxes_status == chat_support.ChatPresence.DISABLED else "no"
+            (online_status, chat_boxes_status) = online_presence_support.get_online_status(owner_uid)
+            chat_is_disabled = "yes" if chat_boxes_status == constants.ChatBoxStatus.DISABLED else "no"
             
             # Update user online presence - since we know that the user is logged in and has just requested a page to 
             # be rendered, we are sure that they are active. The computational cost of this is very low.
-            channel_support.update_online_status(chat_support.ChatPresence, owner_uid, chat_support.ChatPresence.ACTIVE, chat_boxes_status)
+            channel_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE, chat_boxes_status)
             
             additional_ads_to_append = get_additional_ads_to_append(request, userobject)
     
@@ -256,7 +256,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields.owner_nid = owner_nid
         primary_user_presentation_data_fields.owner_message_count = owner_message_count
         primary_user_presentation_data_fields.new_contact_count = new_contact_count
-        primary_user_presentation_data_fields.chat_delay_constants = constants.ChatDelayConstants
+        primary_user_presentation_data_fields.user_presence_delay_constants = constants.OnlinePresenceConstants
         primary_user_presentation_data_fields.chat_is_disabled = chat_is_disabled
         primary_user_presentation_data_fields.do_not_try_to_dynamically_load_search_values = do_not_try_to_dynamically_load_search_values
         

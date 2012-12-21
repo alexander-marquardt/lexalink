@@ -281,7 +281,7 @@ var initJqueryUiChatbox = function($){
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "execute_go_offline_on_client" function
                                 chan_utils.close_all_chatboxes_on_server();
-                                chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status, "chat_disabled");
+                                chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status, "chat_disabled");
                                 return false;
                             });
 
@@ -820,32 +820,32 @@ var chatboxManager = function() {
             try {
                 // setup the timers for detecting user online/idle status
                 idle_params = {};
-                idle_params.idle_timeout = chan_utils.chat_idle_timeout;
-                idle_params.away_timeout = chan_utils.chat_away_timeout;
+                idle_params.idle_timeout = chan_utils.presence_idle_timeout;
+                idle_params.away_timeout = chan_utils.presence_away_timeout;
 
                 idle_params.onIdle = function() {
-                    var new_main_title = $('#id-chat-contact-title-idle-text').text();
+                    var new_main_title = $('#id-chat-contact-title-user_presence_idle-text').text();
                     changeOpacityOfAllBoxes(0.75);
                     changeBoxtitle("main", new_main_title);
-                    chan_utils.chat_online_status = "chat_idle";
-                    chan_utils.current_message_polling_delay = chan_utils.chat_idle_polling_delay;
-                    chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
+                    chan_utils.user_presence_status = "user_presence_idle";
+                    chan_utils.current_message_polling_delay = chan_utils.presence_idle_polling_delay;
+                    chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status);
 
                 };
                 idle_params.onAway = function() {
-                    var new_main_title = $('#id-chat-contact-title-away-text').text();
+                    var new_main_title = $('#id-chat-contact-title-user_presence_away-text').text();
                     changeOpacityOfAllBoxes(0.25);
                     changeBoxtitle("main", new_main_title);
-                    chan_utils.chat_online_status = "chat_away";
-                    chan_utils.current_message_polling_delay = chan_utils.chat_away_polling_delay;
-                    chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
+                    chan_utils.user_presence_status = "user_presence_away";
+                    chan_utils.current_message_polling_delay = chan_utils.presence_away_polling_delay;
+                    chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status);
                 };
                 idle_params.onBack = function(isIdle, isAway) {
                     var new_main_title = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
                     changeBoxtitle("main", new_main_title);
-                    chan_utils.chat_online_status = "chat_active";
-                    chan_utils.update_chat_online_status_on_server(chan_utils.chat_online_status);
+                    chan_utils.user_presence_status = "user_presence_active";
+                    chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status);
                     chan_utils.set_message_polling_timeout_and_schedule_poll(chan_utils.initial_message_polling_delay);
                 };
                 
@@ -928,8 +928,8 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
         for (var uid in contacts_info_dict) {
-            if (contacts_info_dict[uid]['chat_online_status'] != 'chat_active') {
-                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['chat_online_status'] + '-text').text();
+            if (contacts_info_dict[uid]['user_presence_status'] != 'user_presence_active') {
+                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['user_presence_status'] + '-text').text();
             } else {
                 online_status = '';
             }
