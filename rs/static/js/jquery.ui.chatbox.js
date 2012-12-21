@@ -846,7 +846,7 @@ var chatboxManager = function() {
                     changeBoxtitle("main", new_main_title);
                     chan_utils.user_presence_status = "user_presence_active";
                     chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status);
-                    chan_utils.set_message_polling_timeout_and_schedule_poll(chan_utils.initial_message_polling_delay);
+                    chan_utils.start_polling();
                 };
                 
 

@@ -197,10 +197,14 @@ def update_online_status(owner_uid, user_presence_status, chat_boxes_status):
         presence_tracker.user_presence_status = user_presence_status
         presence_tracker.chat_boxes_status = chat_boxes_status
 
-        # If this is an update of the users "Chat presence", then we 
-        # ensure that both the chat friends and groups windows are maximized
-        chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
-        chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
+        ## If this is an update of the users "Chat presence", then we 
+        ## ensure that both the chat friends and groups windows are maximized
+        #if chat_boxes_status != constants.ChatBoxStatus.DISABLED:
+            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
+            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
+        #else:
+            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=True, type_of_conversation="NA")
+            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=True, type_of_conversation="NA")
             
         presence_tracker.connection_verified_time = datetime.datetime.now()
         memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entities(presence_tracker))  
@@ -233,110 +237,107 @@ def poll_server_for_status_and_new_messages(request):
                     list_of_open_chat_groups_members_boxes_on_client = json_post_data['list_of_open_chat_groups_members_boxes']
                 else:
                     list_of_open_chat_groups_members_boxes_on_client = []
-                #last_update_chat_message_id_dict = json_post_data['last_update_chat_message_id_dict']
             else:
                 assert(False)
             
             update_online_status(owner_uid, user_presence_status, chat_boxes_status)
             
-
             assert(owner_uid == request.session['userobject_str'])
-            
-            response_dict['channel_status'] = 'OK'
-            
+                        
             # the user_presence_status is used for propagating CHAT_DISABLED status through multiple windows
-            # if the user has more than one window/tab open. CHAT_ENABLED is not propagated, but users can manually
-            # go online in multiple windows if necessary.
-            (response_dict['user_presence_status'], response_dict['chat_boxes_status'])\
-                = online_presence_support.get_online_status(owner_uid)
+            # if the user has more than one window/tab open. 
+            response_dict['user_presence_status'] = user_presence_status
+            response_dict['chat_boxes_status'] = chat_boxes_status
             
-            # we use memcache to prevent the friends online from being updated every time data is polled- 
-            # we set the memcache to expire after a certian amount of time, and only if it is expired
-            # will we generate a new friends list - this is done like this to reduce server loading. 
-            check_friends_online_last_update_memcache_key = constants.CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
-            contacts_info_dict = memcache.get(check_friends_online_last_update_memcache_key)
-            if contacts_info_dict is None:
-                # get the data structure that represents the "friends online" for the current user.
-                contacts_info_dict = chat_support.get_friends_online_dict(lang_code, owner_uid);
-                memcache.set(check_friends_online_last_update_memcache_key, contacts_info_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
-           
-                # only send the contacts list if memcache timed-out (we use the memcache as a timer)
-                response_dict['contacts_info_dict'] = contacts_info_dict    
+            if chat_boxes_status != constants.ChatBoxStatus.DISABLED:
             
-            
-
-            # get the data structure that represents the currently available chat groups - this is common for
-            # all users - this is memcached and pulled from database if not available.
-            chat_groups_dict = chat_support.get_chat_groups_dict();
-           
-            # To save bandwidth, we do not want to continually send updates about the available groups. Therefore,
-            # write a "timer" to memcache, that will expire after X seconds, and only if it is expired do we send an
-            # updated list.
-            chat_group_timer_memcache_key = "chat_group_timer_memcache_key_" + owner_uid
-            user_group_list_is_up_to_date = memcache.get(chat_group_timer_memcache_key)
-            if user_group_list_is_up_to_date is None:
-                memcache.set(chat_group_timer_memcache_key, True, constants.SECONDS_BETWEEN_GET_CHAT_GROUPS)
-                response_dict['chat_groups_dict'] = chat_groups_dict     
+                # we use memcache to prevent the friends online from being updated every time data is polled- 
+                # we set the memcache to expire after a certian amount of time, and only if it is expired
+                # will we generate a new friends list - this is done like this to reduce server loading. 
+                check_friends_online_last_update_memcache_key = constants.CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
+                contacts_info_dict = memcache.get(check_friends_online_last_update_memcache_key)
+                if contacts_info_dict is None:
+                    # get the data structure that represents the "friends online" for the current user.
+                    contacts_info_dict = chat_support.get_friends_online_dict(lang_code, owner_uid);
+                    memcache.set(check_friends_online_last_update_memcache_key, contacts_info_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
+               
+                    # only send the contacts list if memcache timed-out (we use the memcache as a timer)
+                    response_dict['contacts_info_dict'] = contacts_info_dict    
                 
-            if list_of_open_chat_groups_members_boxes_on_client:
-                # the client has open chat groups, send updated list of which members are in each group
-                    
-                # loop over list_of_open_chat_groups_members_boxes_on_client and get the members in each group
-                # notice that this is not a list of the members for all groups that the user currently has open,
-                # it is a list of the members for the groups that the user currently has a window open that has
-                # the list of members (group chat and the display of who is in the group are two different windows)
-                response_dict['chat_group_members'] = {}
-                for group_uid in list_of_open_chat_groups_members_boxes_on_client:
-                    response_dict['chat_group_members'][group_uid] = chat_support.get_group_members_dict(lang_code, group_uid)
-            
-            response_dict['conversation_tracker'] = {} 
-            open_conversation_objects = chat_support.query_currently_open_conversations(owner_uid)
-            for open_conversation_object in open_conversation_objects:
                 
-                other_uid = open_conversation_object.other_uid
     
-                if other_uid in last_update_time_string_dict:
-                    last_update_time_string = last_update_time_string_dict[other_uid]
-                else:
-                    last_update_time_string = ''
+                # get the data structure that represents the currently available chat groups - this is common for
+                # all users - this is memcached and pulled from database if not available.
+                chat_groups_dict = chat_support.get_chat_groups_dict();
+               
+                # To save bandwidth, we do not want to continually send updates about the available groups. Therefore,
+                # write a "timer" to memcache, that will expire after X seconds, and only if it is expired do we send an
+                # updated list.
+                chat_group_timer_memcache_key = "chat_group_timer_memcache_key_" + owner_uid
+                user_group_list_is_up_to_date = memcache.get(chat_group_timer_memcache_key)
+                if user_group_list_is_up_to_date is None:
+                    memcache.set(chat_group_timer_memcache_key, True, constants.SECONDS_BETWEEN_GET_CHAT_GROUPS)
+                    response_dict['chat_groups_dict'] = chat_groups_dict     
                     
-                # if the time of the last message received by the browser is less than the last update
-                # then we need to send the client an update
-                if  last_update_time_string < open_conversation_object.current_chat_message_time_string:
-                    
-                    chatbox_title = open_conversation_object.chatbox_title
-
-                    
-                    # Construct the JSON response
-                    
-                    response_dict['conversation_tracker'][other_uid] = {}
-                    response_dict['conversation_tracker'][other_uid]["box_is_minimized"] = open_conversation_object.current_conversation_is_minimized    
-                    
-                    # make sure this is not the main, or groups chatbox (ie, it must be a conversation box)
-                    if other_uid != "main" and other_uid != "groups":
+                if list_of_open_chat_groups_members_boxes_on_client:
+                    # the client has open chat groups, send updated list of which members are in each group
                         
-                        type_of_conversation = open_conversation_object.type_of_conversation # "one_on_one" or "group"
-                        response_dict['conversation_tracker'][other_uid]["type_of_conversation"] = type_of_conversation
+                    # loop over list_of_open_chat_groups_members_boxes_on_client and get the members in each group
+                    # notice that this is not a list of the members for all groups that the user currently has open,
+                    # it is a list of the members for the groups that the user currently has a window open that has
+                    # the list of members (group chat and the display of who is in the group are two different windows)
+                    response_dict['chat_group_members'] = {}
+                    for group_uid in list_of_open_chat_groups_members_boxes_on_client:
+                        response_dict['chat_group_members'][group_uid] = chat_support.get_group_members_dict(lang_code, group_uid)
+                
+                response_dict['conversation_tracker'] = {} 
+                open_conversation_objects = chat_support.query_currently_open_conversations(owner_uid)
+                for open_conversation_object in open_conversation_objects:
+                    
+                    other_uid = open_conversation_object.other_uid
+        
+                    if other_uid in last_update_time_string_dict:
+                        last_update_time_string = last_update_time_string_dict[other_uid]
+                    else:
+                        last_update_time_string = ''
                         
-                        recent_chat_messages = chat_support.query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, type_of_conversation)
-                        recent_chat_messages.reverse()
+                    # if the time of the last message received by the browser is less than the last update
+                    # then we need to send the client an update
+                    if  last_update_time_string < open_conversation_object.current_chat_message_time_string:
+                        
+                        chatbox_title = open_conversation_object.chatbox_title
     
-                        response_dict['conversation_tracker'][other_uid]["chatbox_title"] = chatbox_title
-                        response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"] = []
-                        response_dict['conversation_tracker'][other_uid]["sender_username_dict"] = {}
-                        response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"] = {}
                         
-                        if type_of_conversation == "one_on_one":
-                            response_dict['conversation_tracker'][other_uid]["nid"] = utils.get_nid_from_uid(other_uid)                       
-                            response_dict['conversation_tracker'][other_uid]["url_description"] = profile_utils.get_profile_url_description(lang_code, other_uid)
-
-                        for msg_object in recent_chat_messages:
-                            response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"].append(msg_object.chat_msg_time_string)
-                            response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"][msg_object.chat_msg_time_string] = msg_object.chat_msg_text
-                            response_dict['conversation_tracker'][other_uid]["sender_username_dict"][msg_object.chat_msg_time_string] = msg_object.sender_username
+                        # Construct the JSON response
+                        
+                        response_dict['conversation_tracker'][other_uid] = {}
+                        response_dict['conversation_tracker'][other_uid]["box_is_minimized"] = open_conversation_object.current_conversation_is_minimized    
+                        
+                        # make sure this is not the main, or groups chatbox (ie, it must be a conversation box)
+                        if other_uid != "main" and other_uid != "groups":
                             
-                        response_dict['conversation_tracker'][other_uid]["last_update_time_string"] = open_conversation_object.current_chat_message_time_string
-                                 
+                            type_of_conversation = open_conversation_object.type_of_conversation # "one_on_one" or "group"
+                            response_dict['conversation_tracker'][other_uid]["type_of_conversation"] = type_of_conversation
+                            
+                            recent_chat_messages = chat_support.query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, type_of_conversation)
+                            recent_chat_messages.reverse()
+        
+                            response_dict['conversation_tracker'][other_uid]["chatbox_title"] = chatbox_title
+                            response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"] = []
+                            response_dict['conversation_tracker'][other_uid]["sender_username_dict"] = {}
+                            response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"] = {}
+                            
+                            if type_of_conversation == "one_on_one":
+                                response_dict['conversation_tracker'][other_uid]["nid"] = utils.get_nid_from_uid(other_uid)                       
+                                response_dict['conversation_tracker'][other_uid]["url_description"] = profile_utils.get_profile_url_description(lang_code, other_uid)
+    
+                            for msg_object in recent_chat_messages:
+                                response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"].append(msg_object.chat_msg_time_string)
+                                response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"][msg_object.chat_msg_time_string] = msg_object.chat_msg_text
+                                response_dict['conversation_tracker'][other_uid]["sender_username_dict"][msg_object.chat_msg_time_string] = msg_object.sender_username
+                                
+                            response_dict['conversation_tracker'][other_uid]["last_update_time_string"] = open_conversation_object.current_chat_message_time_string
+                                     
         else: # *not* 'userobject_str' in request.session
             (response_dict['user_presence_status'], response_dict['chat_boxes_status']) = \
                 ("expired_session" , constants.ChatBoxStatus.DISABLED)

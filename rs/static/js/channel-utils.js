@@ -295,10 +295,8 @@ var chan_utils = new function () {
                             internet_connection_is_down();
                         },
                         complete: function() {
-                            if (chan_utils_self.chat_boxes_status != "chat_disabled") {
-                                // only poll if the user has not "logged off"  in this window or another window
-                                chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
-                            }
+                            // only poll if the user has not "logged off"  in this window or another window
+                            chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
                             chan_utils_self.polling_is_locked_mutex = false;
                         }
                     });
@@ -329,11 +327,18 @@ var chan_utils = new function () {
                     // for active user sessions, make sure that the delay has not exceeded the maximum, since
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
-                    if (current_message_polling_delay > chan_utils_self.active_polling_delay_ceiling) {
+                    if (current_message_polling_delay > chan_utils_self.active_polling_delay_ceiling ||
+                            chan_utils_self.chat_boxes_status == "chat_disabled") {
                         current_message_polling_delay = chan_utils_self.active_polling_delay_ceiling;
                     } else {
                         current_message_polling_delay = current_message_polling_delay * chan_utils_self.decay_multiplier;
-                        chan_utils_self.current_message_polling_delay = current_message_polling_delay;
+                    }
+                    chan_utils_self.current_message_polling_delay = current_message_polling_delay;
+                } else {
+                    // this is just a sanity check - if the user_presence is not active or if the chat_boxes
+                    // are disabled, then the polling delay should be greater than the active_polling_delay_ceiling
+                    if (chan_utils_self.current_message_polling_delay < chan_utils_self.active_polling_delay_ceiling) {
+                        report_javascript_error_on_server("user_presence_status: " + chan_utils_self.user_presence_status + " is polling too fast");
                     }
                 }
                 chan_utils_self.chat_message_timeoutID = setTimeout(poll_server_for_status_and_new_messages, current_message_polling_delay);
@@ -376,7 +381,6 @@ var chan_utils = new function () {
                 $('#id-go-online-button').show();
                 chan_utils_self.chat_boxes_status = "chat_disabled";
 
-                chan_utils_self.stop_polling_server();
                 chatboxManager.closeAllChatBoxes();
                 $("#main").chatbox("option", "boxManager").hideChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -386,7 +390,9 @@ var chan_utils = new function () {
             }
         };
 
-        this.execute_go_online = function () {
+        this.execute_go_online = function (/* optional */ do_update_chatboxes_status_on_server) {
+            do_update_chatboxes_status_on_server = do_update_chatboxes_status_on_server || true;
+
             try {
                 var new_main_title = $('#id-chat-contact-title-text').text();
                 var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
@@ -394,7 +400,11 @@ var chan_utils = new function () {
                 $('#id-go-offline-button').show();
                 chan_utils_self.user_presence_status = "user_presence_active";
                 chan_utils_self.chat_boxes_status = "chat_enabled";
-                chan_utils_self.update_chat_boxes_status_on_server("chat_enabled");
+                if (do_update_chatboxes_status_on_server) {
+                    // in the case that we are setting up the channel for a user that we know has the
+                    // chat enabled, there is no need to report this status bacck to the server.
+                    chan_utils_self.update_chat_boxes_status_on_server("chat_enabled");
+                }
                 chan_utils_self.start_polling();
                 $("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -407,24 +417,38 @@ var chan_utils = new function () {
                 chatboxManager.addBox(groups_box_id, groups_box_title, false, false, false, type_of_conversation, '', '');
                 var message = $("#id-chat-groups-box-loading-text").text();
                 $("#groups").chatbox("option", "boxManager").refreshBox(message);
+
+                // if the user is online, then we will check for resize events on the window, which can
+                // change the width of the chatboxes (this is not necessary if they are offline since they should
+                // not have chatboxes open)
+                catch_window_resize_events();
+                
             } catch(err) {
                 report_try_catch_error( err, "execute_go_online");
             }
         };
 
 
-        this.stop_polling_server = function() {
+/*        this.stop_polling_server = function() {
             try {
                 clearTimeout(chan_utils_self.chat_message_timeoutID);
             } catch(err) {
                 report_try_catch_error( err, "stop_polling_server");
             }
-        };
+        };*/
 
 
         this.start_polling = function() {
+            // just a simple wrapper function for calling set_message_polling_timeout_and_schedule_poll
             try {
-                chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
+                if (chan_utils_self.chat_boxes_status == "chat_enabled") {
+                    chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
+                } else {
+                    // if chatboxes are not enabled, we want to still poll in order to keep the user_presence_status up-to-date
+                    // but we want to do it at a slower rate in order to waste less CPU resources.
+                    chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.active_polling_delay_ceiling);
+                }
+            
             } catch(err) {
                 report_try_catch_error( err, "start_polling");
             }
@@ -816,21 +840,14 @@ var chan_utils = new function () {
                 initialization(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, presence_idle_timeout, presence_away_timeout);
 
                 if (chat_is_disabled != "yes") {
-                    var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
-                    chan_utils_self.start_polling();
-                    $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);
-
-                    var loading_groups_message = $("#id-chat-groups-box-loading-text").text();
-                    $("#groups").chatbox("option", "boxManager").refreshBox(loading_groups_message);
-
-                    // if the user is online, then we will check for resize events on the window, which can
-                    // change the width of the chatboxes (this is not necessary if they are offline since they should
-                    // not have chatboxes open)
-                    catch_window_resize_events();
+                    chan_utils_self.execute_go_online(false);
                 } else {
                     // user is offline
                     var offline_message = $('#id-chat-contact-main-box-disactivated-text').text();
                     $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
+                    // even though the chat is disabled, we continue polling the server in order to keep the
+                    // user_presence_status up-to-date. 
+                    chan_utils_self.start_polling();
                 }
             } catch (err) {
                 report_try_catch_error( err, "setup_and_channel_for_current_client");
