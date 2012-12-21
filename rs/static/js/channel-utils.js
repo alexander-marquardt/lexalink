@@ -125,7 +125,9 @@ var chan_utils = new function () {
                 {
                     chan_utils_self.execute_go_offline_on_client();
                 }
-
+                if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_enabled") {
+                    chan_utils_self.execute_go_online_on_client();
+                }
 
                 if (json_response.hasOwnProperty('conversation_tracker')) {
 
@@ -277,7 +279,6 @@ var chan_utils = new function () {
                     var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
                         //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
                         'user_presence_status': chan_utils_self.user_presence_status,
-                        'chat_boxes_status' : chan_utils_self.chat_boxes_status,
                         'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
                     
                     var json_stringified_post = $.toJSON(json_post_dict);
@@ -393,8 +394,7 @@ var chan_utils = new function () {
             }
         };
 
-        this.execute_go_online = function (/* optional */ do_update_chatboxes_status_on_server) {
-            do_update_chatboxes_status_on_server = do_update_chatboxes_status_on_server || true;
+        this.execute_go_online_on_client = function () {
 
             try {
                 var new_main_title = $('#id-chat-contact-title-text').text();
@@ -403,11 +403,7 @@ var chan_utils = new function () {
                 $('#id-go-offline-button').show();
                 chan_utils_self.user_presence_status = "user_presence_active";
                 chan_utils_self.chat_boxes_status = "chat_enabled";
-                if (do_update_chatboxes_status_on_server) {
-                    // in the case that we are setting up the channel for a user that we know has the
-                    // chat enabled, there is no need to report this status bacck to the server.
-                    chan_utils_self.update_chat_boxes_status_on_server("chat_enabled");
-                }
+
                 chan_utils_self.start_polling();
                 //$("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -427,7 +423,7 @@ var chan_utils = new function () {
                 catch_window_resize_events();
                 
             } catch(err) {
-                report_try_catch_error( err, "execute_go_online");
+                report_try_catch_error( err, "execute_go_online_on_client");
             }
         };
 
@@ -537,11 +533,12 @@ var chan_utils = new function () {
             });
         };
 
-        this.update_user_presence_and_chatbox_status_on_server = function(new_user_presence_status, new_chat_boxes_status) {
+
+        this.update_chat_boxes_status_on_server = function(new_chat_boxes_status) {
             $.ajax({
                 type: 'post',
-                url:  '/rs/channel_support/update_user_presence_and_chatbox_status_on_server/' + rnd() + "/",
-                data: {'user_presence_status': new_user_presence_status, 'chat_boxes_status' : new_chat_boxes_status},
+                url:  '/rs/channel_support/update_chatbox_status_on_server/' + rnd() + "/",
+                data: {'chat_boxes_status' : new_chat_boxes_status},
                 success: function (response) {
                     if (response == "expired_session") {
                         // if session is expired, send to login screen if they try to change their chat online status
@@ -549,18 +546,27 @@ var chan_utils = new function () {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "update_user_presence_and_chatbox_status_on_server");
+                    report_ajax_error(textStatus, errorThrown, "update_chatbox_status_on_server");
                 }
             });
         };
 
-        this.update_chat_boxes_status_on_server = function(new_chat_boxes_status) {
-            chan_utils_self.update_user_presence_and_chatbox_status_on_server(chan_utils_self.user_presence_status, new_chat_boxes_status);
-        };
-
 
         this.update_user_presence_status_on_server = function(new_user_presence_status) {
-            chan_utils_self.update_user_presence_and_chatbox_status_on_server(new_user_presence_status, chan_utils_self.chat_boxes_status);
+            $.ajax({
+                type: 'post',
+                url:  '/rs/channel_support/update_user_presence_on_server/' + rnd() + "/",
+                data: {'user_presence_status': new_user_presence_status},
+                success: function (response) {
+                    if (response == "expired_session") {
+                        // if session is expired, send to login screen if they try to change their chat online status
+                        self.location = "/";
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    report_ajax_error(textStatus, errorThrown, "update_user_presence_on_server");
+                }
+            });
         };
 
         this.call_process_json_most_recent_chat_messages = function(json_response) {
@@ -778,8 +784,7 @@ var chan_utils = new function () {
                     'sender_username': chan_utils_self.owner_username,
                     'type_of_conversation' : type_of_conversation,
                     'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
-                    'user_presence_status': chan_utils_self.user_presence_status,
-                    'chat_boxes_status' : chan_utils_self.chat_boxes_status};
+                    'user_presence_status': chan_utils_self.user_presence_status};
 
 
                     $.ajax({
@@ -843,7 +848,7 @@ var chan_utils = new function () {
                 initialization(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, presence_idle_timeout, presence_away_timeout);
 
                 if (chat_is_disabled != "yes") {
-                    chan_utils_self.execute_go_online(false);
+                    chan_utils_self.execute_go_online_on_client();
                 } else {
                     // user is offline
                     var offline_message = $('#id-chat-contact-main-box-disactivated-text').text();

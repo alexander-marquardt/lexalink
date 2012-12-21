@@ -101,7 +101,7 @@ BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 # of code - however, if we have been modifying the chat functionality then we do wish to force an update. 
 # Change the following value if you want to force all chat-related memcaches to be refreshed when this
 # version of code is uploaded
-FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2012-12-21-1908_" 
+FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2012-12-21-2354-" 
 NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a query - Note: this limit is not only about memory utilization, but
                                 # also about how many messages we want to send to the user every time they re-load the chatbox. 
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
@@ -127,8 +127,8 @@ class ChatBoxStatus(object):
     IS_DISABLED = "chat_disabled"
     IS_ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
 
-    DO_DISABLE = "disable_chat" # disable chat (override any enabled status)
-    DO_ENABLE = "enable_chat"   # enable chat functionality (override any disabled status)
+    #DO_DISABLE = "disable_chat" # disable chat (override any enabled status)
+    #DO_ENABLE = "enable_chat"   # enable chat functionality (override any disabled status)
     
     CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX = "_chat_box_status_memcache_tracker_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
     

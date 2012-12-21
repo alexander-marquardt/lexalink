@@ -82,7 +82,7 @@ def store_session(request, userobject):
     
     # force user to appear online and active in the chat boxes (from module chat_support)
     channel_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
-    update_chat_boxes_status(owner_uid, constants.ChatBoxStatus.IS_ENABLED)
+    channel_support.update_chat_boxes_status(owner_uid, constants.ChatBoxStatus.IS_ENABLED)
 
     # create "in-the-cloud" backups of the userobject
     backup_data.update_or_create_userobject_backups(request, userobject)    

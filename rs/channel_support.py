@@ -148,15 +148,13 @@ def close_all_chatboxes_on_server(request):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseBadRequest("Error");
 
-def update_user_presence_and_chatbox_status_on_server(request):
+def update_chatbox_status_on_server(request):
     
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-            user_presence_status = request.POST.get('user_presence_status', '')
             chat_boxes_status = request.POST.get('chat_boxes_status', '')
-            assert(user_presence_status)
-            update_online_status(owner_uid, user_presence_status)
+            assert(chat_boxes_status)
             update_chat_boxes_status(owner_uid, chat_boxes_status)
             response = "OK"
         else:
@@ -168,6 +166,23 @@ def update_user_presence_and_chatbox_status_on_server(request):
         return http.HttpResponseBadRequest("Error");
     
 
+def update_user_presence_on_server(request):
+    
+    try:
+        if 'userobject_str' in request.session:
+            owner_uid = request.session['userobject_str']
+            user_presence_status = request.POST.get('user_presence_status', '')
+            assert(user_presence_status)
+            update_online_status(owner_uid, user_presence_status)
+            response = "OK"
+        else:
+            response = "expired_session"
+
+        return http.HttpResponse(response)
+    except:
+        error_reporting.log_exception(logging.critical)
+        return http.HttpResponseBadRequest("Error");
+    
     
 def update_online_status(owner_uid, user_presence_status):
 
@@ -225,7 +240,6 @@ def poll_server_for_status_and_new_messages(request):
                 
                 last_update_time_string_dict = json_post_data['last_update_time_string_dict']
                 user_presence_status = json_post_data['user_presence_status']
-                chat_boxes_status = json_post_data['chat_boxes_status']
                 
                 if 'list_of_open_chat_groups_members_boxes' in json_post_data:
                     list_of_open_chat_groups_members_boxes_on_client = json_post_data['list_of_open_chat_groups_members_boxes']
@@ -235,13 +249,14 @@ def poll_server_for_status_and_new_messages(request):
                 assert(False)
             
             update_online_status(owner_uid, user_presence_status)
-            update_chat_boxes_status(owner_uid, chat_boxes_status)
             
             assert(owner_uid == request.session['userobject_str'])
                         
             # the user_presence_status is used for propagating CHAT_DISABLED status through multiple windows
             # if the user has more than one window/tab open. 
             response_dict['user_presence_status'] = user_presence_status
+            
+            chat_boxes_status = online_presence_support.get_chat_boxes_status(owner_uid)
             response_dict['chat_boxes_status'] = chat_boxes_status
             
             if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED:
