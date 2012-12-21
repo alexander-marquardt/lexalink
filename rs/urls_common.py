@@ -108,7 +108,6 @@ urlpatterns = patterns('',
     (r'^rs/store_send_mail/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', store_data.store_send_mail, {
         'text_post_identifier_string': 'send_mail'}),  
     (r'^rs/store_report_unacceptable_profile/(?P<display_uid>[\w|-]+)/', store_data.store_report_unacceptable_profile),
-    (r'^rs/store_new_user_after_verify_captcha/$', store_data.store_new_user_after_verify_captcha),
     #(r'^rs/store_new_user_after_verify_email_code/dummy/$', store_data.store_new_user_after_verify_email_code),
     (r'^rs/store_new_user_after_verify_email_url/$', store_data.store_new_user_after_verify_email_url),
     # Note, we break from the naming convention for the following url to keep it shorter for inclusion in emails.

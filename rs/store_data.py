@@ -1917,10 +1917,7 @@ def store_new_user_after_verify(request, fake_request=None):
         
         lang_set_in_session = site_configuration.set_language_in_session(request, request.LANGUAGE_CODE)
         assert(lang_set_in_session)    
-        
-        # create backups of the userobject
-        backup_data.update_or_create_userobject_backups(request, userobject)
-           
+                   
         # send the user a welcome email and key and wink from Alex
         welcome_new_user(request)
     
@@ -1998,46 +1995,6 @@ def store_new_user_after_verify_email_url(request, username, secret_verification
     
     error_reporting.log_exception(logging.error, error_message = 'Reached end of function - redirect to /') 
     return HttpResponseRedirect("/")
-
-    
-#def store_new_user_after_verify_email_code(request):
-    ## receives a request from javascript, which needs to verify if the code matches the stored code for the
-    ## given username and email address. This information is entered manually by the user, after they received
-    ## an email indicating the code. 
-    
-    #secret_verification_code = request.POST.get('secret_verification_code')
-    #username = request.POST.get('username', '')
-    #email_address = request.POST.get('email_address', '')
-    
-    ## we convert the code to upper case to make it less difficult for users to screw up
-    #if secret_verification_code.upper() == utils.compute_secret_verification_code(username, email_address):
-        
-        #http_response = store_new_user_after_verify(request)
-        ## The JS code is expecting either a URL to re-direct to, or a "Fail" status.
-        #return HttpResponse(http_response)
-        
-    ## Send a response of "Fail" so that
-    ## we can catch the failed request with javascript, and report an error to the user.
-    #return HttpResponse("Fail")
-
-
-    
-def store_new_user_after_verify_captcha(request):
-    
-    response_is_valid = check_captcha(request)
-    
-    
-    # The JS code is expecting either a URL to re-direct to, or a "Fail" status.
-    if response_is_valid: 
-        response = store_new_user_after_verify(request)   
-        http_response = HttpResponse(response)
-        http_response.delete_cookie(constants.REFERRING_COOKIE_CODE)
-        return http_response
-        
-    # otherwise, the captcha was not entered correctly. Send a response of "Fail" so that
-    # we can catch the request with javascript, and re-display a new captcha.
-    return HttpResponse("Fail")
-
 
 
 def check_and_fix_userobject(userobject, lang_code):

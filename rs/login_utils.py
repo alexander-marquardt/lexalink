@@ -49,7 +49,7 @@ from user_profile_main_data import UserSpec
 import utils, email_utils
 import sharding
 import constants
-import utils, utils_top_level
+import utils, utils_top_level, channel_support, chat_support, backup_data
 import forms
 import error_reporting
 import models
@@ -66,6 +66,7 @@ def store_session(request, userobject):
     request.session.terminate(clear_data=False)
     
     userobject_str = str(userobject.key())
+    owner_uid = userobject_str
     
     # set the object passsed in to have a reference to the current session. Note: the act of just writing a value into the session
     # will cause a new session to be formed if one does not exist already. 
@@ -79,7 +80,16 @@ def store_session(request, userobject):
     # from the database.
     utils.add_session_id_to_user_tracker(userobject.user_tracker, request.session.sid)
     
+    # force user to appear online and active in the chat boxes (from module chat_support)
+    channel_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
+    update_chat_boxes_status(owner_uid, constants.ChatBoxStatus.IS_ENABLED)
 
+    # create "in-the-cloud" backups of the userobject
+    backup_data.update_or_create_userobject_backups(request, userobject)    
+    
+    chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
+    chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
+    
 def html_for_posted_values(login_dict):
     # the following code returns posted values inside the generated HTML, so that we can use Jquery to 
     # search for these values, and replace them in the appropriate fields that were previously entered.

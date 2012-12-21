@@ -101,7 +101,7 @@ BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 # of code - however, if we have been modifying the chat functionality then we do wish to force an update. 
 # Change the following value if you want to force all chat-related memcaches to be refreshed when this
 # version of code is uploaded
-FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2012-12-21-0137_" 
+FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2012-12-21-1908_" 
 NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a query - Note: this limit is not only about memory utilization, but
                                 # also about how many messages we want to send to the user every time they re-load the chatbox. 
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
@@ -124,9 +124,14 @@ class OnlinePresenceConstants(object):
 class ChatBoxStatus(object):
     # disable is when the user explicity closes their chat (will not go online if they become active
     # until they click on "enable/open chat" button)
-    DISABLED = "chat_disabled"
-    ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
+    IS_DISABLED = "chat_disabled"
+    IS_ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
 
+    DO_DISABLE = "disable_chat" # disable chat (override any enabled status)
+    DO_ENABLE = "enable_chat"   # enable chat functionality (override any disabled status)
+    
+    CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX = "_chat_box_status_memcache_tracker_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
+    
     
 class OnlinePresence(object): 
     # Define the values that will be used to define the chat online presence for each user that has 
@@ -137,7 +142,7 @@ class OnlinePresence(object):
     AWAY = "user_presence_away"    # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
     # timeout is when the user has been inactive for so long that they are effectively offline so they will
     # not appear as online in contact lists  -- but they will go "active" if they do anything    
-    TIMEOUT = "chat_timeout" 
+    TIMEOUT = "user_presence_timeout" 
     
     STATUS_MEMCACHE_TRACKER_PREFIX = "_online_status_memcache_tracker_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
 

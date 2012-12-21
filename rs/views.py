@@ -653,12 +653,7 @@ def login(request, is_admin_login = False, referring_code = None):
     
                         # update session to point to the current userobject
                         store_session(request, userobject)
-                        
-                        # force user to appear online in the chat boxes (from module chat_support)
-                        channel_support.update_online_status(owner_uid, constants.OnlinePresence.ENABLED)
-    
-                        # create "in-the-cloud" backups of the userobject
-                        backup_data.update_or_create_userobject_backups(request, userobject)
+                    
     
                         logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
     
@@ -874,6 +869,7 @@ def logout(request, html_for_delete_account = ''):
     # Closes the user session, and displays the logout page.
        
     try: 
+        owner_uid =  request.session['userobject_str']
         userobject = utils_top_level.get_userobject_from_request(request)  
         
         template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
@@ -887,11 +883,9 @@ def logout(request, html_for_delete_account = ''):
         
         login_utils.clear_old_session(request)
         
-        
         # mark the user presence as TIMEOUT (if another session is logged into a different browser, this will be
         # over-written to reflect the status in the other session as soon as that session pings the server with its status)
-        channel_support.update_online_status(user_presence.UserPresence, owner_uid, user_presence.UserPresence.TIMEOUT)
-        
+        channel_support.update_online_status(owner_uid, constants.OnlinePresence.TIMEOUT)
         
         response.delete_cookie(settings.SESSION_COOKIE_NAME)
         return response

@@ -41,16 +41,16 @@ from rs import models, utils, utils_top_level, constants, error_reporting, chat_
 
 def initialize_main_and_group_boxes_on_server(request):
     # ensures that the main and group boxes have an open_conversation object assigned - this is 
-    # needed for tracking the "is_minimized" status. 
+    # needed for tracking the chatbox_minimized_maximized status. 
     #
-    # Note: we do not want to modify "is_minimized" if it has already been assigned a value. Therefore, we pass in
+    # Note: we do not want to modify chatbox_minimized_maximized if it has already been assigned a value. Therefore, we pass in
     # a "leave_unchanged" value to the update_or_create_open_conversation_tracker function
     
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-            chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized="leave_unchanged", type_of_conversation="NA")
-            chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized="leave_unchanged", type_of_conversation="NA")
+            chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized="leave_unchanged", type_of_conversation="NA")
+            chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized="leave_unchanged", type_of_conversation="NA")
             
             # expire the timer on the memcache for group updates, so that we immediately send the new list
             chat_group_timer_memcache_key = "chat_group_timer_memcache_key_" + owner_uid
@@ -74,16 +74,11 @@ def set_minimize_chat_box_status(request):
     try:
         owner_uid = request.session['userobject_str']
         other_uid = request.POST.get('other_uid', None)
-        chatbox_status = request.POST.get('chatbox_status', None)
+        chatbox_minimized_maximized = request.POST.get('chatbox_minimized_maximized', None)
         
-        if chatbox_status == "minimized" : 
-            is_minimized = True
-        else: 
-            is_minimized = False
-        
-        assert(owner_uid and other_uid and chatbox_status)
+        assert(owner_uid and other_uid and chatbox_minimized_maximized)
         type_of_conversation = "leave_unchanged" # we will not change this value, so don't need to pass it in
-        chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, is_minimized, type_of_conversation)
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_minimized_maximized, type_of_conversation)
             
         return http.HttpResponse()
     except:
@@ -161,7 +156,8 @@ def update_user_presence_and_chatbox_status_on_server(request):
             user_presence_status = request.POST.get('user_presence_status', '')
             chat_boxes_status = request.POST.get('chat_boxes_status', '')
             assert(user_presence_status)
-            update_online_status(owner_uid, user_presence_status, chat_boxes_status)
+            update_online_status(owner_uid, user_presence_status)
+            update_chat_boxes_status(owner_uid, chat_boxes_status)
             response = "OK"
         else:
             response = "expired_session"
@@ -173,7 +169,7 @@ def update_user_presence_and_chatbox_status_on_server(request):
     
 
     
-def update_online_status(owner_uid, user_presence_status, chat_boxes_status):
+def update_online_status(owner_uid, user_presence_status):
 
     # presence_tracker is indexed by the uid of the owner - this structure is used for keeping track of
     # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
@@ -195,17 +191,7 @@ def update_online_status(owner_uid, user_presence_status, chat_boxes_status):
             presence_tracker = models.OnlineStatusTracker()
             
         presence_tracker.user_presence_status = user_presence_status
-        presence_tracker.chat_boxes_status = chat_boxes_status
 
-        ## If this is an update of the users "Chat presence", then we 
-        ## ensure that both the chat friends and groups windows are maximized
-        #if chat_boxes_status != constants.ChatBoxStatus.DISABLED:
-            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=False, type_of_conversation="NA")
-            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=False, type_of_conversation="NA")
-        #else:
-            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", is_minimized=True, type_of_conversation="NA")
-            #chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", is_minimized=True, type_of_conversation="NA")
-            
         presence_tracker.connection_verified_time = datetime.datetime.now()
         memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entities(presence_tracker))  
             
@@ -213,6 +199,14 @@ def update_online_status(owner_uid, user_presence_status, chat_boxes_status):
         error_reporting.log_exception(logging.critical)
                 
             
+def update_chat_boxes_status(owner_uid, chat_boxes_status):
+    
+    try:
+        chat_boxes_status_memcache_key = constants.ChatBoxStatus.CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
+        memcache.set(chat_boxes_status_memcache_key, chat_boxes_status)
+    
+    except:
+        error_reporting.log_exception(logging.critical)    
     
 def poll_server_for_status_and_new_messages(request):
     
@@ -240,7 +234,8 @@ def poll_server_for_status_and_new_messages(request):
             else:
                 assert(False)
             
-            update_online_status(owner_uid, user_presence_status, chat_boxes_status)
+            update_online_status(owner_uid, user_presence_status)
+            update_chat_boxes_status(owner_uid, chat_boxes_status)
             
             assert(owner_uid == request.session['userobject_str'])
                         
@@ -249,7 +244,7 @@ def poll_server_for_status_and_new_messages(request):
             response_dict['user_presence_status'] = user_presence_status
             response_dict['chat_boxes_status'] = chat_boxes_status
             
-            if chat_boxes_status != constants.ChatBoxStatus.DISABLED:
+            if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED:
             
                 # we use memcache to prevent the friends online from being updated every time data is polled- 
                 # we set the memcache to expire after a certian amount of time, and only if it is expired
@@ -311,7 +306,7 @@ def poll_server_for_status_and_new_messages(request):
                         # Construct the JSON response
                         
                         response_dict['conversation_tracker'][other_uid] = {}
-                        response_dict['conversation_tracker'][other_uid]["box_is_minimized"] = open_conversation_object.current_conversation_is_minimized    
+                        response_dict['conversation_tracker'][other_uid]["chatbox_minimized_maximized"] = open_conversation_object.chatbox_minimized_maximized    
                         
                         # make sure this is not the main, or groups chatbox (ie, it must be a conversation box)
                         if other_uid != "main" and other_uid != "groups":
@@ -340,13 +335,13 @@ def poll_server_for_status_and_new_messages(request):
                                      
         else: # *not* 'userobject_str' in request.session
             (response_dict['user_presence_status'], response_dict['chat_boxes_status']) = \
-                ("expired_session" , constants.ChatBoxStatus.DISABLED)
+                ("expired_session" , constants.ChatBoxStatus.IS_DISABLED)
 
     except:
         # if there is an error - such as the user not having a session, return "expired_session" so that the script will 
         # stop polling
         (response_dict['user_presence_status'], response_dict['chat_boxes_status']) = \
-            ("expired_session" , constants.ChatBoxStatus.DISABLED)
+            ("expired_session" , constants.ChatBoxStatus.IS_DISABLED)
         error_reporting.log_exception(logging.error)
 
         
@@ -354,7 +349,7 @@ def poll_server_for_status_and_new_messages(request):
     return http.HttpResponse(json_response, mimetype='text/javascript')
 
 
-def process_message_to_chat_group(from_uid, group_uid, is_minimized):
+def process_message_to_chat_group(from_uid, group_uid, chatbox_minimized_maximized):
     # create or update a conversation object on all group members. We also need to periodically check the online
     # status of all group members to ensure that they are not offline, and if they are offline they should be removed
     # from the group updates.
@@ -371,12 +366,13 @@ def process_message_to_chat_group(from_uid, group_uid, is_minimized):
                 # we skip the rest of this iteration of the loop.
                 verify_from_uid_is_in_group = True
                 
-            (user_presence_status, chat_box_status) = online_presence_support.get_online_status(owner_uid)
+            user_presence_status = online_presence_support.get_online_status(owner_uid)
+            chat_box_status = online_presence_support.get_chat_boxes_status(owner_uid)
                 
-            if chat_box_status == constants.ChatBoxStatus.DISABLED or user_presence_status == constants.OnlinePresence.TIMEOUT:
+            if chat_box_status == constants.ChatBoxStatus.IS_DISABLED or user_presence_status == constants.OnlinePresence.TIMEOUT:
                 chat_support.delete_uid_from_group(owner_uid, group_uid)
             else:
-                chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, is_minimized, type_of_conversation)
+                chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, chatbox_minimized_maximized, type_of_conversation)
             
         if not verify_from_uid_is_in_group:
             # the user that has sent a message to this group is not currently in the list of members
@@ -434,15 +430,15 @@ def post_message(request):
             message_text = strip_tags(message_text)
             #logging.debug("Storing message %s to to_uid %s" % (message_text, to_uid))
             success = chat_support.store_chat_message(sender_username, from_uid, to_uid, message_text, type_of_conversation)   
-            is_minimized = False
+            chatbox_minimized_maximized = "maximized"
             
             if type_of_conversation == "one_on_one":
                 # create or update a conversation object on both the sender and receiver
                 switch_uids_struct = [(from_uid, to_uid), (to_uid, from_uid)]    
                 for (owner_uid, other_uid) in switch_uids_struct:
-                    chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, is_minimized, type_of_conversation)
+                    chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_minimized_maximized, type_of_conversation)
             elif type_of_conversation == "group":
-                process_message_to_chat_group(from_uid, to_uid, is_minimized)
+                process_message_to_chat_group(from_uid, to_uid, chatbox_minimized_maximized)
                 
             
         else: 

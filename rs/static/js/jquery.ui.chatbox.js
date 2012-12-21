@@ -277,11 +277,12 @@ var initJqueryUiChatbox = function($){
                             $('#id-go-offline-button').button();
                             $('#id-go-offline-button').click(function() {
                                 chan_utils.execute_go_offline_on_client();
+                                $("#main").chatbox("option", "boxManager").hideChatboxContent();
 
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "execute_go_offline_on_client" function
                                 chan_utils.close_all_chatboxes_on_server();
-                                chan_utils.update_chat_boxes_status_on_server("chat_disabled");
+                                chan_utils.update_chat_boxes_status_on_server("disable_chat");
                                 return false;
                             });
 
@@ -294,6 +295,7 @@ var initJqueryUiChatbox = function($){
                             $('#id-go-online-button').click(function() {
                                 if (!remove_chatboxes) {
                                     chan_utils.execute_go_online();
+                                    chan_utils.update_chat_boxes_status_on_server("enable_chat");
                                 }
                                 return false;
                             });

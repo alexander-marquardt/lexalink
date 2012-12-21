@@ -49,7 +49,7 @@ def get_polling_response_time_from_current_status(user_presence_status):
     else:
         # for example, if user status is "enabled" this will trigger an error, since "enabled" status should
         # never be stored in the database (see description of ChatFriendTracker in models.py for more information)
-        error_reporting.log_exception(logging.critical, error_message = "user_presence_status = %s" % user_presence_status)
+        error_reporting.log_exception(logging.critical, error_message = "Error: user_presence_status = %s" % user_presence_status)
         return 0
     
 
@@ -63,20 +63,30 @@ def get_online_status(owner_uid):
         presence_tracker_memcache_key = constants.OnlinePresence.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
         presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
         user_presence_status = constants.OnlinePresence.TIMEOUT
-        chat_boxes_status = constants.ChatBoxStatus.DISABLED
         if presence_tracker is not None:
 
-            chat_boxes_status = presence_tracker.chat_boxes_status
-            
-            polling_response_time = get_polling_response_time_from_current_status(presence_tracker.user_presence_status)
-            if presence_tracker.connection_verified_time +\
-               datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
-                user_presence_status = presence_tracker.user_presence_status
-            
-        return (user_presence_status, chat_boxes_status)
+            if (presence_tracker.user_presence_status != constants.OnlinePresence.TIMEOUT):
+                
+                polling_response_time = get_polling_response_time_from_current_status(presence_tracker.user_presence_status)
+                if presence_tracker.connection_verified_time +\
+                   datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
+                    user_presence_status = presence_tracker.user_presence_status
+                
+        return user_presence_status
         
     except:
         error_reporting.log_exception(logging.critical)
-        user_presence_status = constants.ChatBoxStatus.DISABLED
-        return (user_presence_status, chat_boxes_status)
+        return constants.OnlinePresence.TIMEOUT
+    
+
+def get_chat_boxes_status(owner_uid):
+    
+    chat_boxes_status_memcache_key = constants.ChatBoxStatus.CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX  + owner_uid
+    chat_boxes_status = memcache.get(chat_boxes_status_memcache_key)    
+    
+    if chat_boxes_status is None:
+        chat_boxes_status = constants.ChatBoxStatus.IS_ENABLED
+        
+    return chat_boxes_status
+    
     

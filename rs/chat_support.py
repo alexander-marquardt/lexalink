@@ -92,7 +92,7 @@ def delete_open_conversation_tracker_object(owner_uid, other_uid):
 
                 
         
-def update_or_create_open_conversation_tracker(owner_uid, other_uid, is_minimized, type_of_conversation):
+def update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_minimized_maximized, type_of_conversation):
     # update the conversation_tracker on the owner object. This function
     # is only called when a new chatbox is opened, or when a new message is sent/received to a chatbox, or when
     # a chatbox is minimized/maximized. 
@@ -123,8 +123,8 @@ def update_or_create_open_conversation_tracker(owner_uid, other_uid, is_minimize
         else:
             open_conversation_tracker_object.chatbox_title = "NA"
         
-    if is_minimized != "leave_unchanged":
-        open_conversation_tracker_object.current_conversation_is_minimized = is_minimized    
+    if chatbox_minimized_maximized != "leave_unchanged":
+        open_conversation_tracker_object.chatbox_minimized_maximized = chatbox_minimized_maximized    
         
     open_conversation_tracker_object.current_chat_message_time_string = str(datetime.datetime.now())
     
@@ -242,8 +242,10 @@ def get_group_members_dict(lang_code, group_uid):
             group_members_list = group_tracker_object.group_members_list
             
             for member_uid in group_members_list:
-                (user_presence_status, chat_boxes_status) = online_presence_support.get_online_status(member_uid)
-                if chat_boxes_status != constants.ChatBoxStatus.DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT:                    
+                user_presence_status = online_presence_support.get_online_status(member_uid)
+                chat_boxes_status = online_presence_support.get_chat_boxes_status(member_uid)
+                
+                if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT:                    
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
@@ -289,8 +291,10 @@ def get_friends_online_dict(lang_code, owner_uid):
         # in the future)"
         online_contacts_info_dict = {}
         for uid in user_info_dict:
-            (user_presence_status, chat_boxes_status) = online_presence_support.get_online_status(uid)
-            if chat_boxes_status != constants.ChatBoxStatus.DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT: # for purposes of chat list update, offline and timeout are the same
+            user_presence_status = online_presence_support.get_online_status(uid)
+            chat_boxes_status = online_presence_support.get_chat_boxes_status(uid)
+            
+            if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT: # for purposes of chat list update, offline and timeout are the same
                 online_contacts_info_dict[uid] = user_info_dict[uid]
                 online_contacts_info_dict[uid]['user_presence_status'] = user_presence_status
                     

@@ -338,10 +338,7 @@ class OnlineStatusTracker(BaseModel):
 
     # Track user preference for online status. 
     user_presence_status = db.StringProperty(required=False, default="active", indexed = False)
-    
-    # Track if the chatboxes are enabled - valid values are defined in ChatPresence (DISABLED or ENABLED)
-    chat_boxes_status = db.StringProperty(required=False, indexed = False)
-    
+        
     
 class ChatMessage(BaseModel):
     # Currently only written to memcache (not to database)
@@ -402,8 +399,9 @@ class OpenConversationsTracker(BaseModel):
     # the browser is not up-to-date. This should be memcached for efficiency since it will be polled quite often.
     current_chat_message_time_string = db.StringProperty(required=False, default = None, indexed = False)    
     
-    # track if the conversation should be shown minimized or maximized
-    current_conversation_is_minimized = db.BooleanProperty(required=False, default=False, indexed = False)
+    # track if the conversation should be shown minimized or maximized,
+    # valid values are "minimized" or "maximized".
+    chatbox_minimized_maximized = db.StringProperty(required=False, indexed = False)
     
 
 class ChatGroupTracker(BaseModel):

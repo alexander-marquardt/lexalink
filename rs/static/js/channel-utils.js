@@ -134,7 +134,7 @@ var chan_utils = new function () {
                     for (var other_uid in conversation_tracker_dict) {
                         var array_of_chat_msg_time_strings = conversation_tracker_dict[other_uid].chat_msg_time_string_arr;
                         var chatbox_title = conversation_tracker_dict[other_uid].chatbox_title;
-                        var box_is_minimized = conversation_tracker_dict[other_uid].box_is_minimized;
+                        var chatbox_minimized_maximized = conversation_tracker_dict[other_uid].chatbox_minimized_maximized;
                         var type_of_conversation = conversation_tracker_dict[other_uid].type_of_conversation;
                         var highlight_box_enabled = true;
 
@@ -174,10 +174,14 @@ var chan_utils = new function () {
                             }
                         }
 
-                        if (box_is_minimized) {
-                            $("#"+ other_uid).chatbox("option", "boxManager").minimizeBox();
-                        } else {
-                            $("#"+ other_uid).chatbox("option", "boxManager").maximizeBox();
+                        if (chatbox_minimized_maximized) {
+                            if (chatbox_minimized_maximized == "minimized") {
+                                $("#"+ other_uid).chatbox("option", "boxManager").minimizeBox();
+                            } else if (chatbox_minimized_maximized == "maximized") {
+                                $("#"+ other_uid).chatbox("option", "boxManager").maximizeBox();
+                            } else {
+                                throw "chatbox_minimized_maximized value: " + chatbox_minimized_maximized;
+                            }
                         }
 
                     }
@@ -382,7 +386,6 @@ var chan_utils = new function () {
                 chan_utils_self.chat_boxes_status = "chat_disabled";
 
                 chatboxManager.closeAllChatBoxes();
-                $("#main").chatbox("option", "boxManager").hideChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
                 $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
             } catch(err) {
@@ -406,7 +409,7 @@ var chan_utils = new function () {
                     chan_utils_self.update_chat_boxes_status_on_server("chat_enabled");
                 }
                 chan_utils_self.start_polling();
-                $("#main").chatbox("option", "boxManager").showChatboxContent();
+                //$("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
                 $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);
 
@@ -482,7 +485,7 @@ var chan_utils = new function () {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
-                data: {'other_uid': other_uid, 'chatbox_status' : 'minimized'},
+                data: {'other_uid': other_uid, 'chatbox_minimized_maximized' : 'minimized'},
                 error: function(jqXHR, textStatus, errorThrown) {
                     report_ajax_error(textStatus, errorThrown, "minimize_chatbox_on_server");
                 }
@@ -505,7 +508,7 @@ var chan_utils = new function () {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
-                data: {'other_uid': other_uid, 'chatbox_status' : 'maximized'},
+                data: {'other_uid': other_uid, 'chatbox_minimized_maximized' : 'maximized'},
                 error: function(jqXHR, textStatus, errorThrown) {
                     report_ajax_error(textStatus, errorThrown, "maximize_chatbox_on_server");
                 }
