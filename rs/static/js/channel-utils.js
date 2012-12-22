@@ -687,7 +687,7 @@ var chan_utils = new function () {
                     var nid = sorted_list_of_names_with_user_info[idx][1]['nid'];
                     var url_description = sorted_list_of_names_with_user_info[idx][1]['url_description'];
                     if (include_href) {
-                        var href = "/" + template_chatbox_vars.language + "/profile/" + nid + "/" + url_description + "/";
+                        var href = "/" + template_presence_vars.language + "/profile/" + nid + "/" + url_description + "/";
                         display_list += '<li><a id="dlist-' + box_name + '-' + nid + '" data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
                     } else {
                         display_list += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';

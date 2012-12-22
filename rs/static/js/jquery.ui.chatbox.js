@@ -594,7 +594,7 @@ var chatboxManager = function() {
 
             if ($("#"+ box_id).length>0) { // make sure the element exists
                 // add hyperlink to allow clicking on title to view the user profile
-                var href = "/" + template_chatbox_vars.language + "/profile/" + nid + "/" + url_description + "/";
+                var href = "/" + template_presence_vars.language + "/profile/" + nid + "/" + url_description + "/";
                 var hyperlink_to_profile = '<a href="' + href +'" rel="address:' + href + '"></a>';
                 $("#"+ box_id).chatbox("option", "boxManager").hyperlinkWrapBoxTitle(hyperlink_to_profile);
             }
