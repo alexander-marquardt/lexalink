@@ -72,7 +72,7 @@ var chan_utils = new function () {
                 chan_utils_self.last_update_time_string_dict = {}; // shortcut for new Object() - uid is the key, and value is last update time
                 //chan_utils_self.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
 
-                chan_utils_self.chat_boxes_status = "chat_enabled"; // should be set to "chat_enabled" or "chat_disabled"
+                chan_utils_self.chat_boxes_status = "unknown"; // "chat_enabled" or "chat_disabled"
                 chan_utils_self.user_presence_status = "user_presence_active"; // should be "user_presence_active", "user_presence_idle", or "user_presence_away"
 
                 chan_utils_self.polling_is_locked_mutex = false; // use to ensure that we only have one polling request at a time - true when polling, false when free
@@ -123,10 +123,14 @@ var chan_utils = new function () {
                 if (("chat_boxes_status" in json_response) && (json_response.chat_boxes_status == "chat_disabled") ||
                    ("user_presence_status" in json_response) && (json_response.user_presence_status == "expired_session"))
                 {
-                    chan_utils_self.execute_go_offline_on_client();
+                    if (chan_utils_self.chat_boxes_status != "chat_disabled") {
+                        chan_utils_self.execute_go_offline_on_client();
+                    }
                 }
                 if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_enabled") {
-                    chan_utils_self.execute_go_online_on_client();
+                    if (chan_utils_self.chat_boxes_status != "chat_enabled") {
+                        chan_utils_self.execute_go_online_on_client();
+                    }
                 }
 
                 if (json_response.hasOwnProperty('conversation_tracker')) {

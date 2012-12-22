@@ -219,7 +219,17 @@ def update_chat_boxes_status(owner_uid, chat_boxes_status):
     try:
         chat_boxes_status_memcache_key = constants.ChatBoxStatus.CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
         memcache.set(chat_boxes_status_memcache_key, chat_boxes_status)
-    
+        
+        if chat_boxes_status == "chat_enabled":
+            chatbox_minimized_maximized = "maximized"
+        elif chat_boxes_status == "chat_disabled":
+            chatbox_minimized_maximized = "minimized"
+        else:
+            raise Exception("Unknown chat_boxes_status: %s" % chat_boxes_status)
+           
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized=chatbox_minimized_maximized, type_of_conversation="NA")
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized=chatbox_minimized_maximized, type_of_conversation="NA")
+         
     except:
         error_reporting.log_exception(logging.critical)    
     
@@ -494,8 +504,8 @@ def open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation):
                 
         # Note: do not move the following call to update_or_create_open_conversation_tracker to above the 
         # store_chat_message call, or it will cause the message to appear twice.
-        is_minimzed = "leave_unchanged"
-        chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, is_minimzed, type_of_conversation)
+        chatbox_minimized_maximized = "leave_unchanged"
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_minimized_maximized, type_of_conversation)
     except:
         error_reporting.log_exception(logging.critical)        
         
