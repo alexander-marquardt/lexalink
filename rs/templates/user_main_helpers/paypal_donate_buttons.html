@@ -121,8 +121,11 @@
                     </select> </td>
 
                     <td class="cl-paypal-td"><input type="hidden" name="currency_code" value="EUR">
-                    <input type="image" src="http://{{ request.META.HTTP_HOST }}/{{ live_static_dir }}/img/{{ build_name }}/paypal/purchase_english.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                    <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1"></td>
+                    <!--<input type="image" src="http://{{ request.META.HTTP_HOST }}/{{ live_static_dir }}/img/{{ build_name }}/paypal/purchase_english.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">-->
+                    <input id="id-paypal-purchase" type="submit" name="submit" value="Purchase">
+
+                    </td>
                     </tr>
 
                     </table>
@@ -153,8 +156,11 @@
                         <!--<option value="0.5 Euros">0.5 Euros€0.50 EUR</option>-->
 
                     </select> </td>
-                    <td class="cl-paypal-td"><input type="image" src="http://{{ request.META.HTTP_HOST }}/{{ live_static_dir }}/img/{{ build_name }}/paypal/purchase_spanish.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                    <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1"></td>
+                    <td class="cl-paypal-td">
+                        <!--<input type="image" src="http://{{ request.META.HTTP_HOST }}/{{ live_static_dir }}/img/{{ build_name }}/paypal/purchase_spanish.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                        <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">-->
+                        <input id="id-paypal-purchase" type="submit" name="submit" value="Comprar">
+                    </td>
                     </tr>
 
                     </table>
@@ -164,3 +170,7 @@
             {% endif %}
         {% endif %}
     </div> <!-- end grid_9 -->
+
+        <script type="text/javascript">
+            $('#id-paypal-purchase').button();
+        </script>
