@@ -241,17 +241,10 @@ td.cl-mark_conversation-td
 
 .cl-submit, .cl-cancel
 {
-        background: url(../img/GraySlice.jpg) center repeat-x;
-	color: white;
+
 	font-weight: normal;
-	border: 3px solid white;
 }
 
-.cl-submit-as-text
-{
-	font-weight: normal;
-	border: 0px;
-}
 
 .cl-manage_messages-button
 {

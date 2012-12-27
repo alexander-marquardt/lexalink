@@ -693,34 +693,12 @@ function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
 
 function mouseover_button_handler(button_object) {
     // defines changes in button appearance when mouse is over
-    button_object.on("mouseover.button_handler", function() {
-        $(this).css("color", "red");
-    }).on("mouseout.button_handler", function() {
-        $(this).css("color", "white");
-    });
-    unloadFuncs.push([undo_func_mouseover_button_handler, button_object]);
+    button_object.button();
 }
 
 function undo_func_mouseover_button_handler(button_object) {
     button_object.off();
 }
-
-
-
-function mouseover_button_handler_scheme2(button_object) {
-    // defines changes in button appearance when mouse is over
-    button_object.on("mouseover.button_handler_scheme2", function() {
-        $(this).css("color", "red");
-    }).on("mouseout.button_handler_scheme2", function() {
-        $(this).css("color", "black");
-    });
-    unloadFuncs.push([undo_func_mouseover_button_handler_scheme2, button_object]);
-}
-
-function undo_func_mouseover_button_handler_scheme2(button_object) {
-    button_object.off();
-}
-
 
 
 function submit_post(section_name, uid) {

@@ -1007,34 +1007,6 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
         message_controls_html += u'<div class="cl-clear"></div>\n'
         
     
-        message_controls_html += u'<div class="grid_7 alpha">'
-        
-        if mailbox_name != "trash" and mailbox_name != "spam":
-            message_controls_html += u'<input type="submit" name="mark_delete" id="id-mark_delete" class="cl-manage_messages-button" value="%s">\n' % ugettext("Delete")
-            if mailbox_name != "sent":
-                message_controls_html += u'<input type="submit" name="mark_read" id="id-mark_read" class="cl-manage_messages-button" value="%s">\n'% ugettext("Mark as read")
-                message_controls_html += u'<input type="submit" name="mark_spam" id="id-mark_spam" class="cl-manage_messages-button" value="%s">\n' % ugettext("Mark as spam")
-        
-        message_controls_html += """
-        <script type="text/javascript">
-        $(document).ready(function() {
-            mouseover_button_handler_scheme2($('.cl-manage_messages-button'));  
-        });
-        </script>"""
-        
-        message_controls_html += u'</div>'
-        message_controls_html += u'<div class="grid_2 omega">&nbsp;'
-        bottom_next_link_html = ''
-        if len(contact_query_results) == CONTACTS_PAGESIZE + 1:
-            next_page_bookmark = str(contact_query_results[-1].key())
-            next_href = reverse('generate_mailbox_with_bookmark', kwargs = {'bookmark' : next_page_bookmark, 'mailbox_name': mailbox_name, 'owner_uid' : owner_uid})
-            next_button = u'<a href="%s" rel="address:%s">%s >></a>\n' % (next_href, next_href, ugettext("Next"))
-            message_controls_html += next_button
-            bottom_next_link_html = u'<div class="grid_7 alpha">&nbsp;</div><div class="grid_2 omega">%s</div>' % next_button
-    
-            
-        message_controls_html += u'</div>\n' # end grid_2
-        
         if mailbox_name != "trash" and mailbox_name != "spam":
             message_controls_html += smart_unicode("""
             <div class="grid_9 alpha omega cl-manage_messages-links">
@@ -1064,7 +1036,36 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
                 handle_ajax_form_submission_with_button_values('.cl-manage_messages-button', '#id-mark_conversation-form', '#id-body_main_html'); 
             
             </script>""") % {'select': ugettext("Select"), 'all' : ugettext("All (messages - override)"), 'none' : ugettext("None (messages - override)")}
+          
+        message_controls_html += u'<div class="grid_7 alpha">'
+        
+        if mailbox_name != "trash" and mailbox_name != "spam":
+            message_controls_html += u'<input type="submit" name="mark_delete" id="id-mark_delete" class="cl-manage_messages-button" value="%s">\n' % ugettext("Delete")
+            if mailbox_name != "sent":
+                message_controls_html += u'<input type="submit" name="mark_read" id="id-mark_read" class="cl-manage_messages-button" value="%s">\n'% ugettext("Mark as read")
+        
+        message_controls_html += """
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('.cl-manage_messages-button').button();  
+        });
+        </script>"""
+        
+        message_controls_html += u'</div>'
+        message_controls_html += u'<div class="cl-clear"></div>\n'
+        
+        message_controls_html += u'<div class="grid_2 omega">&nbsp;'
+        bottom_next_link_html = ''
+        if len(contact_query_results) == CONTACTS_PAGESIZE + 1:
+            next_page_bookmark = str(contact_query_results[-1].key())
+            next_href = reverse('generate_mailbox_with_bookmark', kwargs = {'bookmark' : next_page_bookmark, 'mailbox_name': mailbox_name, 'owner_uid' : owner_uid})
+            next_button = u'<a href="%s" rel="address:%s">%s >></a>\n' % (next_href, next_href, ugettext("Next"))
+            message_controls_html += next_button
+            bottom_next_link_html = u'<div class="grid_7 alpha">&nbsp;</div><div class="grid_2 omega">%s</div>' % next_button
     
+            
+        message_controls_html += u'</div>\n' # end grid_2
+      
         action_href = reverse('manage_mailbox', kwargs = {"owner_uid" : owner_uid})
         form_open_html = '<form method = "POST" id="id-mark_conversation-form" action="%s"> ' % (
             action_href)
