@@ -313,7 +313,7 @@ function update_currency_on_country_change(id_prefix, live_static_dir) {
                 rs_set_selector_to_value(currency_menu_id, "----");
 
             }
-        })
+        });
     } catch (err) {
         report_try_catch_error( err, "load_currency_on_country_change");
     }
@@ -854,7 +854,7 @@ function handle_ajax_form_submission_with_button_values(submit_button_class, for
             var button_object = $('.cl-manage_messages-button');
             button_object.on("click", function () {
                 var extra_data = {'is_ajax_call' : 'yes'};
-                extra_data[$(this).attr("name")] = $(this).attr("value")
+                extra_data[$(this).attr("name")] = $(this).attr("value");
 
                 $('#id-mark_conversation-form').ajaxSubmit({
                     data: extra_data,
@@ -1172,7 +1172,7 @@ function handle_form_ajax_json_response(json_response, target_id) {
     try {
         
         if (disable_jquery_address) {
-            var err = "handle_form_ajax_json_response called in non-ajax build"
+            var err = "handle_form_ajax_json_response called in non-ajax build";
             report_javascript_error_on_server(err);
             throw err;
         }

@@ -237,7 +237,7 @@ var chan_utils = new function () {
 
                         var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
                         $("#id-group_members-dialog-box-" + group_id).html(display_list);
-                        chan_utils_self.showListHoverDescriptions(group_id, group_members_dict)
+                        chan_utils_self.showListHoverDescriptions(group_id, group_members_dict);
                     }
                 }
 
@@ -609,7 +609,7 @@ var chan_utils = new function () {
                     user_or_group_info_dict['url_description'] = users_or_groups_dict[uid]['url_description'];
                     if (box_name === "groups") {
                         var num_group_members = users_or_groups_dict[uid]['num_group_members'];
-                        var num_members_str = FormatNumberLength(num_group_members, 2)
+                        var num_members_str = FormatNumberLength(num_group_members, 2);
                         user_or_group_name = "[" + num_members_str + "] " + users_or_groups_dict[uid]['user_or_group_name'];
                     } else {
                         if (box_name != "main" &&  box_name != "members") {
@@ -714,7 +714,7 @@ var chan_utils = new function () {
             } catch(err) {
                 report_try_catch_error( err, "showListHoverDescriptions");
             }
-        }
+        };
 
         
         this.close_group_members_dialog = function(group_id) {

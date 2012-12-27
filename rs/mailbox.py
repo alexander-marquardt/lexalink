@@ -1010,10 +1010,10 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
         message_controls_html += u'<div class="grid_7 alpha">'
         
         if mailbox_name != "trash" and mailbox_name != "spam":
-            message_controls_html += u'<input type="submit" name="mark_delete" id="id-mark_delete" class="cl-manage_messages-button" value="%s" />\n' % ugettext("Delete")
+            message_controls_html += u'<input type="submit" name="mark_delete" id="id-mark_delete" class="cl-manage_messages-button" value="%s">\n' % ugettext("Delete")
             if mailbox_name != "sent":
-                message_controls_html += u'<input type="submit" name="mark_read" id="id-mark_read" class="cl-manage_messages-button" value="%s" />\n'% ugettext("Mark as read")
-                message_controls_html += u'<input type="submit" name="mark_spam" id="id-mark_spam" class="cl-manage_messages-button" value="%s" />\n' % ugettext("Mark as spam")
+                message_controls_html += u'<input type="submit" name="mark_read" id="id-mark_read" class="cl-manage_messages-button" value="%s">\n'% ugettext("Mark as read")
+                message_controls_html += u'<input type="submit" name="mark_spam" id="id-mark_spam" class="cl-manage_messages-button" value="%s">\n' % ugettext("Mark as spam")
         
         message_controls_html += """
         <script type="text/javascript">

@@ -103,7 +103,7 @@ def html_for_posted_values(login_dict):
             hidden_field_id = "id-hidden_%s" % field
             value = login_dict[field]
             if value and value != '----':
-                html_for_previously_posted_values += '<input type="hidden" id= "%s" name="%s" value="%s" />\n' % (
+                html_for_previously_posted_values += '<input type="hidden" id= "%s" name="%s" value="%s">\n' % (
                     hidden_field_id, hidden_field_name, value)
         
         return html_for_previously_posted_values

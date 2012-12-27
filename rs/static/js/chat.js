@@ -122,4 +122,5 @@ function launch_chatboxes(){
     } catch(err) {
         report_try_catch_error( err, "launch_chatboxes");
     }
-};
+}
+

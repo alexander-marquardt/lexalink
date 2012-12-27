@@ -493,6 +493,8 @@ var initJqueryUiChatbox = function($){
                         case "width":
                             this._setWidth(value);
                             break;
+                        default:
+                            break;
                         }
                     }
 
@@ -736,9 +738,10 @@ var chatboxManager = function() {
                 var idx1 = $.inArray(box_id, showList);
                 var idx2 = $.inArray(box_id, boxList);
                 var open_box_on_server = false;
+                var manager = undefined;
                 if(idx1 != -1) {
                     // Chatbox already exists and is open - apply effect so the user notices it
-                    var manager = $("#"+ box_id).chatbox("option", "boxManager");
+                    manager = $("#"+ box_id).chatbox("option", "boxManager");
                     if (highlight_box_enabled) {
                         manager.highlightBox();
                     }
@@ -749,7 +752,7 @@ var chatboxManager = function() {
                     open_box_on_server = true;
 
                     $("#"+ box_id).chatbox("option", "offset", getNextOffset());
-                    var manager = $("#"+ box_id).chatbox("option", "boxManager");
+                    manager = $("#"+ box_id).chatbox("option", "boxManager");
                     manager.toggleBox();
                     manager._scrollToBottom();
                     showList.push(box_id);
@@ -884,12 +887,13 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 
     try {
 
+        var sort_ascending = undefined;
         if (box_name == "groups") {
             // we are updating the list of chat groups
-            var sort_ascending = false;
+            sort_ascending = false;
         } else {
             // we are updating the list of chat friends
-            var sort_ascending = true;
+            sort_ascending = true;
         }
         var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(box_name, dict_to_display, sort_ascending);
         var display_list = chan_utils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
@@ -956,9 +960,8 @@ var updateGroupChatBoxTitles = function(chat_groups_dict) {
             // the number does not always precisely match the number of users in the group due to update delays
             // and since the number of members is already shown in other locations.
             if ($("#id-group_members-dialog-box-" + gid).length > 0) {
-                $("#id-group_members-dialog-box-" + gid).dialog("option", "title", chatbox_name)
+                $("#id-group_members-dialog-box-" + gid).dialog("option", "title", chatbox_name);
             }
-            
         }
     } catch(err) {
         report_try_catch_error( err, "updateGroupChatBoxTitles");

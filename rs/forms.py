@@ -157,7 +157,7 @@ class FormUtils():
                 text_field_html = cls.generate_input_text_field(intype,  login_type, name, myinputmaxlength, 'cl-standard-textinput-width-px')
                 generated_html += u'<td class="%s" > %s </td>\n' % (
                     right_col_td_format, text_field_html)
-                generated_html += u'</td></tr>\n'
+                generated_html += u'</tr>\n'
                 cls.cache_generated_text_input_table_row[cache_key] = generated_html
         
             return cls.cache_generated_text_input_table_row[cache_key]

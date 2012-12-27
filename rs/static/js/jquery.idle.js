@@ -131,7 +131,7 @@ function IdleClass(idle_params) {
                 try {
                     $(document).dblclick(_active);
                 } catch (err) { }
-    }
+    };
 
     unbind_online_status_event_handlers = function()
     {
@@ -152,7 +152,7 @@ function IdleClass(idle_params) {
                 try {
                     $(document).unbind('dblclick', _active);
                 } catch (err) { }
-    }
+    };
 
     bind_online_status_event_handlers();
     
