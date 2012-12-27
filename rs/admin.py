@@ -121,7 +121,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             # We need to invalidate the profile summary since it has potentially changed based on the approval/dis-approval
             # of the photo.
             parent_uid = str(photo_object.parent_object.key())
-            utils.invalidate_user_summary_memcache(parent_uid)              
+            #utils.invalidate_user_summary_memcache(parent_uid)              
             
         approve_photo_list_of_keys = request.POST.getlist('approve_photo')
         # Photo has been approved as a public photo

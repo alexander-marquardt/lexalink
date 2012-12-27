@@ -142,7 +142,14 @@ class OnlinePresence(object):
     AWAY = "user_presence_away"    # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
     # timeout is when the user has been inactive for so long that they are effectively offline so they will
     # not appear as online in contact lists  -- but they will go "active" if they do anything    
-    TIMEOUT = "user_presence_timeout" 
+    OFFLINE = "user_presence_offline" 
+    
+    presence_text_dict = {
+        ACTIVE: ugettext_lazy("(Active)"),
+        IDLE: ugettext_lazy("(Idle)"),
+        AWAY: ugettext_lazy("(Away)"),
+        OFFLINE: ugettext_lazy("(Offline)"),
+    }
     
     STATUS_MEMCACHE_TRACKER_PREFIX = "_online_status_memcache_tracker_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
@@ -191,7 +198,7 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + settings.VERSION_ID + "_"
 PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + settings.VERSION_ID + "_"
 PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + settings.VERSION_ID + "_"
-PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + settings.VERSION_ID
+#PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + settings.VERSION_ID
 NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + settings.VERSION_ID
 
 

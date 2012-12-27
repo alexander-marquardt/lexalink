@@ -134,12 +134,15 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
     
         # owner userobject refers to the client that is currently logged in
         owner_userobject = utils_top_level.get_userobject_from_request(request)
+        show_vip_info = False
         
         if owner_userobject:
             owner_uid = request.session['userobject_str']
             owner_nid = utils.get_nid_from_uid(owner_uid)
             registered_user_bool = True # viewing user is logged in
             link_to_hide = 'login'
+            if owner_userobject.client_paid_status:
+                show_vip_info = True
         else:
             owner_userobject = None
             owner_uid = ''
@@ -287,6 +290,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             primary_user_profile_data_fields.owner_nid = owner_nid
             primary_user_profile_data_fields.is_adult = constants.IS_ADULT
             
+            
+            
             if vip_status:
                 # Let the user know when their VIP status will expire
                 datetime_to_display = display_userobject.client_paid_status_expiry
@@ -313,6 +318,10 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         # photo boxes -- allows us to hide the photo section if no photos are present
         viewed_profile_data_fields.show_photos_section = is_primary_user or display_userobject.unique_last_login_offset_ref.has_public_photo_offset \
                                   or display_userobject.unique_last_login_offset_ref.has_private_photo_offset
+        
+        if show_vip_info:
+            viewed_profile_data_fields.show_online_status = utils.get_vip_online_status_string(display_uid)
+        
         
         template = loader.get_template("user_main_helpers/main_body.html")
         context = Context(dict({
@@ -883,9 +892,9 @@ def logout(request, html_for_delete_account = ''):
         
         login_utils.clear_old_session(request)
         
-        # mark the user presence as TIMEOUT (if another session is logged into a different browser, this will be
+        # mark the user presence as OFFLINE (if another session is logged into a different browser, this will be
         # over-written to reflect the status in the other session as soon as that session pings the server with its status)
-        channel_support.update_online_status(owner_uid, constants.OnlinePresence.TIMEOUT)
+        channel_support.update_online_status(owner_uid, constants.OnlinePresence.OFFLINE)
         
         response.delete_cookie(settings.SESSION_COOKIE_NAME)
         return response

@@ -218,7 +218,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
              login_utils.get_or_create_unique_last_login(userobject, userobject.username)
             put_userobject(userobject)       
            
-        utils.invalidate_user_summary_memcache(owner_uid) 
+        #utils.invalidate_user_summary_memcache(owner_uid) 
         return HttpResponse('Success')
     
     except:

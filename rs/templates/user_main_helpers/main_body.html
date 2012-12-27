@@ -87,14 +87,21 @@
         <span class="cl-header-format">{% trans "My Profile (visible to the other members)" %}</span><br><br>
 
     {% else %}
-        <div class="grid_9 alpha omega cl-text-large-format"><strong>
+        <div class="grid_9 alpha omega cl-text-large-format">
             {% if not viewed_profile_data_fields.account_has_been_removed_message %}
             {% trans "Profile of" %}
+            <strong>
             {{ viewed_profile_data_fields.display_username }}
+            </strong>
             {% else %}
             {% trans "Eliminated" %}
             {% endif %}
-        </strong></div>
+
+            {% if viewed_profile_data_fields.show_online_status %}
+            {{ viewed_profile_data_fields.show_online_status }}
+            {% endif %}
+        </div>
+
         <div class="cl-clear"></div>
         <br>
         {% if html_for_main.current_status_value %}

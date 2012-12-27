@@ -45,7 +45,7 @@ from django.utils.translation import ugettext, ungettext
 import settings
 from models import UserModel
 
-import constants, queries, text_fields, models
+import constants, queries, text_fields, models, online_presence_support
 
 from models import UnreadMailCount, CountInitiateContact
 from utils_top_level import serialize_entities, deserialize_entities
@@ -360,7 +360,7 @@ def put_userobject(userobject):
     # Invalidate the memcached url_description for this userprofile since it has potentially changed.
     uid = str(userobject.key())
     
-    invalidate_user_summary_memcache(uid)
+    #invalidate_user_summary_memcache(uid)
     
     for lang_tuple in settings.LANGUAGES:
         lang_code = lang_tuple[0]
@@ -371,14 +371,14 @@ def put_userobject(userobject):
         memcache_status = memcache.delete(profile_title_memcache_key_str)
         
 
-def invalidate_user_summary_memcache(uid):
-    # invalidates the profile summary that is stored in memcache - this should be done when 
-    # changes to the user profile are made, including any modifications to the photos that
-    # have been uploaded - also, when photos are approved this should be called. 
-    for lang_tuple in settings.LANGUAGES:
-        lang_code = lang_tuple[0]
-        summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
-        memcache_status = memcache.delete(summary_first_half_memcache_key_str)
+#def invalidate_user_summary_memcache(uid):
+    ## invalidates the profile summary that is stored in memcache - this should be done when 
+    ## changes to the user profile are made, including any modifications to the photos that
+    ## have been uploaded - also, when photos are approved this should be called. 
+    #for lang_tuple in settings.LANGUAGES:
+        #lang_code = lang_tuple[0]
+        #summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
+        #memcache_status = memcache.delete(summary_first_half_memcache_key_str)
     
 def do_query(model_to_query, query_filter_dict, order_by = None):
     # This is a helper function that takes care of querying the database.
@@ -472,6 +472,12 @@ def create_contact_counter_object():
     contact_counter.put()
     return contact_counter
 
+def get_vip_online_status_string(userobject_key):
+    online_status = online_presence_support.get_online_status(userobject_key)
+    status_string = constants.OnlinePresence.presence_text_dict[online_status]
+    return status_string
+    
+    
 
 def get_photo_message(userobject):
 

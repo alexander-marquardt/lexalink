@@ -36,14 +36,14 @@ from django import http
 
 from google.appengine.api import memcache
 
-from utils import *
-from forms import FormUtils
-import forms
-from models import UserModel
-from user_profile_main_data import UserSpec
-from user_profile_details import UserProfileDetails
-from constants import ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN
-from localizations import *
+from rs.utils import *
+from rs.forms import FormUtils
+from rs import forms
+from rs.models import UserModel
+from rs.user_profile_main_data import UserSpec
+from rs.user_profile_details import UserProfileDetails
+from rs.constants import ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN
+from rs.localizations import *
 import store_data, utils, error_reporting
 import rendering, text_fields, utils_top_level, vip_status_support
 import profile_utils
@@ -60,7 +60,7 @@ PAGESIZE = 6
 MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
 
-def display_userobject_first_half_summary(request, userobject):
+def display_userobject_first_half_summary(request, userobject, show_vip_info):
     # returns a summary of a single users userobject. 
     #
     
@@ -89,8 +89,16 @@ def display_userobject_first_half_summary(request, userobject):
     
         heading_text = ugettext("See profile of:")
         generated_html += u'<div class="grid_9 alpha omega cl-text-14pt-format">\
-        <a href="%s" rel="address:%s"><strong>%s</strong> %s</a><br><br></div>\n' % (
+        <a href="%s" rel="address:%s"><strong>%s</strong> %s' % (
             userobject_href, userobject_href, heading_text, userobject.username)
+        
+        
+        if show_vip_info:
+            userobject_key = str(userobject.key())
+            status_string = utils.get_vip_online_status_string(userobject_key)
+            generated_html += u' %s' % status_string
+        
+        generated_html += "</a><br><br></div>\n"
         
         status_string = ''
         # Note, the "and userobject.current_status" should be eventually removed for efficiency .. but
@@ -245,15 +253,11 @@ def display_userobject_second_half_summary(userobject):
         return ""        
         
         
-def get_userobject_summary_with_memcache_check(request, userobject_key):
+def get_userobject_summary_with_memcache_check(request, userobject_key, show_vip_info):
     
     """
     This is a wrapper function for display_userobject_summary that computes the summary only if it is not in
-    memcache. 
-    
-    Have not benchmarked to see if this actually makes a difference ... it might not be worth the added complexity. 
-    
-    This memcache must be invalidates every time that the userobject is written, and is taken care of in put_userobject().
+    memcache. We removed the memcaching of the summaries.
     """
     
     if not userobject_key:
@@ -263,19 +267,13 @@ def get_userobject_summary_with_memcache_check(request, userobject_key):
     uid = str(userobject_key)
     userobject = utils_top_level.get_object_from_string(uid)  
 
-    summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
-    summary_first_half_html = memcache.get(summary_first_half_memcache_key_str)
-    if summary_first_half_html is None:
-        # compute the userobject summary and update memcache
-        summary_first_half_html = display_userobject_first_half_summary(request, userobject)
-        memcache.set(summary_first_half_memcache_key_str, summary_first_half_html, constants.SECONDS_PER_DAY)
-              
+    summary_first_half_html = display_userobject_first_half_summary(request, userobject, show_vip_info)              
     summary_second_half_html = display_userobject_second_half_summary(userobject)
         
     return summary_first_half_html + summary_second_half_html
     
 
-def generate_html_for_search_results(request, query_results_keys):
+def generate_html_for_search_results(request, query_results_keys, show_vip_info):
     # Accepts results from a query, which is an array of user profiles that matched the previous query.
     # Goes through each profile, and generates a snippett of text + profile photo, which give a 
     # basic introduction to the user.
@@ -289,7 +287,7 @@ def generate_html_for_search_results(request, query_results_keys):
 
     
     for userobject_key in query_results_keys:
-        generated_html += get_userobject_summary_with_memcache_check(request, userobject_key)
+        generated_html += get_userobject_summary_with_memcache_check(request, userobject_key, show_vip_info)
         
     return generated_html
 
@@ -638,6 +636,10 @@ def generate_search_results(request, type_of_search = "normal"):
         generated_html_submit_search_second_half = ''        
         
         userobject =  utils_top_level.get_userobject_from_request(request)
+        show_vip_info = False
+        if userobject and userobject.client_paid_status:
+            show_vip_info = True
+            
     
         search_vals_dict = {}
         
@@ -768,7 +770,7 @@ def generate_search_results(request, type_of_search = "normal"):
             elif  0 < len_new_query_results < num_results_needed:
                 # the current query was not able to get enough results to satisfy the current query, we 
                 # generate results for the results that were returned. 
-                generated_html_body +=  generate_html_for_search_results(request, new_query_results_keys)  
+                generated_html_body +=  generate_html_for_search_results(request, new_query_results_keys, show_vip_info)  
                 len_query_results_currently_stored += len_new_query_results
                 search_vals_dict['bookmark'] = ""
                 
@@ -778,7 +780,7 @@ def generate_search_results(request, type_of_search = "normal"):
                     # by construction, we are guaranteed that len_new_query_results >= num_results_needed.
                     # can remove this assert in the future. 
                     assert(len_new_query_results >= num_results_needed)
-                    generated_html_body += generate_html_for_search_results(request, new_query_results_keys[:-1])  
+                    generated_html_body += generate_html_for_search_results(request, new_query_results_keys[:-1], show_vip_info)  
                     last_userobject = utils_top_level.get_object_from_string(str(new_query_results_keys[-1]))
                     # get the value of last_login_string, or unique_last_login (or in the future other criteria)
                     # that is stored on the "last_userobject"
@@ -786,7 +788,7 @@ def generate_search_results(request, type_of_search = "normal"):
                 elif type_of_search == "by_name":
                     # cursors are used for this search, and we did not generate an extra tail value as a bookmark
                     # therefore, we pass in the entire list of keys without chopping off the last value.
-                    generated_html_body += generate_html_for_search_results(request, new_query_results_keys) 
+                    generated_html_body += generate_html_for_search_results(request, new_query_results_keys, show_vip_info) 
                     assert(paging_cursor)
                     
                     # Note, that the paging cursor refers to the spot immediately following the result set,

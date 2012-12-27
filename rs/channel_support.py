@@ -394,7 +394,7 @@ def process_message_to_chat_group(from_uid, group_uid, chatbox_minimized_maximiz
             user_presence_status = online_presence_support.get_online_status(owner_uid)
             chat_box_status = online_presence_support.get_chat_boxes_status(owner_uid)
                 
-            if chat_box_status == constants.ChatBoxStatus.IS_DISABLED or user_presence_status == constants.OnlinePresence.TIMEOUT:
+            if chat_box_status == constants.ChatBoxStatus.IS_DISABLED or user_presence_status == constants.OnlinePresence.OFFLINE:
                 chat_support.delete_uid_from_group(owner_uid, group_uid)
             else:
                 chat_support.update_or_create_open_conversation_tracker(owner_uid, group_uid, chatbox_minimized_maximized, type_of_conversation)

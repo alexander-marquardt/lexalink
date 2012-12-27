@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-12 21:55+0100\n"
+"POT-Creation-Date: 2012-12-27 20:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -76,7 +76,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:699 rs/display_contacts.py:337 rs/forms.py:1083
-#: rs/login_utils.py:238 rs/rendering.py:388 rs/store_data.py:1569
+#: rs/login_utils.py:248 rs/rendering.py:393 rs/store_data.py:1569
 #: rs/utils.py:1541
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Friend welcome %(username)s %(app_name)s"
 msgstr ""
 
-#: rs/batch_jobs.py:102 rs/constants.py:345
+#: rs/batch_jobs.py:102 rs/constants.py:390
 msgid "website to meet people, make friends, and to earn money"
 msgstr ""
 
@@ -105,12 +105,12 @@ msgstr ""
 msgid "More details about me"
 msgstr ""
 
-#: rs/callbacks_from_html.py:98 rs/search_results.py:160
+#: rs/callbacks_from_html.py:98 rs/search_results.py:170
 #: rs/user_profile_details.py:204
 msgid "Languages I speak"
 msgstr ""
 
-#: rs/callbacks_from_html.py:121 rs/login_utils.py:899
+#: rs/callbacks_from_html.py:121 rs/login_utils.py:909
 msgid "Email"
 msgstr ""
 
@@ -163,94 +163,110 @@ msgstr ""
 msgid "See the bottom of the window for information on becoming a VIP member."
 msgstr ""
 
-#: rs/channel_support.py:527
+#: rs/channel_support.py:569
 msgid "Error - group creation limit exceeded"
 msgstr ""
 
-#: rs/channel_support.py:546
+#: rs/channel_support.py:590
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
-#: rs/constants.py:323
+#: rs/constants.py:148
+msgid "(Active)"
+msgstr ""
+
+#: rs/constants.py:149 rs/templates/user_main_helpers/chat.html:70
+msgid "(Idle)"
+msgstr ""
+
+#: rs/constants.py:150 rs/templates/user_main_helpers/chat.html:74
+msgid "(Away)"
+msgstr ""
+
+#: rs/constants.py:151
+msgid "(Offline)"
+msgstr ""
+
+#: rs/constants.py:368
 msgid "confidential dating website"
 msgstr ""
 
-#: rs/constants.py:327
+#: rs/constants.py:372
 msgid "serious dating website"
 msgstr ""
 
-#: rs/constants.py:330
+#: rs/constants.py:375
 msgid "website to learn languages and meet people"
 msgstr ""
 
-#: rs/constants.py:333
+#: rs/constants.py:378
 msgid "lesbian dating website"
 msgstr ""
 
-#: rs/constants.py:337
+#: rs/constants.py:382
 msgid "gay dating website"
 msgstr ""
 
-#: rs/constants.py:341
+#: rs/constants.py:386
 msgid "swingers website"
 msgstr ""
 
-#: rs/constants.py:388
+#: rs/constants.py:433
 msgid "confidential dating"
 msgstr ""
 
-#: rs/constants.py:389
+#: rs/constants.py:434
 msgid "dating"
 msgstr ""
 
-#: rs/constants.py:390
+#: rs/constants.py:435
 msgid "language exchange"
 msgstr ""
 
-#: rs/constants.py:391
+#: rs/constants.py:436
 msgid "swingers"
 msgstr ""
 
-#: rs/constants.py:392
+#: rs/constants.py:437
 msgid "gay dating"
 msgstr ""
 
-#: rs/constants.py:393
+#: rs/constants.py:438
 msgid "lesbian dating"
 msgstr ""
 
-#: rs/constants.py:425
+#: rs/constants.py:470
 msgid ""
 "Username needs at least 3 characters and can only contain letters and "
 "numbers. Additionally, it may not contain any spaces."
 msgstr ""
 
-#: rs/constants.py:427
+#: rs/constants.py:472
 msgid "Password required"
 msgstr ""
 
-#: rs/constants.py:428
+#: rs/constants.py:473
 msgid ""
 "Password may only contain letters and numbers, and cannot contain spaces."
 msgstr ""
 
-#: rs/constants.py:429
+#: rs/constants.py:474
 msgid "The password and the verification must be the same."
 msgstr ""
 
-#: rs/constants.py:430
+#: rs/constants.py:475
 msgid "The username that you have selected is not available."
 msgstr ""
 
-#: rs/constants.py:431
+#: rs/constants.py:476
 msgid "Username/email + password is incorrect"
 msgstr ""
 
-#: rs/constants.py:432
+#: rs/constants.py:477
 msgid "The email address is not valid"
 msgstr ""
 
-#: rs/constants.py:436
+#: rs/constants.py:481
 #, python-format
 msgid ""
 "You can only send %(num)s messages to another user in a single %(hours)s-"
@@ -259,84 +275,84 @@ msgid ""
 "more frequent contact."
 msgstr ""
 
-#: rs/constants.py:447
+#: rs/constants.py:492
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:448 rs/mailbox.py:709 rs/text_fields.py:75
+#: rs/constants.py:493 rs/mailbox.py:709 rs/text_fields.py:75
 msgid "Sent"
 msgstr ""
 
-#: rs/constants.py:449 rs/mailbox.py:701 rs/mailbox.py:715
+#: rs/constants.py:494 rs/mailbox.py:701 rs/mailbox.py:715
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr ""
 
-#: rs/constants.py:450
+#: rs/constants.py:495
 msgid "Saved"
 msgstr ""
 
-#: rs/constants.py:453
+#: rs/constants.py:498
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:454
+#: rs/constants.py:499
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:456
+#: rs/constants.py:501
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:457
+#: rs/constants.py:502
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:460
+#: rs/constants.py:505
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:462
+#: rs/constants.py:507
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:463
+#: rs/constants.py:508
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:464
+#: rs/constants.py:509
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:465
+#: rs/constants.py:510
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:469 rs/constants.py:470
+#: rs/constants.py:514 rs/constants.py:515
 msgid "Chat requests"
 msgstr ""
 
-#: rs/constants.py:471
+#: rs/constants.py:516
 msgid "Chat connections"
 msgstr ""
 
-#: rs/constants.py:475
+#: rs/constants.py:520
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:477
+#: rs/constants.py:522
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:478
+#: rs/constants.py:523
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:479
+#: rs/constants.py:524
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:480
+#: rs/constants.py:525
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
@@ -374,8 +390,8 @@ msgid "Confirmation of your email address"
 msgstr ""
 
 #: rs/email_utils.py:183 rs/email_utils.py:226 rs/email_utils.py:286
-#: rs/email_utils.py:364 rs/email_utils.py:636 rs/login_utils.py:662
-#: rs/login_utils.py:681
+#: rs/email_utils.py:364 rs/email_utils.py:636 rs/login_utils.py:672
+#: rs/login_utils.py:691
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
@@ -416,7 +432,7 @@ msgstr ""
 msgid "Are you sure you want to eliminate your account?"
 msgstr ""
 
-#: rs/email_utils.py:296 rs/login_utils.py:498
+#: rs/email_utils.py:296 rs/login_utils.py:508
 msgid "Error - Not authorized"
 msgstr ""
 
@@ -2165,48 +2181,48 @@ msgstr "Western Sahara"
 msgid "All Countries"
 msgstr ""
 
-#: rs/login_utils.py:215
+#: rs/login_utils.py:225
 msgid "is not valid"
 msgstr ""
 
-#: rs/login_utils.py:438
+#: rs/login_utils.py:448
 msgid "We have eliminated the profile of"
 msgstr ""
 
-#: rs/login_utils.py:446
+#: rs/login_utils.py:456
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:472 rs/login_utils.py:501 rs/views.py:882
+#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:878
 msgid "You have exited"
 msgstr ""
 
-#: rs/login_utils.py:496
+#: rs/login_utils.py:506
 msgid "Profile does not exist"
 msgstr ""
 
-#: rs/login_utils.py:660
+#: rs/login_utils.py:670
 msgid "Verification of your email and registration"
 msgstr ""
 
-#: rs/login_utils.py:664
+#: rs/login_utils.py:674
 #, python-format
 msgid ""
 "To activate your account in %(app_name)s, click on the following link to "
 "verify your request"
 msgstr ""
 
-#: rs/login_utils.py:669
+#: rs/login_utils.py:679
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:680
+#: rs/login_utils.py:690
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:683
+#: rs/login_utils.py:693
 #, python-format
 msgid ""
 "\n"
@@ -2216,7 +2232,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:727
+#: rs/login_utils.py:737
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2224,7 +2240,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:754
+#: rs/login_utils.py:764
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2233,15 +2249,15 @@ msgid ""
 "this account."
 msgstr ""
 
-#: rs/login_utils.py:838
+#: rs/login_utils.py:848
 msgid "We have sent registration instructions to"
 msgstr ""
 
-#: rs/login_utils.py:839
+#: rs/login_utils.py:849
 msgid "from"
 msgstr ""
 
-#: rs/login_utils.py:844
+#: rs/login_utils.py:854
 #, python-format
 msgid ""
 "If you do not receive an email within a few minutes please check your Spam "
@@ -2251,27 +2267,27 @@ msgid ""
 "        future emails from us without any problems."
 msgstr ""
 
-#: rs/login_utils.py:853
+#: rs/login_utils.py:863
 msgid "If you have any problems or suggestions, send us a message at"
 msgstr ""
 
-#: rs/login_utils.py:858 rs/login_utils.py:902
+#: rs/login_utils.py:868 rs/login_utils.py:912
 msgid "Registering"
 msgstr ""
 
-#: rs/login_utils.py:896
+#: rs/login_utils.py:906
 msgid "If the email address "
 msgstr ""
 
-#: rs/login_utils.py:896
+#: rs/login_utils.py:906
 msgid "is not correct, re-enter it here"
 msgstr ""
 
-#: rs/login_utils.py:899
+#: rs/login_utils.py:909
 msgid "Change email address"
 msgstr ""
 
-#: rs/mailbox.py:249 rs/mailbox.py:279 rs/mailbox.py:1066
+#: rs/mailbox.py:249 rs/mailbox.py:279 rs/mailbox.py:1038
 msgid "All (messages - override)"
 msgstr "All"
 
@@ -2332,11 +2348,11 @@ msgstr ""
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:874 rs/mailbox.py:1015
+#: rs/mailbox.py:874 rs/mailbox.py:1045
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:880 rs/mailbox.py:1013
+#: rs/mailbox.py:880 rs/mailbox.py:1043
 msgid "Delete"
 msgstr ""
 
@@ -2348,7 +2364,7 @@ msgstr ""
 msgid "Move to received mailbox"
 msgstr ""
 
-#: rs/mailbox.py:893 rs/mailbox.py:1016
+#: rs/mailbox.py:893
 msgid "Mark as spam"
 msgstr ""
 
@@ -2364,29 +2380,29 @@ msgstr ""
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:1031 rs/search_results.py:840 rs/search_results.py:851
-msgid "Next"
-msgstr ""
-
-#: rs/mailbox.py:1066
+#: rs/mailbox.py:1038
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:1066
+#: rs/mailbox.py:1038
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:1077
+#: rs/mailbox.py:1062 rs/search_results.py:844 rs/search_results.py:855
+msgid "Next"
+msgstr ""
+
+#: rs/mailbox.py:1078
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:1079
+#: rs/mailbox.py:1080
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:1080
+#: rs/mailbox.py:1081
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2423,12 +2439,12 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:206 rs/views.py:158
+#: rs/rendering.py:215 rs/views.py:158
 #, python-format
 msgid "Remember the following benefits of registering with %(app_name)s."
 msgstr ""
 
-#: rs/rendering.py:208 rs/views.py:160
+#: rs/rendering.py:217 rs/views.py:160
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:146
 #, python-format
 msgid "List of benefits for registering with %(app_name)s."
@@ -2439,7 +2455,7 @@ msgstr ""
 "your privacy. Your profile has a public part, and a private part. Only "
 "members who you authorize will have access to your private photos."
 
-#: rs/rendering.py:221 rs/views.py:153
+#: rs/rendering.py:230 rs/views.py:153
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2499,15 +2515,15 @@ msgstr ""
 msgid "Finished"
 msgstr ""
 
-#: rs/search_results.py:129
+#: rs/search_results.py:139
 msgid "About me"
 msgstr ""
 
-#: rs/search_results.py:168
+#: rs/search_results.py:178
 msgid "Native language"
 msgstr ""
 
-#: rs/search_results.py:236
+#: rs/search_results.py:246
 msgid "Last entrance"
 msgstr ""
 
@@ -2592,7 +2608,7 @@ msgstr "Relationship status: %(relationship_status)s"
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:712
+#: rs/search_results.py:716
 msgid "Showing results for"
 msgstr ""
 
@@ -3867,7 +3883,7 @@ msgstr ""
 "the more complete that your profile is, the higher your profile will appear "
 "in search results."
 
-#: rs/views.py:864
+#: rs/views.py:859
 msgid "terms.html"
 msgstr ""
 
@@ -4435,52 +4451,40 @@ msgstr ""
 msgid "Online chat friends"
 msgstr "Chat friends"
 
-#: rs/templates/user_main_helpers/chat.html:70
-msgid "(Idle)"
-msgstr ""
-
-#: rs/templates/user_main_helpers/chat.html:74
-msgid "Offline"
-msgstr ""
-
 #: rs/templates/user_main_helpers/chat.html:78
-msgid "(Away)"
-msgstr ""
-
-#: rs/templates/user_main_helpers/chat.html:82
 msgid "You are currently offline. You must go online to see your contacts."
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:87
+#: rs/templates/user_main_helpers/chat.html:83
 msgid "We are loading your online contact list. This may take a few moments."
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:91
+#: rs/templates/user_main_helpers/chat.html:87
 msgid "We are loading available chat groups. This may take a few moments."
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:96
+#: rs/templates/user_main_helpers/chat.html:92
 msgid "loading"
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:100
+#: rs/templates/user_main_helpers/chat.html:96
 msgid "Chat groups"
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:104
-#: rs/templates/user_main_helpers/chat.html:131
+#: rs/templates/user_main_helpers/chat.html:100
+#: rs/templates/user_main_helpers/chat.html:127
 msgid "Create a group"
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:108
+#: rs/templates/user_main_helpers/chat.html:104
 msgid "Video call"
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:112
+#: rs/templates/user_main_helpers/chat.html:108
 msgid "Group members"
 msgstr ""
 
-#: rs/templates/user_main_helpers/chat.html:124
+#: rs/templates/user_main_helpers/chat.html:120
 msgid "Please enter the group name to create and join:"
 msgstr ""
 

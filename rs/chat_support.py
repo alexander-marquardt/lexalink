@@ -245,7 +245,7 @@ def get_group_members_dict(lang_code, group_uid):
                 user_presence_status = online_presence_support.get_online_status(member_uid)
                 chat_boxes_status = online_presence_support.get_chat_boxes_status(member_uid)
                 
-                if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT:                    
+                if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE:                    
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
@@ -294,7 +294,7 @@ def get_friends_online_dict(lang_code, owner_uid):
             user_presence_status = online_presence_support.get_online_status(uid)
             chat_boxes_status = online_presence_support.get_chat_boxes_status(uid)
             
-            if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.TIMEOUT: # for purposes of chat list update, offline and timeout are the same
+            if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE: # for purposes of chat list update, offline and timeout are the same
                 online_contacts_info_dict[uid] = user_info_dict[uid]
                 online_contacts_info_dict[uid]['user_presence_status'] = user_presence_status
                     

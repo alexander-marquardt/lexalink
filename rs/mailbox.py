@@ -588,7 +588,8 @@ def mail_message_display(request, owner_uid, other_uid):
 ###########################################################################
 
 def display_conversation_summary(request, have_sent_messages_object,
-                                 show_checkbox_beside_summary = False):
+                                 show_checkbox_beside_summary = False,
+                                 show_vip_info = False):
     # Display the summary of a conversation between two users. Used for display in the mailbox view,
     # as well as at the bottom of each profile that is viewed (so that each user always knows what
     # previous contact they have had with each client)
@@ -752,6 +753,9 @@ def display_conversation_summary(request, have_sent_messages_object,
             generated_html += '<div class="cl-grid_160px  grid_custom alpha omega">\n'
             generated_html += u'<a href="%s" rel="address:%s"><span><strong>%s</strong></span></a>\n' % (
                 other_userobject_href, other_userobject_href, other_userobject.username)
+            
+            if show_vip_info:
+                generated_html += u"%s" % utils.get_vip_online_status_string(str(other_userobject.key()))
         
 
             checkbox_html = '<td class="cl-mark_conversation-td"><input type = "checkbox" name="mark_conversation" \
@@ -951,6 +955,8 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
     
         userobject =  utils_top_level.get_object_from_string(owner_uid)
         username = userobject.username
+        show_vip_info = True if userobject.client_paid_status else False
+            
         
         generated_html = """<script type="text/javascript">
         $(document).ready(function() {
@@ -986,11 +992,10 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
                         error_message = "User: %s counter exception" % userobject.username
                         error_reporting.log_exception(logging.error, error_message=error_message)    
        
-        
+        show_checkbox_beside_summary = True        
         for have_sent_messages in contact_query_results[:CONTACTS_PAGESIZE]:
-            
             (conversation_html, have_sent_messages_bool) = \
-             display_conversation_summary(request, have_sent_messages, show_checkbox_beside_summary = True)
+             display_conversation_summary(request, have_sent_messages, show_checkbox_beside_summary, show_vip_info)
             generated_mail_html += conversation_html
     
         generated_mail_html += u'<div class="cl-clear"></div>\n'

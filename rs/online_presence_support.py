@@ -62,10 +62,10 @@ def get_online_status(owner_uid):
         # users activity
         presence_tracker_memcache_key = constants.OnlinePresence.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
         presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
-        user_presence_status = constants.OnlinePresence.TIMEOUT
+        user_presence_status = constants.OnlinePresence.OFFLINE
         if presence_tracker is not None:
 
-            if (presence_tracker.user_presence_status != constants.OnlinePresence.TIMEOUT):
+            if (presence_tracker.user_presence_status != constants.OnlinePresence.OFFLINE):
                 
                 polling_response_time = get_polling_response_time_from_current_status(presence_tracker.user_presence_status)
                 if presence_tracker.connection_verified_time +\
@@ -76,7 +76,7 @@ def get_online_status(owner_uid):
         
     except:
         error_reporting.log_exception(logging.critical)
-        return constants.OnlinePresence.TIMEOUT
+        return constants.OnlinePresence.OFFLINE
     
 
 def get_chat_boxes_status(owner_uid):
