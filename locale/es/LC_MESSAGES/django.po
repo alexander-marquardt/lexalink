@@ -4094,7 +4094,7 @@ msgstr ""
 #: rs/proprietary/templates/proprietary_ads/Gay.html:9
 #: rs/templates/login.html:155
 msgid "Free gay dating"
-msgstr "Contactos y citas gratis para gays"
+msgstr "Contactos gratis para gays"
 
 #: rs/proprietary/search_engine_overrides.py:78
 msgid "meet people and have fun"
