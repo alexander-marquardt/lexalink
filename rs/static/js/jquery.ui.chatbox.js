@@ -59,6 +59,14 @@ function AddChatboxInputToWidget(self, include_chatbox_input) {
     // modifies uiChatboxInput to contain uiChatboxInputBox. Note: "self" is modified
     // to contain the newly created textarea "uiChatboxInputBox"
 
+    function focusin_function(self) {
+        self.uiChatboxTitlebar.addClass('ui-state-focus');
+        self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
+        self.uiChatboxLog.scrollTop(self.uiChatboxLog.get(0).scrollHeight);
+        chan_utils.set_focusin_polling_delay();
+        chan_utils.call_poll_server_for_status_and_new_messages();
+    }
+
     try {
         var uiChatboxInput = null;
         if (include_chatbox_input) {
@@ -82,12 +90,10 @@ function AddChatboxInputToWidget(self, include_chatbox_input) {
                 }
             })
             .focusin(function() {
-                self.uiChatboxTitlebar.addClass('ui-state-focus');
-                self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
-                var box = $(this).parent().prev();
-                box.scrollTop(box.get(0).scrollHeight);
-                chan_utils.set_focusin_polling_delay();
-                chan_utils.call_poll_server_for_status_and_new_messages();
+                focusin_function(self);
+            })
+            .click(function() {
+                focusin_function(self);
             })
             .focusout(function() {
                 self.uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
@@ -188,7 +194,6 @@ var initJqueryUiChatbox = function($){
                                 // Otherwise, bad things happen (widgets disappear etc.)
                                 self.highlightLock = true;
                                 self.elem.uiChatboxTitlebar.effect("highlight", {color: '#FFEEFF'}, 3000, function() {
-        //                        self.elem.uiChatbox.effect("bounce", {times:1}, 100, function(){
                                     self.highlightLock = false;
                                     self._scrollToBottom();
                                 });
