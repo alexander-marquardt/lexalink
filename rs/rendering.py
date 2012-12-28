@@ -38,7 +38,7 @@ import settings
 import forms, admin, utils, error_reporting, logging
 from models import UserModel
 from forms import FormUtils
-import constants, text_fields, time, chat_support, localizations, http_utils, common_data_structs, channel_support
+import constants, text_fields, time, chat_support, localizations, http_utils, common_data_structs, channel_support, online_presence_support
 import online_presence_support
 from rs.import_search_engine_overrides import *
 
@@ -201,7 +201,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             
             # Update user online presence - since we know that the user is logged in and has just requested a page to 
             # be rendered, we are sure that they are active. The computational cost of this is very low.
-            channel_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
+            online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
             additional_ads_to_append = get_additional_ads_to_append(request, userobject)
     
         else:

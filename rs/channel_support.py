@@ -173,7 +173,7 @@ def update_user_presence_on_server(request):
             owner_uid = request.session['userobject_str']
             user_presence_status = request.POST.get('user_presence_status', '')
             assert(user_presence_status)
-            update_online_status(owner_uid, user_presence_status)
+            online_presence_support.update_online_status(owner_uid, user_presence_status)
             response = "OK"
         else:
             response = constants.SessionStatus.EXPIRED_SESSION 
@@ -183,35 +183,7 @@ def update_user_presence_on_server(request):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseBadRequest("Error");
     
-    
-def update_online_status(owner_uid, user_presence_status):
 
-    # presence_tracker is indexed by the uid of the owner - this structure is used for keeping track of
-    # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
-    # enabled/idle/away/logged off. 
-    #
-    # user_status: ACTIVE, IDLE, AWAY
-    #
-    # presence_tracker should be pulled out memcache. 
-    
-    try:
-
-        assert(user_presence_status)
-        
-        presence_tracker_memcache_key = constants.OnlinePresence.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
-        presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
-        
-        if presence_tracker is None:
-            presence_tracker = models.OnlineStatusTracker()
-            
-        presence_tracker.user_presence_status = user_presence_status
-
-        presence_tracker.connection_verified_time = datetime.datetime.now()
-        memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entities(presence_tracker))  
-            
-    except:
-        error_reporting.log_exception(logging.critical)
-                
             
 def update_chat_boxes_status(owner_uid, chat_boxes_status):
     
@@ -257,7 +229,7 @@ def poll_server_for_status_and_new_messages(request):
             else:
                 assert(False)
             
-            update_online_status(owner_uid, user_presence_status)
+            online_presence_support.update_online_status(owner_uid, user_presence_status)
             
             assert(owner_uid == request.session['userobject_str'])
                                     
@@ -423,7 +395,7 @@ def post_message(request):
             return http.HttpResponse(error_message)
         
         # They just posted a message, and therefore are active.
-        update_online_status(from_uid, constants.OnlinePresence.ACTIVE)
+        online_presence_support.update_online_status(from_uid, constants.OnlinePresence.ACTIVE)
         
         if request.method == 'POST':
             json_post_data = simplejson.loads(request.raw_post_data)

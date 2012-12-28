@@ -54,7 +54,7 @@ import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, site_configuration
-from rs import profile_utils, online_presence_support
+from rs import profile_utils, online_presence_support, online_presence_support
 from django import http
 import http_utils, common_data_structs
 
@@ -883,7 +883,7 @@ def logout(request, html_for_delete_account = ''):
             userobject = utils_top_level.get_userobject_from_request(request)  
             # mark the user presence as OFFLINE (if another session is logged into a different browser, this will be
             # over-written to reflect the status in the other session as soon as that session pings the server with its status)
-            channel_support.update_online_status(owner_uid, constants.OnlinePresence.OFFLINE)            
+            online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.OFFLINE)            
 
         except:
             userobject = None

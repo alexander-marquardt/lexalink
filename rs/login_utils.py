@@ -53,7 +53,7 @@ import utils, utils_top_level, channel_support, chat_support, backup_data
 import forms
 import error_reporting
 import models
-import localizations, user_profile_main_data
+import localizations, user_profile_main_data, online_presence_support
 import rendering
 import http_utils
 
@@ -81,7 +81,7 @@ def store_session(request, userobject):
     utils.add_session_id_to_user_tracker(userobject.user_tracker, request.session.sid)
     
     # force user to appear online and active in the chat boxes (from module chat_support)
-    channel_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
+    online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
     channel_support.update_chat_boxes_status(owner_uid, constants.ChatBoxStatus.IS_ENABLED)
 
     # create "in-the-cloud" backups of the userobject

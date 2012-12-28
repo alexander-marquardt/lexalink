@@ -55,11 +55,9 @@ def get_polling_response_time_from_current_status(user_presence_status):
 
 def get_online_status(owner_uid):
     # Check if a user is online - this can be verified by checking the time of the last polling/checkin
-    # and by checking that they have not logged-out (either from chat or from the website completely)
+    # and comparing this to the maximum expected polling delay
     
     try:
-        # check the memcache-only friend tracker login time, since this gives us an accurate reading of the
-        # users activity
         presence_tracker_memcache_key = constants.OnlinePresence.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
         presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
         user_presence_status = constants.OnlinePresence.OFFLINE
@@ -71,14 +69,50 @@ def get_online_status(owner_uid):
                 if presence_tracker.connection_verified_time +\
                    datetime.timedelta(seconds = polling_response_time) >= datetime.datetime.now() :
                     user_presence_status = presence_tracker.user_presence_status
-                
+                else:
+                    # The user has timed-out, they are now considered offline
+                    user_presence_status = constants.OnlinePresence.OFFLINE
+                    update_online_status(owner_uid, user_presence_status)
+                    
+        else:
+            user_presence_status = constants.OnlinePresence.OFFLINE
+                    
         return user_presence_status
         
     except:
         error_reporting.log_exception(logging.critical)
         return constants.OnlinePresence.OFFLINE
     
+    
+def update_online_status(owner_uid, user_presence_status):
 
+    # presence_tracker is indexed by the uid of the owner - this structure is used for keeping track of
+    # the last time that the user has "checked-in" -- this is necessary for understanding if the user is 
+    # enabled/idle/away/logged off. 
+    #
+    # user_status: ACTIVE, IDLE, AWAY
+    #
+    # presence_tracker should be pulled out memcache. 
+    
+    try:
+
+        assert(user_presence_status)
+        
+        presence_tracker_memcache_key = constants.OnlinePresence.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
+        presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
+        
+        if presence_tracker is None:
+            presence_tracker = models.OnlineStatusTracker()
+            
+        presence_tracker.user_presence_status = user_presence_status
+
+        presence_tracker.connection_verified_time = datetime.datetime.now()
+        memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entities(presence_tracker))  
+            
+    except:
+        error_reporting.log_exception(logging.critical)
+                
+                
 def get_chat_boxes_status(owner_uid):
     
     chat_boxes_status_memcache_key = constants.ChatBoxStatus.CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX  + owner_uid
