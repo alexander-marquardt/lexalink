@@ -128,7 +128,13 @@ var chan_utils = new function () {
                     }
                 }
                 if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_enabled") {
-                    if (chan_utils_self.chat_boxes_status != "chat_enabled") {
+                    if (("user_presence_status" in json_response) && (json_response.user_presence_status == "expired_session")) {
+                        /* session is expired -  do not go online */
+                    }
+                    else if (chan_utils_self.chat_boxes_status != "chat_enabled") {
+                        /* chat is not currently enabled, but it should enabled based on the status received in the
+                           json_response. Go online.
+                         */
                         chan_utils_self.execute_go_online_on_client();
                     }
                 }
