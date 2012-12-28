@@ -99,11 +99,7 @@
             }
         });
 
-        // Fade in the text that invites guest uers to look around
-        $("#id-enter_href").addClass('cl-login-text');
-        $("#id-enter_href").removeClass('cl-login-text', 3000)
-        $("#id-enter_href").addClass('cl-login-text', 3000);
-        $("#id-enter_href").removeClass('cl-login-text', 6000)
+        $("#id-enter_guest").button();
     });
 
 </script>
@@ -230,10 +226,9 @@
             <br><br>
             {% trans "Do you want to look around before registering?" %}<br>
 
-            <a  href="{% url search_gen %}?query_order=unique_last_login"
+            <a id="id-enter_guest" class="ui-state-default" href="{% url search_gen %}?query_order=unique_last_login"
                rel="address:{% url search_gen %}?query_order=unique_last_login">
-                <span id="id-enter_href" >
-                {% trans "Enter with a guest account" %}</span>
+                {% trans "Enter with a guest account" %}
             </a>
             <br><br>
 
