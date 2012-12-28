@@ -328,51 +328,60 @@ def store_email_options(request, owner_uid):
 
 
 def store_email_address(request, owner_uid):
+    
+    # This function stores a new email address for a user profile. 
 
     try:
         assert(owner_uid == request.session['userobject_str'])
         userobject = utils_top_level.get_userobject_from_request(request)
-        # remove blank spaces from the email address -- to make it more likely to be acceptable
-        posted_email = request.POST.get('email_address','')
-        posted_email = posted_email.replace(' ', '')
         
-        # make it lowercase so we can find it when we query 
-        posted_email =posted_email.lower()
-        email_is_valid = False
-        
-        unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
-
-        if posted_email:
-            email_is_valid = \
-                verify_email_address_is_valid_and_send_confirmation(request, userobject, posted_email)
-            userobject.email_address_is_valid = email_is_valid
+        # Only VIP clients can modify their email address. 
+        if userobject.client_paid_status:
             
-            if  email_is_valid:
-                unique_last_login_offset_ref.has_email_address_offset = True
-                userobject.email_address = posted_email                
-                logging.info("User %s has modified their email address %s to %s" % (
-                    userobject.username, userobject.email_address, posted_email))
-           
-                
-        
-        # if user clears the field, a blank value will not be written to 
-        # the database, so, set it back to the default "----" so that it
-        # will overwrite the previously stored address. If an invalid email address 
-        # is entered, treat it the same as a clearing.
-        if not email_is_valid: # if post == "" or if an invalid email is entered
-            userobject.email_address = "----" 
-            logging.warning("User %s erased their email address %s" % (userobject.username, userobject.email_address))
-            userobject.email_address_is_valid = False
-            unique_last_login_offset_ref.has_email_address_offset = False
-        
-        unique_last_login_offset_ref.put()
-        put_userobject(userobject)  
             
-        # in all cases if the email is cahnged we should updated the message queuing values - this is in case we go from
-        # having a valid email to invalid or vice-versa -- we could explicity check for this is this becomes a bottleneck
-        update_when_to_send_next_notification_after_profile_modification(userobject)
-        return HttpResponse('Success')
+            # remove blank spaces from the email address -- to make it more likely to be acceptable
+            posted_email = request.POST.get('email_address','')
+            posted_email = posted_email.replace(' ', '')
+            
+            # make it lowercase so we can find it when we query 
+            posted_email =posted_email.lower()
+            email_is_valid = False
+            
+            unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
     
+            if posted_email:
+                email_is_valid = \
+                    verify_email_address_is_valid_and_send_confirmation(request, userobject, posted_email)
+                userobject.email_address_is_valid = email_is_valid
+                
+                if  email_is_valid:
+                    unique_last_login_offset_ref.has_email_address_offset = True
+                    userobject.email_address = posted_email                
+                    logging.info("User %s has modified their email address %s to %s" % (
+                        userobject.username, userobject.email_address, posted_email))
+               
+                    
+            
+            # if user clears the field, a blank value will not be written to 
+            # the database, so, set it back to the default "----" so that it
+            # will overwrite the previously stored address. If an invalid email address 
+            # is entered, treat it the same as a clearing.
+            if not email_is_valid: # if post == "" or if an invalid email is entered
+                userobject.email_address = "----" 
+                logging.warning("User %s erased their email address %s" % (userobject.username, userobject.email_address))
+                userobject.email_address_is_valid = False
+                unique_last_login_offset_ref.has_email_address_offset = False
+            
+            unique_last_login_offset_ref.put()
+            put_userobject(userobject)  
+                
+            # in all cases if the email is cahnged we should updated the message queuing values - this is in case we go from
+            # having a valid email to invalid or vice-versa -- we could explicity check for this is this becomes a bottleneck
+            update_when_to_send_next_notification_after_profile_modification(userobject)
+            return HttpResponse('Success')
+    
+        else:
+            return HttpResponse("Error - You must be a VIP member to update your email address")
     except:
         error_reporting.log_exception(logging.critical, request = request)       
         return HttpResponse('Error')       

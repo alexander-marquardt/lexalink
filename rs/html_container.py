@@ -160,10 +160,9 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
             <p>
             <strong>%(section_label)s:</strong><br>"""% {
                                  "section_name": section_name, "section_label": section_label}
-            if is_primary_user and input_type != "email_address":
-                # only show the "edit" link if the account is being viewed by the owner of the account
-                # We have disabled modifying email address until we write code that allows user to modify their 
-                # email address -but that verifies that they are the owner before updating to the new address.
+            if is_primary_user and (input_type != "email_address" or userobject.client_paid_status):
+                # only show the "edit" link if the account is being viewed by the owner of the account.
+                # Email addresses can only be modified by VIP members.
                 generated_html += """<a href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
                     "edit_text": ugettext("edit"), "section_name": section_name}
                 
