@@ -772,7 +772,7 @@ var chan_utils = new function () {
             // user has sent a message from a chatbox in the current window - POST this message to the
             // server.
 
-            chan_utils_self.user_presence_status == "user_presence_active";
+            chan_utils_self.user_presence_status = "user_presence_active";
 
             try {
 
