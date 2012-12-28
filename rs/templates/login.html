@@ -100,6 +100,11 @@
         });
 
         $("#id-enter_guest").button();
+        $("#id-enter_guest").addClass('cl-enter_guest-flash');
+        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 5000);
+        $("#id-enter_guest").addClass('cl-enter_guest-flash', 2000);
+        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 2000);
+
     });
 
 </script>
@@ -226,7 +231,7 @@
             <br><br>
             {% trans "Do you want to look around before registering?" %}<br>
 
-            <a id="id-enter_guest" class="ui-state-default" href="{% url search_gen %}?query_order=unique_last_login"
+            <a id="id-enter_guest" class="ui-state-default cl-enter_guest" href="{% url search_gen %}?query_order=unique_last_login"
                rel="address:{% url search_gen %}?query_order=unique_last_login">
                 {% trans "Enter with a guest account" %}
             </a>
