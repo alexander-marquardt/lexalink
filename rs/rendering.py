@@ -163,7 +163,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                      show_search_box = True, text_override_for_navigation_bar = '', hide_page_from_webcrawler = False,
                      enable_ads = True, show_login_link_override = False, hide_why_to_register = False,
                      do_not_try_to_dynamically_load_search_values = False, render_wrapper_only = False, 
-                     hide_logo_banner_links = False):
+                     hide_logo_banner_links = False, remove_chatboxes = False):
     
     # function that takes care of defining a lot of the common code that needs to be defined before rendering one of the 
     # "main" views. 
@@ -258,7 +258,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields.user_presence_delay_constants = constants.OnlinePresenceConstants
         primary_user_presentation_data_fields.chat_is_disabled = chat_is_disabled
         primary_user_presentation_data_fields.do_not_try_to_dynamically_load_search_values = do_not_try_to_dynamically_load_search_values
-        
+        primary_user_presentation_data_fields.remove_chatboxes = "yes" if remove_chatboxes else "no"
         primary_user_presentation_data_fields.paypal_en_button_id = settings.PAYPAL_EN_BUTTON_ID
         primary_user_presentation_data_fields.paypal_es_button_id = settings.PAYPAL_ES_BUTTON_ID
         primary_user_presentation_data_fields.paypal_sandbox_button_id = settings.PAYPAL_SANDBOX_BUTTON_ID

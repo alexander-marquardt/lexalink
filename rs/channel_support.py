@@ -158,7 +158,7 @@ def update_chatbox_status_on_server(request):
             update_chat_boxes_status(owner_uid, chat_boxes_status)
             response = "OK"
         else:
-            response = "expired_session"
+            response = constants.OnlinePresence.EXPIRED_SESSION 
 
         return http.HttpResponse(response)
     except:
@@ -176,7 +176,7 @@ def update_user_presence_on_server(request):
             update_online_status(owner_uid, user_presence_status)
             response = "OK"
         else:
-            response = "expired_session"
+            response = constants.OnlinePresence.EXPIRED_SESSION 
 
         return http.HttpResponse(response)
     except:
@@ -360,13 +360,13 @@ def poll_server_for_status_and_new_messages(request):
                                      
         else: # *not* 'userobject_str' in request.session
             (response_dict['user_presence_status'], response_dict['chat_boxes_status']) = \
-                ("expired_session" , constants.ChatBoxStatus.IS_DISABLED)
+                (constants.OnlinePresence.EXPIRED_SESSION , constants.ChatBoxStatus.IS_DISABLED)
 
     except:
-        # if there is an error - such as the user not having a session, return "expired_session" so that the script will 
+        # if there is an error - such as the user not having a session, return EXPIRED_SESSION so that the script will 
         # stop polling
         (response_dict['user_presence_status'], response_dict['chat_boxes_status']) = \
-            ("expired_session" , constants.ChatBoxStatus.IS_DISABLED)
+            (constants.OnlinePresence.EXPIRED_SESSION , constants.ChatBoxStatus.IS_DISABLED)
         error_reporting.log_exception(logging.error)
 
         

@@ -120,21 +120,20 @@ var chan_utils = new function () {
 
                 var new_one_on_one_message_received = false;
 
-                if (("chat_boxes_status" in json_response) && (json_response.chat_boxes_status == "chat_disabled") ||
-                   ("user_presence_status" in json_response) && (json_response.user_presence_status == "expired_session"))
-                {
+                if ("user_presence_status" in json_response && json_response.user_presence_status == "user_presence_expired_session") {
+                    chan_utils_self.execute_go_offline_on_client();
+                    chan_utils_self.user_presence_status = "user_presence_expired_session";
+                    self.location = "/rs/logout/";
+                }
+                else if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_disabled") {
                     if (chan_utils_self.chat_boxes_status != "chat_disabled") {
                         chan_utils_self.execute_go_offline_on_client();
                     }
                 }
-                if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_enabled") {
-                    if (("user_presence_status" in json_response) && (json_response.user_presence_status == "expired_session")) {
-                        /* session is expired -  do not go online */
-                    }
-                    else if (chan_utils_self.chat_boxes_status != "chat_enabled") {
+                else if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_enabled") {
+                    if (chan_utils_self.chat_boxes_status != "chat_enabled") {
                         /* chat is not currently enabled, but it should enabled based on the status received in the
-                           json_response. Go online.
-                         */
+                           json_response. Go online. */
                         chan_utils_self.execute_go_online_on_client();
                     }
                 }
@@ -310,8 +309,12 @@ var chan_utils = new function () {
                             internet_connection_is_down();
                         },
                         complete: function() {
+                            
                             // only poll if the user has not "logged off"  in this window or another window
-                            chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
+                            if (chan_utils_self.user_presence_status != "user_presence_expired_session") {
+                                chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
+                            }
+
                             chan_utils_self.polling_is_locked_mutex = false;
                         }
                     });
@@ -438,7 +441,7 @@ var chan_utils = new function () {
         };
 
 
-/*        this.stop_polling_server = function() {
+        /*this.stop_polling_server = function() {
             try {
                 clearTimeout(chan_utils_self.chat_message_timeoutID);
             } catch(err) {
@@ -550,9 +553,9 @@ var chan_utils = new function () {
                 url:  '/rs/channel_support/update_chatbox_status_on_server/' + rnd() + "/",
                 data: {'chat_boxes_status' : new_chat_boxes_status},
                 success: function (response) {
-                    if (response == "expired_session") {
-                        // if session is expired, send to login screen if they try to change their chat online status
-                        self.location = "/";
+                    if (response == "user_presence_expired_session") {
+                        // if session is expired, send to logout screen if they try to change their chat online status
+                        self.location = "/rs/logout/";
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -568,9 +571,9 @@ var chan_utils = new function () {
                 url:  '/rs/channel_support/update_user_presence_on_server/' + rnd() + "/",
                 data: {'user_presence_status': new_user_presence_status},
                 success: function (response) {
-                    if (response == "expired_session") {
-                        // if session is expired, send to login screen if they try to change their chat online status
-                        self.location = "/";
+                    if (response == "user_presence_expired_session") {
+                        // if session is expired, send to logout screen if they try to change their chat online status
+                        self.location = "/rs/logout/";
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {

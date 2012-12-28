@@ -140,9 +140,15 @@ class OnlinePresence(object):
     ACTIVE = "user_presence_active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
     IDLE = "user_presence_idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
     AWAY = "user_presence_away"    # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
-    # timeout is when the user has been inactive for so long that they are effectively offline so they will
-    # not appear as online in contact lists  -- but they will go "active" if they do anything    
+    
+    # OFFLINE is when the user has either explicity logged off, or if we have not received a ping from the client javascript
+    # code in such a long time, that it is likely that they closed the window without logging off. 
     OFFLINE = "user_presence_offline" 
+    
+    # If the session has expired, then we want the javascript code to stop polling the server. Returning an
+    # EXPIRED_SESSION string to the client javascript allows it to detect that the session has expired, and
+    # therfore to stop polling.
+    EXPIRED_SESSION = "user_presence_expired_session"
     
     presence_text_dict = {
         ACTIVE: ugettext_lazy("(Active)"),

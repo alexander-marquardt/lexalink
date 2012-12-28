@@ -878,8 +878,15 @@ def logout(request, html_for_delete_account = ''):
     # Closes the user session, and displays the logout page.
        
     try: 
-        owner_uid =  request.session['userobject_str']
-        userobject = utils_top_level.get_userobject_from_request(request)  
+        try:
+            owner_uid =  request.session['userobject_str']
+            userobject = utils_top_level.get_userobject_from_request(request)  
+            # mark the user presence as OFFLINE (if another session is logged into a different browser, this will be
+            # over-written to reflect the status in the other session as soon as that session pings the server with its status)
+            channel_support.update_online_status(owner_uid, constants.OnlinePresence.OFFLINE)            
+
+        except:
+            userobject = None
         
         template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
         context = Context(constants.template_common_fields)
@@ -888,13 +895,12 @@ def logout(request, html_for_delete_account = ''):
         response = rendering.render_main_html(request, generated_html, userobject,
                                               text_override_for_navigation_bar = nav_bar_text, 
                                               show_login_link_override = True,
-                                              do_not_try_to_dynamically_load_search_values = True)
+                                              do_not_try_to_dynamically_load_search_values = True,
+                                              remove_chatboxes = True)
         
         login_utils.clear_old_session(request)
         
-        # mark the user presence as OFFLINE (if another session is logged into a different browser, this will be
-        # over-written to reflect the status in the other session as soon as that session pings the server with its status)
-        channel_support.update_online_status(owner_uid, constants.OnlinePresence.OFFLINE)
+
         
         response.delete_cookie(settings.SESSION_COOKIE_NAME)
         return response

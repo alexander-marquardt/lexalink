@@ -293,10 +293,8 @@ var initJqueryUiChatbox = function($){
                             $('#id-go-online-button').button();
                             $('#id-go-online-button').hide();
                             $('#id-go-online-button').click(function() {
-                                if (!remove_chatboxes) {
-                                    chan_utils.update_chat_boxes_status_on_server("chat_enabled");
-                                    chan_utils.execute_go_online_on_client();
-                                }
+                                chan_utils.update_chat_boxes_status_on_server("chat_enabled");
+                                chan_utils.execute_go_online_on_client();
                                 return false;
                             });
 

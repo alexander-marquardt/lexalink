@@ -47,6 +47,10 @@
         return obj;
     }();
 
+    if ("{{primary_user_presentation_data_fields.remove_chatboxes }}" === "yes") {
+        // some pages should have the chatboxes removed - such as the logout screen
+        remove_chatboxes = true;
+    }
 
 </script>
 
