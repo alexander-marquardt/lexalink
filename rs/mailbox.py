@@ -1057,7 +1057,6 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
         </script>"""
         
         message_controls_html += u'</div>'
-        message_controls_html += u'<div class="cl-clear"></div>\n'
         
         message_controls_html += u'<div class="grid_2 omega">&nbsp;'
         bottom_next_link_html = ''
@@ -1068,8 +1067,8 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
             message_controls_html += next_button
             bottom_next_link_html = u'<div class="grid_7 alpha">&nbsp;</div><div class="grid_2 omega">%s</div>' % next_button
     
-            
         message_controls_html += u'</div>\n' # end grid_2
+        message_controls_html += u'<div class="cl-clear"></div>\n'        
       
         action_href = reverse('manage_mailbox', kwargs = {"owner_uid" : owner_uid})
         form_open_html = '<form method = "POST" id="id-mark_conversation-form" action="%s"> ' % (
