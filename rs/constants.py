@@ -144,12 +144,7 @@ class OnlinePresence(object):
     # OFFLINE is when the user has either explicity logged off, or if we have not received a ping from the client javascript
     # code in such a long time, that it is likely that they closed the window without logging off. 
     OFFLINE = "user_presence_offline" 
-    
-    # If the session has expired, then we want the javascript code to stop polling the server. Returning an
-    # EXPIRED_SESSION string to the client javascript allows it to detect that the session has expired, and
-    # therfore to stop polling.
-    EXPIRED_SESSION = "user_presence_expired_session"
-    
+ 
     presence_text_dict = {
         ACTIVE: ugettext_lazy("(Active)"),
         IDLE: ugettext_lazy("(Idle)"),
@@ -164,6 +159,16 @@ class OnlinePresence(object):
     MAX_IDLE_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * OnlinePresenceConstants.IDLE_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
     MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT = 1.5 * OnlinePresenceConstants.AWAY_POLLING_DELAY_IN_CLIENT # amount of time server waits for a response before marking user as offline
 
+class SessionStatus(object):
+    
+    # If the session has expired, then we want the javascript code to stop polling the server. Returning an
+    # EXPIRED_SESSION string to the client javascript allows it to detect that the session has expired, and
+    # therfore to stop polling.
+    EXPIRED_SESSION = "session_expired_session"   
+    
+    # If we have an error condition we should stop the client from polling -- but we should not log the client off.
+    SERVER_ERROR = "session_server_error"
+    
 
 SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE = 10 # for memcaching the *online* friends list, before re-checking the database to see who is still online
 SECONDS_BETWEEN_GET_FRIENDS_ONLINE = 10 # for limiting the number of times that we send the list to the client. Note, we send the list
