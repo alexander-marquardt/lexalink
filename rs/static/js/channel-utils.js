@@ -353,13 +353,8 @@ var chan_utils = new function () {
                         current_message_polling_delay = current_message_polling_delay * chan_utils_self.decay_multiplier;
                     }
                     chan_utils_self.current_message_polling_delay = current_message_polling_delay;
-                } else {
-                    // this is just a sanity check - if the user_presence is not active or if the chat_boxes
-                    // are disabled, then the polling delay should be greater than the active_polling_delay_ceiling
-                    if (chan_utils_self.current_message_polling_delay < chan_utils_self.active_polling_delay_ceiling) {
-                        report_javascript_error_on_server("user_presence_status: " + chan_utils_self.user_presence_status + " is polling too fast");
-                    }
                 }
+                
                 chan_utils_self.chat_message_timeoutID = setTimeout(poll_server_for_status_and_new_messages, current_message_polling_delay);
 
             } catch(err) {
@@ -776,6 +771,8 @@ var chan_utils = new function () {
         this.send_message = function(to_uid, msg, type_of_conversation) {
             // user has sent a message from a chatbox in the current window - POST this message to the
             // server.
+
+            chan_utils_self.user_presence_status == "user_presence_active";
 
             try {
 
