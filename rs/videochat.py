@@ -26,7 +26,6 @@
 ################################################################################
 
 
-from appengine_django.models import BaseModel 
 from google.appengine.ext import db 
 from django import http 
 from django.shortcuts import render_to_response
