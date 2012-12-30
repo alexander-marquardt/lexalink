@@ -1,0 +1,29 @@
+# Mac files
+*.DS_Store
+
+# project files that are re-generated and therfore no need to backup
+index.yaml
+rs/static/auto-generated*
+*.pyc
+*.mo
+
+# Environment for the WingIDE environment that I use
+Wing_project.wpr
+
+# Jetbrains files (another editor that I use)
+.idea
+
+# flash related files that we don't want to backup
+rs/static/js/ui-blitzer/ui-development-bundle/
+.*.sw*
+*.swf
+*.swz
+rs/templates/video_phone_symlink*
+
+# Cygwin related files
+.cyg*
+
+# The following directories contain "proprietary" files that should not be distributed or checked
+# in to the main git codebase.
+rs/proprietary/
+

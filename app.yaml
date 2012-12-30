@@ -1,0 +1,61 @@
+application: ctst
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+# define when static files expire
+default_expiration: "30d"
+
+
+builtins:
+- remote_api: on
+
+inbound_services:
+- warmup
+
+libraries:
+- name: django
+  version: latest
+
+handlers:
+- url: /_ah/queue/deferred
+  script: djangoappengine.deferred.handler.application
+  login: admin
+
+- url: /favicon.ico
+  static_files: rs/static/img/Discrete/favicon.ico
+  upload: rs/static/img/Discrete/favicon.ico
+
+
+- url: /rs/static
+  static_dir: rs/static
+  
+- url: /rs/proprietary/static
+  static_dir: rs/proprietary/static
+  
+- url: /rs/admin/.*
+  script: djangoappengine.main.application
+  login: admin
+
+# if the videochat_window URL is called directly, then we execute the code to display the videochat
+- url: /videochat_window/video_phone.html
+  script: djangoappengine.main.application
+  
+  
+# due to the way that Flash calls the other assets, they appear to be in the /videochat_window/ "directory", and therefore
+# we expose these assets as static files so that the Flash can access them without having to modify the FlashBuilder-generated files
+# Note: we have two symbolic links that point to the flash files. This is necessary because we cannot have static files and
+# templates in the same directory (but we need them in the same directory).
+- url: /videochat_window
+  static_dir: rs/templates/video_phone_symlink2/bin-release 
+
+- url: /_ah/stats/.*
+  script: djangoappengine.appstats.application
+
+- url: /media/admin
+  static_dir: django/contrib/admin/media
+  expiration: '0'
+
+- url: /.*
+  script: djangoappengine.main.application

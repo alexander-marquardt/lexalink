@@ -1,0 +1,100 @@
+{% load i18n %}
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+<!-- we make the search a GET value in spite of the fact that this function has a
+     side-effect of remembering the search for the next time the user wants to do a new search. 
+     This is necessary for the back button to work properly in IE.-->
+<div id="id-simple-search-section">
+<form id="id-simple-search-form" method=GET action="{% url search_gen %}" rel="form-address:{% url search_gen %}">
+    <table id="id-search-table">
+        <tbody>
+        {{ search_bar.search_as_table_of_td_items|safe }}
+        </tbody>
+    </table>
+    <br>
+    <a id="id-search-by-name-link" href='#'>{% trans "Search By Name" %}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+</form>
+</div>
+
+        
+<div id="id-search-by-name-section">
+<form id="id-search-by-name-form" method=GET action="{% url search_by_name_gen %}" rel="form-address:{% url search_by_name_gen %}">
+    <table id="id-search-by-name-table">
+        <tbody>
+        {{ search_bar.search_by_name_td_items|safe }}
+        </tbody>
+    </table>
+    <a id="id-simple-search-link" href = '#'>{% trans "Standard Search" %}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        // The following code is responsible for toggling between the standard-search and search-by-name tables.
+
+        // by default, hide the search-by-name section
+
+        $("#id-search-by-name-section").hide();
+
+        $("#id-search-by-name-link").click(function(e) {
+            $("#id-search-by-name-section").show();
+            $("#id-simple-search-section").hide();
+            e.preventDefault();  // prevent changing the address in the URL bar
+        });
+
+        $("#id-simple-search-link").click(function(e) {
+            $("#id-simple-search-section").show();
+            $("#id-search-by-name-section").hide();
+            e.preventDefault();
+        });
+    });
+
+
+</script>
+
+
+<input type=hidden id="id-passed_in_search-region_options_html" name="passed_in_search-region_options_html"
+       value="{{ general_information_data_fields.region_options_html|safe }}">
+<input type=hidden id="id-passed_in_search-sub_region_options_html" name="passed_in_search-sub_region_options_html"
+       value="{{ general_information_data_fields.sub_region_options_html|safe }}">
+        
+        
+{% if build_name == "FriendBazaar" %}
+        
+    <input type=hidden id="id-passed_in_search-for_sale_sub_menu_options_html" name="passed_in_search-for_sale_sub_menu_options_html"
+           value="{{ general_information_data_fields.for_sale_sub_menu_options_html|safe }}">
+    <input type=hidden id="id-passed_in_search-to_buy_sub_menu_options_html" name="passed_in_search-to_buy_sub_menu_options_html"
+           value="{{ general_information_data_fields.to_buy_sub_menu_options_html|safe }}">
+
+{% endif %}
+
+<div class="cl-clear"></div>
+

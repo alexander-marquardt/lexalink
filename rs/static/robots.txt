@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /rs/admin
+Disallow: /rs/ajax
+Disallow: /rs/auth
+Disallow: /*/rs/auth
+
+
+User-agent: Mediapartners-Google
+Allow: /rs/auth
+Allow: /*/rs/auth

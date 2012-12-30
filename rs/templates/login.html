@@ -1,0 +1,336 @@
+{% load i18n %}
+
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+{% include "common_helpers/logo_banner.html" %}
+        
+
+<script type="text/javascript">
+
+
+
+    $(document).ready(function() {
+        // This function sets the drop-down menu to the value passed inside the html (on the second pass
+        // if the user has made an error in entering in their login information
+
+        check_if_javascript_version_id_has_changed("{{ javascript_version_id }}");
+
+        // the following is only relevant for FriendBazaar - but doesn't really harm the other builds
+        update_currency_on_country_change("#id-signup_fields", "{{ live_static_dir }}");
+
+
+        var input_fields = ['username_email', 'username', 'sex', 'relationship_status',
+        'preference', 'age', 'password', 'password_verify', 'country', 'password_hashed', 'native_language', 'language_to_learn',
+        'friend_price', 'friend_currency'];
+        var stored_input_fields = {};
+
+        for (ix in input_fields) {
+            if ($('#id-hidden_' + input_fields[ix]).val()) {
+                // write the value into a variable. This is required for ajax since the variable will exist as long
+                // as the current ajax page, but the hidden fields will be removed on each load -- therefore, in order
+                // for the back button to work, we need these values stored in a variable.
+                stored_input_fields[input_fields[ix]] = $('#id-hidden_' + input_fields[ix]).val();
+            }
+
+            // if the key was stored in the stored_input_fields dictionary, then write it to the selector
+            if (stored_input_fields.hasOwnProperty(input_fields[ix])) {
+                rs_set_selector_to_value('#id-signup_fields-' + input_fields[ix], stored_input_fields[input_fields[ix]]);
+            }
+        }
+
+        // only load the email address if it is not the default value of "----"
+        if ($('#id-hidden_email_address').val() != "----") {
+            rs_set_selector_to_value('#id-signup_fields-email_address', $('#id-hidden_email_address').val());
+
+        }
+
+        // code for showing default text in the input box
+        $(".defaultText").focus(function(srcc) {
+            if ($(this).val() == $(this)[0].title) {
+                $(this).val("");
+            }
+            $(this).removeClass("cl-default-input-text-prompt");
+        });
+        $(".defaultText").blur(function() {
+            if ($(this).val() == "") {
+                $(this).addClass("cl-default-input-text-prompt");
+                $(this).val($(this)[0].title);
+            }
+        });
+        $(".defaultText").blur();
+
+        // code for swapping in and out the password textbox
+        $('#id-password-prompt').show();
+        $('#id-password-input').hide();
+        $('#id-password-prompt').focus(function() {
+            $('#id-password-prompt').hide();
+            $('#id-password-input').show();
+            $('#id-password-input').focus();
+        });
+        $('#id-password-input').blur(function() {
+            if ($('#id-password-input').val() == '') {
+                $('#id-password-prompt').show();
+                $('#id-password-input').hide();
+            }
+        });
+
+        $("#id-enter_guest").button();
+        $("#id-enter_guest").addClass('cl-enter_guest-flash');
+        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 5000);
+        $("#id-enter_guest").addClass('cl-enter_guest-flash', 2000);
+        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 2000);
+
+    });
+
+</script>
+
+
+
+<!-- pass in any values that were previously entered so that we can fill in the appropriate fields
+     -->
+{% if html_for_previously_posted_values %}
+{{ html_for_previously_posted_values|safe }}
+{% endif %}
+
+
+
+    <div class="cl-clear"></div>
+    <div class="grid_12">
+
+
+        {% if is_admin_login %}
+            <form id="id-already_registered_inputs" method=POST action="/rs/admin/login/">
+        {% else %}
+            <form id="id-already_registered_inputs" method=POST action="{% url views.login %}">
+        {% endif %}
+
+                <input type=hidden name=login_type value=left_side_fields>
+
+                <table id="id-horiz-bar-table"> <!-- outer table -->
+                    <tr> <!-- container row -->
+                        {% if build_name == "Discrete" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                            {% trans "Free confidential dating" %}.
+                        </td>
+                        {% endif %}
+
+                        {% if build_name == "Single" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                            {%trans "Free dating for singles" %}.
+                        </td>
+                        {% endif %}
+
+                        {% if build_name == "Swinger" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                            {%trans "Free swinger contacts" %}.
+                        </td>
+                        {% endif %}
+
+                        {% if build_name == "Gay" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                            {%trans "Free gay dating" %}.
+                        </td>
+                        {% endif %}
+
+                        {% if build_name == "Language" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                            {% trans "Free language exchange" %}.
+                        </td>
+                        {% endif %}
+
+                        {% if build_name == "Friend" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                            {% trans "Be a friend and make money" %}.
+                        </td>
+                        {% endif %}
+
+                        {% if build_name == "Lesbian" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                            {%trans "Free lesbian dating" %}.
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
+                            {% trans "Are you already registered (female)? Enter here:" %}&nbsp;</td>
+                        {% endif %}
+
+                        {% if build_name != "Lesbian" %}
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
+                            {% trans "Are you already registered? Enter here:" %}&nbsp;</td>
+                        {% endif %}
+                        <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
+                            <input type="text"
+                                   class="defaultText cl-default-input-text-prompt cl-nick-textinput-width-px"
+                                   title='{% trans "username or email"%}'
+                                   id="id-signup_fields-username_email" name="username_email" maxlength=50>
+                        </td>
+                        <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
+
+                            <!-- need to define two boxes for the password - but only one will be shown at a time -
+                   required for showing text prompt in the input box -->
+                            <input type="text" class="cl-default-input-text-prompt cl-narrow-textinput-width-px"
+                                   value='{% trans "password" %}' id="id-password-prompt"
+                            name="password-prompt" maxlength=50>
+                            <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
+                                   name="password" maxlength=50></td>
+
+                        <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field ">
+                            <input type="submit" class="cl-small-login-button"
+                                   value='{% trans "Enter" %}!'>
+                        </td>
+
+                        <!-- the following rows push the table up from the bottom-->
+                    </tr>
+                </table>
+                <!-- end outer table -->
+            </form>
+
+            <script type="text/javascript">
+                // handle the ajax form submission
+                handle_ajax_form_submission('#id-already_registered_inputs', '#id-body_main_html');
+
+            </script>
+
+    </div>
+
+    <div class="cl-clear"></div>
+
+
+    <div class="grid_12">
+        <div class="grid_6 alpha cl-center-text cl-text-large-format cl-background-gradient cl-login-text">
+            {% if maintenance_soon_warning %}
+                {{ maintenance_soon_warning|safe }}
+            {% endif %}
+
+            {% if maintenance_shutdown_warning %}
+                {{ maintenance_shutdown_warning|safe }}
+            {% endif %}
+
+            <br><br>
+            {% trans "Do you want to look around before registering?" %}<br>
+
+            <a id="id-enter_guest" class="ui-state-default cl-enter_guest" href="{% url search_gen %}?query_order=unique_last_login"
+               rel="address:{% url search_gen %}?query_order=unique_last_login">
+                {% trans "Enter with a guest account" %}
+            </a>
+            <br><br>
+
+            {% trans "Free" %} - {% trans "Live chat and messages included" %}<br>
+            <br><br>
+
+            {% ifequal app_name "RomanceSecreto" %}
+                {% trans "Over 50% of our members are single!" %}<br><br>
+            {% endifequal %}
+
+            {% if not maintenance_shutdown_warning %}
+
+                {% include "login_helpers/right_login_table.html" %}
+
+            {% endif %}
+
+            
+            {% ifequal build_name "Discrete" %}
+            {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %} <br><br><br>
+            {% endifequal %}
+
+            {% ifequal build_name "Swinger" %}
+            {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %} <br><br><br>
+            {% endifequal %}
+
+            {% ifequal build_name "Gay" %}
+            {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %} <br><br><br>
+            {% endifequal %}
+
+
+
+        </div>
+        <div class="grid_6 alpha omega cl-background-image cl-login-text">
+            <!-- if the login_type is left_side_fields, then the user has already attempted to login
+            and failed - therefore make the prompt for help bigger
+            -->
+
+
+            {% ifequal login_type "left_side_fields" %}
+            <div class="grid_6 alpha omega cl-right-text cl-text-24pt-format">
+                <!-- Problem logging in - make password 24 pt -->
+                <a href="{% url reset_password %}" rel="address:{% url reset_password %}"><br>
+                    {% trans "Have you forgotten your password?" %}
+                </a>
+            </div>
+            {% else %}
+            <div class="grid_6 alpha omega cl-right-text cl-text-12pt-format">
+                <a href="{% url reset_password %}" rel="address:{% url reset_password %}"><br>
+                    {% trans "Have you forgotten your password?" %}
+                </a>
+            </div>
+            {% endifequal %}
+            {% include "login_helpers/login_errors.html" %}
+
+            {% if not errors %}
+            <div class="cl-link-from-image">
+                <a id="id-image-link" href="{% url search_gen %}?query_order=unique_last_login"
+                   rel="address:{% url search_gen %}?query_order=unique_last_login"></a>
+            </div>
+            {% endif %}
+
+        </div>
+        <br><br>
+        <div class="grid_12 alpha omega cl-center-text  cl-text-large-format cl-login-text cl-xfbml">
+            {% blocktrans with app_name as app_name %}
+            If you like {{app_name }} click here:
+            {% endblocktrans %}
+            {% include "common_helpers/facebook_like.html" %}
+            <g:plusone size="small"></g:plusone>
+            <br><br>
+            <!-- google +1 -->
+
+            
+        </div>
+
+        {% if build_name == "Friend" %}
+            <div class="grid_10 cl-prefix_10px alpha omega" id="id-main-content-div">
+            {{ welcome_html }}
+            </div>
+        {% endif %}
+    </div>
+
+
+    <div class="cl-clear"></div>
+    <div class="grid_12">
+        <br><br><br><br><br>
+
+        <div class="grid_12 alpha omega cl-footer-divider-line"></div>
+    </div>
+    <!-- end grid_12 -->
+
+
+
+    <div class="cl-clear"></div>
+    {% include "common_helpers/footer.html" %}
+
+
+
+<!-- Google Analytics -->
+{% include "common_helpers/analytics.html" %}

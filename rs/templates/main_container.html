@@ -1,0 +1,166 @@
+{% load i18n %}
+
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+
+{% include "common_helpers/logo_banner.html" %}
+{% include "user_main_helpers/search_inline_javascript.html" %}
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    // the title is loaded originally in the common_wrapper object - but as we navigate
+    // the common_wrapper is not re-loaded, and therefore we need to dynamically update
+    // the title to reflect the current page that is being viewed.
+    document.title = "{{ updated_meta_info.page_title }}";
+    check_if_javascript_version_id_has_changed("{{ javascript_version_id }}");
+});
+
+</script>
+
+    <!-- Space for the navigation buttons-->
+    <div class="cl-clear" id="id-debugging-main-1a"></div>
+    <div class="grid_12 cl-content-background">
+    {% include "user_main_helpers/navigation_buttons.html" %}
+    </div>
+    <!-- end .grid_12 navigation container-->
+
+
+    {% if search_bar %}
+        <!-- the following code is used for displaying the search bar. -->
+        <div class="cl-clear" id="id-debugging-main-1b"></div>
+        <div class="grid_12 cl-center-text cl-content-background">
+            <div id="id-search-container" class="cl-center-text">
+                {% include "user_main_helpers/simple_search_form.html" %}
+            </div>
+            <!-- end searchcontainer-->
+        </div>
+        <!-- end grid12 omega -->
+    {% endif %}
+
+
+        <!-- the following contains the main window, where search results and other information will be
+    displayed to the user -->
+        <div class="cl-clear" id="id-debugging-main-2"></div>
+        <div class="grid_12 cl-content-background">
+            <div class="grid_custom cl-grid_760px alpha omega">
+                <div class="grid_9 cl-prefix_40px alpha omega" id="id-main-content-div">
+
+                    <!-- the following will print a warning to enable JS, if it is not enabled. If JS is
+          working, then this warning will be removed by the JS -->
+                    <noscript>
+                        <div id="id-only-show-if-no-js" class="cl-color-text cl-center-text">
+                            <br><br>
+                            <strong>{% trans "You must enable JavaScript to view this page" %}!</strong>
+                            <br><br>
+                        </div>
+                    </noscript>
+
+                    {% if general_information_data_fields.settings_debug_flag %}
+                        <div class="cl-color-text cl-center-text">
+                            <strong>Django DEBUG enabled!!!!</strong>
+                        </div>
+                    {% endif %}
+
+                    {% ifequal live_static_dir "rs/static" %}
+                        <div class="cl-color-text cl-center-text">
+                            <strong>Accessing non time-stamped static files - this is not suitable for live version!!!!</strong>
+                        </div>
+                    {% endifequal %}
+
+
+
+                    {% if general_information_data_fields.maintenance_soon_warning %}
+                        {{ general_information_data_fields.maintenance_soon_warning|safe }}
+                    {% endif %}
+
+                    {% if general_information_data_fields.maintenance_shutdown_warning %}
+                        {{ general_information_data_fields.maintenance_shutdown_warning|safe }}
+
+                    {% else %}
+                        {% if generated_html %}
+                            {{ generated_html|safe }}
+                        {% endif %}
+
+
+                        {% if guest_user_data_fields.show_social_buttons %}
+                            <div class="grid_9 alpha omega  cl-center-text">
+                            {% include "common_helpers/facebook_like.html" %}
+                            <!-- google +1 -->
+                            <g:plusone size="small"></g:plusone> <br><br>
+                            </div>
+
+                        {% endif %}
+
+                        {% if guest_user_data_fields.why_to_register %}
+                            <div class="cl-clear" id="id-debugging-main-3"></div>
+                            <div class="grid_9 alpha omega cl-divider-line"></div>
+                            <br>{{ guest_user_data_fields.unregistered_user_welcome_text|safe }}
+                            <br>{{ guest_user_data_fields.why_to_register|safe }}
+                            <div class="cl-clear"></div>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if guest_user_data_fields.registered_user_bool %}
+                        {% include "user_main_helpers/paypal_donate_buttons.html" %}
+                    {% endif %}
+
+
+                </div>
+                <!-- end .grid_9 id-main-content-div -->
+
+
+
+                <div class="cl-clear" id="id-debugging-main-4"></div>
+                {% include "advertising/horizontal_ad.html" %}
+            </div> <!-- end grid_custom -->
+
+
+            {% include "advertising/sidebar.html" %}
+
+
+        </div>
+        <!-- end .grid_12 -->
+
+
+
+        <div class="cl-clear" id="id-debugging-main-5"></div>
+        {% include "common_helpers/footer.html" %}
+
+        
+    <div class="grid_12 cl-height_100px" id="id-height_chatbox_override"><br></div><!-- extra space so that footer is not covered by chatboxes -->
+
+        
+    {% include "user_main_helpers/presence_and_chat.html" %}
+
+
+    <script type="text/javascript">
+        // Google Analystics tracking code - "_trackEvent" is the pageview event,
+        _gaq.push(['_trackPageview']);
+    </script>
+
+
