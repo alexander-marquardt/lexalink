@@ -25,14 +25,17 @@
 # limitations under the License.
 ################################################################################
 
-# Original settings.py Copyright 2008 Google Inc.
 
-# Django settings for google-app-engine-django project.
+# Initialize App Engine and import the default settings (DB backend, etc.).
+# If you want to use a different backend you have to remove all occurences
+# of "djangoappengine" from this file.
+from djangoappengine.settings_base import *
+
 
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-12-28-2227'
+VERSION_ID = '2012-12-31-0124'
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -44,7 +47,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
@@ -144,24 +147,11 @@ if DEBUG:
 
 
 
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
+# Activate django-dbindexer for the default database
+DATABASES['native'] = DATABASES['default']
+DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
+AUTOLOAD_SITECONF = 'indexes'
 
-MANAGERS = ADMINS
-
-DATABASE_ENGINE = 'appengine'  # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = ''             # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'UTC'
 
 # Language code for this installation. All choices can be found here:
@@ -181,86 +171,60 @@ LANGUAGES = (
 
 LANGUAGE_COOKIE_NAME = 'Language'
 
-SITE_ID = 1
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+INSTALLED_APPS = (
+#    'django.contrib.admin',
+    'localeurl',
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    #'django.contrib.sessions',
+    'djangotoolbox',
+    'autoload',
+    'dbindexer',
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
-
-# Ensure that email is not sent via SMTP by default to match the standard App
-# Engine SDK behaviour. If you want to sent email via SMTP then add the name of
-# your mailserver here.
-EMAIL_HOST = ''
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
+    # djangoappengine should come last, so it can override a few manage.py commands
+    'djangoappengine',
 )
 
-if ENABLE_APPSTATS:
-    APPSTAT_MIDDLEWARE = ('google.appengine.ext.appstats.recording.AppStatsDjangoMiddleware',)
-else:
-    APPSTAT_MIDDLEWARE = ()
+MIDDLEWARE_CLASSES = (
+    # This loads the index definitions, so it has to come first
+    'autoload.middleware.AutoloadMiddleware',
 
-MIDDLEWARE_CLASSES = APPSTAT_MIDDLEWARE +  (
     # keep the following line before CommonMiddleware, or APPEND_SLASH will not work
     'localeurl.middleware.LocaleURLMiddleware',
     
     'django.middleware.common.CommonMiddleware',
-    #'django.contrib.sessions.middleware.SessionMiddleware',
     'gaesessions.DjangoSessionMiddleware',
-#    'django.middleware.locale.LocaleMiddleware',
-#    'django.contrib.auth.middleware.AuthenticationMiddleware',
-#    'django.middleware.doc.XViewMiddleware',
+    #'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-#   'django.core.context_processors.auth',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
     'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-#    'django.core.context_processors.media',  # 0.97 only.
-#    'django.core.context_processors.request',
+    'django.core.context_processors.i18n',    
 )
 
-ROOT_URLCONF = 'urls'
+# This test runner captures stdout and associates tracebacks with their
+# corresponding output. Helps a lot with print-debugging.
+TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
+
+ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 ROOT_PATH = os.path.dirname(__file__)
 TEMPLATE_DIRS = (
     os.path.join(ROOT_PATH, r'rs/templates'),
     os.path.join(ROOT_PATH, r'rs/proprietary/templates'), 
 )
+ROOT_URLCONF = 'urls'
 
-INSTALLED_APPS = (
-    'appengine_django',
-    'localeurl',
-#    'django.contrib.auth',
-#    'django.contrib.contenttypes',
-#    'django.contrib.sessions',
-    'django.contrib.admin',
-#    'django.contrib.sites',
-    # include the rometo application, in diretory rs
-    'rs',
-)
 
-#SESSION_ENGINE = ('django.contrib.sessions.backends.cached_db')
-#SESSION_ENGINE = ('django.contrib.sessions.backends.db')
-#SESSION_ENGINE = ('appengine_django.sessions.backends.db')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = False
 
@@ -288,6 +252,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/videochat_window/'),
     re.compile(r'^/robots.txt'), 
 )
+
 
 
 

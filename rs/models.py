@@ -29,11 +29,10 @@
 # the following code snippet is from the rapid_development_with_djang_gae presentation, p19.
 from google.appengine.ext import db 
 from google.appengine.ext.db import djangoforms 
-from appengine_django.models import BaseModel 
 from user_profile_main_data import UserSpec
 from user_profile_details import UserProfileDetails
 
-import appengine_django, settings, text_fields
+import settings, text_fields
 
 import datetime, time
 
@@ -43,9 +42,9 @@ import datetime, time
 # a lot of difficulties (bloat) in properly using memcache, and therefore it should be avoided until it is understood
 # how to work around this behaviour.
 
-############# ALL DJANGO MODELS SHOULD DERIVE FROM BaseModel ############
+############# ALL DJANGO MODELS SHOULD DERIVE FROM db.Model ############
 
-class SpamMailStructures(BaseModel):
+class SpamMailStructures(db.Model):
     # Tracks various statistics that can indicate if the owner userobject is a spammer
     #
     
@@ -79,7 +78,7 @@ class SpamMailStructures(BaseModel):
     last_write_time = db.DateTimeProperty(auto_now = True)
     
 
-class UniqueLastLoginOffsets(BaseModel):
+class UniqueLastLoginOffsets(db.Model):
     # Contains the offsets that will be applied to the unique_last_login value in UserMode objects.
     # Since all query results on UnserModel are ordered according to unique_last_login, we can use
     # these offsets to give certian users priority. For example, a user who has posted a profile
@@ -103,7 +102,7 @@ class UniqueLastLoginOffsets(BaseModel):
     has_email_address_offset = db.BooleanProperty(required=False, default=False, indexed = False)
 
     
-class UserSearchPreferences2(BaseModel):
+class UserSearchPreferences2(db.Model):
     # This classs contain the stored parameters from the last search that the user has done.
     # This allows the search boxes to be set to appropriate values (based on the last settings)
     # for a given user. (This is given a "2" suffix because we used to have a different UserSearchPrefernces
@@ -150,7 +149,7 @@ class UserSearchPreferences2(BaseModel):
     
     
 ############################################
-class UnreadMailCount(BaseModel):
+class UnreadMailCount(db.Model):
     # Note: objects of this class should be updated inside transactions, since they can be modified by various
     # sources at the same time.
    
@@ -185,7 +184,7 @@ class UnreadMailCount(BaseModel):
     when_to_send_next_notification_string = db.StringProperty(default = str(datetime.datetime.max))
 
     
-class CountInitiateContact(BaseModel):
+class CountInitiateContact(db.Model):
     # Keeps track of the number of "Initiate Contact" (kisses, winks, keys) that the user has received.
     # This counter will be reset each time the user logs in.
     
@@ -242,7 +241,7 @@ class CountInitiateContact(BaseModel):
     num_sent_chat_friend = db.IntegerProperty(required=False, default = 0, indexed = False)        
     
     
-class UserModelBackupTracker(BaseModel):    
+class UserModelBackupTracker(db.Model):    
 
     # This data structure contains pointers to a principal userobject and the backup objects for that
     # principal object.  Additionally, the principal userobject and the backup objects all will contain
@@ -264,7 +263,7 @@ class UserModelBackupTracker(BaseModel):
     backup_3 = db.ReferenceProperty(reference_class=None, collection_name = 'backup_3_set', indexed = False)
     
     
-class UserTracker(BaseModel):
+class UserTracker(db.Model):
     
     # This model provides us with information that will allow us to come back and check on user
     # logins in case it is necessary to provide information to law enforcement etc.
@@ -309,7 +308,7 @@ class UserTracker(BaseModel):
     # is entering with multiple accounts. This is the only way to truly track user behaviour.
         
     
-class OnlineStatusTracker(BaseModel):
+class OnlineStatusTracker(db.Model):
     # This data structure is currently only used for memcache storage (not written to database). Previously we
     # were writing the data to the database, but found that this cost money without much benefit since we don't 
     # need permanent storage of the chat friend status. 
@@ -340,7 +339,7 @@ class OnlineStatusTracker(BaseModel):
     user_presence_status = db.StringProperty(required=False, default="active", indexed = False)
         
     
-class ChatMessage(BaseModel):
+class ChatMessage(db.Model):
     # Currently only written to memcache (not to database)
     # 
     # Contains a single chat message sent to/from the current user and another user (indicated by other_uid)
@@ -374,7 +373,7 @@ class ChatMessage(BaseModel):
         
 
         
-class OpenConversationsTracker(BaseModel):
+class OpenConversationsTracker(db.Model):
     # Data structure for tracking the conversations that are currently open.
     # Effectively, it is used to build a list of chatboxes that are currently open, and will 
     # also be upated to contain a new uid if another user 
@@ -404,7 +403,7 @@ class OpenConversationsTracker(BaseModel):
     chatbox_minimized_maximized = db.StringProperty(required=False, indexed = False)
     
 
-class ChatGroupTracker(BaseModel):
+class ChatGroupTracker(db.Model):
     # Data structure that tracks *all* chat groups that are currently in existance. These groups will show
     # up in the "groups" chatbox, which will allow the user to select a group to join and/or create a new group.
     
@@ -433,7 +432,7 @@ class ChatGroupTracker(BaseModel):
     
     
 ############################################
-class UserModel(BaseModel):
+class UserModel(db.Model):
     # Defines the User Model (ie. the data-structure that contains all relevant information about a 
     # client that is logged into the system.
     
@@ -652,7 +651,7 @@ class UserModel(BaseModel):
     client_is_exempt_from_spam_captchas = db.BooleanProperty(required=False, default=False)
     
     
-class PaymentInfo(BaseModel):
+class PaymentInfo(db.Model):
     # This class keeps track of how much a user has paid/donated, what date the donation was made, etc.
     
     # The following declaration creates a (virtual) property on the associated UserModel object that can be accessed such as:
@@ -669,7 +668,7 @@ class PaymentInfo(BaseModel):
     txn_id = db.StringProperty(required = False, default=None)
     
         
-class FriendRegsitrationTracker(BaseModel):
+class FriendRegsitrationTracker(db.Model):
     
     # This will reference the userobject that has referred the new user to sign up. Naming convention for the collections is reversed, since
     # this is how it will appear on the userobjec - ie userobject.invitees_tracker_set will provide a reference back to this object, which 
@@ -692,12 +691,12 @@ class FriendRegsitrationTracker(BaseModel):
     creation_date = db.DateTimeProperty(auto_now_add=True) 
 
     
-class WatermarkPhotoModel(BaseModel):
+class WatermarkPhotoModel(db.Model):
     # Will contain the watermark that will be used for marking all uploaded photos. This data structure is intended to
     # only have a single element, which means that a simple get() should be possible without having to filter results
     image = db.BlobProperty(required = False)
 
-class PhotoModel(BaseModel):
+class PhotoModel(db.Model):
     # This class contains the data and images for a single photo. If a user has multiple photos, then
     # this class will be instantiated multiple times.
     # NOTE: since this model has a reference to UserModel, AppEngine automatically creates
@@ -738,7 +737,7 @@ class PhotoModel(BaseModel):
     parent_object = db.ReferenceProperty(reference_class = UserModel, required = False)
 
 
-class MailMessageModel(BaseModel):
+class MailMessageModel(db.Model):
     """ 
     New model for the mailbox
     """
@@ -773,7 +772,7 @@ class MailMessageModel(BaseModel):
     unique_m_date =  db.StringProperty(required=False, default=None)
     
 
-class UsersHaveSentMessages(BaseModel):
+class UsersHaveSentMessages(db.Model):
     # This class contains a list of pairs of users who have had contact (via messages) in the past. This is necessary for
     # tracking and presenting messages for a particular user mailbox, in which each "other" contact will appear
     # only once. Note that unlike the MailMessageModel data structure, which contains an entry for each message, this 
@@ -819,7 +818,7 @@ class UsersHaveSentMessages(BaseModel):
     num_messages_to_other_sent_today = db.IntegerProperty(required=False, default = 0, indexed = False) 
     
 
-class InitiateContactModel(BaseModel):
+class InitiateContactModel(db.Model):
     # This class contains the data structures that indicate when a user has made contact with another
     # user. This includes adding another user to favorites, sending a kiss, giving a key, etc.
     # It is intended for being able to efficiently access the contact settings for display on the profile
@@ -859,7 +858,7 @@ class InitiateContactModel(BaseModel):
     chat_friend_stored = db.StringProperty(required=False, default = None)
     chat_friend_stored_date = db.DateTimeProperty()
 
-class EmailAutorizationModel(BaseModel):
+class EmailAutorizationModel(db.Model):
     # model that will store login/registration information while we are waiting for the user to verify their
     # email registration
     username = db.StringProperty(required=False,default = None)   
@@ -880,7 +879,7 @@ class EmailAutorizationModel(BaseModel):
     referring_code = db.StringProperty(required=False, default=None)
 
 # The following classes allow us to keep track of profiles that other users consider to be unacceptable.
-class CountUnacceptableProfile(BaseModel):
+class CountUnacceptableProfile(db.Model):
     # keeps track of the number of unique times that this user has been marked as unacceptable.
     profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
     count = db.IntegerProperty(required=False, default=0)
@@ -892,18 +891,18 @@ class CountUnacceptableProfile(BaseModel):
     num_times_reported_in_small_time_window = db.IntegerProperty(indexed = False, required=False, default=0)
     
     
-class CountReportingProfile(BaseModel):
+class CountReportingProfile(db.Model):
     # keeps track of the number of  times that this user has marked another profile as unacceptable.
     profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
     count = db.IntegerProperty(required=False, default=0)    
     
-class TemporarilyBlockedIPAddresses(BaseModel):
+class TemporarilyBlockedIPAddresses(db.Model):
     # contains IP addresses that we have blocked due to malicious behaviour of users
     blocked_ip = db.StringProperty(required=True, default=None)
     time_blocked = db.DateTimeProperty(auto_now_add=True) 
     
     
-class MarkUnacceptableProfile(BaseModel):
+class MarkUnacceptableProfile(db.Model):
     # we will create an object that indicates that this viewing profile has reported the displayed_profile as being 
     # unacceptable. If this object already exists, then counters will not be modified since we don't want a single user
     # to be able to mark the same profile as unacceptable hundreds of times.
@@ -912,14 +911,14 @@ class MarkUnacceptableProfile(BaseModel):
     creation_date = db.DateTimeProperty(auto_now_add=True) 
     unacceptable = db.BooleanProperty(required=False, default=True)
 
-class VideoPhoneUserInfo(BaseModel):
+class VideoPhoneUserInfo(db.Model):
     m_window_identifier = db.StringProperty(required=False, default="")
     m_identity = db.StringProperty(required=False, default="")
     m_updatetime =  db.DateTimeProperty(auto_now = True) 
             
             
             
-class SiteMap(BaseModel):
+class SiteMap(db.Model):
     # Contains XML sitemap data. This can used as a base class for both sitemaps, as well as for 
     # sitemap indexes. 
     
@@ -967,7 +966,7 @@ class SiteMapUserModelIndex(SiteMap):
     pass
 
 
-class FakeParent(BaseModel):
+class FakeParent(db.Model):
     # Used by any models that require a parent (in order to be considered in the same entity group)
     pass
 
