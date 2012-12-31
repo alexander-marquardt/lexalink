@@ -28,7 +28,6 @@
 
 # the following code snippet is from the rapid_development_with_djang_gae presentation, p19.
 from google.appengine.ext import db 
-from google.appengine.ext.db import djangoforms 
 from user_profile_main_data import UserSpec
 from user_profile_details import UserProfileDetails
 

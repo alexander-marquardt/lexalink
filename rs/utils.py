@@ -53,7 +53,6 @@ from utils_top_level import serialize_entities, deserialize_entities
 import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
 from rs.import_search_engine_overrides import *
 
-from Crypto.Cipher import AES
 import base64
 
 
@@ -1485,48 +1484,6 @@ def get_vip_status(userobject):
 
     return(vip_status)
 
-
-
-class AES16_Functionality():
-    
-    # class to allow encryption/decryption of strings. 
-    # can be used as a "class" object if desired. 
-    
-
-    # The secret key that we will use for encrypting - if need be (in the future possibly) we could pass this 
-    # value in, in order to allow different secret keys to be used.
-    secret = "0a2b4c6d8e1b2d3f"   
-    
-    ######### Usage
-    # encoded = EncodeAES(cipher, 'string_to_encode')
-    #
-    # decoded = DecodeAES(cipher, encoded)
-    #########
-    
-    
-    # the block size for the cipher object; must be 16, 24, or 32 for AES
-    BLOCK_SIZE = 16
-    
-    # the character used for padding--with a block cipher such as AES, the value
-    # you encrypt must be a multiple of BLOCK_SIZE in length.  This character is
-    # used to ensure that your value is always a multiple of BLOCK_SIZE
-    PADDING = ' ' #pad with spaces, since (so far) this character is not allowed in usernames and/or passwords
-    
-    # create a cipher object using the random secret
-    cipher = AES.new(secret)    
-    
-    # one-liner to sufficiently pad the text to be encrypted
-    @classmethod
-    def pad(cls, txt):
-        return txt + (cls.BLOCK_SIZE - len(txt) % cls.BLOCK_SIZE) * cls.PADDING    
-    
-    @classmethod
-    def EncodeAES(cls, txt):
-        return base64.urlsafe_b64encode(cls.cipher.encrypt(cls.pad(txt)))
-
-    @classmethod
-    def DecodeAES(cls, txt):
-        return cls.cipher.decrypt(base64.urlsafe_b64decode(txt)).rstrip(cls.PADDING)
 
 def get_nid_from_uid(uid):
     # function that looks up the nid [ie. key().id()] based on the uid. 

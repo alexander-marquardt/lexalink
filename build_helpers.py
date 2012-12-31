@@ -25,7 +25,7 @@
 
 
 import settings
-import codecs, shutil, re, glob, os, logging, subprocess, sys
+import codecs, shutil, re, glob, os, logging, subprocess, sys, datetime
 
 
 def create_combined_static_file(html_source, output_file_name,  static_file_type):
@@ -148,6 +148,7 @@ def copy_file_to_folder(src_glob, dst_folder):
         
         
 def generate_index_files():
+    logging.info("Copying index file")        
     src = "%s_index.yaml" % settings.BUILD_NAME
     dst = "index.yaml"
     logging.info("Generating %s based on %s.\n" % (dst, src))
@@ -160,7 +161,7 @@ def setup_my_local_environment():
     # Additionally, we customize the app.yaml file so that it uploads to the correct application id, and so
     # that the favicon icons are correctly defined.
 
-
+    logging.info("Running setup_my_local_environment")
     
     # copy the app.yaml so that proper favicons are included
     src = "app_generic.yaml"
@@ -204,21 +205,21 @@ def setup_my_local_environment():
             logging.info("Replacing version with %s" % settings.VERSION_ID)
             dst_file.write("version: %s\n" % settings.VERSION_ID )
         elif match_static_dir_pattern:
-            line = "%s%s%s\n" % (match_static_dir_pattern.group(1), settings.LIVE_STATIC_DIR, match_static_dir_pattern.group(3))
-            logging.info("Writing %s" % line)
-            dst_file.write(line)
+            line = "%s%s%s" % (match_static_dir_pattern.group(1), settings.LIVE_STATIC_DIR, match_static_dir_pattern.group(3))
+            logging.debug("Writing %s" % line)
+            dst_file.write("%s\n" % line)
         elif match_proprietary_static_dir_pattern:
-            line = "%s%s%s\n" % (match_proprietary_static_dir_pattern.group(1), settings.LIVE_PROPRIETARY_STATIC_DIR, match_proprietary_static_dir_pattern.group(3))
-            logging.info("Writing %s" % line)
-            dst_file.write(line)            
+            line = "%s%s%s" % (match_proprietary_static_dir_pattern.group(1), settings.LIVE_PROPRIETARY_STATIC_DIR, match_proprietary_static_dir_pattern.group(3))
+            logging.debug("Writing %s" % line)
+            dst_file.write("%s\n" % line)
         elif match_flash_files_dir_pattern:
-            line = "%s%s%s\n" % (match_flash_files_dir_pattern.group(1), settings.FLASH_FILES_DIR, match_flash_files_dir_pattern.group(3))
-            logging.info("Writing %s" % line)
-            dst_file.write(line)
+            line = "%s%s%s" % (match_flash_files_dir_pattern.group(1), settings.FLASH_FILES_DIR, match_flash_files_dir_pattern.group(3))
+            logging.debug("Writing %s" % line)
+            dst_file.write("%s\n" % line)
         elif match_appstat_middleware_pattern:
-            line = "%s%s\n" % (match_appstat_middleware_pattern.group(1), "on" if settings.ENABLE_APPSTATS else "off")
-            logging.info("Writing: %s" % line)
-            dst_file.write(line)
+            line = "%s%s" % (match_appstat_middleware_pattern.group(1), "on" if settings.ENABLE_APPSTATS else "off")
+            logging.debug("Writing: %s" % line)
+            dst_file.write("%s\n" % line)
         else:
             dst_file.write(line)
     
@@ -284,9 +285,10 @@ def setup_my_local_environment():
         
 def generate_time_stamped_static_files():   
     # create the "combined" css and js files 
-    if settings.USE_TIME_STAMPED_STATIC_FILES:
-        create_combined_static_file("import_main_css_and_js.html", "combined_css", "css")        
-        create_combined_static_file("import_main_css_and_js.html", "combined_js", "js")     
+    logging.info("Running generate_time_stamped_static_files")        
+    
+    create_combined_static_file("import_main_css_and_js.html", "combined_css", "css")        
+    create_combined_static_file("import_main_css_and_js.html", "combined_js", "js")     
     
 def print_warning(txt):
     sys.stderr.write("\n************* WARNING *************\n")
@@ -320,3 +322,21 @@ def check_that_minimized_javascript_files_are_enabled():
         print_warning("Not using minimized version of Jquery")
     if not jquery_ui_minimized:
         print_warning("Not using minimized version of Jquery-ui")
+        
+        
+def customize_files():
+    
+    print "\n**********************************************************************"    
+    print "Generating custom files: %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
+    print "%s" % datetime.datetime.now()
+    print "**********************************************************************\n"
+    
+    
+    setup_my_local_environment()
+    check_that_minimized_javascript_files_are_enabled()
+    generate_index_files()
+
+    # Set up/generate static files, time-stamped static directories, etc. (this is somewhat time consuming, which is why it 
+    # is wrapped in the "do_setup" check)
+    if settings.USE_TIME_STAMPED_STATIC_FILES:        
+        generate_time_stamped_static_files()    

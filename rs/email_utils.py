@@ -865,7 +865,6 @@ def send_vip_invitiation_email(request):
         # set the language to be the users preferred language
         translation.activate(lang_code)
             
-        username_obfuscated = utils.AES16_Functionality.EncodeAES(username)
     
         message = mail.EmailMessage(sender= constants.sender_address,
                                     subject=ugettext("A nice website that I thought you might be interested in having a look at"))

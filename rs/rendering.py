@@ -250,7 +250,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields = constants.PassDataToTemplate()
         primary_user_presentation_data_fields.username = username
         primary_user_presentation_data_fields.email_address = email_address
-        primary_user_presentation_data_fields.username_obfuscated = utils.AES16_Functionality.EncodeAES(username)
         primary_user_presentation_data_fields.owner_uid = owner_uid
         primary_user_presentation_data_fields.owner_nid = owner_nid
         primary_user_presentation_data_fields.owner_message_count = owner_message_count

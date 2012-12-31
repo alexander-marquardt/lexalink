@@ -27,69 +27,53 @@
 
 
 # Wrapper for "appcfg.py update ." that ensures that all static directories are correctly 
-# configured for the current build configuration. We should always call this script instead
-# of appcfg.py
+# configured for the current build configuration. We should generally call this script instead
+# of directly using appcfg.py in order to ensure that everything is setup ok.
 
 import subprocess, sys, settings, build_helpers, logging, datetime
-
-# Ensure that the environment is consistent with the settings.py configuration
-
-
-
-logging.getLogger().setLevel(logging.DEBUG)
+import build_helpers
 
 
 
-print "**********************************************************************"
-print "RE-BUILDING ENVIRONMENT AND STATIC DIRS TO ENSURE CONSISTENCY"
-print "%s" % datetime.datetime.now()
-print "**********************************************************************\n"
-
-  
-
-""" 
-Ensure that we never accidently upload a version that is not setup to have all the static directories replaced
-with time-stamped version.
-"""
-do_setup = True
-if "-no_setup" in sys.argv:
-    do_setup = False
-    sys.stderr.write("*** Not running setup *****\n")
-    # remove the "-no_setup" from the argv
-    del sys.argv[sys.argv.index("-no_setup")]
-
-
-if settings.FLASH_FILES_DIR == "bin-debug": 
-    sys.stderr.write("************* Error *************\n")
-    sys.stderr.write("You are attempting upload code with FLASH_FILES_DIR set to bin-debug\n")
-    sys.stderr.write("Now cancelling upload\n")
-    sys.stderr.write("************* Exit *************\n\n")
-    sys.exit(1)    
-
+def check_settings():
+    # make sure that settings file doesn't have any declarations that will cause problems when uploaded.
     
-if do_setup:
-    # ensure that static dirs are setup to be copied correctly
     if not settings.USE_TIME_STAMPED_STATIC_FILES:
         sys.stderr.write("************* Error *************\n")
         sys.stderr.write("You are attempting upload code with an incorrectly configured static directory\n")
         sys.stderr.write('Please modify settings.USE_TIME_STAMPED_STATIC_FILES to True\n\n')
-        sys.stderr.write("Now cancelling upload\n")
+        sys.stderr.write("Upload cancelled\n")
+        sys.stderr.write("************* Exit *************\n\n")
+        exit(1)
+    
+    if settings.FLASH_FILES_DIR == "bin-debug": 
+        sys.stderr.write("************* Error *************\n")
+        sys.stderr.write("You are attempting upload code with FLASH_FILES_DIR set to bin-debug\n")
+        sys.stderr.write("Upload cancelled\n")
         sys.stderr.write("************* Exit *************\n\n")
         sys.exit(1)
         
+    if settings.ENABLE_APPSTATS:
+        print "****\n"
+        print "WARNING: APPSTATS ENABLED - This can slightly impact performance\n"
+        print "****\n"        
         
-build_helpers.check_that_minimized_javascript_files_are_enabled();
 
-    
-build_helpers.generate_index_files()    
-build_helpers.setup_my_local_environment()
-
-if do_setup:
-    build_helpers.generate_time_stamped_static_files()
-    
+logging.getLogger().setLevel(logging.DEBUG)
 
 print "**********************************************************************"
-print "BEGINNING UPLOAD OF CURRENT BUILD"
+print "Starting upload_code script %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
+print "%s" % datetime.datetime.now()
+print "**********************************************************************\n"
+
+check_settings()
+    
+# Build all the dependent files etc. 
+build_helpers.customize_files()
+
+print "**********************************************************************"
+print "Beginning upload: %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
+print "Version: %s" % settings.VERSION_ID
 print "%s" % datetime.datetime.now()
 print "**********************************************************************\n"
 
@@ -97,23 +81,16 @@ additional_args = sys.argv[1:]
 if not additional_args:
     pargs = ['appcfg.py', 'update'] + ['.']
 else:
-    if additional_args[0] != '-setup_only':
-        pargs = ['appcfg.py'] + additional_args + ['.']
+    pargs = ['appcfg.py'] + additional_args + ['.']
 
 print "Process args = %s" % pargs
 
 process = subprocess.call(pargs,  stderr=subprocess.STDOUT)
 
 print "**********************************************************************"
-print "FINISHED UPLOAD OF CURRENT BUILD"
+print "Finisehd upload %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
 print "%s" % datetime.datetime.now()
 print "**********************************************************************\n"
-
-if settings.ENABLE_APPSTATS:
-    print "****\n"
-    print "WARNING: APPSTATS ENABLED - This can slightly impact performance\n"
-    print "****\n"
-    
 
 sys.exit(0)
 

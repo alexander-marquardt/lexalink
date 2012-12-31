@@ -10,6 +10,9 @@ rs/static/auto-generated*
 # Environment for the WingIDE environment that I use
 Wing_project.wpr
 
+# local storage
+.gaedata
+
 # Jetbrains files (another editor that I use)
 .idea
 
@@ -28,4 +31,3 @@ rs/templates/video_phone_symlink*
 rs/proprietary/
 
 
-Crypto

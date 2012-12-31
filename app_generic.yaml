@@ -1,5 +1,5 @@
 application: app_name_here
-version: yy-mm-dd-hhhh
+version: yyyy-mm-dd-hhhh
 runtime: python27
 api_version: 1
 threadsafe: yes
