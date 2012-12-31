@@ -31,7 +31,6 @@ from google.appengine.ext import db
 from google.appengine.ext.db import djangoforms 
 from user_profile_main_data import UserSpec
 from user_profile_details import UserProfileDetails
-from django.db import models
 
 import settings, text_fields
 
@@ -43,8 +42,9 @@ import datetime, time
 # a lot of difficulties (bloat) in properly using memcache, and therefore it should be avoided until it is understood
 # how to work around this behaviour.
 
+############# ALL DJANGO MODELS SHOULD DERIVE FROM db.Model ############
 
-class SpamMailStructures(models.Model):
+class SpamMailStructures(db.Model):
     # Tracks various statistics that can indicate if the owner userobject is a spammer
     #
     
@@ -78,7 +78,7 @@ class SpamMailStructures(models.Model):
     last_write_time = db.DateTimeProperty(auto_now = True)
     
 
-class UniqueLastLoginOffsets(models.Model):
+class UniqueLastLoginOffsets(db.Model):
     # Contains the offsets that will be applied to the unique_last_login value in UserMode objects.
     # Since all query results on UnserModel are ordered according to unique_last_login, we can use
     # these offsets to give certian users priority. For example, a user who has posted a profile
@@ -102,7 +102,7 @@ class UniqueLastLoginOffsets(models.Model):
     has_email_address_offset = db.BooleanProperty(required=False, default=False, indexed = False)
 
     
-class UserSearchPreferences2(models.Model):
+class UserSearchPreferences2(db.Model):
     # This classs contain the stored parameters from the last search that the user has done.
     # This allows the search boxes to be set to appropriate values (based on the last settings)
     # for a given user. (This is given a "2" suffix because we used to have a different UserSearchPrefernces
@@ -149,7 +149,7 @@ class UserSearchPreferences2(models.Model):
     
     
 ############################################
-class UnreadMailCount(models.Model):
+class UnreadMailCount(db.Model):
     # Note: objects of this class should be updated inside transactions, since they can be modified by various
     # sources at the same time.
    
@@ -184,7 +184,7 @@ class UnreadMailCount(models.Model):
     when_to_send_next_notification_string = db.StringProperty(default = str(datetime.datetime.max))
 
     
-class CountInitiateContact(models.Model):
+class CountInitiateContact(db.Model):
     # Keeps track of the number of "Initiate Contact" (kisses, winks, keys) that the user has received.
     # This counter will be reset each time the user logs in.
     
@@ -241,7 +241,7 @@ class CountInitiateContact(models.Model):
     num_sent_chat_friend = db.IntegerProperty(required=False, default = 0, indexed = False)        
     
     
-class UserModelBackupTracker(models.Model):    
+class UserModelBackupTracker(db.Model):    
 
     # This data structure contains pointers to a principal userobject and the backup objects for that
     # principal object.  Additionally, the principal userobject and the backup objects all will contain
@@ -263,7 +263,7 @@ class UserModelBackupTracker(models.Model):
     backup_3 = db.ReferenceProperty(reference_class=None, collection_name = 'backup_3_set', indexed = False)
     
     
-class UserTracker(models.Model):
+class UserTracker(db.Model):
     
     # This model provides us with information that will allow us to come back and check on user
     # logins in case it is necessary to provide information to law enforcement etc.
@@ -308,7 +308,7 @@ class UserTracker(models.Model):
     # is entering with multiple accounts. This is the only way to truly track user behaviour.
         
     
-class OnlineStatusTracker(models.Model):
+class OnlineStatusTracker(db.Model):
     # This data structure is currently only used for memcache storage (not written to database). Previously we
     # were writing the data to the database, but found that this cost money without much benefit since we don't 
     # need permanent storage of the chat friend status. 
@@ -339,7 +339,7 @@ class OnlineStatusTracker(models.Model):
     user_presence_status = db.StringProperty(required=False, default="active", indexed = False)
         
     
-class ChatMessage(models.Model):
+class ChatMessage(db.Model):
     # Currently only written to memcache (not to database)
     # 
     # Contains a single chat message sent to/from the current user and another user (indicated by other_uid)
@@ -373,7 +373,7 @@ class ChatMessage(models.Model):
         
 
         
-class OpenConversationsTracker(models.Model):
+class OpenConversationsTracker(db.Model):
     # Data structure for tracking the conversations that are currently open.
     # Effectively, it is used to build a list of chatboxes that are currently open, and will 
     # also be upated to contain a new uid if another user 
@@ -403,7 +403,7 @@ class OpenConversationsTracker(models.Model):
     chatbox_minimized_maximized = db.StringProperty(required=False, indexed = False)
     
 
-class ChatGroupTracker(models.Model):
+class ChatGroupTracker(db.Model):
     # Data structure that tracks *all* chat groups that are currently in existance. These groups will show
     # up in the "groups" chatbox, which will allow the user to select a group to join and/or create a new group.
     
@@ -432,7 +432,7 @@ class ChatGroupTracker(models.Model):
     
     
 ############################################
-class UserModel(models.Model):
+class UserModel(db.Model):
     # Defines the User Model (ie. the data-structure that contains all relevant information about a 
     # client that is logged into the system.
     
@@ -466,9 +466,7 @@ class UserModel(models.Model):
     # backup tracker, and the backup_tracker then contains pointers to the userobject and all of it's backups.
     # This will allow us to easily navigate between userobject and backups if this becomes necessary due to
     # some kind of destruction of data in the database. 
-    
-    #backup_tracker = db.ReferenceProperty(reference_class=UserModelBackupTracker, required=False)
-    backup_tracker = db.ReferenceProperty(reference_class=None, required=False)
+    backup_tracker = db.ReferenceProperty(reference_class=UserModelBackupTracker, required=False)
     
     #### values defined in signup fields (defined in constants.py)
     # This part of the class  defines the sign-up fields, such 
@@ -591,9 +589,7 @@ class UserModel(models.Model):
     # such as if the user has photos, a description, etc. Each of these factors make the user profile
     # show up earlier in the search results.
     unique_last_login = db.StringProperty(required=False, default=None)
-    
-    #unique_last_login_offset_ref = db.ReferenceProperty(reference_class=UniqueLastLoginOffsets, required=False)
-    unique_last_login_offset_ref = db.ReferenceProperty(reference_class=None, required=False)
+    unique_last_login_offset_ref = db.ReferenceProperty(reference_class=UniqueLastLoginOffsets, required=False)
     
     creation_date = db.DateTimeProperty(auto_now_add=True) 
     
@@ -613,21 +609,17 @@ class UserModel(models.Model):
     # This will indicate how many new mails the user has. This must be updated when the mail is
     # sent. Keep seperate from UserModel, because we don't want to lock the entire usermodel to update
     # this value. 
-    #unread_mail_count_ref = db.ReferenceProperty(reference_class=UnreadMailCount, required=False)
-    unread_mail_count_ref = db.ReferenceProperty(reference_class=None, required=False)
+    unread_mail_count_ref = db.ReferenceProperty(reference_class=UnreadMailCount, required=False)
                                             
     # store the users previous search for default settings in the future
     # required=False, because it does not exist when the model is initially created. 
-    #search_preferences2 = db.ReferenceProperty(reference_class = UserSearchPreferences2, required = False, default = None)
-    search_preferences2 = db.ReferenceProperty(reference_class = None, required = False, default = None)
+    search_preferences2 = db.ReferenceProperty(reference_class = UserSearchPreferences2, required = False, default = None)
     
     # Keep track of how many "new" contact attempts have been made to the current user.
-    #new_contact_counter_ref = db.ReferenceProperty(reference_class = CountInitiateContact, required = False)
-    new_contact_counter_ref = db.ReferenceProperty(reference_class = None, required = False)
+    new_contact_counter_ref = db.ReferenceProperty(reference_class = CountInitiateContact, required = False)
     
     # Keep track of if this user is spamming people
-    #spam_tracker = db.ReferenceProperty(reference_class = SpamMailStructures, required = False)
-    spam_tracker = db.ReferenceProperty(reference_class = None, required = False)
+    spam_tracker = db.ReferenceProperty(reference_class = SpamMailStructures, required = False)
      
     # The following variable indicates that users account should be eliminated the next
     # time a batch elimination is run. 
@@ -635,8 +627,7 @@ class UserModel(models.Model):
 
     # user_tracker will allow us to permanently log ip addresses and verified email addresses that have been used
     # for logging into this profile. 
-    #user_tracker = db.ReferenceProperty(reference_class = UserTracker, required = False, default = None)
-    user_tracker = db.ReferenceProperty(reference_class = None, required = False, default = None)
+    user_tracker = db.ReferenceProperty(reference_class = UserTracker, required = False, default = None)
     
     registration_ip_address = db.StringProperty(required = False, default=None)
     last_login_ip_address = db.StringProperty(required = False, default=None)
@@ -660,13 +651,12 @@ class UserModel(models.Model):
     client_is_exempt_from_spam_captchas = db.BooleanProperty(required=False, default=False)
     
     
-class PaymentInfo(models.Model):
+class PaymentInfo(db.Model):
     # This class keeps track of how much a user has paid/donated, what date the donation was made, etc.
     
     # The following declaration creates a (virtual) property on the associated UserModel object that can be accessed such as:
     # userobject.payments_set[0] - Note: we can therefore also keep track of multiple payments for a single user. 
-    #owner_userobject = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="payments_set")
-    owner_userobject = db.ReferenceProperty(reference_class = None, required = False, default = None, collection_name="payments_set")
+    owner_userobject = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="payments_set")
     
     # The username is stored here just for convenience, so that we can query by username (in the admin console) to see what payments
     # a given user has made, in case of any disputes or confusion.
@@ -678,18 +668,16 @@ class PaymentInfo(models.Model):
     txn_id = db.StringProperty(required = False, default=None)
     
         
-class FriendRegsitrationTracker(models.Model):
+class FriendRegsitrationTracker(db.Model):
     
     # This will reference the userobject that has referred the new user to sign up. Naming convention for the collections is reversed, since
     # this is how it will appear on the userobjec - ie userobject.invitees_tracker_set will provide a reference back to this object, which 
     # we can then use to find out which other users the user (stored in userobject) has invited.
-    #referring_profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="invitees_tracker_collection")
-    referring_profile_ref = db.ReferenceProperty(reference_class = None, required = False, default = None, collection_name="invitees_tracker_collection")
+    referring_profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="invitees_tracker_collection")
     referring_profile_name = db.StringProperty(required = False, default=None)
     
     # This will reference the userobject that has just signed up, due to an invitation from a friend. Naming convention as explained above.
-    #invitee_profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="referring_profiles_tracker_collection")
-    invitee_profile_ref = db.ReferenceProperty(reference_class = None, required = False, default = None, collection_name="referring_profiles_tracker_collection")
+    invitee_profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="referring_profiles_tracker_collection")
     invitee_profile_name = db.StringProperty(required = False, default=None)
     
     # keep track of the ip address that the newly registered user is signing up from - this is used for later checking if the referring_profile
@@ -703,12 +691,12 @@ class FriendRegsitrationTracker(models.Model):
     creation_date = db.DateTimeProperty(auto_now_add=True) 
 
     
-class WatermarkPhotoModel(models.Model):
+class WatermarkPhotoModel(db.Model):
     # Will contain the watermark that will be used for marking all uploaded photos. This data structure is intended to
     # only have a single element, which means that a simple get() should be possible without having to filter results
     image = db.BlobProperty(required = False)
 
-class PhotoModel(models.Model):
+class PhotoModel(db.Model):
     # This class contains the data and images for a single photo. If a user has multiple photos, then
     # this class will be instantiated multiple times.
     # NOTE: since this model has a reference to UserModel, AppEngine automatically creates
@@ -746,11 +734,10 @@ class PhotoModel(models.Model):
     
     # the following provides a link from the Photos to the user. This will create 
     # backlinks in the user model, that can be used to show the photos.
-    #parent_object = db.ReferenceProperty(reference_class = UserModel, required = False)
-    parent_object = db.ReferenceProperty(reference_class = None, required = False)
+    parent_object = db.ReferenceProperty(reference_class = UserModel, required = False)
 
 
-class MailMessageModel(models.Model):
+class MailMessageModel(db.Model):
     """ 
     New model for the mailbox
     """
@@ -772,11 +759,9 @@ class MailMessageModel(models.Model):
     # the "messages_received" structure. These names are not used by our code, but must appear in order to dis-ambiguate
     # how these will appear on the referenced object.
     # m_to and m_from refer to the receiver and the sender of the current message. 
-    #m_from = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_sent')
-    m_from = db.ReferenceProperty(reference_class = None, required = False, collection_name = 'mmm_sent')
+    m_from = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_sent')
     # if we ever decide to allow multiple recipients, this could be changed to a list of keys. 
-    #m_to = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_received')
-    m_to = db.ReferenceProperty(reference_class = None, required = False, collection_name = 'mmm_received')
+    m_to = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_received')
     
     # date/time the message was sent/received
     m_date = db.DateTimeProperty(required=False)
@@ -787,7 +772,7 @@ class MailMessageModel(models.Model):
     unique_m_date =  db.StringProperty(required=False, default=None)
     
 
-class UsersHaveSentMessages(models.Model):
+class UsersHaveSentMessages(db.Model):
     # This class contains a list of pairs of users who have had contact (via messages) in the past. This is necessary for
     # tracking and presenting messages for a particular user mailbox, in which each "other" contact will appear
     # only once. Note that unlike the MailMessageModel data structure, which contains an entry for each message, this 
@@ -795,10 +780,8 @@ class UsersHaveSentMessages(models.Model):
     # This can be thought of as a sort of indicator
     # that allows us to extract the "top" message between each pair of users, by performing another query (once
     # we actually know that the two users have had previous contact)
-    #owner_ref = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_owner')
-    owner_ref = db.ReferenceProperty(reference_class = None, required = False, collection_name = 'have_sent_messages_owner')
-    #other_ref = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_other')
-    other_ref = db.ReferenceProperty(reference_class = None, required = False, collection_name = 'have_sent_messages_other')
+    owner_ref = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_owner')
+    other_ref = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_other')
     
     last_m_date = db.DateTimeProperty(required=False)
     
@@ -835,7 +818,7 @@ class UsersHaveSentMessages(models.Model):
     num_messages_to_other_sent_today = db.IntegerProperty(required=False, default = 0, indexed = False) 
     
 
-class InitiateContactModel(models.Model):
+class InitiateContactModel(db.Model):
     # This class contains the data structures that indicate when a user has made contact with another
     # user. This includes adding another user to favorites, sending a kiss, giving a key, etc.
     # It is intended for being able to efficiently access the contact settings for display on the profile
@@ -848,10 +831,8 @@ class InitiateContactModel(models.Model):
     #       access the key_stored for the "viewer_profile" (this means that the viewer has been given a key) - this could be a potential
     #       source of confusion since we are viewing the "displayed_profile" but checking the "viewer_profile" data structure for access to 
     #       the private photos.
-    #displayed_profile = db.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_displayed_profile')
-    displayed_profile = db.ReferenceProperty(reference_class = None, required = True, collection_name = 'contact_model_displayed_profile')
-    #viewer_profile = db.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_viewer_profile')
-    viewer_profile = db.ReferenceProperty(reference_class = None, required = True, collection_name = 'contact_model_viewer_profile')
+    displayed_profile = db.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_displayed_profile')
+    viewer_profile = db.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_viewer_profile')
         
     favorite_stored = db.BooleanProperty(required = False, default = False)
     favorite_stored_date =  db.DateTimeProperty()
@@ -877,7 +858,7 @@ class InitiateContactModel(models.Model):
     chat_friend_stored = db.StringProperty(required=False, default = None)
     chat_friend_stored_date = db.DateTimeProperty()
 
-class EmailAutorizationModel(models.Model):
+class EmailAutorizationModel(db.Model):
     # model that will store login/registration information while we are waiting for the user to verify their
     # email registration
     username = db.StringProperty(required=False,default = None)   
@@ -898,10 +879,9 @@ class EmailAutorizationModel(models.Model):
     referring_code = db.StringProperty(required=False, default=None)
 
 # The following classes allow us to keep track of profiles that other users consider to be unacceptable.
-class CountUnacceptableProfile(models.Model):
+class CountUnacceptableProfile(db.Model):
     # keeps track of the number of unique times that this user has been marked as unacceptable.
-    #profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
-    profile_ref = db.ReferenceProperty(reference_class = None, required = False)
+    profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
     count = db.IntegerProperty(required=False, default=0)
     
     # Track how many times profile is reported as unacceptable in the "small time window" - which 
@@ -911,37 +891,34 @@ class CountUnacceptableProfile(models.Model):
     num_times_reported_in_small_time_window = db.IntegerProperty(indexed = False, required=False, default=0)
     
     
-class CountReportingProfile(models.Model):
+class CountReportingProfile(db.Model):
     # keeps track of the number of  times that this user has marked another profile as unacceptable.
-    #profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
-    profile_ref = db.ReferenceProperty(reference_class = None, required = False)
+    profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
     count = db.IntegerProperty(required=False, default=0)    
     
-class TemporarilyBlockedIPAddresses(models.Model):
+class TemporarilyBlockedIPAddresses(db.Model):
     # contains IP addresses that we have blocked due to malicious behaviour of users
     blocked_ip = db.StringProperty(required=True, default=None)
     time_blocked = db.DateTimeProperty(auto_now_add=True) 
     
     
-class MarkUnacceptableProfile(models.Model):
+class MarkUnacceptableProfile(db.Model):
     # we will create an object that indicates that this viewing profile has reported the displayed_profile as being 
     # unacceptable. If this object already exists, then counters will not be modified since we don't want a single user
     # to be able to mark the same profile as unacceptable hundreds of times.
-    #displayed_profile = db.ReferenceProperty(required=False,reference_class = UserModel,  collection_name = 'unacceptable_model_displayed_profile')
-    displayed_profile = db.ReferenceProperty(required=False,reference_class = None,  collection_name = 'unacceptable_model_displayed_profile')
-    #reporter_profile = db.ReferenceProperty(required=False,reference_class = UserModel, collection_name = 'unacceptable_model_viewer_profile')
-    reporter_profile = db.ReferenceProperty(required=False,reference_class = None, collection_name = 'unacceptable_model_viewer_profile')
+    displayed_profile = db.ReferenceProperty(required=False,reference_class = UserModel,  collection_name = 'unacceptable_model_displayed_profile')
+    reporter_profile = db.ReferenceProperty(required=False,reference_class = UserModel, collection_name = 'unacceptable_model_viewer_profile')
     creation_date = db.DateTimeProperty(auto_now_add=True) 
     unacceptable = db.BooleanProperty(required=False, default=True)
 
-class VideoPhoneUserInfo(models.Model):
+class VideoPhoneUserInfo(db.Model):
     m_window_identifier = db.StringProperty(required=False, default="")
     m_identity = db.StringProperty(required=False, default="")
     m_updatetime =  db.DateTimeProperty(auto_now = True) 
             
             
             
-class SiteMap(models.Model):
+class SiteMap(db.Model):
     # Contains XML sitemap data. This can used as a base class for both sitemaps, as well as for 
     # sitemap indexes. 
     
@@ -989,7 +966,7 @@ class SiteMapUserModelIndex(SiteMap):
     pass
 
 
-class FakeParent(models.Model):
+class FakeParent(db.Model):
     # Used by any models that require a parent (in order to be considered in the same entity group)
     pass
 
