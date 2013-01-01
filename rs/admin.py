@@ -118,8 +118,6 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             photo_object.is_approved = is_approved
             utils.put_object(photo_object)
                 
-            # We need to invalidate the profile summary since it has potentially changed based on the approval/dis-approval
-            # of the photo.
             parent_uid = str(photo_object.parent_object.key())
             #utils.invalidate_user_summary_memcache(parent_uid)              
             

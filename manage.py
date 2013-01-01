@@ -12,7 +12,6 @@ except ImportError:
     sys.exit(1)
     
 if __name__ == "__main__":
-    
     # Execute the program
     execute_manager(settings)
 
