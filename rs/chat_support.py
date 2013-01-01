@@ -86,7 +86,7 @@ def delete_open_conversation_tracker_object(owner_uid, other_uid):
     # use memcache to simulate DB
     open_conversations_memcache_dictionary_key = OPEN_CONVERSATIONS_MEMCACHE_DICTIONARY_PREFIX + owner_uid
     open_conversations_dictionary = memcache.get(open_conversations_memcache_dictionary_key)
-    if other_uid in open_conversations_dictionary:
+    if open_conversations_dictionary and other_uid in open_conversations_dictionary:
         del open_conversations_dictionary[other_uid]
         memcache.set(open_conversations_memcache_dictionary_key, open_conversations_dictionary)
 
