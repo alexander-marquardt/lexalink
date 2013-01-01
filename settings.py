@@ -34,8 +34,7 @@ import logging
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-12-31-1045'
-logging.getLogger().setLevel(logging.DEBUG)
+VERSION_ID = '2012-13-02-0037'
 
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
@@ -48,7 +47,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_TIME_STAMPED_STATIC_FILES = True
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
@@ -194,10 +193,10 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
+    'gaesessions.DjangoSessionMiddleware',
     # keep LocaleURLMiddleware before CommonMiddleware, or APPEND_SLASH will not work
     'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'gaesessions.DjangoSessionMiddleware',
     #'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
