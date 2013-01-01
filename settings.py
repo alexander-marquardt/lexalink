@@ -48,7 +48,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
@@ -181,7 +181,7 @@ INSTALLED_APPS = (
 #    'django.contrib.admin',
     'localeurl',
     'django.contrib.contenttypes',
-    'django.contrib.auth',
+    #'django.contrib.auth',
     #'django.contrib.sessions',
     'djangotoolbox',
     'autoload',
@@ -194,20 +194,18 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
-
-    # keep the following line before CommonMiddleware, or APPEND_SLASH will not work
+    # keep LocaleURLMiddleware before CommonMiddleware, or APPEND_SLASH will not work
     'localeurl.middleware.LocaleURLMiddleware',
-    
     'django.middleware.common.CommonMiddleware',
     'gaesessions.DjangoSessionMiddleware',
     #'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
+    #'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
-    'django.core.context_processors.media',
+    #'django.core.context_processors.media',
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',    
 )
