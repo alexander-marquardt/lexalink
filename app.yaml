@@ -20,25 +20,28 @@ libraries:
 - name: django
   version: latest
 
+- name: PIL
+  version: latest
+
 handlers:
 - url: /_ah/queue/deferred
   script: djangoappengine.deferred.handler.application
   login: admin
 
 - url: /favicon.ico
-  static_files: rs/static/auto-generated-2012-12-31-1045/img/Discrete/favicon.ico
-  upload: rs/static/auto-generated-2012-12-31-1045/img/Discrete/favicon.ico
+  static_files: rs/static/img/Discrete/favicon.ico
+  upload: rs/static/img/Discrete/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location
 # for each new build name to ensure that out-of-date static files will not be accessed through
 # cached data (since the directory name changes, old caches will not be hit)
 
-- url: /rs/static/auto-generated-2012-12-31-1045
-  static_dir: rs/static/auto-generated-2012-12-31-1045
+- url: /rs/static
+  static_dir: rs/static
   
-- url: /rs/static/auto-generated-2012-12-31-1045
-  static_dir: rs/static/auto-generated-2012-12-31-1045
+- url: /rs/proprietary/static
+  static_dir: rs/proprietary/static
   
 - url: /rs/admin/.*
   script: djangoappengine.main.application

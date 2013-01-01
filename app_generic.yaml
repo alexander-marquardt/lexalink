@@ -18,6 +18,9 @@ libraries:
 - name: django
   version: latest
 
+- name: PIL
+  version: latest
+
 handlers:
 - url: /_ah/queue/deferred
   script: djangoappengine.deferred.handler.application
