@@ -80,7 +80,7 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
     try:
         userobject = utils_top_level.get_object_from_string(display_uid)
         redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
-        logging.debug("Re-directing old url for uid: %s to new url %s" % (display_uid, redirect_url))
+        logging.info("Re-directing old url for uid: %s to new url %s" % (display_uid, redirect_url))
         return http.HttpResponsePermanentRedirect(redirect_url)  
     
     except BadRequestError:
@@ -92,7 +92,7 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
             # to prevent infinite loop, only redirect if the "new_uid" is different from the "display_uid"
             # For example, we want to be sure that we don't re-direct a bad uid key that is already in the
             # application name of current application.
-            logging.debug("Stale uid (from old application identifier): %s converted to %s" % (display_uid, new_uid))            
+            logging.info("Stale uid (from old application identifier): %s converted to %s" % (display_uid, new_uid))            
             return redirect_to_user_main(request, new_uid, is_primary_user)
         else:
             raise Exception("Bad display_uid passed into views.user_main")
@@ -797,12 +797,9 @@ def login(request, is_admin_login = False, referring_code = None):
         
         if request.REQUEST.get("is_ajax_call", ''):
             # We check if it is an ajax request to see the entire page should be loaded, or just the body.
-            logging.info("IS AJAX")
             http_response = http_utils.ajax_compatible_http_response(request, body_main_html)
             
-        else:    
-            logging.info("IS **NOT** AJAX")
-            
+        else:               
             http_response = render_to_response("common_wrapper.html", dict({   
                 'meta_info': meta_info,
                 'wrapper_data_fields' : common_data_structs.wrapper_data_fields,
@@ -926,7 +923,7 @@ def press(request):
 def crawler_login(request):
     
     try:
-        error_reporting.log_exception(logging.debug, "logging in crawler")
+        error_reporting.log_exception(logging.info, "logging in crawler")
         return render_to_response("crawler_login.html")
     except:
         error_reporting.log_exception(logging.critical)
@@ -936,7 +933,7 @@ def crawler_auth(request):
     
     
     try:
-        error_reporting.log_exception(logging.debug, error_message = 'META Header = %s' % request.META) 
+        error_reporting.log_exception(logging.info, error_message = 'META Header = %s' % request.META) 
         
         username = request.POST.get('username', '') 
         password = request.POST.get('password', '') 

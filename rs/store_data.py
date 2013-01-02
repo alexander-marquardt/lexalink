@@ -125,7 +125,6 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
     # then write the photo to the database.
     
     try:
-        #logging.debug("Entering store_photo_options")
         if not is_admin_photo_review:
             assert(owner_uid == request.session['userobject_str'])
             userobject = utils_top_level.get_userobject_from_request(request)
@@ -209,8 +208,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         userobject.unique_last_login_offset_ref.has_profile_photo_offset = has_profile_photo
         userobject.unique_last_login_offset_ref.has_public_photo_offset = has_public_photos
         userobject.unique_last_login_offset_ref.has_private_photo_offset = has_private_photos
-        logging.debug("Writing unique_last_login_offset for %s has_profile_photo = %s has_public_photos = %s has_private_photos = %s" % (
-            userobject.username, has_profile_photo, has_public_photos, has_private_photos))
+
         userobject.unique_last_login_offset_ref.put()
     
         if not is_admin_photo_review:
@@ -1047,7 +1045,7 @@ def store_initiate_contact(request, to_uid):
                                                    update_notification_times = True)
                         
                         info_message = "Modifying %s on %s by %s" %(action_for_contact_count, other_userobject.username, counter_modify)
-                        logging.debug(info_message)
+                        logging.info(info_message)
                                                    
                         # if notification for sending the user notification is past due, send it now.
                         if other_userobject.new_contact_counter_ref.when_to_send_next_notification <= datetime.datetime.now():
@@ -1152,7 +1150,6 @@ def update_users_have_sent_messages(sender_userobject, receiver_userobject, rece
         return_val = ''
         
         have_sent_messages_obj = utils.get_have_sent_messages_object(owner_ref, other_ref)
-        #logging.debug("NEW have_sent_message_object at start of txn: %s" % have_sent_messages_obj)
         if not have_sent_messages_obj:
             have_sent_messages_obj = utils.get_have_sent_messages_object(owner_ref, other_ref, create_if_does_not_exist = True)
             is_new_contact = True
@@ -1214,8 +1211,7 @@ def update_users_have_sent_messages(sender_userobject, receiver_userobject, rece
         
 
         have_sent_messages_obj.put()
-        #logging.debug("NEW have_sent_message_object at end of txn: %s" % have_sent_messages_obj)
-        #logging.debug("NEW return_val at end of txn: %s" % return_val)
+
         return return_val # end transaction
     ################################ 
 
@@ -1234,18 +1230,6 @@ def update_users_have_sent_messages(sender_userobject, receiver_userobject, rece
             owner_userobject = utils_top_level.get_object_from_string(str(owner_ref))
             other_userobject = utils_top_level.get_object_from_string(str(other_ref))
             
-            #try:
-                #if owner_ref == sender_userobject_key:
-                    #logging.debug("Owner is sender")
-                #else:
-                    #logging.debug("Other is sender")                        
-                #logging.debug("owner_userobject: %s" % owner_userobject.username)
-                #logging.debug("other_userobject: %s" % other_userobject.username)
-                #logging.debug("sender_userobject unread_count: %s" % sender_userobject.unread_mail_count_ref)
-                #logging.debug("receiver_userobject unread_count: %s" % receiver_userobject.unread_mail_count_ref)
-                
-            #except:
-                #error_reporting.log_exception(logging.critical)  
             
             # we need to pull out the initiate_contact_object to check if the other user is a favorite, this is because 
             # favorite status must be marked both on messages, as well as on the initiate_contact_object.

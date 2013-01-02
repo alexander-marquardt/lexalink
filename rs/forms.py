@@ -712,7 +712,6 @@ class FormUtils():
                                 options_list = model_signup_fields[field_name]['options'])
                             
                             if field_name == 'country':
-                                logging.debug("generating region and sub_region html")
                                 # since the location field needs additional sub-regions, add them in here. These place-holders will be 
                                 # replaced using jquery/ajax calls.                       
                                 generated_html += u'\n<select name="region" id="id-edit-signup_fields-region" class="cl-standard-dropdown-width-px"></select>\n'

@@ -205,7 +205,7 @@ urlpatterns = patterns('',
     # instances in which this URL might be called - it is currently generating too many errors in the log, and masking 
     # other, more serious, error messages.
     (r'^rs/ajax/report_javascript_error/$', ajax.report_javascript_status, {'logging_function': logging.warning}), 
-    (r'^rs/ajax/report_javascript_debugging_info/$', ajax.report_javascript_status, {'logging_function': logging.debug}),        
+    (r'^rs/ajax/report_javascript_debugging_info/$', ajax.report_javascript_status, {'logging_function': logging.info}),        
     
     # calls for chat functionality
     (r'^rs/channel_support/post_message/[\w|-]+/$', channel_support.post_message),

@@ -86,7 +86,6 @@ def send_generic_email_message(request):
     #
     # Important: This is called from the task-queue, and therefore the language and other information related to the
     # user must be passed in, either in the POST (as is currently done), or on the command line.
-    logging.debug("attempting to send verification email")
     previous_language = translation.get_language() # remember the original language, so we can set it back when we finish 
     info_message = ''
     try:   
@@ -516,8 +515,6 @@ def send_new_message_notification_email(request):
 
         email_should_be_sent = False
         user_has_unread_messages = False
-
-        logging.debug("Attempting to send email to %s in language %s\n" % (userobject.username, lang_code))
         
         # make sure that this user actually has an email address and that they have not eliminated their account
         error_message = ''
@@ -655,7 +652,6 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             message.send()
 
             logging.info("Successfully sent email to %s\n" % userobject.username)
-            #logging.debug(message.body)
         
             # don't update if "is_test_mode" since this is just a test run, and nothing
             # was really sent to the client.
@@ -733,7 +729,6 @@ def send_batch_email_notifications(request,  object_type):
         if not counter_object_batch:
             # there are no more objects - break out of this function.
             info_message = "No more counter objects found - Exiting function"
-            logging.debug(info_message)
             return http.HttpResponse(info_message)
 
         for counter_object in counter_object_batch:  
@@ -751,13 +746,10 @@ def send_batch_email_notifications(request,  object_type):
                         # they will not have a language code object.
                         lang_code = userobject.search_preferences2.lang_code
                     except:
-                        # check logs for this error message, and if it is not found then this try statement can be removed
-                        error_reporting.log_exception(logging.debug, error_message="X5 unable to extract lang_code on user %s" % userobject.username)
                         lang_code = "es"
                         
                     taskqueue.add(queue_name = 'mail-queue', url='/rs/admin/send_new_message_notification_email/', params = {
                         'uid': str(userobject.key()), 'lang_code': lang_code})
-                    logging.debug("Added %s to taskqueue" % userobject.username)
                     generated_html += "%s<br>" % (userobject.username)
                 except:
                     error_message = "send_new_message_notification_email unexpected exception. userobject: %s" % (repr(userobject))
@@ -846,7 +838,6 @@ def send_vip_invitiation_email(request):
     
     # Important: This is called from the task-queue, and therefore the language and other information related to the
     # user must be passed in, either in the POST (as is currently done), or on the command line.
-    logging.debug("preparing to send vip-invite email")
     previous_language = translation.get_language() # remember the original language, so we can set it back when we finish 
     info_message = ''
     try:   

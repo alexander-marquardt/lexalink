@@ -123,11 +123,9 @@ def get_additional_ads_to_append(request, userobject = None):
     
 try:
     from rs.proprietary import advertisements
-    logging.debug("imported proprietary advertisements")
     proprietary_ads_found = True
 except:
     proprietary_ads_found = False
-    logging.debug("unable to import proprietary advertisements")
     
 
 def get_ashley_madison_sidebar_ad(request):

@@ -192,7 +192,7 @@ def get_new_vip_status_and_expiry(previous_expiry, num_credits_to_apply):
       
       just_paid_extra_days = constants.client_paid_status_credit_amounts[num_credits_to_apply]  
       just_paid_status = "%d credits (%d days) applied on %s" % (num_credits_to_apply, just_paid_extra_days, datetime.datetime.now())
-      logging.debug(just_paid_status)
+      logging.info(just_paid_status)
 
       # store payment related information on the userobject.
     

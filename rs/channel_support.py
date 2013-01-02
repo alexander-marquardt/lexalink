@@ -414,7 +414,6 @@ def post_message(request):
             message_text = json_post_data['message']
             message_text = message_text[:constants.CHAT_MESSAGE_CUTOFF_CHARS]
             message_text = strip_tags(message_text)
-            #logging.debug("Storing message %s to to_uid %s" % (message_text, to_uid))
             success = chat_support.store_chat_message(sender_username, from_uid, to_uid, message_text, type_of_conversation)   
             chatbox_minimized_maximized = "maximized"
             

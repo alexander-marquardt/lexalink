@@ -70,10 +70,8 @@ def setup_and_run_conversation_mailbox_query(bookmark_key_str, userobject, other
 
     uid = str(userobject.key())
     other_uid = str(other_userobject.key())
-    #logging.debug('uid = %s, other_uid=%s' % (uid, other_uid))
 
     parent_key = utils.get_fake_mail_parent_entity_key(uid, other_uid)
-    #logging.debug('parent_key = %s' % (parent_key))
     
     query_filter_dict = {}    
 

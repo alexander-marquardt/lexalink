@@ -77,12 +77,10 @@ def get_location_options(request, location_code):
         
         if country_code and not region_code: # return the regions
             if country_code in localizations.region_options_html:
-                #logging.debug("IP: %s, generating regions for: %s" % (os.environ['REMOTE_ADDR'], location_code))
                 return HttpResponse(localizations.region_options_html[country_code])
             
         elif country_code and region_code: # return the sub-regions
             if country_code in localizations.region_options_html and region_code in localizations.sub_region_options_html[country_code]: 
-                #logging.debug("IP: %s, generating sub_regions for: %s" % (os.environ['REMOTE_ADDR'], location_code))
                 return HttpResponse(localizations.sub_region_options_html[country_code][region_code])
     except:
         error_message = "Serious error in get_location_options: location_code: %s" % location_code

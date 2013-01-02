@@ -394,10 +394,10 @@ def store_crawler_session(request):
             #request.session.set_expiry(30 * 60) 
             
             request.session.__setitem__(constants.CRAWLER_SESSION_NAME, "Dummy")
-            error_reporting.log_exception(logging.debug, error_message="Crawler session successfuly set")  
+            error_reporting.log_exception(logging.info, error_message="Crawler session successfuly set")  
             status = "Success"
         else:
-            error_reporting.log_exception(logging.error, error_message="Crawler session not set")  
+            error_reporting.log_exception(logging.info, error_message="Crawler session not set")  
             status = "Invalid IP %s" % remoteip
             
         return status
@@ -716,7 +716,6 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
     # the user data in the database, and access it using a short email.
 
     try:
-        logging.debug("Entering into store_authorization_info_and_send_email for user %s email: %s" % (username, email_address))
         
         # Will run periodic clean-up routines to remove registrations that were not completed
         secret_verification_code = utils.compute_secret_verification_code(username, email_address)

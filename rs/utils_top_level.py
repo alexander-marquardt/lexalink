@@ -54,13 +54,11 @@ def get_object_from_string(object_str):
     memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + object_str 
     return_object = deserialize_entities(memcache.get(memcache_key_str))
     if return_object is not None:
-        #logging.debug("get_object_from_string HIT **********")
         return return_object
     else:
         # pull the object out of database and also update memcache
         return_object = db.get(db.Key(object_str))
         memcache.set(memcache_key_str, serialize_entities(return_object), constants.SECONDS_PER_MONTH)
-        #logging.debug("get_object_from_string MISS **********")
         return return_object
 
 

@@ -168,7 +168,7 @@ def check_if_trend_micro_scanning():
         return True # it *is* (probably) Trend Micro
     
     else:
-        logging.debug("remote ip %s did not match trend micro address" % remoteip)
+        logging.info("remote ip %s did not match trend micro address" % remoteip)
 
         return False
     

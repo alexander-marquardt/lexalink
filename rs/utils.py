@@ -73,7 +73,7 @@ def requires_login(view):
             if constants.GOOGLE_CRAWLER_IP_PATTERN.match(remoteip) or \
                constants.MY_HOME_IP_PATTERN.match(remoteip) or \
                constants.LOCAL_IP_PATTERN.match(remoteip):
-                error_reporting.log_exception(logging.debug, error_message = 'Google crawler page access') 
+                error_reporting.log_exception(logging.info, error_message = 'Google crawler page access') 
                 return view(request, *args, **kwargs)
             else:
                 error_reporting.log_exception(logging.warning, error_message = 'Crawler session invalid IP') 
@@ -881,7 +881,6 @@ def update_ip_address_on_user_tracker(user_tracker):
         
         user_tracker.put()
         
-        logging.debug("Stored IP %s in user_tracker" % (remoteip))  
     except:
         error_reporting.log_exception(logging.critical)
         
@@ -918,7 +917,6 @@ def update_email_address_on_user_tracker(userobject, email_address):
         
         user_tracker.put()
         
-        logging.debug("Stored user %s email %s in user_tracker" % (userobject.username, email_address))  
     except:
         error_reporting.log_exception(logging.critical)       
 
@@ -1228,7 +1226,6 @@ def add_session_id_to_user_tracker(user_tracker, session_id):
             user_tracker.list_of_session_ids[list_idx] = session_id
             user_tracker.list_of_session_ids_last_index = list_idx
             
-        logging.debug("Stored session_id %s in user_tracker" % (session_id))  
         user_tracker.put()
 
     except:
@@ -1321,7 +1318,6 @@ def get_fake_mail_parent_entity_key(uid1, uid2):
     else:
         parent_key_name = "%s_and_%s" % (uid2, uid1)
     mail_parent_key = db.Key.from_path('FakeMailMessageParent', parent_key_name)
-    #logging.debug('parent_key_name = %s' % parent_key_name)
     return mail_parent_key
 
 
@@ -1395,7 +1391,7 @@ def convert_string_key_from_old_app_to_current_app(old_key_string):
     new_app_name = new_key.app()
     
     # We should never be re-directing a key that is the same app name as the current app
-    logging.debug("old_app_name %s new_app_name %s" % (old_app_name, new_app_name))
+    logging.info("old_app_name %s new_app_name %s" % (old_app_name, new_app_name))
     assert(old_app_name != new_app_name)
     return new_key_string
 

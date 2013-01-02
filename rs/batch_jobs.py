@@ -269,7 +269,7 @@ def batch_send_email(request):
             #try:
                 #info_message = "Checking %s<br>\n" % userobject.username
                 #generated_html += info_message
-                #logging.debug(info_message)
+                #logging.info(info_message)
     
                 #languages_list = userobject.languages
                 #dirty = False
@@ -281,7 +281,7 @@ def batch_send_email(request):
                         #languages_list[idx] = "arabic"
 
                         #generated_html += info_message
-                        #logging.debug(info_message)
+                        #logging.info(info_message)
                         
                 #if userobject.country == "EN,,":
                     #dirty = True
@@ -289,7 +289,7 @@ def batch_send_email(request):
                     #info_message = "**Changing %s to %s <br>\n" % (userobject.country, new_country)
                     #userobject.country = new_country
                     #generated_html += info_message
-                    #logging.debug(info_message)
+                    #logging.info(info_message)
                     #match = match_GB_region.match(userobject.region)
                     #if match:
                         #region = match.group(1)
@@ -297,7 +297,7 @@ def batch_send_email(request):
                         #info_message = "**Changing '%s' to '%s' <br>\n" % (userobject.region, new_region)
                         #userobject.region = new_region
                         #generated_html += info_message
-                        #logging.debug(info_message)      
+                        #logging.info(info_message)      
                 
                 #if userobject.region == "ES,AD,":
                     #dirty = True
@@ -311,7 +311,7 @@ def batch_send_email(request):
                     #userobject.region = new_region
                     #userobject.sub_region = new_sub_region
                     #generated_html += info_message
-                    #logging.debug(info_message)  
+                    #logging.info(info_message)  
                     
                     
                 #if dirty:
@@ -329,42 +329,42 @@ def batch_send_email(request):
                     ##search_preferences2.sex = '----'
                     ##info_message = "**Changing search_preferences2.sex from dont_care to ----"
                     ##generated_html += info_message
-                    ##logging.debug(info_message)  
+                    ##logging.info(info_message)  
                     
                 ##if search_preferences2.relationship_status == 'dont_care':
                     ##sp_dirty = True
                     ##search_preferences2.relationship_status = '----'
                     ##info_message = "**Changing search_preferences2.relationship_status from dont_care to ----"
                     ##generated_html += info_message
-                    ##logging.debug(info_message)                      
+                    ##logging.info(info_message)                      
                     
                 ##if search_preferences2.country == 'dont_care':
                     ##sp_dirty = True
                     ##search_preferences2.country = '----'
                     ##info_message = "**Changing search_preferences2.country from dont_care to ----"
                     ##generated_html += info_message
-                    ##logging.debug(info_message)    
+                    ##logging.info(info_message)    
                     
                 ##if search_preferences2.region == 'dont_care':
                     ##sp_dirty = True
                     ##search_preferences2.region = '----'
                     ##info_message = "**Changing search_preferences2.region from dont_care to ----"
                     ##generated_html += info_message
-                    ##logging.debug(info_message)    
+                    ##logging.info(info_message)    
                     
                 ##if search_preferences2.sub_region == 'dont_care':
                     ##sp_dirty = True
                     ##search_preferences2.sub_region = '----'
                     ##info_message = "**Changing search_preferences2.sub_region from dont_care to ----"
                     ##generated_html += info_message
-                    ##logging.debug(info_message)    
+                    ##logging.info(info_message)    
                     
                 ##if search_preferences2.age == 'dont_care':
                     ##sp_dirty = True
                     ##search_preferences2.age = '----'
                     ##info_message = "**Changing search_preferences2.age from dont_care to ----"
                     ##generated_html += info_message
-                    ##logging.debug(info_message)                                                     
+                    ##logging.info(info_message)                                                     
                     
                     
                 ##if search_preferences2.preference == 'dont_care':
@@ -372,7 +372,7 @@ def batch_send_email(request):
                     ##search_preferences2.preference = '----'
                     ##info_message = "**Changing search_preferences2.preference from dont_care to ----"
                     ##generated_html += info_message
-                    ##logging.debug(info_message)   
+                    ##logging.info(info_message)   
                     
                 ##if sp_dirty:
                     ##info_message = "**Writing search_preferences2 object for %s<br>" % userobject.username
@@ -404,7 +404,7 @@ def batch_send_email(request):
 
     #try:
         #msg = "Starting code to remove Session entries from datastore"
-        #logging.debug(msg)        
+        #logging.info(msg)        
         
         #q = db.Query(Session, keys_only=True)
         #results = q.fetch(500)
@@ -414,13 +414,13 @@ def batch_send_email(request):
             #db.delete(results)
            
             #msg = "Deleted %s Session entries from datastore on this pass" % len_results
-            #logging.debug(msg)
+            #logging.info(msg)
             #path = request.path_info
             #time.sleep(0.1) # just in case it takes a few milliseconds for the DB to get updated
             #taskqueue.add(queue_name = 'background-processing-queue', url=path)
         #else:
             #msg = "No more entries to delete"
-            #logging.debug(msg)
+            #logging.info(msg)
             #return http.HttpResponse(msg)
 
         #return http.HttpResponse("Seems to be working")
@@ -583,7 +583,7 @@ def deferred_copy_have_had_contact(request):
             return http.HttpResponse("Unknown Error")
             
         info_message = "**Copying HaveSentMessages %s object<br>\n" % have_had_contact_key
-        logging.debug(info_message)     
+        logging.info(info_message)     
                         
         myobject = db.get(have_had_contact_key)
         
@@ -604,7 +604,7 @@ def deferred_copy_have_had_contact(request):
 
                     
                 info_message = "**Writing have_sent_messages_object %s object<br>\n" % str(have_sent_messages_object.key())
-                logging.debug(info_message)     
+                logging.info(info_message)     
     
                 have_sent_messages_object.put()
                 myobject.copied_to_users_have_sent_messages_model = "copied_to_hr_datastore_v7"
@@ -628,7 +628,7 @@ def write_mail_txn(myobject, props, text):
     
     try:
         info_message = "**Considering copying MailMessageModel %s object<br>\n" % str(myobject.key())
-        logging.debug(info_message)     
+        logging.info(info_message)     
                         
 
             
@@ -664,7 +664,7 @@ def write_mail_txn(myobject, props, text):
                 
             mail_message.put()
             info_message = "**Wrote mail_message object %s<br>\n"  % mail_message.key()
-            logging.debug(info_message)
+            logging.info(info_message)
             return "copied_to_hr_datastore_v7"
         else:
             return "previously_copied_v7"
@@ -730,7 +730,7 @@ def deferred_fix_initiate_contact_model(request):
         
 
         original_key_name = myobject.key().id_or_name()
-        logging.debug("Checking initiate_contact_model with key %s into new key %s" % (original_key_name, correct_key_name))
+        logging.info("Checking initiate_contact_model with key %s into new key %s" % (original_key_name, correct_key_name))
 
         if original_key_name != correct_key_name:
             # we need to copy this object into a new object with the correct key name        
@@ -875,7 +875,7 @@ def batch_fix_initiate_contact_model(request):
         #for userobject in userobject_batch:  
             #try:
                 #info_message = "**Checking %s userobject<br>\n" % userobject.username
-                #logging.debug(info_message)   
+                #logging.info(info_message)   
                 #is_dirty = False
 
                 #if not userobject.entertainment:
@@ -1030,7 +1030,7 @@ def batch_fix_remove_all_users_with_given_ip_or_name(request, ip_to_remove = Non
         #for userobject in userobject_batch:  
             #try:
                 #info_message = "**Checking %s userobject<br>\n" % userobject.username
-                #logging.debug(info_message)   
+                #logging.info(info_message)   
                 #is_dirty = False
 
                 #userobject.username_combinations_list = utils.get_username_combinations_list(userobject.username)

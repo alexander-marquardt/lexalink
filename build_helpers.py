@@ -206,19 +206,19 @@ def setup_my_local_environment():
             dst_file.write("version: %s\n" % settings.VERSION_ID )
         elif match_static_dir_pattern:
             line = "%s%s%s" % (match_static_dir_pattern.group(1), settings.LIVE_STATIC_DIR, match_static_dir_pattern.group(3))
-            logging.debug("Writing %s" % line)
+            logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
         elif match_proprietary_static_dir_pattern:
             line = "%s%s%s" % (match_proprietary_static_dir_pattern.group(1), settings.LIVE_PROPRIETARY_STATIC_DIR, match_proprietary_static_dir_pattern.group(3))
-            logging.debug("Writing %s" % line)
+            logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
         elif match_flash_files_dir_pattern:
             line = "%s%s%s" % (match_flash_files_dir_pattern.group(1), settings.FLASH_FILES_DIR, match_flash_files_dir_pattern.group(3))
-            logging.debug("Writing %s" % line)
+            logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
         elif match_appstat_middleware_pattern:
             line = "%s%s" % (match_appstat_middleware_pattern.group(1), "on" if settings.ENABLE_APPSTATS else "off")
-            logging.debug("Writing: %s" % line)
+            logging.info("Writing: %s" % line)
             dst_file.write("%s\n" % line)
         else:
             dst_file.write(line)
