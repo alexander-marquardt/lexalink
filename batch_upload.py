@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 ################################################################################
 # LexaLink Copyright information - do not remove this copyright notice
 # Copyright (C) 2012 
@@ -28,24 +26,32 @@
 # This code will batch-upload a time-stamped version of the current code to all sites
 
 import datetime, codecs, re
-import subprocess, sys, shutil
+import subprocess, sys, shutil, pexpect, time, getpass
     
-BUILD_NAMES_LIST = ['RomanceSecreto', 'SingletonSearch' , 'LikeLanguage', 'SwingerPlex', 'LesbianHeart', 'GaySetup']
+# Note: we add in the '' build name so that
+# the settings.py will default back to the previously selected build name (see settings.py to understand
+# why a '' value will cause the previously selected build name to be used). Additionally, this
+# causes an additional version to be generated and written to settings.py, which ensures that we 
+# will not accidentally upload over top of a previous version number. 
+BUILD_NAMES_LIST = ['Discrete', 'Single' , 'Language', 'Lesbian', 'Gay', 'Swinger', 'Friend', '']
 
-# use datetime as a timestamp - but need to remove spaces and colons
-datetime_str = str(datetime.datetime.now())
-datetime_str = datetime_str[:16]
-datetime_str = datetime_str.replace(' ', '-')
-datetime_str = datetime_str.replace(':', '')
+def get_version_identifier():
+    # use datetime as a version identifier/timestamp - but need to remove spaces and colons    
+    datetime_str = str(datetime.datetime.now())
+    datetime_str = datetime_str[:16]
+    datetime_str = datetime_str.replace(' ', '-')
+    datetime_str = datetime_str.replace(':', '')
+    return datetime_str
 
-undefined_datetime_str = "2011-mm-dd-hhmm" # on the last pass, set to this value to avoid accidental upload/overwrite of existing/live builds
 
 settings_file_name = "settings.py"
 new_settings_file_name = "settings.new.py"
 
-
 build_name_pattern = re.compile(r'(BATCH_BUILD_NAME.*=)(.*)')  
 version_id_pattern = re.compile(r'(VERSION_ID.*=)(.*)')  
+
+email_address = raw_input('Email: ')
+password = getpass.getpass()
 
 
 for build_name in BUILD_NAMES_LIST:
@@ -60,10 +66,7 @@ for build_name in BUILD_NAMES_LIST:
         if match_build_name_pattern:
             line = match_build_name_pattern.group(1) + " '%s'\n" % build_name
         elif match_version_id_pattern:
-            if build_name != '':
-                line = match_version_id_pattern.group(1) + " '%s'\n" % datetime_str
-            else:
-                line = match_version_id_pattern.group(1) + " '%s'\n" % undefined_datetime_str
+            line = match_version_id_pattern.group(1) + " '%s'\n" % get_version_identifier()
         
         new_settings_file_handle.write(line)
         
@@ -76,14 +79,24 @@ for build_name in BUILD_NAMES_LIST:
     if build_name != '':
     
         print "**********************************************************************"
-        print "BATCH UPLOADER - UPLOADING %s" % build_name
+        print "Batch uploader uploading build: %s" % (build_name)
         print "**********************************************************************\n"
     
-        pargs = ['./upload_code.py'] + sys.argv[1:]
+        pargs = ['python', './upload_code.py'] + sys.argv[1:]
+        
         try:
-            subprocess.check_call(pargs,  stderr=subprocess.STDOUT) # generates exception if there is an error
+            command = "%s" % " ".join(pargs)
+            print "command = %s" % command
+            child = pexpect.spawn(command)
+            child.expect('Email: ')
+            child.sendline(email_address)
+            child.expect('Password:')
+            time.sleep(0.1) # wait for 1/10th of a second so that the password echo can be turned off.
+            child.sendline(password)
+            child.interact()        
+
         except: # CalledProcessError (but we catch all errors here just in case there are others)
-            sys.stderr.write("Error in upload_code.py\n\n") 
+            sys.stderr.write("Error calling upload_code.py\n\n") 
             sys.exit(1)
 
     

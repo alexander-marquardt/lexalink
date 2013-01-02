@@ -34,7 +34,7 @@ import logging
 import os, socket, shutil, re, datetime
 from rs.private_data import *
 
-VERSION_ID = '2012-13-02-0037'
+VERSION_ID = '2013-01-02-1411'
 
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change

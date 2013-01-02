@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 ################################################################################
 # LexaLink Copyright information - do not remove this copyright notice
 # Copyright (C) 2012 
@@ -30,9 +28,10 @@
 # configured for the current build configuration. We should generally call this script instead
 # of directly using appcfg.py in order to ensure that everything is setup ok.
 
-import subprocess, sys, settings, build_helpers, logging, datetime
+import subprocess, sys, settings, build_helpers, logging, datetime, time
 import build_helpers
-
+import pexpect # http://www.noah.org/wiki/Pexpect - you must install this
+import getpass
 
 
 def check_settings():
@@ -66,6 +65,9 @@ print "Starting upload_code script %s (Build: %s)" % (settings.APP_NAME, setting
 print "%s" % datetime.datetime.now()
 print "**********************************************************************\n"
 
+email_address = raw_input('Email: ')
+password = getpass.getpass()
+
 check_settings()
     
 # Build all the dependent files etc. 
@@ -85,7 +87,15 @@ else:
 
 print "Process args = %s" % pargs
 
-process = subprocess.call(pargs,  stderr=subprocess.STDOUT)
+#process = subprocess.call(pargs,  stderr=subprocess.STDOUT)
+command = "%s" % " ".join(pargs)
+child = pexpect.spawn(command)
+child.expect('Email: ')
+child.sendline(email_address)
+child.expect('Password for .+:')
+time.sleep(0.1) # wait for 1/10th of a second so that the password echo can be turned off.
+child.sendline(password)
+child.interact()
 
 print "**********************************************************************"
 print "Finisehd upload %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
