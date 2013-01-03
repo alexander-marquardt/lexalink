@@ -53,7 +53,7 @@ import mailbox
 import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, backup_data, utils_top_level, sitemaps
-import error_reporting, store_data, text_fields, site_configuration
+import error_reporting, store_data, text_fields, lang_settings
 from rs import profile_utils, online_presence_support, online_presence_support
 from django import http
 import http_utils, common_data_structs
@@ -668,7 +668,7 @@ def login(request, is_admin_login = False, referring_code = None):
     
                         # Set language to whatever the user used the last time they were logged in. 
                         lang_code = userobject.search_preferences2.lang_code
-                        assert(site_configuration.set_language_in_session(request, lang_code))
+                        assert(lang_settings.set_language_in_session(request, lang_code))
                         # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
                         # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
                         redirect_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {

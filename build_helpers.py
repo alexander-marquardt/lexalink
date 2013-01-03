@@ -24,7 +24,7 @@
 ################################################################################
 
 
-import settings
+import site_configuration
 import codecs, shutil, re, glob, os, logging, subprocess, sys, datetime
 
 
@@ -64,26 +64,26 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
         if match_static_file_pattern:
             matched_file_name = match_static_file_pattern.group(1)
             
-            if match_default_common_pattern and settings.PROPRIETARY_STATIC_DIR_EXISTS:
+            if match_default_common_pattern and site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
                 # exclude the "default_common.css" file from the combined css file, since we are using
                 # customized css for each build.
                 logging.info("ignoring default_common.css")
                 continue
             
-        elif settings.PROPRIETARY_STATIC_DIR_EXISTS and match_proprietary_static_file_pattern:
+        elif site_configuration.PROPRIETARY_STATIC_DIR_EXISTS and match_proprietary_static_file_pattern:
             matched_file_name = match_proprietary_static_file_pattern.group(1)
             
         if matched_file_name and matched_file_name != output_file_name + ".min" and matched_file_name != output_file_name:
             build_name_match = build_name_pattern.match(matched_file_name)
             if build_name_match:
                 # we need to replace the {{ build_name }} with the actual build name
-                final_file_name = build_name_match.group(1) + settings.BUILD_NAME + build_name_match.group(3)
+                final_file_name = build_name_match.group(1) + site_configuration.BUILD_NAME + build_name_match.group(3)
             else:
                 final_file_name = matched_file_name
             logging.info("Matched %s file %s" % (static_file_type, final_file_name))
             static_file_list.append(final_file_name)
             
-    combined_static_file_name = settings.LIVE_STATIC_DIR + "/%s/%s.%s" % (static_file_type, output_file_name, static_file_type)
+    combined_static_file_name = site_configuration.LIVE_STATIC_DIR + "/%s/%s.%s" % (static_file_type, output_file_name, static_file_type)
     combined_static_file_handle = codecs.open(combined_static_file_name, 'w', encoding='ascii')  
     
     
@@ -94,8 +94,8 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
         combined_static_file_handle.write('@charset "utf-8";\n')
         
     for static_file in static_file_list:
-        logging.info("Including: " + settings.LIVE_STATIC_DIR + "/" +static_file_type + "/" + static_file + ".%s" % static_file_type)
-        input_file_handle = open(settings.LIVE_STATIC_DIR + "/" + static_file_type + "/" + static_file + ".%s" % static_file_type, 'r')
+        logging.info("Including: " + site_configuration.LIVE_STATIC_DIR + "/" +static_file_type + "/" + static_file + ".%s" % static_file_type)
+        input_file_handle = open(site_configuration.LIVE_STATIC_DIR + "/" + static_file_type + "/" + static_file + ".%s" % static_file_type, 'r')
         
         if static_file_type == "js": 
             combined_static_file_handle.write(input_file_handle.read())  
@@ -109,11 +109,11 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
         
     combined_static_file_handle.close()
     
-    combined_min_static_file_name = settings.LIVE_STATIC_DIR + "/%s/%s.min.%s" % (static_file_type, output_file_name, static_file_type)
+    combined_min_static_file_name = site_configuration.LIVE_STATIC_DIR + "/%s/%s.min.%s" % (static_file_type, output_file_name, static_file_type)
     
     if static_file_type == "css":
         logging.info("Minifying master %s file: %s" % (static_file_type, combined_min_static_file_name))    
-        if not settings.IS_CYGWIN:
+        if not site_configuration.IS_CYGWIN:
             pargs = ['java', '-jar', '/Users/alexandermarquardt/bin/yuicompressor-2.4.6/build/yuicompressor-2.4.6.jar', combined_static_file_name, '-o', combined_min_static_file_name]
         else:
             # in order to run the jar file in cygwin, it must have the path specified in a special manner
@@ -123,7 +123,7 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
         
     if static_file_type == "js":
         logging.info("Minifying master %s file: %s" % (static_file_type, combined_min_static_file_name))    
-        if not settings.IS_CYGWIN:
+        if not site_configuration.IS_CYGWIN:
             pargs = ['java', '-jar', '/Users/alexandermarquardt/bin/js-compiler.jar',  '--compilation_level',  'SIMPLE_OPTIMIZATIONS', \
                      '--js',  combined_static_file_name]
         else:
@@ -149,7 +149,7 @@ def copy_file_to_folder(src_glob, dst_folder):
         
 def generate_index_files():
     logging.info("Copying index file")        
-    src = "%s_index.yaml" % settings.BUILD_NAME
+    src = "%s_index.yaml" % site_configuration.BUILD_NAME
     dst = "index.yaml"
     logging.info("Generating %s based on %s.\n" % (dst, src))
     shutil.copyfile(src, dst)    
@@ -182,14 +182,14 @@ def setup_my_local_environment():
     appstat_middleware_pattern = re.compile(r'(- appstats:\s)(on|off)')
     
     
-    # generate the app.yaml file, based on the current settings.
+    # generate the app.yaml file, based on the current site_configuration.
     logging.info("Generating %s based on %s.\n" % (dst, src))
     dst_file.write("# DO NOT EDIT - Auto-generated from %s\n\n" % src)
     for line in src_file:
         
         match_build_name_pattern = build_name_pattern.match(line)
         if match_build_name_pattern:
-            line = match_build_name_pattern.group(1) + settings.BUILD_NAME + match_build_name_pattern.group(3)        
+            line = match_build_name_pattern.group(1) + site_configuration.BUILD_NAME + match_build_name_pattern.group(3)        
         
         match_app_id_pattern = app_id_pattern.match(line)
         match_version_pattern = version_id_pattern.match(line)
@@ -199,25 +199,25 @@ def setup_my_local_environment():
         match_flash_files_dir_pattern = flash_files_dir_pattern.match(line)
         match_appstat_middleware_pattern = appstat_middleware_pattern.match(line)
         if match_app_id_pattern:
-            logging.info("Replacing appid with %s" % settings.app_id_dict[settings.BUILD_NAME])
-            dst_file.write("application: %s\n" % settings.app_id_dict[settings.BUILD_NAME])
+            logging.info("Replacing appid with %s" % site_configuration.app_id_dict[site_configuration.BUILD_NAME])
+            dst_file.write("application: %s\n" % site_configuration.app_id_dict[site_configuration.BUILD_NAME])
         elif match_version_pattern:
-            logging.info("Replacing version with %s" % settings.VERSION_ID)
-            dst_file.write("version: %s\n" % settings.VERSION_ID )
+            logging.info("Replacing version with %s" % site_configuration.VERSION_ID)
+            dst_file.write("version: %s\n" % site_configuration.VERSION_ID )
         elif match_static_dir_pattern:
-            line = "%s%s%s" % (match_static_dir_pattern.group(1), settings.LIVE_STATIC_DIR, match_static_dir_pattern.group(3))
+            line = "%s%s%s" % (match_static_dir_pattern.group(1), site_configuration.LIVE_STATIC_DIR, match_static_dir_pattern.group(3))
             logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
         elif match_proprietary_static_dir_pattern:
-            line = "%s%s%s" % (match_proprietary_static_dir_pattern.group(1), settings.LIVE_PROPRIETARY_STATIC_DIR, match_proprietary_static_dir_pattern.group(3))
+            line = "%s%s%s" % (match_proprietary_static_dir_pattern.group(1), site_configuration.LIVE_PROPRIETARY_STATIC_DIR, match_proprietary_static_dir_pattern.group(3))
             logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
         elif match_flash_files_dir_pattern:
-            line = "%s%s%s" % (match_flash_files_dir_pattern.group(1), settings.FLASH_FILES_DIR, match_flash_files_dir_pattern.group(3))
+            line = "%s%s%s" % (match_flash_files_dir_pattern.group(1), site_configuration.FLASH_FILES_DIR, match_flash_files_dir_pattern.group(3))
             logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
         elif match_appstat_middleware_pattern:
-            line = "%s%s" % (match_appstat_middleware_pattern.group(1), "on" if settings.ENABLE_APPSTATS else "off")
+            line = "%s%s" % (match_appstat_middleware_pattern.group(1), "on" if site_configuration.ENABLE_APPSTATS else "off")
             logging.info("Writing: %s" % line)
             dst_file.write("%s\n" % line)
         else:
@@ -234,7 +234,7 @@ def setup_my_local_environment():
         logging.info("Removing directory %s\n" % remove_dir)
         shutil.rmtree(remove_dir)
         
-    if not settings.USE_TIME_STAMPED_STATIC_FILES:
+    if not site_configuration.USE_TIME_STAMPED_STATIC_FILES:
         pass
         # If we are directly accessing the static directory, then we bypass all of the following code since 
         # it is un-necessary and slows down the startup
@@ -242,27 +242,27 @@ def setup_my_local_environment():
         
         # copy the static dir into the auto-generated static dir
         source_static_dir = pwd + "/rs/static/" 
-        logging.info("Copying %s to %s" % (source_static_dir, settings.LIVE_STATIC_DIR))
-        shutil.copytree(source_static_dir, settings.LIVE_STATIC_DIR)
+        logging.info("Copying %s to %s" % (source_static_dir, site_configuration.LIVE_STATIC_DIR))
+        shutil.copytree(source_static_dir, site_configuration.LIVE_STATIC_DIR)
         
-        if settings.PROPRIETARY_STATIC_DIR_EXISTS:
+        if site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
             # copy the proprietary files into the time-stammped "live" static directory
             # This method of copying/tracking proprietary files should be re-thought at some point in the future.  
             logging.info("Copying proprietary static files into the live static directory\n")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/css/*",  settings.LIVE_STATIC_DIR + "/css/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Discrete/*", settings.LIVE_STATIC_DIR + "/img/Discrete/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Friend/*", settings.LIVE_STATIC_DIR + "/img/Friend/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Gay/*", settings.LIVE_STATIC_DIR + "/img/Gay/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Language/*", settings.LIVE_STATIC_DIR + "/img/Language/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Lesbian/*", settings.LIVE_STATIC_DIR + "/img/Lesbian/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Single/*", settings.LIVE_STATIC_DIR + "/img/Single/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Swinger/*", settings.LIVE_STATIC_DIR + "/img/Swinger/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/js/*", settings.LIVE_STATIC_DIR + "/js/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/css/*",  site_configuration.LIVE_STATIC_DIR + "/css/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Discrete/*", site_configuration.LIVE_STATIC_DIR + "/img/Discrete/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Friend/*", site_configuration.LIVE_STATIC_DIR + "/img/Friend/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Gay/*", site_configuration.LIVE_STATIC_DIR + "/img/Gay/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Language/*", site_configuration.LIVE_STATIC_DIR + "/img/Language/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Lesbian/*", site_configuration.LIVE_STATIC_DIR + "/img/Lesbian/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Single/*", site_configuration.LIVE_STATIC_DIR + "/img/Single/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Swinger/*", site_configuration.LIVE_STATIC_DIR + "/img/Swinger/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/js/*", site_configuration.LIVE_STATIC_DIR + "/js/")
         
         # Modify the jquery.fancybox file so that AlphaImageLoader files use the correct path to the
         # image files -- this is necessary because relative paths do not work correctly inside of the AlphaImageLoader call
         alpha_image_loader_pattern = re.compile(r'(.*)(rs/static/img)(.*)')
-        orig = settings.LIVE_STATIC_DIR + "/css/jquery.fancybox-1.3.4.css"
+        orig = site_configuration.LIVE_STATIC_DIR + "/css/jquery.fancybox-1.3.4.css"
         modified = src + ".new"
         orig_file = codecs.open(orig, encoding='ascii')
         modified_file = codecs.open(modified, 'w', encoding='ascii')
@@ -270,7 +270,7 @@ def setup_my_local_environment():
             match_alpha_image_loader_pattern = alpha_image_loader_pattern.match(line)
             if match_alpha_image_loader_pattern:
                 modified_file.write("%s%s%s\n" % (match_alpha_image_loader_pattern.group(1),
-                                             settings.LIVE_STATIC_DIR + "/img", 
+                                             site_configuration.LIVE_STATIC_DIR + "/img", 
                                              match_alpha_image_loader_pattern.group(3)))
             else:
                 modified_file.write(line)
@@ -326,10 +326,10 @@ def check_that_minimized_javascript_files_are_enabled():
         
 def customize_files():
     
-    print "\n**********************************************************************"    
-    print "Generating custom files: %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
-    print "%s" % datetime.datetime.now()
-    print "**********************************************************************\n"
+    logging.info( "**********************************************************************"  )  
+    logging.info( "Generating custom files: %s (Build: %s)" % (site_configuration.APP_NAME, site_configuration.BUILD_NAME))
+    logging.info( "%s" % datetime.datetime.now())
+    logging.info( "**********************************************************************")
     
     
     setup_my_local_environment()
@@ -338,5 +338,5 @@ def customize_files():
 
     # Set up/generate static files, time-stamped static directories, etc. (this is somewhat time consuming, which is why it 
     # is wrapped in the "do_setup" check)
-    if settings.USE_TIME_STAMPED_STATIC_FILES:        
+    if site_configuration.USE_TIME_STAMPED_STATIC_FILES:        
         generate_time_stamped_static_files()    

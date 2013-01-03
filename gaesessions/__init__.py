@@ -477,9 +477,17 @@ class SessionMiddleware(object):
 
         # create a hook for us to insert a cookie into the response headers
         def my_start_response(status, headers, exc_info=None):
-            _tls.current_session.save() # store the session if it was changed
-            for ch in _tls.current_session.make_cookie_headers():
-                headers.append(('Set-Cookie', ch))
+            
+            # In some cases the _tls.current_session value may not have been set (for example, if 
+            # earlier middleware did a re-direct). Therefore, if it doesn't exist, we don't want to crash
+            # and we want to see this in the logs.
+            if hasattr(_tls, 'current_session'):
+                _tls.current_session.save() # store the session if it was changed
+                for ch in _tls.current_session.make_cookie_headers():
+                    headers.append(('Set-Cookie', ch))
+            else:
+                logging.error("_tls does not have a current_session value")
+                    
             return start_response(status, headers, exc_info)
 
         # let the app do its thing

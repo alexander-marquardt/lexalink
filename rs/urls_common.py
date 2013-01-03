@@ -29,7 +29,7 @@ from django.conf.urls.defaults import *
 
 from rs import views, ajax, store_data, search_results, mailbox, display_contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
-     models, site_configuration, channel_support, vip_status_support, \
+     models, lang_settings, channel_support, vip_status_support, \
      videochat, rendering, sitemaps
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
@@ -42,7 +42,7 @@ urlpatterns = patterns('',
     
     #(r'^ajax/$', rendering.render_main_html, {'generated_html': '', 'render_wrapper_only' : True}), 
         
-    (r'^setlang/(?P<lang_code>[\w]{2})/$', site_configuration.set_language_and_redirect_back),    
+    (r'^setlang/(?P<lang_code>[\w]{2})/$', lang_settings.set_language_and_redirect_back),    
     
     url(r'^rs/welcome/$', views.welcome, name="views.welcome"),
     url(r'^rs/logout/$', views.logout, name="views.logout"),
