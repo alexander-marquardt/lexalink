@@ -28,31 +28,31 @@
 # configured for the current build configuration. We should generally call this script instead
 # of directly using appcfg.py in order to ensure that everything is setup ok.
 
-import subprocess, sys, settings, build_helpers, logging, datetime, time
+import subprocess, sys, build_helpers, logging, datetime, time
 import build_helpers
 import pexpect # http://www.noah.org/wiki/Pexpect - you must install this
 import getpass
+import site_configuration
 
-
-def check_settings():
-    # make sure that settings file doesn't have any declarations that will cause problems when uploaded.
+def check_site_configuration():
+    # make sure that site_configuration file doesn't have any declarations that will cause problems when uploaded.
     
-    if not settings.USE_TIME_STAMPED_STATIC_FILES:
+    if not site_configuration.USE_TIME_STAMPED_STATIC_FILES:
         sys.stderr.write("************* Error *************\n")
         sys.stderr.write("You are attempting upload code with an incorrectly configured static directory\n")
-        sys.stderr.write('Please modify settings.USE_TIME_STAMPED_STATIC_FILES to True\n\n')
+        sys.stderr.write('Please modify site_configuration.USE_TIME_STAMPED_STATIC_FILES to True\n\n')
         sys.stderr.write("Upload cancelled\n")
         sys.stderr.write("************* Exit *************\n\n")
         exit(1)
     
-    if settings.FLASH_FILES_DIR == "bin-debug": 
+    if site_configuration.FLASH_FILES_DIR == "bin-debug": 
         sys.stderr.write("************* Error *************\n")
         sys.stderr.write("You are attempting upload code with FLASH_FILES_DIR set to bin-debug\n")
         sys.stderr.write("Upload cancelled\n")
         sys.stderr.write("************* Exit *************\n\n")
         sys.exit(1)
         
-    if settings.ENABLE_APPSTATS:
+    if site_configuration.ENABLE_APPSTATS:
         print "****\n"
         print "WARNING: APPSTATS ENABLED - This can slightly impact performance\n"
         print "****\n"        
@@ -61,21 +61,21 @@ def check_settings():
 logging.getLogger().setLevel(logging.DEBUG)
 
 print "**********************************************************************"
-print "Starting upload_code script %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
+print "Starting upload_code script %s (Build: %s)" % (site_configuration.APP_NAME, site_configuration.BUILD_NAME)
 print "%s" % datetime.datetime.now()
 print "**********************************************************************\n"
 
 email_address = raw_input('Email: ')
 password = getpass.getpass()
 
-check_settings()
+check_site_configuration()
     
 # Build all the dependent files etc. 
 build_helpers.customize_files()
 
 print "**********************************************************************"
-print "Beginning upload: %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
-print "Version: %s" % settings.VERSION_ID
+print "Beginning upload: %s (Build: %s)" % (site_configuration.APP_NAME, site_configuration.BUILD_NAME)
+print "Version: %s" % site_configuration.VERSION_ID
 print "%s" % datetime.datetime.now()
 print "**********************************************************************\n"
 
@@ -98,7 +98,7 @@ child.sendline(password)
 child.interact()
 
 print "**********************************************************************"
-print "Finisehd upload %s (Build: %s)" % (settings.APP_NAME, settings.BUILD_NAME)
+print "Finisehd upload %s (Build: %s)" % (site_configuration.APP_NAME, site_configuration.BUILD_NAME)
 print "%s" % datetime.datetime.now()
 print "**********************************************************************\n"
 
