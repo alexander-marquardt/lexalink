@@ -58,7 +58,7 @@ import captcha
 import queries
 import backup_data, error_reporting
 import login_utils, utils, sharding, utils_top_level, models
-import constants, models, localizations, text_fields, site_configuration
+import constants, models, localizations, text_fields, lang_settings
 import friend_bazaar_specific_code
 from rs.import_search_engine_overrides import *
 
@@ -1908,7 +1908,7 @@ def store_new_user_after_verify(request, fake_request=None):
 
         login_utils.store_session(request, userobject)
         
-        lang_set_in_session = site_configuration.set_language_in_session(request, request.LANGUAGE_CODE)
+        lang_set_in_session = lang_settings.set_language_in_session(request, request.LANGUAGE_CODE)
         assert(lang_set_in_session)    
                    
         # send the user a welcome email and key and wink from Alex
