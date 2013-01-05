@@ -46,13 +46,6 @@ COOKIE_DATE_FMT = '%a, %d-%b-%Y %H:%M:%S GMT'
 COOKIE_OVERHEAD = len(COOKIE_FMT % (0, '', '')) + len('expires=Xxx, xx XXX XXXX XX:XX:XX GMT; ') + 150  # 150=safety margin (e.g., in case browser uses 4000 instead of 4096)
 MAX_DATA_PER_COOKIE = MAX_COOKIE_LEN - COOKIE_OVERHEAD
 
-_tls = threading.local()
-def internal_use__get_current_session():
-    """Returns the session associated with the current request. Never call this from outside of this module
-       since it is only intended as a way of passing the session associated with the current request between
-       different objects. On each request, this can be assigned a new value therefore obsoleting the old value. """
-    return _tls.current_session
-
 def is_gaesessions_key(k):
     return k.startswith(COOKIE_NAME_PREFIX)
 
@@ -471,27 +464,21 @@ class SessionMiddleware(object):
 
     def __call__(self, environ, start_response):
         # initialize a session for the current user
-        _tls.current_session = Session(lifetime=self.lifetime, no_datastore=self.no_datastore, 
-                                       #cookie_only_threshold=self.cookie_only_thresh, 
-                                       cookie_key=self.cookie_key)
+        _current_session = Session(lifetime=self.lifetime, no_datastore=self.no_datastore, 
+                                  #cookie_only_threshold=self.cookie_only_thresh, 
+                                  cookie_key=self.cookie_key)
 
         # create a hook for us to insert a cookie into the response headers
-        def my_start_response(status, headers, exc_info=None):
+        def my_start_response(current_session, status, headers, exc_info=None):
             
-            # In some cases the _tls.current_session value may not have been set (for example, if 
-            # earlier middleware did a re-direct). Therefore, if it doesn't exist, we don't want to crash
-            # and we want to see this in the logs.
-            if hasattr(_tls, 'current_session'):
-                _tls.current_session.save() # store the session if it was changed
-                for ch in _tls.current_session.make_cookie_headers():
-                    headers.append(('Set-Cookie', ch))
-            else:
-                logging.error("_tls does not have a current_session value")
+            current_session.save() # store the session if it was changed
+            for ch in current_session.make_cookie_headers():
+                headers.append(('Set-Cookie', ch))
                     
             return start_response(status, headers, exc_info)
 
         # let the app do its thing
-        return self.app(environ, my_start_response)
+        return (_current_session, self.app(environ, my_start_response))
 
 class DjangoSessionMiddleware(object):
     """Django middleware that adds session support.  You must specify the
@@ -502,21 +489,18 @@ class DjangoSessionMiddleware(object):
     def __init__(self):
         fake_app = lambda environ, start_response : start_response
         self.wrapped_wsgi_middleware = SessionMiddleware(fake_app, cookie_key=settings.SECRET_KEY)
-        self.response_handler = None
 
     def process_request(self, request):
-        self.response_handler = self.wrapped_wsgi_middleware(None, lambda status, headers, exc_info : headers)
-        request.session = internal_use__get_current_session()
+        (request.session, request.response_handler) = self.wrapped_wsgi_middleware(None, lambda status, headers, exc_info : headers)
         
         
     def process_response(self, request, response):
            
-
-        if self.response_handler:
-            session_headers = self.response_handler(None, [], None)
+        if hasattr(request, 'response_handler'): # if it has response_handler defined, by construction it also has the session
+            session_headers = request.response_handler(request.session, None, [], None)
             for k,v in session_headers:
                 response[k] = v
-            self.response_handler = None
+            request.response_handler = None
         if hasattr(request, 'session') and request.session.is_accessed():
             from django.utils.cache import patch_vary_headers
             patch_vary_headers(response, ('Cookie',))
