@@ -2,8 +2,9 @@ import os, datetime
 
 from rs.private_data import *
 
-VERSION_ID = '2013-01-02-2216'
-
+VERSION_ID = '2013-01-05-0330-threaded'
+# The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
+USE_TIME_STAMPED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -13,9 +14,6 @@ VERSION_ID = '2013-01-02-2216'
 # each time the user navigates to a new page)
 JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update the website code. 
 
-
-# The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
