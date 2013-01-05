@@ -46,6 +46,11 @@ def log_exception(logging_function, *args, **kwds):
     
     error_message = ''
     
+    if 'stack_limit' in kwds:
+        stack_limit = kwds['stack_limit']
+    else: 
+        stack_limit = 5
+    
     if err:
         exception_name = cls.__name__
         subject = 'Exception: %s: %s\n' % (exception_name, err)
@@ -59,7 +64,7 @@ def log_exception(logging_function, *args, **kwds):
     else: 
         subject = 'Status (non Exception)\n'
         traceback_info_file = StringIO.StringIO()
-        traceback.print_stack(limit=5, file = traceback_info_file)
+        traceback.print_stack(limit=stack_limit, file = traceback_info_file)
         traceback_info = traceback_info_file.getvalue()
         traceback_info_file.close()
         
