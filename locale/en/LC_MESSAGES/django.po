@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-28 23:10+0100\n"
+"POT-Creation-Date: 2013-01-07 13:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,21 +14,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: rs/admin.py:368
+#: djangotoolbox/tests.py:620 djangotoolbox/tests.py:632
+#: djangotoolbox/tests.py:634
+msgid "b"
+msgstr ""
+
+#: djangotoolbox/tests.py:625 djangotoolbox/tests.py:627
+msgid "a"
+msgstr ""
+
+#: rs/admin.py:366
 #, python-format
 msgid ""
 "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
 "approximately %(shutdown_time)s minutes for maintenance"
 msgstr ""
 
-#: rs/admin.py:385
+#: rs/admin.py:383
 #, python-format
 msgid ""
 "We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
 "for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
 msgstr ""
 
-#: rs/ajax.py:516
+#: rs/ajax.py:514
 #, python-format
 msgid ""
 "\n"
@@ -37,47 +46,47 @@ msgid ""
 "    that your email address has been correctly stored."
 msgstr ""
 
-#: rs/ajax.py:643
+#: rs/ajax.py:641
 msgid "Greeting sent"
 msgstr ""
 
-#: rs/ajax.py:645
+#: rs/ajax.py:643
 msgid "Wink sent"
 msgstr ""
 
-#: rs/ajax.py:650
+#: rs/ajax.py:648
 msgid "Is favorite"
 msgstr ""
 
-#: rs/ajax.py:651
+#: rs/ajax.py:649
 msgid "Kiss sent"
 msgstr ""
 
-#: rs/ajax.py:652
+#: rs/ajax.py:650
 msgid "Has accsess to your private profile"
 msgstr ""
 
-#: rs/ajax.py:653
+#: rs/ajax.py:651
 msgid "Is blocked (new messages automatically deleted)"
 msgstr ""
 
-#: rs/ajax.py:657
+#: rs/ajax.py:655
 msgid "You are waiting for a confirmation of your chat request"
 msgstr ""
 
-#: rs/ajax.py:658
+#: rs/ajax.py:656
 msgid "You have received a chat request"
 msgstr ""
 
-#: rs/ajax.py:659
+#: rs/ajax.py:657
 msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
 msgstr ""
 
-#: rs/ajax.py:699 rs/display_contacts.py:337 rs/forms.py:1083
-#: rs/login_utils.py:248 rs/rendering.py:393 rs/store_data.py:1569
-#: rs/utils.py:1547
+#: rs/ajax.py:697 rs/display_contacts.py:337 rs/forms.py:1082
+#: rs/login_utils.py:248 rs/rendering.py:390 rs/store_data.py:1562
+#: rs/utils.py:1500
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -110,7 +119,7 @@ msgstr ""
 msgid "Languages I speak"
 msgstr ""
 
-#: rs/callbacks_from_html.py:121 rs/login_utils.py:909
+#: rs/callbacks_from_html.py:121 rs/login_utils.py:908
 msgid "Email"
 msgstr ""
 
@@ -163,11 +172,11 @@ msgstr ""
 msgid "See the bottom of the window for information on becoming a VIP member."
 msgstr ""
 
-#: rs/channel_support.py:530
+#: rs/channel_support.py:529
 msgid "Error - group creation limit exceeded"
 msgstr ""
 
-#: rs/channel_support.py:551
+#: rs/channel_support.py:550
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
@@ -279,11 +288,11 @@ msgstr ""
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:504 rs/mailbox.py:710 rs/text_fields.py:75
+#: rs/constants.py:504 rs/mailbox.py:708 rs/text_fields.py:75
 msgid "Sent"
 msgstr ""
 
-#: rs/constants.py:505 rs/mailbox.py:702 rs/mailbox.py:716
+#: rs/constants.py:505 rs/mailbox.py:700 rs/mailbox.py:714
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr ""
@@ -371,7 +380,7 @@ msgstr ""
 msgid "You don't have any yet"
 msgstr ""
 
-#: rs/email_utils.py:60 rs/email_utils.py:637
+#: rs/email_utils.py:60 rs/email_utils.py:634
 msgid "Cheers"
 msgstr ""
 
@@ -385,31 +394,31 @@ msgstr ""
 msgid "Someone with the IP address: %(remoteip)s has requested this."
 msgstr ""
 
-#: rs/email_utils.py:179
+#: rs/email_utils.py:178
 msgid "Confirmation of your email address"
 msgstr ""
 
-#: rs/email_utils.py:183 rs/email_utils.py:226 rs/email_utils.py:286
-#: rs/email_utils.py:364 rs/email_utils.py:636 rs/login_utils.py:672
+#: rs/email_utils.py:182 rs/email_utils.py:225 rs/email_utils.py:285
+#: rs/email_utils.py:363 rs/email_utils.py:633 rs/login_utils.py:672
 #: rs/login_utils.py:691
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
 
-#: rs/email_utils.py:184
+#: rs/email_utils.py:183
 msgid "Your account has been correctly registered"
 msgstr ""
 
-#: rs/email_utils.py:221 rs/reset_password.py:83
+#: rs/email_utils.py:220 rs/reset_password.py:83
 msgid "New password"
 msgstr ""
 
-#: rs/email_utils.py:227
+#: rs/email_utils.py:226
 #, python-format
 msgid "Your new password is: %(new_password)s"
 msgstr ""
 
-#: rs/email_utils.py:228
+#: rs/email_utils.py:227
 #, python-format
 msgid ""
 "If you have not requested a new password, you can continue to use %(app_name)"
@@ -417,167 +426,167 @@ msgid ""
 "next time you login"
 msgstr ""
 
-#: rs/email_utils.py:231
+#: rs/email_utils.py:230
 msgid ""
 "If you decide to use the new password, it is recomendable that you change it "
 "in the administrative section of your profile"
 msgstr ""
 
-#: rs/email_utils.py:284
+#: rs/email_utils.py:283
 #, python-format
 msgid "Yes, I am sure I want to eliminate the profile of %(username)s"
 msgstr ""
 
-#: rs/email_utils.py:287
+#: rs/email_utils.py:286
 msgid "Are you sure you want to eliminate your account?"
 msgstr ""
 
-#: rs/email_utils.py:296 rs/login_utils.py:508
+#: rs/email_utils.py:295 rs/login_utils.py:508
 msgid "Error - Not authorized"
 msgstr ""
 
-#: rs/email_utils.py:305
+#: rs/email_utils.py:304
 #, python-format
 msgid "Nick: %(username)s not found - have you already deleted it?"
 msgstr ""
 
-#: rs/email_utils.py:365
+#: rs/email_utils.py:364
 msgid "We have changed your notification options to"
 msgstr ""
 
-#: rs/email_utils.py:370
+#: rs/email_utils.py:369
 #, python-format
 msgid ""
 "Error: we have not been able to change the notification options for %"
 "(username)s"
 msgstr ""
 
-#: rs/email_utils.py:372
+#: rs/email_utils.py:371
 #, python-format
 msgid ""
 "You can change your notification settings by entering into %(link_to_build)s "
 "and directly modifying your profile"
 msgstr ""
 
-#: rs/email_utils.py:414 rs/templates/login.html:279
+#: rs/email_utils.py:413 rs/templates/login.html:279
 #: rs/templates/login.html.py:285
 msgid "Have you forgotten your password?"
 msgstr ""
 
-#: rs/email_utils.py:417 rs/email_utils.py:443
+#: rs/email_utils.py:416 rs/email_utils.py:442
 msgid "Here"
 msgstr ""
 
-#: rs/email_utils.py:418
+#: rs/email_utils.py:417
 msgid "you can request a new password"
 msgstr ""
 
-#: rs/email_utils.py:420 rs/user_profile_details.py:225
+#: rs/email_utils.py:419 rs/user_profile_details.py:225
 msgid "Email notification settings"
 msgstr ""
 
-#: rs/email_utils.py:421
+#: rs/email_utils.py:420
 msgid "You have currently selected"
 msgstr "You have currently selected"
 
-#: rs/email_utils.py:423
+#: rs/email_utils.py:422
 msgid ""
 "You can change this option by clicking on one of the options below, or by "
 "directly modifying \"My profile\" in"
 msgstr ""
 
-#: rs/email_utils.py:434
+#: rs/email_utils.py:433
 msgid "Option"
 msgstr ""
 
-#: rs/email_utils.py:439
+#: rs/email_utils.py:438
 msgid "Would you like to eliminate the profile of"
 msgstr "Would you like to eliminate the profile of"
 
-#: rs/email_utils.py:445
+#: rs/email_utils.py:444
 msgid "you can eliminate it"
 msgstr "you can eliminate it"
 
-#: rs/email_utils.py:509
+#: rs/email_utils.py:508
 msgid "violet"
 msgstr ""
 
-#: rs/email_utils.py:511
+#: rs/email_utils.py:510
 msgid "gray"
 msgstr ""
 
-#: rs/email_utils.py:513
+#: rs/email_utils.py:512
 msgid "green"
 msgstr ""
 
-#: rs/email_utils.py:566
+#: rs/email_utils.py:563
 #, python-format
 msgid "You have <strong>%(num_mail)s new/unread message</strong> "
 msgid_plural "You have <strong>%(num_mail)s new/unread messages</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/email_utils.py:575
+#: rs/email_utils.py:572
 msgid "You can read your messages after entering in"
 msgstr ""
 
-#: rs/email_utils.py:577 rs/email_utils.py:627
+#: rs/email_utils.py:574 rs/email_utils.py:624
 #, python-format
 msgid ""
 "by clicking on \"%(field)s\" in the %(bar_color)s bar just below the logo of "
 "%(app_name)s"
 msgstr ""
 
-#: rs/email_utils.py:578
+#: rs/email_utils.py:575
 #: rs/templates/user_main_helpers/navigation_buttons.html:50
 msgid "Messages"
 msgstr ""
 
-#: rs/email_utils.py:579
+#: rs/email_utils.py:576
 msgid ""
 "You can mark the new messages as \"read\" by opening (clicking on) each "
 "message, or by marking the checkbox beside multiple messages and clicking "
 "\"Mark as read\""
 msgstr ""
 
-#: rs/email_utils.py:601
+#: rs/email_utils.py:598
 msgid "Additionally, since"
 msgstr ""
 
-#: rs/email_utils.py:603
+#: rs/email_utils.py:600
 msgid "Since"
 msgstr ""
 
-#: rs/email_utils.py:606
+#: rs/email_utils.py:603
 #, python-format
 msgid "your last entrance %(last_entrance)s, you have received"
 msgstr ""
 
-#: rs/email_utils.py:619
+#: rs/email_utils.py:616
 msgid "and"
 msgstr ""
 
-#: rs/email_utils.py:625
+#: rs/email_utils.py:622
 #, python-format
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr ""
 
-#: rs/email_utils.py:628 rs/profile_utils.py:93
+#: rs/email_utils.py:625 rs/profile_utils.py:93
 #: rs/templates/user_main_helpers/navigation_buttons.html:63
 #: rs/templates/user_main_helpers/navigation_buttons.html:69
 msgid "Contacts"
 msgstr ""
 
-#: rs/email_utils.py:633
+#: rs/email_utils.py:630
 msgid "Emails and/or new contacts"
 msgstr ""
 
-#: rs/email_utils.py:871
+#: rs/email_utils.py:861
 msgid ""
 "A nice website that I thought you might be interested in having a look at"
 msgstr ""
 
-#: rs/email_utils.py:875
+#: rs/email_utils.py:865
 #, python-format
 msgid ""
 "You can personalize and forward this message (or put it on facebook, "
@@ -585,11 +594,11 @@ msgid ""
 "credits in %(app_name)s."
 msgstr ""
 
-#: rs/email_utils.py:878
+#: rs/email_utils.py:868
 msgid "Dear Friend"
 msgstr ""
 
-#: rs/email_utils.py:880
+#: rs/email_utils.py:870
 #, python-format
 msgid ""
 "I am a member of %(app_name)s.com and thought that you might be interested "
@@ -597,7 +606,7 @@ msgid ""
 "I have used to meet many interesting people."
 msgstr ""
 
-#: rs/email_utils.py:884
+#: rs/email_utils.py:874
 #, python-format
 msgid ""
 "If you click on the link below and decide to sign up, both you and I will "
@@ -605,7 +614,7 @@ msgid ""
 "status gives extra message quota and has other benefits)."
 msgstr ""
 
-#: rs/email_utils.py:893
+#: rs/email_utils.py:883
 msgid "Kind Regards"
 msgstr ""
 
@@ -661,68 +670,68 @@ msgstr ""
 msgid "No primary photo"
 msgstr ""
 
-#: rs/forms.py:873
+#: rs/forms.py:872
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
 msgstr ""
 
-#: rs/forms.py:874
+#: rs/forms.py:873
 msgid "inside the \"captcha\""
 msgstr ""
 
-#: rs/forms.py:930
+#: rs/forms.py:929
 msgid "Remove report"
 msgstr ""
 
-#: rs/forms.py:932
+#: rs/forms.py:931
 msgid "Report this profile"
 msgstr ""
 
-#: rs/forms.py:1031
+#: rs/forms.py:1030
 msgid "Sent correctly"
 msgstr ""
 
-#: rs/forms.py:1032
+#: rs/forms.py:1031
 msgid "Not sent, try again"
 msgstr ""
 
-#: rs/forms.py:1050
+#: rs/forms.py:1049
 msgid "Before sending it!"
 msgstr ""
 
-#: rs/forms.py:1051
+#: rs/forms.py:1050
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 
-#: rs/forms.py:1065
+#: rs/forms.py:1064
 msgid "Send message"
 msgstr ""
 
-#: rs/forms.py:1128
+#: rs/forms.py:1127
 msgid "Verify"
 msgstr ""
 
-#: rs/forms.py:1189 rs/forms.py:1274
+#: rs/forms.py:1188 rs/forms.py:1273
 msgid "Search Box"
 msgstr ""
 
-#: rs/forms.py:1190
+#: rs/forms.py:1189
 msgid "Specify the profiles that you would like to see"
 msgstr ""
 
-#: rs/forms.py:1239 rs/forms.py:1271
+#: rs/forms.py:1238 rs/forms.py:1270
 msgid "Search"
 msgstr ""
 
-#: rs/forms.py:1266
+#: rs/forms.py:1265
 msgid "Username to search for"
 msgstr ""
 
-#: rs/forms.py:1275
+#: rs/forms.py:1274
 msgid "Specify the username that you would like to see"
 msgstr ""
 
@@ -2193,7 +2202,7 @@ msgstr ""
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:894
+#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:891
 msgid "You have exited"
 msgstr ""
 
@@ -2232,7 +2241,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:737
+#: rs/login_utils.py:736
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2240,7 +2249,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:764
+#: rs/login_utils.py:763
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2249,15 +2258,15 @@ msgid ""
 "this account."
 msgstr ""
 
-#: rs/login_utils.py:848
+#: rs/login_utils.py:847
 msgid "We have sent registration instructions to"
 msgstr ""
 
-#: rs/login_utils.py:849
+#: rs/login_utils.py:848
 msgid "from"
 msgstr ""
 
-#: rs/login_utils.py:854
+#: rs/login_utils.py:853
 #, python-format
 msgid ""
 "If you do not receive an email within a few minutes please check your Spam "
@@ -2267,142 +2276,142 @@ msgid ""
 "        future emails from us without any problems."
 msgstr ""
 
-#: rs/login_utils.py:863
+#: rs/login_utils.py:862
 msgid "If you have any problems or suggestions, send us a message at"
 msgstr ""
 
-#: rs/login_utils.py:868 rs/login_utils.py:912
+#: rs/login_utils.py:867 rs/login_utils.py:911
 msgid "Registering"
 msgstr ""
 
-#: rs/login_utils.py:906
+#: rs/login_utils.py:905
 msgid "If the email address "
 msgstr ""
 
-#: rs/login_utils.py:906
+#: rs/login_utils.py:905
 msgid "is not correct, re-enter it here"
 msgstr ""
 
-#: rs/login_utils.py:909
+#: rs/login_utils.py:908
 msgid "Change email address"
 msgstr ""
 
-#: rs/mailbox.py:249 rs/mailbox.py:279 rs/mailbox.py:1043
+#: rs/mailbox.py:247 rs/mailbox.py:277 rs/mailbox.py:1041
 msgid "All (messages - override)"
 msgstr "All"
 
-#: rs/mailbox.py:253 rs/mailbox.py:282
+#: rs/mailbox.py:251 rs/mailbox.py:280
 msgid "Favorites"
 msgstr ""
 
-#: rs/mailbox.py:257 rs/mailbox.py:285
+#: rs/mailbox.py:255 rs/mailbox.py:283
 msgid "Unread (plural - override)"
 msgstr "Unread"
 
-#: rs/mailbox.py:261 rs/mailbox.py:288
+#: rs/mailbox.py:259 rs/mailbox.py:286
 msgid "Received (plural - override)"
 msgstr "Received"
 
-#: rs/mailbox.py:265 rs/mailbox.py:291
+#: rs/mailbox.py:263 rs/mailbox.py:289
 msgid "Sent (plural - override)"
 msgstr "Sent"
 
-#: rs/mailbox.py:294
+#: rs/mailbox.py:292
 msgid "Deleted (plural - override)"
 msgstr "Deleted"
 
-#: rs/mailbox.py:297 rs/mailbox.py:705
+#: rs/mailbox.py:295 rs/mailbox.py:703
 msgid "Spam"
 msgstr ""
 
-#: rs/mailbox.py:358 rs/mailbox.py:847
+#: rs/mailbox.py:356 rs/mailbox.py:845
 msgid "From"
 msgstr ""
 
-#: rs/mailbox.py:500
+#: rs/mailbox.py:498
 msgid "To"
 msgstr ""
 
-#: rs/mailbox.py:701
+#: rs/mailbox.py:699
 msgid "Deleted (mail)"
 msgstr "Deleted"
 
-#: rs/mailbox.py:706
+#: rs/mailbox.py:704
 msgid "Received (mail)"
 msgstr "Received"
 
-#: rs/mailbox.py:715
+#: rs/mailbox.py:713
 msgid "Read (mail)"
 msgstr "Read"
 
-#: rs/mailbox.py:719
+#: rs/mailbox.py:717
 msgid "New (mail)"
 msgstr "New"
 
-#: rs/mailbox.py:786
+#: rs/mailbox.py:784
 msgid ""
 "Message history (click on the message text to see more detailed history)"
 msgstr ""
 
-#: rs/mailbox.py:852
+#: rs/mailbox.py:850
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:878 rs/mailbox.py:1050
+#: rs/mailbox.py:876 rs/mailbox.py:1048
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:884 rs/mailbox.py:1048
+#: rs/mailbox.py:882 rs/mailbox.py:1046
 msgid "Delete"
 msgstr ""
 
-#: rs/mailbox.py:888
+#: rs/mailbox.py:886
 msgid "Move to sent mailbox"
 msgstr ""
 
-#: rs/mailbox.py:891
+#: rs/mailbox.py:889
 msgid "Move to received mailbox"
 msgstr ""
 
-#: rs/mailbox.py:897
+#: rs/mailbox.py:895
 msgid "Mark as spam"
 msgstr ""
 
-#: rs/mailbox.py:910
+#: rs/mailbox.py:908
 msgid "Favorite"
 msgstr ""
 
-#: rs/mailbox.py:913
+#: rs/mailbox.py:911
 msgid "Add to your favorites"
 msgstr ""
 
-#: rs/mailbox.py:981
+#: rs/mailbox.py:979
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:1043
+#: rs/mailbox.py:1041
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:1043
+#: rs/mailbox.py:1041
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:1066 rs/search_results.py:842 rs/search_results.py:853
+#: rs/mailbox.py:1064 rs/search_results.py:842 rs/search_results.py:853
 msgid "Next"
 msgstr ""
 
-#: rs/mailbox.py:1082
+#: rs/mailbox.py:1080
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:1084
+#: rs/mailbox.py:1082
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:1085
+#: rs/mailbox.py:1083
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2416,7 +2425,7 @@ msgid ""
 "(location)s"
 msgstr ""
 
-#: rs/profile_utils.py:109 rs/profile_utils.py:110 rs/utils_top_level.py:128
+#: rs/profile_utils.py:109 rs/profile_utils.py:110 rs/utils_top_level.py:126
 msgid "Lesbian"
 msgstr ""
 
@@ -2439,12 +2448,12 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:215 rs/views.py:161
+#: rs/rendering.py:213 rs/views.py:161
 #, python-format
 msgid "Remember the following benefits of registering with %(app_name)s."
 msgstr ""
 
-#: rs/rendering.py:217 rs/views.py:163
+#: rs/rendering.py:215 rs/views.py:163
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:146
 #, python-format
 msgid "List of benefits for registering with %(app_name)s."
@@ -2455,7 +2464,7 @@ msgstr ""
 "your privacy. Your profile has a public part, and a private part. Only "
 "members who you authorize will have access to your private photos."
 
-#: rs/rendering.py:230 rs/views.py:156
+#: rs/rendering.py:228 rs/views.py:156
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2612,7 +2621,7 @@ msgstr "For: %(relationship_status)s"
 msgid "Showing results for"
 msgstr ""
 
-#: rs/store_data.py:964
+#: rs/store_data.py:971
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2621,7 +2630,7 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:975
+#: rs/store_data.py:982
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_requests)s on the number of chat "
@@ -2632,7 +2641,7 @@ msgid ""
 "chat friends, you must remove some of your current chat friends."
 msgstr ""
 
-#: rs/store_data.py:988
+#: rs/store_data.py:995
 #, python-format
 msgid ""
 "\n"
@@ -2647,7 +2656,7 @@ msgid ""
 "you to be their chat friend. "
 msgstr ""
 
-#: rs/store_data.py:997
+#: rs/store_data.py:1004
 #, python-format
 msgid ""
 "\n"
@@ -2656,51 +2665,51 @@ msgid ""
 "                                    you could consider becoming a VIP member."
 msgstr ""
 
-#: rs/store_data.py:1420
+#: rs/store_data.py:1413
 msgid "Statistics of spam sent from your account:"
 msgstr ""
 
-#: rs/store_data.py:1421
+#: rs/store_data.py:1414
 msgid "of"
 msgstr ""
 
-#: rs/store_data.py:1422
+#: rs/store_data.py:1415
 msgid "sent"
 msgstr ""
 
-#: rs/store_data.py:1423
+#: rs/store_data.py:1416
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being allowed "
 "to send more messages. Additionally, if you send a lot of spam, your "
 "messages will be sent directly to the spam mailbox."
 msgstr ""
 
-#: rs/store_data.py:1490
+#: rs/store_data.py:1483
 msgid "Captcha is incorrect, try again"
 msgstr ""
 
-#: rs/store_data.py:1517
+#: rs/store_data.py:1510
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr ""
 
-#: rs/store_data.py:1712
+#: rs/store_data.py:1705
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/store_data.py:1713
+#: rs/store_data.py:1706
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/store_data.py:1715
+#: rs/store_data.py:1708
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/store_data.py:1716
+#: rs/store_data.py:1709
 msgid "greetings"
 msgstr ""
 
-#: rs/store_data.py:1719
+#: rs/store_data.py:1712
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s %"
@@ -3659,7 +3668,7 @@ msgid "My Price/Hour"
 msgstr ""
 
 #: rs/user_profile_main_data.py:352 rs/user_profile_main_data.py:608
-#: rs/utils.py:223
+#: rs/utils.py:222
 msgid "Currency"
 msgstr ""
 
@@ -3731,143 +3740,143 @@ msgstr ""
 msgid "Any Currency"
 msgstr ""
 
-#: rs/utils.py:136
+#: rs/utils.py:135
 msgid "and other (languages)..."
 msgstr "and others..."
 
-#: rs/utils.py:215
+#: rs/utils.py:214
 msgid "I am"
 msgstr ""
 
-#: rs/utils.py:216
+#: rs/utils.py:215
 msgid "Preference"
 msgstr ""
 
-#: rs/utils.py:217
+#: rs/utils.py:216
 msgid "Relationship status"
 msgstr "Relationship&nbsp;status"
 
-#: rs/utils.py:218
+#: rs/utils.py:217
 msgid "I fluently speak"
 msgstr ""
 
-#: rs/utils.py:219
+#: rs/utils.py:218
 msgid "I want to practice"
 msgstr ""
 
-#: rs/utils.py:220
+#: rs/utils.py:219
 msgid "Looking for"
 msgstr "Looking&nbsp;for"
 
-#: rs/utils.py:221
+#: rs/utils.py:220
 msgid "My age"
 msgstr ""
 
-#: rs/utils.py:222
+#: rs/utils.py:221
 msgid "My price"
 msgstr ""
 
-#: rs/utils.py:226
+#: rs/utils.py:225
 msgid "In location"
 msgstr ""
 
-#: rs/utils.py:228
+#: rs/utils.py:227
 msgid "I am currently in"
 msgstr ""
 
-#: rs/utils.py:537
+#: rs/utils.py:536
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:550
+#: rs/utils.py:549
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:565
+#: rs/utils.py:564
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:580
+#: rs/utils.py:579
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:596
+#: rs/utils.py:595
 msgid "ago (capitalize if first word)"
 msgstr "ago"
 
-#: rs/utils.py:598
+#: rs/utils.py:597
 msgid "ago"
 msgstr ""
 
-#: rs/utils.py:599
+#: rs/utils.py:598
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr ""
 
-#: rs/utils.py:603
+#: rs/utils.py:602
 msgid "In"
 msgstr ""
 
-#: rs/utils.py:605
+#: rs/utils.py:604
 msgid "in"
 msgstr ""
 
-#: rs/utils.py:1032
+#: rs/utils.py:1029
 msgid "Interested in:"
 msgstr ""
 
-#: rs/utils.py:1035
+#: rs/utils.py:1032
 msgid ", and"
 msgstr ""
 
-#: rs/utils.py:1446
+#: rs/utils.py:1441
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to support@%"
 "(app_name)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1451
+#: rs/utils.py:1446
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1456
+#: rs/utils.py:1451
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1463
+#: rs/utils.py:1458
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1470
+#: rs/utils.py:1465
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils_top_level.py:120
+#: rs/utils_top_level.py:118
 msgid "Gay men"
 msgstr ""
 
-#: rs/utils_top_level.py:126
+#: rs/utils_top_level.py:124
 msgid "Lesbians"
 msgstr ""
 
@@ -3883,7 +3892,7 @@ msgstr ""
 "the more complete that your profile is, the higher your profile will appear "
 "in search results."
 
-#: rs/views.py:868
+#: rs/views.py:865
 msgid "terms.html"
 msgstr ""
 
@@ -4344,7 +4353,7 @@ msgstr ""
 
 #: rs/templates/login.html:244
 #, python-format
-msgid "Over 50% of our members are single!"
+msgid "Over 50%% of our members are single!"
 msgstr ""
 
 #: rs/templates/login.html:255 rs/templates/login.html.py:259
@@ -4452,7 +4461,7 @@ msgid "Online chat friends"
 msgstr "Chat friends"
 
 #: rs/templates/user_main_helpers/chat.html:78
-msgid "You are currently offline. You must go online to see your contacts."
+msgid "Your chat is currently closed. You must open it to see your contacts."
 msgstr ""
 
 #: rs/templates/user_main_helpers/chat.html:83
@@ -4627,7 +4636,10 @@ msgstr ""
 
 #: rs/templates/user_main_helpers/paypal_donate_buttons.html:48
 msgid "You can update your email address"
-msgstr "You can modify your contact email address whenever you like (versus non VIP members which must permanently use the email address that they registered with)."
+msgstr ""
+"You can modify your contact email address whenever you like (versus non VIP "
+"members which must permanently use the email address that they registered "
+"with)."
 
 #: rs/templates/user_main_helpers/paypal_donate_buttons.html:58
 msgid ""
@@ -4723,872 +4735,3 @@ msgid ""
 "(Click on the icon to activate or to remove\n"
 "        the associated action):"
 msgstr ""
-
-#~ msgid ""
-#~ "Language profile title %(languages)s %(location)s %(languages_to_learn)s"
-#~ msgstr ""
-#~ "%(languages)s Speaker Looking To Practice: %(languages_to_learn)s. "
-#~ "Currently In: %(location)s"
-
-#~ msgid "TAG Free dating"
-#~ msgstr "Free dating"
-
-#~ msgid "TAG Confidential dating"
-#~ msgstr "Confidential dating"
-
-#~ msgid "TAG Free confidential dating"
-#~ msgstr "Free confidential dating"
-
-#~ msgid "TAG Free chat"
-#~ msgstr "Free chat"
-
-#~ msgid "TAG Chat for free"
-#~ msgstr "Chat for free"
-
-#~ msgid "TAG Chat online"
-#~ msgstr "Chat online"
-
-#~ msgid "TAG Free chat online"
-#~ msgstr "Free chat online"
-
-#~ msgid "TAG Online chat"
-#~ msgstr "Online chat"
-
-#~ msgid "TAG Free online chat"
-#~ msgstr "Free online chat"
-
-#~ msgid "TAG Free friends"
-#~ msgstr "Free friends"
-
-#~ msgid "TAG Make friends"
-#~ msgstr "Make friends"
-
-#~ msgid "TAG Look for friends"
-#~ msgstr "Look for friends"
-
-#~ msgid "TAG Look for friends for free"
-#~ msgstr "Look for friends for free"
-
-#~ msgid "TAG Look for friendship"
-#~ msgstr "Look for friendship"
-
-#~ msgid "TAG Free hookup"
-#~ msgstr "Free hookup"
-
-#~ msgid "TAG Flirt for free"
-#~ msgstr "Flirt for free"
-
-#~ msgid "TAG Flirt contacts"
-#~ msgstr "Flirt contacts"
-
-#~ msgid "TAG Meet people"
-#~ msgstr "Meet people"
-
-#~ msgid "TAG Meet people for free"
-#~ msgstr "Meet people for free"
-
-#~ msgid "TAG Free dating for serious singles"
-#~ msgstr "Free dating for serious singles"
-
-#~ msgid "TAG Free dating for singles"
-#~ msgstr "Free dating for serious singles"
-
-#~ msgid "TAG Dating for singles"
-#~ msgstr "Dating for singles"
-
-#~ msgid "TAG Serious dating"
-#~ msgstr "Serious dating"
-
-#~ msgid "TAG Make friends for free"
-#~ msgstr "Make friends for free"
-
-#~ msgid "TAG Free friendship"
-#~ msgstr "Free friendship"
-
-#~ msgid "TAG Meet friends"
-#~ msgstr "Meet friends"
-
-#~ msgid "TAG Meet friends for free"
-#~ msgstr "Meet friends for free"
-
-#~ msgid "TAG Make friendships"
-#~ msgstr "Make friendships"
-
-#~ msgid "TAG Discrete - Find a guy"
-#~ msgstr "RomanceSecreto - Find a guy"
-
-#~ msgid "TAG Discrete - Find a man"
-#~ msgstr "RomanceSecreto - Find a man"
-
-#~ msgid "TAG Discrete - Meet a guy"
-#~ msgstr "RomanceSecreto - Meet a guy"
-
-#~ msgid "TAG Discrete - Meet a man"
-#~ msgstr "RomanceSecreto - Meet a man"
-
-#~ msgid "TAG Discrete - How to meet a guy"
-#~ msgstr "RomanceSecreto - How to meet a guy"
-
-#~ msgid "TAG Discrete - How to meet a man"
-#~ msgstr "RomanceSecreto - How to meet a man"
-
-#~ msgid "TAG Discrete - Find a girl"
-#~ msgstr "RomanceSecreto - Find a girl"
-
-#~ msgid "TAG Discrete - Find a woman"
-#~ msgstr "RomanceSecreto - Find a woman"
-
-#~ msgid "TAG Discrete - Meet a girl"
-#~ msgstr "RomanceSecreto - Meet a girl"
-
-#~ msgid "TAG Discrete - Meet a woman"
-#~ msgstr "RomanceSecreto - Meet a woman"
-
-#~ msgid "TAG Discrete - How to meet a girl"
-#~ msgstr "RomanceSecreto - How to meet a girl"
-
-#~ msgid "TAG Discrete - How to meet a woman"
-#~ msgstr "RomanceSecreto - How to meet a woman"
-
-#~ msgid "TAG Free transvestites"
-#~ msgstr "Free transvestites"
-
-#~ msgid "TAG Transvestite dating"
-#~ msgstr "Transvestite dating"
-
-#~ msgid "TAG Transvestite, transexual, and transgendered dating"
-#~ msgstr "Transvestite, transexual, and transgendered dating"
-
-#~ msgid "TAG Swinging"
-#~ msgstr "Swinging"
-
-#~ msgid "TAG Swinging contacts"
-#~ msgstr "Swinging contacts"
-
-#~ msgid "TAG Free swinging contacts"
-#~ msgstr "Free swinging contacts"
-
-#~ msgid "TAG For swingers"
-#~ msgstr "For swingers"
-
-#~ msgid "TAG SingletonSearch - Find a single guy"
-#~ msgstr "SingletonSearch - Find a single guy"
-
-#~ msgid "TAG SingletonSearch - Find a single man"
-#~ msgstr "SingletonSearch - Find a single man"
-
-#~ msgid "TAG SingletonSearch - Meet a single guy"
-#~ msgstr "SingletonSearch - Meet a single guy"
-
-#~ msgid "TAG SingletonSearch - Meet a single man"
-#~ msgstr "SingletonSearch - Meet a single man"
-
-#~ msgid "TAG SingletonSearch - How to meet a single guy"
-#~ msgstr "SingletonSearch - How to meet a single guy"
-
-#~ msgid "TAG SingletonSearch - How to meet a single man"
-#~ msgstr "SingletonSearch - How to meet a single man"
-
-#~ msgid "TAG SingletonSearch - Where to find a boyfriend"
-#~ msgstr "SingletonSearch - Where to find a boyfriend"
-
-#~ msgid "TAG SingletonSearch - How to find a boyfriend"
-#~ msgstr "SingletonSearch - How to find a boyfriend"
-
-#~ msgid "TAG SingletonSearch - Search for a boyfriend"
-#~ msgstr "SingletonSearch - Search for a boyfriend"
-
-#~ msgid "TAG SingletonSearch - Find a single girl"
-#~ msgstr "SingletonSearch - Find a single girl"
-
-#~ msgid "TAG SingletonSearch - Find a single woman"
-#~ msgstr "SingletonSearch - Find a single woman"
-
-#~ msgid "TAG SingletonSearch - Meet a single girl"
-#~ msgstr "SingletonSearch - Meet a single girl"
-
-#~ msgid "TAG SingletonSearch - Meet a single woman"
-#~ msgstr "SingletonSearch - Meet a single woman"
-
-#~ msgid "TAG SingletonSearch - How to meet a single girl"
-#~ msgstr "SingletonSearch - How to meet a single girl"
-
-#~ msgid "TAG SingletonSearch - How to meet a single woman"
-#~ msgstr "SingletonSearch - How to meet a single woman"
-
-#~ msgid "TAG SingletonSearch - Where to find a girlfriend"
-#~ msgstr "SingletonSearch - Where to find a girlfriend"
-
-#~ msgid "TAG SingletonSearch - How to find a girlfriend"
-#~ msgstr "SingletonSearch - How to find a girlfriend"
-
-#~ msgid "TAG SingletonSearch - Search for a girlfriend"
-#~ msgstr "SingletonSearch - Search for a girlfriend"
-
-#~ msgid "TAG Free lesbian dating"
-#~ msgstr "Free lesbian dating"
-
-#~ msgid "TAG Meet lesbians"
-#~ msgstr "Meet lesbians"
-
-#~ msgid "TAG Lesbian seeking lesbian"
-#~ msgstr "Lesbian seeking lesbian"
-
-#~ msgid "TAG Seeking lesbian"
-#~ msgstr "Seeking lesbian"
-
-#~ msgid "TAG Seeking lesbian for free"
-#~ msgstr "Seeking lesbian for free"
-
-#~ msgid "TAG Free gay dating"
-#~ msgstr "Free gay dating"
-
-#~ msgid "TAG Meet gays"
-#~ msgstr "Meet gays"
-
-#~ msgid "TAG Gay seeking gay"
-#~ msgstr "Gay seeking gay"
-
-#~ msgid "TAG Gay lover"
-#~ msgstr "Gay lover"
-
-#~ msgid "TAG Seeking gay"
-#~ msgstr "Seeking gay"
-
-#~ msgid "TAG Seeking gay lover"
-#~ msgstr "Seeking gay lover"
-
-#~ msgid "TAG Seeking a male"
-#~ msgstr "Seeking a males"
-
-#~ msgid "TAG Seeking a man"
-#~ msgstr "Seeking a man"
-
-#~ msgid "TAG Seeking a male for free"
-#~ msgstr "Seeking a male for for free"
-
-#~ msgid "TAG Seeking a man for free"
-#~ msgstr "Seeking a man for free"
-
-#~ msgid "TAG I want to meet a male"
-#~ msgstr "I want to meet a male"
-
-#~ msgid "TAG I want to meet a man"
-#~ msgstr "I want to meet a man"
-
-#~ msgid "TAG I want to meet a male for free"
-#~ msgstr "I want to meet a male for free"
-
-#~ msgid "TAG I want to meet a man for free"
-#~ msgstr "I want to meet a man for free"
-
-#~ msgid "TAG Searching for a male"
-#~ msgstr "Searching for a male"
-
-#~ msgid "TAG Searching for a man"
-#~ msgstr "Searching for a man"
-
-#~ msgid "TAG Searching for a male for free"
-#~ msgstr "Searching for a male for free"
-
-#~ msgid "TAG Searching for for a man for free"
-#~ msgstr "Searching for for a man for free"
-
-#~ msgid "TAG Seeking a female"
-#~ msgstr "Seeking a female"
-
-#~ msgid "TAG Seeking a woman"
-#~ msgstr "Seeking a woman"
-
-#~ msgid "TAG Seeking a female for free"
-#~ msgstr "Seeking a female for free"
-
-#~ msgid "TAG Seeking for a woman for free"
-#~ msgstr "Seeking for a woman for free"
-
-#~ msgid "TAG I want to meet a female"
-#~ msgstr "I want to meet a female"
-
-#~ msgid "TAG I want to meet a woman"
-#~ msgstr "I want to meet a woman"
-
-#~ msgid "TAG I want to meet a female for free"
-#~ msgstr "I want to meet a female for free"
-
-#~ msgid "TAG I want to meet a woman for free"
-#~ msgstr "I want to meet a woman for free"
-
-#~ msgid "TAG Searching for a female"
-#~ msgstr "Searching for a female"
-
-#~ msgid "TAG Searching for a woman"
-#~ msgstr "Searching for a woman"
-
-#~ msgid "TAG Searching for a female for free"
-#~ msgstr "Searching for a female for free"
-
-#~ msgid "TAG Searching for for a woman for free"
-#~ msgstr "Searching for for a woman for free"
-
-#~ msgid "TAG Casual dating"
-#~ msgstr "Casual dating"
-
-#~ msgid "TAG Singles dating"
-#~ msgstr "Singles dating"
-
-#~ msgid "TAG Free singles dating"
-#~ msgstr "Free singles dating"
-
-#~ msgid "TAG Discrete - Infidelity dating"
-#~ msgstr "RomanceSecreto - Infidelity dating"
-
-#~ msgid "TAG Discrete - Have an affair"
-#~ msgstr "RomanceSecreto - Have an affair"
-
-#~ msgid "TAG Discrete - Find a lover"
-#~ msgstr "RomanceSecreto - Find a lover"
-
-#~ msgid "TAG Search for a lover"
-#~ msgstr "Search for a lover"
-
-#~ msgid "TAG Married dating"
-#~ msgstr "Married dating"
-
-#~ msgid "TAG Discrete - For cheating spouses"
-#~ msgstr "RomanceSecreto - For cheating spouses"
-
-#~ msgid "TAG Discrete - Unfaithful partners"
-#~ msgstr "RomanceSecreto - Unfaithful partners"
-
-#~ msgid "TAG Infidelity chat"
-#~ msgstr "Infidelity chat"
-
-#~ msgid "TAG Seeking a lover"
-#~ msgstr "Seeking a lover"
-
-#~ msgid "TAG Meet friends free"
-#~ msgstr "Meet friends free"
-
-#~ msgid "TAG Find a boyfriend or girlfriend"
-#~ msgstr "Find a boyfriend or girlfriend"
-
-#~ msgid "TAG Find a boyfriend or girlfriend for free"
-#~ msgstr "Find a boyfriend or girlfriend for free"
-
-#~ msgid "TAG Meet a boyfriend or girlfriend"
-#~ msgstr "Meet a boyfriend or girlfriend"
-
-#~ msgid "TAG Meet a boyfriend or girlfriend for free"
-#~ msgstr "Meet a boyfriend or girlfriend for free"
-
-#~ msgid "TAG Search for a boyfriend or girlfriend"
-#~ msgstr "Search for a boyfriend or girlfriend"
-
-#~ msgid "TAG Search for a boyfriend or girlfriend for free"
-#~ msgstr "Search for a boyfriend or girlfriend for free"
-
-#~ msgid "TAG Seeking a relationship"
-#~ msgstr "Seeking a relationship"
-
-#~ msgid "TAG Find love"
-#~ msgstr "Find love"
-
-#~ msgid "TAG Find your soul mate"
-#~ msgstr "Find your soul mate"
-
-#~ msgid "TAG Meet your soul mate"
-#~ msgstr "Meet your soul mate"
-
-#~ msgid "TAG Search for your soul mate"
-#~ msgstr "Search for your soul mate"
-
-#~ msgid "TAG Singles looking for relationships"
-#~ msgstr "Singles looking for relationships"
-
-#~ msgid "Swinger contacts"
-#~ msgstr "Swinger contacts"
-
-#~ msgid "Meet swingers"
-#~ msgstr "Meet swingers"
-
-#~ msgid "Search for swingers"
-#~ msgstr "Search for swingers"
-
-#~ msgid "Language exchange"
-#~ msgstr "Language exchange"
-
-#~ msgid "Free language chat"
-#~ msgstr "Free language chat"
-
-#~ msgid ""
-#~ "List of benefits for registering with %(app_name)s.\n"
-#~ "    "
-#~ msgstr ""
-#~ "<li>%(app_name)s.com is <strong>free.</strong><li>Registration takes less "
-#~ "than 30 seconds. <li>Once you have registered with %(app_name)s.com you "
-#~ "can immediately send messages and get in contact with other members. <li>%"
-#~ "(app_name)s is totally discreet. Your profile has a public part, and a "
-#~ "private part. Only members who you authorize will have access to your "
-#~ "private photos."
-
-#~ msgid "KZT"
-#~ msgstr "Kazakhstan"
-
-#~ msgid ""
-#~ " %(app_name)s.com does not permit profiles that contain publicity\n"
-#~ "    for services."
-#~ msgstr ""
-#~ "%(app_name)s.com has been designed for normal people like you, that want "
-#~ "to add some excitement to their lives.Therefore, we do not permit "
-#~ "profiles that contain publicity for any type of service."
-
-#~ msgid "Additionaly, we are a website for serious people."
-#~ msgstr ""
-#~ "Additionaly, we are a website for serious people, and it is not "
-#~ "acceptable to publish profiles or photos that could be considered rude or "
-#~ "vulgar."
-
-#~ msgid "5. Relationship status"
-#~ msgstr "5.&nbsp;Relationship&nbsp;status"
-
-#~ msgid "1. Language that I want to practice"
-#~ msgstr "1. Language&nbsp;that&nbsp;I&nbsp;want&nbsp;to&nbsp;learn"
-
-#~ msgid "See userobject of:"
-#~ msgstr "See profile and get in contact with:"
-
-#~ msgid "Swingers (Male+Female) - singular"
-#~ msgstr "Swingers (Male+Female)"
-
-#~ msgid "Swingers (Male+Male)  - singular"
-#~ msgstr "Swingers (Male+Male)"
-
-#~ msgid "Swingers (Female+Female) - singular"
-#~ msgstr "Swingers (Female+Female)"
-
-#~ msgid "Swingers (Male+Female) - plural"
-#~ msgstr "Swingers (Male+Female)"
-
-#~ msgid "Swingers (Male+Male) - plural"
-#~ msgstr "Swingers (Male+Male)"
-
-#~ msgid "Swingers (Female+Female) - plural"
-#~ msgstr "Swingers (Female+Female)"
-
-#~ msgid "Swinger contacts (no translate)"
-#~ msgstr "Swinger contacts"
-
-#~ msgid ""
-#~ "generated_profile_title %(sex)s %(location)s %(preference)s %(tagline)s"
-#~ msgstr "%(sex)s seeking %(preference)s. In %(location)s. %(tagline)s."
-
-#~ msgid "BW"
-#~ msgstr "Botswana"
-
-#~ msgid "IO"
-#~ msgstr "British Indian Ocean Territory"
-
-#~ msgid "CM"
-#~ msgstr "Cameroon"
-
-#~ msgid "CV"
-#~ msgstr "Cape Verde"
-
-#~ msgid "TD"
-#~ msgstr "Chad"
-
-#~ msgid "CC"
-#~ msgstr "Cocos (Keeling) Islands"
-
-#~ msgid "CI"
-#~ msgstr "Côte d'Ivoire"
-
-#~ msgid "DJ"
-#~ msgstr "Djibouti"
-
-#~ msgid "GQ"
-#~ msgstr "Equatorial Guinea"
-
-#~ msgid "TF"
-#~ msgstr "French Southern Lands"
-
-#~ msgid "GP"
-#~ msgstr "Guadeloupe"
-
-#~ msgid "KE"
-#~ msgstr "Kenya"
-
-#~ msgid "LS"
-#~ msgstr "Lesotho"
-
-#~ msgid "MQ"
-#~ msgstr "Martinique"
-
-#~ msgid "MR"
-#~ msgstr "Mauritania"
-
-#~ msgid "MU"
-#~ msgstr "Mauritius"
-
-#~ msgid "YT"
-#~ msgstr "Mayotte"
-
-#~ msgid "NA"
-#~ msgstr "Namibia"
-
-#~ msgid "AN"
-#~ msgstr "Netherlands Antilles"
-
-#~ msgid "NC"
-#~ msgstr "New Caledonia"
-
-#~ msgid "NG"
-#~ msgstr "Nigeria"
-
-#~ msgid "RE"
-#~ msgstr "Reunion"
-
-#~ msgid "PM"
-#~ msgstr "Saint Pierre and Miquelon"
-
-#~ msgid "SB"
-#~ msgstr "Solomon Islands"
-
-#~ msgid "SD"
-#~ msgstr "Sudan"
-
-#~ msgid "SZ"
-#~ msgstr "Swaziland"
-
-#~ msgid "TJ"
-#~ msgstr "Tajikistan"
-
-#~ msgid "VI"
-#~ msgstr "Virgin Islands, U.S."
-
-#~ msgid "Everyone (feminine)"
-#~ msgstr "Everyone"
-
-#~ msgid "All (feminine)"
-#~ msgstr " All people"
-
-#~ msgid "Swinging lifestyle"
-#~ msgstr "Swinging lifestyle"
-
-#~ msgid "I am looking for swingers"
-#~ msgstr "Dating for singles"
-
-#~ msgid "TAG Free swinger contacts"
-#~ msgstr "Free swinger contacts"
-
-#~ msgid "TAG Free language exchange"
-#~ msgstr "Free language exchange"
-
-#~ msgid "TAG I want to meet for a man. 100% free"
-#~ msgstr "I want to meet for a man. 100% free"
-
-#~ msgid "TAG Make friends free"
-#~ msgstr "Make friends for free"
-
-#~ msgid ""
-#~ "RomanceSecreto generated_profile_title %(sex)s %(location)s %(preference)s"
-#~ msgstr "%(sex)s seeking %(preference)s. In %(location)s. Free dating."
-
-#~ msgid ""
-#~ "SingletonSearch generated_profile_title %(sex)s %(location)s %(preference)"
-#~ "s"
-#~ msgstr "%(sex)s seeking %(preference)s. In %(location)s. Free dating."
-
-#~ msgid "GayPull generated_search_title %(relationship_status)s"
-#~ msgstr " Relationship status: %(relationship_status)s"
-
-#~ msgid "SwingerPlex generated_search_title %(relationship_status)s"
-#~ msgstr " Relationship status: %(relationship_status)s"
-
-#~ msgid "RomanceSecreto generated_search_title extra text"
-#~ msgstr ""
-#~ "%(sex)s seeking %(preference)s. In %(location)s. Status: %"
-#~ "(relationship_status)s - 100%% free online dating - Make friends or meet "
-#~ "a lover."
-
-#~ msgid "SingletonSearch generated_search_title extra text"
-#~ msgstr ""
-#~ "%(sex)s seeking %(preference)s. In %(location)s. For: %"
-#~ "(relationship_status)s - 100%% free online dating - Search for a partner "
-#~ "and find love"
-
-#~ msgid "I want to learn:"
-#~ msgstr "To learn:"
-
-#~ msgid "AF"
-#~ msgstr "Afghanistan"
-
-#~ msgid "AS"
-#~ msgstr "American Samoa"
-
-#~ msgid "AG"
-#~ msgstr "Antigua and Barbuda"
-
-#~ msgid "AW"
-#~ msgstr "Aruba"
-
-#~ msgid "BJ"
-#~ msgstr "Benin"
-
-#~ msgid "BV"
-#~ msgstr "Bouvet Island"
-
-#~ msgid "BF"
-#~ msgstr "Burkina Faso"
-
-#~ msgid "BI"
-#~ msgstr "Burundi"
-
-#~ msgid "CF"
-#~ msgstr "Central African Republic"
-
-#~ msgid "CX"
-#~ msgstr "Christmas Island"
-
-#~ msgid "KM"
-#~ msgstr "Comoros"
-
-#~ msgid "CG"
-#~ msgstr "Congo (Brazzaville)"
-
-#~ msgid "CD"
-#~ msgstr "Congo (Kinshasa)"
-
-#~ msgid "DM"
-#~ msgstr "Dominica"
-
-#~ msgid "ER"
-#~ msgstr "Eritrea"
-
-#~ msgid "ET"
-#~ msgstr "Ethiopia"
-
-#~ msgid "GA"
-#~ msgstr "Gabon"
-
-#~ msgid "GM"
-#~ msgstr "Gambia"
-
-#~ msgid "GH"
-#~ msgstr "Ghana"
-
-#~ msgid "GD"
-#~ msgstr "Grenada"
-
-#~ msgid "GU"
-#~ msgstr "Guam"
-
-#~ msgid "GN"
-#~ msgstr "Guinea"
-
-#~ msgid "GW"
-#~ msgstr "Guinea-Bissau"
-
-#~ msgid "HT"
-#~ msgstr "Haiti"
-
-#~ msgid "IM"
-#~ msgstr "Isle of Man"
-
-#~ msgid "KI"
-#~ msgstr "Kiribati"
-
-#~ msgid "KP"
-#~ msgstr "Korea, North"
-
-#~ msgid "LR"
-#~ msgstr "Liberia"
-
-#~ msgid "MG"
-#~ msgstr "Madagascar"
-
-#~ msgid "MW"
-#~ msgstr "Malawi"
-
-#~ msgid "ML"
-#~ msgstr "Mali"
-
-#~ msgid "MH"
-#~ msgstr "Marshall Islands"
-
-#~ msgid "FM"
-#~ msgstr "Micronesia"
-
-#~ msgid "MZ"
-#~ msgstr "Mozambique"
-
-#~ msgid "MM"
-#~ msgstr "Myanmar"
-
-#~ msgid "NP"
-#~ msgstr "Nepal"
-
-#~ msgid "NE"
-#~ msgstr "Niger"
-
-#~ msgid "NF"
-#~ msgstr "Norfolk Island"
-
-#~ msgid "MP"
-#~ msgstr "Northern Mariana Islands"
-
-#~ msgid "RW"
-#~ msgstr "Rwanda"
-
-#~ msgid "KN"
-#~ msgstr "Saint Kitts and Nevis"
-
-#~ msgid "LC"
-#~ msgstr "Saint Lucia"
-
-#~ msgid "VC"
-#~ msgstr "Grenadines"
-
-#~ msgid "WS"
-#~ msgstr "Samoa"
-
-#~ msgid "ST"
-#~ msgstr "Sao Tome and Principe"
-
-#~ msgid "SN"
-#~ msgstr "Senegal"
-
-#~ msgid "SC"
-#~ msgstr "Seychelles"
-
-#~ msgid "SL"
-#~ msgstr "Sierra Leone"
-
-#~ msgid "SO"
-#~ msgstr "Somalia"
-
-#~ msgid "TZ"
-#~ msgstr "Tanzania"
-
-#~ msgid "TG"
-#~ msgstr "Togo"
-
-#~ msgid "TO"
-#~ msgstr "Tonga"
-
-#~ msgid "TC"
-#~ msgstr "Turks and Caicos Islands"
-
-#~ msgid "UG"
-#~ msgstr "Uganda"
-
-#~ msgid "WF"
-#~ msgstr "Wallis and Futuna Islands"
-
-#~ msgid "ZM"
-#~ msgstr "Zambia"
-
-#~ msgid "ZW"
-#~ msgstr "Zimbabwe"
-
-#~ msgid "FO"
-#~ msgstr "Faroe Islands"
-
-#~ msgid "HM"
-#~ msgstr "Heard and McDonald Islands"
-
-#~ msgid "GS"
-#~ msgstr "Sandwich Islands"
-
-#~ msgid "SJ"
-#~ msgstr "Islands"
-
-#~ msgid "VU"
-#~ msgstr "Vanuatu"
-
-#~ msgid "VA"
-#~ msgstr "Vatican City"
-
-#~ msgid "AI"
-#~ msgstr "Anguilla"
-
-#~ msgid "CK"
-#~ msgstr "Cook Islands"
-
-#~ msgid "FK"
-#~ msgstr "Falkland Islands"
-
-#~ msgid "MS"
-#~ msgstr "Montserrat"
-
-#~ msgid "NR"
-#~ msgstr "Nauru"
-
-#~ msgid "NU"
-#~ msgstr "Niue"
-
-#~ msgid "PW"
-#~ msgstr "Palau"
-
-#~ msgid "PN"
-#~ msgstr "Pitcairn"
-
-#~ msgid "SH"
-#~ msgstr "Saint Helena"
-
-#~ msgid "SM"
-#~ msgstr "San Marino"
-
-#~ msgid "TK"
-#~ msgstr "Tokelau"
-
-#~ msgid "TV"
-#~ msgstr "Tuvalu"
-
-#~ msgid "VG"
-#~ msgstr "Virgin Islands, British"
-
-#~ msgid "AX"
-#~ msgstr "Åland"
-
-#~ msgid "GG"
-#~ msgstr "Guernsey"
-
-#~ msgid "JE"
-#~ msgstr "Jersey"
-
-#~ msgid "ME"
-#~ msgstr "Montenegro"
-
-#~ msgid "PS"
-#~ msgstr "Palestine"
-
-#~ msgid "BL"
-#~ msgstr "Saint Barthélemy"
-
-#~ msgid "MF"
-#~ msgstr "Saint Martin (French part)"
-
-#~ msgid "UM"
-#~ msgstr "U.S. Minor Outlying Islands"
-
-#~ msgid "1. Language that I want to learn"
-#~ msgstr "1.&nbsp;Language&nbsp;that&nbsp;I&nbsp;want&nbsp;to&nbsp;learn"
-
-#~ msgid "%(days)s day ago (big first letter)"
-#~ msgid_plural "%(days)s days ago (big first letter)"
-#~ msgstr[0] "%(days)s day ago"
-#~ msgstr[1] "%(days)s days ago"
-
-#~ msgid "%(days)s day ago (small first letter)"
-#~ msgid_plural "%(days)s days ago (small first letter)"
-#~ msgstr[0] "%(days)s day ago"
-#~ msgstr[1] "%(days)s days ago"
-
-#~ msgid ""
-#~ "In %(app_name)s.com it is not permitted to\n"
-#~ "    publish profiles that contain publicity for services."
-#~ msgstr ""
-#~ "%(app_name).com has designed our service for normal people like you, that "
-#~ "want to add some excitement to their lives.Therefore, we do not permit "
-#~ "profiles that contain publicity for any type of service."
