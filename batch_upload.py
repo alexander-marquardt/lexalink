@@ -29,9 +29,9 @@ import datetime, codecs, re
 import subprocess, sys, shutil, pexpect, time, getpass
     
 # Note: we add in the '' build name so that
-# the settings.py will default back to the previously selected build name (see settings.py to understand
+# the site_configuration.py will default back to the previously selected build name (see site_configuration.py to understand
 # why a '' value will cause the previously selected build name to be used). Additionally, this
-# causes an additional version to be generated and written to settings.py, which ensures that we 
+# causes an additional version to be generated and written to site_configuration.py, which ensures that we 
 # will not accidentally upload over top of a previous version number. 
 BUILD_NAMES_LIST = ['Discrete', 'Single' , 'Language', 'Lesbian', 'Gay', 'Swinger', 'Friend', '']
 
@@ -44,8 +44,8 @@ def get_version_identifier():
     return datetime_str
 
 
-settings_file_name = "settings.py"
-new_settings_file_name = "settings.new.py"
+site_configuration_file_name = "site_configuration.py"
+new_site_configuration_file_name = "site_configuration.new.py"
 
 build_name_pattern = re.compile(r'(BATCH_BUILD_NAME.*=)(.*)')  
 version_id_pattern = re.compile(r'(VERSION_ID.*=)(.*)')  
@@ -56,9 +56,9 @@ password = getpass.getpass()
 
 for build_name in BUILD_NAMES_LIST:
 
-    settings_file_handle = codecs.open(settings_file_name, encoding='utf_8')    
-    new_settings_file_handle = codecs.open(new_settings_file_name, 'w', encoding='utf_8')    
-    for line in settings_file_handle:
+    site_configuration_file_handle = codecs.open(site_configuration_file_name, encoding='utf_8')    
+    new_site_configuration_file_handle = codecs.open(new_site_configuration_file_name, 'w', encoding='utf_8')    
+    for line in site_configuration_file_handle:
         
         match_build_name_pattern = build_name_pattern.match(line)
         match_version_id_pattern = version_id_pattern.match(line)
@@ -68,12 +68,12 @@ for build_name in BUILD_NAMES_LIST:
         elif match_version_id_pattern:
             line = match_version_id_pattern.group(1) + " '%s'\n" % get_version_identifier()
         
-        new_settings_file_handle.write(line)
+        new_site_configuration_file_handle.write(line)
         
-    new_settings_file_handle.close()
-    settings_file_handle.close()
-    # copy the new settings file over the old one
-    shutil.move(new_settings_file_name, settings_file_name)
+    new_site_configuration_file_handle.close()
+    site_configuration_file_handle.close()
+    # copy the new site_configuration file over the old one
+    shutil.move(new_site_configuration_file_name, site_configuration_file_name)
     
     
     if build_name != '':
@@ -88,6 +88,7 @@ for build_name in BUILD_NAMES_LIST:
             command = "%s" % " ".join(pargs)
             print "command = %s" % command
             child = pexpect.spawn(command)
+            #child.logfile = sys.stdout
             child.expect('Email: ')
             child.sendline(email_address)
             child.expect('Password:')
