@@ -2,7 +2,7 @@ import os, datetime
 
 from rs.private_data import *
 
-VERSION_ID = '2013-01-07-0105'
+VERSION_ID = '2013-01-07-0129'
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = True
 
@@ -28,7 +28,7 @@ FLASH_FILES_DIR = "bin-release" # Generally the flash bin-debug version is the m
 
 # this is used by the batch uploader to automatically change the name of the build that we will configure and upload. 
 # If this is set to a value, then this value will indicate the current site. 
-BATCH_BUILD_NAME = 'Language'
+BATCH_BUILD_NAME = ''
 
 if BATCH_BUILD_NAME == '':
     # Since we are currently running 7 sites using the same code base, we just un-comment whichever build 
