@@ -145,6 +145,8 @@ var chan_utils = new function () {
                 if (json_response.hasOwnProperty('conversation_tracker')) {
 
 
+                    var keep_open_boxes_list = [];
+
                     var conversation_tracker_dict = json_response.conversation_tracker;
                     for (var other_uid in conversation_tracker_dict) {
                         var array_of_chat_msg_time_strings = conversation_tracker_dict[other_uid].chat_msg_time_string_arr;
@@ -156,38 +158,46 @@ var chan_utils = new function () {
 
 
 
+                        if (conversation_tracker_dict[other_uid].hasOwnProperty('keep_open')) {
 
-                        if (other_uid != "main" && other_uid != "groups") {
+                            keep_open_boxes_list.push(other_uid);
 
-                            if (chan_utils_self.last_update_time_string_dict.hasOwnProperty(other_uid)) {
-                                // the last_update_time_string_array has been previously loaded, and therefore
-                                // we want to highlight/bounce the box when a new message is received
-                                highlight_box_enabled = true;
-                            } else {
-                                // This is a totally new chatbox (new page load, or user opened new box), and we don't need/want to highlight it.
-                                highlight_box_enabled = false;
-                            }
+                            if (other_uid != "main" && other_uid != "groups") {
 
-                            chan_utils_self.last_update_time_string_dict[other_uid] = conversation_tracker_dict[other_uid].last_update_time_string;
+                                if (conversation_tracker_dict[other_uid].hasOwnProperty('update_conversation')) {
 
-                            // calling addBox just makes sure that it exists
-                            chatboxManager.addBox(other_uid, chatbox_title, true, true, false, type_of_conversation,
-                                    conversation_tracker_dict[other_uid]['nid'], conversation_tracker_dict[other_uid]['url_description']);
+                                    if (chan_utils_self.last_update_time_string_dict.hasOwnProperty(other_uid)) {
+                                        // the last_update_time_string_array has been previously loaded, and therefore
+                                        // we want to highlight/bounce the box when a new message is received
+                                        highlight_box_enabled = true;
+                                    } else {
+                                        // This is a totally new chatbox (new page load, or user opened new box), and we don't need/want to highlight it.
+                                        highlight_box_enabled = false;
+                                    }
 
-                            // load the message history into the chatbox
-                            for (var msg_time_idx in array_of_chat_msg_time_strings) {
-                                var msg_time_str = array_of_chat_msg_time_strings[msg_time_idx];
-                                var sender_username = conversation_tracker_dict[other_uid].sender_username_dict[msg_time_str];
-                                var chat_msg_text = conversation_tracker_dict[other_uid].chat_msg_text_dict[msg_time_str];
-                                $("#" + other_uid).chatbox("option", "boxManager").addMsg(sender_username, chat_msg_text, highlight_box_enabled);
+                                    chan_utils_self.last_update_time_string_dict[other_uid] = conversation_tracker_dict[other_uid].last_update_time_string;
 
-                                if (type_of_conversation == "one_on_one") {
-                                    // we only start faster polling if a one_on_one message is received - since this is a direct communication
-                                    // to the user, while group messages should not trigger faster polling.
-                                    new_one_on_one_message_received = true;
+                                    // calling addBox just makes sure that it exists
+                                    chatboxManager.addBox(other_uid, chatbox_title, true, true, false, type_of_conversation,
+                                            conversation_tracker_dict[other_uid]['nid'], conversation_tracker_dict[other_uid]['url_description']);
+
+                                    // load the message history into the chatbox
+                                    for (var msg_time_idx in array_of_chat_msg_time_strings) {
+                                        var msg_time_str = array_of_chat_msg_time_strings[msg_time_idx];
+                                        var sender_username = conversation_tracker_dict[other_uid].sender_username_dict[msg_time_str];
+                                        var chat_msg_text = conversation_tracker_dict[other_uid].chat_msg_text_dict[msg_time_str];
+                                        $("#" + other_uid).chatbox("option", "boxManager").addMsg(sender_username, chat_msg_text, highlight_box_enabled);
+
+                                        if (type_of_conversation == "one_on_one") {
+                                            // we only start faster polling if a one_on_one message is received - since this is a direct communication
+                                            // to the user, while group messages should not trigger faster polling.
+                                            new_one_on_one_message_received = true;
+                                        }
+                                    }
                                 }
                             }
                         }
+
 
                         if (chatbox_minimized_maximized) {
                             if (chatbox_minimized_maximized == "minimized") {
@@ -199,6 +209,15 @@ var chan_utils = new function () {
                             }
                         }
 
+                    }
+
+                    // close chat boxes that did not have the "keep_open" property set
+                    var currently_open_chatboxes = chatboxManager.showList;
+                    for (var idx = 0; idx < currently_open_chatboxes.length; idx ++) {
+                        var box_id = currently_open_chatboxes[idx];
+                        if ($.inArray(box_id, keep_open_boxes_list) == -1) {
+                             chatboxManager.close_chatbox_on_client(box_id)
+                        }
                     }
                 }
 

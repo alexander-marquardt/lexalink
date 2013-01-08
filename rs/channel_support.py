@@ -282,6 +282,14 @@ def poll_server_for_status_and_new_messages(request):
                 for open_conversation_object in open_conversation_objects:
                     
                     other_uid = open_conversation_object.other_uid
+                    
+                    # Construct the JSON response
+                    response_dict['conversation_tracker'][other_uid] = {}                    
+                    
+                    # Send in a "keep_open" value so that the client knows that this convesation is still active
+                    # and should not be closed. (if it does not receive a "keep_open" value in the response, then
+                    # the client will close the associated chatbox
+                    response_dict['conversation_tracker'][other_uid]['keep_open'] = "yes"                    
         
                     if other_uid in last_update_time_string_dict:
                         last_update_time_string = last_update_time_string_dict[other_uid]
@@ -294,10 +302,7 @@ def poll_server_for_status_and_new_messages(request):
                         
                         chatbox_title = open_conversation_object.chatbox_title
     
-                        
-                        # Construct the JSON response
-                        
-                        response_dict['conversation_tracker'][other_uid] = {}
+                        response_dict['conversation_tracker'][other_uid]['update_conversation'] = "yes"
                         response_dict['conversation_tracker'][other_uid]["chatbox_minimized_maximized"] = open_conversation_object.chatbox_minimized_maximized    
                         
                         # make sure this is not the main, or groups chatbox (ie, it must be a conversation box)

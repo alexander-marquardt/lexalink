@@ -630,32 +630,39 @@ var chatboxManager = function() {
             }
         };
 
+
+        var close_chatbox_on_client = function(box_id) {
+            // we *do not* allow closing of the *main* box, and so this code does not currently handle this situation
+            var idx = $.inArray(box_id, showList);
+            if(idx != -1) {
+                showList.splice(idx, 1);
+                $("#"+ box_id).chatbox("option", "boxManager").hideBox();
+                diff = current_chatbox_width + config.gap;
+                for(var i = idx; i < showList.length; i++) {
+                    offset = $("#" + showList[i]).chatbox("option", "offset");
+                    $("#" + showList[i]).chatbox("option", "offset", offset - diff);
+                }
+                resize_boxes_if_necessary();
+            }
+            else {
+                 report_javascript_error_on_server("close_chatbox_on_client error: " + box_id);
+            }
+
+
+            if (type_of_conversation_for_box_id[box_id] == 'group') {
+                // close the list of group members, so that we don't have people "spying" on who is in the group
+                // without actually being in the group themselves
+                chan_utils.close_group_members_dialog(box_id);
+            }
+        }
+
         var boxClosedCallback = function(box_id, type_of_conversation) {
 
             try{
                 // close button in the titlebar is clicked
-                // we *do not* allow closing of the *main* box, and so this code does not currently handle this situation
-                var idx = $.inArray(box_id, showList);
-                if(idx != -1) {
-                    showList.splice(idx, 1);
-                    $("#"+ box_id).chatbox("option", "boxManager").hideBox();
-                    diff = current_chatbox_width + config.gap;
-                    for(var i = idx; i < showList.length; i++) {
-                        offset = $("#" + showList[i]).chatbox("option", "offset");
-                        $("#" + showList[i]).chatbox("option", "offset", offset - diff);
-                    }
-                    resize_boxes_if_necessary();
-                }
-                else {
-                    alert("should not happen: " + box_id);
-                }
+                close_chatbox_on_client(box_id);
                 chan_utils.close_chatbox_on_server(box_id, type_of_conversation);
 
-                if (type_of_conversation == 'group') {
-                    // close the list of group members, so that we don't have people "spying" on who is in the group
-                    // without actually being in the group themselves
-                    chan_utils.close_group_members_dialog(box_id);
-                }
             } catch(err) {
                 report_try_catch_error( err, "initJqueryUiChatbox.boxClosedCallback()");
             }
@@ -873,7 +880,9 @@ var chatboxManager = function() {
             changeBoxtitle: changeBoxtitle,
             hyperlinkBoxtitle: hyperlinkBoxtitle,
             resize_boxes_if_necessary: resize_boxes_if_necessary,
-            track_user_activity_for_online_status: track_user_activity_for_online_status
+            track_user_activity_for_online_status: track_user_activity_for_online_status,
+            close_chatbox_on_client: close_chatbox_on_client,
+            showList: showList
         };
     } catch(err) {
         report_try_catch_error( err, "chatboxManager");
