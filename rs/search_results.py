@@ -60,7 +60,7 @@ PAGESIZE = 6
 MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
 
-def display_userobject_first_half_summary(request, viewer_userobject, display_userobject, show_vip_info):
+def display_userobject_first_half_summary(request, display_userobject, show_vip_info):
     # returns a summary of a single users userobject. 
     #
     
@@ -101,7 +101,6 @@ def display_userobject_first_half_summary(request, viewer_userobject, display_us
         generated_html += "</a><br><br></div>\n"
         
         
-        generated_html += utils.generate_profile_information_for_administrator(viewer_userobject, display_userobject)
         
         status_string = ''
         # Note, the "and userobject.current_status" should be eventually removed for efficiency .. but
@@ -234,7 +233,7 @@ def display_userobject_first_half_summary(request, viewer_userobject, display_us
         return ""
 
 
-def display_userobject_second_half_summary(userobject):
+def display_userobject_second_half_summary(viewer_userobject, display_userobject):
     
     """ 
     Generates the part of the user summary that cannot be cached such as the last entrance time, which can change (and which
@@ -242,7 +241,7 @@ def display_userobject_second_half_summary(userobject):
     
     try: 
         generated_html = ''
-        last_time_in_system = return_time_difference_in_friendly_format(userobject.last_login)
+        last_time_in_system = return_time_difference_in_friendly_format(display_userobject.last_login)
         
         generated_html += u'<br><strong>%s: </strong>%s' % (ugettext("Last entrance"), last_time_in_system )
         generated_html += u'<br><br>\n'
@@ -250,9 +249,12 @@ def display_userobject_second_half_summary(userobject):
         generated_html += u'</div> <!-- end grid8 -->'
         generated_html += u'</div> <!-- end grid10 -->\n'
         
+        generated_html += utils.generate_profile_information_for_administrator(viewer_userobject, display_userobject)
+        
+        
         return generated_html
     except:
-        error_reporting.log_exception(logging.critical, error_message = 'display_userobject_second_half_summary %s exception.' % userobject.username)
+        error_reporting.log_exception(logging.critical, error_message = 'display_userobject_second_half_summary %s exception.' % display_userobject.username)
         return ""        
         
         
@@ -270,8 +272,8 @@ def get_userobject_summary_with_memcache_check(request, viewer_userobject, displ
     display_uid = str(display_userobject_key)
     display_userobject = utils_top_level.get_object_from_string(display_uid)  
 
-    summary_first_half_html = display_userobject_first_half_summary(request, viewer_userobject, display_userobject, show_vip_info)              
-    summary_second_half_html = display_userobject_second_half_summary(display_userobject)
+    summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, show_vip_info)              
+    summary_second_half_html = display_userobject_second_half_summary(viewer_userobject, display_userobject)
         
     return summary_first_half_html + summary_second_half_html
     

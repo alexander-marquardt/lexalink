@@ -659,7 +659,7 @@ def login(request, is_admin_login = False, referring_code = None):
                             # log information about this users login time, and IP address
                             utils.update_ip_address_on_user_tracker(userobject.user_tracker)
                             
-                            utils.store_login_ip_information(userobject)
+                            utils.store_login_ip_information(request, userobject)
     
                             utils.put_userobject(userobject)
     

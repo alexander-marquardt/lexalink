@@ -33,7 +33,7 @@ from google.appengine.api import memcache, users
 
 import hashlib, re
 import datetime, time, logging
-import string, random, sys
+import string, random, sys, os
 import gaesessions
 import http_utils
 
@@ -1501,9 +1501,9 @@ def generate_profile_information_for_administrator(viewer_userobject, display_us
             generated_html += "Login IP: %s<br>" % display_userobject.last_login_ip_address
             
             if display_userobject.last_login_country_code:
-                generated_html += "Login Country: %s<br>" % localizations.location_dict[lang_idx][display_userobject.last_login_country_code]
+                generated_html += "Login Country: %s<br>" % localizations.location_dict[0][display_userobject.last_login_country_code +",," ]
             else:
-                generated_html += u'Last Country: %s<br>' % display_userobject.last_login_country_code
+                generated_html += u'Login Country Not Available<br>'
     
             generated_html += "Login Region: %s<br>" % display_userobject.last_login_region_code
             generated_html += "Login City: %s<br>" % display_userobject.last_login_city
@@ -1519,7 +1519,7 @@ def generate_profile_information_for_administrator(viewer_userobject, display_us
     return generated_html
 
 
-def store_login_ip_information(userobject):
+def store_login_ip_information(request, userobject):
     userobject.last_login_ip_address = os.environ['REMOTE_ADDR'] 
     userobject.last_login_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
     userobject.last_login_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
