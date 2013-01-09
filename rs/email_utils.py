@@ -812,15 +812,18 @@ def batch_email_notification_launcher(request):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()    
     
-def send_admin_alert_email(message_content):
+def send_admin_alert_email(message_content, subject, is_raw_text = False, to_address = constants.admin_address):
     # send a critical system status/warning message to the admin email address
     try:
         message = mail.EmailMessage(sender=constants.sender_address,
-                                    subject=u"%s Admin" % settings.APP_NAME)
-        message.to = constants.admin_address
+                                    subject=subject)
+        message.to = to_address
         
-        message.html = message_content
-        message.body = html2text.html2text(message.html)  
+        if not is_raw_text:
+            message.html = message_content
+            message.body = html2text.html2text(message.html)  
+        else: 
+            message.body = message_content
         
         try:
             message.send()

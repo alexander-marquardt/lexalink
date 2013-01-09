@@ -65,7 +65,7 @@ USE_I18N = True
 
 
 INSTALLED_APPS = (
-#    'django.contrib.admin',
+    #'django.contrib.admin',
     'localeurl',
     'django.contrib.contenttypes',
     #'django.contrib.auth',
@@ -137,6 +137,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/videochat_server/'),
     re.compile(r'^/videochat_window/'),
     re.compile(r'^/robots.txt'), 
+    re.compile(r'^/_ah/'), 
 )
 
 

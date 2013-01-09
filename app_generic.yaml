@@ -41,7 +41,11 @@ handlers:
 - url: /rs/proprietary/proprietary_versioned_static
   static_dir: rs/proprietary/proprietary_versioned_static
   
-- url: /rs/admin/.*
+- url: /rs/admin/.+
+  script: djangoappengine.main.application
+  login: admin
+  
+- url: /_ah/.+
   script: djangoappengine.main.application
   login: admin
 

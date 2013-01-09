@@ -1,10 +1,37 @@
+# -*- coding: utf-8 -*- 
+
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012 
+#
+# Lexalink - a free social network and dating website platform for the Google App Engine. 
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git 
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community, 
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+
 import os, datetime
 
 from rs.private_data import *
 
-VERSION_ID = '2013-01-09-0215'
+VERSION_ID = '2013-01-09-1432'
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_TIME_STAMPED_STATIC_FILES = True
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 

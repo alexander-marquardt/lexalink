@@ -670,12 +670,16 @@ def send_verification_email(username, email_address, secret_verification_code, l
         subject = ugettext("Verification of your email and registration")  
 
         message_html = u"<p>%s, " % ugettext("Hello %(username)s") % {'username': username}
-        message_html += u"<p>%s:" % \
+        message_html += u"<p>%s:<p>" % \
                ugettext("To activate your account in %(app_name)s, click on the following link to verify your request") % \
                {'app_name' : settings.APP_NAME }
-        message_html += """<p><a href=http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/>
-        http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s</a> """ % \
-            {'lang_code': lang_code, 'app_name' : settings.APP_NAME, 'username' : username, 'secret_verification_code' : secret_verification_code }
+        message_html += """<a href=http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/>\
+http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/</a>""" % \
+            {'lang_code': lang_code, 'app_name' : settings.APP_NAME, 
+             'username' : username, 
+             'secret_verification_code' : secret_verification_code,
+             }
+        
         message_html += u"<p>%s. " % ugettext("If clicking on the link appears not to work, you can copy and paste it into your browser")
                         
         return_val = "Code sent"                

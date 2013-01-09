@@ -122,7 +122,7 @@ def instant_payment_notification(request):
       # message to trigger an exception
       message_content = """Paypal error - User not awarded VIP status - check paypal to see who has sent funds and
       check if status is correctly set"""
-      email_utils.send_admin_alert_email(message_content)
+      email_utils.send_admin_alert_email(message_content, subject = "%s Paypal Error" % settings.APP_NAME)
     except:
       error_reporting.log_exception(logging.critical)
 
@@ -239,7 +239,7 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
            'expiry' : userobject.client_paid_status_expiry,
            'status' : userobject.client_paid_status}
     
-    email_utils.send_admin_alert_email(message_content)
+    email_utils.send_admin_alert_email(message_content, subject="%s VIP Awarded" % settings.APP_NAME)
     
   except:
     error_reporting.log_exception(logging.critical) 

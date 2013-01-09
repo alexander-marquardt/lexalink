@@ -44,7 +44,7 @@ from localization_files import AR, AU, BO, BR, CA, CL, CN, CR, CO, DE, DO, EC, E
 ############################################
 
 # DO NOT CHANGE THE KEY VALUEs -- even if there is a spelling error. These are used for indexing
-# in the database, and changing the key value willt cause existing installations to function 
+# in the database, and changing the key value will cause existing installations to function 
 # incorrectly.
 
 important_languages_list = [

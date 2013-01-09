@@ -1,7 +1,7 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
 application: romancesapp
-version: 2013-01-09-0215
+version: 2013-01-09-1432
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -29,21 +29,25 @@ handlers:
   login: admin
 
 - url: /favicon.ico
-  static_files: rs/static/img/Discrete/favicon.ico
-  upload: rs/static/img/Discrete/favicon.ico
+  static_files: rs/static/auto-generated-2013-01-09-1432/img/Discrete/favicon.ico
+  upload: rs/static/auto-generated-2013-01-09-1432/img/Discrete/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location
 # for each new build name to ensure that out-of-date static files will not be accessed through
 # cached data (since the directory name changes, old caches will not be hit)
 
-- url: /rs/static
-  static_dir: rs/static
+- url: /rs/static/auto-generated-2013-01-09-1432
+  static_dir: rs/static/auto-generated-2013-01-09-1432
   
-- url: /rs/proprietary/static
-  static_dir: rs/proprietary/static
+- url: /rs/static/auto-generated-2013-01-09-1432
+  static_dir: rs/static/auto-generated-2013-01-09-1432
   
-- url: /rs/admin/.*
+- url: /rs/admin/.+
+  script: djangoappengine.main.application
+  login: admin
+  
+- url: /_ah/.+
   script: djangoappengine.main.application
   login: admin
 

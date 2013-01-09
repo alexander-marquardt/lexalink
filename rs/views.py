@@ -393,6 +393,8 @@ def login(request, is_admin_login = False, referring_code = None):
             login_dict = get_login_dict_from_post(request, login_type)
             
             country_encoded = None
+            region_encoded = None
+            
             http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
             if http_country_code:
                 # check if country is valid and is allowed to register profiles on our website
@@ -411,6 +413,18 @@ def login(request, is_admin_login = False, referring_code = None):
                     else:
                         error_reporting.log_exception(logging.warning, error_message = "Loggin in user in unknown country: %s" % http_country_code)  
                         
+                http_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
+                if http_region_code:
+                    http_region_code = http_region_code.upper()
+                    
+                    # check if the region code matches a region key 
+                    tmp_region_encoded = "%s,%s," % (http_country_code, http_region_code)
+                    try:
+                        localizations.location_dict[0][tmp_region_encoded]
+                        region_encoded = tmp_region_encoded
+                    except:
+                        logging.warning("Region code %s not found in location_dict" % http_region_code)
+                
             
             # the following code returns posted values inside the generated HTML, so that we can use Jquery to 
             # search for these values, and replace them in the appropriate fields that were previously entered.
@@ -424,7 +438,11 @@ def login(request, is_admin_login = False, referring_code = None):
                 if country_encoded:
                     
                     html_for_posted_values = '<input type="hidden" id= "%s" name="%s" value="%s" />\n' % (
-                                "id-hidden_country", "hidden_country", country_encoded)            
+                                "id-hidden_country", "hidden_country", country_encoded)   
+                    
+                    if region_encoded:
+                        html_for_posted_values += '<input type="hidden" id= "%s" name="%s" value="%s" />\n' % (
+                                    "id-hidden_region", "hidden_region", region_encoded)                           
             
                     if settings.BUILD_NAME == "Friend":
                         # we need to set the appropriate currency for the current country
@@ -597,7 +615,7 @@ def login(request, is_admin_login = False, referring_code = None):
                                 but primary object is not found (this condition can also occur if the user has erased their email address, but it remains
                                 in the backup objects and then they try to enter using their email address). 
                                 """ % (backup_userobject.username, login_dict['username_email']) 
-                                email_utils.send_admin_alert_email(error_message)
+                                email_utils.send_admin_alert_email(error_message, "%s Login Error" % settings.APP_NAME)
                                 error_reporting.log_exception(logging.critical, error_message=error_message)                   
                         
                     if userobject:

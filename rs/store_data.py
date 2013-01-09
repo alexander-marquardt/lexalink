@@ -1644,8 +1644,8 @@ def store_report_unacceptable_profile(request, display_uid):
             error_message = """Profile %s has been reported as unacceptable %s times<br>
             Most recent report by: %s who has reported %s profiles as unacceptable.<br>""" \
                           % (displayed_profile.username, count_unacceptable_profile.count, sender_userobject.username, count_reporting_profile.count)
-            email_utils.send_admin_alert_email(error_message)
-            logging.critical(error_message)
+            email_utils.send_admin_alert_email(error_message, subject = "%s Unacceptable profile" % settings.APP_NAME)
+            logging.error(error_message)
             
             
         if sender_userobject.creation_date <  datetime.datetime.now() - datetime.timedelta(weeks = 1):
@@ -1661,7 +1661,7 @@ def store_report_unacceptable_profile(request, display_uid):
                 # Note could consider calling batch_jobs.batch_fix_remove_all_users_with_given_ip_or_name to remove all profiles that have
                 # ever been accessed from this IP - think about this in the future
                 error_message = "Profile %s has been deleted due to reports from other users in the time window" % displayed_profile.username 
-                email_utils.send_admin_alert_email(error_message)
+                email_utils.send_admin_alert_email(error_message, subject = "%s Deleted Profile" % settings.APP_NAME)
                 logging.critical(error_message)
                 login_utils.delete_or_enable_account_and_generate_response(request, displayed_profile, delete_or_enable = "delete", reason_for_profile_removal = "terms")
                 

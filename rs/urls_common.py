@@ -30,7 +30,7 @@ from django.conf.urls.defaults import *
 from rs import views, ajax, store_data, search_results, mailbox, display_contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, lang_settings, channel_support, vip_status_support, \
-     videochat, rendering, sitemaps
+     videochat, rendering, sitemaps, mail_handlers
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
 import gaesessions
@@ -302,8 +302,9 @@ urlpatterns = patterns('',
     
     (r'^rs/admin/login/$', views.login, {'is_admin_login': True}),
       
-    
     (r'^rs/admin/count_clients/$', admin.count_clients),
+    
+    (r'^_ah/bounce$', mail_handlers.handle_bounced_email),
         
     # Test stuff
     (r'^rs/test/render_notification_control/$', email_utils.render_notification_control_html),

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-07 13:20+0100\n"
+"POT-Creation-Date: 2013-01-09 14:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,9 +84,9 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:697 rs/display_contacts.py:337 rs/forms.py:1082
+#: rs/ajax.py:697 rs/display_contacts.py:337 rs/forms.py:1083
 #: rs/login_utils.py:248 rs/rendering.py:390 rs/store_data.py:1562
-#: rs/utils.py:1500
+#: rs/utils.py:1477
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -114,12 +114,12 @@ msgstr ""
 msgid "More details about me"
 msgstr ""
 
-#: rs/callbacks_from_html.py:98 rs/search_results.py:168
+#: rs/callbacks_from_html.py:98 rs/search_results.py:170
 #: rs/user_profile_details.py:204
 msgid "Languages I speak"
 msgstr ""
 
-#: rs/callbacks_from_html.py:121 rs/login_utils.py:908
+#: rs/callbacks_from_html.py:121 rs/login_utils.py:912
 msgid "Email"
 msgstr ""
 
@@ -172,11 +172,11 @@ msgstr ""
 msgid "See the bottom of the window for information on becoming a VIP member."
 msgstr ""
 
-#: rs/channel_support.py:529
+#: rs/channel_support.py:534
 msgid "Error - group creation limit exceeded"
 msgstr ""
 
-#: rs/channel_support.py:550
+#: rs/channel_support.py:555
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
@@ -400,7 +400,7 @@ msgstr ""
 
 #: rs/email_utils.py:182 rs/email_utils.py:225 rs/email_utils.py:285
 #: rs/email_utils.py:363 rs/email_utils.py:633 rs/login_utils.py:672
-#: rs/login_utils.py:691
+#: rs/login_utils.py:695
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
@@ -581,12 +581,12 @@ msgstr ""
 msgid "Emails and/or new contacts"
 msgstr ""
 
-#: rs/email_utils.py:861
+#: rs/email_utils.py:864
 msgid ""
 "A nice website that I thought you might be interested in having a look at"
 msgstr ""
 
-#: rs/email_utils.py:865
+#: rs/email_utils.py:868
 #, python-format
 msgid ""
 "You can personalize and forward this message (or put it on facebook, "
@@ -594,11 +594,11 @@ msgid ""
 "credits in %(app_name)s."
 msgstr ""
 
-#: rs/email_utils.py:868
+#: rs/email_utils.py:871
 msgid "Dear Friend"
 msgstr ""
 
-#: rs/email_utils.py:870
+#: rs/email_utils.py:873
 #, python-format
 msgid ""
 "I am a member of %(app_name)s.com and thought that you might be interested "
@@ -606,7 +606,7 @@ msgid ""
 "I have used to meet many interesting people."
 msgstr ""
 
-#: rs/email_utils.py:874
+#: rs/email_utils.py:877
 #, python-format
 msgid ""
 "If you click on the link below and decide to sign up, both you and I will "
@@ -614,7 +614,7 @@ msgid ""
 "status gives extra message quota and has other benefits)."
 msgstr ""
 
-#: rs/email_utils.py:883
+#: rs/email_utils.py:886
 msgid "Kind Regards"
 msgstr ""
 
@@ -630,108 +630,108 @@ msgstr "See profile and get in contact with:"
 msgid "Eliminated"
 msgstr ""
 
-#: rs/forms.py:315 rs/forms.py:475
+#: rs/forms.py:315 rs/forms.py:476
 msgid "Approving (within 24 hours)"
 msgstr ""
 
-#: rs/forms.py:396
+#: rs/forms.py:397
 msgid "Erase photo"
 msgstr ""
 
-#: rs/forms.py:397
+#: rs/forms.py:398
 msgid "Photo is private"
 msgstr ""
 
-#: rs/forms.py:398
+#: rs/forms.py:399
 msgid "Principal photo (public)"
 msgstr "Principal&nbsp;photo&nbsp;(public)"
 
-#: rs/forms.py:448
+#: rs/forms.py:449
 msgid "Public (feminine)"
 msgstr "Public"
 
-#: rs/forms.py:457
+#: rs/forms.py:458
 msgid "Approving photo for public (within 24 hours)"
 msgstr ""
 
-#: rs/forms.py:466
+#: rs/forms.py:467
 msgid "Private photo"
 msgstr "Private!<br>You need<br>their key!"
 
-#: rs/forms.py:471
+#: rs/forms.py:472
 msgid "They need your key"
 msgstr "Private (they&nbsp;need your&nbsp;key)"
 
-#: rs/forms.py:503
+#: rs/forms.py:504
 msgid "Photo"
 msgstr ""
 
-#: rs/forms.py:558
+#: rs/forms.py:559
 msgid "No primary photo"
 msgstr ""
 
-#: rs/forms.py:872
+#: rs/forms.py:873
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
 msgstr ""
 
-#: rs/forms.py:873
+#: rs/forms.py:874
 msgid "inside the \"captcha\""
 msgstr ""
 
-#: rs/forms.py:929
+#: rs/forms.py:930
 msgid "Remove report"
 msgstr ""
 
-#: rs/forms.py:931
+#: rs/forms.py:932
 msgid "Report this profile"
 msgstr ""
 
-#: rs/forms.py:1030
+#: rs/forms.py:1031
 msgid "Sent correctly"
 msgstr ""
 
-#: rs/forms.py:1031
+#: rs/forms.py:1032
 msgid "Not sent, try again"
 msgstr ""
 
-#: rs/forms.py:1049
+#: rs/forms.py:1050
 msgid "Before sending it!"
 msgstr ""
 
-#: rs/forms.py:1050
+#: rs/forms.py:1051
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 
-#: rs/forms.py:1064
+#: rs/forms.py:1065
 msgid "Send message"
 msgstr ""
 
-#: rs/forms.py:1127
+#: rs/forms.py:1128
 msgid "Verify"
 msgstr ""
 
-#: rs/forms.py:1188 rs/forms.py:1273
+#: rs/forms.py:1189 rs/forms.py:1274
 msgid "Search Box"
 msgstr ""
 
-#: rs/forms.py:1189
+#: rs/forms.py:1190
 msgid "Specify the profiles that you would like to see"
 msgstr ""
 
-#: rs/forms.py:1238 rs/forms.py:1270
+#: rs/forms.py:1239 rs/forms.py:1271
 msgid "Search"
 msgstr ""
 
-#: rs/forms.py:1265
+#: rs/forms.py:1266
 msgid "Username to search for"
 msgstr ""
 
-#: rs/forms.py:1274
+#: rs/forms.py:1275
 msgid "Specify the username that you would like to see"
 msgstr ""
 
@@ -1797,7 +1797,7 @@ msgstr ""
 msgid "Has not written a description"
 msgstr ""
 
-#: rs/html_container.py:167 rs/templates/user_main_helpers/main_body.html:174
+#: rs/html_container.py:167 rs/templates/user_main_helpers/main_body.html:176
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr ""
@@ -2202,7 +2202,7 @@ msgstr ""
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:891
+#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:912
 msgid "You have exited"
 msgstr ""
 
@@ -2221,17 +2221,21 @@ msgid ""
 "verify your request"
 msgstr ""
 
-#: rs/login_utils.py:679
+#: rs/login_utils.py:681
+msgid "Confirm"
+msgstr ""
+
+#: rs/login_utils.py:683
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:690
+#: rs/login_utils.py:694
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:693
+#: rs/login_utils.py:697
 #, python-format
 msgid ""
 "\n"
@@ -2241,7 +2245,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:736
+#: rs/login_utils.py:740
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2249,7 +2253,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:763
+#: rs/login_utils.py:767
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2258,15 +2262,15 @@ msgid ""
 "this account."
 msgstr ""
 
-#: rs/login_utils.py:847
+#: rs/login_utils.py:851
 msgid "We have sent registration instructions to"
 msgstr ""
 
-#: rs/login_utils.py:848
+#: rs/login_utils.py:852
 msgid "from"
 msgstr ""
 
-#: rs/login_utils.py:853
+#: rs/login_utils.py:857
 #, python-format
 msgid ""
 "If you do not receive an email within a few minutes please check your Spam "
@@ -2276,27 +2280,27 @@ msgid ""
 "        future emails from us without any problems."
 msgstr ""
 
-#: rs/login_utils.py:862
+#: rs/login_utils.py:866
 msgid "If you have any problems or suggestions, send us a message at"
 msgstr ""
 
-#: rs/login_utils.py:867 rs/login_utils.py:911
+#: rs/login_utils.py:871 rs/login_utils.py:915
 msgid "Registering"
 msgstr ""
 
-#: rs/login_utils.py:905
+#: rs/login_utils.py:909
 msgid "If the email address "
 msgstr ""
 
-#: rs/login_utils.py:905
+#: rs/login_utils.py:909
 msgid "is not correct, re-enter it here"
 msgstr ""
 
-#: rs/login_utils.py:908
+#: rs/login_utils.py:912
 msgid "Change email address"
 msgstr ""
 
-#: rs/mailbox.py:247 rs/mailbox.py:277 rs/mailbox.py:1041
+#: rs/mailbox.py:247 rs/mailbox.py:277 rs/mailbox.py:1037
 msgid "All (messages - override)"
 msgstr "All"
 
@@ -2357,11 +2361,11 @@ msgstr ""
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:876 rs/mailbox.py:1048
+#: rs/mailbox.py:876 rs/mailbox.py:1044
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:882 rs/mailbox.py:1046
+#: rs/mailbox.py:882 rs/mailbox.py:1042
 msgid "Delete"
 msgstr ""
 
@@ -2385,33 +2389,33 @@ msgstr ""
 msgid "Add to your favorites"
 msgstr ""
 
-#: rs/mailbox.py:979
+#: rs/mailbox.py:975
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:1041
+#: rs/mailbox.py:1037
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:1041
+#: rs/mailbox.py:1037
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:1064 rs/search_results.py:842 rs/search_results.py:853
+#: rs/mailbox.py:1060 rs/search_results.py:847 rs/search_results.py:858
 msgid "Next"
 msgstr ""
 
-#: rs/mailbox.py:1080
+#: rs/mailbox.py:1076
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:1082
+#: rs/mailbox.py:1078
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:1083
+#: rs/mailbox.py:1079
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2524,100 +2528,100 @@ msgstr ""
 msgid "Finished"
 msgstr ""
 
-#: rs/search_results.py:137
+#: rs/search_results.py:139
 msgid "About me"
 msgstr ""
 
-#: rs/search_results.py:176
+#: rs/search_results.py:178
 msgid "Native language"
 msgstr ""
 
-#: rs/search_results.py:244
+#: rs/search_results.py:246
 msgid "Last entrance"
 msgstr ""
 
-#: rs/search_results.py:446 rs/search_results.py:482
+#: rs/search_results.py:451 rs/search_results.py:487
 #, python-format
 msgid "generated_search_title %(sex)s"
 msgstr "%(sex)s"
 
-#: rs/search_results.py:449 rs/search_results.py:467 rs/search_results.py:484
+#: rs/search_results.py:454 rs/search_results.py:472 rs/search_results.py:489
 msgid "All people (feminine)"
 msgstr "All people"
 
-#: rs/search_results.py:451
+#: rs/search_results.py:456
 msgid "All lesbian types"
 msgstr ""
 
-#: rs/search_results.py:454
+#: rs/search_results.py:459
 #, python-format
 msgid "generated_search_title %(preference)s"
 msgstr "seeking %(preference)s"
 
-#: rs/search_results.py:464
+#: rs/search_results.py:469
 #, python-format
 msgid "generated_search_title %(language_to_learn)s"
 msgstr "%(language_to_learn)s speakers"
 
-#: rs/search_results.py:470
+#: rs/search_results.py:475
 #, python-format
 msgid "generated_search_title %(language_to_teach)s"
 msgstr "that want to learn %(language_to_teach)s"
 
-#: rs/search_results.py:476
+#: rs/search_results.py:481
 #, python-format
 msgid "Sex: %(sex)s"
 msgstr ""
 
-#: rs/search_results.py:487
+#: rs/search_results.py:492
 #, python-format
 msgid "interested in %(for_sale_sub_menu)s"
 msgstr ""
 
-#: rs/search_results.py:490
+#: rs/search_results.py:495
 #, python-format
 msgid "interested in %(for_sale)s"
 msgstr ""
 
-#: rs/search_results.py:496
+#: rs/search_results.py:501
 #, python-format
 msgid "Price: %(friend_price)s. Currency: %(friend_currency)s"
 msgstr ""
 
-#: rs/search_results.py:500
+#: rs/search_results.py:505
 #, python-format
 msgid "Price: %(friend_price)s"
 msgstr ""
 
-#: rs/search_results.py:512
+#: rs/search_results.py:517
 #, python-format
 msgid "generated_search_title %(location)s"
 msgstr "In: %(location)s"
 
-#: rs/search_results.py:514
+#: rs/search_results.py:519
 msgid "In: The entire world"
 msgstr "In: The entire world"
 
-#: rs/search_results.py:517
+#: rs/search_results.py:522
 #, python-format
 msgid "generated_search_title %(age)s"
 msgstr "Age: %(age)s"
 
-#: rs/search_results.py:522
+#: rs/search_results.py:527
 msgid "Ordered by"
 msgstr ""
 
-#: rs/search_results.py:526
+#: rs/search_results.py:531
 #, python-format
 msgid "Status generated_search_title %(relationship_status)s"
 msgstr "Relationship status: %(relationship_status)s"
 
-#: rs/search_results.py:530
+#: rs/search_results.py:535
 #, python-format
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:714
+#: rs/search_results.py:719
 msgid "Showing results for"
 msgstr ""
 
@@ -3841,34 +3845,34 @@ msgstr ""
 msgid ", and"
 msgstr ""
 
-#: rs/utils.py:1441
+#: rs/utils.py:1418
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to support@%"
 "(app_name)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1446
+#: rs/utils.py:1423
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1451
+#: rs/utils.py:1428
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1458
+#: rs/utils.py:1435
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1465
+#: rs/utils.py:1442
 msgid "This user profile has been eliminated"
 msgstr ""
 
@@ -3892,7 +3896,7 @@ msgstr ""
 "the more complete that your profile is, the higher your profile will appear "
 "in search results."
 
-#: rs/views.py:865
+#: rs/views.py:886
 msgid "terms.html"
 msgstr ""
 
@@ -4509,85 +4513,85 @@ msgstr ""
 msgid "Profile of"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:110
+#: rs/templates/user_main_helpers/main_body.html:112
 #: rs/templates/user_main_helpers/status.html:47
 msgid "Headline:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:170
+#: rs/templates/user_main_helpers/main_body.html:172
 msgid "Photos"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:174
+#: rs/templates/user_main_helpers/main_body.html:176
 msgid "upload"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:174
+#: rs/templates/user_main_helpers/main_body.html:176
 msgid "photos"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:263
-#: rs/templates/user_main_helpers/main_body.html:318
+#: rs/templates/user_main_helpers/main_body.html:265
+#: rs/templates/user_main_helpers/main_body.html:320
 msgid "Last entrance:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:281
+#: rs/templates/user_main_helpers/main_body.html:283
 msgid ""
 "Activities that I am interested in and/or that I would \"sell\" my time for"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:283
+#: rs/templates/user_main_helpers/main_body.html:285
 #, python-format
 msgid "(a maximum of %(num)s activities may be selected)"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:349
+#: rs/templates/user_main_helpers/main_body.html:351
 msgid "Administrative stuff (never displayed publicly)"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:355
+#: rs/templates/user_main_helpers/main_body.html:357
 msgid "VIP Status"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:362
+#: rs/templates/user_main_helpers/main_body.html:364
 #, python-format
 msgid ""
 "\n"
 "            You currently have VIP status that will expire %(expires)s."
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:365
+#: rs/templates/user_main_helpers/main_body.html:367
 msgid "You currently do not have VIP status"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:387
+#: rs/templates/user_main_helpers/main_body.html:389
 msgid "See my profile:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:390
-#: rs/templates/user_main_helpers/main_body.html:414
-#: rs/templates/user_main_helpers/main_body.html:417
+#: rs/templates/user_main_helpers/main_body.html:392
+#: rs/templates/user_main_helpers/main_body.html:416
+#: rs/templates/user_main_helpers/main_body.html:419
 msgid "click here"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:396
+#: rs/templates/user_main_helpers/main_body.html:398
 msgid "If you want to see how your profile will appear."
 msgstr ""
 "If you want to see how your profile will appear from the perspective of "
 "other users, click on the link to the left."
 
-#: rs/templates/user_main_helpers/main_body.html:409
+#: rs/templates/user_main_helpers/main_body.html:411
 msgid "Eliminate your profile:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:413
+#: rs/templates/user_main_helpers/main_body.html:415
 msgid " Are you sure you want to eliminate your profile?"
 msgstr ""
 "If you want to eliminate your profile/account, click on the link to the "
 "left  (careful -- you will not be able to enter with the same account after "
 "it has been eliminated)."
 
-#: rs/templates/user_main_helpers/main_body.html:423
+#: rs/templates/user_main_helpers/main_body.html:425
 msgid "If you want to eliminate your profile/account."
 msgstr ""
 "If you want to eliminate your profile/account, click on the link to the "
