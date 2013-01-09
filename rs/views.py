@@ -404,25 +404,24 @@ def login(request, is_admin_login = False, referring_code = None):
                     forbidden_country_name = localizations.forbidden_countries[http_country_code] 
                     message_for_client = u"We do not currently allow users from %s" % forbidden_country_name
                     error_list.append(message_for_client)
-                    error_reporting.log_exception(logging.warning, error_message = message_for_client)
+                    logging.warning(message_for_client)
                 else:
                     tmp_country_encoded = "%s,," % http_country_code
                     if tmp_country_encoded in localizations.location_dict[0]:
                         # make sure that it is a country that we support.
                         country_encoded = tmp_country_encoded
                     else:
-                        error_reporting.log_exception(logging.warning, error_message = "Loggin in user in unknown country: %s" % http_country_code)  
+                        logging.warning("Logging in user in unknown country: %s" % http_country_code)  
                         
                 http_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
-                if http_region_code:
+                if country_encoded and http_region_code:
                     http_region_code = http_region_code.upper()
                     
                     # check if the region code matches a region key 
                     tmp_region_encoded = "%s,%s," % (http_country_code, http_region_code)
-                    try:
-                        localizations.location_dict[0][tmp_region_encoded]
+                    if tmp_region_encoded in localizations.location_dict[0]:
                         region_encoded = tmp_region_encoded
-                    except:
+                    else:
                         logging.warning("Region code %s not found in location_dict" % http_region_code)
                 
             
