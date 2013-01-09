@@ -1492,7 +1492,7 @@ def generate_profile_information_for_administrator(viewer_userobject, display_us
     try:
         if user_is_admin(viewer_userobject):
             # show information about this user to the administrator.
-            generated_html += u'<br><br><div class="grid_9 alpha omega">'            
+            generated_html += u'<br><br><div>'            
             if display_userobject.client_paid_status:
                 generated_html += "Is VIP<br><br>"
                 

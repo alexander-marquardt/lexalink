@@ -923,9 +923,9 @@ def display_conversation_summary(request, have_sent_messages_object,
         generated_html += u'</div> <!-- end internal grid_9 -->\n'        
         generated_html += u'</div> <!-- end grid_9 -->\n'
         
-        
         # Divider line
         if show_checkbox_beside_summary:
+            generated_html += utils.generate_profile_information_for_administrator(userobject, other_userobject)            
             generated_html += u'<div class="grid_9 alpha omega cl-divider-line"></div>'
             
         return (generated_html, True)
