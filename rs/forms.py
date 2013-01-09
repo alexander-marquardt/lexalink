@@ -347,14 +347,15 @@ class FormUtils():
             html_for_photo_row = [] # Contains the generated html corresponding to each row that contains actual photos.
                                     # Each row of photos is containned in a seperate index of the array.
                                     
-            # Check if the primary use has the key to view private photos of the display_user. \
-            # However, if the primary user is viewing, then show them their own profile. (note, if the primary
-            # user is viewing their profile as others see it, then is_primary_user will be set to False)
-            if primary_userobject and primary_userobject.username == constants.ADMIN_USERNAME and users.is_current_user_admin():
+
+            if utils.user_is_admin(primary_userobject):
                 is_admin = True
             else:
                 is_admin = False
-            
+                
+            # Check if the primary use has the key to view private photos of the display_user. \
+            # However, if the primary user is viewing, then show them their own profile. (note, if the primary
+            # user is viewing their profile as others see it, then is_primary_user will be set to False)            
             if is_primary_user or is_admin:
                 has_key_to_private_photos = True
             else:

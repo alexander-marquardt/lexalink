@@ -29,7 +29,7 @@
 from os import environ
 
 from google.appengine.ext import db 
-from google.appengine.api import memcache
+from google.appengine.api import memcache, users
 
 import hashlib, re
 import datetime, time, logging
@@ -1186,29 +1186,6 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
         
     return (return_dict)
 
-def get_extra_profile_info_for_admin(request, display_userobject):
-    
-    try:
-        generated_html = '<div id="id-extra-admin-info" class = "cl-gray-text grid_9 alpha omega cl-right-align"><br><br>'
-        
-        generated_html += u'<br>Registration IP Address: %s<br>' % display_userobject.registration_ip_address
-        generated_html += u'Last login IP Address: %s<br>' % display_userobject.last_login_ip_address
-    
-        if display_userobject.last_login_country_code:
-            country_code = "%s,," % display_userobject.last_login_country_code
-            lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-            try:
-                generated_html += u'Last login Country: %s<br>' % localizations.location_dict[lang_idx][country_code]
-            except:
-                generated_html += u'Last login Country code (location not available): %s<br>' % display_userobject.last_login_country_code
-
-     
-        generated_html += "</div>"
-        return generated_html
-    except:
-        error_reporting.log_exception(logging.critical) 
-        return 'Error getting extra profile information for admin<br>'
-    
 
 def add_session_id_to_user_tracker(user_tracker, session_id):
     # adds the current session identifier to the user_tracker so that if necessary we can clear the sessions from the
@@ -1499,3 +1476,51 @@ def return_and_report_internal_error(request):
     error_reporting.log_exception(logging.critical)
     txt = ugettext('Internal error - this error has been logged, and will be investigated immediately')
     return http_utils.ajax_compatible_http_response(request, txt, HttpResponseServerError)
+
+
+def user_is_admin(userobject):
+    if userobject and userobject.username == constants.ADMIN_USERNAME and users.is_current_user_admin():
+        return True
+    else:
+        return False
+    
+
+def generate_profile_information_for_administrator(viewer_userobject, display_userobject):
+    
+    generated_html = ''
+    
+    try:
+        if user_is_admin(viewer_userobject):
+            # show information about this user to the administrator.
+            generated_html += u'<br><br><div class="grid_9 alpha omega">'            
+            if display_userobject.client_paid_status:
+                generated_html += "Is VIP<br><br>"
+                
+                
+            generated_html += "Email: %s<br>" % display_userobject.email_address
+            generated_html += "Login IP: %s<br>" % display_userobject.last_login_ip_address
+            
+            if display_userobject.last_login_country_code:
+                generated_html += "Login Country: %s<br>" % localizations.location_dict[lang_idx][display_userobject.last_login_country_code]
+            else:
+                generated_html += u'Last Country: %s<br>' % display_userobject.last_login_country_code
+    
+            generated_html += "Login Region: %s<br>" % display_userobject.last_login_region_code
+            generated_html += "Login City: %s<br>" % display_userobject.last_login_city
+            generated_html += "Registration IP: %s<br>" % display_userobject.registration_ip_address
+            generated_html += "Registration City: %s<br>" % display_userobject.registration_city
+            
+            generated_html += '<br></div>'    
+            
+    except:
+        error_reporting.log_exception(logging.error)
+            
+            
+    return generated_html
+
+
+def store_login_ip_information(userobject):
+    userobject.last_login_ip_address = os.environ['REMOTE_ADDR'] 
+    userobject.last_login_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+    userobject.last_login_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
+    userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    

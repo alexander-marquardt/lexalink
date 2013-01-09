@@ -629,8 +629,12 @@ class UserModel(db.Model):
     user_tracker = db.ReferenceProperty(reference_class = UserTracker, required = False, default = None)
     
     registration_ip_address = db.StringProperty(required = False, default=None)
+    registration_city = db.StringProperty(required = False, default=None)
+    
     last_login_ip_address = db.StringProperty(required = False, default=None)
     last_login_country_code = db.StringProperty(required = False, default=None)
+    last_login_region_code = db.StringProperty(required = False, default=None)
+    last_login_city = db.StringProperty(required = False, default=None)
     
     # when we eliminate profiles, sometimes it is because they are a scammer etc. We will use this as a flag to indicate to
     # other users why a particular profile has been removed. 

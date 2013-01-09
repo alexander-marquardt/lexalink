@@ -923,10 +923,6 @@ def display_conversation_summary(request, have_sent_messages_object,
         generated_html += u'</div> <!-- end internal grid_9 -->\n'        
         generated_html += u'</div> <!-- end grid_9 -->\n'
         
-        if userobject.username == constants.ADMIN_USERNAME:
-            # Login information that will only be shown to the ADMIN account. 
-            generated_html += utils.get_extra_profile_info_for_admin(request, other_userobject)
-            pass
         
         # Divider line
         if show_checkbox_beside_summary:

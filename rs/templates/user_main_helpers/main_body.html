@@ -102,6 +102,8 @@
             {% endif %}
         </div>
 
+        {{ viewed_profile_data_fields.profile_information_for_admin|safe }}
+
         <div class="cl-clear"></div>
         <br>
         {% if html_for_main.current_status_value %}

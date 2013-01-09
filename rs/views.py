@@ -264,7 +264,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         last_entrance = return_time_difference_in_friendly_format(display_userobject.previous_last_login)
         current_entrance = return_time_difference_in_friendly_format(display_userobject.last_login)
         debugging_html = debugging.get_html_for_unique_last_login_calculations(display_userobject)
-    
+        
+                
         # Display the welcome section
         if new_user_welcome_text or user_has_no_photo_text or no_about_user_section_warning or\
            email_is_not_entered_text:
@@ -313,6 +314,9 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         viewed_profile_data_fields.html_for_mail_history_summary = html_for_mail_history_summary
         viewed_profile_data_fields.account_has_been_removed_message = account_has_been_removed_message
         viewed_profile_data_fields.debugging_html = debugging_html
+        viewed_profile_data_fields.profile_information_for_admin = utils.generate_profile_information_for_administrator(owner_userobject, display_userobject)
+
+        
         
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 
         # photo boxes -- allows us to hide the photo section if no photos are present
@@ -655,8 +659,7 @@ def login(request, is_admin_login = False, referring_code = None):
                             # log information about this users login time, and IP address
                             utils.update_ip_address_on_user_tracker(userobject.user_tracker)
                             
-                            userobject.last_login_ip_address = os.environ['REMOTE_ADDR'] 
-                            userobject.last_login_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+                            utils.store_login_ip_information(userobject)
     
                             utils.put_userobject(userobject)
     
