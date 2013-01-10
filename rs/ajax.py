@@ -721,13 +721,13 @@ def favorite_message(request, have_sent_messages_id):
         userobject_key = have_sent_messages_object.owner_ref.key()
         other_userobject_key = have_sent_messages_object.other_ref.key()
                 
-        initiate_contact_object = store_data.get_or_create_initiate_contact_object(userobject_key, other_userobject_key)
+        initiate_contact_object = utils.get_initiate_contact_object(userobject_key, other_userobject_key, create_if_does_not_exist=True)
         
         # note: initiate_contact_object is for winks, kisses, keys -- have_sent_messages_object is
         # for messages -- however, the "favorites" is duplicated on both.
         initiate_contact_object.favorite_stored = have_sent_messages_object.other_is_favorite
         initiate_contact_object.favorite_stored_date = datetime.datetime.now()
-        initiate_contact_object.put()
+        utils.put_initiate_contact_object(initiate_contact_object, userobject_key, other_userobject_key)
         
     
         # the HttpResponse is ignored .. so, shouldn't matter what the return value is.

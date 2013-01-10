@@ -32,7 +32,7 @@ import re
 import datetime
 
 from rs.private_data import *
-import settings
+import settings, site_configuration
 
 # This file contains all the declarations for constant values that are used at various places in the code
 # This should help to keep the code more maintainable, and consistent.
@@ -206,11 +206,12 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 # include the version identifier in the memcache prefix for objects that have a probability of changing
 # between version upates - currently this is done for the userobject and any other objects that use
 # utils.put_object() for writing to the database
-BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + settings.VERSION_ID + "_"
-PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + settings.VERSION_ID + "_"
-PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + settings.VERSION_ID + "_"
-#PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + settings.VERSION_ID
-NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + settings.VERSION_ID
+BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + site_configuration.VERSION_ID + "_"
+PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + site_configuration.VERSION_ID + "_"
+PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + site_configuration.VERSION_ID + "_"
+#PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + site_configuration.VERSION_ID
+NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + site_configuration.VERSION_ID
+INITIATE_CONTACT_MEMCACHE_PREFIX = "_initiate_contact_" + site_configuration.VERSION_ID + "_"
 
 
 NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for Language - number of languages to show

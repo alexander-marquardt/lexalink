@@ -749,7 +749,7 @@ def deferred_fix_initiate_contact_model(request):
                 
                     
                 logging.info("**Writing key %s\nobject %s\n" % (initiate_contact_object.key().id_or_name(), initiate_contact_object))                    
-                initiate_contact_object.put()
+                utils.put_initiate_contact_object(initiate_contact_object, viewer_userobject_key, display_userobject_key)
                 
                 logging.info("**Deleting key %s\nobject %s\n" % (myobject.key().id_or_name(), myobject))
                 myobject.delete()

@@ -1339,23 +1339,69 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
     # check if the client has had previous contact with the profile being viewed
     
     
-    # since the HR datastore code is dependent on the keys for pulling the data from the DB, as opposed
-    # to doing a query, we need to have the keys updated to the new HR datastore (which can't be done until
-    # we have actually moved to the new HR datastore)
-    
         
-    object_key_name = str(viewer_userobject_key) + str(display_userobject_key) 
-    initiate_contact_key = db.Key.from_path('InitiateContactModel', object_key_name)
-    initiate_contact_object = db.get(initiate_contact_key)
-    
-    if create_if_does_not_exist and not initiate_contact_object:
-        # only create a new object if the database has not already stored one for the viewer and the display user.
-        initiate_contact_object = models.InitiateContactModel(key_name = object_key_name, 
-            displayed_profile = display_userobject_key, viewer_profile = viewer_userobject_key)
-        initiate_contact_object.put()
+    try:
+        memcache_key_str = constants.INITIATE_CONTACT_MEMCACHE_PREFIX + str(viewer_userobject_key) + str(display_userobject_key)
+        memcache_entity = memcache.get(memcache_key_str)
+        
+        if memcache_entity == 0 and not create_if_does_not_exist:
+            # we stored a zero if we have already checked the database and there is no object for this pair of 
+            # users. As long as we are not creating a new entity (if not create_if_does_not_exist), then we can return
+            # a None value for this query.
+            return None
             
-    return initiate_contact_object
+        elif memcache_entity is not None and memcache_entity != 0:
+            # Entity found in memcache - just return it.
+            initiate_contact_object = deserialize_entities(memcache_entity) 
+            return initiate_contact_object
+            
+        
+        else: 
+            # Two possibilities to get here:
+            # 1) memcache is None - We need to check the database to see what the current initiate_contact_object is 
+            #   and store to memcache
+            # 2) memcache_entity == 0 (we have queried the database previously, but it was empty) *and* 
+            # create_if_does_not_exist is True (we need to create a new entity)
+             
+            object_key_name = str(viewer_userobject_key) + str(display_userobject_key) 
+            initiate_contact_key = db.Key.from_path('InitiateContactModel', object_key_name)
+            initiate_contact_object = db.get(initiate_contact_key)
+            
+            if initiate_contact_object is None:
+                # database does not contain an object for this pair of users.
+                if create_if_does_not_exist:
+                    # only create a new object if the database has not already stored one for the viewer and the display user.
+                    initiate_contact_object = models.InitiateContactModel(key_name = object_key_name, 
+                        displayed_profile = display_userobject_key, viewer_profile = viewer_userobject_key)
+                    
+                    # write the object to memcache and database.
+                    put_initiate_contact_object(initiate_contact_object, viewer_userobject_key, display_userobject_key)
+                else:
+                    # if the database has returned a "None" value, then there is currently no object stored for these
+                    # two users. However, in order to allow memcache return a value and prevent the database from
+                    # being queried repeatedly for an object that is not in the database, we set the memcache to
+                    # zero instead of None.
+                    memcache_entity = 0
+                    memcache.set(memcache_key_str, memcache_entity, constants.SECONDS_PER_MONTH)
+                    
+            elif initiate_contact_object:
+                # initiate_contact_object exists - write it into memcache for future gets
+                memcache.set(memcache_key_str, serialize_entities(initiate_contact_object), constants.SECONDS_PER_MONTH) 
+                
+        return initiate_contact_object
 
+    except:
+        error_reporting.log_exception(logging.critical)
+        return None       
+    
+    
+def put_initiate_contact_object(initiate_contact_object, viewer_userobject_key, display_userobject_key):
+    
+    initiate_contact_object.put()
+    memcache_key_str = constants.INITIATE_CONTACT_MEMCACHE_PREFIX + str(viewer_userobject_key) + str(display_userobject_key)
+    memcache.set(memcache_key_str, serialize_entities(initiate_contact_object), constants.SECONDS_PER_MONTH)
+    
+    
 def convert_string_key_from_old_app_to_current_app(old_key_string):
     
     old_key = db.Key(old_key_string)

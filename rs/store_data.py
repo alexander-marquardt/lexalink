@@ -730,20 +730,6 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_
     new_contact_counter_obj = db.run_in_transaction(txn, new_contact_counter_ref_key, action_for_contact_count, value)
     return new_contact_counter_obj
                        
-###########################################################################
-   
-def get_or_create_initiate_contact_object(userobject_key, other_userobject_key):
-    # either gets or creates a new initiate_contact_object that tracks communication (winks, kisses, keys) between 
-    # two users. 
-
-    try:
-        initiate_contact_object = utils.get_initiate_contact_object(userobject_key, other_userobject_key, create_if_does_not_exist = True)
-        return initiate_contact_object
-
-    except:
-        error_reporting.log_exception(logging.critical)
-        return None
-
 
 ###########################################################################
         
@@ -831,14 +817,16 @@ def modify_passive_initiate_contact_object(chat_request_action_on_receiver, add_
                 initiate_contact_object.chat_friend_stored = "request_sent"
             
         initiate_contact_object.chat_friend_stored_date = datetime.datetime.now()
-        initiate_contact_object.put()  
+        # NOTE: reversed userobjects in the following call to get the "passive" object (the user receiving 
+        # the chat request)        
+        utils.put_initiate_contact_object(initiate_contact_object, other_userobject_key, userobject_key)  
     
     # currently this function should only be called for chat_friend requests.
     assert(chat_request_action_on_receiver == "friend_request" or chat_request_action_on_receiver == "friend_confirmation")   
     assert(add_or_remove == +1 or add_or_remove == -1)
     # NOTE: reversed userobjects in the following call to get the "passive" object (the user receiving 
     # the chat request)
-    initiate_contact_object = get_or_create_initiate_contact_object(other_userobject_key, userobject_key)
+    initiate_contact_object = utils.get_initiate_contact_object(other_userobject_key, userobject_key, create_if_does_not_exist=True)
     initiate_contact_object_key = initiate_contact_object.key()    
 
     try: 
@@ -899,7 +887,7 @@ def modify_active_initiate_contact_object(action, initiate_contact_object, usero
                 
             # Update the set time for bot setting and removing the action
             setattr(initiate_contact_object, action_stored_date_str, datetime.datetime.now())
-            initiate_contact_object.put()  
+            utils.put_initiate_contact_object(initiate_contact_object, userobject_key, other_userobject_key)  
             return (counter_modify, chat_request_action_on_receiver, initiate_contact_object)
         
         
@@ -957,7 +945,7 @@ def store_initiate_contact(request, to_uid):
             action = request.POST.get('section_name', '')
             if action in possible_actions:
                 
-                initiate_contact_object = get_or_create_initiate_contact_object(userobject_key, other_userobject_key)
+                initiate_contact_object = utils.get_initiate_contact_object(userobject_key, other_userobject_key, create_if_does_not_exist=True)
                 (initiate_contact_object, initiate_contact_object_modified, counter_modify, chat_request_action_on_receiver) =\
                  modify_active_initiate_contact_object(action, initiate_contact_object, userobject_key, other_userobject_key)
                 
