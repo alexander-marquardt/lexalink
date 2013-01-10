@@ -1902,6 +1902,7 @@ def store_new_user_after_verify(request, fake_request=None):
                 
         userobject.registration_ip_address = environ['REMOTE_ADDR']   
         userobject.registration_city = userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    
+        userobject.registration_country_code = userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)    
         utils.store_login_ip_information(request, userobject)
         
         utils.put_userobject(userobject)

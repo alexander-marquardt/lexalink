@@ -1484,6 +1484,17 @@ def user_is_admin(userobject):
     else:
         return False
     
+def get_country_name_from_code(country_code):
+    
+    if country_code:
+        if country_code + ',,' in localizations.location_dict[0]:
+            return localizations.location_dict[0][country_code +",," ]
+        else:
+            # we can't get the name for the country_code, so just return the raw code
+            return country_code
+    else:
+        return None
+
 
 def generate_profile_information_for_administrator(viewer_userobject, display_userobject):
     
@@ -1500,21 +1511,18 @@ def generate_profile_information_for_administrator(viewer_userobject, display_us
             generated_html += "Email: %s<br>" % display_userobject.email_address
             generated_html += "Login IP: %s<br>" % display_userobject.last_login_ip_address
             
-            if display_userobject.last_login_country_code:
-                generated_html += "Login Country: %s<br>" % localizations.location_dict[0][display_userobject.last_login_country_code +",," ]
-            else:
-                generated_html += u'Login Country Not Available<br>'
+            generated_html += "Login Country: %s<br>" % get_country_name_from_code(display_userobject.last_login_country_code)
     
             generated_html += "Login Region: %s<br>" % display_userobject.last_login_region_code
             generated_html += "Login City: %s<br>" % display_userobject.last_login_city
             generated_html += "Registration IP: %s<br>" % display_userobject.registration_ip_address
+            generated_html += "Registration Country: %s<br>" % get_country_name_from_code(display_userobject.registration_country_code)            
             generated_html += "Registration City: %s<br>" % display_userobject.registration_city
             
             generated_html += '<br></div>'    
             
     except:
         error_reporting.log_exception(logging.error)
-            
             
     return generated_html
 

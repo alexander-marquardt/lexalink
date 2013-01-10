@@ -630,6 +630,7 @@ class UserModel(db.Model):
     
     registration_ip_address = db.StringProperty(required = False, default=None)
     registration_city = db.StringProperty(required = False, default=None)
+    registration_country_code = db.StringProperty(required = False, default=None)
     
     last_login_ip_address = db.StringProperty(required = False, default=None)
     last_login_country_code = db.StringProperty(required = False, default=None)
