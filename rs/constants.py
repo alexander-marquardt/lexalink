@@ -558,15 +558,15 @@ class PassDataToTemplate():
     pass
 
 
-template_common_fields = {'build_name': settings.BUILD_NAME,
-                          'app_name' : settings.APP_NAME,
-                          'domain_name' : settings.DOMAIN_NAME,
+template_common_fields = {'build_name': site_configuration.BUILD_NAME,
+                          'app_name' : site_configuration.APP_NAME,
+                          'domain_name' : site_configuration.DOMAIN_NAME,
                           'site_type' : SITE_TYPE,
                           'company_name' : COMPANY_NAME,
                           'company_www' : COMPANY_WWW,
-                          'live_static_dir': settings.LIVE_STATIC_DIR,  
-                          'live_proprietary_static_dir': settings.LIVE_PROPRIETARY_STATIC_DIR,  
-                          'proprietary_static_dir_exists': settings.PROPRIETARY_STATIC_DIR_EXISTS,
+                          'live_static_dir': site_configuration.LIVE_STATIC_DIR,  
+                          'live_proprietary_static_dir': site_configuration.LIVE_PROPRIETARY_STATIC_DIR,  
+                          'proprietary_static_dir_exists': site_configuration.PROPRIETARY_STATIC_DIR_EXISTS,
                           'guest_num_new_people_messages_allowed_in_window': GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
                           'vip_num_new_people_messages_allowed_in_window' : VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
                           'STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
@@ -575,5 +575,5 @@ template_common_fields = {'build_name': settings.BUILD_NAME,
                           'num_chat_friends_for_vip_clients' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED,  
                           'google_ad_160x600' : GOOGLE_AD_160x600,
                           'google_ad_728x90' : GOOGLE_AD_728x90,
-                          'analytics_id' : settings.ANALYTICS_ID,
+                          'analytics_id' : site_configuration.ANALYTICS_ID,
                           }

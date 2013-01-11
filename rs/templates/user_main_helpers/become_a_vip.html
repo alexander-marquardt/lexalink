@@ -1,0 +1,63 @@
+{% load i18n %}
+
+<!--
+################################################################################
+# LexaLink Copyright information - do not remove this copyright notice
+# Copyright (C) 2012
+#
+# Lexalink - a free social network and dating platform for the Google App Engine.
+#
+# Original author: Alexander Marquardt
+# Documentation and additional information: http://www.LexaLink.com
+# Git source code repository: https://github.com/lexalink/LexaLink.git
+#
+# Please consider contributing your enhancements and modifications to the LexaLink community,
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+################################################################################
+-->
+    <br><br>
+    <div class="grid_9 alpha omega cl-divider-line"></div>
+
+    <div class="grid_9 alpha omega cl-left-text cl-text-large-format">
+    <br><strong>
+        {% blocktrans with app_name as app_name %}If you like {{ app_name }}, consider becoming a VIP member{% endblocktrans %}<br><br>
+    </strong>
+    </div>
+
+    <div class="grid_9 alpha omega ">
+        <p>
+
+        {% blocktrans %}VIP benefits include{% endblocktrans %}:
+
+        {% include "user_main_helpers/vip_benefits.html" %}        
+        </p>
+
+        {% blocktrans %}
+        Payments are processed by PayPal (an eBay company, and one of the worlds largest online payment processors)
+        and can be made with credit card or a PayPal account.
+        {% endblocktrans%}
+
+
+        {% if build_name == "Discrete" or build_name == "Gay" or build_name == "Lesbian" or build_name == "Swinger" %}
+            {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit card you will be billed
+            with a discrete name that cannot be easily linked to {{ app_name }}.
+            {% endblocktrans %}
+        {% endif %}
+        </p>
+        
+
+        {{ paypal_button }}
+
+    </div> <!-- end grid_9 -->
+

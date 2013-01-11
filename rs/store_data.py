@@ -996,6 +996,7 @@ def store_initiate_contact(request, to_uid):
                                     you can ask the other person to invite you to be their chat friend. """)
                                      
 
+                                    response_text += utils.render_paypal_button(request)
 
                         if request_denied:
                             # un-do the request (toggle it) by calling the same function again, Note that we override the 

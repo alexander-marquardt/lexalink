@@ -34,7 +34,7 @@ from django import http
 from django.utils import simplejson
 
 import random
-import settings
+import settings, site_configuration
 import forms, admin, utils, error_reporting, logging
 from models import UserModel
 from forms import FormUtils
@@ -245,47 +245,43 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             to_buy_sub_menu_options_html = "Not used - only for Friend"
                         
         
-        primary_user_presentation_data_fields = constants.PassDataToTemplate()
-        primary_user_presentation_data_fields.username = username
-        primary_user_presentation_data_fields.email_address = email_address
-        primary_user_presentation_data_fields.owner_uid = owner_uid
-        primary_user_presentation_data_fields.owner_nid = owner_nid
-        primary_user_presentation_data_fields.owner_message_count = owner_message_count
-        primary_user_presentation_data_fields.new_contact_count = new_contact_count
-        primary_user_presentation_data_fields.user_presence_delay_constants = constants.OnlinePresenceConstants
-        primary_user_presentation_data_fields.chat_is_disabled = chat_is_disabled
-        primary_user_presentation_data_fields.do_not_try_to_dynamically_load_search_values = do_not_try_to_dynamically_load_search_values
-        primary_user_presentation_data_fields.remove_chatboxes = "yes" if remove_chatboxes else "no"
-        primary_user_presentation_data_fields.paypal_en_button_id = settings.PAYPAL_EN_BUTTON_ID
-        primary_user_presentation_data_fields.paypal_es_button_id = settings.PAYPAL_ES_BUTTON_ID
-        primary_user_presentation_data_fields.paypal_sandbox_button_id = settings.PAYPAL_SANDBOX_BUTTON_ID
+        primary_user_presentation_data_fields = {}
+        primary_user_presentation_data_fields['username'] = username
+        primary_user_presentation_data_fields['email_address'] = email_address
+        primary_user_presentation_data_fields['owner_uid'] = owner_uid
+        primary_user_presentation_data_fields['owner_nid'] = owner_nid
+        primary_user_presentation_data_fields['owner_message_count'] = owner_message_count
+        primary_user_presentation_data_fields['new_contact_count'] = new_contact_count
+        primary_user_presentation_data_fields['user_presence_delay_constants'] = constants.OnlinePresenceConstants
+        primary_user_presentation_data_fields['chat_is_disabled'] = chat_is_disabled
+        primary_user_presentation_data_fields['do_not_try_to_dynamically_load_search_values'] = do_not_try_to_dynamically_load_search_values
+        primary_user_presentation_data_fields['remove_chatboxes'] = "yes" if remove_chatboxes else "no"
         
             
-        guest_user_data_fields = constants.PassDataToTemplate()
-        guest_user_data_fields.registered_user_bool = registered_user_bool
-        guest_user_data_fields.unregistered_user_welcome_text = unregistered_user_welcome_text
-        guest_user_data_fields.why_to_register =  why_to_register
-        guest_user_data_fields.show_social_buttons = show_social_buttons
-        guest_user_data_fields.minimum_registration_age = constants.minimum_registration_age
-        guest_user_data_fields.language = request.LANGUAGE_CODE
-        guest_user_data_fields.testing_paypal_sandbox = settings.TESTING_PAYPAL_SANDBOX
+        guest_user_data_fields = {}
+        guest_user_data_fields['registered_user_bool'] = registered_user_bool
+        guest_user_data_fields['unregistered_user_welcome_text'] = unregistered_user_welcome_text
+        guest_user_data_fields['why_to_register'] =  why_to_register
+        guest_user_data_fields['show_social_buttons'] = show_social_buttons
+        guest_user_data_fields['minimum_registration_age'] = constants.minimum_registration_age
+        guest_user_data_fields['language'] = request.LANGUAGE_CODE
 
     
-        general_information_data_fields = constants.PassDataToTemplate()
-        general_information_data_fields.settings_debug_flag = settings.DEBUG
-        general_information_data_fields.is_cygwin = settings.IS_CYGWIN
-        general_information_data_fields.maintenance_soon_warning = maintenance_soon_warning
-        general_information_data_fields.maintenance_shutdown_warning = maintenance_shutdown_warning 
-        general_information_data_fields.region_options_html = region_options_html
-        general_information_data_fields.sub_region_options_html = sub_region_options_html
-        general_information_data_fields.for_sale_sub_menu_options_html = for_sale_sub_menu_options_html
-        general_information_data_fields.to_buy_sub_menu_options_html = to_buy_sub_menu_options_html
-        general_information_data_fields.link_to_hide = link_to_hide
-        general_information_data_fields.show_login_link_override = show_login_link_override
-        general_information_data_fields.path_info = request.path_info
+        general_information_data_fields = {}
+        general_information_data_fields['settings_debug_flag'] = site_configuration.DEBUG
+        general_information_data_fields['is_cygwin'] = site_configuration.IS_CYGWIN
+        general_information_data_fields['maintenance_soon_warning'] = maintenance_soon_warning
+        general_information_data_fields['maintenance_shutdown_warning'] = maintenance_shutdown_warning 
+        general_information_data_fields['region_options_html'] = region_options_html
+        general_information_data_fields['sub_region_options_html'] = sub_region_options_html
+        general_information_data_fields['for_sale_sub_menu_options_html'] = for_sale_sub_menu_options_html
+        general_information_data_fields['to_buy_sub_menu_options_html'] = to_buy_sub_menu_options_html
+        general_information_data_fields['link_to_hide'] = link_to_hide
+        general_information_data_fields['show_login_link_override'] = show_login_link_override
+        general_information_data_fields['path_info'] = request.path_info
 
 
-
+        paypal_button = utils.render_paypal_button(request)
         
         meta_info = {}
         if page_title:
@@ -366,6 +362,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 'hide_logo_banner_links' : hide_logo_banner_links,
                 'request' : request,
                 'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
+                'paypal_button' : paypal_button,
                 }, **constants.template_common_fields))
         
             body_main_html = template.render(context)

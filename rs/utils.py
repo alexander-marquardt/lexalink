@@ -41,8 +41,9 @@ import http_utils
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext, ungettext
+from django.template import loader, Context
 
-import settings
+import settings, site_configuration
 from models import UserModel
 
 import constants, queries, text_fields, models, online_presence_support
@@ -1586,3 +1587,28 @@ def store_login_ip_information(request, userobject):
     userobject.last_login_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
     userobject.last_login_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
     userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    
+    
+    
+def render_paypal_button(request):
+    
+    try:
+        owner_uid =  request.session['userobject_str']
+        
+        paypal_data = {}
+        paypal_data['language'] = request.LANGUAGE_CODE
+        paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
+        paypal_data['owner_uid'] = owner_uid    
+        paypal_data['paypal_en_button_id'] = site_configuration.PAYPAL_EN_BUTTON_ID
+        paypal_data['paypal_es_button_id'] = site_configuration.PAYPAL_ES_BUTTON_ID   
+        paypal_data['paypal_sandbox_button_id'] = site_configuration.PAYPAL_SANDBOX_BUTTON_ID
+        
+    
+        template = loader.get_template("user_main_helpers/paypal_button.html")    
+        context = Context (dict({
+            'paypal_data': paypal_data,
+            'request' : request, 
+            }, **constants.template_common_fields))    
+        return template.render(context) 
+    
+    except:
+        error_reporting.log_exception(logging.error)    
