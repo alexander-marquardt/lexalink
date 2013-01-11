@@ -889,7 +889,7 @@ function handle_click_on_contact_icon(section_name, uid) {
                     if (data == "OK") {
                         getJSON_initiate_contact_settings(uid);
                     } else {
-                        $("#id-contact_icon").text(data);
+                        $("#id-contact_icon").html(data);
                         $("#id-contact_icon").dialog();
                     }
                 },

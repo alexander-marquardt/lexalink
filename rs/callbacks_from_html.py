@@ -33,7 +33,7 @@ from forms import FormUtils
 from user_profile_main_data import UserSpec
 from user_profile_details import UserProfileDetails
 from html_container import UserMainHTML
-from constants import MAX_EMAILS_PER_DAY
+from constants import GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
 from utils import get_photo_message, compute_captcha_bypass_string
 
 import utils, localizations, error_reporting, logging, text_fields, settings, constants, store_data, mailbox
@@ -200,14 +200,14 @@ class MyHTMLCallbackGenerator():
             sent_so_far = ""
             
             if not userobject.client_paid_status:
-                num_emails_per_day = MAX_EMAILS_PER_DAY
+                num_emails_per_day = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
             else:
                 # VIP member has extra messages allocated
-                num_emails_per_day = constants.vip_num_messages_allowed
+                num_emails_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                                 
             
             if userobject.spam_tracker.datetime_first_mail_sent_today + \
-               datetime.timedelta(hours = constants.NUM_HOURS_TO_RESET_MAIL_COUNT - constants.RESET_MAIL_LEEWAY) >  datetime.datetime.now():
+               datetime.timedelta(hours = constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES - constants.RESET_MAIL_LEEWAY) >  datetime.datetime.now():
                 sent_so_far = ugettext("You have sent %(num)s new messages.") % {'num': num_messages_sent_today}
                 restart_spam_counter = False
             else:
@@ -221,12 +221,12 @@ class MyHTMLCallbackGenerator():
                     generated_html += u"%s" %  ugettext("""
                     As a VIP Member, <strong>you are allowed to contact %(num)s new people every %(hr)s hours</strong>
                     People that you have already exchanged messages with in the past do not count in this limit. %(sent)s<br><br>
-                    """) % {'num' : num_emails_per_day, 'hr':constants.NUM_HOURS_TO_RESET_MAIL_COUNT, 'sent' : sent_so_far }
+                    """) % {'num' : num_emails_per_day, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, 'sent' : sent_so_far }
                 else:
                     generated_html += u"%s" % ugettext("""
                     To prevent Spam, <strong>you are only allowed to contact %(num)s new people every %(hr)s hours</strong>
                     People that you have already exchanged messages with in the past do not count in this limit. %(sent)s<br><br>
-                    """) % {'num' : num_emails_per_day, 'hr':constants.NUM_HOURS_TO_RESET_MAIL_COUNT, 'sent' : sent_so_far }
+                    """) % {'num' : num_emails_per_day, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, 'sent' : sent_so_far }
 
                     generated_html += u" %s" % ugettext("""If you wish to increase this limit, <strong>please consider becoming a VIP Member</strong>.""")
                     generated_html += u" %s<br>" % ugettext("See the bottom of the window for information on becoming a VIP member.")

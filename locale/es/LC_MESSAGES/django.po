@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-09 14:21+0100\n"
+"POT-Creation-Date: 2013-01-11 01:29+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -91,8 +91,8 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:697 rs/display_contacts.py:337 rs/forms.py:1083
-#: rs/login_utils.py:248 rs/rendering.py:390 rs/store_data.py:1562
-#: rs/utils.py:1477
+#: rs/login_utils.py:248 rs/rendering.py:390 rs/store_data.py:1553
+#: rs/utils.py:1531
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -108,10 +108,6 @@ msgstr "FriendBazaar.com - de los creadores de %(app_name)s"
 #, python-format
 msgid "Friend welcome %(username)s %(app_name)s"
 msgstr ""
-
-#: rs/batch_jobs.py:102 rs/constants.py:401
-msgid "website to meet people, make friends, and to earn money"
-msgstr "sitio para conocer gente, hacer amigos, y ganar dinero"
 
 #: rs/callbacks_from_html.py:78
 msgid "Important data about me"
@@ -199,71 +195,75 @@ msgstr "Error - ya has creado demasiados grupos"
 msgid "Error - you appear to have been logged out"
 msgstr "Error - parece que tu session ha expirado"
 
-#: rs/constants.py:149
+#: rs/constants.py:161
 msgid "(Active)"
 msgstr "(Activo)"
 
-#: rs/constants.py:150 rs/templates/user_main_helpers/chat.html:70
+#: rs/constants.py:162 rs/templates/user_main_helpers/chat.html:70
 msgid "(Idle)"
 msgstr "(Inactivo)"
 
-#: rs/constants.py:151 rs/templates/user_main_helpers/chat.html:74
+#: rs/constants.py:163 rs/templates/user_main_helpers/chat.html:74
 msgid "(Away)"
 msgstr "(Ausente)"
 
-#: rs/constants.py:152
+#: rs/constants.py:164
 msgid "(Offline)"
 msgstr "(Desconectado)"
 
-#: rs/constants.py:379
+#: rs/constants.py:387
 msgid "confidential dating website"
 msgstr "sitio de contactos confidenciales"
 
-#: rs/constants.py:383
+#: rs/constants.py:391
 msgid "serious dating website"
 msgstr "sitio para encuentros serios"
 
-#: rs/constants.py:386
+#: rs/constants.py:394
 msgid "website to learn languages and meet people"
 msgstr "sitio para aprender idiomas y conocer gente"
 
-#: rs/constants.py:389
+#: rs/constants.py:397
 msgid "lesbian dating website"
 msgstr "sitio de contactos para lesbianas."
 
-#: rs/constants.py:393
+#: rs/constants.py:401
 msgid "gay dating website"
 msgstr "sitio de contactos para gays"
 
-#: rs/constants.py:397
+#: rs/constants.py:405
 msgid "swingers website"
 msgstr "sitio para parejas liberales"
 
-#: rs/constants.py:444
+#: rs/constants.py:409
+msgid "website to meet people, make friends, and to earn money"
+msgstr "sitio para conocer gente, hacer amigos, y ganar dinero"
+
+#: rs/constants.py:451
 msgid "confidential dating"
 msgstr "de contactos confidenciales"
 
-#: rs/constants.py:445
+#: rs/constants.py:452
 msgid "dating"
 msgstr "para buscar pareja"
 
-#: rs/constants.py:446
+#: rs/constants.py:453
 msgid "language exchange"
 msgstr "de intercambio de idiomas"
 
-#: rs/constants.py:447
+#: rs/constants.py:454
 msgid "swingers"
 msgstr "para parejas liberales"
 
-#: rs/constants.py:448
+#: rs/constants.py:455
 msgid "gay dating"
 msgstr "de contactos para gays"
 
-#: rs/constants.py:449
+#: rs/constants.py:456
 msgid "lesbian dating"
 msgstr "de contactos para lesbianas."
 
-#: rs/constants.py:481
+#: rs/constants.py:488
 msgid ""
 "Username needs at least 3 characters and can only contain letters and "
 "numbers. Additionally, it may not contain any spaces."
@@ -272,11 +272,11 @@ msgstr ""
 "alfabéticos (ascii/inglés) y números. Además, el nick no puede tener ningún "
 "espacio"
 
-#: rs/constants.py:483
+#: rs/constants.py:490
 msgid "Password required"
 msgstr "La contraseña es obligatoria"
 
-#: rs/constants.py:484
+#: rs/constants.py:491
 msgid ""
 "Password may only contain letters and numbers, and cannot contain spaces."
 msgstr ""
@@ -284,113 +284,114 @@ msgstr ""
 "números. Además, la contraseña no puede tener ningún espacio dentro, "
 "enfrente o atras."
 
-#: rs/constants.py:485
+#: rs/constants.py:492
 msgid "The password and the verification must be the same."
 msgstr "La contraseña y su verificacion tienen que ser lo mismo."
 
-#: rs/constants.py:486
+#: rs/constants.py:493
 msgid "The username that you have selected is not available."
 msgstr "El \"Nick\" que has elegido no está disponible."
 
-#: rs/constants.py:487
+#: rs/constants.py:494
 msgid "Username/email + password is incorrect"
 msgstr ""
 "La combinación de nick o correo electrónico + contraseña es incorrecta."
 
-#: rs/constants.py:488
+#: rs/constants.py:495
 msgid "The email address is not valid"
 msgstr "El correo electrónico entrado no es válido."
 
-#: rs/constants.py:492
+#: rs/constants.py:499
 #, python-format
 msgid ""
-"You can only send %(num)s messages to another user in a single %(hours)s-"
-"hour period. \n"
-"                    Please use the chat functionality if you wish to have "
-"more frequent contact."
+"You can only send %(guest_num)s messages to another user in a single %(hours)"
+"s-hour period. \n"
+"        However, if the other user is a \"chat friend\" of yours, then you "
+"can send them %(chat_friend_num)s messages in a single \n"
+"        %(hours)s-hour period. "
 msgstr ""
-"Sólo puedes enviar %(num)s mensajes a cada usuario durante un período de %"
-"(hours)s horas. Utiliza la funcionalidad del chat si quieres enviar mas "
-"mensajes."
+"Sólo puedes enviar %(guest_num)s mensajes por usuario cada %(hours)s horas. "
+"Sin embargo, si el otro miembro es un \"amigo de chat\" tuyo, podrás "
+"enviarle %(chat_friend_num)s mensajes cada %(hours)s horas."
 
-#: rs/constants.py:503
+#: rs/constants.py:513
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:504 rs/mailbox.py:708 rs/text_fields.py:75
+#: rs/constants.py:514 rs/mailbox.py:712 rs/text_fields.py:75
 msgid "Sent"
 msgstr "Enviado"
 
-#: rs/constants.py:505 rs/mailbox.py:700 rs/mailbox.py:714
+#: rs/constants.py:515 rs/mailbox.py:704 rs/mailbox.py:718
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr "Recibido"
 
-#: rs/constants.py:506
+#: rs/constants.py:516
 msgid "Saved"
 msgstr "Guardado"
 
-#: rs/constants.py:509
+#: rs/constants.py:519
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:510
+#: rs/constants.py:520
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:512
+#: rs/constants.py:522
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:513
+#: rs/constants.py:523
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:516
+#: rs/constants.py:526
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:518
+#: rs/constants.py:528
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:519
+#: rs/constants.py:529
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:520
+#: rs/constants.py:530
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:521
+#: rs/constants.py:531
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:525 rs/constants.py:526
+#: rs/constants.py:535 rs/constants.py:536
 msgid "Chat requests"
 msgstr ""
 
-#: rs/constants.py:527
+#: rs/constants.py:537
 msgid "Chat connections"
 msgstr ""
 
-#: rs/constants.py:531
+#: rs/constants.py:541
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:533
+#: rs/constants.py:543
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:534
+#: rs/constants.py:544
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:535
+#: rs/constants.py:545
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:536
+#: rs/constants.py:546
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automaticamente)"
 
@@ -2270,7 +2271,7 @@ msgstr "Hemos eliminado el perfil de"
 msgid "We have enabled the profile of"
 msgstr "Hemos habilitado el perfil de"
 
-#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:912
+#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:906
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -2290,10 +2291,6 @@ msgid ""
 msgstr ""
 "Para activar tu cuenta en %(app_name)s, haz clic en el siguiente vínculo "
 "para confirmar tu solicitud"
-
-#: rs/login_utils.py:681
-msgid "Confirm"
-msgstr "Confirmar"
 
 #: rs/login_utils.py:683
 msgid ""
@@ -2386,7 +2383,7 @@ msgstr "no es el correcto vuélvelo a entrar aquí"
 msgid "Change email address"
 msgstr "Cambiar correo electrónico"
 
-#: rs/mailbox.py:247 rs/mailbox.py:277 rs/mailbox.py:1037
+#: rs/mailbox.py:247 rs/mailbox.py:277 rs/mailbox.py:1041
 msgid "All (messages - override)"
 msgstr "Todos"
 
@@ -2410,90 +2407,90 @@ msgstr "Enviados"
 msgid "Deleted (plural - override)"
 msgstr "Eliminados"
 
-#: rs/mailbox.py:295 rs/mailbox.py:703
+#: rs/mailbox.py:295 rs/mailbox.py:707
 msgid "Spam"
 msgstr "Spam"
 
-#: rs/mailbox.py:356 rs/mailbox.py:845
+#: rs/mailbox.py:356 rs/mailbox.py:849
 msgid "From"
 msgstr "De"
 
-#: rs/mailbox.py:498
+#: rs/mailbox.py:502
 msgid "To"
 msgstr "A"
 
-#: rs/mailbox.py:699
+#: rs/mailbox.py:703
 msgid "Deleted (mail)"
 msgstr "Eliminado"
 
-#: rs/mailbox.py:704
+#: rs/mailbox.py:708
 msgid "Received (mail)"
 msgstr "Recibido"
 
-#: rs/mailbox.py:713
+#: rs/mailbox.py:717
 msgid "Read (mail)"
 msgstr "Leído"
 
-#: rs/mailbox.py:717
+#: rs/mailbox.py:721
 msgid "New (mail)"
 msgstr "Nuevo"
 
-#: rs/mailbox.py:784
+#: rs/mailbox.py:788
 msgid ""
 "Message history (click on the message text to see more detailed history)"
 msgstr ""
 "Historial de mensajes (haz clic en el texto del mensaje para ver más "
 "historial)"
 
-#: rs/mailbox.py:850
+#: rs/mailbox.py:854
 msgid "click on the message to see more"
 msgstr "haz clic en el mensaje para ver mas"
 
-#: rs/mailbox.py:876 rs/mailbox.py:1044
+#: rs/mailbox.py:880 rs/mailbox.py:1048
 msgid "Mark as read"
 msgstr "Marcar como leído"
 
-#: rs/mailbox.py:882 rs/mailbox.py:1042
+#: rs/mailbox.py:886 rs/mailbox.py:1046
 msgid "Delete"
 msgstr "Eliminar"
 
-#: rs/mailbox.py:886
+#: rs/mailbox.py:890
 msgid "Move to sent mailbox"
 msgstr "Mover a enviados"
 
-#: rs/mailbox.py:889
+#: rs/mailbox.py:893
 msgid "Move to received mailbox"
 msgstr "Mover a recibidos"
 
-#: rs/mailbox.py:895
+#: rs/mailbox.py:899
 msgid "Mark as spam"
 msgstr "Marcar como spam"
 
-#: rs/mailbox.py:908
+#: rs/mailbox.py:912
 msgid "Favorite"
 msgstr "Favorito"
 
-#: rs/mailbox.py:911
+#: rs/mailbox.py:915
 msgid "Add to your favorites"
 msgstr "Marcar como favorito"
 
-#: rs/mailbox.py:975
+#: rs/mailbox.py:979
 msgid "You don't have any messages in this mailbox"
 msgstr "No tienes mensajes en este buzon"
 
-#: rs/mailbox.py:1037
+#: rs/mailbox.py:1041
 msgid "Select"
 msgstr "Seleccionar"
 
-#: rs/mailbox.py:1037
+#: rs/mailbox.py:1041
 msgid "None (messages - override)"
 msgstr "Ninguno"
 
-#: rs/mailbox.py:1060 rs/search_results.py:847 rs/search_results.py:858
+#: rs/mailbox.py:1064 rs/search_results.py:847 rs/search_results.py:858
 msgid "Next"
 msgstr "Siguiente"
 
-#: rs/mailbox.py:1076
+#: rs/mailbox.py:1080
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
@@ -2501,11 +2498,11 @@ msgstr ""
 "Por favor, sé educado y responde a las personas que han hecho un esfuerzo "
 "para ponerse en contacto contigo."
 
-#: rs/mailbox.py:1078
+#: rs/mailbox.py:1082
 msgid "Responding to messages does not count in your daily message quota."
 msgstr "Responder no cuenta en tu cuota diaria de mensajes."
 
-#: rs/mailbox.py:1079
+#: rs/mailbox.py:1083
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2736,7 +2733,7 @@ msgstr "Para: %(relationship_status)s"
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
-#: rs/store_data.py:971
+#: rs/store_data.py:959
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2748,66 +2745,71 @@ msgstr ""
 "enviar. Antes de enviar las llaves adicionales, debes recuperar las llaves "
 "que has dado a otros usuarios."
 
-#: rs/store_data.py:982
+#: rs/store_data.py:970
 #, python-format
 msgid ""
-"You have exceeded the limit of %(max_requests)s on the number of chat "
+"You have reached the limit of %(max_requests)s on the number of chat "
 "friends\n"
 "                                    that you are allowed to request and/or "
 "accept.\n"
 "                                    Before requesting/accepting additional "
 "chat friends, you must remove some of your current chat friends."
 msgstr ""
-"Has superado el límite de %(max_requests)s en el número de amigos de chat "
-"que se te permite solicitar y/o aceptar. Antes de solicitar/aceptar amigos "
+"Has llegado al límite de %(max_requests)s en el número de amigos de chat que "
+"se te permite solicitar y/o aceptar. Antes de solicitar/aceptar amigos "
 "adicionales de chat, debes quitar algunos de tus amigos actuales de chat."
 
-#: rs/store_data.py:995
+#: rs/store_data.py:983
 #, python-format
 msgid ""
 "\n"
 "                                    You have %(num_sent_chat_friend)s chat "
 "friends, which means that\n"
-"                                    you have exceeded the limit of %"
+"                                    you have reached the limit of %"
 "(max_guest_requests)s on the number of chat friends\n"
-"                                    that you are allowed to request. \n"
-"                                    You must remove some of your current "
-"chat friends before requesting additional chat friends, or\n"
-"                                    you can ask the other person to invite "
-"you to be their chat friend. "
+"                                    that you are allowed to request."
 msgstr ""
 "\n"
 "Tienes %(num_sent_chat_friend)s amigos de chat, lo que significa que has "
-"superado el límite de %(max_guest_requests)s en el número de amigos de chat "
-"que se te permite solicitar. Debes quitar algunos de tu amigos de chat "
-"actuales antes de solicitar más amigos de chat, o puedes pedir a la otra "
-"persona que te invite como amigo de chat."
+"llegado al límite de %(max_guest_requests)s en el número de amigos de chat "
+"que se te permite solicitar. "
 
-#: rs/store_data.py:1004
+#: rs/store_data.py:990
 #, python-format
 msgid ""
 "\n"
-"                                    Alternatively, if you wish to increase "
-"this limit to %(max_requests)s, \n"
+"                                    If you wish to increase this limit to %"
+"(max_requests)s, \n"
 "                                    you could consider becoming a VIP member."
 msgstr ""
 "\n"
-"Alternativamente, si quieres aumentar este limite a %(max_requests)s, "
-"podrías hacerte miembro VIP."
+"Si quieres aumentar este limite a %(max_requests)s, podrías hacerte miembro "
+"VIP."
 
-#: rs/store_data.py:1413
+#: rs/store_data.py:995
+msgid ""
+"Alternatively, you can remove some of your current chat friends before "
+"requesting additional chat friends, or\n"
+"                                    you can ask the other person to invite "
+"you to be their chat friend. "
+msgstr ""
+"Alternativamente, puedes quitar algunos de tu amigos de chat actuales antes "
+"de solicitar más amigos de chat, o puedes pedir a la otra persona que te "
+"invite como amigo de chat."
+
+#: rs/store_data.py:1404
 msgid "Statistics of spam sent from your account:"
 msgstr "Estadisticas de spam enviado desde tu cuenta:"
 
-#: rs/store_data.py:1414
+#: rs/store_data.py:1405
 msgid "of"
 msgstr "de"
 
-#: rs/store_data.py:1415
+#: rs/store_data.py:1406
 msgid "sent"
 msgstr "enviado"
 
-#: rs/store_data.py:1416
+#: rs/store_data.py:1407
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being allowed "
 "to send more messages. Additionally, if you send a lot of spam, your "
@@ -2817,32 +2819,32 @@ msgstr ""
 "más mensajes. Si envías mucho spam tus mensajes se entregarán directamente "
 "al buzon de spam."
 
-#: rs/store_data.py:1483
+#: rs/store_data.py:1474
 msgid "Captcha is incorrect, try again"
 msgstr "Captcha incorrecta, intentalo de nuevo"
 
-#: rs/store_data.py:1510
+#: rs/store_data.py:1501
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
 
-#: rs/store_data.py:1705
+#: rs/store_data.py:1696
 msgid "\"wink\" or a \"kiss\""
 msgstr "\"guiño\" o un \"beso\""
 
-#: rs/store_data.py:1706
+#: rs/store_data.py:1697
 msgid "winks, kisses,"
 msgstr "guiños, besos"
 
-#: rs/store_data.py:1708
+#: rs/store_data.py:1699
 msgid "\"greeting\""
 msgstr "\"saludo\""
 
-#: rs/store_data.py:1709
+#: rs/store_data.py:1700
 msgid "greetings"
 msgstr "saludos"
 
-#: rs/store_data.py:1712
+#: rs/store_data.py:1703
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s %"
@@ -4003,7 +4005,7 @@ msgstr "Interesado en:"
 msgid ", and"
 msgstr ", y"
 
-#: rs/utils.py:1418
+#: rs/utils.py:1472
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to support@%"
@@ -4012,7 +4014,7 @@ msgstr ""
 "Si ves algun otro perfil como este, por favor envíanos un mensaje a support@%"
 "(app_name)s para notificarnos del nick / nombre de usuario."
 
-#: rs/utils.py:1423
+#: rs/utils.py:1477
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
@@ -4020,7 +4022,7 @@ msgstr ""
 "Este usuario ha sido eliminado por el administrado por no seguir los "
 "términos y condiciones de servicio."
 
-#: rs/utils.py:1428
+#: rs/utils.py:1482
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
@@ -4030,7 +4032,7 @@ msgstr ""
 "Por favor no le contactes o envíes correos electrónicos a este usuario "
 "debido a que su objetivo final será pedirte dinero."
 
-#: rs/utils.py:1435
+#: rs/utils.py:1489
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
@@ -4041,7 +4043,7 @@ msgstr ""
 "debido a que su objetivo es convencerte para registrarte a un servicio de "
 "pago."
 
-#: rs/utils.py:1442
+#: rs/utils.py:1496
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
@@ -4064,7 +4066,7 @@ msgstr ""
 "no responderán a tus mensajes. Ademas, los perfiles más completos saldrán "
 "más arriba en los resultados del buscador."
 
-#: rs/views.py:886
+#: rs/views.py:880
 msgid "terms.html"
 msgstr "proprietary/terminos.html"
 
@@ -4534,34 +4536,12 @@ msgstr ""
 msgid "VIP benefits"
 msgstr "Los beneficios VIP"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:168
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:43
-#, python-format
-msgid ""
-"\n"
-"                vip_message_quota %(vip)s %(free)s"
-msgstr ""
-"\n"
-"Una cuota diariamente de %(vip)s mensajes (contra %(free)s para socios no-"
-"VIP)."
-
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:170
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:46
-#, python-format
-msgid ""
-"\n"
-"                vip_chat_friends %(vip)s %(free)s"
-msgstr ""
-"\n"
-"Un aumento en el limite del numero de \"chat amigos\" a %(vip)s (contra %"
-"(free)s para socios no-VIP)."
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:175
 #, python-format
 msgid "Quality control in %(app_name)s.com"
 msgstr "La Política de Control de Calidad de %(app_name)s.com"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:176
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:171
 msgid ""
 "To help us control the quality of our website, each profile will have a "
 "reporting button that will\n"
@@ -4572,11 +4552,11 @@ msgstr ""
 "botón que permitirá a nuestros socios informarnos de perfiles que puedan ser "
 "considerados como no aceptables."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:179
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:174
 msgid "Would you like more information?"
 msgstr "¿Quieres más información?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:181
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:176
 msgid "Send us an email at:"
 msgstr "Envíanos un correo electrónico a:"
 
@@ -4629,8 +4609,9 @@ msgid "Live chat and messages included"
 msgstr "Chatear y enviar mensajes incluido"
 
 #: rs/templates/login.html:244
+#, python-format
 msgid "Over 50%% of our members are single!"
-msgstr "¡Más del 50% de nuestros socios son solter@s!"
+msgstr "¡Más del 50%% de nuestros socios son solter@s!"
 
 #: rs/templates/login.html:255 rs/templates/login.html.py:259
 #: rs/templates/login.html:263
@@ -4913,21 +4894,7 @@ msgstr "Si te gusta %(app_name)s puedes considerar hacerte miembro VIP"
 msgid "VIP benefits include"
 msgstr "Los beneficios VIP incluyen"
 
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:45
-#, python-format
-msgid "Online status benefits %(app_name)s"
-msgstr ""
-"Verás el estado de conexión (Activo, Inactivo, Ausente o Desconectado) de "
-"todos los miembros de %(app_name)s."
-
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:48
-msgid "You can update your email address"
-msgstr ""
-"Puedes modificar tu dirección de correo electrónico cuando lo desees "
-"(mientras que los miembros no VIP tienen que mantener la dirección con la "
-"que se registraron)."
-
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:58
+#: rs/templates/user_main_helpers/paypal_donate_buttons.html:51
 msgid ""
 "Payments are processed by PayPal (an eBay company, and one of the worlds "
 "largest online payment processors)\n"
@@ -4938,7 +4905,7 @@ msgstr ""
 "una de las empresas de pago online más grandes del mundo) y se puede hacer "
 "con tarjeta de crédito o una cuenta PayPal."
 
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:67
+#: rs/templates/user_main_helpers/paypal_donate_buttons.html:60
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit card you will be "
@@ -5032,3 +4999,42 @@ msgstr ""
 "\n"
 "<strong>Opciones para ponerte en contacto con %(viewed_profile_name)s.</"
 "strong><br>(Haz clic en el icono para activar o eliminar la acción asociada):"
+
+#: rs/templates/user_main_helpers/vip_benefits.html:4
+#, python-format
+msgid ""
+"\n"
+"                vip_message_quota %(vip)s %(free)s"
+msgstr ""
+"\n"
+"Incremento de tu cuota de mensajes que te permite contactar con %(vip)s "
+"personas nuevas cada dia (contra %(free)s para socios no-VIP)."
+
+#: rs/templates/user_main_helpers/vip_benefits.html:6
+#, python-format
+msgid "Online status benefits %(app_name)s"
+msgstr ""
+"Verás el estado de conexión (Activo, Inactivo, Ausente o Desconectado) de "
+"todos los miembros de %(app_name)s."
+
+#: rs/templates/user_main_helpers/vip_benefits.html:7
+msgid ""
+"\n"
+"                vip_chat_friends %(vip)s %(free)s %(cf_num_messages)s %"
+"(std_num_messages)s" 
+msgstr ""
+"\n"
+"Incremento hasta %(vip)s \"chat amigos\" (contra %"
+"(free)s para socios no-VIP). Con cada \"chat amigo\" puedes enviar mensajes "
+"del chat sin limitaciones, y tambien puedes enviar %(cf_num_messages)s mensajes "
+"cada dia (contra %(std_num_messages)s mensajes a las otras personas)."
+
+#: rs/templates/user_main_helpers/vip_benefits.html:9
+msgid "You can update your email address"
+msgstr ""
+"Puedes modificar tu dirección de correo electrónico cuando lo desees "
+"(mientras que los miembros no VIP tienen que mantener la dirección con la "
+"que se registraron)."
+
+#~ msgid "Confirm"
+#~ msgstr "Confirmar"

@@ -1442,12 +1442,20 @@ def check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
     else:
         return False
         
-def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object):
+def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
     # checks if the current user has exceeded the number of messages that he is allowed to send to the other
     # user in the current "time window"
-    if not have_sent_messages_object or \
-       have_sent_messages_object and have_sent_messages_object.num_messages_to_other_sent_today < \
-       constants.NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
+    if not have_sent_messages_object :
+        return True
+    elif have_sent_messages_object and have_sent_messages_object.num_messages_to_other_sent_today < \
+         constants.STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
+        return True
+    elif have_sent_messages_object and \
+         initiate_contact_object and \
+         initiate_contact_object.chat_friend_stored == "connected" and \
+         have_sent_messages_object.num_messages_to_other_sent_today < \
+         constants.CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
+        # These users are "chat friends" so they have a higher limit.
         return True
     else:
         return False

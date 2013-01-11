@@ -956,7 +956,7 @@ def store_initiate_contact(request, to_uid):
                     if counter_modify > 0:
                         if action == "key":
                             if userobject.new_contact_counter_ref.num_sent_key >= constants.MAX_KEYS_SENT_ALLOWED:
-                                response_text = ugettext("""You have exceeded the limit of %(max_keys)s on the number of keys that you can send. 
+                                response_text = "<p>%s" % ugettext("""You have exceeded the limit of %(max_keys)s on the number of keys that you can send. 
                                 Before sending additional keys, you must take back keys that you have given to other users.""") \
                                               % {'max_keys' : constants.MAX_KEYS_SENT_ALLOWED}
                                 request_denied = True
@@ -967,7 +967,7 @@ def store_initiate_contact(request, to_uid):
                                 # we allow people to accept friend requests even after their free limit on friends has been exceeded. 
                                 # ... But not to initiate new friend requests,
                                 if userobject.new_contact_counter_ref.num_sent_chat_friend >= MAX_CHAT_FRIEND_REQUESTS_ALLOWED:
-                                    response_text = ugettext("""You have exceeded the limit of %(max_requests)s on the number of chat friends
+                                    response_text = "<p>%s" % ugettext("""You have reached the limit of %(max_requests)s on the number of chat friends
                                     that you are allowed to request and/or accept.
                                     Before requesting/accepting additional chat friends, you must remove some of your current chat friends.""") \
                                                   % {'max_requests' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED}
@@ -980,19 +980,22 @@ def store_initiate_contact(request, to_uid):
                                     
                                     request_denied = True  
                                     
-                                    response_text = ugettext("""
+                                    response_text = "<p>%s" % ugettext("""
                                     You have %(num_sent_chat_friend)s chat friends, which means that
-                                    you have exceeded the limit of %(max_guest_requests)s on the number of chat friends
-                                    that you are allowed to request. 
-                                    You must remove some of your current chat friends before requesting additional chat friends, or
-                                    you can ask the other person to invite you to be their chat friend. """) % \
+                                    you have reached the limit of %(max_guest_requests)s on the number of chat friends
+                                    that you are allowed to request.""")  % \
                                         {'num_sent_chat_friend': userobject.new_contact_counter_ref.num_sent_chat_friend ,
                                          'max_guest_requests' : GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED}
-                                     
-                                    response_text += ugettext("""
-                                    Alternatively, if you wish to increase this limit to %(max_requests)s, 
+                                    
+                                    response_text += "<p>%s" % ugettext("""
+                                    If you wish to increase this limit to %(max_requests)s, 
                                     you could consider becoming a VIP member.""")   % \
                                         {'max_requests' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED}
+                                    
+                                    response_text += "<p>%s" %ugettext("""Alternatively, you can remove some of your current chat friends before requesting additional chat friends, or
+                                    you can ask the other person to invite you to be their chat friend. """)
+                                     
+
 
                         if request_denied:
                             # un-do the request (toggle it) by calling the same function again, Note that we override the 
@@ -1485,9 +1488,9 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 have_sent_messages_object.num_messages_to_other_sent_today = 0
                 have_sent_messages_object.put()
                 
-            if not utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object):
-                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window(constants.NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
-                                                                                                     constants.NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER)
+            initiate_contact_object = utils.get_initiate_contact_object(db.Key(from_uid), db.Key(to_uid))            
+            if not utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
+                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window()
                 error_reporting.log_exception(logging.warning, error_message=error_message)  
                 return HttpResponse(error_message)                    
         
@@ -1500,7 +1503,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
             spam_tracker_modified = False
             # don't count messages that are sent to previous contacts in the spam statistics
             if have_sent_messages_string == "have_not_had_contact":
-                if spam_tracker.datetime_first_mail_sent_today + datetime.timedelta(hours = NUM_HOURS_TO_RESET_MAIL_COUNT - RESET_MAIL_LEEWAY) <  datetime.datetime.now():
+                if spam_tracker.datetime_first_mail_sent_today + datetime.timedelta(hours = WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES - RESET_MAIL_LEEWAY) <  datetime.datetime.now():
                     
                     spam_tracker.datetime_first_mail_sent_today  = datetime.datetime.now()
                     spam_tracker.num_mails_sent_today = 0
@@ -1510,10 +1513,10 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 # to send messages to each user. 
                 
                 if not sender_userobject.client_paid_status:
-                    num_emails_per_day = MAX_EMAILS_PER_DAY
+                    num_emails_per_day = GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                 else:
                     # VIP member has extra messages allocated
-                    num_emails_per_day = constants.vip_num_messages_allowed
+                    num_emails_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                                 
             
                 if spam_tracker.num_mails_sent_today >= num_emails_per_day:

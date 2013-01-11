@@ -97,17 +97,10 @@ def send_new_feature_email(userobject, return_message_html = False):
         
         # Now, get a description of what Friend is:
         template = loader.get_template("common_helpers/welcome_message.html")
-        context = Context({'build_name': 'Friend',
-                           'app_name' : 'FriendBazaar', 
-                           'site_type' : ugettext('website to meet people, make friends, and to earn money'),
-                           'num_messages_for_free_clients' : constants.MAX_EMAILS_PER_DAY,
-                           'num_messages_for_vip_clients' : constants.vip_num_messages_allowed,
-                           'num_chat_friends_for_free_clients' : constants.GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
-                           'num_chat_friends_for_vip_clients' : constants.MAX_CHAT_FRIEND_REQUESTS_ALLOWED,
-                           })
+        context = Context(constants.template_common_fields)
+                
         message.html += template.render(context)
         
-
         message.body = html2text.html2text(message.html) 
         
         message.send()

@@ -421,22 +421,26 @@ def  mark_new_have_sent_messages_object(userobject, other_userobject):
       
 def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_messages_object, show_captcha = False, spam_statistics_string = ''):
     
+    
     generated_html = ''
-    if utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object) or \
-       utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
+    try:
         
-        if show_captcha:
-            captcha_bypass_string = "no_bypass"
+        initiate_contact_object = utils.get_initiate_contact_object(db.Key(from_uid), db.Key(to_uid))
+        if utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object) or \
+           utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
+            
+            if show_captcha:
+                captcha_bypass_string = "no_bypass"
+            else:
+                captcha_bypass_string = compute_captcha_bypass_string(from_uid, to_uid)
+                        
+            generated_html += FormUtils.define_html_for_mail_textarea(
+                textarea_section_name, to_uid, captcha_bypass_string, have_sent_messages_object,
+                spam_statistics_string)
         else:
-            captcha_bypass_string = compute_captcha_bypass_string(from_uid, to_uid)
-                    
-        generated_html += FormUtils.define_html_for_mail_textarea(
-            textarea_section_name, to_uid, captcha_bypass_string, have_sent_messages_object,
-            spam_statistics_string)
-    else:
-        generated_html += u"<div>%s</div>" % constants.ErrorMessages.num_messages_to_other_in_time_window(
-            constants.NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
-            constants.NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER)
+            generated_html += u"<div>%s</div>" % constants.ErrorMessages.num_messages_to_other_in_time_window()
+    except:
+        error_reporting.log_exception(logging.critical)
     
     return generated_html
     

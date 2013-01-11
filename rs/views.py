@@ -847,12 +847,7 @@ def login(request, is_admin_login = False, referring_code = None):
 def welcome_html():
     
     template = loader.select_template(["proprietary_html_content/welcome_message.html", "common_helpers/default_welcome_message.html"])
-    context = Context(dict({
-                       'num_messages_for_free_clients' : constants.MAX_EMAILS_PER_DAY,
-                       'num_messages_for_vip_clients' : constants.vip_num_messages_allowed,
-                       'num_chat_friends_for_free_clients' : constants.GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
-                       'num_chat_friends_for_vip_clients' : constants.MAX_CHAT_FRIEND_REQUESTS_ALLOWED,                           
-                       }, **constants.template_common_fields))
+    context = Context(constants.template_common_fields)
     generated_html = template.render(context)    
     return generated_html
 

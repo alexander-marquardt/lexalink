@@ -53,10 +53,22 @@ elif settings.BUILD_NAME == "Friend":
 else:
     minimum_registration_age = 18
     
+    
+# Define the number of new people that the user can send messages to in a given time window. 
+WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
 if settings.BUILD_NAME == "Discrete":
-    MAX_EMAILS_PER_DAY = 2 # after this number of messages, sending messages is blocked for non-paying members.
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 2 # after this number of messages, sending messages is blocked for non-paying members.
 else:
-    MAX_EMAILS_PER_DAY = 4
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 4
+VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
+    
+    
+NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 24 # to prevent a pair of users from overloading the servers by sending infinite messages between them - put a limit
+STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 2 # can only send X messages to another user in a window period
+# If the users are "chat friends" then they can send more messages between them in time window period. 
+CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
+    
+RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
     
 # the number of activities  that the user can select in the various affictions/activities/etc. checkboxes. This is currently only used
 # in Friend. This limit is required to prevent index explosion
@@ -247,11 +259,6 @@ ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN = 1000
 # in the future if necessary.
 EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE = 15 
 
-NUM_HOURS_TO_RESET_MAIL_COUNT = 24
-RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
-
-NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 24 # to prevent a pair of users from overloading the servers by sending infinite messages between them - put a limit
-NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 3 # can only send X messages to another user in a single 24 hour period (or whatever the time window is)
 
 MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we will store for a single profile in the UserTracker object.
 
@@ -439,7 +446,6 @@ client_paid_status_credit_amounts = {
     }
 
 
-vip_num_messages_allowed = 10
 
 type_of_site_for_vip_invite = {
     'Discrete' : ugettext_lazy('confidential dating'),
@@ -489,10 +495,13 @@ and numbers. Additionally, it may not contain any spaces.")
     email_address_invalid = ugettext_lazy("The email address is not valid")
 
     @classmethod
-    def num_messages_to_other_in_time_window(cls, num, window):
-        return ugettext_lazy("""You can only send %(num)s messages to another user in a single %(hours)s-hour period. 
-                    Please use the chat functionality if you wish to have more frequent contact.""") % {'num': num,
-                                                                                                        'hours': window}
+    def num_messages_to_other_in_time_window(cls):
+        return ugettext_lazy("""You can only send %(guest_num)s messages to another user in a single %(hours)s-hour period. 
+        However, if the other user is a "chat friend" of yours, then you can send them %(chat_friend_num)s messages in a single 
+        %(hours)s-hour period. """) % \
+               {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                'chat_friend_num' : CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
+                'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER}
 
 
 
@@ -558,8 +567,10 @@ template_common_fields = {'build_name': settings.BUILD_NAME,
                           'live_static_dir': settings.LIVE_STATIC_DIR,  
                           'live_proprietary_static_dir': settings.LIVE_PROPRIETARY_STATIC_DIR,  
                           'proprietary_static_dir_exists': settings.PROPRIETARY_STATIC_DIR_EXISTS,
-                          'num_messages_for_free_clients': MAX_EMAILS_PER_DAY,
-                          'num_messages_for_vip_clients' : vip_num_messages_allowed,
+                          'guest_num_new_people_messages_allowed_in_window': GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
+                          'vip_num_new_people_messages_allowed_in_window' : VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
+                          'STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                          'CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW' : CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                           'num_chat_friends_for_free_clients' :  GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
                           'num_chat_friends_for_vip_clients' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED,  
                           'google_ad_160x600' : GOOGLE_AD_160x600,
