@@ -1592,23 +1592,30 @@ def store_login_ip_information(request, userobject):
 def render_paypal_button(request):
     
     try:
-        owner_uid =  request.session['userobject_str']
-        
-        paypal_data = {}
-        paypal_data['language'] = request.LANGUAGE_CODE
-        paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
-        paypal_data['owner_uid'] = owner_uid    
-        paypal_data['paypal_en_button_id'] = site_configuration.PAYPAL_EN_BUTTON_ID
-        paypal_data['paypal_es_button_id'] = site_configuration.PAYPAL_ES_BUTTON_ID   
-        paypal_data['paypal_sandbox_button_id'] = site_configuration.PAYPAL_SANDBOX_BUTTON_ID
-        
     
-        template = loader.get_template("user_main_helpers/paypal_button.html")    
-        context = Context (dict({
-            'paypal_data': paypal_data,
-            'request' : request, 
-            }, **constants.template_common_fields))    
-        return template.render(context) 
-    
+        if request.session.__contains__('userobject_str'):
+            # only show paypal button to users that are logged-in.
+            
+            owner_uid =  request.session['userobject_str']
+            
+            paypal_data = {}
+            paypal_data['language'] = request.LANGUAGE_CODE
+            paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
+            paypal_data['owner_uid'] = owner_uid    
+            paypal_data['paypal_en_button_id'] = site_configuration.PAYPAL_EN_BUTTON_ID
+            paypal_data['paypal_es_button_id'] = site_configuration.PAYPAL_ES_BUTTON_ID   
+            paypal_data['paypal_sandbox_button_id'] = site_configuration.PAYPAL_SANDBOX_BUTTON_ID
+            
+        
+            template = loader.get_template("user_main_helpers/paypal_button.html")    
+            context = Context (dict({
+                'paypal_data': paypal_data,
+                'request' : request, 
+                }, **constants.template_common_fields))    
+            return template.render(context) 
+        else:
+            return ''
+        
     except:
-        error_reporting.log_exception(logging.error)    
+        error_reporting.log_exception(logging.error) 
+        return ''
