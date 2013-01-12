@@ -483,13 +483,16 @@ def open_new_chatbox(request):
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-                            
-            other_uid = request.POST.get('other_uid', 'Error: other_uid not posted')
-            if other_uid != "main" and other_uid != "groups":
-                type_of_conversation = request.POST.get('type_of_conversation', 'Error: type_of_conversation not posted')
-                open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation)   
-
-            response =  http.HttpResponse()
+            
+            if request.method == 'POST':
+                json_post_data = simplejson.loads(request.raw_post_data)  
+                other_uid = json_post_data['other_uid']
+                type_of_conversation = json_post_data['type_of_conversation']            
+                    
+                if other_uid != "main" and other_uid != "groups":
+                    open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation)   
+    
+                response =  poll_server_for_status_and_new_messages(request)
         else:
             error_reporting.log_exception(logging.warning, error_message ="Error in user trying to open new chatbox.")
             response =  http.HttpResponseBadRequest("Error")

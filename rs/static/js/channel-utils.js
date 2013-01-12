@@ -284,6 +284,26 @@ var chan_utils = new function () {
 
 
 
+        var generate_json_post_dict = function() {
+            
+            var current_time = (new Date().getTime());
+            list_of_open_chat_groups_members_boxes_to_pass = [];
+
+            if (current_time - chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes >
+                chan_utils_self.last_time_we_updated_chat_groups_members_boxes ) {
+                chan_utils_self.last_time_we_updated_chat_groups_members_boxes = current_time;
+                // since we want to request new lists of group members, we must pass in the group_ids of the
+                // groups that we want updated.
+                list_of_open_chat_groups_members_boxes_to_pass = chan_utils_self.list_of_open_chat_groups_members_boxes;
+            }
+
+            var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
+            //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
+            'user_presence_status': chan_utils_self.user_presence_status,
+            'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
+
+             return json_post_dict;
+        }
 
         var poll_server_for_status_and_new_messages = function () {
 
@@ -298,21 +318,8 @@ var chan_utils = new function () {
 
 
                     var list_of_open_chat_groups_members_boxes_to_pass = [];
-                    var current_time = (new Date().getTime());
 
-                    if (current_time - chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes >
-                            chan_utils_self.last_time_we_updated_chat_groups_members_boxes ) {
-                        chan_utils_self.last_time_we_updated_chat_groups_members_boxes = (new Date()).getTime();
-                        // since we want to request new lists of group members, we must pass in the group_ids of the
-                        // groups that we want updated.
-                        list_of_open_chat_groups_members_boxes_to_pass = chan_utils_self.list_of_open_chat_groups_members_boxes;
-                    }
-
-                    var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
-                        //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
-                        'user_presence_status': chan_utils_self.user_presence_status,
-                        'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
-                    
+                    var json_post_dict = generate_json_post_dict();
                     var json_stringified_post = $.toJSON(json_post_dict);
                     
 
@@ -469,7 +476,8 @@ var chan_utils = new function () {
             // just a simple wrapper function for calling set_message_polling_timeout_and_schedule_poll
             try {
                 if (chan_utils_self.chat_boxes_status == "chat_enabled") {
-                    chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
+                    chan_utils_self.current_message_polling_delay = chan_utils_self.initial_message_polling_delay;
+                    poll_server_for_status_and_new_messages();
                 } else {
                     // if chatboxes are not enabled, we want to still poll in order to keep the user_presence_status up-to-date
                     // but we want to do it at a slower rate in order to waste less CPU resources.
@@ -488,16 +496,23 @@ var chan_utils = new function () {
 
             try {
 
+                var json_post_dict = generate_json_post_dict();
+                json_post_dict = $.extend({'other_uid': other_uid, 'type_of_conversation' : type_of_conversation}, json_post_dict);
+                var json_stringified_post = $.toJSON(json_post_dict);
+
                 $.ajax({
                     type: 'post',
                     url:  '/rs/channel_support/open_new_chatbox/' + rnd() + "/",
-                    data: {'other_uid': other_uid, 'type_of_conversation' : type_of_conversation},
-                    success: function() {},
+                    data:json_stringified_post,
+                    dataType: 'json', // response type                    
+                    success: function(json_response) {
+                        process_json_most_recent_chat_messages(json_response);
+                    },
                     error: function(jqXHR, textStatus, errorThrown) {
                         report_ajax_error(textStatus, errorThrown, "create_new_box_entry_on_server");  
                     },
                     complete: function () {
-                        poll_server_for_status_and_new_messages();
+                        chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_in_focus_polling_delay);
                     }
                 });
             } catch(err) {
