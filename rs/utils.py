@@ -1573,6 +1573,7 @@ def generate_profile_information_for_administrator(viewer_userobject, display_us
             generated_html += "Registration IP: %s<br>" % display_userobject.registration_ip_address
             generated_html += "Registration Country: %s<br>" % get_country_name_from_code(display_userobject.registration_country_code)            
             generated_html += "Registration City: %s<br>" % display_userobject.registration_city
+            generated_html += "Registration Date: %s<br>" % display_userobject.creation_date
             
             generated_html += '<br></div>'    
             
