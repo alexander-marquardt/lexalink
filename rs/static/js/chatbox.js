@@ -820,10 +820,6 @@ var chatboxManager = function() {
                     }
                 }
 
-                if (box_id != "main" && box_id != "groups" && open_box_on_server) {
-                    chan_utils.create_new_box_entry_on_server(box_id, type_of_conversation);
-                }
-
                 resize_boxes_if_necessary();
             } catch(err) {
                 report_try_catch_error( err, "initJqueryUiChatbox.addBox()");
@@ -932,7 +928,9 @@ var updateChatControlBox = function (box_name, dict_to_display) {
                 type_of_conversation = "Error in javascript - invalid box_name";
             }
 
-            chatboxManager.addBox(box_id, box_title, true, true, true, type_of_conversation, nid, url_description);
+            // by creating a box entry on the server, we will recieve a response that indicates that a new box is open
+            // at which point we will open the box. 
+            chan_utils.create_new_box_entry_on_server(box_id, type_of_conversation);
             return false;
         });
 
