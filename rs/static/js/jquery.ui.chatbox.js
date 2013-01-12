@@ -608,8 +608,8 @@ var chatboxManager = function() {
 
         var changeOpacityOfAllBoxes = function (opacity_val) {
             // used for "graying out" boxes - to indicate for example that a user is not online
-            for(var idx = 0; idx < showList.length; idx++) {
-                var box_id = showList[idx];
+            for(var idx = 0; idx < boxList.length; idx++) {
+                var box_id = boxList[idx];
                 $("#"+ box_id).chatbox("option", "boxManager").addCssToChatbox('opacity', opacity_val);
             }
 
