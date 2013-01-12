@@ -324,7 +324,9 @@ def generate_mailbox_headers(owner_uid, mailbox_name):
 ##############################################
 
 def generate_messages_html(query_for_message, is_first_message, userobject, other_uid, lang_code):
-    # loops over the passed in query results, and prints out the corresponding individual messsages
+    # Loops over the passed in query results, and prints out the corresponding individual messsages.
+    # Individual messages here refer to messages sent between a pair of users. The seriese of individual
+    # messaages is a conversation between two users.
     
     
     try:
@@ -333,7 +335,9 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
         for message in query_for_message[:SINGLE_CONVERSATION_PAGESIZE]:
            
             profile = message.m_from
-            if message.m_to == userobject:
+            # get the key for the m_from profile, without doing a full lookup:            
+            m_to_key = models.MailMessageModel.m_to.get_value_for_datastore(message)
+            if m_to_key == userobject.key():
                 is_receiver = True
                 text_color = "black";
             else: 
@@ -757,7 +761,7 @@ def display_conversation_summary(request, have_sent_messages_object,
                 other_userobject_href, other_userobject_href, other_userobject.username)
             
             if show_vip_info:
-                generated_html += u"%s" % utils.get_vip_online_status_string(str(other_userobject.key()))
+                generated_html += u"<br>%s" % utils.get_vip_online_status_string(str(other_userobject.key()))
         
 
             checkbox_html = '<td class="cl-mark_conversation-td"><input type = "checkbox" name="mark_conversation" \
@@ -801,8 +805,7 @@ def display_conversation_summary(request, have_sent_messages_object,
             new_row_html = ''
 
         
-        owner_name = userobject.username
-        short_owner_name = owner_name
+        short_owner_name = userobject.username
         short_other_name = other_userobject.username
         
 
@@ -824,7 +827,9 @@ def display_conversation_summary(request, have_sent_messages_object,
         
         for message in query_for_message: 
     
-            if owner_name == message.m_from.username:
+            # get the key for the m_from profile, without doing a full lookup:
+            m_from_key = models.MailMessageModel.m_from.get_value_for_datastore(message)
+            if userobject.key() == m_from_key:
                 # means this is a message sent by the user
                 text_color_class = "cl-gray-text";
                 sender_name = short_owner_name
