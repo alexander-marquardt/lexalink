@@ -222,6 +222,16 @@ def poll_server_for_status_and_new_messages(request):
                 last_update_time_string_dict = json_post_data['last_update_time_string_dict']
                 user_presence_status = json_post_data['user_presence_status']
                 
+                if 'get_friends_online_dict' in json_post_data and json_post_data['get_friends_online_dict'] == 'yes':
+                    get_friends_online_dict = True 
+                else: 
+                    get_friends_online_dict = False
+                
+                if 'get_chat_groups_dict' in json_post_data and json_post_data['get_chat_groups_dict'] == 'yes':
+                    get_chat_groups_dict = True 
+                else: 
+                    get_chat_groups_dict = False                
+                
                 if 'list_of_open_chat_groups_members_boxes' in json_post_data:
                     list_of_open_chat_groups_members_boxes_on_client = json_post_data['list_of_open_chat_groups_members_boxes']
                 else:
@@ -238,33 +248,27 @@ def poll_server_for_status_and_new_messages(request):
             
             if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED:
             
-                # we use memcache to prevent the friends online from being updated every time data is polled- 
-                # we set the memcache to expire after a certian amount of time, and only if it is expired
-                # will we generate a new friends list - this is done like this to reduce server loading. 
-                check_friends_online_last_update_memcache_key = constants.CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
-                contacts_info_dict = memcache.get(check_friends_online_last_update_memcache_key)
-                if contacts_info_dict is None:
-                    # get the data structure that represents the "friends online" for the current user.
-                    contacts_info_dict = chat_support.get_friends_online_dict(lang_code, owner_uid);
-                    memcache.set(check_friends_online_last_update_memcache_key, contacts_info_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
-               
-                    # only send the contacts list if memcache timed-out (we use the memcache as a timer)
+                if get_friends_online_dict:
+                    # we use memcache to prevent the friends online from being updated every time data is polled- 
+                    # we set the memcache to expire after a certian amount of time, and only if it is expired
+                    # will we generate a new friends list - this is done like this to reduce server loading. 
+                    check_friends_online_last_update_memcache_key = constants.CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX + owner_uid
+                    contacts_info_dict = memcache.get(check_friends_online_last_update_memcache_key)
+                    if contacts_info_dict is None:
+                        # get the data structure that represents the "friends online" for the current user.
+                        contacts_info_dict = chat_support.get_friends_online_dict(lang_code, owner_uid);
+                        memcache.set(check_friends_online_last_update_memcache_key, contacts_info_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
+                   
+                    # Send the contacts list since the client requested it
                     response_dict['contacts_info_dict'] = contacts_info_dict    
                 
                 
-    
                 # get the data structure that represents the currently available chat groups - this is common for
                 # all users - this is memcached and pulled from database if not available.
                 chat_groups_dict = chat_support.get_chat_groups_dict();
-               
-                # To save bandwidth, we do not want to continually send updates about the available groups. Therefore,
-                # write a "timer" to memcache, that will expire after X seconds, and only if it is expired do we send an
-                # updated list.
-                chat_group_timer_memcache_key = "chat_group_timer_memcache_key_" + owner_uid
-                user_group_list_is_up_to_date = memcache.get(chat_group_timer_memcache_key)
-                if user_group_list_is_up_to_date is None:
-                    memcache.set(chat_group_timer_memcache_key, True, constants.SECONDS_BETWEEN_GET_CHAT_GROUPS)
-                    response_dict['chat_groups_dict'] = chat_groups_dict     
+                if get_chat_groups_dict:
+                    response_dict['chat_groups_dict'] = chat_groups_dict   
+                    
                     
                 if list_of_open_chat_groups_members_boxes_on_client:
                     # the client has open chat groups, send updated list of which members are in each group

@@ -82,9 +82,15 @@ var chan_utils = new function () {
                 chan_utils_self.string_of_messages_in_queue = '';
 
                 chan_utils_self.list_of_open_chat_groups_members_boxes = [];
-                chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes = 10 * 1000; // every 10 seconds
+                chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes = 20 * 1000; // every 20 seconds
                 chan_utils_self.last_time_we_updated_chat_groups_members_boxes = 0;
                 chan_utils_self.list_of_usernames_in_each_group = {}; // dictionary indexed by group_id, which contains lists of the usernames -- this is used for checking if list has changed so we can highlight it
+
+                chan_utils_self.time_to_pass_before_updating_friends_online_dict = 10 * 1000; // every 10 seconds
+                chan_utils_self.last_time_we_updated_friends_online_dict = 0;
+                
+                chan_utils_self.time_to_pass_before_updating_chat_groups_dict = 10 * 1000; // every 10 seconds
+                chan_utils_self.last_time_we_updated_chat_groups_dict = 0;
 
                 chan_utils_self.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
             }
@@ -288,6 +294,8 @@ var chan_utils = new function () {
             
             var current_time = (new Date().getTime());
             list_of_open_chat_groups_members_boxes_to_pass = [];
+            get_friends_online_dict = "no";
+            get_chat_groups_dict = "no";
 
             if (current_time - chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes >
                 chan_utils_self.last_time_we_updated_chat_groups_members_boxes ) {
@@ -297,10 +305,30 @@ var chan_utils = new function () {
                 list_of_open_chat_groups_members_boxes_to_pass = chan_utils_self.list_of_open_chat_groups_members_boxes;
             }
 
+            if (current_time - chan_utils_self.time_to_pass_before_updating_friends_online_dict >
+                chan_utils_self.last_time_we_updated_friends_online_dict ) {
+                chan_utils_self.last_time_we_updated_friends_online_dict = current_time;
+                // since we want to request new lists of group members, we must pass in the group_ids of the
+                // groups that we want updated.
+                get_friends_online_dict = "yes";
+            }
+
+
+            if (current_time - chan_utils_self.time_to_pass_before_updating_chat_groups_dict >
+                chan_utils_self.last_time_we_updated_chat_groups_dict ) {
+                chan_utils_self.last_time_we_updated_chat_groups_dict = current_time;
+                // since we want to request new lists of group members, we must pass in the group_ids of the
+                // groups that we want updated.
+                get_chat_groups_dict = "yes";
+            }
+            
+
             var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
             //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
             'user_presence_status': chan_utils_self.user_presence_status,
-            'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass};
+            'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass,
+            'get_friends_online_dict' : get_friends_online_dict,
+            'get_chat_groups_dict' : get_chat_groups_dict};
 
              return json_post_dict;
         }

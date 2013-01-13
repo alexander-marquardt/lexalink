@@ -358,10 +358,9 @@ def get_chat_groups_dict(overwrite_memcache = False):
     
     # The chat groups list is a globally accessable memcache object, and therefore the key doesn't depend
     # on uid or any other variable.
-    global_chat_groups_dict_memcache_key = CHAT_GROUPS_LIST_MEMCACHE_KEY
     
     if not overwrite_memcache:
-        chat_groups_dict = memcache.get(global_chat_groups_dict_memcache_key)
+        chat_groups_dict = memcache.get(CHAT_GROUPS_LIST_MEMCACHE_KEY)
     else: 
         chat_groups_dict = None
         
@@ -376,7 +375,7 @@ def get_chat_groups_dict(overwrite_memcache = False):
             chat_groups_dict[group_key]['url_description'] = "Not used"
             chat_groups_dict[group_key]['nid'] = "Not used"
             
-        memcache.set(global_chat_groups_dict_memcache_key, chat_groups_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
+        memcache.set(CHAT_GROUPS_LIST_MEMCACHE_KEY, chat_groups_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)
 
     return chat_groups_dict        
 
