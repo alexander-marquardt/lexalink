@@ -183,9 +183,12 @@ var chan_utils = new function () {
 
                                     chan_utils_self.last_update_time_string_dict[other_uid] = conversation_tracker_dict[other_uid].last_update_time_string;
 
-                                    // calling addBox just makes sure that it exists
+                                    // calling addBox just makes sure that it exists. Since we just received notification of the existance of this
+                                    // box from the server, it has *not* been "just_opened". 
+                                    var just_opened = false;
                                     chatboxManager.addBox(other_uid, chatbox_title, true, true, false, type_of_conversation,
-                                            conversation_tracker_dict[other_uid]['nid'], conversation_tracker_dict[other_uid]['url_description']);
+                                            conversation_tracker_dict[other_uid]['nid'], conversation_tracker_dict[other_uid]['url_description'],
+                                            just_opened);
 
                                     // load the message history into the chatbox
                                     for (var msg_time_idx in array_of_chat_msg_time_strings) {
@@ -221,8 +224,22 @@ var chan_utils = new function () {
                     var currently_open_chatboxes = chatboxManager.showList;
                     for (var idx = 0; idx < currently_open_chatboxes.length; idx ++) {
                         var box_id = currently_open_chatboxes[idx];
+                        var current_chatbox = $("#" + box_id).chatbox("option", "boxManager");
+
                         if ($.inArray(box_id, keep_open_boxes_list) == -1) {
-                             chatboxManager.close_chatbox_on_client(box_id)
+
+                            if (current_chatbox.elem.options.just_opened !== true) {
+                                // we only check the "keep_open" value for boxes that were not just created,
+                                // since the keep_open property needs a few milliseconds to propagate through the server and
+                                // back to the client.
+                                chatboxManager.close_chatbox_on_client(box_id)
+                            }
+                            else {
+                                // we just received a "keep_open" confirmation for the newly created box, and therefore it is
+                                // no longer a "just_opened" box (the new chatbox has propagated through the server and
+                                // back to the client). change just_opened to false.
+                                current_chatbox.elem.options.just_opened = false;
+                            }
                         }
                     }
                 }
@@ -476,7 +493,8 @@ var chan_utils = new function () {
                 var groups_box_id = "groups";
                 var type_of_conversation = "Not used/Not available";
                 var groups_box_title = $("id-chat-group-title-text").text();
-                chatboxManager.addBox(groups_box_id, groups_box_title, false, false, false, type_of_conversation, '', '');
+                var just_opened = true;
+                chatboxManager.addBox(groups_box_id, groups_box_title, false, false, false, type_of_conversation, '', '', just_opened);
                 var message = $("#id-chat-groups-box-loading-text").text();
                 $("#groups").chatbox("option", "boxManager").refreshBox(message);
 

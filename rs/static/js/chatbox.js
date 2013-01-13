@@ -128,6 +128,7 @@ var initJqueryUiChatbox = function($){
                 hidden: false,
                 offset: 0, // default relative to right edge of the browser window - over-ridden
                 width: 0, // default width of the chatbox - over-ridden
+                just_opened : false, // for newly created boxes, we temporarily ignore the "keep_open" status from the server
                 messageSent: function() {}, //over-ride this
                 boxClosed: function(box_id, type_of_conversation) {}, // called when the close icon is clicked - over-ridden
                 minimizeBoxWasClicked: function(box_id) {}, // over-ridden
@@ -145,6 +146,10 @@ var initJqueryUiChatbox = function($){
                         } catch(err) {
                             report_try_catch_error( err, "initJqueryUiChatbox.init()");
                         }
+                    },
+                    getBox: function() {
+                        var self = this;
+                        return self;
                     },
                     addMsg: function(sender_name, msg, highlight_box_enabled) {
                         // This function will be called when a chatbox needs to be updated with additional
@@ -742,7 +747,7 @@ var chatboxManager = function() {
 
         // caller should guarantee the uniqueness of box_id
         var addBox = function(box_id, box_title, allow_elimination, include_chatbox_input, highlight_box_enabled,
-                              type_of_conversation, nid, url_description) {
+                              type_of_conversation, nid, url_description, just_opened) {
 
             try {
                 var idx1 = $.inArray(box_id, showList);
@@ -765,6 +770,7 @@ var chatboxManager = function() {
                     manager = $("#"+ box_id).chatbox("option", "boxManager");
                     manager.toggleBox();
                     manager._scrollToBottom();
+                    manager.elem.options.just_opened = true;
                     showList.push(box_id);
                 }
                 else {
@@ -791,6 +797,7 @@ var chatboxManager = function() {
                         hidden : false,
                         width : box_width,
                         offset : offset_from_right,
+                        just_opened : just_opened,
                         messageSent: function(box_id, msg, type_of_conversation) {
                             chan_utils.send_message(box_id, msg, type_of_conversation);
                         },
@@ -931,6 +938,8 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             // by creating a box entry on the server, we will recieve a response that indicates that a new box is open
             // at which point we will open the box. 
             chan_utils.create_new_box_entry_on_server(box_id, type_of_conversation);
+            var just_opened = true;
+            chatboxManager.addBox(box_id, box_title, true, true, true, type_of_conversation, nid, url_description, just_opened);
             return false;
         });
 
@@ -986,8 +995,9 @@ var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
         var main_box_title = $('#id-chat-contact-title-text').text();
         var allow_elimination = false, include_chatbox_input = false, highlight_box_enabled = false;
         var type_of_conversation = 'Not used/Not valid'; // not used for contact and group boxes
+        var just_opened = true;
         chatboxManager.addBox(main_box_id, main_box_title, allow_elimination, include_chatbox_input,
-                highlight_box_enabled, type_of_conversation, '', '');
+                highlight_box_enabled, type_of_conversation, '', '', just_opened);
         // Add the button that allows the user to specify if they want to go online/offline
         $("#" + main_box_id).chatbox("option", "boxManager").uiChatboxOnlineSelector();
         $("#" + main_box_id).chatbox("option", "boxManager").addClassToUIChatboxLog("ui-chatbox-log-override-height-for-main");
@@ -996,7 +1006,7 @@ var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
         var groups_box_id = "groups";
         var groups_box_title = $("#id-chat-group-title-text").text();
         chatboxManager.addBox(groups_box_id, groups_box_title, allow_elimination, include_chatbox_input,
-                highlight_box_enabled, type_of_conversation, '', '');
+                highlight_box_enabled, type_of_conversation, '', '', just_opened);
         $("#" + groups_box_id).chatbox("option", "boxManager").uiChatboxCreateGroupButton();
         $("#" + groups_box_id).chatbox("option", "boxManager").addClassToUIChatboxLog("ui-chatbox-log-override-height-for-main");
         $("#" + groups_box_id).chatbox("option", "boxManager").minimizeBox();
