@@ -115,9 +115,9 @@ def update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_min
                     group_tracker_object = utils_top_level.get_object_from_string(other_uid)
                     open_conversation_tracker_object.chatbox_title = group_tracker_object.group_name
                 else:
-                    assert(type_of_conversation == "leave_unchanged")
+                    assert(type_of_conversation == "NA")
                     
-            if type_of_conversation != "leave_unchanged":
+            if type_of_conversation != "NA":
                 open_conversation_tracker_object.type_of_conversation = type_of_conversation # group or one_on_one
    
         else:

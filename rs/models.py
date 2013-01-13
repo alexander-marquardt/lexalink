@@ -399,7 +399,7 @@ class OpenConversationsTracker(db.Model):
     
     # track if the conversation should be shown minimized or maximized,
     # valid values are "minimized" or "maximized".
-    chatbox_minimized_maximized = db.StringProperty(required=False, indexed = False)
+    chatbox_minimized_maximized = db.StringProperty(required=False, indexed = False, default = "maximized")
     
 
 class ChatGroupTracker(db.Model):

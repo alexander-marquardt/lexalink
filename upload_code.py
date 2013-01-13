@@ -65,10 +65,10 @@ print "Starting upload_code script %s (Build: %s)" % (site_configuration.APP_NAM
 print "%s" % datetime.datetime.now()
 print "**********************************************************************\n"
 
+check_site_configuration()
+
 email_address = raw_input('Email: ')
 password = getpass.getpass()
-
-check_site_configuration()
     
 # Build all the dependent files etc. 
 build_helpers.customize_files()
