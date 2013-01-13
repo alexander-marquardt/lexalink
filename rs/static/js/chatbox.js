@@ -35,7 +35,7 @@ function AddEliminationToWidget(self) {
                    function() {uiChatboxTitlebarClose.removeClass('ui-state-hover');})
             .click(function(event) {
                 self.uiChatbox.hide();
-                self.options.boxClosed(self.options.id, self.options.type_of_conversation);
+                self.options.boxClosed(self.options.id);
                 return false;
             })
             .appendTo(self.uiChatboxTitlebar);
@@ -130,7 +130,7 @@ var initJqueryUiChatbox = function($){
                 width: 0, // default width of the chatbox - over-ridden
                 just_opened : false, // for newly created boxes, we temporarily ignore the "keep_open" status from the server
                 messageSent: function() {}, //over-ride this
-                boxClosed: function(box_id, type_of_conversation) {}, // called when the close icon is clicked - over-ridden
+                boxClosed: function(box_id) {}, // called when the close icon is clicked - over-ridden
                 minimizeBoxWasClicked: function(box_id) {}, // over-ridden
                 maximizeBoxWasClicked: function(box_id) {}, // over-ridden
                 boxManager: {
@@ -559,7 +559,6 @@ var chatboxManager = function() {
         // list of boxes shown on the page
         var showList = new Array();
         // type of conversation that each box_id contains
-        var type_of_conversation_for_box_id = {};
 
         // list of first names, for in-page demo
         var user_name = null;
@@ -631,7 +630,7 @@ var chatboxManager = function() {
             var initial_length = showList.length;
             for(var idx = initial_length - 1; idx > 0; idx--) {
                 var box_id = showList[idx];
-                boxClosedCallback(box_id, type_of_conversation_for_box_id[box_id]);
+                boxClosedCallback(box_id);
             }
         };
 
@@ -654,19 +653,20 @@ var chatboxManager = function() {
             }
 
 
-            if (type_of_conversation_for_box_id[box_id] == 'group') {
+            if ($("#" + box_id).chatbox("option", 'type_of_conversation') === 'group') {
                 // close the list of group members, so that we don't have people "spying" on who is in the group
                 // without actually being in the group themselves
                 chan_utils.close_group_members_dialog(box_id);
             }
         }
 
-        var boxClosedCallback = function(box_id, type_of_conversation) {
+        var boxClosedCallback = function(box_id) {
 
             try{
                 // close button in the titlebar is clicked
                 close_chatbox_on_client(box_id);
-                chan_utils.close_chatbox_on_server(box_id, type_of_conversation);
+
+                chan_utils.close_chatbox_on_server(box_id);
 
             } catch(err) {
                 report_try_catch_error( err, "initJqueryUiChatbox.boxClosedCallback()");
@@ -779,7 +779,6 @@ var chatboxManager = function() {
                     var offset_from_right = getNextOffset(showList.length);
                     var box_width;
 
-                    type_of_conversation_for_box_id[box_id] = type_of_conversation;
                     open_box_on_server = true;
 
                     if (box_id == 'main') {
@@ -937,9 +936,9 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 
             // by creating a box entry on the server, we will recieve a response that indicates that a new box is open
             // at which point we will open the box. 
-            chan_utils.create_new_box_entry_on_server(box_id, type_of_conversation);
             var just_opened = true;
             chatboxManager.addBox(box_id, box_title, true, true, true, type_of_conversation, nid, url_description, just_opened);
+            chan_utils.create_new_box_entry_on_server(box_id);
             return false;
         });
 

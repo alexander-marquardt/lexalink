@@ -535,14 +535,14 @@ var chan_utils = new function () {
         };
 
 
-        this.create_new_box_entry_on_server = function(other_uid, type_of_conversation) {
+        this.create_new_box_entry_on_server = function(box_id) {
             // this is necessary for the case that a user opens a new conversation chatbox - we want to show
             // the conversation history.
 
             try {
 
                 var json_post_dict = generate_json_post_dict();
-                json_post_dict = $.extend({'other_uid': other_uid, 'type_of_conversation' : type_of_conversation}, json_post_dict);
+                json_post_dict = $.extend({'other_uid': box_id, 'type_of_conversation' : $("#" + box_id).chatbox("option", 'type_of_conversation')}, json_post_dict);
                 var json_stringified_post = $.toJSON(json_post_dict);
 
                 $.ajax({
@@ -599,11 +599,11 @@ var chan_utils = new function () {
             });
         };
 
-        this.close_chatbox_on_server = function(other_uid, type_of_conversation) {
+        this.close_chatbox_on_server = function(box_id) {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/close_chat_box/' + rnd() + "/",
-                data: {'other_uid': other_uid, 'type_of_conversation' : type_of_conversation},
+                data: {'other_uid': box_id, 'type_of_conversation' : $("#" + box_id).chatbox("option", 'type_of_conversation')},
                 error: function(jqXHR, textStatus, errorThrown) {
                     report_ajax_error(textStatus, errorThrown, "close_chatbox_on_server");
                 }
@@ -847,7 +847,7 @@ var chan_utils = new function () {
 
 
         // the following is a globally visible function declaration
-        this.send_message = function(to_uid, msg, type_of_conversation) {
+        this.send_message = function(box_id, msg) {
             // user has sent a message from a chatbox in the current window - POST this message to the
             // server.
 
@@ -866,11 +866,13 @@ var chan_utils = new function () {
 
                 if (!chan_utils_self.sending_message_is_locked_mutex) {
                     chan_utils_self.sending_message_is_locked_mutex = true;
+                    var type_of_conversation = $("#" + box_id).chatbox("option", 'type_of_conversation');
 
                     // clear the string of the queued messages, since we are now processing the most
                     // up-to-date submission, which should contain all values from this string
 
-                    var json_post_dict = {'to_uid' : to_uid, 'message': msg,
+
+                    var json_post_dict = {'to_uid' : box_id, 'message': msg,
                     'sender_username': chan_utils_self.owner_username,
                     'type_of_conversation' : type_of_conversation,
                     'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
@@ -888,13 +890,13 @@ var chan_utils = new function () {
                         },
                         error: function () {
                             // report error message with original text (so that the user can copy/paste it to re-try
-                            $("#" + to_uid).chatbox("option", "boxManager").addMsg("Error sending", msg, true);
+                            $("#" + box_id).chatbox("option", "boxManager").addMsg("Error sending", msg, true);
                             internet_connection_is_down();
                             error_sending_message = true;
                             // because we may have asynchronously cleared the message out of the input box (if the code
                             // following this ajax call is executed before this error function is called), we re-write it
                             // here.
-                            $("#" + to_uid).chatbox("option", "boxManager").setChatboxInputBox(msg);
+                            $("#" + box_id).chatbox("option", "boxManager").setChatboxInputBox(msg);
                         },
                         complete: function () {
                             // reset the message polling delay - we use the "in_focus" delay, since we know that the user is in the chatbox
@@ -903,7 +905,7 @@ var chan_utils = new function () {
 
                             // finally, send messages that have been queued while waiting for the server to respond
                             if ( chan_utils_self.string_of_messages_in_queue !== '') {
-                                chan_utils_self.send_message(to_uid, chan_utils_self.string_of_messages_in_queue, type_of_conversation);
+                                chan_utils_self.send_message(box_id, chan_utils_self.string_of_messages_in_queue);
                                 chan_utils_self.string_of_messages_in_queue = '';
                             }
                         }
@@ -920,7 +922,7 @@ var chan_utils = new function () {
                     // (meaning that error_sending_message might still be false, due to still waiting for error handler to run) --
                     // which means that we could possibly clear the InputBox even if a sending error has/will occured - however, if this
                     // happens, this is handled by the write of msg (therefore undoing the clear) to the InputBox done in the ajax error handler above.
-                    $("#" + to_uid).chatbox("option", "boxManager").setChatboxInputBox('');
+                    $("#" + box_id).chatbox("option", "boxManager").setChatboxInputBox('');
                 }
             }
             catch(err) {
