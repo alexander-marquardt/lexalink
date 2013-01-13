@@ -224,11 +224,10 @@ var chan_utils = new function () {
                     var currently_open_chatboxes = chatboxManager.showList;
                     for (var idx = 0; idx < currently_open_chatboxes.length; idx ++) {
                         var box_id = currently_open_chatboxes[idx];
-                        var current_chatbox = $("#" + box_id).chatbox("option", "boxManager");
 
                         if ($.inArray(box_id, keep_open_boxes_list) == -1) {
 
-                            if (current_chatbox.elem.options.just_opened !== true) {
+                            if ($("#" + box_id).chatbox("option", 'just_opened') !== true) {
                                 // we only check the "keep_open" value for boxes that were not just created,
                                 // since the keep_open property needs a few milliseconds to propagate through the server and
                                 // back to the client.
@@ -238,7 +237,7 @@ var chan_utils = new function () {
                                 // we just received a "keep_open" confirmation for the newly created box, and therefore it is
                                 // no longer a "just_opened" box (the new chatbox has propagated through the server and
                                 // back to the client). change just_opened to false.
-                                current_chatbox.elem.options.just_opened = false;
+                                $("#" + box_id).chatbox("option", 'just_opened', false)
                             }
                         }
                     }
