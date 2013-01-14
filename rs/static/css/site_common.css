@@ -152,37 +152,6 @@ select {
 }
 
 
-table.rometo-advertising-table
-{
-	table-layout: fixed; 
-	margin: 0px;
-	border: 1px solid #CCCCCC;
-}
-
-td.rometo-advertising-td-header-footer {
-    /*background: url(../img/advertisements/header-footer-slice.jpg);*/
-	width: 156px;
-    /*height: 35px;*/
-	padding: 2px;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	font-size: 12px;
-	text-align: center;
-    vertical-align: middle;
-	/*color: #FFFFFF;*/
-}
-
-td.rometo-advertising-td-highlight-text {
-	font-size: 12px;
-	text-align: center;
-	color: #EB485D; /* soft red */
-}
-
-td.rometo-advertising-td-gray-text {
-	font-size: 12px;
-	text-align: center;
-	color: #666666; 
-}
 
 #id-top-banner
 {

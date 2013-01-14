@@ -29,11 +29,7 @@
 <div id="id-advertising-sidebar" class="grid_custom cl-grid_160px alpha omega cl-float_right">
 
     <br>
-    {% for ad in advertising_info.additional_ads_template_list %}
-        {% include ad %}
-        <br><br>
-    {% endfor %}
-    
+   
     
     {% if advertising_info.enable_google_ads %}
         {% include 'advertising/publisher/google_160x600.html' %}

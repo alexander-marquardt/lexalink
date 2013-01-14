@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-11 14:18+0100\n"
+"POT-Creation-Date: 2013-01-14 19:28+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -91,7 +91,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:697 rs/display_contacts.py:337 rs/forms.py:1083
-#: rs/login_utils.py:248 rs/rendering.py:390 rs/store_data.py:1554
+#: rs/login_utils.py:248 rs/rendering.py:388 rs/store_data.py:1554
 #: rs/utils.py:1532
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -187,11 +187,11 @@ msgstr ""
 "Mira la parte debajo de esta ventana para información de como ser miembro "
 "VIP."
 
-#: rs/channel_support.py:534
+#: rs/channel_support.py:541
 msgid "Error - group creation limit exceeded"
 msgstr "Error - ya has creado demasiados grupos"
 
-#: rs/channel_support.py:555
+#: rs/channel_support.py:562
 msgid "Error - you appear to have been logged out"
 msgstr "Error - parece que tu session ha expirado"
 
@@ -211,59 +211,59 @@ msgstr "(Ausente)"
 msgid "(Offline)"
 msgstr "(Desconectado)"
 
-#: rs/constants.py:387
+#: rs/constants.py:397
 msgid "confidential dating website"
 msgstr "sitio de contactos confidenciales"
 
-#: rs/constants.py:391
+#: rs/constants.py:401
 msgid "serious dating website"
 msgstr "sitio para encuentros serios"
 
-#: rs/constants.py:394
+#: rs/constants.py:404
 msgid "website to learn languages and meet people"
 msgstr "sitio para aprender idiomas y conocer gente"
 
-#: rs/constants.py:397
+#: rs/constants.py:407
 msgid "lesbian dating website"
 msgstr "sitio de contactos para lesbianas."
 
-#: rs/constants.py:401
+#: rs/constants.py:411
 msgid "gay dating website"
 msgstr "sitio de contactos para gays"
 
-#: rs/constants.py:405
+#: rs/constants.py:415
 msgid "swingers website"
 msgstr "sitio para parejas liberales"
 
-#: rs/constants.py:409
+#: rs/constants.py:419
 msgid "website to meet people, make friends, and to earn money"
 msgstr "sitio para conocer gente, hacer amigos, y ganar dinero"
 
-#: rs/constants.py:451
+#: rs/constants.py:461
 msgid "confidential dating"
 msgstr "de contactos confidenciales"
 
-#: rs/constants.py:452
+#: rs/constants.py:462
 msgid "dating"
 msgstr "para buscar pareja"
 
-#: rs/constants.py:453
+#: rs/constants.py:463
 msgid "language exchange"
 msgstr "de intercambio de idiomas"
 
-#: rs/constants.py:454
+#: rs/constants.py:464
 msgid "swingers"
 msgstr "para parejas liberales"
 
-#: rs/constants.py:455
+#: rs/constants.py:465
 msgid "gay dating"
 msgstr "de contactos para gays"
 
-#: rs/constants.py:456
+#: rs/constants.py:466
 msgid "lesbian dating"
 msgstr "de contactos para lesbianas."
 
-#: rs/constants.py:488
+#: rs/constants.py:498
 msgid ""
 "Username needs at least 3 characters and can only contain letters and "
 "numbers. Additionally, it may not contain any spaces."
@@ -272,11 +272,11 @@ msgstr ""
 "alfabéticos (ascii/inglés) y números. Además, el nick no puede tener ningún "
 "espacio"
 
-#: rs/constants.py:490
+#: rs/constants.py:500
 msgid "Password required"
 msgstr "La contraseña es obligatoria"
 
-#: rs/constants.py:491
+#: rs/constants.py:501
 msgid ""
 "Password may only contain letters and numbers, and cannot contain spaces."
 msgstr ""
@@ -284,24 +284,24 @@ msgstr ""
 "números. Además, la contraseña no puede tener ningún espacio dentro, "
 "enfrente o atras."
 
-#: rs/constants.py:492
+#: rs/constants.py:502
 msgid "The password and the verification must be the same."
 msgstr "La contraseña y su verificacion tienen que ser lo mismo."
 
-#: rs/constants.py:493
+#: rs/constants.py:503
 msgid "The username that you have selected is not available."
 msgstr "El \"Nick\" que has elegido no está disponible."
 
-#: rs/constants.py:494
+#: rs/constants.py:504
 msgid "Username/email + password is incorrect"
 msgstr ""
 "La combinación de nick o correo electrónico + contraseña es incorrecta."
 
-#: rs/constants.py:495
+#: rs/constants.py:505
 msgid "The email address is not valid"
 msgstr "El correo electrónico entrado no es válido."
 
-#: rs/constants.py:499
+#: rs/constants.py:509
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to another user in a single %(hours)"
@@ -314,84 +314,84 @@ msgstr ""
 "Sin embargo, si el otro miembro es un \"amigo de chat\" tuyo, podrás "
 "enviarle %(chat_friend_num)s mensajes cada %(hours)s horas."
 
-#: rs/constants.py:513
+#: rs/constants.py:523
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:514 rs/mailbox.py:712 rs/text_fields.py:75
+#: rs/constants.py:524 rs/mailbox.py:716 rs/text_fields.py:75
 msgid "Sent"
 msgstr "Enviado"
 
-#: rs/constants.py:515 rs/mailbox.py:704 rs/mailbox.py:718
+#: rs/constants.py:525 rs/mailbox.py:708 rs/mailbox.py:722
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr "Recibido"
 
-#: rs/constants.py:516
+#: rs/constants.py:526
 msgid "Saved"
 msgstr "Guardado"
 
-#: rs/constants.py:519
+#: rs/constants.py:529
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:520
+#: rs/constants.py:530
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:522
+#: rs/constants.py:532
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:523
+#: rs/constants.py:533
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:526
+#: rs/constants.py:536
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:528
+#: rs/constants.py:538
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:529
+#: rs/constants.py:539
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:530
+#: rs/constants.py:540
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:531
+#: rs/constants.py:541
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:535 rs/constants.py:536
+#: rs/constants.py:545 rs/constants.py:546
 msgid "Chat requests"
 msgstr ""
 
-#: rs/constants.py:537
+#: rs/constants.py:547
 msgid "Chat connections"
 msgstr ""
 
-#: rs/constants.py:541
+#: rs/constants.py:551
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:543
+#: rs/constants.py:553
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:544
+#: rs/constants.py:554
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:545
+#: rs/constants.py:555
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:546
+#: rs/constants.py:556
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automaticamente)"
 
@@ -2383,7 +2383,7 @@ msgstr "no es el correcto vuélvelo a entrar aquí"
 msgid "Change email address"
 msgstr "Cambiar correo electrónico"
 
-#: rs/mailbox.py:247 rs/mailbox.py:277 rs/mailbox.py:1041
+#: rs/mailbox.py:247 rs/mailbox.py:277 rs/mailbox.py:1046
 msgid "All (messages - override)"
 msgstr "Todos"
 
@@ -2407,90 +2407,90 @@ msgstr "Enviados"
 msgid "Deleted (plural - override)"
 msgstr "Eliminados"
 
-#: rs/mailbox.py:295 rs/mailbox.py:707
+#: rs/mailbox.py:295 rs/mailbox.py:711
 msgid "Spam"
 msgstr "Spam"
 
-#: rs/mailbox.py:356 rs/mailbox.py:849
+#: rs/mailbox.py:360 rs/mailbox.py:854
 msgid "From"
 msgstr "De"
 
-#: rs/mailbox.py:502
+#: rs/mailbox.py:506
 msgid "To"
 msgstr "A"
 
-#: rs/mailbox.py:703
+#: rs/mailbox.py:707
 msgid "Deleted (mail)"
 msgstr "Eliminado"
 
-#: rs/mailbox.py:708
+#: rs/mailbox.py:712
 msgid "Received (mail)"
 msgstr "Recibido"
 
-#: rs/mailbox.py:717
+#: rs/mailbox.py:721
 msgid "Read (mail)"
 msgstr "Leído"
 
-#: rs/mailbox.py:721
+#: rs/mailbox.py:725
 msgid "New (mail)"
 msgstr "Nuevo"
 
-#: rs/mailbox.py:788
+#: rs/mailbox.py:792
 msgid ""
 "Message history (click on the message text to see more detailed history)"
 msgstr ""
 "Historial de mensajes (haz clic en el texto del mensaje para ver más "
 "historial)"
 
-#: rs/mailbox.py:854
+#: rs/mailbox.py:859
 msgid "click on the message to see more"
 msgstr "haz clic en el mensaje para ver mas"
 
-#: rs/mailbox.py:880 rs/mailbox.py:1048
+#: rs/mailbox.py:885 rs/mailbox.py:1053
 msgid "Mark as read"
 msgstr "Marcar como leído"
 
-#: rs/mailbox.py:886 rs/mailbox.py:1046
+#: rs/mailbox.py:891 rs/mailbox.py:1051
 msgid "Delete"
 msgstr "Eliminar"
 
-#: rs/mailbox.py:890
+#: rs/mailbox.py:895
 msgid "Move to sent mailbox"
 msgstr "Mover a enviados"
 
-#: rs/mailbox.py:893
+#: rs/mailbox.py:898
 msgid "Move to received mailbox"
 msgstr "Mover a recibidos"
 
-#: rs/mailbox.py:899
+#: rs/mailbox.py:904
 msgid "Mark as spam"
 msgstr "Marcar como spam"
 
-#: rs/mailbox.py:912
+#: rs/mailbox.py:917
 msgid "Favorite"
 msgstr "Favorito"
 
-#: rs/mailbox.py:915
+#: rs/mailbox.py:920
 msgid "Add to your favorites"
 msgstr "Marcar como favorito"
 
-#: rs/mailbox.py:979
+#: rs/mailbox.py:984
 msgid "You don't have any messages in this mailbox"
 msgstr "No tienes mensajes en este buzon"
 
-#: rs/mailbox.py:1041
+#: rs/mailbox.py:1046
 msgid "Select"
 msgstr "Seleccionar"
 
-#: rs/mailbox.py:1041
+#: rs/mailbox.py:1046
 msgid "None (messages - override)"
 msgstr "Ninguno"
 
-#: rs/mailbox.py:1064 rs/search_results.py:847 rs/search_results.py:858
+#: rs/mailbox.py:1069 rs/search_results.py:847 rs/search_results.py:858
 msgid "Next"
 msgstr "Siguiente"
 
-#: rs/mailbox.py:1080
+#: rs/mailbox.py:1085
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
@@ -2498,11 +2498,11 @@ msgstr ""
 "Por favor, sé educado y responde a las personas que han hecho un esfuerzo "
 "para ponerse en contacto contigo."
 
-#: rs/mailbox.py:1082
+#: rs/mailbox.py:1087
 msgid "Responding to messages does not count in your daily message quota."
 msgstr "Responder no cuenta en tu cuota diaria de mensajes."
 
-#: rs/mailbox.py:1083
+#: rs/mailbox.py:1088
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2547,12 +2547,12 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/rendering.py:213 rs/views.py:161
+#: rs/rendering.py:217 rs/views.py:161
 #, python-format
 msgid "Remember the following benefits of registering with %(app_name)s."
 msgstr "Recuerda las siguientes ventajas de registrarte en %(app_name)s.com:"
 
-#: rs/rendering.py:215 rs/views.py:163
+#: rs/rendering.py:219 rs/views.py:163
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:146
 #, python-format
 msgid "List of benefits for registering with %(app_name)s."
@@ -2563,7 +2563,7 @@ msgstr ""
 "respeta tu privacidad. Tu perfil tiene un área pública y un área privada. "
 "Sólo los socios que invites pueden ver tus fotos privadas."
 
-#: rs/rendering.py:228 rs/views.py:156
+#: rs/rendering.py:232 rs/views.py:156
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -4189,6 +4189,40 @@ msgstr "Contactos para solteros. Gratis"
 msgid "Free classy contacts for swingers and open-minded people"
 msgstr "Contactos con clase. Para parejas liberales y personas liberales."
 
+#: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:5
+msgid "Place your advertisement here"
+msgstr ""
+
+#: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:6
+msgid "100€ for 1 month"
+msgstr ""
+
+#: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:10
+msgid "More information"
+msgstr "Más información"
+
+#: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:6
+#, python-format
+msgid ""
+"\n"
+"    <p>In a single month, your advertisement will be shown on over half a "
+"million unique page views\n"
+"       to over 100,000 unique visitors.\n"
+"    <p>For more information, please contact: <b>support@%(app_name)s.com</"
+"b>.\n"
+"    "
+msgstr ""
+"\n"
+"    <p>Cada mes, tu publicidad se mostrará en más de medio millión páginas unicas "
+"       a más que 100.000 visitantes únicos.\n"
+"    <p>Para obtener más información, contactar a: <b>support@%(app_name)s.com</"
+"b>.\n"
+"    "
+
+#: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:14
+msgid "Advertise on %(app_name)s"
+msgstr "Pon publicidad en %(app_name)s"
+
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:10
 msgid "Thanks for using"
 msgstr "Gracias por usar"
@@ -4690,13 +4724,11 @@ msgid " Register me"
 msgstr "Me Registro"
 
 #: rs/templates/user_main_helpers/become_a_vip.html:34
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:34
 #, python-format
 msgid "If you like %(app_name)s, consider becoming a VIP member"
 msgstr "Si te gusta %(app_name)s puedes considerar hacerte miembro VIP"
 
 #: rs/templates/user_main_helpers/become_a_vip.html:41
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:41
 msgid "VIP benefits include"
 msgstr "Los beneficios VIP incluyen"
 
@@ -4715,7 +4747,6 @@ msgstr ""
 "    "
 
 #: rs/templates/user_main_helpers/become_a_vip.html:53
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:60
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit card you will be "
@@ -4923,17 +4954,6 @@ msgstr "Has entrado en"
 msgid "with a guest account"
 msgstr "con una cuenta de invitado"
 
-#: rs/templates/user_main_helpers/paypal_donate_buttons.html:51
-msgid ""
-"Payments are processed by PayPal (an eBay company, and one of the worlds "
-"largest online payment processors)\n"
-"        and can be made with credit card or a PayPal account.\n"
-"        "
-msgstr ""
-"Los pagos son procesadas a través de PayPal (una compañía del grupo eBay, y "
-"una de las empresas de pago online más grandes del mundo) y se puede hacer "
-"con tarjeta de crédito o una cuenta PayPal."
-
 #: rs/templates/user_main_helpers/photos.html:142
 #: rs/templates/user_main_helpers/photos.html:158
 msgid "Rules:"
@@ -5053,6 +5073,16 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid ""
+#~ "Payments are processed by PayPal (an eBay company, and one of the worlds "
+#~ "largest online payment processors)\n"
+#~ "        and can be made with credit card or a PayPal account.\n"
+#~ "        "
+#~ msgstr ""
+#~ "Los pagos son procesadas a través de PayPal (una compañía del grupo eBay, "
+#~ "y una de las empresas de pago online más grandes del mundo) y se puede "
+#~ "hacer con tarjeta de crédito o una cuenta PayPal."
 
 #~ msgid ""
 #~ "\n"

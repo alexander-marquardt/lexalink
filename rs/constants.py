@@ -268,12 +268,18 @@ SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
 
 # define the list of pages which we want to advertise
 pages_to_advertise = []
+append_more_advertising_info_dialog = False
 
 if settings.BUILD_NAME == 'Discrete':
     # Swinger, Gay, and Lesbian ads will be dynamically added depending on the search criteria.
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
-    # relevant
+    # relevant (ie. a woman seeking a woman will be shown an ad for LesbianHeart)
     pages_to_advertise.append('Single')
+    pages_to_advertise.append('Client_Ad1')
+    pages_to_advertise.append('Client_Ad2')
+    pages_to_advertise.append('Client_Ad3')
+    pages_to_advertise.append('Client_Ad4')
+    append_more_advertising_info_dialog = True
 
 if settings.BUILD_NAME == 'Gay':
     pages_to_advertise.append('Discrete')
@@ -303,6 +309,8 @@ if settings.BUILD_NAME == 'Language':
     pages_to_advertise.append('Friend')
     
 
+    
+
 # set a flag that determines if google ads will be shown - we don't attempt to show ads
 # on the more edgy sites since this could cause problems / risk of removal from the adsense program
 if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Language' \
@@ -315,6 +323,8 @@ enable_internal_ads = True
 
 if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' :
     MAX_NUM_PAGES_TO_ADVERTISE = 4
+elif settings.BUILD_NAME == 'Discrete' :
+    MAX_NUM_PAGES_TO_ADVERTISE = 5
 else:
     MAX_NUM_PAGES_TO_ADVERTISE = 2
 
@@ -322,9 +332,10 @@ else:
     
 # set a flag that determines if ashley madison ads will be shown
 if settings.BUILD_NAME == 'Discrete':
-    enable_ashley_madison_ads = True
+    enable_ashley_madison_ads = False # disabled since they don't respond to enquiries about payments.
 else:
     enable_ashley_madison_ads = False
+    
     
 # The following data structure is used for converting between the named values for the amount of time between
 # message notifications and numerical values which can be looked up. The values reflect the number of hours
