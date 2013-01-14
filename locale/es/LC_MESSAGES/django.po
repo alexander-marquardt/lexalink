@@ -4191,11 +4191,11 @@ msgstr "Contactos con clase. Para parejas liberales y personas liberales."
 
 #: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:5
 msgid "Place your advertisement here"
-msgstr ""
+msgstr "Pon tu publicidad aquí"
 
 #: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:6
 msgid "100€ for 1 month"
-msgstr ""
+msgstr "100€ por un mes"
 
 #: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:10
 msgid "More information"
@@ -4213,9 +4213,8 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"    <p>Cada mes, tu publicidad se mostrará en más de medio millión páginas unicas "
-"       a más que 100.000 visitantes únicos.\n"
-"    <p>Para obtener más información, contactar a: <b>support@%(app_name)s.com</"
+"    <p>Cada mes, tu publicidad se mostrará en más de medio millión de páginas únicas a más que 100.000 visitantes únicos.\n"
+"    <p>Para obtener más información, contacta con: <b>support@%(app_name)s.com</"
 "b>.\n"
 "    "
 

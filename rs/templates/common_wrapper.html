@@ -95,6 +95,13 @@
     <meta name = "keywords" content="{{  meta_info.keywords_description }}">
     <meta name="robots" content="{{ meta_info.web_crawler_access }}">
 
+    <!-- The following "link rel" code is to help facebook pick the correct image when someon Likes the page -->
+    {% if proprietary_static_dir_exists %}
+    <link rel="image_src" href="/{{ live_proprietary_static_dir }}/img/{{build_name}}/{{ build_name }}.png">
+    {% else %}
+    <link rel="image_src" href="/{{ live_static_dir }}/img/Default/default_logo.png">
+    {% endif %}
+
     <title>{{  meta_info.page_title }}</title>
 
     {% include "user_main_helpers/import_main_css_and_js.html" %}
