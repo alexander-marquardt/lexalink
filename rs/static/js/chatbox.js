@@ -9,7 +9,7 @@
  * 
  * Also uses some styles for jquery.ui.dialog
  *
- * Extensive LexaLink related modifications made by Alexander Marquardt
+ * **Extensive** LexaLink related modifications made by Alexander Marquardt
  */
 
 /*var chatbox_gobals = new function() { // new instantiates an object
@@ -20,94 +20,8 @@
 }*/
 
 
-function AddEliminationToWidget(self) {
-    // This is the code that adds the "eliminate" (the X) in the top right corner
-    // of the chatboxes.
-
-    try {
-        var uiChatboxTitlebarClose = null;
-        var uiChatboxTitlebarCloseText = null;
-        if (self.options.allow_elimination) {
-            uiChatboxTitlebarClose = $('<a href="#"></a>')
-            .addClass('ui-corner-all ' + 'ui-chatbox-icon' )
-            .attr('role', 'button')
-            .hover(function() {uiChatboxTitlebarClose.addClass('ui-state-hover');},
-                   function() {uiChatboxTitlebarClose.removeClass('ui-state-hover');})
-            .click(function(event) {
-                self.uiChatbox.hide();
-                self.options.boxClosed(self.options.id);
-                return false;
-            })
-            .appendTo(self.uiChatboxTitlebar);
-
-            uiChatboxTitlebarCloseText = $('<span></span>')
-            .addClass('ui-icon ' +
-                  'ui-icon-closethick')
-            .text('close')
-            .appendTo(uiChatboxTitlebarClose);
-        }
-        return uiChatboxTitlebarClose;
-    } catch(err) {
-        report_try_catch_error( err, "AddEliminationToWidget");
-    }
-    return false; // prevent jslint warning
-}
 
 
-function AddChatboxInputToWidget(self, include_chatbox_input) {
-
-    // modifies uiChatboxInput to contain uiChatboxInputBox. Note: "self" is modified
-    // to contain the newly created textarea "uiChatboxInputBox"
-
-    function focusin_function(self) {
-        self.uiChatboxTitlebar.addClass('ui-state-focus');
-        self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
-        self.uiChatboxLog.scrollTop(self.uiChatboxLog.get(0).scrollHeight);
-        chan_utils.set_focusin_polling_delay();
-        chan_utils.call_poll_server_for_status_and_new_messages();
-    }
-
-    try {
-        var uiChatboxInput = null;
-        if (include_chatbox_input) {
-            uiChatboxInput = $('<div></div>')
-            .addClass('ui-widget-content ' + 'ui-chatbox-input')
-            .click(function(event) {
-                // anything?
-            })
-            .appendTo(self.uiChatboxContent);
-            
-            self.uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
-            .addClass('ui-widget-content ' + 'ui-chatbox-input-box ' + 'ui-corner-all')
-            .appendTo(uiChatboxInput)
-                .keydown(function(event) {
-                if(event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
-                    var msg = $.trim($(this).val());
-                    if(msg.length > 0) {
-                        self.options.messageSent(self.options.id, msg, self.options.type_of_conversation);
-                    }
-                    return false;
-                }
-            })
-            .focusin(function() {
-                focusin_function(self);
-            })
-            .click(function() {
-                focusin_function(self);
-            })
-            .focusout(function() {
-                self.uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
-                self.uiChatboxTitlebar.removeClass('ui-state-focus');
-                chan_utils.set_focusout_polling_delay();
-            });
-        }
-
-        return uiChatboxInput;
-    } catch (err) {
-        report_try_catch_error( err, "AddChatboxInputToWidget");
-    }
-    return false; // prevent jslint warning
-}
 
 
 // TODO: implement destroy()
@@ -117,7 +31,7 @@ var initJqueryUiChatbox = function($){
 
     try {
 
-        $.widget("ui.chatbox", {
+        $.widget("js.chatbox", {
 
             options: {
                 id: null, //id for the DOM element
@@ -407,8 +321,7 @@ var initJqueryUiChatbox = function($){
                     .html(title)
                     .appendTo(uiChatboxTitlebar),
                     uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose =
-                            new AddEliminationToWidget(self)),
-
+                            self._AddEliminationToWidget()),
 
 
                     uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#"></a>'))
@@ -468,7 +381,7 @@ var initJqueryUiChatbox = function($){
 
 
                     uiChatboxInput = (self.uiChatboxInput =
-                            new AddChatboxInputToWidget(self, options.include_chatbox_input));
+                             self._AddChatboxInputToWidget(options.include_chatbox_input));
 
                     self._setWidth(self.options.width);
                     self._position(self.options.offset);
@@ -527,7 +440,102 @@ var initJqueryUiChatbox = function($){
 
             _position: function(offset) {
                 this.uiChatbox.css("right", offset);
+            },
+
+
+            _AddEliminationToWidget: function() {
+                // This is the code that adds the "eliminate" (the X) in the top right corner
+                // of the chatboxes.
+
+                try {
+                    var self = this;
+                    var uiChatboxTitlebarClose = null;
+                    var uiChatboxTitlebarCloseText = null;
+                    if (self.options.allow_elimination) {
+                        uiChatboxTitlebarClose = $('<a href="#"></a>')
+                        .addClass('ui-corner-all ' + 'ui-chatbox-icon' )
+                        .attr('role', 'button')
+                        .hover(function() {uiChatboxTitlebarClose.addClass('ui-state-hover');},
+                               function() {uiChatboxTitlebarClose.removeClass('ui-state-hover');})
+                        .click(function(event) {
+                            self.uiChatbox.hide();
+                            self.options.boxClosed(self.options.id);
+                            return false;
+                        })
+                        .appendTo(self.uiChatboxTitlebar);
+
+                        uiChatboxTitlebarCloseText = $('<span></span>')
+                        .addClass('ui-icon ' +
+                              'ui-icon-closethick')
+                        .text('close')
+                        .appendTo(uiChatboxTitlebarClose);
+                    }
+                    return uiChatboxTitlebarClose;
+                } catch(err) {
+                    report_try_catch_error( err, "AddEliminationToWidget");
+                }
+                return false; // prevent jslint warning
+            },
+
+
+            _AddChatboxInputToWidget : function(include_chatbox_input) {
+
+                // modifies uiChatboxInput to contain uiChatboxInputBox. Note: "self" is modified
+                // to contain the newly created textarea "uiChatboxInputBox"
+
+                var self = this;
+
+                function focusin_function(self) {
+                    self.uiChatboxTitlebar.addClass('ui-state-focus');
+                    self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
+                    self.uiChatboxLog.scrollTop(self.uiChatboxLog.get(0).scrollHeight);
+                    chan_utils.set_focusin_polling_delay();
+                    chan_utils.call_poll_server_for_status_and_new_messages();
+                }
+
+                try {
+                    var uiChatboxInput = null;
+                    if (include_chatbox_input) {
+                        uiChatboxInput = $('<div></div>')
+                        .addClass('ui-widget-content ' + 'ui-chatbox-input')
+                        .click(function(event) {
+                            // anything?
+                        })
+                        .appendTo(self.uiChatboxContent);
+
+                        self.uiChatboxInputBox = (self.uiChatboxInputBox = $('<textarea></textarea>'))
+                        .addClass('ui-widget-content ' + 'ui-chatbox-input-box ' + 'ui-corner-all')
+                        .appendTo(uiChatboxInput)
+                            .keydown(function(event) {
+                            if(event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
+                                var msg = $.trim($(this).val());
+                                if(msg.length > 0) {
+                                    self.options.messageSent(self.options.id, msg, self.options.type_of_conversation);
+                                }
+                                return false;
+                            }
+                        })
+                        .focusin(function() {
+                            focusin_function(self);
+                        })
+                        .click(function() {
+                            focusin_function(self);
+                        })
+                        .focusout(function() {
+                            self.uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
+                            self.uiChatboxTitlebar.removeClass('ui-state-focus');
+                            chan_utils.set_focusout_polling_delay();
+                        });
+                    }
+
+                    return uiChatboxInput;
+                } catch (err) {
+                    report_try_catch_error( err, "AddChatboxInputToWidget");
+                }
+                return false; // prevent jslint warning
             }
+
+
         });
     } catch(err) {
         report_try_catch_error( err, "initJqueryUiChatbox");
