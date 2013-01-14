@@ -754,6 +754,7 @@ var chatboxManager = function() {
                 var idx2 = $.inArray(box_id, boxList);
                 var open_box_on_server = false;
                 var manager = undefined;
+                var offset_from_right = undefined;
                 if(idx1 != -1) {
                     // Chatbox already exists and is open - apply effect so the user notices it
                     manager = $("#"+ box_id).chatbox("option", "boxManager");
@@ -765,18 +766,18 @@ var chatboxManager = function() {
                     // exists, but hidden (totally hidden, ie appears not to exist/has been "eliminated" )
                     // show it and put it back to showList
                     open_box_on_server = true;
-
-                    $("#"+ box_id).chatbox("option", "offset", getNextOffset());
+                    offset_from_right = getNextOffset(showList.length);
+                    $("#"+ box_id).chatbox("option", "offset", offset_from_right);
                     manager = $("#"+ box_id).chatbox("option", "boxManager");
                     manager.toggleBox();
                     manager._scrollToBottom();
-                    manager.elem.options.just_opened = true;
+                    $("#"+ box_id).chatbox("option", "just_opened", true );
                     showList.push(box_id);
                 }
                 else {
                     // not found, create a new chatbox
                     var el = document.createElement('div');
-                    var offset_from_right = getNextOffset(showList.length);
+                    offset_from_right = getNextOffset(showList.length);
                     var box_width;
 
                     open_box_on_server = true;
