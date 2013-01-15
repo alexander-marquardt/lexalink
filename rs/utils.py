@@ -1560,7 +1560,7 @@ def generate_profile_information_for_administrator(viewer_userobject, display_us
             # show information about this user to the administrator.
             generated_html += u'<br><br><div>'            
             if display_userobject.client_paid_status:
-                generated_html += "Is VIP<br><br>"
+                generated_html += "<b>Is VIP</b><br><br>"
                 
                 
             generated_html += "Email: %s<br>" % display_userobject.email_address
