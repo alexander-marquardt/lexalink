@@ -112,8 +112,14 @@
          // chatbox_vars.chatbox_enabled needs to be defined before chat.js code inside document.ready is triggered
          // since this determines if the chatboxes will be loaded or not. If they are to be loaded, this value will
          // later be over-written to be true.
-            var template_chatbox_vars = {};
-            template_chatbox_vars.chatboxes_enabled = false;
-        // if we are generating FriendBazaar code, we need to include the country-to-currency mapping
-        var country_to_currency_map = {{ wrapper_data_fields.country_to_currency_map|safe}};
+         var template_chatbox_vars = {};
+         template_chatbox_vars.chatboxes_enabled = false;
+         // if we are generating FriendBazaar code, we need to include the country-to-currency mapping
+         var country_to_currency_map = {{ wrapper_data_fields.country_to_currency_map|safe}};
+
      </script>
+
+
+     <!-- pre-load background images that will be shown when hover is activated. This prevents a delay
+          to load them when the mouse is moved over the image -->
+     <span class="cl-enter_guest-preload_background" style="display: none; "></span>
