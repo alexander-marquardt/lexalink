@@ -235,94 +235,7 @@ def modify_user_unread_contact_count(unread_mail_count_obj, increment_or_decreme
     return return_val
     
 ###########################################################################
-
-def generate_mailbox_headers(owner_uid, mailbox_name):
     
-    
-    try:
-        generated_html = ''
-       
-        all_messages = '<td class="cl-mail-header-td"><a href="%(href)s" rel="address:%(href)s">%(text)s</a></td>' % {
-            'href' : reverse("generate_mailbox", kwargs = {'mailbox_name' : 'inbox', 'owner_uid' : owner_uid }), 
-            'text' : ugettext("All (messages - override)")}
-
-        favorite_messages = '<td class="cl-mail-header-td"><a href="%(href)s" rel="address:%(href)s">%(text)s</a></td>' % {
-            'href' : reverse("generate_mailbox", kwargs = {'mailbox_name' : 'favorites', 'owner_uid' : owner_uid }), 
-            'text' : ugettext("Favorites")}
-
-        new_messages = '<td class="cl-mail-header-td"><a href="%(href)s" rel="address:%(href)s">%(text)s</a></td>' % {
-            'href' : reverse("generate_mailbox", kwargs = {'mailbox_name' : 'new', 'owner_uid' : owner_uid }), 
-            'text' : ugettext("Unread (plural - override)")}  
-
-        received_messages = '<td class="cl-mail-header-td"><a href="%(href)s" rel="address:%(href)s">%(text)s</a></td>' % {
-            'href' : reverse("generate_mailbox", kwargs = {'mailbox_name' : 'received', 'owner_uid' : owner_uid }), 
-            'text' : ugettext("Received (plural - override)")}           
-
-        sent_messages = '<td class="cl-mail-header-td"><a href="%(href)s" rel="address:%(href)s">%(text)s</a></td>' % {
-            'href' : reverse("generate_mailbox", kwargs = {'mailbox_name' : 'sent', 'owner_uid' : owner_uid }), 
-            'text' : ugettext("Sent (plural - override)")}   
-        
-
-        #deleted_messages = '<td class="cl-mail-header-td"><a href="%s">%s</a></td>' % (
-            #reverse("generate_mailbox", kwargs = {'mailbox_name' : 'trash', 'owner_uid' : owner_uid }), ugettext("Deleted (plural - override)"))      
-
-        #spam_messages = '<td class="cl-mail-header-td"><a href="%s">%s</a></td>' % (
-            #reverse("generate_mailbox", kwargs = {'mailbox_name' : 'spam', 'owner_uid' : owner_uid }), ugettext("Spam"))     
-            
-        deleted_messages = spam_messages = ''
-        
-        
-        if mailbox_name == "inbox" :
-            all_messages = '<td class="cl-mail-header-td"><span >\
-            <strong>%s</strong></span></td>' % ugettext("All (messages - override)")
-        elif mailbox_name == "favorites":
-            favorite_messages = '<td class="cl-mail-header-td"><span >\
-            <strong>%s</strong></span></td>' %  ugettext("Favorites")
-        elif mailbox_name == "new":
-            new_messages = '<td class="cl-mail-header-td"><span >\
-            <strong>%s</strong></span></td>' % ugettext("Unread (plural - override)")
-        elif mailbox_name == "received":
-            received_messages = '<td class="cl-mail-header-td"><span >\
-            <strong>%s</strong></span></td>' % ugettext("Received (plural - override)")
-        elif mailbox_name == "sent":
-            sent_messages = '<td class="cl-mail-header-td"><span >\
-            <strong>%s</strong></span></td>' % ugettext("Sent (plural - override)")
-        elif mailbox_name == "trash":
-            deleted_messages = '<td class="cl-mail-header-td"><span >\
-            <strong>%s</strong></span></td>' % ugettext("Deleted (plural - override)")
-        elif mailbox_name == "spam":
-            spam_messages = '<td class="cl-mail-header-td"><span >\
-            <strong>%s</strong></span></td>' % ugettext("Spam")
-        else:
-            # if the mailbox name was not matched, then we are not "in" a current mailbox view
-            # just show the links to the various mailbox views in this case.
-            pass
-        
-            
-        generated_html +=  """
-        <div class="grid_9 alpha omega cl_search_header"> 
-        <br><br>
-        <table id="id-mail-header">
-        <tr> 
-        %s %s %s %s %s %s %s 
-        </tr>
-        </table>
-        </div>
-            """ %(all_messages, favorite_messages, new_messages, received_messages, sent_messages, deleted_messages, spam_messages)
-        
-        generated_html += u'<div class="cl-clear"></div>\n'
-        
-        generated_html += u'<div class="grid_9 alpha omega"><br><br></div>'
-        
-        generated_html += u'<div class="cl-clear"></div>\n'
-        return generated_html
-            
-    except:
-        error_reporting.log_exception(logging.critical)
-        return ''
-    
-##############################################
-
 def generate_messages_html(query_for_message, is_first_message, userobject, other_uid, lang_code):
     # Loops over the passed in query results, and prints out the corresponding individual messsages.
     # Individual messages here refer to messages sent between a pair of users. The seriese of individual
@@ -583,7 +496,6 @@ def mail_message_display(request, owner_uid, other_uid):
     
         
         generated_html = ''
-        generated_html += generate_mailbox_headers(owner_uid, mailbox_name = '')  
         generated_html += generate_mail_message_display_html(userobject, other_userobject, request.LANGUAGE_CODE)
             
         return rendering.render_main_html(request, generated_html, userobject)
@@ -967,7 +879,6 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
         });
         </script>"""
     
-        generated_html += generate_mailbox_headers(owner_uid, mailbox_name)
         
         generated_mail_html = '' 
         
