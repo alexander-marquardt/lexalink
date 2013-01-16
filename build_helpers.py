@@ -247,6 +247,7 @@ def setup_my_local_environment():
         
         if site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
             # copy the proprietary files into the time-stammped "live" static directory
+            # This is an ugly hack!!
             # This method of copying/tracking proprietary files should be re-thought at some point in the future.  
             logging.info("Copying proprietary static files into the live static directory\n")
             copy_file_to_folder(pwd + "/rs/proprietary/static/css/*",  site_configuration.LIVE_STATIC_DIR + "/css/")
@@ -257,6 +258,7 @@ def setup_my_local_environment():
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Lesbian/*", site_configuration.LIVE_STATIC_DIR + "/img/Lesbian/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Single/*", site_configuration.LIVE_STATIC_DIR + "/img/Single/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Swinger/*", site_configuration.LIVE_STATIC_DIR + "/img/Swinger/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/dropdown-images/", site_configuration.LIVE_STATIC_DIR + "/img/dropdown-images/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/js/*", site_configuration.LIVE_STATIC_DIR + "/js/")
         
         # Modify the jquery.fancybox file so that AlphaImageLoader files use the correct path to the
