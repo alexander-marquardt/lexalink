@@ -30,12 +30,23 @@
 <ul id="rs-nav">
     {% if text_override_for_navigation_bar %}
         <li class="top">
-            <span class="no_link">{{ text_override_for_navigation_bar }}</span></li>
+            <span class="no_link">{{ text_override_for_navigation_bar }}</span>
+        </li>
+    
     {% else %}
-        {% if guest_user_data_fields.registered_user_bool %}
+        {% if not guest_user_data_fields.registered_user_bool %}
+            <li class="top">
+                <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "with a guest account" %}</span>
+            </li>
+    
+        {% else %}
+
             <li class="top">
                 <a href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}"
-                class="top_link"><span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span></a>
+                class="top_link">
+                    <span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span>
+                </a>
+            </li>   
 
             <li class="top">
                 <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}"
@@ -44,6 +55,7 @@
                 {% trans "Messages" %}
                 {% if primary_user_presentation_data_fields.owner_message_count %}
                     [{{ primary_user_presentation_data_fields.owner_message_count }} {% trans "unread" %}]
+                {% endif %}
                 </span></a>
                 <ul class="sub">
 			        <li>
@@ -75,26 +87,22 @@
 
                 <li class="top">
                     <a href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
-                    class="top_link"><span>{% trans "Contacts" %}
+                    class="top_link">
+                        <span>{% trans "Contacts" %}
                         {% if primary_user_presentation_data_fields.new_contact_count %}
-                        [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]
+                            [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]
                         {% endif %}
-                    </span></a>
-            {% else %}
-                <li class="top">
-                    <a href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
-                    class="top_link"><span>{% trans "Contacts" %}</span></a>
-            {% endif %}
+                        </span>
+                    </a>
+                </li>
+            </li>
+
             <li class="top">
                 <a href="{% url views.logout %}"
                 rel="address:{% url views.logout %}"
                 class="top_link"><span>{% trans "Exit" %}</span></a>
+            </li>
     
-        {% else %}
-
-            <li class="top">
-                <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "with a guest account" %}</span></li>
-
         {% endif %}
     {% endif %}
 </ul>  
