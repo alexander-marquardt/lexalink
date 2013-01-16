@@ -31,15 +31,17 @@
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/reset.css">
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/text.css">
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/960.css">
-    <link rel="stylesheet" href="/{{ live_static_dir }}/css/jquery-ui-1.9.2.{{ build_name }}.css">
+    <link rel="stylesheet" href="/{{ live_static_dir }}/css/jquery-ui/jquery-ui-1.9.2.{{ build_name }}.css">
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/chatbox.css">
 
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/site_common.css">
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/user_main.css">
 
     {% if proprietary_static_dir_exists %}
-        <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/{{ build_name }}_common.css">
         <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/proprietary_common.css">
+        <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/dropdown-menu/dropdown_menu.css">
+        <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/{{ build_name }}_common.css">
+
 
     {% else %}
         <link rel="stylesheet" href="/{{ live_static_dir }}/css/default_common.css">
@@ -108,7 +110,7 @@
 
 
 
-     <script type="text/javascript">
+    <script type="text/javascript">
          // chatbox_vars.chatbox_enabled needs to be defined before chat.js code inside document.ready is triggered
          // since this determines if the chatboxes will be loaded or not. If they are to be loaded, this value will
          // later be over-written to be true.
@@ -117,9 +119,11 @@
          // if we are generating FriendBazaar code, we need to include the country-to-currency mapping
          var country_to_currency_map = {{ wrapper_data_fields.country_to_currency_map|safe}};
 
-     </script>
+    </script>
 
 
-     <!-- pre-load background images that will be shown when hover is activated. This prevents a delay
-          to load them when the mouse is moved over the image -->
-     <span class="cl-enter_guest-preload_background" style="display: none; "></span>
+    <!-- pre-load background images that will be shown when hover is activated. This prevents a delay
+         to load them when the mouse is moved over the image -->
+    <span class="cl-enter_guest-preload_background" style="display: none; "></span>
+    <span class="dropdown_preload1" style="display: none; "></span>
+    <span class="dropdown_preload2" style="display: none; "></span>

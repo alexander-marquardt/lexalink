@@ -26,57 +26,87 @@
 ################################################################################
 -->
 
-<table id="id-horiz-bar-table" class="nav-button-link-format">
-    <tr>
+        
+<ul id="nav">
+    {% if text_override_for_navigation_bar %}
+        <li class="top"><a href="#nogo1" class="top_link"><span>{{ text_override_for_navigation_bar }}</span></a></li>
+    {% else %}
+        {% if guest_user_data_fields.registered_user_bool %}
+            <li class="top">
+                <a href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}"
+                class="top_link"><span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span></a>
 
-        {% if text_override_for_navigation_bar %}
-            <td class="cl-nav-item cl-nav-item-text-color-override ">{{ text_override_for_navigation_bar }}</td>
-        {% else %}
-            {% if guest_user_data_fields.registered_user_bool %}
-                <td class="cl-nav-td" id="id-nav-td-first">
-                    <span class="cl-nav-item cl-nav-item-text-color-override">
-                        {{ primary_user_presentation_data_fields.username }}</span>
-                </td>
+            <li class="top">
+                <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                class="top_link">
+                <span class="down">
+                {% trans "Messages" %}
+                {% if primary_user_presentation_data_fields.owner_message_count %}
+                    [{{ primary_user_presentation_data_fields.owner_message_count }} {% trans "unread" %}]
+                </span></a>
+                <ul class="sub">
+			        <li>
+                        <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                            {% trans "All (messages - override)" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                            {% trans "Unread (plural - override)" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url generate_mailbox mailbox_name='favorites' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                            {% trans "Favorites" %} 
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url generate_mailbox mailbox_name='received' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                            {% trans "Received (plural - override)" %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url generate_mailbox mailbox_name='sent' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                            {% trans "Sent (plural - override)" %}
+                        </a>
+                    </li>
+                </ul>
 
-                <td class="cl-nav-td cl-nav-item"><a
-                    href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}"
-                        rel="address:{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}">
-                {% trans "My Profile" %}</a></td>
-
-
-                <td class="cl-nav-td cl-nav-item">
-                    <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}"
-                            rel="address:{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                        {% trans "Messages" %}</a>
-                    {% if primary_user_presentation_data_fields.owner_message_count %}
-                    <a href="{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}"
-                            rel="address:{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                        [{{ primary_user_presentation_data_fields.owner_message_count }} {% trans "unread" %}]</a>
-                    {% endif %}
-                </td>
-
-
-                {% if primary_user_presentation_data_fields.new_contact_count %}
-                <td class="cl-nav-td cl-nav-item"><a
-                        href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
-                        rel="address:{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                            {% trans "Contacts" %}
-                    [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]</a></td>
-                {% else %}
-                <td class="cl-nav-td cl-nav-item"><a
-                        href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
-                        rel="address:{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                    {% trans "Contacts" %}</a></td>
-                {% endif %}
-
-                <td id="id-nav-td-last" class=  "cl-nav-item">
-                    <a href="{% url views.logout %}"
-                     rel="address:{% url views.logout %}">{% trans "Exit" %}</a></td>
+                <li class="top">
+                    <a href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                    class="top_link"><span>{% trans "Contacts" %} {{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]</span></a>
             {% else %}
-                <td class="cl-nav-item cl-nav-item-text-color-override ">
-                {% trans "You have entered in" %} {{ app_name }} {% trans "with a guest account" %}
+                <li class="top">
+                    <a href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                    class="top_link"><span>{% trans "Contacts" %}</span></a>
             {% endif %}
-        {% endif %}
+            <li class="top">
+                <a href="{% url views.logout %}"
+                rel="address:{% url views.logout %}"
+                class="top_link"><span>{% trans "Exit" %}</span></a>
+    
+        {% else %}
 
-    </tr>
-</table>
+            <li class="top"><span>{% trans "You have entered in" %} {{ app_name }} {% trans "with a guest account" %}</span></li>
+
+        {% endif %}
+    {% endif %}
+</ul>  
+
+
+<!-- example of how to multi-level nest :
+
+	<li class="top"><a href="#nogo27" id="contacts" class="top_link"><span class="down">Contacts</span></a>
+		<ul class="sub">
+			<li><a href="#nogo29" class="fly">Sales</a>
+				<ul>
+					<li><a href="#nogo32">South American</a></li>
+					<li><a href="#nogo33" class="fly">European</a>
+						<ul>
+							<li><a href="#nogo34" class="fly">British</a>
+								<ul>
+									<li><a href="#nogo38" class="fly">Bristol</a>
+										<ul>
+											<li><a href="#nogo39">Redland</a></li>
+-->
+        

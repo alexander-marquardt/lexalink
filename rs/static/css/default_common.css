@@ -62,13 +62,6 @@ a {text-decoration: none; color:#950808;}
 	color: #950808;
 }
 
-.nav-button-link-format a {text-decoration: none; color: #FFFFFF;}
-table .cl-nav-item-text-color-override /*only applies to this class if it is found inside a table cell -- called "Descendant Selector"*/
-{
-	color: #FFEDEE;
-}
-
-
 
 .info-link-footer-format a {text-decoration: none; color: #FFFFFF; font-weight: normal;}  /* White */
 .info-link-footer-format a:hover {text-decoration: underline; color: #EB485D; font-weight: normal;} /* soft RED */

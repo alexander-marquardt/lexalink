@@ -27,30 +27,6 @@
 ################################################################################
 */
 
-
-body {
-
-}
-
-
-table .cl-nav-item /*only applies to this class if it is found inside a table cell -- called "Descendant Selector"*/
-{
-	font-size: 14px;
-	padding: 4px;
-	text-decoration:none;
-	font-weight:bold;
-	text-align:center;
-	color: white;
-}
-
-
-table .cl-nav-item-text-color-override /*only applies to this class if it is found inside a table cell -- called "Descendant Selector"*/
-{
-	color: #FFC0CB;
-}
-
-
-
 table#id-mail-header 
 {
     width: 700px;
