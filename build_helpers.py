@@ -53,13 +53,14 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
     proprietary_static_file_pattern =  re.compile(r'.*/{{ live_proprietary_static_dir }}/%s/(.*).%s' % (static_file_type, static_file_type))
     build_name_pattern = re.compile(r'(.*)({{ build_name }})(.*)')
     default_common_pattern = re.compile(r'.*default_common\.css.*')
-    
+    menubar_pattern = re.compile(r'.*/{{ live_static_dir }}/css/(.*)(_Menubar).css')
     
     for line in input_html_src_file:
         matched_file_name = None
         match_static_file_pattern = static_file_pattern.match(line)
         match_proprietary_static_file_pattern = proprietary_static_file_pattern.match(line)
         match_default_common_pattern = default_common_pattern.match(line)
+        match_menubar_pattern = menubar_pattern.match(line)
         
         if match_static_file_pattern:
             matched_file_name = match_static_file_pattern.group(1)
@@ -72,6 +73,26 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
             
         elif site_configuration.PROPRIETARY_STATIC_DIR_EXISTS and match_proprietary_static_file_pattern:
             matched_file_name = match_proprietary_static_file_pattern.group(1)
+            
+        if match_menubar_pattern:
+            menubar_build_file_name = match_menubar_pattern.group(1)
+            menubar_css_file = menubar_build_file_name + match_menubar_pattern.group(2)                            
+            
+            if menubar_build_file_name == 'Discrete' and \
+               (site_configuration.BUILD_NAME == 'Discrete' or site_configuration.BUILD_NAME == 'Lesbian' or\
+                site_configuration.BUILD_NAME == 'Swinger' or site_configuration.BUILD_NAME == 'Single'):
+                # use the Discrete menubar for Discrete, Lesbian, Swinger, and Single builds
+                logging.info("Matched css file %s" % css_file)
+                static_file_list.append(css_file)
+                static_file_list.append(menubar_css_file)
+                
+            elif menubar_build_file_name == "{{ build_name }}" and \
+                 (site_configuration.BUILD_NAME == 'Gay' or site_configuration.BUILD_NAME == 'Language' \
+                  or site_configuration.BUILD_NAME == 'Friend'):
+                # all other builds have their own menubars defined.
+                matched_file_name = menubar_css_file
+            else:
+                raise Exception("Unknown menubar pattern matched in build_helpers.py")
             
         if matched_file_name and matched_file_name != output_file_name + ".min" and matched_file_name != output_file_name:
             build_name_match = build_name_pattern.match(matched_file_name)
@@ -258,7 +279,10 @@ def setup_my_local_environment():
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Lesbian/*", site_configuration.LIVE_STATIC_DIR + "/img/Lesbian/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Single/*", site_configuration.LIVE_STATIC_DIR + "/img/Single/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Swinger/*", site_configuration.LIVE_STATIC_DIR + "/img/Swinger/")
-            shutil.copytree(pwd + "/rs/proprietary/static/img/dropdown-images/", site_configuration.LIVE_STATIC_DIR + "/img/dropdown-images/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/Discrete_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Discrete_Menubar/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/Friend_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Friend_Menubar/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/Language_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Language_Menubar/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/Gay_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Gay_Menubar/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/js/*", site_configuration.LIVE_STATIC_DIR + "/js/")
         
         # Modify the jquery.fancybox file so that AlphaImageLoader files use the correct path to the

@@ -39,7 +39,11 @@
 
     {% if proprietary_static_dir_exists %}
         <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/proprietary_common.css">
-        <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/dropdown_menu.css">
+        {% if build_name == 'Discrete' or build_name == 'Lesbian' or build_name == 'Swinger' or build_name == 'Single' %}
+            <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/Discrete_Menubar.css">
+        {% else %}
+            <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/{{ build_name }}_Menubar.css">
+        {% endif %}
         <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/{{ build_name }}_common.css">
 
 
