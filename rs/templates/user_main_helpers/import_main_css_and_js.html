@@ -39,6 +39,8 @@
 
     {% if proprietary_static_dir_exists %}
         <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/proprietary_common.css">
+        <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/Menubar_common.css">
+
         {% if build_name == 'Discrete' or build_name == 'Lesbian' or build_name == 'Swinger' or build_name == 'Single' %}
             <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/Discrete_Menubar.css">
         {% else %}
@@ -121,7 +123,7 @@
          var template_chatbox_vars = {};
          template_chatbox_vars.chatboxes_enabled = false;
          // if we are generating FriendBazaar code, we need to include the country-to-currency mapping
-         var country_to_currency_map = {{ wrapper_data_fields.country_to_currency_map|safe}};
+         var country_to_currency_map = {{ wrapper_data_fields.country_to_currency_map|safe }};
 
     </script>
 
