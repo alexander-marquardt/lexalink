@@ -1620,3 +1620,10 @@ def render_paypal_button(request):
     except:
         error_reporting.log_exception(logging.error) 
         return ''
+    
+    
+def show_vip_info(userobject):
+    # Determines if this user should be shown information that is reserved for our VIP clients.
+    # An example of this is showing the online status of all users in the page.
+    show_vip_info = True if userobject.client_paid_status else False
+    return show_vip_info

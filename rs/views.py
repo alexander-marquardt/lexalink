@@ -141,8 +141,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             owner_nid = utils.get_nid_from_uid(owner_uid)
             registered_user_bool = True # viewing user is logged in
             link_to_hide = 'login'
-            if owner_userobject.client_paid_status:
-                show_vip_info = True
+            show_vip_info = utils.show_vip_info(owner_userobject)
+
         else:
             owner_userobject = None
             owner_uid = ''

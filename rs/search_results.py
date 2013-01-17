@@ -642,9 +642,8 @@ def generate_search_results(request, type_of_search = "normal"):
         
         viewer_userobject =  utils_top_level.get_userobject_from_request(request)
         show_vip_info = False
-        if viewer_userobject and viewer_userobject.client_paid_status:
-            show_vip_info = True
-            
+        if viewer_userobject:
+            show_vip_info = utils.show_vip_info(viewer_userobject)
     
         search_vals_dict = {}
         
