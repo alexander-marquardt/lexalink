@@ -98,29 +98,58 @@
             </li>
 
             <li class="top">
+                <a href="#" class="top_link">
+                    <span class="down">
+                    {% trans "More" %}
+                    </span>
+                </a>
+                <ul class="sub">
+			        <li>
+                        <a id="id-show_online_status_menu_element" href="#">
+                            {% trans "View others online status" %}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="top">
                 <a href="{% url views.logout %}"
                 rel="address:{% url views.logout %}"
                 class="top_link"><span>{% trans "Exit" %}</span></a>
             </li>
-    
+
         {% endif %}
     {% endif %}
 </ul>  
 
 
+{% include "user_main_helpers/test_vip_benefits_dialog.html" %}
+        
+
 <!-- example of how to multi-level nest :
 
-	<li class="top"><a href="#nogo27" id="contacts" class="top_link"><span class="down">Contacts</span></a>
-		<ul class="sub">
-			<li><a href="#nogo29" class="fly">Sales</a>
-				<ul>
-					<li><a href="#nogo32">South American</a></li>
-					<li><a href="#nogo33" class="fly">European</a>
-						<ul>
-							<li><a href="#nogo34" class="fly">British</a>
-								<ul>
-									<li><a href="#nogo38" class="fly">Bristol</a>
-										<ul>
-											<li><a href="#nogo39">Redland</a></li>
+	            <li class="top"><a href="#nogo27" id="contacts" class="top_link"><span class="down">Contacts</span></a>
+                <ul class="sub">
+                    <li><a href="#nogo29" class="fly">Sales</a>
+                        <ul>
+                            <li><a href="#nogo32">South American</a></li>
+                            <li><a href="#nogo33" class="fly">European</a>
+                                <ul>
+                                    <li><a href="#nogo34" class="fly">British Foobar</a>
+                                        <ul>
+                                            <li><a href="#nogo38" class="fly">Bristol</a>
+                                                <ul>
+                                                    <li><a href="#nogo39">Redland</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+             </li>
 -->
         

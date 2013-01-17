@@ -1,0 +1,51 @@
+{% load i18n %}
+
+<!-- this dialog box handler is appended as if it were another advertising unit -->
+
+<div id="id-show_online_status_dialog_html" style="display:none;">
+    {% blocktrans with app_name as app_name %}
+    <p>As a non-VIP (free) member of {{ app_name }}, you are allowed to see other members online status for {{ minutes }} minutes per day.
+    <p>If you would like to use your free {{ minutes }} minute quota now, please press the button below. If not, just close this dialog box.
+    </p>
+    {% endblocktrans %}
+
+    <p>
+    <input id="id-show_online_status_button" type="submit" name="submit" value="{% trans 'Show online status' %}">
+    </p>
+
+    {% blocktrans %}
+    <p>VIP members are always shown the online status of other members. You can purchase VIP status by clicking on the button below.
+    {% endblocktrans %}
+    
+    {{ paypal_button }}
+    
+</div>
+
+<div id="id-show_online_status_dialog_title" style="display:none;">
+View online status
+</div>
+        
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    
+    $('#id-show_online_status_button').button();
+    
+	var $dialog = $('<div></div>')
+		.html($("#id-show_online_status_dialog_html").html())
+		.dialog({
+			autoOpen: false,
+			title: $("#id-show_online_status_dialog_title").text()
+		});
+
+	$('#id-show_online_status_menu_element').click(function() {
+		$dialog.dialog('open');
+		// prevent the default action, e.g., following a link
+		return false;
+	});
+
+
+});
+</script>
