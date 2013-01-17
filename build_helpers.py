@@ -53,7 +53,7 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
     proprietary_static_file_pattern =  re.compile(r'.*/{{ live_proprietary_static_dir }}/%s/(.*).%s' % (static_file_type, static_file_type))
     build_name_pattern = re.compile(r'(.*)({{ build_name }})(.*)')
     default_common_pattern = re.compile(r'.*default_common\.css.*')
-    menubar_pattern = re.compile(r'.*/{{ live_static_dir }}/css/(.*)(_Menubar).css')
+    menubar_pattern = re.compile(r'.*/{{ live_proprietary_static_dir }}/css/(.*)(_Menubar).css')
     
     for line in input_html_src_file:
         matched_file_name = None
@@ -78,21 +78,20 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
             menubar_build_file_name = match_menubar_pattern.group(1)
             menubar_css_file = menubar_build_file_name + match_menubar_pattern.group(2)                            
             
-            if menubar_build_file_name == 'Discrete' and \
+            if menubar_build_file_name == 'Discrete' and not \
                (site_configuration.BUILD_NAME == 'Discrete' or site_configuration.BUILD_NAME == 'Lesbian' or\
                 site_configuration.BUILD_NAME == 'Swinger' or site_configuration.BUILD_NAME == 'Single'):
-                # use the Discrete menubar for Discrete, Lesbian, Swinger, and Single builds
-                logging.info("Matched css file %s" % css_file)
-                static_file_list.append(css_file)
-                static_file_list.append(menubar_css_file)
+                # The Discrete_Menubar.css should only be included in Discrete, Lesbian, Swinger, or Single builds
+                # Remove for all other builds
+                matched_file_name = None
                 
-            elif menubar_build_file_name == "{{ build_name }}" and \
+            elif menubar_build_file_name == "{{ build_name }}" and not\
                  (site_configuration.BUILD_NAME == 'Gay' or site_configuration.BUILD_NAME == 'Language' \
                   or site_configuration.BUILD_NAME == 'Friend'):
-                # all other builds have their own menubars defined.
-                matched_file_name = menubar_css_file
-            else:
-                raise Exception("Unknown menubar pattern matched in build_helpers.py")
+                # the {{ build_name }}_Menubar should only be included in Gay, Language, and Friend. 
+                # Remove from all other builds.
+                matched_file_name = None
+                
             
         if matched_file_name and matched_file_name != output_file_name + ".min" and matched_file_name != output_file_name:
             build_name_match = build_name_pattern.match(matched_file_name)

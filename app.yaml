@@ -1,7 +1,7 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
-application: gaysetup
-version: 2013-01-16-1911
+application: romancesapp
+version: 2013-01-17-1332
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -29,8 +29,8 @@ handlers:
   login: admin
 
 - url: /favicon.ico
-  static_files: rs/static/img/Gay/favicon.ico
-  upload: rs/static/img/Gay/favicon.ico
+  static_files: rs/static/img/Discrete/favicon.ico
+  upload: rs/static/img/Discrete/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location
