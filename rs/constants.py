@@ -205,6 +205,13 @@ class OnlinePresence(object):
         OFFLINE: ugettext_lazy("(Offline)"),
     }
     
+    presence_color_dict = {
+        ACTIVE: '1-green',
+        IDLE: '2-yellow',
+        AWAY: '3-red',
+        OFFLINE: '4-black'
+        }
+    
     STATUS_MEMCACHE_TRACKER_PREFIX = "_online_status_memcache_tracker_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
     # taking into account javascript single-threadedness and client loading, polling does not always happen as fast as we scheduled.

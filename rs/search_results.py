@@ -89,16 +89,16 @@ def display_userobject_first_half_summary(request, display_userobject, show_vip_
     
         heading_text = ugettext("See profile of:")
         generated_html += u'<div class="grid_9 alpha omega cl-text-14pt-format">\
-        <a href="%s" rel="address:%s"><strong>%s</strong> %s' % (
+        <a href="%s" rel="address:%s"><strong>%s</strong> %s </a>' % (
             userobject_href, userobject_href, heading_text, display_userobject.username)
 
         
         if display_online_status:
             userobject_key = str(display_userobject.key())
             status_string = utils.get_vip_online_status_string(userobject_key)
-            generated_html += u' %s' % status_string
+            generated_html += u' <br>%s' % status_string
         
-        generated_html += "</a><br><br></div>\n"
+        generated_html += "<br><br></div>\n"
         
         
         
