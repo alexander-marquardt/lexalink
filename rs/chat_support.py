@@ -54,6 +54,10 @@ CHAT_MESSAGE_NUMBER_MEMCACHE_PREFIX = "_memcache_message_number_memcache_prefix_
 CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX = "_memcache_message_object_memcache_prefix_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 CHAT_GROUPS_LIST_MEMCACHE_KEY = "_chat_groups_list_memcache_key_" + constants.FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
+class chat_groups_members_dict_states(object):
+    SHOW_STATUS= "show_user_presence_status"  
+    NO_SHOW_STATUS = "dont_show_user_presence_status"
+
 
 def get_open_conversation_tracker_object(owner_uid, other_uid):
     
@@ -193,7 +197,8 @@ def expire_group_members_dict_memcache(group_id):
     
     for lang_tuple in settings.LANGUAGES:
         lang_code = lang_tuple[0]
-        memcache.delete(lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id)   
+        memcache.delete(lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id + chat_groups_members_dict_states.SHOW_STATUS)   
+        memcache.delete(lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_id + chat_groups_members_dict_states.NO_SHOW_STATUS)   
         
     
 def delete_uid_from_group(owner_uid, group_id):
@@ -230,8 +235,15 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
     """
     group_members_names_dict = {} # in case of exception, we return an empty dictionary
     
+    if utils.display_online_status(owner_uid):
+        show_user_presence_status = chat_groups_members_dict_states.SHOW_STATUS
+        # we must return the dictionary that includes the user_presence_status
+    else:
+        # we return the dictionary without the user_presence_status.
+        show_user_presence_status = chat_groups_members_dict_states.NO_SHOW_STATUS
+        
     try:
-        memcache_key = lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_uid  
+        memcache_key = lang_code + CHAT_GROUPS_MEMBERS_DICT_MEMCACHE_PREFIX + group_uid  + show_user_presence_status
         group_members_names_dict = memcache.get(memcache_key)
         
         if group_members_names_dict is None:
@@ -251,7 +263,8 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
                     group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
                     group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
-                    if utils.display_online_status(owner_uid):
+                    
+                    if show_user_presence_status == chat_groups_members_dict_states.SHOW_STATUS:
                         group_members_names_dict[member_uid]['user_presence_status'] = user_presence_status
                     else:
                         group_members_names_dict[member_uid]['user_presence_status'] = constants.HIDDEN_ONLINE_STATUS
