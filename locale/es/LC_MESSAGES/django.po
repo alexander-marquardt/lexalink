@@ -5029,9 +5029,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Como miembre no-VIP (Gratuito) de %(app_name)s, estas permitido "
-"ver el estado de conexión de los otro miembres para %(minutes)s cad %(reset)s "
-"horas.\n"
+"Como miembro gratuito (no-VIP) de %(app_name)s, puedes ver el estado de conexión de los otros miembros durante %(minutes)s minutos cada %(reset)s horas.\n"
 "         "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:14
@@ -5045,9 +5043,7 @@ msgid ""
 
 msgstr ""
 "\n"
-"            Si te gustaría usar tu quota de %(minutes)s minutos ahora mismo, "
-"            pulsa el boton debajo. Si prefieres esperar hasta luego,\n"
-"            simplemente cierra esta caja de dialogo.\n"
+"            Si quieres usar tu cuota de %(minutes)s minutos ahora, pulsa el botón debajo. Si prefieres esperar hasta luego, simplemente cierra esta ventana."
 "            "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:21
@@ -5062,8 +5058,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Miembros VIP siempre ven el estado de conexión  de los otros miembros. Puedes "
-"comprar estado VIP por hacer clic en el boton debajo."
+"Los miembros VIP siempre ven el estado de conexión de los otros miembros. Puedes comprar tu estado VIP haciendo clic en el botón debajo."
 "     "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:40
@@ -5075,7 +5070,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Has usado tu prueba de %(minutes)s minutos. Tiempo de espera hasta tu próxima prueba:"
+"Ya has usado tus %(minutes)s minutos. Tiempo de espera hasta tu próxima prueba:\n"
 "       "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:49
@@ -5083,7 +5078,7 @@ msgid ""
 "You are VIP member, therefore you are always shown the online status of "
 "other members."
 msgstr ""
-"Eres un miembro VIP, entonces siempre ves el estado de conexión  de los otros miembros."
+"Eres un miembro VIP y por esto siempre puedes ver el estado de conexión de los otros miembros."
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:55
 msgid "View online status"
