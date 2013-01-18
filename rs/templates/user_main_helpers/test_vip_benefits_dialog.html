@@ -2,10 +2,11 @@
 
 <!-- this dialog box handler is appended as if it were another advertising unit -->
 
-<div id="id-show_online_status_dialog_html" style="display:none;">
+<div id="id-show_online_status_dialog_box" style="display:none;">
     {% blocktrans with app_name as app_name %}
     <p>As a non-VIP (free) member of {{ app_name }}, you are allowed to see other members online status for {{ minutes }} minutes per day.
-    <p>If you would like to use your free {{ minutes }} minute quota now, please press the button below. If not, just close this dialog box.
+    <p>If you would like to use your free {{ minutes }} minute quota now, please press the button below. If you prefer to wait until later,
+    just close this dialog box.
     </p>
     {% endblocktrans %}
 
@@ -27,25 +28,22 @@ View online status
         
 
 
-
 <script type="text/javascript">
 $(document).ready(function() {
-    
-    $('#id-show_online_status_button').button();
-    
-	var $dialog = $('<div></div>')
-		.html($("#id-show_online_status_dialog_html").html())
-		.dialog({
-			autoOpen: false,
-			title: $("#id-show_online_status_dialog_title").text()
-		});
+
+    var $dialog = $("#id-show_online_status_dialog_box");
 
 	$('#id-show_online_status_menu_element').click(function() {
-		$dialog.dialog('open');
+        $dialog.dialog({
+            title : $("#id-show_online_status_dialog_title").text()
+        });
+        $dialog.dialog('open');
+
 		// prevent the default action, e.g., following a link
 		return false;
 	});
 
+    $('#id-show_online_status_button').button();
 
 });
 </script>
