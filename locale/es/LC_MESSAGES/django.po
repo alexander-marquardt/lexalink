@@ -4952,7 +4952,7 @@ msgstr "Más"
 
 #: rs/templates/user_main_helpers/navigation_buttons.html:109
 msgid "View others online status"
-msgstr "Estado de conexión de otros"
+msgstr "Mostrar estados de conexión"
 
 #: rs/templates/user_main_helpers/navigation_buttons.html:118
 msgid "Exit"
