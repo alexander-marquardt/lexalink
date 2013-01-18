@@ -433,6 +433,11 @@ else:
 ###################################################
 ## START VIP/Paid Client Related
 
+# Memcache object to store the VIP (client_paid_status) for each user 
+# We don't set a timeout on this, since we will manually expire it if the userobject is updated. 
+CLIENT_PAID_STATUS_MEMCACHE_PREFIX = "_CLIENT_PAID_STATUS_MEMCACHE_PREFIX_" + site_configuration.VERSION_ID + "_"
+HIDDEN_ONLINE_STATUS = "hidden_online_status"
+
 # Define how many minutes of viewing others online status they will be allowed in a time window
 SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES = 5
 SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_SECONDS = SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES * SECONDS_PER_MINUTE

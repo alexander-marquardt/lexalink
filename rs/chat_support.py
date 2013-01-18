@@ -222,7 +222,7 @@ def delete_uid_from_group(owner_uid, group_id):
         # Unknown error - we should investigate this
         error_reporting.log_exception(logging.critical)
 
-def get_group_members_dict(lang_code, group_uid):
+def get_group_members_dict(lang_code, owner_uid, group_uid):
     """ 
     Returns a dictionary object containing the users that are in the group indicated by group_id.
     The dictionary will contain a dictionary with key=uid which contains a sub-dictionary with keys
@@ -251,7 +251,11 @@ def get_group_members_dict(lang_code, group_uid):
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
                     group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
                     group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
-                    group_members_names_dict[member_uid]['user_presence_status'] = user_presence_status
+                    if utils.display_online_status(owner_uid):
+                        group_members_names_dict[member_uid]['user_presence_status'] = user_presence_status
+                    else:
+                        group_members_names_dict[member_uid]['user_presence_status'] = constants.HIDDEN_ONLINE_STATUS
+                        
                 else:
                     delete_uid_from_group(member_uid, group_uid)
                     
@@ -294,9 +298,13 @@ def get_friends_online_dict(lang_code, owner_uid):
             user_presence_status = online_presence_support.get_online_status(uid)
             chat_boxes_status = online_presence_support.get_chat_boxes_status(uid)
             
-            if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE: # for purposes of chat list update, offline and timeout are the same
+            if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE:
                 online_contacts_info_dict[uid] = user_info_dict[uid]
-                online_contacts_info_dict[uid]['user_presence_status'] = user_presence_status
+                if utils.display_online_status(owner_uid):
+                    online_contacts_info_dict[uid]['user_presence_status'] = user_presence_status
+                else:
+                    online_contacts_info_dict[uid]['user_presence_status'] = constants.HIDDEN_ONLINE_STATUS
+                    
                     
         memcache.add(online_contacts_info_dict_memcache_key, online_contacts_info_dict, \
                      constants.SECONDS_BETWEEN_ONLINE_FRIEND_LIST_UPDATE)

@@ -1,50 +1,60 @@
 {% load i18n %}
 
 <!-- this dialog box handler is appended as if it were another advertising unit -->
-<div id="id-show_online_status_dialog_box" style="display:none;">
-    <div id ="id-show_online_status_dialog_box-first_part">
+{% if not primary_user_presentation_data_fields.client_paid_status %}
+    <div id="id-show_online_status_dialog_box" style="display:none;">
+        <div id ="id-show_online_status_dialog_box-first_part">
+            <p>
+            {% blocktrans with app_name as app_name and SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES as minutes and BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS as reset  %}
+            As a non-VIP (free) member of {{ app_name }}, you are allowed to see other members online status for {{ minutes }} minutes every {{ reset }} hours.
+            {% endblocktrans %}
+            </p>
+
+            <p>
+            {% blocktrans with SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES as minutes %}
+            If you would like to use your free {{ minutes }} minute quota now, please press the button below. If you prefer to wait until later,
+            just close this dialog box.
+            {% endblocktrans %}
+            </p>
+
+            <p>
+            <input id="id-show_online_status_button" type="submit" name="submit" value="{% trans 'Show online status' %}">
+            </p>
+
+        </div>
+
         <p>
-        {% blocktrans with app_name as app_name and SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES as minutes and BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS as reset  %}
-        As a non-VIP (free) member of {{ app_name }}, you are allowed to see other members online status for {{ minutes }} minutes every {{ reset }} hours.
+        {% blocktrans %}
+        VIP members are always shown the online status of other members. You can purchase VIP status by clicking on the button below.
         {% endblocktrans %}
         </p>
 
-        <p>
-        {% blocktrans with SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES as minutes %}
-        If you would like to use your free {{ minutes }} minute quota now, please press the button below. If you prefer to wait until later,
-        just close this dialog box.
-        {% endblocktrans %}
-        </p>
+        {{ paypal_button }}
 
-        <p>
-        <input id="id-show_online_status_button" type="submit" name="submit" value="{% trans 'Show online status' %}">
-        </p>
-        
     </div>
 
-    <p>
-    {% blocktrans %}
-    VIP members are always shown the online status of other members. You can purchase VIP status by clicking on the button below.
-    {% endblocktrans %}
-    </p>
-    
-    {{ paypal_button }}
-    
-</div>
+
+
+    <div id ="id-show_online_status_dialog_blocked_message"  style="display:none;">
+        <p>
+        {% blocktrans with SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES as minutes %}
+        You have already used your free {{ minutes }} minute trial. Time to wait before your next trial:
+        {% endblocktrans %}
+        </p>
+
+    </div>
+{% else %}
+        <!-- user is already VIP -->
+        <div id="id-show_online_status_dialog_box" style="display:none;">
+            <p>{% blocktrans %}You are VIP member, therefore you are always shown the online status of other members{% endblocktrans %}</p>
+
+        </div>
+{% endif %}
 
 <div id="id-show_online_status_dialog_title" style="display:none;">
-{% trans "View online status" %}
+    {% trans "View online status" %}
 </div>
 
-<div id ="id-show_online_status_dialog_blocked_message"  style="display:none;">
-    <p>
-    {% blocktrans with SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES as minutes %}
-    You have already used your free {{ minutes }} minute trial. Time to wait before your next trial:
-    {% endblocktrans %}
-    </p>
-
-</div>
-        
 
 <script type="text/javascript">
 $(document).ready(function() {

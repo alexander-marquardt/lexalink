@@ -141,7 +141,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             owner_nid = utils.get_nid_from_uid(owner_uid)
             registered_user_bool = True # viewing user is logged in
             link_to_hide = 'login'
-            show_vip_info = utils.show_vip_info(owner_userobject)
+            show_vip_info = utils.display_online_status(owner_uid)
 
         else:
             owner_userobject = None

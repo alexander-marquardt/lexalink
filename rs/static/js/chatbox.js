@@ -961,9 +961,11 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
         for (var uid in contacts_info_dict) {
-            if (contacts_info_dict[uid]['user_presence_status'] != 'user_presence_active') {
+            if (contacts_info_dict[uid]['user_presence_status'] != 'hidden_online_status') {
+                // get the *translated* online status by looking it up in a div that we have defined.
                 online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['user_presence_status'] + '-text').text();
             } else {
+                // to keep the chatboxes looking clean, by default we don't show a status for active users.
                 online_status = '';
             }
             var chatbox_title = contacts_info_dict[uid]['user_or_group_name'] + online_status;

@@ -182,10 +182,11 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         if userobject:
             username = userobject.username
             email_address = userobject.email_address
+            client_paid_status = userobject.client_paid_status
         else:
             username = ''
             email_address = ''
-        
+            client_paid_status = None
     
         additional_ads_to_append = []
         # render the HTML for the majority of pages that will be seen by users... However, individual profiles are rendered by views.user_main
@@ -249,6 +250,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             to_buy_sub_menu_options_html = "Not used - only for Friend"
                         
         
+        # Information for users that are signed in with an account
         primary_user_presentation_data_fields = {}
         primary_user_presentation_data_fields['username'] = username
         primary_user_presentation_data_fields['email_address'] = email_address
@@ -260,8 +262,10 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields['chat_is_disabled'] = chat_is_disabled
         primary_user_presentation_data_fields['do_not_try_to_dynamically_load_search_values'] = do_not_try_to_dynamically_load_search_values
         primary_user_presentation_data_fields['remove_chatboxes'] = "yes" if remove_chatboxes else "no"
+        primary_user_presentation_data_fields['client_paid_status'] = client_paid_status
         
             
+        # Information for users that have not signed up for an account.
         guest_user_data_fields = {}
         guest_user_data_fields['registered_user_bool'] = registered_user_bool
         guest_user_data_fields['unregistered_user_welcome_text'] = unregistered_user_welcome_text

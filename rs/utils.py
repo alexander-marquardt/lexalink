@@ -360,6 +360,11 @@ def put_userobject(userobject):
     # Invalidate the memcached url_description for this userprofile since it has potentially changed.
     uid = str(userobject.key())
     
+    
+    # invalidate the client_paid_status memcache value since we may have just updated it.
+    client_paid_status_memcache_key = constants.CLIENT_PAID_STATUS_MEMCACHE_PREFIX + uid
+    memcache.delete(client_paid_status_memcache_key)
+    
     #invalidate_user_summary_memcache(uid)
     
     for lang_tuple in settings.LANGUAGES:
@@ -1629,41 +1634,70 @@ def render_paypal_button(request):
         return ''
     
     
-def show_vip_info(userobject):
+def display_online_status(owner_uid):
     # Determines if this user should be shown information that is reserved for our VIP clients.
     # An example of this is showing the online status of all users in the page.
-    
-    if userobject.client_paid_status:
-        show_online_status_trial = True 
-    else:
-        owner_uid = str(userobject.key())
-        show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
-        show_online_status_trial= memcache.get(show_online_status_memcache_key)   
-        if show_online_status_trial is not None:
-            show_online_status_trial = True
-        else:
-            show_online_status_trial = False
-            
-    return show_online_status_trial
 
+    try:    
+    
+        # First, check if the user is a VIP (paid client). In order to not have to query the userobject,
+        # we check for the client_paid_status in memcache. If not there, then we load the userobject, and
+        # write the value to memcache. 
+        client_paid_status_memcache_key = constants.CLIENT_PAID_STATUS_MEMCACHE_PREFIX + owner_uid
+        client_paid_status = memcache.get(client_paid_status_memcache_key)
+        
+        if client_paid_status is None:
+            # client_paid_status not found in memcache for this uid
+            userobject = utils_top_level.get_object_from_string(owner_uid)
+            client_paid_status = userobject.client_paid_status
+            if client_paid_status is None:
+                # we must set the memcache value to something other than None, in order to prevent us from
+                # interpreting a "None" value as a memcache miss. 
+                memcache.set(client_paid_status_memcache_key, False)
+            else:
+                memcache.set(client_paid_status_memcache_key, client_paid_status)
+        
+        if client_paid_status:
+            # This is a VIP (paid) member - always show online status 
+            show_online_status = True 
+        else:
+            # This is a non-VIP (free) member.
+            # check if they are currently in a trial period. I
+            show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
+            show_online_status= memcache.get(show_online_status_memcache_key)   
+            if show_online_status is not None:
+                show_online_status = True
+            else:
+                show_online_status = False
+                
+        return show_online_status
+    
+    except:
+        error_reporting.log_exception(logging.error) 
+        return False
 
 def set_show_online_status_timeout(owner_uid):
     
     # keep track of how long this user will be allowed to view other users online status, 
     # and also how long before they will be allowed to start another trial.
-    
-    block_online_status_memcache_key = constants.BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
-    is_blocked_start_time = memcache.get(block_online_status_memcache_key)
-    
-    if is_blocked_start_time is None:
-        start_trial_time = datetime.datetime.now()
-        show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
-        memcache.set(show_online_status_memcache_key, start_trial_time, constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_SECONDS)
-        memcache.set(block_online_status_memcache_key, start_trial_time, constants.BLOCK_ONLINE_STATUS_TRIAL_RESET_SECONDS)
-        return "OK"
-    
-    else:
-        # return how much longer until the trial will be un-blocked
-        return return_time_difference_in_friendly_format(is_blocked_start_time + \
-                datetime.timedelta(seconds = constants.BLOCK_ONLINE_STATUS_TRIAL_RESET_SECONDS),
-                time_is_in_past=False, show_in_or_ago=False)
+    try:
+        block_online_status_memcache_key = constants.BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
+        is_blocked_start_time = memcache.get(block_online_status_memcache_key)
+        
+        if is_blocked_start_time is None:
+            start_trial_time = datetime.datetime.now()
+            show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
+            memcache.set(show_online_status_memcache_key, start_trial_time, constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_SECONDS)
+            memcache.set(block_online_status_memcache_key, start_trial_time, constants.BLOCK_ONLINE_STATUS_TRIAL_RESET_SECONDS)
+            return "OK"
+        
+        else:
+            # return how much longer until the trial will be un-blocked
+            return return_time_difference_in_friendly_format(is_blocked_start_time + \
+                    datetime.timedelta(seconds = constants.BLOCK_ONLINE_STATUS_TRIAL_RESET_SECONDS),
+                    time_is_in_past=False, show_in_or_ago=False)
+        
+        
+    except:
+        error_reporting.log_exception(logging.error) 
+        return "Error"        

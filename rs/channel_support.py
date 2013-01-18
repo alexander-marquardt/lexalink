@@ -279,7 +279,7 @@ def poll_server_for_status_and_new_messages(request):
                     # the list of members (group chat and the display of who is in the group are two different windows)
                     response_dict['chat_group_members'] = {}
                     for group_uid in list_of_open_chat_groups_members_boxes_on_client:
-                        response_dict['chat_group_members'][group_uid] = chat_support.get_group_members_dict(lang_code, group_uid)
+                        response_dict['chat_group_members'][group_uid] = chat_support.get_group_members_dict(lang_code, owner_uid, group_uid)
                 
                 response_dict['conversation_tracker'] = {} 
                 open_conversation_objects = chat_support.query_currently_open_conversations(owner_uid)

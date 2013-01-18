@@ -93,7 +93,7 @@ def display_userobject_first_half_summary(request, display_userobject, show_vip_
             userobject_href, userobject_href, heading_text, display_userobject.username)
 
         
-        if show_vip_info:
+        if display_online_status:
             userobject_key = str(display_userobject.key())
             status_string = utils.get_vip_online_status_string(userobject_key)
             generated_html += u' %s' % status_string
@@ -272,7 +272,7 @@ def get_userobject_summary_with_memcache_check(request, viewer_userobject, displ
     display_uid = str(display_userobject_key)
     display_userobject = utils_top_level.get_object_from_string(display_uid)  
 
-    summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, show_vip_info)              
+    summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, display_online_status)              
     summary_second_half_html = display_userobject_second_half_summary(viewer_userobject, display_userobject)
         
     return summary_first_half_html + summary_second_half_html
@@ -292,7 +292,7 @@ def generate_html_for_search_results(request, viewer_userobject, query_results_k
 
     
     for display_userobject_key in query_results_keys:
-        generated_html += get_userobject_summary_with_memcache_check(request, viewer_userobject, display_userobject_key, show_vip_info)
+        generated_html += get_userobject_summary_with_memcache_check(request, viewer_userobject, display_userobject_key, display_online_status)
         
     return generated_html
 
@@ -641,9 +641,10 @@ def generate_search_results(request, type_of_search = "normal"):
         generated_html_submit_search_second_half = ''        
         
         viewer_userobject =  utils_top_level.get_userobject_from_request(request)
+        viewer_uid = utils_top_level.get_uid_from_request(request)
         show_vip_info = False
         if viewer_userobject:
-            show_vip_info = utils.show_vip_info(viewer_userobject)
+            show_vip_info = utils.display_online_status(viewer_uid)
     
         search_vals_dict = {}
         

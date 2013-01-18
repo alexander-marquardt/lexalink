@@ -688,6 +688,7 @@ var chan_utils = new function () {
 
                 for (var uid in users_or_groups_dict) {
                     var user_or_group_info_dict = {};
+                    var online_status = undefined;
                     user_or_group_info_dict['uid'] = uid;
                     user_or_group_info_dict['nid'] = users_or_groups_dict[uid]['nid'];
                     user_or_group_info_dict['url_description'] = users_or_groups_dict[uid]['url_description'];
@@ -700,12 +701,12 @@ var chan_utils = new function () {
                             throw "Error in sort_user_or_groups_by_name";
                         }
                         // this is the "main" box which contains list of contacts online
-                        if (users_or_groups_dict[uid]['user_presence_status'] != "user_presence_active") {
-                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_presence_status'] + '-text').text();
+                        if (users_or_groups_dict[uid]['user_presence_status'] != "hidden_online_status") {
+                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_presence_status'] + '-image').html();
                         } else {
                             online_status = '';
                         }
-                        user_or_group_name = users_or_groups_dict[uid]['user_or_group_name']  + online_status;
+                        user_or_group_name = online_status + users_or_groups_dict[uid]['user_or_group_name'] ;
                     }
                     sorted_list_of_names_with_uids.push([user_or_group_name, user_or_group_info_dict]);
                 }
