@@ -78,6 +78,13 @@ def get_userobject_from_request(request):
     return userobject
 
 
+def get_uid_from_request(request):
+    if request.session.__contains__('userobject_str'): 
+        return request.session['userobject_str']
+    else:
+        return None
+     
+     
 # Required for efficient memcaching: from http://blog.notdot.net/2009/9/Efficient-model-memcaching
 #Usage:
 #from google.appengine.api import memcache

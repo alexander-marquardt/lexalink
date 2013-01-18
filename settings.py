@@ -136,6 +136,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/rs/apply_unused_vip_credits/'),
     re.compile(r'^/videochat_server/'),
     re.compile(r'^/videochat_window/'),
+    re.compile(r'^/rs/set_show_online_status_trial/'),
     re.compile(r'^/robots.txt'), 
     re.compile(r'^/_ah/'), 
 )

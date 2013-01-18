@@ -775,3 +775,15 @@ def report_javascript_status(request, logging_function = logging.error):
         logging_function("report_javascript_error called without an status_text included in the post/get\n")
         
     return HttpResponse("OK")
+
+
+
+def set_show_online_status_trial(request):
+    
+    owner_uid = utils_top_level.get_uid_from_request(request)
+    status = utils.set_show_online_status_timeout(owner_uid)
+    if status == "OK":
+        return HttpResponse(status)
+    else:
+        # it has returned the amount of time remaining before it will be un-blocked
+        return HttpResponse(status)

@@ -500,7 +500,7 @@ def get_photo_message(userobject):
     return photo_message
             
 
-def return_time_difference_in_friendly_format(time_to_display, capitalize = True, data_precision = 2, time_is_in_past = True):
+def return_time_difference_in_friendly_format(time_to_display, capitalize = True, data_precision = 2, time_is_in_past = True, show_in_or_ago = True):
     
     #  time_to_display is a datetime object.
     # This function will return a more user-friendly (timezone neutral) display of 
@@ -592,17 +592,24 @@ def return_time_difference_in_friendly_format(time_to_display, capitalize = True
         joined_time = "%s%s%s%s" % (days_text, hours_text, minutes_text, seconds_text)
         
         if time_is_in_past:
-            if capitalize:
-                ago_text = ugettext("ago (capitalize if first word)")
-            else:                  
-                ago_text = ugettext("ago")
+            if show_in_or_ago:
+                if capitalize:
+                    ago_text = ugettext("ago (capitalize if first word)")
+                else:                  
+                    ago_text = ugettext("ago")
+            else:
+                ago_text = ''
+                
             generated_html = ugettext("%(joined_time)s %(ago_text)s") % {'joined_time' : joined_time, 'ago_text' : ago_text}
         else:
             # time is in the future
-            if capitalize:
-                in_text = ugettext("In")
-            else:                  
-                in_text = ugettext("in")
+            if show_in_or_ago:
+                if capitalize:
+                    in_text = ugettext("In")
+                else:                  
+                    in_text = ugettext("in")
+            else:
+                in_text = ''
             generated_html = "%(in_text)s %(joined_time)s" % {'joined_time' : joined_time, 'in_text' : in_text}
 
              
@@ -1625,5 +1632,38 @@ def render_paypal_button(request):
 def show_vip_info(userobject):
     # Determines if this user should be shown information that is reserved for our VIP clients.
     # An example of this is showing the online status of all users in the page.
-    show_vip_info = True if userobject.client_paid_status else False
-    return show_vip_info
+    
+    if userobject.client_paid_status:
+        show_online_status_trial = True 
+    else:
+        owner_uid = str(userobject.key())
+        show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
+        show_online_status_trial= memcache.get(show_online_status_memcache_key)   
+        if show_online_status_trial is not None:
+            show_online_status_trial = True
+        else:
+            show_online_status_trial = False
+            
+    return show_online_status_trial
+
+
+def set_show_online_status_timeout(owner_uid):
+    
+    # keep track of how long this user will be allowed to view other users online status, 
+    # and also how long before they will be allowed to start another trial.
+    
+    block_online_status_memcache_key = constants.BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
+    is_blocked_start_time = memcache.get(block_online_status_memcache_key)
+    
+    if is_blocked_start_time is None:
+        start_trial_time = datetime.datetime.now()
+        show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
+        memcache.set(show_online_status_memcache_key, start_trial_time, constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_SECONDS)
+        memcache.set(block_online_status_memcache_key, start_trial_time, constants.BLOCK_ONLINE_STATUS_TRIAL_RESET_SECONDS)
+        return "OK"
+    
+    else:
+        # return how much longer until the trial will be un-blocked
+        return return_time_difference_in_friendly_format(is_blocked_start_time + \
+                datetime.timedelta(seconds = constants.BLOCK_ONLINE_STATUS_TRIAL_RESET_SECONDS),
+                time_is_in_past=False, show_in_or_ago=False)

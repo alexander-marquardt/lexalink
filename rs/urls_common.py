@@ -201,6 +201,8 @@ urlpatterns = patterns('',
     (r'^rs/ajax/load_(?P<section_name>[\w|-|_]+)_for_edit/$', ajax.load_checkbox_section_for_edit), # keep this above the next line   
     (r'^rs/ajax/load_(?P<section_name>[\w|-|_]+)/[\w|-]+/$', ajax.load_checkbox_section), # keep below previous call, since it is more specific
     
+    (r'^rs/ajax/set_show_online_status_trial/[\w|-]+/$', ajax.set_show_online_status_trial), # keep below previous call, since it is more specific
+    
     # temporarily reduced the following error message to a warning, until we can come back and cleanup all possible
     # instances in which this URL might be called - it is currently generating too many errors in the log, and masking 
     # other, more serious, error messages.

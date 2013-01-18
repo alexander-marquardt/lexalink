@@ -44,7 +44,6 @@ elif settings.LANGUAGE_CODE == 'es':
 else:
     raise Exception("Unknown settings.LANGUAGE_CODE")
 
-SESSION_EXPIRE_HOURS = 7 * 24
     
 if settings.BUILD_NAME == "Language" : 
     minimum_registration_age = 14
@@ -85,6 +84,9 @@ CHECKBOX_INPUT_COLS_PER_ROW = 4
 
 MAX_KEYS_SENT_ALLOWED = 40
 
+######################################################################
+## START - Time Constants
+
 # Define constants that are used for caching and other stuff - Note: the values for month and year are approximate.
 SECONDS_PER_MINUTE = 60
 SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE
@@ -92,6 +94,17 @@ SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR
 SECONDS_PER_WEEK = 7 * SECONDS_PER_DAY
 SECONDS_PER_MONTH = 30 * SECONDS_PER_DAY
 SECONDS_PER_YEAR = 365 * SECONDS_PER_DAY
+
+## END - Time Constants
+######################################################################
+
+
+######################################################################
+## START - Session and Malicious User Controls
+
+SESSION_EXPIRE_HOURS = 7 * 24
+
+MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we will store for a single profile in the UserTracker object.
 
 
 MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW = 2 # If they exceed this number of attempted registrations with a single email address in one day
@@ -105,6 +118,34 @@ SMALL_TIME_WINDOW_HOURS_FOR_COUNT_UNACCEPTABLE_PROFILE_REPORTS = 3 # hours
 SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN = 4 # if this number of reports is received within the window, profile and IP banned
 BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 
+## START - Malicious User Controls
+######################################################################
+
+######################################################################
+## START - General Memcache Constants
+# include the version identifier in the memcache prefix for objects that have a probability of changing
+# between version upates - currently this is done for the userobject and any other objects that use
+# utils.put_object() for writing to the database
+BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + site_configuration.VERSION_ID + "_"
+PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + site_configuration.VERSION_ID + "_"
+PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + site_configuration.VERSION_ID + "_"
+#PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + site_configuration.VERSION_ID
+NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + site_configuration.VERSION_ID
+INITIATE_CONTACT_MEMCACHE_PREFIX = "_initiate_contact_" + site_configuration.VERSION_ID + "_"
+
+## END - General Memcache Constants
+######################################################################
+
+######################################################################
+## START Sitemap Constants
+
+# Define how many user profiles will be linked to in a single sitemap file.
+SITEMAP_MAX_ENTRIES_FOR_USERMODEL = 2000
+# Define how many user profile sitemap files will be linked within a single index file.
+SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
+
+## END Sitemap Constants
+######################################################################
 
 ######################################################################
 ## Chat Functionality Constants
@@ -214,58 +255,9 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 ######################################################################
 
 
-# include the version identifier in the memcache prefix for objects that have a probability of changing
-# between version upates - currently this is done for the userobject and any other objects that use
-# utils.put_object() for writing to the database
-BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + site_configuration.VERSION_ID + "_"
-PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + site_configuration.VERSION_ID + "_"
-PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + site_configuration.VERSION_ID + "_"
-#PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + site_configuration.VERSION_ID
-NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + site_configuration.VERSION_ID
-INITIATE_CONTACT_MEMCACHE_PREFIX = "_initiate_contact_" + site_configuration.VERSION_ID + "_"
 
-
-NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for Language - number of languages to show
-
-MAIL_TEXTAREA_ROWS = 8
-MAIL_TEXTAREA_CUTOFF_CHARS = 10000
-MAIL_DISPLAY_CHARS = 300
-MAIL_SNIP_CHARS = 400
-MAIL_SUMMARY_NUM_LINES_TO_SHOW = 2
-
-ABOUT_USER_MAX_ROWS = 15
-
-MAX_CHARS_PER_WORD = 30 # this is used for breaking long (probably fake) words, to ensure that they don't overrrun div boundaries
-
-MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY = 40
-
-MAX_TEXT_INPUT_LEN = 100 # default value for text inputs if not defined.
-MAX_USERNAME_LEN = 16 # max number of chars allowed in a username
-
-MAX_LEN_CHANNEL_ID = 64 # the lenght of the channel identifier token, which is used for chat and other real-time communications to client
-
-rematch_non_alpha = re.compile(r'\W+') #match one or more non-alphanumeric characters
-
-# Number of characters to display for the "about me" section, and the cutoff for being considered to have
-# entered enough data.
-ABOUT_USER_MIN_DESCRIPTION_LEN = 100
-ABOUT_USER_MAX_DESCRIPTION_LEN = 5000
-ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN = 1000
-
-# we just take a piece of the hash of the creation date for including in URLs that should be 
-# secure (such as changing user options or deleting the profile)--- 
-# This length *should* be more than sufficient for the limited security that we need, but we can make it longer 
-# in the future if necessary.
-EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE = 15 
-
-
-MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we will store for a single profile in the UserTracker object.
-
-# Define how many user profiles will be linked to in a single sitemap file.
-SITEMAP_MAX_ENTRIES_FOR_USERMODEL = 2000
-# Define how many user profile sitemap files will be linked within a single index file.
-SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
-
+###################################################
+## START Advertising related constants
 # define the list of pages which we want to advertise
 pages_to_advertise = []
 append_more_advertising_info_dialog = False
@@ -307,9 +299,6 @@ if settings.BUILD_NAME == 'Friend':
 if settings.BUILD_NAME == 'Language':
     pages_to_advertise == pages_to_advertise.append('Single')
     pages_to_advertise.append('Friend')
-    
-
-    
 
 # set a flag that determines if google ads will be shown - we don't attempt to show ads
 # on the more edgy sites since this could cause problems / risk of removal from the adsense program
@@ -327,16 +316,19 @@ elif settings.BUILD_NAME == 'Discrete' :
     MAX_NUM_PAGES_TO_ADVERTISE = 5
 else:
     MAX_NUM_PAGES_TO_ADVERTISE = 2
-
-
     
 # set a flag that determines if ashley madison ads will be shown
 if settings.BUILD_NAME == 'Discrete':
     enable_ashley_madison_ads = False # disabled since they don't respond to enquiries about payments.
 else:
     enable_ashley_madison_ads = False
+        
+## END Advertising related constants
+###################################################
     
-    
+
+###################################################
+## START Email Notification settings
 # The following data structure is used for converting between the named values for the amount of time between
 # message notifications and numerical values which can be looked up. The values reflect the number of hours
 # between notifications.
@@ -380,7 +372,13 @@ hours_between_new_contacts_notifications = {
     'monthly_notification_of_new_messages_or_contacts': 24*30, 
     'only_password_recovery': None,}
 
-IS_ADULT = False # used in determining what sort of behavior (ie. photo uploads) is allowed, and instructions that will be shown
+
+## END Email Notification settings
+###################################################
+
+    
+###################################################
+## START Administrator/Site Email Addresses
 
 if settings.BUILD_NAME == "Discrete":
     # Special case for the "discrete" site, because we don't want to explicitly say the name of the site in the address field
@@ -392,6 +390,13 @@ else:
     sender_address_html = u"%s - Customer Support &lt;support@%s&gt;" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
     admin_address = u"Admin <admin@%s>" % domain_name_dict[settings.BUILD_NAME]
     
+## END Administrator/Site Email Addresses
+###################################################
+    
+    
+###################################################
+## START Site-description 
+IS_ADULT = False # used in determining what sort of behavior (ie. photo uploads) is allowed, and instructions that will be shown
     
 if settings.BUILD_NAME == "Discrete":
     SITE_TYPE = ugettext_lazy('confidential dating website')
@@ -421,14 +426,28 @@ elif settings.BUILD_NAME == "Friend":
 else:
     raise Exception("Unknown settings.BUILD_NAME")
 
-#following are just formatting options for use in drop-down menus, and other
-# form settings.
-field_formats = {'right_align_login' :         'cl-td-right-align-login',
-                 'left_align_login' :          'cl-td-left-align-login',
-                 'right_align_user_main':      'cl-td-right-align-user_main',
-                 'left_align_user_main':       'cl-td-left-align-user_main',
-                 'text_field_length' :   50,
-                 'status_field_length' : 100,}
+## END Site-description    
+###################################################
+
+
+###################################################
+## START VIP/Paid Client Related
+
+# Define how many minutes of viewing others online status they will be allowed in a time window
+SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES = 5
+SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_SECONDS = SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES * SECONDS_PER_MINUTE
+
+# define when the time window resets - they will not be allowed to use this trial feature until 
+# this memcache value is no longer set (it may get flushed earlier than expected, in which case
+# they will be given another free trial)
+BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS = 24
+BLOCK_ONLINE_STATUS_TRIAL_RESET_SECONDS = BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS * SECONDS_PER_HOUR
+
+# memcache value that will determine if we should show online status
+SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX = "_SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX_" + site_configuration.VERSION_ID + "_"
+
+# memcache value that indicates that the user has already used a free trial of online status
+BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX = "_BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX_" + site_configuration.VERSION_ID + "_"
 
 
 client_paid_status_num_credits_awarded_for_euros = {
@@ -456,7 +475,6 @@ client_paid_status_credit_amounts = {
     }
 
 
-
 type_of_site_for_vip_invite = {
     'Discrete' : ugettext_lazy('confidential dating'),
     'Single' : ugettext_lazy('dating'),
@@ -466,8 +484,12 @@ type_of_site_for_vip_invite = {
     'Lesbian': ugettext_lazy('lesbian dating'),
     'Friend': '',
 }
-    
-    
+
+## START VIP/Paid Client Related
+###################################################
+
+###################################################
+## START Profile Display Offset values
 
 # This data structure is used for offsetting the unique_last_login value so that search order will be
 # modified based on profile characteristics that are considered to be important.
@@ -489,6 +511,57 @@ offset_values = {'has_profile_photo_offset':24,
                  'has_email_address_offset': 0,
                  }
 
+## END Profile Display Offset values
+###################################################
+
+###################################################
+## START Formatting Options
+
+NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for Language - number of languages to show
+
+MAIL_TEXTAREA_ROWS = 8
+MAIL_TEXTAREA_CUTOFF_CHARS = 10000
+MAIL_DISPLAY_CHARS = 300
+MAIL_SNIP_CHARS = 400
+MAIL_SUMMARY_NUM_LINES_TO_SHOW = 2
+
+ABOUT_USER_MAX_ROWS = 15
+
+MAX_CHARS_PER_WORD = 30 # this is used for breaking long (probably fake) words, to ensure that they don't overrrun div boundaries
+
+MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY = 40
+
+MAX_TEXT_INPUT_LEN = 100 # default value for text inputs if not defined.
+MAX_USERNAME_LEN = 16 # max number of chars allowed in a username
+
+MAX_LEN_CHANNEL_ID = 64 # the lenght of the channel identifier token, which is used for chat and other real-time communications to client
+
+rematch_non_alpha = re.compile(r'\W+') #match one or more non-alphanumeric characters
+
+# Number of characters to display for the "about me" section, and the cutoff for being considered to have
+# entered enough data.
+ABOUT_USER_MIN_DESCRIPTION_LEN = 100
+ABOUT_USER_MAX_DESCRIPTION_LEN = 5000
+ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN = 1000
+
+# we just take a piece of the hash of the creation date for including in URLs that should be 
+# secure (such as changing user options or deleting the profile)--- 
+# This length *should* be more than sufficient for the limited security that we need, but we can make it longer 
+# in the future if necessary.
+EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE = 15 
+
+
+#following are just formatting options for use in drop-down menus, and other
+# form settings.
+field_formats = {'right_align_login' :         'cl-td-right-align-login',
+                 'left_align_login' :          'cl-td-left-align-login',
+                 'right_align_user_main':      'cl-td-right-align-user_main',
+                 'left_align_user_main':       'cl-td-left-align-user_main',
+                 'text_field_length' :   50,
+                 'status_field_length' : 100,}
+
+## END Formatting Options
+###################################################
 
 ############################################
 class ErrorMessages():
@@ -586,4 +659,7 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'google_ad_160x600' : GOOGLE_AD_160x600,
                           'google_ad_728x90' : GOOGLE_AD_728x90,
                           'analytics_id' : site_configuration.ANALYTICS_ID,
+                          'SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES' : SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES,
+                          'BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS' : BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS,
+                          
                           }
