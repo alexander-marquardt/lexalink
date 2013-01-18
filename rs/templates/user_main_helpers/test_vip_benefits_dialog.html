@@ -46,14 +46,10 @@
 {% else %}
         <!-- user is already VIP -->
         <div id="id-show_online_status_dialog_box" style="display:none;">
-            <p>{% blocktrans %}You are VIP member, therefore you are always shown the online status of other members{% endblocktrans %}</p>
+            <p>{% blocktrans %}You are VIP member, therefore you are always shown the online status of other members.{% endblocktrans %}</p>
 
         </div>
 {% endif %}
-
-<div id="id-show_online_status_dialog_title" style="display:none;">
-    {% trans "View online status" %}
-</div>
 
 
 <script type="text/javascript">
@@ -63,7 +59,7 @@ $(document).ready(function() {
 
 	$('#id-show_online_status_menu_element').click(function() {
         $dialog.dialog({
-            title : $("#id-show_online_status_dialog_title").text()
+            title : $("#id-show_online_status_button").attr("value")
         });
         $dialog.dialog('open');
 
