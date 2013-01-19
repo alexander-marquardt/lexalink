@@ -480,9 +480,7 @@ def create_contact_counter_object():
 def get_vip_online_status_string(userobject_key):
     online_status = online_presence_support.get_online_status(userobject_key)
     
-    icon = '<img src="/%(live_static_dir)s/img/%(color)s_dot_10px_10px.png" align="middle"> ' % {
-        'live_static_dir' : site_configuration.LIVE_STATIC_DIR,
-        'color': constants.OnlinePresence.presence_color_dict[online_status]}
+    icon = '<span class="cl-dot cl-%s_dot"></span>' % constants.OnlinePresence.presence_color_dict[online_status]
     
     status_string = u"%s %s" % (icon, constants.OnlinePresence.presence_text_dict[online_status])
     return status_string

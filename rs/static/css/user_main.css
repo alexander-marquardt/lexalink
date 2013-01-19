@@ -530,7 +530,20 @@ td.cl-registration-big-prompt-td {
         background-color: transparent;
 }
 
-
-
-
+.cl-dot {
+    display: inline;
+    padding: 0 7px 0 7px;
+}
+.cl-1-green_dot {
+    background: url(../img/1-green_dot_10px_10px.png) center center no-repeat;
+}
+.cl-2-yellow_dot {
+    background: url(../img/2-yellow_dot_10px_10px.png) center center no-repeat;
+}
+.cl-3-red_dot {
+    background: url(../img/3-red_dot_10px_10px.png) center center no-repeat;
+}
+.cl-4-black_dot {
+    background: url(../img/4-black_dot_10px_10px.png) center center no-repeat;
+}
 /* *** End login customizations *** */

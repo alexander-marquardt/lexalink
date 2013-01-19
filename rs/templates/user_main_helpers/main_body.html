@@ -98,7 +98,8 @@
             {% endif %}
 
             {% if viewed_profile_data_fields.show_online_status %}
-            {{ viewed_profile_data_fields.show_online_status }}
+            <br>
+            {{ viewed_profile_data_fields.show_online_status|safe }}
             {% endif %}
         </div>
 

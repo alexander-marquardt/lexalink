@@ -264,7 +264,7 @@ def setup_my_local_environment():
         source_static_dir = pwd + "/rs/static/" 
         logging.info("Copying %s to %s" % (source_static_dir, site_configuration.LIVE_STATIC_DIR))
         shutil.copytree(source_static_dir, site_configuration.LIVE_STATIC_DIR)
-        
+                
         if site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
             # copy the proprietary files into the time-stammped "live" static directory
             # This is an ugly hack!!
