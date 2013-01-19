@@ -1,0 +1,52 @@
+/* ================================================================ 
+This copyright notice must be kept untouched in the stylesheet at 
+all times.
+
+The original version of this stylesheet and the associated (x)html
+is available at http://www.stunicholls.com/menu/pro_drop_2.html
+Copyright (c) 2005-2007 Stu Nicholls. All rights reserved.
+This stylesheet and the associated (x)html may be modified in any 
+way to fit your requirements.
+=================================================================== */
+
+/* Contains the common menubar related CSS code. For the buld-specific css see {{ build_name }}_common.css */
+
+
+/* We use the "Single Image Sliding Doors" technique to allow us to use a single button image when the mouse is hovered hover a menu item. 
+ * I haven't fully investigated this technique, but it seems that the span item overlays the right side of the image, over the default 
+ * background which contains the left side of the image.
+ */
+
+#rs-nav {padding:0; margin:0; list-style:none; height:24px;  position:relative; z-index:500; font-family:arial, verdana, sans-serif;}
+#rs-nav li.top {display:block; float:left; height:20px; }
+#rs-nav li.top-right {display:block; float:right; height:20px; }
+#rs-nav li span.no_link {text-decoration:none; font-size:13px; font-weight:bold; line-height:22px; padding:0 24px 0 6px;}
+#rs-nav li a.top_link {display:block; float:left; height:24px; line-height:22px; text-decoration:none; font-size:13px; font-weight:bold; padding:0 0 0 6px; cursor:pointer;}
+#rs-nav li a.top_link span {float:left; display:block; padding:0 24px 0 6px; height:20px;}
+#rs-nav li a.top_link span.down {float:left; display:block; padding:0 24px 0 6px; height:30px;}
+
+
+/* Default list styling */
+
+#rs-nav li:hover {position:relative; z-index:200;}
+#rs-nav li:hover ul.sub
+{left:1px; top:24px; padding:3px; border-width: 0px 2px 2px 2px; border-style: solid; white-space:nowrap; width:180px; height:auto; z-index:300;}
+#rs-nav li:hover ul.sub li
+{display:block; height:20px; position:relative; float:left; width:180px; font-weight:normal;}
+#rs-nav li:hover ul.sub li a
+{display:block; font-size:13px; height:18px; width:178px; line-height:18px; text-indent:5px; text-decoration:none; }
+
+
+#rs-nav li:hover li:hover ul,
+#rs-nav li:hover li:hover li:hover ul,
+#rs-nav li:hover li:hover li:hover li:hover ul,
+#rs-nav li:hover li:hover li:hover li:hover li:hover ul
+{left:180px; top:-4px; padding:3px; white-space:nowrap; width:180px; z-index:400; height:auto;}
+
+#rs-nav ul, 
+#rs-nav li:hover ul ul,
+#rs-nav li:hover li:hover ul ul,
+#rs-nav li:hover li:hover li:hover ul ul,
+#rs-nav li:hover li:hover li:hover li:hover ul ul
+{position:absolute; left:-9999px; top:-9999px; width:0; height:0; margin:0; padding:0; list-style:none;}
+
