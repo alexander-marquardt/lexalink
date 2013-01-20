@@ -130,9 +130,29 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-    $('#rs-nav > li').click(function() {
-        $(this).toggleClass('cl-top_item')
-        $(this).find('ul.sub').toggleClass('cl-show_sub');
+
+    $('html').click(function() {
+        //Hide the menus if visible
+         $('.cl-show_sub').removeClass('cl-show_sub');
+    });
+
+    $('#rs-nav > li').click(function(event) {
+        var is_a_dropdown = ($(this).children('ul.sub').length>0);
+        if (is_a_dropdown) {
+            var $sub_list = $(this).find('ul.sub');
+            if (!$sub_list.hasClass('cl-show_sub')) {
+
+                // remove cl-show_sub from *all* sub-lists so that they will be hidden
+                $('.cl-show_sub').removeClass('cl-show_sub');
+
+                $sub_list.addClass('cl-show_sub');
+                // prevent this event from propagating - if it is propagated, the cl-show_sub class will be removed
+                // by the generic click detector that we use for hiding the dropdown menus when a click occurs
+                // anywhere outside of the menut. 
+                event.stopPropagation();
+                return false;
+            }
+        }
     })
 });
     
