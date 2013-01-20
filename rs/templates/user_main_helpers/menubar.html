@@ -46,10 +46,11 @@
                 class="top_link">
                     <span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span>
                 </a>
-            </li>   
+            </li>
+
 
             <li class="top">
-                <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                <a href="#"
                 class="top_link">
                 <span class="down">
                 {% trans "Messages" %}
@@ -84,17 +85,17 @@
                         </a>
                     </li>
                 </ul>
+            </li>
 
-                <li class="top">
-                    <a href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
-                    class="top_link">
-                        <span>{% trans "Contacts" %}
-                        {% if primary_user_presentation_data_fields.new_contact_count %}
-                            [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]
-                        {% endif %}
-                        </span>
-                    </a>
-                </li>
+            <li class="top">
+                <a href="{% url generate_contacts_display owner_uid=primary_user_presentation_data_fields.owner_uid %}"
+                class="top_link">
+                    <span>{% trans "Contacts" %}
+                    {% if primary_user_presentation_data_fields.new_contact_count %}
+                        [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]
+                    {% endif %}
+                    </span>
+                </a>
             </li>
 
             <li class="top">
@@ -124,7 +125,19 @@
 
 
 {% include "user_main_helpers/test_vip_benefits_dialog.html" %}
-        
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    $('#rs-nav > li').click(function() {
+        $(this).toggleClass('cl-top_item')
+        $(this).find('ul.sub').toggleClass('cl-show_sub');
+    })
+});
+    
+</script>
+
 
 <!-- example of how to multi-level nest :
 
