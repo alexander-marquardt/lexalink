@@ -235,7 +235,7 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
     """
     group_members_names_dict = {} # in case of exception, we return an empty dictionary
     
-    if utils.display_online_status(owner_uid):
+    if utils.do_display_online_status(owner_uid):
         show_user_presence_status = chat_groups_members_dict_states.SHOW_STATUS
         # we must return the dictionary that includes the user_presence_status
     else:
@@ -313,7 +313,7 @@ def get_friends_online_dict(lang_code, owner_uid):
             
             if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE:
                 online_contacts_info_dict[uid] = user_info_dict[uid]
-                if utils.display_online_status(owner_uid):
+                if utils.do_display_online_status(owner_uid):
                     online_contacts_info_dict[uid]['user_presence_status'] = user_presence_status
                 else:
                     online_contacts_info_dict[uid]['user_presence_status'] = constants.HIDDEN_ONLINE_STATUS

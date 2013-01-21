@@ -870,7 +870,7 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
     
         userobject =  utils_top_level.get_object_from_string(owner_uid)
         username = userobject.username
-        show_vip_info = utils.display_online_status(owner_uid)
+        show_vip_info = utils.do_display_online_status(owner_uid)
             
         
         generated_html = """<script type="text/javascript">

@@ -60,7 +60,7 @@ PAGESIZE = 6
 MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
 
-def display_userobject_first_half_summary(request, display_userobject, show_vip_info):
+def display_userobject_first_half_summary(request, display_userobject, display_online_status):
     # returns a summary of a single users userobject. 
     #
     
@@ -258,7 +258,7 @@ def display_userobject_second_half_summary(viewer_userobject, display_userobject
         return ""        
         
         
-def get_userobject_summary_with_memcache_check(request, viewer_userobject, display_userobject_key, show_vip_info):
+def get_userobject_summary_with_memcache_check(request, viewer_userobject, display_userobject_key, display_online_status):
     
     """
     This is a wrapper function for display_userobject_summary that computes the summary only if it is not in
@@ -278,7 +278,7 @@ def get_userobject_summary_with_memcache_check(request, viewer_userobject, displ
     return summary_first_half_html + summary_second_half_html
     
 
-def generate_html_for_search_results(request, viewer_userobject, query_results_keys, show_vip_info):
+def generate_html_for_search_results(request, viewer_userobject, query_results_keys, display_online_status):
     # Accepts results from a query, which is an array of user profiles that matched the previous query.
     # Goes through each profile, and generates a snippett of text + profile photo, which give a 
     # basic introduction to the user.
@@ -642,9 +642,9 @@ def generate_search_results(request, type_of_search = "normal"):
         
         viewer_userobject =  utils_top_level.get_userobject_from_request(request)
         viewer_uid = utils_top_level.get_uid_from_request(request)
-        show_vip_info = False
+        display_online_status = False
         if viewer_userobject:
-            show_vip_info = utils.display_online_status(viewer_uid)
+            display_online_status = utils.do_display_online_status(viewer_uid)
     
         search_vals_dict = {}
         
@@ -775,7 +775,7 @@ def generate_search_results(request, type_of_search = "normal"):
             elif  0 < len_new_query_results < num_results_needed:
                 # the current query was not able to get enough results to satisfy the current query, we 
                 # generate results for the results that were returned. 
-                generated_html_body +=  generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, show_vip_info)  
+                generated_html_body +=  generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status)  
                 len_query_results_currently_stored += len_new_query_results
                 search_vals_dict['bookmark'] = ""
                 
@@ -785,7 +785,7 @@ def generate_search_results(request, type_of_search = "normal"):
                     # by construction, we are guaranteed that len_new_query_results >= num_results_needed.
                     # can remove this assert in the future. 
                     assert(len_new_query_results >= num_results_needed)
-                    generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys[:-1], show_vip_info)  
+                    generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys[:-1], display_online_status)  
                     last_userobject = utils_top_level.get_object_from_string(str(new_query_results_keys[-1]))
                     # get the value of last_login_string, or unique_last_login (or in the future other criteria)
                     # that is stored on the "last_userobject"
@@ -793,7 +793,7 @@ def generate_search_results(request, type_of_search = "normal"):
                 elif type_of_search == "by_name":
                     # cursors are used for this search, and we did not generate an extra tail value as a bookmark
                     # therefore, we pass in the entire list of keys without chopping off the last value.
-                    generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, show_vip_info) 
+                    generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status) 
                     assert(paging_cursor)
                     
                     # Note, that the paging cursor refers to the spot immediately following the result set,

@@ -1637,7 +1637,7 @@ def render_paypal_button(request):
         return ''
     
     
-def display_online_status(owner_uid):
+def do_display_online_status(owner_uid):
     # Determines if this user should be shown information that is reserved for our VIP clients.
     # An example of this is showing the online status of all users in the page.
 
