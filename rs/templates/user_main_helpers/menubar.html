@@ -131,6 +131,9 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+    // Javascript to handle the showing and hiding of the dropdown menus.
+    // Note: The dropdown menus could be done fully with CSS, but we don't want to use hover events for showing
+    // the menu contents, and therefore we monitor for click events on the menu heading.
 
     $('html').click(function() {
         // We have clicked somewhere in the browser outside of one of the dropdown menus. 
