@@ -675,3 +675,19 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS' : BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS,
                           
                           }
+
+
+MONTH_NAMES = {
+    1: ugettext_lazy('January'),
+    2: ugettext_lazy('February'),
+    3: ugettext_lazy('March'),
+    4: ugettext_lazy('April'),
+    5: ugettext_lazy('May'),
+    6: ugettext_lazy('June'),
+    7: ugettext_lazy('July'),
+    8: ugettext_lazy('August'),
+    9: ugettext_lazy('September'),
+    10: ugettext_lazy('October'),
+    11: ugettext_lazy('November'),
+    12: ugettext_lazy('December'),
+}

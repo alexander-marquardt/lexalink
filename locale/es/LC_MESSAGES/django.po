@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-18 20:18+0100\n"
+"POT-Creation-Date: 2013-01-21 22:08+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: rs/ajax.py:697 rs/display_contacts.py:337 rs/forms.py:1083
 #: rs/login_utils.py:248 rs/rendering.py:392 rs/store_data.py:1554
-#: rs/utils.py:1549
+#: rs/utils.py:1547
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -395,6 +395,54 @@ msgstr "Invítale a ser tu \"Chat amigo\""
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automaticamente)"
 
+#: rs/constants.py:681
+msgid "January"
+msgstr "enero"
+
+#: rs/constants.py:682
+msgid "February"
+msgstr "febrero"
+
+#: rs/constants.py:683
+msgid "March"
+msgstr "maarzo"
+
+#: rs/constants.py:684
+msgid "April"
+msgstr "abril"
+
+#: rs/constants.py:685
+msgid "May"
+msgstr "mayo"
+
+#: rs/constants.py:686
+msgid "June"
+msgstr "junio"
+
+#: rs/constants.py:687
+msgid "July"
+msgstr "julio"
+
+#: rs/constants.py:688
+msgid "August"
+msgstr "agosto"
+
+#: rs/constants.py:689
+msgid "September"
+msgstr "septiembre"
+
+#: rs/constants.py:690
+msgid "October"
+msgstr "octubre"
+
+#: rs/constants.py:691
+msgid "November"
+msgstr "noviembre"
+
+#: rs/constants.py:692
+msgid "December"
+msgstr "diciembre"
+
 #: rs/display_contacts.py:137
 #, python-format
 msgid ""
@@ -585,8 +633,7 @@ msgstr ""
 "haciendo clic en \"%(field)s\" en la barra %(bar_color)s justo debajo del "
 "logo de %(app_name)s"
 
-#: rs/email_utils.py:575
-#: rs/templates/user_main_helpers/navigation_buttons.html:55
+#: rs/email_utils.py:575 rs/templates/user_main_helpers/menubar.html:56
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -623,7 +670,7 @@ msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr "Puedes ver quien te ha contactado en %(link_to_build)s"
 
 #: rs/email_utils.py:625 rs/profile_utils.py:93
-#: rs/templates/user_main_helpers/navigation_buttons.html:91
+#: rs/templates/user_main_helpers/menubar.html:93
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -1865,7 +1912,7 @@ msgstr ""
 msgid "Has not written a description"
 msgstr "No tiene una descripción"
 
-#: rs/html_container.py:167 rs/templates/user_main_helpers/main_body.html:176
+#: rs/html_container.py:167 rs/templates/user_main_helpers/main_body.html:177
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr "editar"
@@ -2457,7 +2504,7 @@ msgstr "No tienes mensajes en este buzon"
 msgid "Select"
 msgstr "Seleccionar"
 
-#: rs/mailbox.py:957 rs/templates/user_main_helpers/navigation_buttons.html:63
+#: rs/mailbox.py:957 rs/templates/user_main_helpers/menubar.html:64
 msgid "All (messages - override)"
 msgstr "Todos"
 
@@ -2861,6 +2908,16 @@ msgstr ""
 "perfil o a support@%(app_name)s.com.\n"
 "\n"
 "¡Bienvenido a %(app_name)s, y mucha suerte en tu búsqueda!  "
+
+#: rs/store_data.py:1728
+#, python-format
+msgid "%(month)s %(day)s, %(year)s"
+msgstr "el %(day)s de %(month)s de %(year)s"
+
+#: rs/store_data.py:1729
+#, python-format
+msgid "Congratulations, you are now a VIP member until %(date)s."
+msgstr "Felicidades, ya eres un miembro VIP hasta %(date)s."
 
 #: rs/text_fields.py:36
 msgid "Share what you are thinking by clicking on \"edit\" to the left."
@@ -3927,64 +3984,64 @@ msgstr "En"
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:547
+#: rs/utils.py:545
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] "%(days)s día"
 msgstr[1] "%(days)s días"
 
-#: rs/utils.py:560
+#: rs/utils.py:558
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] "%(hours)s hora"
 msgstr[1] "%(hours)s horas"
 
-#: rs/utils.py:575
+#: rs/utils.py:573
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] "%(minutes)s minuto"
 msgstr[1] "%(minutes)s minutos"
 
-#: rs/utils.py:590
+#: rs/utils.py:588
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] "%(seconds)s segundo"
 msgstr[1] "%(seconds)s segundos"
 
-#: rs/utils.py:607
+#: rs/utils.py:605
 msgid "ago (capitalize if first word)"
 msgstr "Hace"
 
-#: rs/utils.py:609
+#: rs/utils.py:607
 msgid "ago"
 msgstr "hace"
 
-#: rs/utils.py:613
+#: rs/utils.py:611
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr "%(ago_text)s %(joined_time)s"
 
-#: rs/utils.py:618
+#: rs/utils.py:616
 msgid "In"
 msgstr ""
 
-#: rs/utils.py:620
+#: rs/utils.py:618
 msgid "in"
 msgstr ""
 
-#: rs/utils.py:1047
+#: rs/utils.py:1045
 msgid "Interested in:"
 msgstr "Interesado en:"
 
-#: rs/utils.py:1050
+#: rs/utils.py:1048
 msgid ", and"
 msgstr ", y"
 
-#: rs/utils.py:1490
+#: rs/utils.py:1488
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to support@%"
@@ -3993,7 +4050,7 @@ msgstr ""
 "Si ves algun otro perfil como este, por favor envíanos un mensaje a support@%"
 "(app_name)s para notificarnos del nick / nombre de usuario."
 
-#: rs/utils.py:1495
+#: rs/utils.py:1493
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
@@ -4001,7 +4058,7 @@ msgstr ""
 "Este usuario ha sido eliminado por el administrado por no seguir los "
 "términos y condiciones de servicio."
 
-#: rs/utils.py:1500
+#: rs/utils.py:1498
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
@@ -4011,7 +4068,7 @@ msgstr ""
 "Por favor no le contactes o envíes correos electrónicos a este usuario "
 "debido a que su objetivo final será pedirte dinero."
 
-#: rs/utils.py:1507
+#: rs/utils.py:1505
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
@@ -4022,7 +4079,7 @@ msgstr ""
 "debido a que su objetivo es convencerte para registrarte a un servicio de "
 "pago."
 
-#: rs/utils.py:1514
+#: rs/utils.py:1512
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
@@ -4827,47 +4884,47 @@ msgstr "Mi Perfil (visible para los otros socios)"
 msgid "Profile of"
 msgstr "Perfil de"
 
-#: rs/templates/user_main_helpers/main_body.html:112
+#: rs/templates/user_main_helpers/main_body.html:113
 #: rs/templates/user_main_helpers/status.html:47
 msgid "Headline:"
 msgstr "Encabezado:"
 
-#: rs/templates/user_main_helpers/main_body.html:172
+#: rs/templates/user_main_helpers/main_body.html:173
 msgid "Photos"
 msgstr "Fotos"
 
-#: rs/templates/user_main_helpers/main_body.html:176
+#: rs/templates/user_main_helpers/main_body.html:177
 msgid "upload"
 msgstr "cargar"
 
-#: rs/templates/user_main_helpers/main_body.html:176
+#: rs/templates/user_main_helpers/main_body.html:177
 msgid "photos"
 msgstr "fotos"
 
-#: rs/templates/user_main_helpers/main_body.html:265
-#: rs/templates/user_main_helpers/main_body.html:320
+#: rs/templates/user_main_helpers/main_body.html:266
+#: rs/templates/user_main_helpers/main_body.html:321
 msgid "Last entrance:"
 msgstr "Última entrada:"
 
-#: rs/templates/user_main_helpers/main_body.html:283
+#: rs/templates/user_main_helpers/main_body.html:284
 msgid ""
 "Activities that I am interested in and/or that I would \"sell\" my time for"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:285
+#: rs/templates/user_main_helpers/main_body.html:286
 #, python-format
 msgid "(a maximum of %(num)s activities may be selected)"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:351
+#: rs/templates/user_main_helpers/main_body.html:352
 msgid "Administrative stuff (never displayed publicly)"
 msgstr "Cosas Administrativas (nunca visible a los otros socios)"
 
-#: rs/templates/user_main_helpers/main_body.html:357
+#: rs/templates/user_main_helpers/main_body.html:358
 msgid "VIP Status"
 msgstr "Estado VIP"
 
-#: rs/templates/user_main_helpers/main_body.html:364
+#: rs/templates/user_main_helpers/main_body.html:365
 #, python-format
 msgid ""
 "\n"
@@ -4876,85 +4933,85 @@ msgstr ""
 "\n"
 "Actualmente tienes estado de VIP que caducará el día %(expires)s."
 
-#: rs/templates/user_main_helpers/main_body.html:367
+#: rs/templates/user_main_helpers/main_body.html:368
 msgid "You currently do not have VIP status"
 msgstr "Actualmente no tienes estado VIP"
 
-#: rs/templates/user_main_helpers/main_body.html:389
+#: rs/templates/user_main_helpers/main_body.html:390
 msgid "See my profile:"
 msgstr "Ver mi perfil:"
 
-#: rs/templates/user_main_helpers/main_body.html:392
-#: rs/templates/user_main_helpers/main_body.html:416
-#: rs/templates/user_main_helpers/main_body.html:419
+#: rs/templates/user_main_helpers/main_body.html:393
+#: rs/templates/user_main_helpers/main_body.html:417
+#: rs/templates/user_main_helpers/main_body.html:420
 msgid "click here"
 msgstr "clic aquí"
 
-#: rs/templates/user_main_helpers/main_body.html:398
+#: rs/templates/user_main_helpers/main_body.html:399
 msgid "If you want to see how your profile will appear."
 msgstr ""
 "Si quieres ver como se muestra tu perfil desde la perspectiva de otros "
 "usuarios, haz click en el link en la izquierda."
 
-#: rs/templates/user_main_helpers/main_body.html:411
+#: rs/templates/user_main_helpers/main_body.html:412
 msgid "Eliminate your profile:"
 msgstr "Eliminar tu perfil:"
 
-#: rs/templates/user_main_helpers/main_body.html:415
+#: rs/templates/user_main_helpers/main_body.html:416
 msgid " Are you sure you want to eliminate your profile?"
 msgstr "¿Seguro que quieres eliminar tu perfil?"
 
-#: rs/templates/user_main_helpers/main_body.html:425
+#: rs/templates/user_main_helpers/main_body.html:426
 msgid "If you want to eliminate your profile/account."
 msgstr ""
 "Si quieres eliminar tu perfil/cuenta, haz click en el link en la izquierda "
 "(Cuidado: no podrás entrar nunca más con la misma cuenta)."
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:39
+#: rs/templates/user_main_helpers/menubar.html:39
 msgid "You have entered in"
 msgstr "Has entrado en"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:39
+#: rs/templates/user_main_helpers/menubar.html:39
 msgid "with a guest account"
 msgstr "con una cuenta de invitado"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:47
+#: rs/templates/user_main_helpers/menubar.html:47
 msgid "My Profile"
 msgstr "Mi Perfil"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:57
+#: rs/templates/user_main_helpers/menubar.html:58
 msgid "unread"
 msgstr "no leídos"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:68
+#: rs/templates/user_main_helpers/menubar.html:69
 msgid "Unread (plural - override)"
 msgstr "No leidos"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:73
+#: rs/templates/user_main_helpers/menubar.html:74
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:78
+#: rs/templates/user_main_helpers/menubar.html:79
 msgid "Received (plural - override)"
 msgstr "Recibidos"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:83
+#: rs/templates/user_main_helpers/menubar.html:84
 msgid "Sent (plural - override)"
 msgstr "Enviados"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:93
+#: rs/templates/user_main_helpers/menubar.html:95
 msgid "new"
 msgstr "nuevos"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:103
+#: rs/templates/user_main_helpers/menubar.html:104
 msgid "More"
 msgstr "Más"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:109
+#: rs/templates/user_main_helpers/menubar.html:110
 msgid "View others online status"
 msgstr "Mostrar estados de conexión"
 
-#: rs/templates/user_main_helpers/navigation_buttons.html:118
+#: rs/templates/user_main_helpers/menubar.html:120
 msgid "Exit"
 msgstr "Salir"
 
@@ -5029,7 +5086,9 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Como miembro gratuito (no-VIP) de %(app_name)s, puedes ver el estado de conexión de los otros miembros durante %(minutes)s minutos cada %(reset)s horas.\n"
+"Como miembro gratuito (no-VIP) de %(app_name)s, puedes ver el estado de "
+"conexión de los otros miembros durante %(minutes)s minutos cada %(reset)s "
+"horas.\n"
 "         "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:14
@@ -5040,13 +5099,14 @@ msgid ""
 "please press the button below. If you prefer to wait until later,\n"
 "            just close this dialog box.\n"
 "            "
-
 msgstr ""
 "\n"
-"            Si quieres usar tu cuota de %(minutes)s minutos ahora, pulsa el botón debajo. Si prefieres esperar hasta luego, simplemente cierra esta ventana."
-"            "
+"            Si quieres usar tu cuota de %(minutes)s minutos ahora, pulsa el "
+"botón debajo. Si prefieres esperar hasta luego, simplemente cierra esta "
+"ventana.            "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:21
+#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:55
 msgid "Show online status"
 msgstr "Mostrar estado de conexión"
 
@@ -5058,8 +5118,8 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Los miembros VIP siempre ven el estado de conexión de los otros miembros. Puedes comprar tu estado VIP haciendo clic en el botón debajo."
-"     "
+"Los miembros VIP siempre ven el estado de conexión de los otros miembros. "
+"Puedes comprar tu estado VIP haciendo clic en el botón debajo.     "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:40
 #, python-format
@@ -5070,19 +5130,17 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Ya has usado tus %(minutes)s minutos. Tiempo de espera hasta tu próxima prueba:\n"
+"Ya has usado tus %(minutes)s minutos. Tiempo de espera hasta tu próxima "
+"prueba:\n"
 "       "
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:49
 msgid ""
 "You are VIP member, therefore you are always shown the online status of "
-"other members."
+"other members"
 msgstr ""
-"Eres un miembro VIP y por esto siempre puedes ver el estado de conexión de los otros miembros."
-
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:55
-msgid "View online status"
-msgstr "Ver estado de conexión"
+"Eres un miembro VIP y por esto siempre puedes ver el estado de conexión de "
+"los otros miembros."
 
 #: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:50
 #, python-format
@@ -5142,6 +5200,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "View online status"
+#~ msgstr "Ver estado de conexión"
 
 #~ msgid "Deleted (plural - override)"
 #~ msgstr "Eliminados"

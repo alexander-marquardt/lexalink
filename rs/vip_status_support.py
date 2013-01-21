@@ -63,6 +63,7 @@ def instant_payment_notification(request):
     # payment_status -- but I believe that in both cases, it expects a confirmation of the message to be send
     # back
     payment_status = request.REQUEST.get('payment_status', None) # Completed or Pending are the most interesting .. but there are others as well
+    status = None
     
     if request.POST:
       parameters = request.POST.copy()
@@ -240,9 +241,20 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
            'status' : userobject.client_paid_status}
     
     email_utils.send_admin_alert_email(message_content, subject="%s VIP Awarded" % settings.APP_NAME)
+    store_data.send_vip_congratulations_message(userobject)
     
   except:
-    error_reporting.log_exception(logging.critical) 
+    # This is a very serious error - someone has been awarded VIP status, but it was not stored correctly. 
+    # This requires immediate investigation. Send an email to administrator. 
+    error_reporting.log_exception(logging.critical)
+    try: 
+      # In case there is a problem with sending the error alert
+      message_content = "Failed to award VIP status. See logs for error"
+      email_utils.send_admin_alert_email(message_content, subject="%s *** Error *** VIP" % settings.APP_NAME)
+    except:
+      error_reporting.log_exception(logging.critical)
+      
+    
     
 
 def manually_give_paid_status(request, username, num_credits):

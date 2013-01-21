@@ -1707,8 +1707,36 @@ def welcome_new_user(request):
             actually_store_send_mail(alex_object, to_uid, text)
  
         except:
-            error_reporting.log_exception(logging.error, error_message="Unable to send welcome message")
+            error_reporting.log_exception(logging.critical, error_message="Unable to send welcome message")
             
+            
+def send_vip_congratulations_message(userobject):
+    
+    previous_language = translation.get_language() # remember the original language, so we can set it back when we finish 
+    try:
+        alex_object = get_alex_userobject()
+        to_uid = str(userobject.key())
+        expiry_date = userobject.client_paid_status_expiry
+        expiry_day = expiry_date.day
+        expiry_month = expiry_date.month
+        expiry_year = expiry_date.year
+        
+        # set the language to be the users preferred language
+        translation.activate(userobject.search_preferences2.lang_code)
+        month_in_current_language = constants.MONTH_NAMES[expiry_month]
+        date_in_current_language = ugettext("%(month)s %(day)s, %(year)s") % {'month': month_in_current_language, 
+                                                                              'day' : expiry_day,
+                                                                              'year' : expiry_year}
+        text = ugettext("Congratulations, you are now a VIP member until %(date)s.") % {'date' : date_in_current_language}
+        actually_store_send_mail(alex_object, to_uid, text)
+    except:
+        error_reporting.log_exception(logging.critical, error_message="Unable to send welcome message")
+        
+    finally:
+        # activate the original language -- not sure if this is really necessary, but is 
+        # somewhat safer (until I fully understand how multiple processes in a single thread are interacting)
+        translation.activate(previous_language)        
+    
             
 #############################################
 def setup_new_user_defaults_and_structures(userobject, username, lang_code):
