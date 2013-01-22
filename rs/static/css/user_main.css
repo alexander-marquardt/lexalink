@@ -547,3 +547,6 @@ td.cl-registration-big-prompt-td {
     background: url(../img/4-black_dot_10px_10px.png) center center no-repeat;
 }
 /* *** End login customizations *** */
+
+a#id-show_online_status_anchor {text-decoration: underline; color:#000 ; outline: none; font-weight: bold; } /* #B857AB close to purple */
+a#id-show_online_status_anchor:hover {text-decoration: underline; color:#EB485D ; outline: none;  font-weight: bold;} /* #EB485D soft RED */

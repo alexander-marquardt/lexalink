@@ -54,6 +54,15 @@
 
 </script>
 
+    {% if primary_user_presentation_data_fields.client_paid_status %}
+    <script type="text/javascript">
+        js_client_is_vip = true;
+    </script>
+    {% else %}
+    <script type="text/javascript">
+        js_client_is_vip = false;
+    </script>
+    {% endif %}
         
 <script type="text/javascript">
     // we can now launch the chatboxes, since before this point we didn't know if we were running a browser for which
@@ -66,3 +75,4 @@
 </script>
         
 {% endif %}
+

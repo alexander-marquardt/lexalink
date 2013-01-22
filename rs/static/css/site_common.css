@@ -58,8 +58,8 @@ input { /* used for defining the characteristics of input text boxes and anythin
 
 /* set the color for the text links. Note that anchors inside ui-widget must be delared so that the default
    ui-widget coloring is over-ridden */
-a {text-decoration: none; color:#B857AB ; } /* #B857AB close to purple */
-a:hover {text-decoration: underline; color:#EB485D ; } /* #EB485D soft RED */
+a {text-decoration: none; color:#B857AB ; outline: none; } /* #B857AB close to purple */
+a:hover {text-decoration: underline; color:#EB485D ; outline: none; } /* #EB485D soft RED */
 
 .cl-same-color-as-default-anchor {
     color:#B857AB ;
@@ -402,3 +402,4 @@ table.cl-float-right {
 .cl-8pt-txt {
     font-size: 8pt;
 }
+

@@ -57,46 +57,55 @@
 
 
 <script type="text/javascript">
-$(document).ready(function() {
 
+function show_online_status_button_click_dialog() {
+    $.ajax({
+        type: 'post',
+        url:  '/rs/ajax/set_show_online_status_trial/' + rnd() + "/",
+        success: function(status) {
+            // only process this json response if we are not currently processing a send_message call.
+            if (status == "OK") {
+                window.location.reload();
+            } else {
+                // the status will be the amount of time that the user must wait before receiving a new "view online status" trial
+
+                //replace the button with a message telling them how long they have to wait for their next trial.
+                $("#id-show_online_status_dialog_box-first_part").html(
+                        $("#id-show_online_status_dialog_blocked_message").html() + "<p>" + status + "</p>"
+                )
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            report_ajax_error(textStatus, errorThrown, "initialize_main_and_group_boxes_on_server");
+        },
+        complete: function() {
+        }
+    });
+}
+
+function show_online_status_main_dialog() {
     var $dialog = $("#id-show_online_status_dialog_box");
 
-	$('#id-show_online_status_menu_element').click(function() {
-        $dialog.dialog({
-            title : $("#id-show_online_status_dialog_title").text()
-        });
-        $dialog.dialog('open');
+    $dialog.dialog({
+        title : $("#id-show_online_status_dialog_title").text()
+    });
+    $dialog.dialog('open');
+    // prevent the default action, e.g., following a link
+    return false;
+}
 
-		// prevent the default action, e.g., following a link
-		return false;
-	});
+$(document).ready(function() {
+
+    $('#id-show_online_status_menu_element').click(function() {
+        return show_online_status_main_dialog();
+    });
 
 
     $('#id-show_online_status_button').button();
     $('#id-show_online_status_button').click(function(){
-        $.ajax({
-            type: 'post',
-            url:  '/rs/ajax/set_show_online_status_trial/' + rnd() + "/",
-            success: function(status) {
-                // only process this json response if we are not currently processing a send_message call.
-                if (status == "OK") {
-                    window.location.reload();
-                } else {
-                    // the status will be the amount of time that the user must wait before receiving a new "view online status" trial
+        show_online_status_button_click_dialog();
+    });
 
-                    //replace the button with a message telling them how long they have to wait for their next trial.
-                    $("#id-show_online_status_dialog_box-first_part").html(
-                            $("#id-show_online_status_dialog_blocked_message").html() + "<p>" + status + "</p>"
-                    )
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                report_ajax_error(textStatus, errorThrown, "initialize_main_and_group_boxes_on_server");
-            },
-            complete: function() {
-            }
-        });
-    })
 
 });
 </script>

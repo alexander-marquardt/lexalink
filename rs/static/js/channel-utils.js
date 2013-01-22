@@ -286,7 +286,7 @@ var chan_utils = new function () {
                         }
 
                         var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
-                        $("#id-group_members-dialog-box-" + group_id).html(display_list);
+                        $("#id-group_members-dialog-box-contents-" + group_id).html(display_list);
                         chan_utils_self.showListHoverDescriptions(group_id, group_members_dict);
                     }
                 }
@@ -826,6 +826,19 @@ var chan_utils = new function () {
                 if ($('#id-group_members-dialog-box-' + group_id).length === 0) {
                     // don't create the new div if it already existed
                     $("#id-group_members-dialog-box").append('<div id="id-group_members-dialog-box-' + group_id + '"></div>');
+
+                    if (!js_client_is_vip) {
+                        // if this client is not a VIP, then show them the option of viewing other members online status.
+                        var show_online_status_text = $('#id-show_online_status_menu_element').text();
+                        // ideally we would use a button instead of an anchor, however this will require a lot of work due to the fact that we have used a standard
+                        // dialog box (not a chatbox), which means that the format, padding, borders, etc. is different than the chatboxes.
+                        $("#id-group_members-dialog-box-" + group_id).append('<div class="cl-left-text"><a id="id-show_online_status_anchor" href="#">' + show_online_status_text + '</a></div><br>');
+                        $('#id-show_online_status_anchor').click(function(){
+                            return show_online_status_main_dialog();
+                        });
+                    }
+
+                    $("#id-group_members-dialog-box-" + group_id).append('<div id="id-group_members-dialog-box-contents-' + group_id + '"></div>');
                 }
 
                 chan_utils_self.list_of_open_chat_groups_members_boxes.push(group_id);
