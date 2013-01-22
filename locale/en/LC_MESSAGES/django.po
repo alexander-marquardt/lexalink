@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-21 22:08+0100\n"
+"POT-Creation-Date: 2013-01-22 14:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2781,14 +2781,14 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/store_data.py:1728
+#: rs/store_data.py:1727
 #, python-format
-msgid "%(month)s %(day)s %(year)s"
+msgid "%(month)s %(day)s, %(year)s"
 msgstr ""
 
-#: rs/store_data.py:1729
+#: rs/store_data.py:1730
 #, python-format
-msgid "Congratulations, you are now a VIP client until %(date)s."
+msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
 
 #: rs/text_fields.py:36
@@ -4477,16 +4477,16 @@ msgstr ""
 msgid " Register me"
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:34
+#: rs/templates/user_main_helpers/become_a_vip.html:33
 #, python-format
 msgid "If you like %(app_name)s, consider becoming a VIP member"
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:41
+#: rs/templates/user_main_helpers/become_a_vip.html:40
 msgid "VIP benefits include"
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:46
+#: rs/templates/user_main_helpers/become_a_vip.html:45
 msgid ""
 "\n"
 "        Payments are processed by PayPal (an eBay company, and one of the "
@@ -4495,7 +4495,7 @@ msgid ""
 "        "
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:53
+#: rs/templates/user_main_helpers/become_a_vip.html:52
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit card you will be "
@@ -4801,7 +4801,7 @@ msgid ""
 msgstr ""
 
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:21
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:55
+#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:59
 msgid "Show online status"
 msgstr ""
 
@@ -4813,7 +4813,11 @@ msgid ""
 "        "
 msgstr ""
 
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:40
+#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
+msgid "See VIP benefits"
+msgstr ""
+
+#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:44
 #, python-format
 msgid ""
 "\n"
@@ -4822,7 +4826,7 @@ msgid ""
 "        "
 msgstr ""
 
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:49
+#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:53
 msgid ""
 "You are VIP member, therefore you are always shown the online status of "
 "other members"

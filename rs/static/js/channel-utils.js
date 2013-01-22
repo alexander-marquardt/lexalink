@@ -832,7 +832,7 @@ var chan_utils = new function () {
                         var show_online_status_text = $('#id-show_online_status_menu_element').text();
                         // ideally we would use a button instead of an anchor, however this will require a lot of work due to the fact that we have used a standard
                         // dialog box (not a chatbox), which means that the format, padding, borders, etc. is different than the chatboxes.
-                        $("#id-group_members-dialog-box-" + group_id).append('<div class="cl-left-text"><a id="id-show_online_status_anchor" href="#">' + show_online_status_text + '</a></div><br>');
+                        $("#id-group_members-dialog-box-" + group_id).append('<div class="cl-left-text"><a class="cl-dialog_anchor" id="id-show_online_status_anchor" href="#">' + show_online_status_text + '</a></div><br>');
                         $('#id-show_online_status_anchor').click(function(){
                             return show_online_status_main_dialog();
                         });

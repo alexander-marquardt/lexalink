@@ -31,6 +31,10 @@
 
         {{ paypal_button }}
 
+        <p>
+        <a class="cl-dialog_anchor" id="id-see_all_vip_benefits" href="#">{% trans "See VIP benefits" %}</a>
+        </p>
+
     </div>
 
 
@@ -53,6 +57,10 @@
 
 <div id="id-show_online_status_dialog_title" style="display:none;">
     {% trans 'Show online status' %}
+</div>
+
+<div id="id-show_vip_benefits_dialog_box" style="display:none;">
+   {% include "user_main_helpers/become_a_vip.html" %}
 </div>
 
 
@@ -94,6 +102,14 @@ function show_online_status_main_dialog() {
     return false;
 }
 
+function show_all_vip_benefits_dialog() {
+    $("#id-show_vip_benefits_dialog_box").dialog({
+        width: '500px'
+    });
+    $("#id-show_vip_benefits_dialog_box").dialog('open');
+    return false;
+}
+
 $(document).ready(function() {
 
     $('#id-show_online_status_menu_element').click(function() {
@@ -106,6 +122,9 @@ $(document).ready(function() {
         show_online_status_button_click_dialog();
     });
 
+    $('#id-see_all_vip_benefits').click(function() {
+        show_all_vip_benefits_dialog();
+    })
 
 });
 </script>
