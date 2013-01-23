@@ -539,7 +539,7 @@ MAIL_SUMMARY_NUM_LINES_TO_SHOW = 2
 
 ABOUT_USER_MAX_ROWS = 15
 
-MAX_CHARS_PER_WORD = 30 # this is used for breaking long (probably fake) words, to ensure that they don't overrrun div boundaries
+MAX_CHARS_PER_WORD = 50 # this is used for breaking long (probably fake) words, to ensure that they don't overrrun div boundaries
 
 MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY = 40
 
