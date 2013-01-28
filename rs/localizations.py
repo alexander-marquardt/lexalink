@@ -160,6 +160,7 @@ if settings.BUILD_NAME != "Language":
         # These countries will appear twice in the country/location list. Once at the beginning
         # and again in the entire list.
         ("AR",) +  ugettext_tuple(ugettext("AR")), # Argentina
+        ("CA",) +  ugettext_tuple(ugettext("CA")), # Canada        
         ("CL",) +  ugettext_tuple(ugettext("CL")), # Chile
         ("CO",) +  ugettext_tuple(ugettext("CO")), # Colombia
         ("MX",) +  ugettext_tuple(ugettext("MX")), # Mexico 
