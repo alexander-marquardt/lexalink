@@ -932,6 +932,7 @@ def store_initiate_contact(request, to_uid):
 
     userobject = utils_top_level.get_userobject_from_request(request)
     userobject_key = userobject.key()
+    userobject_nid = userobject_key.id()
     
     try:
         
@@ -996,7 +997,7 @@ def store_initiate_contact(request, to_uid):
                                     you can ask the other person to invite you to be their chat friend. """)
                                      
 
-                                    response_text += utils.render_paypal_button(request)
+                                    response_text += utils.render_paypal_button(request, userobject.username, userobject_nid)
 
                         if request_denied:
                             # un-do the request (toggle it) by calling the same function again, Note that we override the 

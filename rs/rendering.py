@@ -289,7 +289,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['path_info'] = request.path_info
 
 
-        paypal_button = utils.render_paypal_button(request)
+        paypal_button = utils.render_paypal_button(request, username, owner_nid)
         
         meta_info = {}
         if page_title:

@@ -110,13 +110,11 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
     #    that belong to other users in the system. This means that edit is enabled, and private
     #    is displayed.
     try:
-        display_key = db.Key.from_path('UserModel', long(display_nid))
-        display_uid = str(display_key)
+        display_uid = utils.get_uid_from_nid(display_nid)
         
         lang_code = request.LANGUAGE_CODE
         lang_idx = localizations.input_field_lang_idx[lang_code]
         
-    
         # Do not remove these initializations unless you are 100% sure that the variable has been set in ALL branches.
         new_user_welcome_text = ""
         no_about_user_section_warning = ''

@@ -31,7 +31,7 @@ import urllib2
 import logging
 import error_reporting, email_utils
 import settings, constants, models, login_utils, utils_top_level, utils, store_data
-import datetime
+import datetime, re
 from models import UserModel
 import views, http_utils
 
@@ -51,6 +51,9 @@ def instant_payment_notification_default(request):
   # this is an error.
   logging.critical("The default IPN URL should never be called - check what is happening with PayPal")
   return HttpResponseServerError("Error")
+  
+  
+custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')  
   
 def instant_payment_notification(request):
   parameters = None
@@ -96,13 +99,18 @@ def instant_payment_notification(request):
         logging.info("Payment status: %s" % status)
 
     if status == "VERIFIED":
-      uid = parameters['custom']
+      custom = parameters['custom']
+      match_custom = custom_info_pattern.match(custom)
+      if match_custom:
+        nid = match_custom.group(3)
+      
       donation_type = parameters['item_number']
       txn_id = parameters['txn_id']
       currency = parameters['mc_currency']
       amount = parameters['mc_gross']
       payer_email = parameters['payer_email']
             
+      uid = utils.get_uid_from_nid(nid)
       userobject = utils_top_level.get_object_from_string(uid)
 
       if currency == 'EUR':
@@ -110,8 +118,10 @@ def instant_payment_notification(request):
       else:
         assert(0)
         
-      update_userobject_vip_status(userobject,  num_credits_awarded, payer_email)         
-      store_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id)
+      if check_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id):
+        # only process the payment if this is the first time we have seen this txn_id.
+        update_userobject_vip_status(userobject,  num_credits_awarded, payer_email)         
+        
       return HttpResponse("OK")
 
   except:
@@ -148,10 +158,11 @@ def instant_payment_notification(request):
     
   #return HttpResponse("OK")
 
-def store_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id):
+def check_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id):
   
   # This stores information about the user that has made the payment. This is stored for informational purposes.
   
+  transaction_is_ok = False
   try:
    
     amount_paid_times_100 = int(float(amount) * 100)
@@ -168,15 +179,16 @@ def store_payment_and_update_structures(userobject, currency, amount, num_credit
       payment_object.date_paid = datetime.datetime.now()
       payment_object.num_credits_awarded = num_credits_awarded
       payment_object.txn_id = txn_id
+      transaction_is_ok = True
 
       payment_object.put()
     else:
-      logging.warning("Not processing IPN transaction ID %s since it is already stored" % txn_id)
+      logging.error("Not processing IPN transaction ID %s since it is already stored" % txn_id)
     
   except:
     error_reporting.log_exception(logging.critical)
   
-  return num_credits_awarded
+  return transaction_is_ok
 
 
 def get_new_vip_status_and_expiry(previous_expiry, num_credits_to_apply):

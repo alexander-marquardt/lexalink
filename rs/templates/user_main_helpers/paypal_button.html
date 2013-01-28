@@ -38,7 +38,7 @@
             <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
                 <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
-                <input type="hidden" name="custom" value="{{ paypal_data.owner_uid }}">
+                <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
 
                 <input type="hidden" name="cmd" value="_s-xclick">
                 <input type="hidden" name="hosted_button_id" value="{{ paypal_data.paypal_sandbox_button_id }}">
@@ -64,7 +64,7 @@
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
             <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
-            <input type="hidden" name="custom" value="{{ paypal_data.owner_uid }}">
+            <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
 
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="{{ paypal_data.paypal_en_button_id }}">
@@ -99,7 +99,7 @@
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
             <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
-            <input type="hidden" name="custom" value="{{ paypal_data.owner_uid }}">
+            <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
 
             <input type="hidden" name="cmd" value="_s-xclick">
             <input type="hidden" name="hosted_button_id" value="{{ paypal_data.paypal_es_button_id }}">

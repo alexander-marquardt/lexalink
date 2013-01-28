@@ -1540,7 +1540,12 @@ def get_nid_from_uid(uid):
     
     return nid
     
+def get_uid_from_nid(nid):
     
+    user_key = db.Key.from_path('UserModel', long(nid))
+    user_uid = str(user_key)    
+    return user_uid
+
 def return_and_report_internal_error(request):
     
     error_reporting.log_exception(logging.critical)
@@ -1605,19 +1610,18 @@ def store_login_ip_information(request, userobject):
     userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    
     
     
-def render_paypal_button(request):
+def render_paypal_button(request, username, owner_nid):
     
     try:
     
         if request.session.__contains__('userobject_str'):
             # only show paypal button to users that are logged-in.
-            
-            owner_uid =  request.session['userobject_str']
-            
+                        
             paypal_data = {}
             paypal_data['language'] = request.LANGUAGE_CODE
             paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
-            paypal_data['owner_uid'] = owner_uid    
+            paypal_data['owner_nid'] = owner_nid    
+            paypal_data['username'] = username
             paypal_data['paypal_en_button_id'] = site_configuration.PAYPAL_EN_BUTTON_ID
             paypal_data['paypal_es_button_id'] = site_configuration.PAYPAL_ES_BUTTON_ID   
             paypal_data['paypal_sandbox_button_id'] = site_configuration.PAYPAL_SANDBOX_BUTTON_ID
