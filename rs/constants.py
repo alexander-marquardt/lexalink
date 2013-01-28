@@ -546,8 +546,6 @@ MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY = 40
 MAX_TEXT_INPUT_LEN = 100 # default value for text inputs if not defined.
 MAX_USERNAME_LEN = 16 # max number of chars allowed in a username
 
-MAX_LEN_CHANNEL_ID = 64 # the lenght of the channel identifier token, which is used for chat and other real-time communications to client
-
 rematch_non_alpha = re.compile(r'\W+') #match one or more non-alphanumeric characters
 
 # Number of characters to display for the "about me" section, and the cutoff for being considered to have
