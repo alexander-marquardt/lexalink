@@ -515,6 +515,8 @@ def delete_expired_sessions():
 
 def cleanup_sessions(request):
     
+    from django import http
+    
     # wrapper for delete_expired_sessions that calls it multiple times if additional sessions need to be
     # removed.  (You must add the appropriate URL to urls.py as well as to the taskqueue.add function call
     # below for this to work correctly).
