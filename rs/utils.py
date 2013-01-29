@@ -1099,7 +1099,6 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                             })
     
     try:
-        #model_signup_fields = getattr(user_profile_main_data.UserSpec, "signup_fields")
         # we need the options dict for the reverse lookup to get the appropriate value for a given field/value
         if search_or_profile_fields == "profile":
             field_dictionary_by_field_name = getattr(user_profile_main_data.UserSpec, "signup_fields_options_dict")
@@ -1146,37 +1145,42 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                 return_dict[field_name] = ''
                 error_reporting.log_exception(logging.critical, error_message = error_message)
         
-        if pluralize_sex:
-
-            if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                # if pluralized, lookup the field name in the "preference" setting (since it is pluralized),
-                # otherwise use the "sex" setting.
-                if field_vals_dict['preference'] != "----":
-                    return_dict["preference"] = field_dictionary_by_field_name["preference"][lang_idx][field_vals_dict['preference']]
-                if field_vals_dict['sex'] != "----":
-                    return_dict["sex"] = field_dictionary_by_field_name["preference"][lang_idx][field_vals_dict['sex']]
+        try:
+            if pluralize_sex:
+    
+                if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+                    # if pluralized, lookup the field name in the "preference" setting (since it is pluralized),
+                    # otherwise use the "sex" setting.
+                    if field_vals_dict['preference'] != "----":
+                        return_dict["preference"] = field_dictionary_by_field_name["preference"][lang_idx][field_vals_dict['preference']]
+                    if field_vals_dict['sex'] != "----":
+                        return_dict["sex"] = field_dictionary_by_field_name["preference"][lang_idx][field_vals_dict['sex']]
+                else:
+                    # preference fields do not exist for Language or Friend, so lookup in the "sex" field
+                    if field_vals_dict['sex'] != "----":
+                        return_dict["sex"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['sex']]
             else:
-                # preference fields do not exist for Language or Friend, so lookup in the "sex" field
+                if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+                    if field_vals_dict['preference'] != "----":
+                        return_dict["preference"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['preference'] ]
                 if field_vals_dict['sex'] != "----":
                     return_dict["sex"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['sex']]
-        else:
-            if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                if field_vals_dict['preference'] != "----":
-                    return_dict["preference"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['preference'] ]
-            if field_vals_dict['sex'] != "----":
-                return_dict["sex"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['sex']]
-                    
-        # in order to get better google keyword coverage, override sex and preference for certian age ranges
-        # depending on the language.
-        if settings.SEO_OVERRIDES_ENABLED:
-            if field_vals_dict['age'] != "----":
-                lang_code = localizations.lang_code_by_idx[lang_idx]
-                return_dict["sex"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["sex"])
                 
-                if settings.BUILD_NAME != "Friend" and settings.BUILD_NAME != "Language":
-                    return_dict["preference"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["preference"])
+        except:
+            # This can be triggered if someone passes in bad parameters on the URL
+            error_reporting.log_exception(logging.warning)    
             
-        try:    
+        try:
+            # in order to get better google keyword coverage, override sex and preference for certian age ranges
+            # depending on the language.
+            if settings.SEO_OVERRIDES_ENABLED:
+                if field_vals_dict['age'] != "----":
+                    lang_code = localizations.lang_code_by_idx[lang_idx]
+                    return_dict["sex"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["sex"])
+                    
+                    if settings.BUILD_NAME != "Friend" and settings.BUILD_NAME != "Language":
+                        return_dict["preference"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["preference"])
+                
             if field_vals_dict['sub_region'] and field_vals_dict['sub_region'] != "----":
                 return_dict['sub_region'] = field_dictionary_by_field_name['sub_region'][lang_idx][field_vals_dict['sub_region']]  
             if field_vals_dict['region'] and field_vals_dict['region'] != "----":
@@ -1195,7 +1199,7 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
         except:
             # This can be triggered if someone passes in bad parameters on the URL, that result in
             # the sub_region, region, or country containing invalid values that are not defined. 
-            error_reporting.log_exception(logging.error)
+            error_reporting.log_exception(logging.warning)
         
     except:
         error_reporting.log_exception(logging.critical) 
