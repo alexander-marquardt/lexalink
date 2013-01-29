@@ -103,6 +103,8 @@ def instant_payment_notification(request):
       match_custom = custom_info_pattern.match(custom)
       if match_custom:
         nid = match_custom.group(3)
+      else:
+        raise Exception("Paypal custom value does not match expected format: %s" % custom)
       
       donation_type = parameters['item_number']
       txn_id = parameters['txn_id']
@@ -137,7 +139,9 @@ def instant_payment_notification(request):
     except:
       error_reporting.log_exception(logging.critical)
 
-  return HttpResponseServerError("Error")
+    # Return "OK" even though we had a server error - this will stop paypal from re-sending notifications of the
+    # payment.
+    return HttpResponse("OK")
 
 
 #def test_store_payment_and_update_structures(request, username, txn_id):
