@@ -28,7 +28,7 @@
 
 from os import environ
 
-from google.appengine.ext import db 
+from google.appengine.ext import db , ndb
 from google.appengine.api import memcache, users
 
 import hashlib, re
@@ -1538,7 +1538,8 @@ def get_nid_from_uid(uid):
     nid = memcache.get(memcache_key)    
     
     if nid is None:
-        userobject = utils_top_level.get_object_from_string(uid)
+        #userobject = utils_top_level.get_object_from_string(uid)
+        userobject = ndb.Key(urlsafe = uid).get()
         nid = userobject.key().id()
         memcache.set(memcache_key, nid, constants.SECONDS_PER_DAY)
     

@@ -27,7 +27,7 @@
 
 
 import models
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 from rs import utils, models, error_reporting
 import datetime, logging
 
@@ -35,8 +35,8 @@ def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
     """ Keep track of which profiles "viewers" have viewed other "displayed" profiles  """
 
     try:
-        viewer_key = db.Key(viewer_uid)
-        displayed_key = db.Key(displayed_uid)
+        viewer_key = ndb.Key(urlsafe = viewer_uid)
+        displayed_key = ndb.Key(urlsafe = displayed_uid)
         
         # Get the counter ojbect for the profile that is being viewed ie. the "displayed" profile's counter
         # We get this asynchronously so that it happens in parallel with the query for the viewer_object. 

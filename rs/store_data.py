@@ -83,7 +83,7 @@ def store_search_preferences(request):
     else:
         # Remember the search settings, so that the next time the user performs a search
         # their default settings are the same.
-        search_preferences2_object = userobject.search_preferences2
+        search_preferences2_object = userobject.search_preferences2.get()
         
         # This function should only be called 
         assert(search_preferences2_object != None)

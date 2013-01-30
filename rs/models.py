@@ -43,7 +43,7 @@ import datetime, time
 
 ############# ALL DJANGO MODELS SHOULD DERIVE FROM db.Model ############
 
-class SpamMailStructures(db.Model):
+class SpamMailStructures(ndb.Model):
     # Tracks various statistics that can indicate if the owner userobject is a spammer
     #
     
@@ -53,31 +53,31 @@ class SpamMailStructures(db.Model):
     the message
     """
     
-    datetime_first_mail_sent_today  = db.DateTimeProperty(indexed = False) 
+    datetime_first_mail_sent_today  = ndb.DateTimeProperty(indexed = False) 
     
     # this only counts number of messages sent to new contacts. This is used for limiting the number
     # of new contacts that can be messaged in a given time limit.
-    num_mails_sent_today = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_mails_sent_today = ndb.IntegerProperty(default = 0, indexed = False) 
     
     # count number of messages sent in total, including multiple count for multiple messages sent to
     # the same user.
-    num_mails_sent_total = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_mails_sent_total = ndb.IntegerProperty(default = 0, indexed = False) 
     
     """Use feedback from other users to determine if this is a SPAMMER -- if so,
     increase the number of times captcha is shown .. also, after a certian limit
     their messages should be directly sent to trash, and an email sent to admin. """
-    num_times_reported_as_spammer_total = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_times_reported_as_spammer_total = ndb.IntegerProperty(default = 0, indexed = False) 
         
-    number_of_captchass_solved_total = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    number_of_captchass_solved_total = ndb.IntegerProperty(default = 0, indexed = False) 
     
-    num_times_blocked = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_times_blocked = ndb.IntegerProperty(default = 0, indexed = False) 
     
     # keep track of when each object is last written - needed if for some reason we need to see objects
     # that were recently modified. 
-    last_write_time = db.DateTimeProperty(auto_now = True)
+    last_write_time = ndb.DateTimeProperty(auto_now = True)
     
 
-class UniqueLastLoginOffsets(db.Model):
+class UniqueLastLoginOffsets(ndb.Model):
     # Contains the offsets that will be applied to the unique_last_login value in UserMode objects.
     # Since all query results on UnserModel are ordered according to unique_last_login, we can use
     # these offsets to give certian users priority. For example, a user who has posted a profile
@@ -89,19 +89,19 @@ class UniqueLastLoginOffsets(db.Model):
     
     # Note: we store these as boolean values so that if we decide to change the weight of any of the
     # values in the future, the database will remain unaffected (it will only be a code modification)
-    has_profile_photo_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_private_photo_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_public_photo_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_about_user_offset =  db.BooleanProperty(required=False, default=False, indexed = False)
-    has_languages_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_entertainment_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_athletics_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_turn_ons_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_erotic_encounters_offset = db.BooleanProperty(required=False, default=False, indexed = False)
-    has_email_address_offset = db.BooleanProperty(required=False, default=False, indexed = False)
+    has_profile_photo_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_private_photo_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_public_photo_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_about_user_offset =  ndb.BooleanProperty(default=False, indexed = False)
+    has_languages_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_entertainment_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_athletics_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_turn_ons_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_erotic_encounters_offset = ndb.BooleanProperty(default=False, indexed = False)
+    has_email_address_offset = ndb.BooleanProperty(default=False, indexed = False)
 
     
-class UserSearchPreferences2(db.Model):
+class UserSearchPreferences2(ndb.Model):
     # This classs contain the stored parameters from the last search that the user has done.
     # This allows the search boxes to be set to appropriate values (based on the last settings)
     # for a given user. (This is given a "2" suffix because we used to have a different UserSearchPrefernces
@@ -110,51 +110,50 @@ class UserSearchPreferences2(db.Model):
 
 
     # sex refers to the sex that the user is searching for
-    sex = db.StringProperty(required=True, default="----", indexed = False)
-    age = db.StringProperty(required=True, default="----", indexed = False)
+    sex = ndb.StringProperty(required=True, indexed = False)
+    age = ndb.StringProperty(required=True, indexed = False)
 
-    country = db.StringProperty(required=False, default="----", indexed = False)
-    region = db.StringProperty(required=False, default="----", indexed = False)
-    sub_region = db.StringProperty(required=False, default="----", indexed = False)
+    country = ndb.StringProperty(required=False,  indexed = False)
+    region = ndb.StringProperty(required=False,  indexed = False)
+    sub_region = ndb.StringProperty(required=False,  indexed = False)
     
-    query_order = db.StringProperty(required=False, default="unique_last_login", indexed = False)
+    query_order = ndb.StringProperty(default="unique_last_login", indexed = False)
 
     # the following variable is used to inform new users that they can now do a search.
-    user_has_done_a_search = db.BooleanProperty(required=False, default = False, indexed = False)
+    user_has_done_a_search = ndb.BooleanProperty(default = False, indexed = False)
 
     
     if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-        relationship_status = db.StringProperty(required=False, default="----", indexed = False)
+        relationship_status = ndb.StringProperty(default="----", indexed = False)
         # preference refers to the sex that other users are looking for (ie. the sex that the current user is claiming to be)
-        preference = db.StringProperty(required=False, default="----", indexed = False)
+        preference = ndb.StringProperty(default="----", indexed = False)
     if settings.BUILD_NAME == "Language":
-        #native_language = db.StringProperty(required=False, default="----")
-        language_to_teach = db.StringProperty(required=False, default="----", indexed = False)
-        language_to_learn = db.StringProperty(required=False, default="----", indexed = False) 
+        #native_language = ndb.StringProperty(required=False, default="----")
+        language_to_teach = ndb.StringProperty(default="----", indexed = False)
+        language_to_learn = ndb.StringProperty(default="----", indexed = False) 
     if settings.BUILD_NAME == "Friend":
-        for_sale = db.StringProperty(required=True, default="----", indexed = False)
-        for_sale_sub_menu = db.StringProperty(required=True, default="----", indexed = False)
-        friend_price = db.StringProperty(required=True, default="----", indexed = False)
-        friend_currency = db.StringProperty(required=True, default="----", indexed = False)
-        #to_buy = db.StringProperty(required=True, default="----")
-        #to_buy_sub_menu = db.StringProperty(required=True, default="----")
+        for_sale = ndb.StringProperty(required=True,  indexed = False)
+        for_sale_sub_menu = ndb.StringProperty(required=True, indexed = False)
+        friend_price = ndb.StringProperty(required=True, indexed = False)
+        friend_currency = ndb.StringProperty(required=True,  indexed = False)
+
         
     # Note: the following value is not a search-vale -- but, it did not make sense to create a new structure 
     # just for storing this, and I didn't want to write it onto the main userobject.
     if settings.BUILD_NAME != 'Language' and settings.BUILD_NAME != "Friend":
-        lang_code = db.StringProperty(required=False, default = 'es', indexed = False)
+        lang_code = ndb.StringProperty(default = 'es', indexed = False)
     else:
-        lang_code = db.StringProperty(required=False, default = 'en', indexed = False)
+        lang_code = ndb.StringProperty(default = 'en', indexed = False)
     
     
 ############################################
-class UnreadMailCount(db.Model):
+class UnreadMailCount(ndb.Model):
     # Note: objects of this class should be updated inside transactions, since they can be modified by various
     # sources at the same time.
    
     # this counts the number of messages from unique contacts -- ie. a single user who sends 
     # 5 messages will only be counted once. (this is displayed as the number of unread messages)
-    unread_contact_count = db.IntegerProperty(required=True, default = 0) 
+    unread_contact_count = ndb.IntegerProperty(required=True) 
     
     # count the number of unread new messages since the last time we sent this user an email about
     # unread messages. Note: due to implementation issues,
@@ -166,24 +165,24 @@ class UnreadMailCount(db.Model):
     # they have a bunch of unread messages, and therefore we don't need to inform them about
     # messages received before their most recent login.
         
-    num_new_since_last_notification = db.IntegerProperty(required=False, default = 0) 
+    num_new_since_last_notification = ndb.IntegerProperty(default = 0) 
     
     # date of last notification indicates when we previously sent this user an email about new messages
     # auto_now_add means that this will be assigned the current time, the first time that this object
     # is written to the database. 
-    date_of_last_notification = db.DateTimeProperty(auto_now_add = True) 
+    date_of_last_notification = ndb.DateTimeProperty(auto_now_add = True) 
     
     # date/time that the next notification should be sent to the user. This is computed based on their
     # preferences, and allows us to perform a query on the "when_to_send_next_notification" to see if the 
     # current time is greater than the time at which the notification needs to be sent. 
-    when_to_send_next_notification = db.DateTimeProperty(default = datetime.datetime.max) 
+    when_to_send_next_notification = ndb.DateTimeProperty(default = datetime.datetime.max) 
     
     # in order to be able to pass notification values through URLs it is convenient to have them as strings
     # This allows us to do queries directly on the string field, as opposed to on the datetime field. 
-    when_to_send_next_notification_string = db.StringProperty(default = str(datetime.datetime.max))
+    when_to_send_next_notification_string = ndb.StringProperty(default = str(datetime.datetime.max))
 
     
-class CountInitiateContact(db.Model):
+class CountInitiateContact(ndb.Model):
     # Keeps track of the number of "Initiate Contact" (kisses, winks, keys) that the user has received.
     # This counter will be reset each time the user logs in.
     
@@ -196,51 +195,51 @@ class CountInitiateContact(db.Model):
     # rolling set of "new" contact requests, that reflect what the user has received since his last (previous)
     # login.
 
-    num_received_kiss_since_last_login = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    previous_num_received_kiss = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_received_kiss_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
+    previous_num_received_kiss = ndb.IntegerProperty(default = 0, indexed = False) 
 
-    num_received_wink_since_last_login = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    previous_num_received_wink = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_received_wink_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
+    previous_num_received_wink = ndb.IntegerProperty(default = 0, indexed = False) 
 
-    num_received_key_since_last_login = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    previous_num_received_key = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_received_key_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
+    previous_num_received_key = ndb.IntegerProperty(default = 0, indexed = False) 
     
-    num_received_friend_request_since_last_login = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    previous_num_received_friend_request = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_received_friend_request_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
+    previous_num_received_friend_request = ndb.IntegerProperty(default = 0, indexed = False) 
     
-    num_received_friend_confirmation_since_last_login = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    previous_num_received_friend_confirmation = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_received_friend_confirmation_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
+    previous_num_received_friend_confirmation = ndb.IntegerProperty(default = 0, indexed = False) 
     
     # date of last notification indicates when we previously sent this user an email about new 
     # initiate-contact requests (eg. kiss, wink, key)
     # auto_now_add means that this will be assigned the current time, the first time that this object
     # is written to the database. 
-    date_of_last_notification = db.DateTimeProperty(auto_now_add = True, indexed = False) 
+    date_of_last_notification = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     
     # count number of new initiate_contact requests since the last time a notification was sent out. This is a summation
     # of kisses, winks, and keys received.
-    num_new_since_last_notification = db.IntegerProperty(required=False, default = 0, indexed = False)
+    num_new_since_last_notification = ndb.IntegerProperty(default = 0, indexed = False)
 
     # date/time that the next notification should be sent to the user. This is computed based on their
     # preferences, and allows us to perform a query on the "when_to_send_next_notification" to see if the 
     # current time is greater than the time at which the notification needs to be sent. 
-    when_to_send_next_notification = db.DateTimeProperty(default = datetime.datetime.max, indexed = False)    
+    when_to_send_next_notification = ndb.DateTimeProperty(default = datetime.datetime.max, indexed = False)    
     
     # in order to be able to pass notification values through URLs it is convenient to have them as strings
     # This allows us to do queries directly on the string field, as opposed to on the datetime field. 
-    when_to_send_next_notification_string = db.StringProperty(default = str(datetime.datetime.max))
+    when_to_send_next_notification_string = ndb.StringProperty(default = str(datetime.datetime.max))
     
     
     # Some types of requests need to have limits placed on them, such as number of "chat friends", or number of "keys" 
     # shared with other users. We track these counters here
-    num_sent_key = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    num_sent_wink = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    num_sent_key = db.IntegerProperty(required=False, default = 0, indexed = False) 
-    num_sent_chat_friend = db.IntegerProperty(required=False, default = 0, indexed = False)        
+    num_sent_key = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_sent_wink = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_sent_key = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_sent_chat_friend = ndb.IntegerProperty(default = 0, indexed = False)        
     
     
-class UserModelBackupTracker(db.Model):    
+class UserModelBackupTracker(ndb.Model):    
 
     # This data structure contains pointers to a principal userobject and the backup objects for that
     # principal object.  Additionally, the principal userobject and the backup objects all will contain
@@ -248,66 +247,70 @@ class UserModelBackupTracker(db.Model):
     
     # The following contains a pointer to the main userobject. Note, we set the reference_class to None so that
     # we can later assign a pointer to the userobject (of class UserModel).
-    userobject_ref = db.ReferenceProperty(reference_class=None, collection_name = 'userobject_pointer_set', indexed = False)
+    #userobject_ref = ndb.ReferenceProperty(reference_class=None, collection_name = 'userobject_pointer_set', indexed = False)
+    userobject_ref = ndb.KeyProperty(indexed = False)
     
     
     # contains the name of the most recent backup (backup_1, backup_2 ... ), which allows us to track
     # which of the references (below) contains the most recent copy of the userobject.
-    most_recent_backup_name = db.StringProperty(required=False,default = None, indexed = False)
+    most_recent_backup_name = ndb.StringProperty(default = None, indexed = False)
     
     # The following structures will contain copies of the userobject.  We periodically (on a rotating basis)
     # copy the userobject into an object referenced by one of the following properties.
-    backup_1 = db.ReferenceProperty(reference_class=None, collection_name = 'backup_1_set', indexed = False)
-    backup_2 = db.ReferenceProperty(reference_class=None, collection_name = 'backup_2_set', indexed = False)
-    backup_3 = db.ReferenceProperty(reference_class=None, collection_name = 'backup_3_set', indexed = False)
+    #backup_1 = ndb.ReferenceProperty(reference_class=None, collection_name = 'backup_1_set', indexed = False)
+    #backup_2 = ndb.ReferenceProperty(reference_class=None, collection_name = 'backup_2_set', indexed = False)
+    #backup_3 = ndb.ReferenceProperty(reference_class=None, collection_name = 'backup_3_set', indexed = False)
     
+    backup_1 = ndb.KeyProperty(indexed = False)
+    backup_2 = ndb.KeyProperty(indexed = False)
+    backup_3 = ndb.KeyProperty(indexed = False)
     
-class UserTracker(db.Model):
+class UserTracker(ndb.Model):
     
     # This model provides us with information that will allow us to come back and check on user
     # logins in case it is necessary to provide information to law enforcement etc.
     
     # We store the login IPs as a list of strings, where each unique IP will only appear once
-    track_ip_list = db.StringListProperty(default = [], indexed = False)
+    track_ip_list = ndb.StringProperty(repeated = True, indexed = False)
     
     # Track the number of times that the user has logged in from each IP. There is a positional association
     # between this list and the track_ip list. (note: we defined this as a parallel structure to the track_ip
     # so that we can efficiently perform queries on the login_ip data, which could be necessary for fraud 
     # detection and prevention)
-    num_times_ip_used_list = db.ListProperty(long, default=[], indexed = False)
+    num_times_ip_used_list = ndb.IntegerProperty(repeated = True, indexed = False)
     
     # keep track of the first and last time that a given IP address has been used -- this will allow us to 
     # more or less understand the time frame which a user has logged in from a given IP. Again, this 
     # is parallel to the track_ip list.
-    first_time_ip_used_list = db.ListProperty(datetime.datetime,  default=[], indexed = False)
-    last_time_ip_used_list = db.ListProperty(datetime.datetime, default=[], indexed = False)
+    first_time_ip_used_list = ndb.DateTimeProperty(repeated = True, indexed = False)
+    last_time_ip_used_list = ndb.DateTimeProperty(repeated = True, indexed = False)
     
     # if the user clicks on an email that we have sent to their email address, we add the email address to
     # the following data structure (if it is not already stored) - this provides us with a history of verified email 
     # addresses that the user has used to access their account data.
-    verified_email_addresses_list = db.StringListProperty(default = [], indexed = False)
+    verified_email_addresses_list = ndb.StringProperty(repeated = True, indexed = False)
     # parallel structures for tracking the dates that the email address has been verified 
     # It is not totally clear that this is useful at this point in time, but the cost is relatively low.
-    first_time_email_address_verified_list = db.ListProperty(datetime.datetime,   default=[], indexed = False)
-    last_time_email_address_verified_list = db.ListProperty(datetime.datetime,   default=[], indexed = False)
+    first_time_email_address_verified_list = ndb.DateTimeProperty(repeated = True,  indexed = False)
+    last_time_email_address_verified_list = ndb.DateTimeProperty(repeated = True,  indexed = False)
     
     # List of sessions that this userobject currently has open (ie. multiple logins from different computers/browsers)
     # This will be stored as a circular queue that is indexed by list_of_session_ids_index - when MAX_STORED_SESSIONS
     # is reached, we will wrap this value back to 0 - if we wish to ensure that a user is logged out, we will cycle
     # through the past MAX_STORED_SESSIONS session_id values, and clear them from the database. 
-    list_of_session_ids = db.StringListProperty(default=[], indexed = False)
-    list_of_session_ids_last_index = db.IntegerProperty(required=False, default = None, indexed = False)    
+    list_of_session_ids = ndb.StringProperty(repeated = True, indexed = False)
+    list_of_session_ids_last_index = ndb.IntegerProperty(default = None, indexed = False)    
     
     
     # keep track of when each object is last written - this gives us a fighting chance of going back
     # and repairing objects that have been corrupted due to programmer error or other unforseen events.
-    last_wite_time = db.DateTimeProperty(auto_now = True)    
+    last_wite_time = ndb.DateTimeProperty(auto_now = True)    
     
     # TODO: In the future, it may be useful to write cookies to individual computers, to verify if a single user
     # is entering with multiple accounts. This is the only way to truly track user behaviour.
         
     
-class OnlineStatusTracker(db.Model):
+class OnlineStatusTracker(ndb.Model):
     # This data structure is currently only used for memcache storage (not written to database). Previously we
     # were writing the data to the database, but found that this cost money without much benefit since we don't 
     # need permanent storage of the chat friend status. 
@@ -332,13 +335,13 @@ class OnlineStatusTracker(db.Model):
     
     # We update this with a new time every time the client javascript checks-in to let us know that the user is 
     # still connected. -- this is the value that we use to determine if the user is "online"!
-    connection_verified_time = db.DateTimeProperty(auto_now_add = True, indexed = False) 
+    connection_verified_time = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
 
     # Track user preference for online status. 
-    user_presence_status = db.StringProperty(required=False, default="active", indexed = False)
+    user_presence_status = ndb.StringProperty(default="active", indexed = False)
         
     
-class ChatMessage(db.Model):
+class ChatMessage(ndb.Model):
     # Currently only written to memcache (not to database)
     # 
     # Contains a single chat message sent to/from the current user and another user (indicated by other_uid)
@@ -352,27 +355,27 @@ class ChatMessage(db.Model):
     # once we move to the comet server, it will become much less likely to lose messages since they will be sent
     # immediately to the destination.
         
-    type_of_conversation = db.StringProperty(required=False, default = "one_on_one", indexed = False)  # either "one_on_one" or "group"
+    type_of_conversation = ndb.StringProperty(default = "one_on_one", indexed = False)  # either "one_on_one" or "group"
 
     # if this message is sent in a "one_on_one" conversation, then we set uid1 to the lower
     # of the two user IDs, and uid2 to the higher. This gives us an un-ambiguous manner of retreiving
     # a conversation/message between two users.
     # If this is a "group" conversation, then uid1 is the group id, and uid2 is the sender uid.
-    uid1 = db.StringProperty(required=False, default = None, indexed = False)
-    uid2 = db.StringProperty(required=False, default = None, indexed = False)
+    uid1 = ndb.StringProperty(default = None, indexed = False)
+    uid2 = ndb.StringProperty(default = None, indexed = False)
     
-    chat_msg_text =  db.StringProperty(required=False, default = None, multiline=True, indexed = False)
+    chat_msg_text =  ndb.StringProperty(default = None, indexed = False)
     
     # set the time to the current time when this object is written (or overwritten) - this can be used for 
     # sorting messages and returning to the client in order. 
-    chat_msg_time_string = db.StringProperty(required=False, default = None, indexed = False)
+    chat_msg_time_string = ndb.StringProperty(default = None, indexed = False)
     
     # The following is required for displaying the name of the correct user beside the message text
-    sender_username = db.StringProperty(required=False, default = None, indexed = False)
+    sender_username = ndb.StringProperty(default = None, indexed = False)
         
 
         
-class OpenConversationsTracker(db.Model):
+class OpenConversationsTracker(ndb.Model):
     # Data structure for tracking the conversations that are currently open.
     # Effectively, it is used to build a list of chatboxes that are currently open, and will 
     # also be upated to contain a new uid if another user 
@@ -383,26 +386,26 @@ class OpenConversationsTracker(db.Model):
     #
     #
     
-    type_of_conversation = db.StringProperty(required=False, default = "one_on_one", indexed = False)  # either "one_on_one" or "group"
+    type_of_conversation = ndb.StringProperty(default = "one_on_one", indexed = False)  # either "one_on_one" or "group"
     
-    owner_uid = db.StringProperty(required=False, default = None, indexed = False) 
-    other_uid = db.StringProperty(required=False, default = None, indexed = False) 
+    owner_uid = ndb.StringProperty(default = None, indexed = False) 
+    other_uid = ndb.StringProperty(default = None, indexed = False) 
     
     # other username is required for modifying the display on the top of each chatbox, and for providing a link totheir profile.
     # in the case that this is a group conversation, this will be set to the group name
-    chatbox_title = db.StringProperty(required=False, default = None, indexed = False) 
+    chatbox_title = ndb.StringProperty(default = None, indexed = False) 
     
     # This structure allows us to quickly compare the date of the last message that is contained in the browswer
     # with the last message sent/received by the current user, and to therefore retrieve messages only when
     # the browser is not up-to-date. This should be memcached for efficiency since it will be polled quite often.
-    current_chat_message_time_string = db.StringProperty(required=False, default = None, indexed = False)    
+    current_chat_message_time_string = ndb.StringProperty(default = None, indexed = False)    
     
     # track if the conversation should be shown minimized or maximized,
     # valid values are "minimized" or "maximized".
-    chatbox_minimized_maximized = db.StringProperty(required=False, indexed = False, default = "maximized")
+    chatbox_minimized_maximized = ndb.StringProperty(indexed = False, default = "maximized")
     
 
-class ChatGroupTracker(db.Model):
+class ChatGroupTracker(ndb.Model):
     # Data structure that tracks *all* chat groups that are currently in existance. These groups will show
     # up in the "groups" chatbox, which will allow the user to select a group to join and/or create a new group.
     
@@ -411,27 +414,27 @@ class ChatGroupTracker(db.Model):
     # smallest group size. -- later (farther in the future), we will have to implement search capabilities
     # to allow users to search for a group.
     
-    group_name = db.StringProperty(required=False, default = None) 
+    group_name = ndb.StringProperty(default = None) 
     
     # We will place a limit on the number of members allowed for each group, to keep the conversations 
     # manageable, and to keep queries efficient. (will probably log out users after a certian period 
     # of inactivity)
-    number_of_group_members = db.IntegerProperty(required=False, default = 0)
+    number_of_group_members = ndb.IntegerProperty(default = 0)
     
     # List of group members UIDs
-    group_members_list = db.StringListProperty(required=True, default = [], indexed = False)
+    group_members_list = ndb.StringProperty(repeated = True, indexed = False)
     
     # creator name for showing to other users, as well as for administrative 
-    group_creator_name = db.StringProperty(required=False, default = None, indexed = False)
+    group_creator_name = ndb.StringProperty(default = None, indexed = False)
     
     # store the string of the creators UID to provide a link to their profile 
-    group_creator_uid_string = db.StringProperty(required=False, default = None, indexed = False) 
+    group_creator_uid_string = ndb.StringProperty(default = None, indexed = False) 
     
 
     
     
 ############################################
-class UserModel(db.Model):
+class UserModel(ndb.Model):
     # Defines the User Model (ie. the data-structure that contains all relevant information about a 
     # client that is logged into the system.
     
@@ -457,7 +460,7 @@ class UserModel(db.Model):
     
     # Boolean to distinguish "backup" copies
     # of the userobject versus the "real" copy -- in the case of a backup, this value will be set to False.
-    is_real_user = db.BooleanProperty(required=False, default=False)
+    is_real_user = ndb.BooleanProperty(default=False)
     
     
     # The backup tracker provides us with a single node that is in common with a particular user object
@@ -465,7 +468,7 @@ class UserModel(db.Model):
     # backup tracker, and the backup_tracker then contains pointers to the userobject and all of it's backups.
     # This will allow us to easily navigate between userobject and backups if this becomes necessary due to
     # some kind of destruction of data in the database. 
-    backup_tracker = db.ReferenceProperty(reference_class=UserModelBackupTracker, required=False)
+    backup_tracker = ndb.KeyProperty(kind=UserModelBackupTracker, required=False)
     
     #### values defined in signup fields (defined in constants.py)
     # This part of the class  defines the sign-up fields, such 
@@ -481,33 +484,33 @@ class UserModel(db.Model):
     # NOTE: Eventually, we should be able to remove the base value for each of these lists - but not clear if there is 
     #       much of a benefit to doing this. 
     
-    sex = db.StringProperty(required=False,default = None)  
-    sex_ix_list = db.StringListProperty(required=True, default=[u'----',]) 
+    sex = ndb.StringProperty(default = None)  
+    sex_ix_list = ndb.StringProperty(repeated = True) 
     
-    age = db.StringProperty(required=False,default = None)    
-    age_ix_list = db.StringListProperty(required=True, default=[u'----',])
+    age = ndb.StringProperty(default = None)    
+    age_ix_list = ndb.StringProperty(repeated = True)
     
-    username = db.StringProperty(required=False,default = None ) 
+    username = ndb.StringProperty(default = None ) 
     
     # The username_combinations_list is used for partial matching of the username -- to do this, we have to store a list
     # that is made up of the username[:], username[1:], username[2:], etc.
-    username_combinations_list = db.StringListProperty(required=True, default=[])
+    username_combinations_list = ndb.StringProperty(repeated = True)
     
-    password = db.StringProperty(required=False,default = None)   
-    password_verify = db.StringProperty(required=False,default = None)   
-    password_reset = db.StringProperty(required=False,default = None)  
-    email_address = db.EmailProperty(required=False, default = "----")
+    password = ndb.StringProperty(default = None)   
+    password_verify = ndb.StringProperty(default = None)   
+    password_reset = ndb.StringProperty(default = None)  
+    email_address = ndb.StringProperty(default = "----")
     
     if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-        preference = db.StringProperty(required=False,default = None)    
-        preference_ix_list = db.StringListProperty(required=True, default=[u'----',])
-        relationship_status = db.StringProperty(required=False,default = None) 
-        relationship_status_ix_list = db.StringListProperty(required=True, default=[u'----',])
+        preference = ndb.StringProperty(default = None)    
+        preference_ix_list = ndb.StringProperty(repeated = True)
+        relationship_status = ndb.StringProperty(default = None) 
+        relationship_status_ix_list = ndb.StringProperty(repeated = True)
     else:
         if settings.BUILD_NAME == "Language":
         # The following values will be copied into lists so  that the user can specify multiple values for each of the fields.
-            native_language = db.StringProperty(required=False,default = None)    
-            language_to_learn = db.StringProperty(required=False,default = None) # only used while user is signing up - will be copied into array of
+            native_language = ndb.StringProperty(default = None)    
+            language_to_learn = ndb.StringProperty(default = None) # only used while user is signing up - will be copied into array of
                                                                                  # languages spoken by the user, and ignored thereafter.
         if settings.BUILD_NAME == "Friend":
             pass
@@ -516,26 +519,25 @@ class UserModel(db.Model):
     # location requires special storage, because we break up the input into
     # three seperate fields - country, country+region, and country+region+sub-region 
     # this is necessary for doing searches at whatever level of granularity is desired 
-    country = db.StringProperty(required=False, default="----")
-    country_ix_list = db.StringListProperty(required=True, default=[u'----',])
-    region = db.StringProperty(required=False, default="----")
-    region_ix_list = db.StringListProperty(required=True, default=[u'----',])
-    sub_region = db.StringProperty(required=False, default="----")
-    sub_region_ix_list = db.StringListProperty(required=True, default=[u'----',])
+    country = ndb.StringProperty(default="----")
+    country_ix_list = ndb.StringProperty(repeated = True)
+    region = ndb.StringProperty(default="----")
+    region_ix_list = ndb.StringProperty(repeated = True)
+    sub_region = ndb.StringProperty(default="----")
+    sub_region_ix_list = ndb.StringProperty(repeated = True)
     
     if settings.BUILD_NAME == "Friend":
-        for_sale_ix_list = db.StringListProperty(required=True, default=[u'----',])
-        #to_buy_ix_list = db.StringListProperty(required=True, default=[u'----',])
-        friend_price = db.StringProperty(required=False, default="----")
-        friend_price_ix_list = db.StringListProperty(required=True, default=[u'----',])
-        friend_currency = db.StringProperty(required=False, default="----")
-        friend_currency_ix_list = db.StringListProperty(required=True, default=[u'----',])
+        for_sale_ix_list = ndb.StringProperty(repeated = True)
+        friend_price = ndb.StringProperty(default="----")
+        friend_price_ix_list = ndb.StringProperty(repeated = True)
+        friend_currency = ndb.StringProperty(default="----")
+        friend_currency_ix_list = ndb.StringProperty(repeated = True)
         
 
     # Status (what am I thinking) allows the user to enter in their thought for the day
-    current_status = db.StringProperty(required=False, default='----')
+    current_status = ndb.StringProperty(default='----')
     # store the time of the status update -- but also assign a default time of when user profile is "created".
-    current_status_update_time = db.DateTimeProperty(auto_now_add = True) 
+    current_status_update_time = ndb.DateTimeProperty(auto_now_add = True) 
     
     #### values to specify in user details (defined in profile_details.py)     
     # This part of the class contains extra profile details for each user. 
@@ -543,30 +545,29 @@ class UserModel(db.Model):
     # preferences, what they are looking for, etc. Most of these values
     # are based on the fields/values defined in UserProfileSpec class.
     
-    email_address_is_valid = db.BooleanProperty(required=True, default=False)
-    change_password_is_valid = db.BooleanProperty(required=True, default= False)
-    password_attempted_change_date = db.DateTimeProperty(auto_now_add=True) # initially gets set to when the user profile is created
+    email_address_is_valid = ndb.BooleanProperty(required=True)
+    change_password_is_valid = ndb.BooleanProperty(required=True)
+    password_attempted_change_date = ndb.DateTimeProperty(auto_now_add=True) # initially gets set to when the user profile is created
         
-    about_user = db.TextProperty(required = False, default = '----')
+    about_user = ndb.TextProperty(default = '----')
     
     # this variable is used as an indicator that the user has put enough characters of 
     # description in their profile ... otherwise, they are given a warning.
-    has_about_user = db.BooleanProperty(required=True, default= False)
+    has_about_user = ndb.BooleanProperty(required=True)
 
-    height = db.StringProperty(required = True, default = '----')
-    body_type = db.StringProperty(required = True, default = '----')
-    hair_color = db.StringProperty(required = True, default = '----')
-    hair_length = db.StringProperty(required = True, default = '----')
-    eye_color = db.StringProperty(required = True, default = '----')
-    drinking_habits = db.StringProperty(required = True, default = '----')
-    smoker = db.StringProperty(required = True, default = '----')
+    height = ndb.StringProperty(required = True)
+    body_type = ndb.StringProperty(required = True)
+    hair_color = ndb.StringProperty(required = True)
+    hair_length = ndb.StringProperty(required = True)
+    eye_color = ndb.StringProperty(required = True)
+    drinking_habits = ndb.StringProperty(required = True)
+    smoker = ndb.StringProperty(required = True)
  
         
     # The following loop is a *big* part of the UserModel - we dynamically build this part of the model 
     # depending on the settings in the UserProfileDetails definitions. 
     for category in UserProfileDetails.checkbox_fields.keys():
-        # For some reason ListProperty fields must be "required".
-        vars()[category] = db.StringListProperty(required=True) 
+        vars()[category] = ndb.StringProperty(repeated = True) 
             
                 
     #### fields for keeping track of photos that have been uploaded
@@ -574,68 +575,68 @@ class UserModel(db.Model):
     # to the profile photo, without having to do a query. Read about it at:
     # http://www.appenginetips.com/2008/05/anonymous-refer.html. 
     # It will be assigned after photos are uploaded.
-    #profile_photo = db.ReferenceProperty() #anonymous reference -- set later to key of the main profile photo
+    #profile_photo = ndb.ReferenceProperty() #anonymous reference -- set later to key of the main profile photo
     
     #### other fields
-    last_login = db.DateTimeProperty() 
+    last_login = ndb.DateTimeProperty() 
     
     # we write the last_login into a string, because this allows for passing the data
     # as a bookmark, without requiring costly conversion of the received
     # values into datetime objects.
-    last_login_string = db.StringProperty(required=False, default=None)
+    last_login_string = ndb.StringProperty(default=None)
 
     # unique_last_login is a combination of the last login time, along with "weighting" factors
     # such as if the user has photos, a description, etc. Each of these factors make the user profile
     # show up earlier in the search results.
-    unique_last_login = db.StringProperty(required=False, default=None)
-    unique_last_login_offset_ref = db.ReferenceProperty(reference_class=UniqueLastLoginOffsets, required=False)
+    unique_last_login = ndb.StringProperty(default=None)
+    unique_last_login_offset_ref = ndb.KeyProperty(kind=UniqueLastLoginOffsets, required=False)
     
-    creation_date = db.DateTimeProperty(auto_now_add=True) 
+    creation_date = ndb.DateTimeProperty(auto_now_add=True) 
     
     # every time this object is written, the auto_now will be updated. This should be useful for error recovery if 
     # it ever becomes necessary.
-    last_write = db.DateTimeProperty(auto_now=True) 
+    last_write = ndb.DateTimeProperty(auto_now=True) 
     
     # we create a hash of the creation date, so that we have a "secret" value. This can be used for example in
     # emails that allow the user to change settings on their account -- they have to have the correct hash in
     # order for the change to be accepted as valid.
-    hash_of_creation_date = db.StringProperty(required=False, default=None,  indexed = False)
+    hash_of_creation_date = ndb.StringProperty(default=None,  indexed = False)
     
     # previous_last_login is used for showing user updates that are "new" since the last time they logged in
     # This is necessary, because the last_login is set immediately when the user logs into the system.   
-    previous_last_login = db.DateTimeProperty() 
+    previous_last_login = ndb.DateTimeProperty() 
         
     # This will indicate how many new mails the user has. This must be updated when the mail is
     # sent. Keep seperate from UserModel, because we don't want to lock the entire usermodel to update
     # this value. 
-    unread_mail_count_ref = db.ReferenceProperty(reference_class=UnreadMailCount, required=False)
+    unread_mail_count_ref = ndb.KeyProperty(kind=UnreadMailCount, required=False)
                                             
     # store the users previous search for default settings in the future
     # required=False, because it does not exist when the model is initially created. 
-    search_preferences2 = db.ReferenceProperty(reference_class = UserSearchPreferences2, required = False, default = None)
+    search_preferences2 = ndb.KeyProperty(kind = UserSearchPreferences2, default = None)
     
     # Keep track of how many "new" contact attempts have been made to the current user.
-    new_contact_counter_ref = db.ReferenceProperty(reference_class = CountInitiateContact, required = False)
+    new_contact_counter_ref = ndb.KeyProperty(kind = CountInitiateContact, required = False)
     
     # Keep track of if this user is spamming people
-    spam_tracker = db.ReferenceProperty(reference_class = SpamMailStructures, required = False)
+    spam_tracker = ndb.KeyProperty(kind = SpamMailStructures, required = False)
      
     # The following variable indicates that users account should be eliminated the next
     # time a batch elimination is run. 
-    user_is_marked_for_elimination = db.BooleanProperty(required=False, default = False)
+    user_is_marked_for_elimination = ndb.BooleanProperty(default = False)
 
     # user_tracker will allow us to permanently log ip addresses and verified email addresses that have been used
     # for logging into this profile. 
-    user_tracker = db.ReferenceProperty(reference_class = UserTracker, required = False, default = None)
+    user_tracker = ndb.KeyProperty(kind = UserTracker, default = None)
     
-    registration_ip_address = db.StringProperty(required = False, default=None)
-    registration_city = db.StringProperty(required = False, default=None, indexed = False)
-    registration_country_code = db.StringProperty(required = False, default=None, indexed = False)
+    registration_ip_address = ndb.StringProperty(default=None)
+    registration_city = ndb.StringProperty(default=None, indexed = False)
+    registration_country_code = ndb.StringProperty(default=None, indexed = False)
     
-    last_login_ip_address = db.StringProperty(required = False, default=None)
-    last_login_country_code = db.StringProperty(required = False, default=None, indexed = False)
-    last_login_region_code = db.StringProperty(required = False, default=None, indexed = False)
-    last_login_city = db.StringProperty(required = False, default=None, indexed = False)
+    last_login_ip_address = ndb.StringProperty(default=None)
+    last_login_country_code = ndb.StringProperty(default=None, indexed = False)
+    last_login_region_code = ndb.StringProperty(default=None, indexed = False)
+    last_login_city = ndb.StringProperty(default=None, indexed = False)
     
     # when we eliminate profiles, sometimes it is because they are a scammer etc. We will use this as a flag to indicate to
     # other users why a particular profile has been removed. 
@@ -643,41 +644,42 @@ class UserModel(db.Model):
     #    "scammer" - African scams
     #    "terms" - Rude/vulgar/etc.
     #    "fake" - fake profile used to bait someone to pay site
-    reason_for_profile_removal = db.StringProperty(required = False, default=None)
+    reason_for_profile_removal = ndb.StringProperty(default=None)
     
     # client_paid_status - if this is any value other than None, then the client is a VIP. In the future, we may
     # wish to include special status for different VIP levels, in which case we will write specific strings into 
     # this data field.
-    client_paid_status = db.StringProperty(required = False, default = None)
-    client_paid_status_expiry = db.DateTimeProperty(auto_now_add = True)
+    client_paid_status = ndb.StringProperty(default = None)
+    client_paid_status_expiry = ndb.DateTimeProperty(auto_now_add = True)
     
     # if client has paid money for their status, we exempt them from captchas (for the duration of their status)
-    client_is_exempt_from_spam_captchas = db.BooleanProperty(required=False, default=False)
+    client_is_exempt_from_spam_captchas = ndb.BooleanProperty(default=False)
     
     
-class PaymentInfo(db.Model):
+class PaymentInfo(ndb.Model):
     # This class keeps track of how much a user has paid/donated, what date the donation was made, etc.
     
     # The following declaration creates a (virtual) property on the associated UserModel object that can be accessed such as:
     # userobject.payments_set[0] - Note: we can therefore also keep track of multiple payments for a single user. 
-    owner_userobject = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="payments_set")
+    #owner_userobject = ndb.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="payments_set")
+    owner_userobject = ndb.KeyProperty(kind = UserModel, default = None)
     
     # The username is stored here just for convenience, so that we can query by username (in the admin console) to see what payments
     # a given user has made, in case of any disputes or confusion.
-    username = db.StringProperty(required = False, default=None)
-    amount_paid_times_100 = db.IntegerProperty(required=False, default=0)
-    date_paid = db.DateTimeProperty(required=False)
-    num_credits_awarded = db.IntegerProperty(required=False, default=0)
+    username = ndb.StringProperty(default=None)
+    amount_paid_times_100 = ndb.IntegerProperty(default=0)
+    date_paid = ndb.DateTimeProperty(required=False)
+    num_credits_awarded = ndb.IntegerProperty(default=0)
     
-    txn_id = db.StringProperty(required = False, default=None)
+    txn_id = ndb.StringProperty(required = False, default=None)
     
             
-class WatermarkPhotoModel(db.Model):
+class WatermarkPhotoModel(ndb.Model):
     # Will contain the watermark that will be used for marking all uploaded photos. This data structure is intended to
     # only have a single element, which means that a simple get() should be possible without having to filter results
-    image = db.BlobProperty(required = False)
+    image = ndb.BlobProperty(required = False)
 
-class PhotoModel(db.Model):
+class PhotoModel(ndb.Model):
     # This class contains the data and images for a single photo. If a user has multiple photos, then
     # this class will be instantiated multiple times.
     # NOTE: since this model has a reference to UserModel, AppEngine automatically creates
@@ -685,40 +687,40 @@ class PhotoModel(db.Model):
     #       are contained in a variable called photomodel_set, which is a query object. 
 
     # DO NOT SET required to "True", without a defalut value, this will break the code.
-    small = db.BlobProperty(required = False) # this is where we store the compressed/thumbnail photo
-    medium = db.BlobProperty(required = False) # This is where we store the medium-sized photo
+    small = ndb.BlobProperty(required = False) # this is where we store the compressed/thumbnail photo
+    medium = ndb.BlobProperty(required = False) # This is where we store the medium-sized photo
                                                # which is useful for profile picture.
-    large = db.BlobProperty(required = False)  #large version of the picture, for showing more details
+    large = ndb.BlobProperty(required = False)  #large version of the picture, for showing more details
                                                # will be displayed when cursor is hovered over a small or medium image.
                                 
        
     # The following two photos will only be stored temporarily. These are used for verifying that
     # the original image does not have a watermark. Once verified, the watermarked small, medium, and large images
     # will be the only ones permanently stored and these original images can be erased.
-    medium_before_watermark = db.BlobProperty(required = False)
-    large_before_watermark = db.BlobProperty(required = False)
+    medium_before_watermark = ndb.BlobProperty(required = False)
+    large_before_watermark = ndb.BlobProperty(required = False)
 
-    name = db.StringProperty(required = False, default = '') 
-    is_profile = db.BooleanProperty(required = False, default = False)
-    is_private = db.BooleanProperty(required = False, default = False)
+    name = ndb.StringProperty(default = '') 
+    is_profile = ndb.BooleanProperty(default = False)
+    is_private = ndb.BooleanProperty(default = False)
     
     # The following allows us to leave photos that will be made public displayed as private until they are approved. 
-    is_approved = db.BooleanProperty(required = False, default = False)
+    is_approved = ndb.BooleanProperty(default = False)
     
     # Indicate if we have previously reviewed this photo - allows us to filter query results to
     # only show photos that have not previously reviewed.
-    has_been_reviewed = db.BooleanProperty(required = False, default = True)
+    has_been_reviewed = ndb.BooleanProperty(default = True)
     
     # Note: "creation_date" refers to the last time that the photo was updated -- including
     # changing from private to public.
-    creation_date = db.DateTimeProperty(auto_now=True) 
+    creation_date = ndb.DateTimeProperty(auto_now=True) 
     
     # the following provides a link from the Photos to the user. This will create 
     # backlinks in the user model, that can be used to show the photos.
-    parent_object = db.ReferenceProperty(reference_class = UserModel, required = False)
+    #parent_object = ndb.ReferenceProperty(reference_class = UserModel, required = False)
+    parent_object = ndb.KeyProperty(kind=UserModel, required = False)
 
-
-class MailMessageModel(db.Model):
+class MailMessageModel(ndb.Model):
     """ 
     New model for the mailbox
     """
@@ -732,7 +734,7 @@ class MailMessageModel(db.Model):
     between two users are members of the same entity group.
     
     """
-    m_text = db.TextProperty(required=False, default = None)   
+    m_text = ndb.TextProperty(default = None)   
     
     
     # Note, collection_name refers to the name this this class will appear as on the model which is referenced.
@@ -740,20 +742,23 @@ class MailMessageModel(db.Model):
     # the "messages_received" structure. These names are not used by our code, but must appear in order to dis-ambiguate
     # how these will appear on the referenced object.
     # m_to and m_from refer to the receiver and the sender of the current message. 
-    m_from = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_sent')
+    #m_from = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_sent')
+    m_from = ndb.KeyProperty(kind = UserModel, required=False)
+    
     # if we ever decide to allow multiple recipients, this could be changed to a list of keys. 
-    m_to = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_received')
+    #m_to = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_received')
+    m_to = ndb.KeyProperty(kind = UserModel, required = False)
     
     # date/time the message was sent/received
-    m_date = db.DateTimeProperty(required=False)
+    m_date = ndb.DateTimeProperty(required=False)
     
     # unique_m_date will be a concatenation of the date with the sender username. This ensures uniquenes
     # as required to guarantee that paging through results will work correctly. (otherwise, two messages
     # received at the exact same milisecond could cause problems when paging through data).
-    unique_m_date =  db.StringProperty(required=False, default=None)
+    unique_m_date =  ndb.StringProperty(default=None)
     
 
-class UsersHaveSentMessages(db.Model):
+class UsersHaveSentMessages(ndb.Model):
     # This class contains a list of pairs of users who have had contact (via messages) in the past. This is necessary for
     # tracking and presenting messages for a particular user mailbox, in which each "other" contact will appear
     # only once. Note that unlike the MailMessageModel data structure, which contains an entry for each message, this 
@@ -761,45 +766,47 @@ class UsersHaveSentMessages(db.Model):
     # This can be thought of as a sort of indicator
     # that allows us to extract the "top" message between each pair of users, by performing another query (once
     # we actually know that the two users have had previous contact)
-    owner_ref = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_owner')
-    other_ref = db.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_other')
+    #owner_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_owner')
+    #other_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_other')
+    owner_ref = ndb.KeyProperty(kind = UserModel, required = False)
+    other_ref = ndb.KeyProperty(kind = UserModel, required = False)
     
-    last_m_date = db.DateTimeProperty(required=False)
+    last_m_date = ndb.DateTimeProperty(required=False)
     
     # unique_mail_date will be a concatenation of the date with the sender username. This ensures uniquenes
     # as required to guarantee that paging through results will work correctly. 
-    unique_m_date =  db.StringProperty(required=False, default=None)
+    unique_m_date =  ndb.StringProperty(default=None)
     
     # Allow users to delete and/or filter the message -- which means that it will not show in their mailbox
     # Options are extendable, with currently envisioned "inbox" (which actually means all sent and received that
     # have not been eliminated),  "new", "received", "sent", "trash", "spam"
-    mailbox_to_display_this_contact_messages = db.StringProperty(required = False, default = "inbox")
+    mailbox_to_display_this_contact_messages = ndb.StringProperty(default = "inbox")
     
     # We use a boolean to keep track of if the "owner" of this message was the sender or 
     # the receiver. If true, is sender, false receiver.
-    owner_is_sender =  db.BooleanProperty(required = False, default = True)
+    owner_is_sender =  ndb.BooleanProperty(default = True)
     
     # We check if the message has been read by owner. This is used to display the message with the appropriate icon 
     # as well as for counting number of unread "messages" (really number of un-opened "conversations" -- meaning
     # that 5 messages from a single person will count as a single message)  
-    message_chain_has_been_read = db.BooleanProperty(required = False, default = False)
+    message_chain_has_been_read = ndb.BooleanProperty(default = False)
     
     # Mark this message chain as a "favorite" so that it can be viewed in it's own special menu.
     # This structure should mirror the value stored in InitiateContact_model -- but since we allow mail messages
     # to be queried based on this value -- it MUST appear here as well.
-    other_is_favorite = db.BooleanProperty(required = False, default = False)    
+    other_is_favorite = ndb.BooleanProperty(default = False)    
 
 
     # In order to limit the number of messages sent from "owner" to "other" in a single day, we need to keep track
     # of when the first message of the day was sent - and then start counting the number of messages from
     # that time.
-    datetime_first_message_to_other_today  = db.DateTimeProperty(indexed = False, auto_now_add = True) 
+    datetime_first_message_to_other_today  = ndb.DateTimeProperty(indexed = False, auto_now_add = True) 
     
     # Keep track of the number of messages that the "owner" has sent to the "other" profile in the current day.
-    num_messages_to_other_sent_today = db.IntegerProperty(required=False, default = 0, indexed = False) 
+    num_messages_to_other_sent_today = ndb.IntegerProperty(default = 0, indexed = False) 
     
 
-class InitiateContactModel(db.Model):
+class InitiateContactModel(ndb.Model):
     # This class contains the data structures that indicate when a user has made contact with another
     # user. This includes adding another user to favorites, sending a kiss, giving a key, etc.
     # It is intended for being able to efficiently access the contact settings for display on the profile
@@ -812,110 +819,120 @@ class InitiateContactModel(db.Model):
     #       access the key_stored for the "viewer_profile" (this means that the viewer has been given a key) - this could be a potential
     #       source of confusion since we are viewing the "displayed_profile" but checking the "viewer_profile" data structure for access to 
     #       the private photos.
-    displayed_profile = db.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_displayed_profile')
-    viewer_profile = db.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_viewer_profile')
+    #displayed_profile = ndb.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_displayed_profile')
+    #viewer_profile = ndb.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_viewer_profile')
+    displayed_profile = ndb.KeyProperty(kind = UserModel, required = True)
+    viewer_profile = ndb.KeyProperty(kind = UserModel, required = True)
+       
         
-    favorite_stored = db.BooleanProperty(required = False, default = False)
-    favorite_stored_date =  db.DateTimeProperty()
+    favorite_stored = ndb.BooleanProperty(default = False)
+    favorite_stored_date =  ndb.DateTimeProperty()
     
-    wink_stored = db.BooleanProperty(required = False, default = False)
-    wink_stored_date = db.DateTimeProperty()
+    wink_stored = ndb.BooleanProperty(default = False)
+    wink_stored_date = ndb.DateTimeProperty()
     
-    kiss_stored = db.BooleanProperty(required = False, default = False)
-    kiss_stored_date = db.DateTimeProperty()
+    kiss_stored = ndb.BooleanProperty(default = False)
+    kiss_stored_date = ndb.DateTimeProperty()
     
-    key_stored = db.BooleanProperty(required = False, default = False)
-    key_stored_date = db.DateTimeProperty()
+    key_stored = ndb.BooleanProperty(default = False)
+    key_stored_date = ndb.DateTimeProperty()
     
     # allow the user to block other people from sending them messages.
-    blocked_stored = db.BooleanProperty(required = False, default = False)
-    blocked_stored_date = db.DateTimeProperty()
+    blocked_stored = ndb.BooleanProperty(default = False)
+    blocked_stored_date = ndb.DateTimeProperty()
     
     # chat_friend_stored will contain a string that indicates the following possible conditions:
     #    None: Neither the viewer or displayed profile have made any request to add to each others chat list
     #    "request_sent": the displayed profile has been sent a request to add to chat contacts
     #    "request_received": the viewer profile has been sent a chat request from the users whose profile is being viewed
     #    "connected": the viewer and displayed profile have agreed to add each other to their chat contacts.
-    chat_friend_stored = db.StringProperty(required=False, default = None)
-    chat_friend_stored_date = db.DateTimeProperty()
+    chat_friend_stored = ndb.StringProperty(default = None)
+    chat_friend_stored_date = ndb.DateTimeProperty()
 
-class EmailAutorizationModel(db.Model):
+class EmailAutorizationModel(ndb.Model):
     # model that will store login/registration information while we are waiting for the user to verify their
     # email registration
-    username = db.StringProperty(required=False,default = None)   
-    secret_verification_code = db.StringProperty(required=False, default = "----")   
-    pickled_login_get_dict = db.BlobProperty(required=False,default = None)   
-    creation_date = db.DateTimeProperty(auto_now_add=True) 
+    username = ndb.StringProperty(default = None)   
+    secret_verification_code = ndb.StringProperty(default = "----")   
+    pickled_login_get_dict = ndb.BlobProperty(default = None)   
+    creation_date = ndb.DateTimeProperty(auto_now_add=True) 
     
     # the following information will be used for preventing an attack -- if a single IP or a single email
     # address registers an excessive number of times, it will not be permitted to register more accounts.
-    ip_address = db.StringProperty(required=False, default=None)
-    email_address =  db.EmailProperty(required=False, default = None)
+    ip_address = ndb.StringProperty(default=None)
+    email_address =  ndb.StringProperty(default = None)
     
     # the following variable will contain a string representation of the day that the registration takes place
     # which will allow us to do database queries for all registrations in the current day.
-    creation_day =  db.StringProperty(required=False, default=None)
+    creation_day =  ndb.StringProperty(default=None)
     
     # track if someone has referred this user to our website
-    referring_code = db.StringProperty(required=False, default=None)
+    referring_code = ndb.StringProperty(default=None)
 
 # The following classes allow us to keep track of profiles that other users consider to be unacceptable.
-class CountUnacceptableProfile(db.Model):
+class CountUnacceptableProfile(ndb.Model):
     # keeps track of the number of unique times that this user has been marked as unacceptable.
-    profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
-    count = db.IntegerProperty(required=False, default=0)
+    #profile_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False)
+    profile_ref = ndb.KeyProperty(kind = UserModel, required = False)
+    
+    count = ndb.IntegerProperty(default=0)
     
     # Track how many times profile is reported as unacceptable in the "small time window" - which 
     # is defined as the number of hours in which we will ban an account if they receive too many 
     # reports.
-    datetime_first_reported_in_small_time_window  = db.DateTimeProperty(auto_now_add=True, indexed = False) 
-    num_times_reported_in_small_time_window = db.IntegerProperty(indexed = False, required=False, default=0)
+    datetime_first_reported_in_small_time_window  = ndb.DateTimeProperty(auto_now_add=True, indexed = False) 
+    num_times_reported_in_small_time_window = ndb.IntegerProperty(indexed = False, default=0)
     
     
-class CountReportingProfile(db.Model):
+class CountReportingProfile(ndb.Model):
     # keeps track of the number of  times that this user has marked another profile as unacceptable.
-    profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False)
-    count = db.IntegerProperty(required=False, default=0)    
+    # profile_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False)
+    profile_ref = ndb.KeyProperty(kind = UserModel, required = False)
     
-class TemporarilyBlockedIPAddresses(db.Model):
+    count = ndb.IntegerProperty(default=0)    
+    
+class TemporarilyBlockedIPAddresses(ndb.Model):
     # contains IP addresses that we have blocked due to malicious behaviour of users
-    blocked_ip = db.StringProperty(required=True, default=None)
-    time_blocked = db.DateTimeProperty(auto_now_add=True) 
+    blocked_ip = ndb.StringProperty(required=True)
+    time_blocked = ndb.DateTimeProperty(auto_now_add=True) 
     
     
-class MarkUnacceptableProfile(db.Model):
+class MarkUnacceptableProfile(ndb.Model):
     # we will create an object that indicates that this viewing profile has reported the displayed_profile as being 
     # unacceptable. If this object already exists, then counters will not be modified since we don't want a single user
     # to be able to mark the same profile as unacceptable hundreds of times.
-    displayed_profile = db.ReferenceProperty(required=False,reference_class = UserModel,  collection_name = 'unacceptable_model_displayed_profile')
-    reporter_profile = db.ReferenceProperty(required=False,reference_class = UserModel, collection_name = 'unacceptable_model_viewer_profile')
-    creation_date = db.DateTimeProperty(auto_now_add=True) 
-    unacceptable = db.BooleanProperty(required=False, default=True)
+    #displayed_profile = ndb.ReferenceProperty(required=False,reference_class = UserModel,  collection_name = 'unacceptable_model_displayed_profile')
+    #reporter_profile = ndb.ReferenceProperty(required=False,reference_class = UserModel, collection_name = 'unacceptable_model_viewer_profile')
+    displayed_profile = ndb.KeyProperty(kind = UserModel, required=False)
+    reporter_profile = ndb.KeyProperty(kind = UserModel, required=False)
+    
+    creation_date = ndb.DateTimeProperty(auto_now_add=True) 
+    unacceptable = ndb.BooleanProperty(default=True)
 
-class VideoPhoneUserInfo(db.Model):
-    m_window_identifier = db.StringProperty(required=False, default="")
-    m_identity = db.StringProperty(required=False, default="")
-    m_updatetime =  db.DateTimeProperty(auto_now = True) 
+class VideoPhoneUserInfo(ndb.Model):
+    m_window_identifier = ndb.StringProperty(default="")
+    m_identity = ndb.StringProperty(default="")
+    m_updatetime =  ndb.DateTimeProperty(auto_now = True) 
             
             
 
             
-class SiteMap(db.Model):
+class SiteMap(ndb.Model):
     # Contains XML sitemap data. This can used as a base class for both sitemaps, as well as for 
     # sitemap indexes. 
     
     # Since we have multiple sitemaps, we give each sitemap a unique and user-readable number. This
     # will be used in the URL for accessing the sitemap -- ie http://www.foo.com/sitemap-[site_map_number].xml
-    sitemap_number = db.IntegerProperty(default = None)  # default to None to hard crash if we have code error
+    sitemap_number = ndb.IntegerProperty(default = None)  # default to None to hard crash if we have code error
     
     # track how many URLs have been written to this object - this is used for detecting when we have 
     # reached the limit for the number of URLs permitted per sitemap, at which point a new sitemap
     # will be created.
-    num_entries = db.IntegerProperty(default = 0) 
+    num_entries = ndb.IntegerProperty(default = 0) 
     
     # the following two values are really only for debugging in the future, should anything strange happen
-    creationtime =  db.DateTimeProperty(auto_now_add = True) # track creation time of this object
-    updatetime =  db.DateTimeProperty(auto_now = True) # track the last time that this object is written
+    creationtime =  ndb.DateTimeProperty(auto_now_add = True) # track creation time of this object
+    updatetime =  ndb.DateTimeProperty(auto_now = True) # track the last time that this object is written
     
     # This is the actual contents of the sitemap - but it only includes the "<url>"-related xml - does not contain
     # the xml version declaration or the "urlset" definition - these will be dynamically added when the 
@@ -923,16 +940,16 @@ class SiteMap(db.Model):
     # new URLs to the sitemap (would not be a simple concatenation of the new "<url>" data - it would require
     # removing closing tags for the xml that we have excluded before adding the new <url> data, and then 
     # re-writing the closing tags)
-    internal_xml = db.TextProperty(default = '')
+    internal_xml = ndb.TextProperty(default = '')
 
     # we store a reference to the key of the last userobject - mostly for informational purposes 
     # If this is a container for user profiles, then this contains a string representation of the object key
     # If this is a container for sitemap objects, then this contains the number of the most recent sitemap object
-    last_object_id = db.StringProperty(default = None)
+    last_object_id = ndb.StringProperty(default = None)
     
     # Track the creation time of the last object (or sitemap) that has been included in the internal_xml. This 
     # allows us to then start the next query immediately after this object.
-    creation_time_of_last_id =  db.DateTimeProperty(default = None)
+    creation_time_of_last_id =  ndb.DateTimeProperty(default = None)
        
     
 class SiteMapUserModel(SiteMap):
@@ -947,17 +964,17 @@ class SiteMapUserModelIndex(SiteMap):
     pass
 
 
-class FakeParent(db.Model):
+class FakeParent(ndb.Model):
     # Used by any models that require a parent (in order to be considered in the same entity group)
     pass
 
 
 class ViewerTracker(ndb.Model):
-    displayed_profile = db.ReferenceProperty(reference_class = UserModel)
-    viewer_profile = db.ReferenceProperty(reference_class = UserModel)
+    displayed_profile = ndb.KeyProperty(kind = UserModel)
+    viewer_profile = ndb.KeyProperty(kind = UserModel)
     view_time =  ndb.DateTimeProperty(auto_now = True) 
         
         
 class ViewedCounter(ndb.Model):
-    displayed_profile = db.ReferenceProperty(reference_class = UserModel)
+    displayed_profile = ndb.KeyProperty(kind = UserModel)
     viewed_counter = ndb.IntegerProperty(default = 0) 

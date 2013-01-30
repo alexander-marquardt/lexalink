@@ -31,7 +31,7 @@
 # functions allows us to import this file wherever we want, without worrying about 
 # circular references.
 
-from google.appengine.ext import db 
+from google.appengine.ext import db, ndb
 from google.appengine.api.datastore import entity_pb
 from google.appengine.api import memcache
 from django.utils.translation import ugettext
@@ -72,8 +72,8 @@ def get_userobject_from_request(request):
     
     userobject = None
     if request.session.__contains__('userobject_str'): 
-        #userobject = db.get(db.Key(request.session['userobject_str']))
-        userobject = get_object_from_string(request.session['userobject_str'])
+        #userobject = get_object_from_string(request.session['userobject_str'])
+        userobject = ndb.Key(urlsafe = request.session['userobject_str']).get()
                                
     return userobject
 
