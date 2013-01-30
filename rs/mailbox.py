@@ -142,7 +142,7 @@ def get_mail_history_summary(request, owner_userobject, display_userobject, show
     try:
         
 
-        have_sent_messages_object = utils.get_have_sent_messages_object(owner_userobject.key(), display_userobject.key())
+        have_sent_messages_object = utils.get_have_sent_messages_object(owner_userobject.key, display_userobject.key)
         
         if have_sent_messages_object:
             (generated_html, have_sent_messages_bool) = display_conversation_summary(request, have_sent_messages_object, show_checkbox_beside_summary)

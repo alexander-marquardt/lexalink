@@ -53,12 +53,12 @@ class MyHTMLCallbackGenerator():
             
             # display_userobject_ref is object of the user profile that is currently being viewed
             self.display_userobject_ref = display_userobject
-            self.display_uid = str(display_userobject.key())
+            self.display_uid = display_userobject.key.urlsafe()
             
             
             self.primary_userobject_ref = primary_userobject
             if primary_userobject:
-                self.owner_uid = str(primary_userobject.key())
+                self.owner_uid = primary_userobject.key.urlsafe()
             else:
                 self.owner_uid = ''
             
@@ -190,10 +190,10 @@ class MyHTMLCallbackGenerator():
             userobject = self.primary_userobject_ref
             owner_uid = self.owner_uid
             
-            
-            num_messages_sent_today = userobject.spam_tracker.num_mails_sent_today
-            num_messages_sent_in_total = userobject.spam_tracker.num_mails_sent_total
-            num_times_reported_as_spammer_total = userobject.spam_tracker.num_times_reported_as_spammer_total
+            spam_tracker = userobject.spam_tracker.get()
+            num_messages_sent_today = spam_tracker.num_mails_sent_today
+            num_messages_sent_in_total = spam_tracker.num_mails_sent_total
+            num_times_reported_as_spammer_total = spam_tracker.num_times_reported_as_spammer_total
             
            
             generated_html = ""
@@ -206,7 +206,7 @@ class MyHTMLCallbackGenerator():
                 num_emails_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                                 
             
-            if userobject.spam_tracker.datetime_first_mail_sent_today + \
+            if spam_tracker.datetime_first_mail_sent_today + \
                datetime.timedelta(hours = constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES - constants.RESET_MAIL_LEEWAY) >  datetime.datetime.now():
                 sent_so_far = ugettext("You have sent %(num)s new messages.") % {'num': num_messages_sent_today}
                 restart_spam_counter = False

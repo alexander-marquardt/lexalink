@@ -40,12 +40,12 @@ def get_html_for_unique_last_login_calculations(userobject):
     offset = 0 # the offset is in Days.
     # make sure it has the attribute, and that the attribute is set
     if hasattr(userobject, 'unique_last_login_offset_ref') and userobject.unique_last_login_offset_ref:
-        unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
+        unique_last_login_offset = userobject.unique_last_login_offset_ref.get()
         
         # loop over all possible offsets, and assign the value if the boolean in offset_ref indicates
         # that it should be assigned.
         for (offset_name, value) in constants.offset_values.iteritems():
-            has_offset = getattr(unique_last_login_offset_ref, offset_name)
+            has_offset = getattr(unique_last_login_offset, offset_name)
             
             if has_offset:
                 has_offset_str = "YES"

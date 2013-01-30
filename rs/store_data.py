@@ -1382,9 +1382,8 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
         userobject.spam_tracker = initialize_and_store_spam_tracker(userobject.spam_tracker) 
         put_userobject(userobject)  
         
-    spam_tracker = userobject.spam_tracker
+    spam_tracker = userobject.spam_tracker.get()
         
-
     if spam_tracker.num_times_reported_as_spammer_total > spam_tracker.number_of_captchass_solved_total \
        and not have_sent_messages_bool: 
 

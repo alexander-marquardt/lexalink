@@ -28,7 +28,7 @@
 
 import logging, datetime, os, re
 
-from google.appengine.ext import db 
+from google.appengine.ext import ndb 
 from google.appengine.ext import blobstore
 
 
@@ -142,9 +142,10 @@ def get_simple_search_settings(request):
                          
         if request.session.__contains__('userobject_str'):
             userobject =  utils_top_level.get_userobject_from_request(request)
+            search_preferences = userobject.search_preferences2.get()
             
             for field in UserSpec.simple_search_fields:
-                response_val = getattr(userobject.search_preferences2 ,field)
+                response_val = getattr(search_preferences ,field)
                 # The following is a temporary fix related to the fact that we changed 'dont_care'
                 # to "----" but some profiles will still have the old value. This can be removed once
                 # a database cleanup has been done.
@@ -660,8 +661,8 @@ def get_initiate_contact_settings(request, display_uid):
         userobject = utils_top_level.get_userobject_from_request(request) 
         response_dict = {}
         
-        userobject_key = userobject.key()
-        display_userobject_key = db.Key(display_uid)
+        userobject_key = userobject.key
+        display_userobject_key = ndb.Key(urlsafe = display_uid)
         initiate_contact_object = utils.get_initiate_contact_object(userobject_key, display_userobject_key)
         
         for action in possible_actions:

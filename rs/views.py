@@ -250,8 +250,10 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         if owner_userobject:
             # this is the logged-in client
             owner_username = owner_userobject.username
-            owner_message_count = owner_userobject.unread_mail_count_ref.unread_contact_count
-            new_contact_count = get_new_contact_count_sum(owner_userobject.new_contact_counter_ref)
+            unread_mail_count_object = owner_userobject.unread_mail_count_ref.get()
+            owner_message_count = unread_mail_count_object.unread_contact_count
+            new_contact_counter_object = owner_userobject.new_contact_counter_ref.get()
+            new_contact_count = get_new_contact_count_sum(new_contact_counter_object)
         else:
             # this is a guest that is not logged-in
             owner_username = ''
@@ -321,8 +323,9 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 
         # photo boxes -- allows us to hide the photo section if no photos are present
-        viewed_profile_data_fields.show_photos_section = is_primary_user or display_userobject.unique_last_login_offset_ref.has_public_photo_offset \
-                                  or display_userobject.unique_last_login_offset_ref.has_private_photo_offset
+        unique_last_login_offset = display_userobject.unique_last_login_offset_ref.get()
+        viewed_profile_data_fields.show_photos_section = is_primary_user or unique_last_login_offset.has_public_photo_offset \
+                                  or unique_last_login_offset.has_private_photo_offset
         
         if show_vip_info:
             viewed_profile_data_fields.show_online_status = utils.get_vip_online_status_string(display_uid)

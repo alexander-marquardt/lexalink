@@ -385,23 +385,6 @@ def put_userobject(userobject):
         #summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
         #memcache_status = memcache.delete(summary_first_half_memcache_key_str)
     
-def do_query(model_to_query, query_filter_dict, order_by = None):
-    # This is a helper function that takes care of querying the database.
-    # model_to_query: the name of the db model class that we are querying
-    # query_filter_dict: contains a dictionary of the name/value pairs which we will match in thequery
-    # order_by: [optional] if we want to modify the query order
-    #
-    # Returns: a filtered query list that matches the specified criteria
-    
-    if order_by:
-        query = model_to_query.all().order(order_by)
-    else:
-        query = model_to_query.all()
-        
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)    
-    
-    return query
 
     
 def get_active_userobject_from_username(username):
@@ -745,17 +728,15 @@ def compute_secret_verification_code(username, email_address):
 
 def check_if_user_has_denounced_profile(owner_uid, display_uid):
     # checks if the owner userobject has reported the displayed profile as unacceptable.
-    query_filter_dict = {}   
     
-    displayed_uid_key = db.Key(display_uid)
-    owner_uid_key = db.Key(owner_uid)
+    displayed_uid_key = ndb.Key(urlsafe = display_uid)
+    owner_uid_key = ndb.Key(urlsafe = owner_uid)
     
-    query_filter_dict['displayed_profile ='] = displayed_uid_key
-    query_filter_dict['reporter_profile ='] =  owner_uid_key
- 
-    query = do_query(models.MarkUnacceptableProfile, query_filter_dict)
-        
-    mark_unacceptable_profile = query.get()
+    q = models.MarkUnacceptableProfile.query()
+    q = q.filter(models.MarkUnacceptableProfile.displayed_profile == displayed_uid_key)
+    q = q.filter(models.MarkUnacceptableProfile.reporter_profile ==  owner_uid_key)
+         
+    mark_unacceptable_profile = q.get()
     return mark_unacceptable_profile
 
 
@@ -1245,7 +1226,7 @@ def kill_user_sessions(user_tracker):
                 # need to remove it as it does not have an active session, and because it will be cleaned up
                 # by the cron jobs.
                 memcache.delete(session_id) 
-                key = db.Key.from_path(gaesessions.SessionModel.kind(), session_id)
+                key = ndb.Key(gaesessions.SessionModel, session_id)
                 db_entry_key = db.get(key)
                 if db_entry_key:
                     db.delete(db_entry_key)    
@@ -1317,7 +1298,7 @@ def get_fake_mail_parent_entity_key(uid1, uid2):
         parent_key_name = "%s_and_%s" % (uid1, uid2)
     else:
         parent_key_name = "%s_and_%s" % (uid2, uid1)
-    mail_parent_key = db.Key.from_path('FakeMailMessageParent', parent_key_name)
+    mail_parent_key = ndb.Key('FakeMailMessageParent', parent_key_name)
     return mail_parent_key
 
 
@@ -1328,14 +1309,14 @@ def get_have_sent_messages_key_name(owner_key, other_key):
     
 def get_have_sent_messages_key(owner_key, other_key):
     key_name = get_have_sent_messages_key_name(owner_key, other_key)
-    have_sent_messages_key = db.Key.from_path('UsersHaveSentMessages', key_name)
+    have_sent_messages_key = ndb.Key('UsersHaveSentMessages', key_name)
     return have_sent_messages_key
 
 def get_have_sent_messages_object(owner_key, other_key, create_if_does_not_exist = False):
     
     try:
         have_sent_messages_key = get_have_sent_messages_key(owner_key, other_key)
-        have_sent_messages_object = db.get(have_sent_messages_key)
+        have_sent_messages_object = have_sent_messages_key.get()
         if not have_sent_messages_object and create_if_does_not_exist:
             have_sent_messages_object = models.UsersHaveSentMessages(key_name = get_have_sent_messages_key_name(owner_key, other_key))
             have_sent_messages_object.put()
@@ -1387,8 +1368,8 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
             # create_if_does_not_exist is True (we need to create a new entity)
              
             object_key_name = str(viewer_userobject_key) + str(display_userobject_key) 
-            initiate_contact_key = db.Key.from_path('InitiateContactModel', object_key_name)
-            initiate_contact_object = db.get(initiate_contact_key)
+            initiate_contact_key = ndb.Key('InitiateContactModel', object_key_name)
+            initiate_contact_object = initiate_contact_key.get()
             
             if initiate_contact_object is None:
                 # database does not contain an object for this pair of users.
@@ -1432,7 +1413,7 @@ def convert_string_key_from_old_app_to_current_app(old_key_string):
     id_or_name = old_key.id_or_name()
     old_app_name = old_key.app()
 
-    new_key = db.Key.from_path(kind, id_or_name)
+    new_key = ndb.Key(kind, id_or_name)
     new_key_string = str(new_key)
     new_app_name = new_key.app()
     
