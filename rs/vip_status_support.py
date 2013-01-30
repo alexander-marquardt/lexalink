@@ -278,17 +278,12 @@ def manually_give_paid_status(request, username, num_credits):
   try:
     num_credits = int(num_credits)
     
-    query_filter_dict = {}    
-    query_filter_dict['username'] = username.upper()
-    query_filter_dict['is_real_user'] = True
-
-    query = UserModel.all()
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-    userobject = query.get()
+    q = UserModel.query()
+    q = q.filter(UserModel.username == username.upper())
+    q = q.filter(UserModel.is_real_user == True)
+    userobject = q.get()
 
     update_userobject_vip_status(userobject,  num_credits, payer_email = "N/A - manually awarded") 
-    
     return http_utils.ajax_compatible_http_response(request, "Done")
   
   except:

@@ -358,7 +358,7 @@ def put_userobject(userobject):
     put_object(userobject)
                  
     # Invalidate the memcached url_description for this userprofile since it has potentially changed.
-    uid = str(userobject.key())
+    uid = userobject.key.urlsafe()
     
     
     # invalidate the client_paid_status memcache value since we may have just updated it.
@@ -926,7 +926,7 @@ def when_to_send_next_notification_txn(new_contact_key, hours_between_notificati
     # Intended to run in a transaction. 
     # this code should work for both the unread_mail_count object (mail counter), 
     # and the new_contact_counter object (winks, etc. counter)
-    new_contact_obj = db.get(new_contact_key)
+    new_contact_obj = new_contact_key.get()
     
     if hours_between_notifications != None and new_contact_obj.num_new_since_last_notification > 0:
         new_contact_obj.when_to_send_next_notification = new_contact_obj.date_of_last_notification + \
@@ -1226,10 +1226,10 @@ def kill_user_sessions(user_tracker):
                 # need to remove it as it does not have an active session, and because it will be cleaned up
                 # by the cron jobs.
                 memcache.delete(session_id) 
-                key = ndb.Key(gaesessions.SessionModel, session_id)
-                db_entry_key = db.get(key)
+                nkey = ndb.Key(gaesessions.SessionModel, session_id)
+                db_entry_key = nkey.get()
                 if db_entry_key:
-                    db.delete(db_entry_key)    
+                    db_entry_key.delete()    
                     logging.info("deleting database session key %s\n" % session_id)
                     
         user_tracker.list_of_session_ids = []
@@ -1318,7 +1318,7 @@ def get_have_sent_messages_object(owner_key, other_key, create_if_does_not_exist
         have_sent_messages_key = get_have_sent_messages_key(owner_key, other_key)
         have_sent_messages_object = have_sent_messages_key.get()
         if not have_sent_messages_object and create_if_does_not_exist:
-            have_sent_messages_object = models.UsersHaveSentMessages(key_name = get_have_sent_messages_key_name(owner_key, other_key))
+            have_sent_messages_object = models.UsersHaveSentMessages(id = get_have_sent_messages_key_name(owner_key, other_key))
             have_sent_messages_object.put()
         return have_sent_messages_object
     except:
@@ -1375,7 +1375,7 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
                 # database does not contain an object for this pair of users.
                 if create_if_does_not_exist:
                     # only create a new object if the database has not already stored one for the viewer and the display user.
-                    initiate_contact_object = models.InitiateContactModel(key_name = object_key_name, 
+                    initiate_contact_object = models.InitiateContactModel(id = object_key_name, 
                         displayed_profile = display_userobject_key, viewer_profile = viewer_userobject_key)
                     
                     # write the object to memcache and database.
@@ -1408,20 +1408,25 @@ def put_initiate_contact_object(initiate_contact_object, viewer_userobject_key, 
     
 def convert_string_key_from_old_app_to_current_app(old_key_string):
     
-    old_key = db.Key(old_key_string)
-    kind = old_key.kind()
-    id_or_name = old_key.id_or_name()
-    old_app_name = old_key.app()
-
-    new_key = ndb.Key(kind, id_or_name)
-    new_key_string = str(new_key)
-    new_app_name = new_key.app()
+    try:
+        old_key = ndb.Key(urlsafe = old_key_string)
+        kind = old_key.kind()
+        id_or_name = old_key.id()
+        old_app_name = old_key.app()
     
-    # We should never be re-directing a key that is the same app name as the current app
-    logging.info("old_app_name %s new_app_name %s" % (old_app_name, new_app_name))
-    assert(old_app_name != new_app_name)
-    return new_key_string
-
+        new_key = ndb.Key(kind, id_or_name)
+        new_key_string = str(new_key)
+        new_app_name = new_key.app()
+        
+        # We should never be re-directing a key that is the same app name as the current app
+        logging.info("old_app_name %s new_app_name %s" % (old_app_name, new_app_name))
+        assert(old_app_name != new_app_name)
+        return new_key_string
+    
+    except:
+        error_reporting.log_exception(logging.critical)
+        return None
+    
     
 def get_username_combinations_list(username):
     

@@ -88,7 +88,7 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
         # data from one application to another, and people/google have stored URLs that contain stale display_uid strings.
         error_reporting.log_exception(logging.info, error_message = "Incorrect display_uid app identifier, re-directing")
         new_uid = utils.convert_string_key_from_old_app_to_current_app(display_uid)
-        if new_uid != display_uid:
+        if new_uid and new_uid != display_uid:
             # to prevent infinite loop, only redirect if the "new_uid" is different from the "display_uid"
             # For example, we want to be sure that we don't re-direct a bad uid key that is already in the
             # application name of current application.

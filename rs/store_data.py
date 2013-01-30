@@ -29,7 +29,7 @@
 from os import environ
 
 from google.appengine.api import images
-from google.appengine.ext import db 
+from google.appengine.ext import ndb 
 from google.appengine.api import taskqueue
 from google.appengine.api import memcache
 
@@ -158,11 +158,11 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
 
         all_user_photo_keys = PhotoModel.all(keys_only = True).filter('parent_object =', userobject).fetch(MAX_NUM_PHOTOS)  
         for photo_key in all_user_photo_keys:
-            photo_key_str = str(photo_key)
-            photo_object = db.get(photo_key)
+            photo_key_str = photo_key.urlsafe()
+            photo_object = photo_key.get()
             
             if photo_key_str in delete_photo_list_of_keys:
-                db.delete(photo_key)
+                photo_key.delete()
             else:
                 if photo_key_str in is_private_list_of_keys:
                     if not photo_object.is_private:
@@ -192,8 +192,8 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         # are updated before we start to check if they are private, public, etc.
         has_private_photos = has_public_photos = has_profile_photo = False
         for photo_key in all_user_photo_keys:
-            photo_key_str = str(photo_key)
-            photo_object = db.get(photo_key) 
+            photo_key_str = photo_key.urlsafe()
+            photo_object = photo_key.get()
             if photo_object: # make sure not deleted
                 if photo_object.is_profile:
                     has_profile_photo = True
@@ -205,9 +205,10 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                 
 
         # update the offsets for displaying the user with higher (or lower) priority in the search results.
-        userobject.unique_last_login_offset_ref.has_profile_photo_offset = has_profile_photo
-        userobject.unique_last_login_offset_ref.has_public_photo_offset = has_public_photos
-        userobject.unique_last_login_offset_ref.has_private_photo_offset = has_private_photos
+        unique_last_login_offset_object = userobject.unique_last_login_offset_ref.get()
+        unique_last_login_offset_object.has_profile_photo_offset = has_profile_photo
+        unique_last_login_offset_object.has_public_photo_offset = has_public_photos
+        unique_last_login_offset_object.has_private_photo_offset = has_private_photos
 
         userobject.unique_last_login_offset_ref.put()
     
@@ -298,11 +299,11 @@ def update_when_to_send_next_notification_after_profile_modification(userobject)
     hours_between_message_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_message_notifications)
     hours_between_new_contacts_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_new_contacts_notifications)
     
-    db.run_in_transaction (utils.when_to_send_next_notification_txn, userobject.unread_mail_count_ref.key(), \
-                           hours_between_message_notifications)
+    ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.unread_mail_count_ref.key(), \
+                           hours_between_message_notifications))
     
-    db.run_in_transaction (utils.when_to_send_next_notification_txn, userobject.new_contact_counter_ref.key(), \
-                           hours_between_new_contacts_notifications)       
+    ndb.transaction (lambda: utils.when_to_send_next_notification_txn (userobject.new_contact_counter_ref.key(), \
+                           hours_between_new_contacts_notifications))      
     
     
     
@@ -671,14 +672,14 @@ def  reset_new_contact_or_mail_counter_notification_settings(object_ref_key):
             
     def txn(new_contact_counter_ref_key):
 
-        counter_obj = db.get(object_ref_key)
+        counter_obj = object_ref_key.get()
         counter_obj.date_of_last_notification = datetime.datetime.now()
         counter_obj.num_new_since_last_notification = 0
         counter_obj.when_to_send_next_notification = datetime.datetime.max
         counter_obj.when_to_send_next_notification_string = str(counter_obj.when_to_send_next_notification)
         counter_obj.put()
     
-    db.run_in_transaction(txn, object_ref_key)
+    ndb.transaction(lambda: txn(object_ref_key))
     
 
     
@@ -694,7 +695,7 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_
             
     def txn(new_contact_counter_ref_key, action_for_contact_count, value):
 
-        new_contact_counter_obj = db.get(new_contact_counter_ref_key)
+        new_contact_counter_obj = new_contact_counter_ref_key.get()
         current_count = getattr(new_contact_counter_obj, action_for_contact_count)
         current_count += value
         setattr(new_contact_counter_obj, action_for_contact_count, current_count)
@@ -727,7 +728,7 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_
         return new_contact_counter_obj
     
     
-    new_contact_counter_obj = db.run_in_transaction(txn, new_contact_counter_ref_key, action_for_contact_count, value)
+    new_contact_counter_obj = ndb.transaction(lambda: txn(new_contact_counter_ref_key, action_for_contact_count, value))
     return new_contact_counter_obj
                        
 
@@ -738,7 +739,7 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_
 def update_users_have_sent_messages_object_favorite_val(userobject, other_userobject, bool_val):
 
     try:
-        users_have_sent_messages_object = utils.get_have_sent_messages_object(userobject.key(), other_userobject.key())
+        users_have_sent_messages_object = utils.get_have_sent_messages_object(userobject.key, other_userobject.key)
     
         if users_have_sent_messages_object:
             users_have_sent_messages_object.other_is_favorite = bool_val
@@ -803,7 +804,7 @@ def modify_passive_initiate_contact_object(chat_request_action_on_receiver, add_
     
     def txn(initiate_contact_object_key):
         # use a transaction to ensure that only a single update to this object will happen at a time.
-        initiate_contact_object = db.get(initiate_contact_object_key)
+        initiate_contact_object = initiate_contact_object_key.get()
         if chat_request_action_on_receiver == "friend_request":
             if add_or_remove == +1:
                 initiate_contact_object.chat_friend_stored = "request_received"
@@ -827,10 +828,10 @@ def modify_passive_initiate_contact_object(chat_request_action_on_receiver, add_
     # NOTE: reversed userobjects in the following call to get the "passive" object (the user receiving 
     # the chat request)
     initiate_contact_object = utils.get_initiate_contact_object(other_userobject_key, userobject_key, create_if_does_not_exist=True)
-    initiate_contact_object_key = initiate_contact_object.key()    
+    initiate_contact_object_key = initiate_contact_object.key 
 
     try: 
-        db.run_in_transaction(txn, initiate_contact_object_key)
+        ndb.transaction(lambda: txn(initiate_contact_object_key))
         update_bool = True
     except:
         # transaction failed -- object not modified
@@ -863,7 +864,7 @@ def modify_active_initiate_contact_object(action, initiate_contact_object, usero
             # use a transaction to ensure that only a single update to this object will happen at a time.
             counter_modify = 0
             chat_request_action_on_receiver = None
-            initiate_contact_object = db.get(initiate_contact_object_key)
+            initiate_contact_object = initiate_contact_object_key.get()
             action_stored_str = action + "_stored"
             action_stored_date_str = action + "_stored_date"
             
@@ -894,7 +895,7 @@ def modify_active_initiate_contact_object(action, initiate_contact_object, usero
         initiate_contact_object_modified = False
         action_stored_date_str = action + "_stored_date"
         
-        initiate_contact_object_key = initiate_contact_object.key()
+        initiate_contact_object_key = initiate_contact_object.key
     
         action_stored_date = getattr(initiate_contact_object, action_stored_date_str)
         # prevent double submission (rapid clicking) -- check the value needs to be set before writing
@@ -911,10 +912,11 @@ def modify_active_initiate_contact_object(action, initiate_contact_object, usero
             # update the initiate_contact_object inside a transaction
             try: 
                 (counter_modify, chat_request_action_on_receiver, initiate_contact_object) = \
-                 db.run_in_transaction(txn, initiate_contact_object_key, action)
+                 ndb.transaction(lambda: txn(initiate_contact_object_key, action))
                 initiate_contact_object_modified = True
             except:
                 # transaction failed -- object not modified
+                logging.warning("Trasaction failed in modify_active_initiate_contact_object")
                 initiate_contact_object_modified = False
         else:
             # we do not write the initiate_contact_object since not enough time has passed since the last click
@@ -931,13 +933,13 @@ def store_initiate_contact(request, to_uid):
     
 
     userobject = utils_top_level.get_userobject_from_request(request)
-    userobject_key = userobject.key()
+    userobject_key = userobject.key
     userobject_nid = userobject_key.id()
     
     try:
         
         possible_actions = ('wink', 'favorite', 'kiss', 'key', 'chat_friend', 'blocked')
-        other_userobject_key = db.Key(to_uid)
+        other_userobject_key = ndb.Key(urlsafe = to_uid)
         other_userobject = utils_top_level.get_object_from_string(to_uid)
         
         if request.method != 'POST':
@@ -952,11 +954,13 @@ def store_initiate_contact(request, to_uid):
                 
                 if initiate_contact_object_modified:  
                     
+                    owner_new_contact_counter_obj = userobject.new_contact_counter_ref.get()
+                    
                     # first check that the user has not exceeded their quota for the given action
                     request_denied = False
                     if counter_modify > 0:
                         if action == "key":
-                            if userobject.new_contact_counter_ref.num_sent_key >= constants.MAX_KEYS_SENT_ALLOWED:
+                            if owner_new_contact_counter_obj.num_sent_key >= constants.MAX_KEYS_SENT_ALLOWED:
                                 response_text = "<p>%s" % ugettext("""You have exceeded the limit of %(max_keys)s on the number of keys that you can send. 
                                 Before sending additional keys, you must take back keys that you have given to other users.""") \
                                               % {'max_keys' : constants.MAX_KEYS_SENT_ALLOWED}
@@ -967,7 +971,7 @@ def store_initiate_contact(request, to_uid):
                                 # VIP clients are allowed to have the max number of chat friends OR
                                 # we allow people to accept friend requests even after their free limit on friends has been exceeded. 
                                 # ... But not to initiate new friend requests,
-                                if userobject.new_contact_counter_ref.num_sent_chat_friend >= MAX_CHAT_FRIEND_REQUESTS_ALLOWED:
+                                if owner_new_contact_counter_obj.num_sent_chat_friend >= MAX_CHAT_FRIEND_REQUESTS_ALLOWED:
                                     response_text = "<p>%s" % ugettext("""You have reached the limit of %(max_requests)s on the number of chat friends
                                     that you are allowed to request and/or accept.
                                     Before requesting/accepting additional chat friends, you must remove some of your current chat friends.""") \
@@ -977,7 +981,7 @@ def store_initiate_contact(request, to_uid):
                             else:
                                 # This user is neither VIP nor responding to a friend request, therefore they 
                                 # only have the free limit of friends
-                                if userobject.new_contact_counter_ref.num_sent_chat_friend >= GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED:
+                                if owner_new_contact_counter_obj.num_sent_chat_friend >= GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED:
                                     
                                     request_denied = True  
                                     
@@ -985,7 +989,7 @@ def store_initiate_contact(request, to_uid):
                                     You have %(num_sent_chat_friend)s chat friends, which means that
                                     you have reached the limit of %(max_guest_requests)s on the number of chat friends
                                     that you are allowed to request.""")  % \
-                                        {'num_sent_chat_friend': userobject.new_contact_counter_ref.num_sent_chat_friend ,
+                                        {'num_sent_chat_friend': new_contact_counter_obj.num_sent_chat_friend ,
                                          'max_guest_requests' : GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED}
                                     
                                     response_text += "<p>%s" % ugettext("""
@@ -1033,7 +1037,7 @@ def store_initiate_contact(request, to_uid):
                             hours_between_notifications = "NA" # should not be required/accessed
                         
                         # update the *receiver's* counters for kisses, winks, etc.
-                        other_userobject.new_contact_counter_ref = modify_new_contact_counter(other_userobject.new_contact_counter_ref.key(), \
+                        receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
                                                    action_for_contact_count, counter_modify, hours_between_notifications, 
                                                    update_notification_times = True)
                         
@@ -1041,7 +1045,7 @@ def store_initiate_contact(request, to_uid):
                         logging.info(info_message)
                                                    
                         # if notification for sending the user notification is past due, send it now.
-                        if other_userobject.new_contact_counter_ref.when_to_send_next_notification <= datetime.datetime.now():
+                        if receiver_new_contact_counter_obj.when_to_send_next_notification <= datetime.datetime.now():
                             
                             try:
                                 # by construction, this should never execute unless the email address is valid - if email address is not
@@ -1063,7 +1067,7 @@ def store_initiate_contact(request, to_uid):
                             # friend requests or how many keys they have sent. 
                             # For now we only track keys and friend requests
                             sent_action_for_contact_count = "num_sent_" + action
-                            modify_new_contact_counter(userobject.new_contact_counter_ref.key(), \
+                            modify_new_contact_counter(userobject.new_contact_counter_ref, \
                                                    sent_action_for_contact_count, counter_modify, 
                                                    hours_between_notifications = None, update_notification_times = False)
 
@@ -1210,8 +1214,8 @@ def update_users_have_sent_messages(sender_userobject, receiver_userobject, rece
 
     try:
 
-        receiver_userobject_key = receiver_userobject.key()
-        sender_userobject_key = sender_userobject.key()
+        receiver_userobject_key = receiver_userobject.key
+        sender_userobject_key = sender_userobject.key
         
         
         owner_other_ref_def = [(sender_userobject_key, receiver_userobject_key), 
@@ -1220,8 +1224,8 @@ def update_users_have_sent_messages(sender_userobject, receiver_userobject, rece
     
         for (owner_ref, other_ref) in owner_other_ref_def:
             
-            owner_userobject = utils_top_level.get_object_from_string(str(owner_ref))
-            other_userobject = utils_top_level.get_object_from_string(str(other_ref))
+            owner_userobject = utils_top_level.get_object_from_string(owner_ref.urlsafe())
+            other_userobject = utils_top_level.get_object_from_string(other_ref.urlsafe())
             
             
             # we need to pull out the initiate_contact_object to check if the other user is a favorite, this is because 
@@ -1235,8 +1239,8 @@ def update_users_have_sent_messages(sender_userobject, receiver_userobject, rece
             # update the have_sent_messages object to reflect that these users have now had contact, and that
             # the sender has read the emails between these two users, and the receiver has not read the 
             # emails between these two users. 
-            modify_count_string = db.run_in_transaction(txn,  sender_userobject_key, receiver_userobject_key,
-                                                        owner_ref, other_ref, is_favorite, receiver_has_blocked_sender)  
+            modify_count_string = ndb.transaction(lambda: txn(sender_userobject_key, receiver_userobject_key,
+                                                        owner_ref, other_ref, is_favorite, receiver_has_blocked_sender))
             
             # Now, modify the counters that track the number of undread "messages" (from unique contacts)
             # This is done in a transaction to deal with conflicts. Additionally, this is done outside
@@ -1306,11 +1310,11 @@ def actually_store_send_mail(sender_userobject, to_uid, text):
     # Called from client directly to store the mail and to update the assocated data structures.
     
     try:
-        sender_userobject_key = sender_userobject.key()
-        receiver_userobject_key = db.Key(to_uid)
+        sender_userobject_key = sender_userobject.key
+        receiver_userobject_key = ndb.Key(urlsafe = to_uid)
         
-        sender_uid = str(sender_userobject_key)
-        receiver_uid = str(receiver_userobject_key)
+        sender_uid = sender_userobject_key.urlsafe()
+        receiver_uid = to_uid
         
         # check to make sure that the receiver has not blocked the sender. If they have been blocked, we still
         # send the message, but immediately move it to the deleted mailbox. We also do NOT want to send any
@@ -1339,13 +1343,14 @@ def actually_store_send_mail(sender_userobject, to_uid, text):
         if not sender_is_blocked:
             # if the time passed since the last notification sent to the user has exceeded their mail preference, then
             # send out the email now. This must come AFTER unread_mail_count is updated.
-            if receiver_userobject.unread_mail_count_ref.when_to_send_next_notification <= datetime.datetime.now():
+            unread_mail_count_object = receiver_userobject.unread_mail_count_ref.get()
+            if unread_mail_count_object.when_to_send_next_notification <= datetime.datetime.now():
                 
                 try:
                     # by construction, email_address should be valid if the when_to_send_next_notification value is not "max"
                     assert(receiver_userobject.email_address_is_valid)             
                     taskqueue.add(queue_name = 'fast-queue', url='/rs/admin/send_new_message_notification_email/', params = {
-                        'uid': str(receiver_userobject.key())})
+                        'uid': receiver_userobject.key.urlsafe()})
                 except:
                     error_reporting.log_exception(logging.critical)
                         
@@ -1474,7 +1479,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 # error = cResponse.error_code
                 return HttpResponse(ugettext("Captcha is incorrect, try again"))
             
-            spam_tracker = sender_userobject.spam_tracker   
+            spam_tracker = sender_userobject.spam_tracker.get()
             
             
             # If they are trying to send too many messages in a single day, block the extra messages. This is required to prevent
@@ -1489,7 +1494,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 have_sent_messages_object.num_messages_to_other_sent_today = 0
                 have_sent_messages_object.put()
                 
-            initiate_contact_object = utils.get_initiate_contact_object(db.Key(from_uid), db.Key(to_uid))            
+            initiate_contact_object = utils.get_initiate_contact_object(ndb.Key(urlsafe = from_uid), ndb.Key(urlsafe = to_uid))            
             if not utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
                 error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window()
                 error_reporting.log_exception(logging.warning, error_message=error_message)  
@@ -1590,7 +1595,7 @@ def increase_reporting_or_reporter_unacceptable_count(model_class, userobject_ke
         query = query.filter(query_filter_key, query_filter_value)    
         
     profile_reporting_tracker = query.get()
-    profile_reporting_tracker = db.run_in_transaction(txn, profile_reporting_tracker)
+    profile_reporting_tracker = ndb.transaction(lambda: txn(profile_reporting_tracker))
 
     return profile_reporting_tracker
     
@@ -1603,8 +1608,8 @@ def store_report_unacceptable_profile(request, display_uid):
     try:
         sender_userobject =  utils_top_level.get_userobject_from_request(request)
         owner_uid =  request.session['userobject_str']
-        displayed_uid_key = db.Key(display_uid)
-        owner_uid_key = db.Key(owner_uid)    
+        displayed_uid_key = ndb.Key(urlsafe = display_uid)
+        owner_uid_key = ndb.Key(urlsafe = owner_uid)    
         
         mark_unacceptable_profile = utils.check_if_user_has_denounced_profile(owner_uid, display_uid)
         

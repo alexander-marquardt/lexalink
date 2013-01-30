@@ -30,7 +30,7 @@ from django.core.urlresolvers import reverse
 
 import datetime, logging
 
-from google.appengine.ext import db 
+from google.appengine.ext import ndb 
 
 from django.utils.encoding import smart_unicode
 from django.http import HttpResponseRedirect
@@ -64,25 +64,20 @@ def setup_and_run_conversation_mailbox_query(bookmark_key_str, userobject, other
     top_date = ''
     
     if bookmark_key_str:
-        bookmark_key = db.Key(bookmark_key_str)
-        bookmarked_mailbox_object = db.get(bookmark_key)
+        bookmark_key = ndb.Key(urlsafe = bookmark_key_str)
+        bookmarked_mailbox_object = bookmark_key.get()
         top_date = bookmarked_mailbox_object.unique_m_date
 
-    uid = str(userobject.key())
-    other_uid = str(other_userobject.key())
+    uid = userobject.key.urlsafe()
+    other_uid = other_userobject.key.urlsafe()
 
     parent_key = utils.get_fake_mail_parent_entity_key(uid, other_uid)
     
-    query_filter_dict = {}    
-
+    q = models.MailMessageModel.query(ancestor = parent_key).order(-models.MailMessageModel.unique_m_date)
     if top_date:
-        query_filter_dict['unique_m_date <= '] =  top_date
-     
-    query = models.MailMessageModel.all().ancestor(parent_key).order('-unique_m_date')
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-
-    query_results = query.fetch(num_results_needed)
+        q = q.filter(models.MailMessageModel.unique_m_date <=  top_date)
+    query_results = q.fetch(num_results_needed)
+    
     return query_results
 
     
@@ -191,7 +186,7 @@ def modify_user_unread_contact_count(unread_mail_count_obj, increment_or_decreme
         # updates the userobject.unread_mail_count value based on the value passed in. Must
         # be run in a transaction to ensure that only a single update can take place at a time.
         
-        unread_mail_count_obj = db.get(unread_mail_count_obj.key())
+        unread_mail_count_obj = ndb.get(unread_mail_count_obj.key)
         unread_mail_count_obj.unread_contact_count += increment_or_decrement_value
         unread_mail_count_obj.num_new_since_last_notification += increment_or_decrement_value
         
@@ -231,7 +226,7 @@ def modify_user_unread_contact_count(unread_mail_count_obj, increment_or_decreme
             unread_mail_count_obj.put()
             return unread_mail_count_obj
          
-    return_val = db.run_in_transaction(txn, unread_mail_count_obj, increment_or_decrement_value)     
+    return_val = ndb.transaction(lambda: txn(unread_mail_count_obj, increment_or_decrement_value))    
     return return_val
     
 ###########################################################################
@@ -249,8 +244,8 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
            
             profile = message.m_from
             # get the key for the m_from profile, without doing a full lookup:            
-            m_to_key = models.MailMessageModel.m_to.get_value_for_datastore(message)
-            if m_to_key == userobject.key():
+            m_to_key = message.m_to
+            if m_to_key == userobject.key:
                 is_receiver = True
                 text_color = "black";
             else: 
@@ -342,7 +337,7 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
     generated_html = ''
     try:
         
-        initiate_contact_object = utils.get_initiate_contact_object(db.Key(from_uid), db.Key(to_uid))
+        initiate_contact_object = utils.get_initiate_contact_object(ndb.Key(urlsafe = from_uid), ndb.Key(urlsafe = to_uid))
         if utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object) or \
            utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
             
@@ -540,9 +535,11 @@ def display_conversation_summary(request, have_sent_messages_object,
         # on the staging server, or if we restore from a backup -- but, check in all cases to prevent
         # pain in the future.
         try:
-
-            query_for_message = setup_and_run_conversation_mailbox_query('', have_sent_messages_object.owner_ref, 
-                                                                     have_sent_messages_object.other_ref, num_lines_to_show + 1)
+            have_sent_messages_owner = have_sent_messages_object.owner_ref.get()
+            have_sent_messages_other = have_sent_messages_object.other_ref.get()
+            
+            query_for_message = setup_and_run_conversation_mailbox_query('', have_sent_messages_owner, 
+                                                                         have_sent_messages_other, num_lines_to_show + 1)
                 
             if len(query_for_message) > num_lines_to_show:
                 some_messages_not_shown = True
@@ -552,8 +549,9 @@ def display_conversation_summary(request, have_sent_messages_object,
             try:
                 # this is inside a "try" because it could be the fact that the owner_ref and other_ref do not exist on the object, which
                 # could be the reason that the exception is triggering. 
-                if have_sent_messages_object.owner_ref and have_sent_messages_object.other_ref:
-                    error = "setup_and_run_conversation_mailbox_query between: %s %s" % (have_sent_messages_object.owner_ref.username, have_sent_messages_object.other_ref.username)               
+
+                if have_sent_messages_owner and have_sent_messages_other:
+                    error = "setup_and_run_conversation_mailbox_query between: %s %s" % (have_sent_messages_owner.username, have_sent_messages_other.username)               
                 else:
                     error = "Unknown error"
                     
@@ -586,12 +584,12 @@ def display_conversation_summary(request, have_sent_messages_object,
         
         # Always display the "other person" profile beside the message so that the user can
         # click on the link/photo to see who they are conversing with.
-        userobject = have_sent_messages_object.owner_ref
-        other_userobject = have_sent_messages_object.other_ref
+        userobject = have_sent_messages_object.owner_ref.get()
+        other_userobject = have_sent_messages_object.other_ref.get()
     
         have_sent_messages_key = ''
         assert(have_sent_messages_object)
-        have_sent_messages_key =  have_sent_messages_object.key()
+        have_sent_messages_key =  have_sent_messages_object.key
     
         if show_checkbox_beside_summary:
             show_checkbox_js_val = "yes"
@@ -608,7 +606,7 @@ def display_conversation_summary(request, have_sent_messages_object,
                 handle_click_on_update_message_action_icon("%(have_sent_messages_key)s", "%(to_uid)s", "trash", "%(show_checkbox_js_val)s")
          });
          </script>
-         """ % {'have_sent_messages_key':have_sent_messages_key, 'to_uid': str(have_sent_messages_object.other_ref.key()),
+         """ % {'have_sent_messages_key':have_sent_messages_key, 'to_uid': str(have_sent_messages_object.other_ref),
                                                                            'show_checkbox_js_val': show_checkbox_js_val}        
         
                 
@@ -726,13 +724,13 @@ def display_conversation_summary(request, have_sent_messages_object,
     
         # The summary just loops over a small subset of the messages between two users.
         # As of writing only 2 messages are displayed in the summary.
-        href =  reverse('mail_message_display', kwargs={'owner_uid' : str(have_sent_messages_object.owner_ref.key()), 
-                                                                               'other_uid' : str(have_sent_messages_object.other_ref.key())})        
+        href =  reverse('mail_message_display', kwargs={'owner_uid' : have_sent_messages_object.owner_ref.urlsafe(), 
+                        'other_uid' : have_sent_messages_object.other_ref.urlsafe()})        
         href_open = u'<a href = "%(href)s" rel="address:%(href)s">' % {'href' : href}
         
         generated_html += href_open
         
-        if have_sent_messages_object.other_ref.user_is_marked_for_elimination:
+        if other_userobject.user_is_marked_for_elimination:
             # provide feedback to the user about why this profile was eliminated
             generated_html += utils.get_removed_user_reason_html(have_sent_messages_object.other_ref)
 
@@ -740,8 +738,8 @@ def display_conversation_summary(request, have_sent_messages_object,
         for message in query_for_message: 
     
             # get the key for the m_from profile, without doing a full lookup:
-            m_from_key = models.MailMessageModel.m_from.get_value_for_datastore(message)
-            if userobject.key() == m_from_key:
+            m_from_key = message.m_from
+            if userobject.key == m_from_key:
                 # means this is a message sent by the user
                 text_color_class = "cl-gray-text";
                 sender_name = short_owner_name
