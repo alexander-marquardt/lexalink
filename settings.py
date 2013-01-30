@@ -79,8 +79,10 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware', 
+
     # This loads the index definitions, so it has to come first
-    'autoload.middleware.AutoloadMiddleware',
+    'autoload.middleware.AutoloadMiddleware',    
     # keep LocaleURLMiddleware before CommonMiddleware, or APPEND_SLASH will not work
     'localeurl.middleware.LocaleURLMiddleware',
     'django.middleware.common.CommonMiddleware',
