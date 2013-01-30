@@ -84,7 +84,7 @@ def get_additional_ads_to_append(request, userobject = None):
         search_relationship_status = request.GET.get('relationship_status', '')
         
         if userobject:
-            search_preferences = userobject.search_preferences2
+            search_preferences = userobject.search_preferences2.get()
             if not search_preference:
                 search_preference = search_preferences.preference
             if not search_sex:
@@ -191,10 +191,10 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         additional_ads_to_append = []
         # render the HTML for the majority of pages that will be seen by users... However, individual profiles are rendered by views.user_main
         if userobject:
-            owner_uid = str(userobject.key())
-            owner_nid = userobject.key().id()
-            owner_message_count = userobject.unread_mail_count_ref.unread_contact_count
-            new_contact_count = utils.get_new_contact_count_sum(userobject.new_contact_counter_ref)
+            owner_uid = userobject.key.urlsafe()
+            owner_nid = userobject.key.integer_id()
+            owner_message_count = userobject.unread_mail_count_ref.get().unread_contact_count
+            new_contact_count = utils.get_new_contact_count_sum(userobject.new_contact_counter_ref.get())
             registered_user_bool = True
             why_to_register = ''
             # Check if the user has disabled their chat - this will propagate through to all of the users open windows

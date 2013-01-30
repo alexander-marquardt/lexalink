@@ -28,7 +28,7 @@
 
 from os import environ
 
-from google.appengine.ext import db , ndb
+from google.appengine.ext import ndb
 from google.appengine.api import memcache, users
 
 import hashlib, re
@@ -491,12 +491,15 @@ def get_photo_message(userobject):
 
     # generate the message to be shown in the profile photo space if a photos is not available,
     # and when viewed by non-owners of the account.
+
+    unique_last_login_object = userobject.unique_last_login_offset_ref.get()
+    
     try:
-        if userobject.unique_last_login_offset_ref.has_public_photo_offset and userobject.unique_last_login_offset_ref.has_private_photo_offset:
+        if unique_last_login_object.has_public_photo_offset and unique_last_login_object.has_private_photo_offset:
             photo_message = u"%s" % (text_fields.has_private_and_public_photos)
-        elif userobject.unique_last_login_offset_ref.has_public_photo_offset:
+        elif unique_last_login_object.has_public_photo_offset:
             photo_message = u"%s" % (text_fields.has_public_photos)
-        elif userobject.unique_last_login_offset_ref.has_private_photo_offset:
+        elif unique_last_login_object.has_private_photo_offset:
             photo_message = u"%s" %  (text_fields.has_private_photos)
         else:
             photo_message = u"%s" %  (text_fields.has_no_photos)
@@ -1540,15 +1543,15 @@ def get_nid_from_uid(uid):
     if nid is None:
         #userobject = utils_top_level.get_object_from_string(uid)
         userobject = ndb.Key(urlsafe = uid).get()
-        nid = userobject.key().id()
+        nid = userobject.key.integer_id()
         memcache.set(memcache_key, nid, constants.SECONDS_PER_DAY)
     
     return nid
     
 def get_uid_from_nid(nid):
     
-    user_key = db.Key.from_path('UserModel', long(nid))
-    user_uid = str(user_key)    
+    user_key = ndb.Key('UserModel', long(nid))
+    user_uid = user_key.urlsafe()   
     return user_uid
 
 def return_and_report_internal_error(request):

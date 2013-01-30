@@ -26,7 +26,7 @@
 ################################################################################
 
 from google.appengine.api import memcache
-from google.appengine.ext import db 
+from google.appengine.ext import ndb 
 
 from django.utils import simplejson
 import datetime, copy, re
@@ -165,8 +165,9 @@ def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
                                                                               constants.MAX_CHAT_FRIEND_REQUESTS_ALLOWED,
                                                                               "connected")
     for contact in contact_query_results:
-        profile = getattr(contact, 'displayed_profile')
-        profile_uid = str(profile.key())
+        profile_key = getattr(contact, 'displayed_profile')
+        profile_uid = profile_key.urlsafe()
+        profile = profile_key.get()
         userdict[profile_uid] = {}
         userdict[profile_uid]['user_or_group_name'] = profile.username
         userdict[profile_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, profile_uid)
@@ -298,7 +299,7 @@ def get_friends_online_dict(lang_code, owner_uid):
         all_friends_dict_memcache_key = constants.ALL_CHAT_FRIENDS_DICT_MEMCACHE_PREFIX + owner_uid
         user_info_dict = memcache.get(all_friends_dict_memcache_key)
         if user_info_dict is None:
-            userobject_key = db.Key(owner_uid)
+            userobject_key = ndb.Key(urlsafe = owner_uid)
             user_info_dict = get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key)
             memcache.set(all_friends_dict_memcache_key, user_info_dict, constants.ALL_CHAT_FRIENDS_DICT_EXPIRY)
         
@@ -328,32 +329,19 @@ def get_friends_online_dict(lang_code, owner_uid):
 
 def query_chat_groups():
     
-    query_filter_dict = {}    
+    q = models.ChatGroupTracker.query()    
     
-    query_filter_dict['number_of_group_members > '] = 0
-    query_filter_dict['number_of_group_members <= '] =  constants.MAX_NUM_PARTICIPANTS_PER_GROUP
-    order_by = "-number_of_group_members"
-    
-    query = models.ChatGroupTracker.all().order(order_by)
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-
-    chat_groups_query_results = query.fetch(constants.MAX_NUM_CHAT_GROUPS_TO_DISPLAY)
+    q = q.filter(models.ChatGroupTracker.number_of_group_members >=  1)
+    q = q.filter(models.ChatGroupTracker.number_of_group_members <= constants.MAX_NUM_PARTICIPANTS_PER_GROUP)
+    q = q.order(-models.ChatGroupTracker.number_of_group_members)
+    chat_groups_query_results = q.fetch(constants.MAX_NUM_CHAT_GROUPS_TO_DISPLAY)
 
     return chat_groups_query_results
 
 def query_chat_group_by_name(group_name):
     
-    query_filter_dict = {}    
-    
-    query_filter_dict['group_name = '] = group_name
-    
-    query = models.ChatGroupTracker.all()
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-
-    chat_group = query.get()
-
+    q = models.ChatGroupTracker.query().filter(models.ChatGroupTracker.group_name == group_name)
+    chat_group = q.get()
     return chat_group    
     
 
@@ -389,7 +377,7 @@ def get_chat_groups_dict(overwrite_memcache = False):
         chat_groups_dict = {}
         chat_groups_query_results = query_chat_groups()
         for chat_group in chat_groups_query_results:
-            group_key = str(chat_group.key())
+            group_key = chat_group.key.urlsafe()
             chat_groups_dict[group_key] = {}
             chat_groups_dict[group_key]['user_or_group_name'] = chat_group.group_name
             chat_groups_dict[group_key]['num_group_members'] = chat_group.number_of_group_members

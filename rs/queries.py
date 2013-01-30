@@ -41,30 +41,21 @@ def query_initiate_contact_by_type_of_contact(userobject_key, contact_type, sent
     # Explained in words: could be used to query for all the users that have sent the current users a "kiss" for example.
     #
     
-    query_filter_dict = {}    
-
+    q = InitiateContactModel.query().order(-InitiateContactModel._properties["%s_stored_date" % contact_type])
+    
     if sent_or_received == 'sent' or contact_type == 'chat_friend':
         # Note: chat_friend is a special case because all of the information about the status is stored on the "primary" 
         # userobject, which is equivalent to the sent/viewer object.
-        query_filter_dict['viewer_profile = '] = userobject_key
+        q = q.filter(InitiateContactModel.viewer_profile == userobject_key)
     elif sent_or_received == 'received':
-        query_filter_dict['displayed_profile = '] = userobject_key
+        q = q.filter(InitiateContactModel.displayed_profile == userobject_key)
     else:
         # Error: should never get here -- unexpected code is the only reason for this
         assert(False)
     
-    contact_type_name_in_db = "%s_stored" % contact_type   
-    query_filter_dict[contact_type_name_in_db] = query_value_to_match
+    q = q.filter(InitiateContactModel._properties["%s_stored" % contact_type] == query_value_to_match)
 
-
-    
-    order_by = "-%s_stored_date" % contact_type
-  
-    query = InitiateContactModel.all().order(order_by)
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-
-    query_results = query.fetch(num_objects_to_get)
+    query_results = q.fetch(num_objects_to_get)
     return query_results
 
 

@@ -57,7 +57,7 @@ def get_object_from_string(object_str):
         return return_object
     else:
         # pull the object out of database and also update memcache
-        return_object = db.get(db.Key(object_str))
+        return_object = ndb.Key(urlsafe = object_str).get()
         memcache.set(memcache_key_str, serialize_entities(return_object), constants.SECONDS_PER_MONTH)
         return return_object
 
@@ -99,21 +99,21 @@ def get_uid_from_request(request):
 def serialize_entities(models):
     if models is None:
         return None
-    elif isinstance(models, db.Model):
+    elif isinstance(models, ndb.Model):
     # Just one instance
-        return db.model_to_protobuf(models).Encode()
+        return ndb.ModelAdapter().entity_to_pb(models).Encode()
     else:
     # A list
-        return [db.model_to_protobuf(x).Encode() for x in models]
+        return [ndb.ModelAdapter().entity_to_pb(x).Encode() for x in models]
 
 def deserialize_entities(data):
     if data is None:
         return None
     elif isinstance(data, str):
         # Just one instance
-        return db.model_from_protobuf(entity_pb.EntityProto(data))
+        return ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(data))
     else:
-        return [db.model_from_protobuf(entity_pb.EntityProto(x)) for x in data]
+        return [ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(x)) for x in data]
     
 
 

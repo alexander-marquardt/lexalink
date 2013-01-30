@@ -253,9 +253,9 @@ class FormUtils():
         try:
             
             photo_object_key = \
-                PhotoModel.all(keys_only = True).filter('is_profile =', True).filter('parent_object =', userobject).get()
+                PhotoModel.query().filter(PhotoModel.is_profile == True).filter(PhotoModel.parent_object == userobject.key).get(keys_only = True)
             if photo_object_key:
-                photo_object_key_str = str(photo_object_key)
+                photo_object_key_str = photo_object_key.urlsafe()
             else:
                 photo_object_key_str = None
     
@@ -279,7 +279,7 @@ class FormUtils():
             
             (photo_object_key_str, photo_object) = cls.get_profile_photo_and_key(userobject)
     
-            displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, str(userobject.key()))
+            displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, userobject.key.urlsafe())
             img_alt_text = "%s: %s" % (userobject.username, displayed_profile_title)   
             
             if photo_size == "medium":
@@ -339,7 +339,7 @@ class FormUtils():
             #photo_objects = display_userobject.photomodel_set.order('creation_date').fetch(MAX_NUM_PHOTOS)
             photo_objects_keys = PhotoModel.all(keys_only=True).filter('parent_object =', display_userobject).fetch(MAX_NUM_PHOTOS)
             num_photos = len(photo_objects_keys)
-            displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, str(display_userobject.key()))
+            displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, display_userobject.key.urlsafe())
             img_alt_text = "%s: %s" % (display_userobject.username, displayed_profile_title)
             
             num_photos_in_current_row = 0
@@ -362,9 +362,9 @@ class FormUtils():
                 primary_userobject_key = display_userobject_key = None
                 
                 if primary_userobject:
-                    primary_userobject_key = primary_userobject.key()
+                    primary_userobject_key = primary_userobject.key
                 if display_userobject:
-                    display_userobject_key = display_userobject.key()
+                    display_userobject_key = display_userobject.key
                 has_key_to_private_photos = utils.check_if_authorized_for_private_photos(primary_userobject_key, display_userobject_key)
             
             # the following fields allow the user to specify details of how their photos are displayed
@@ -477,7 +477,7 @@ class FormUtils():
                     
                     
                     if edit:
-                        object_key_string = str(photo_object.key())
+                        object_key_string = photo_object.key.urlsafe()
                         is_private = is_profile = ''
                         if photo_object.is_private:
                             is_private = "checked"

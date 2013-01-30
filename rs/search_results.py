@@ -33,6 +33,8 @@ from django.core.urlresolvers import reverse
 from django.utils.encoding import smart_unicode
 from django import http
 
+from google.appengine.ext import ndb
+
 
 from google.appengine.api import memcache
 
@@ -94,7 +96,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
 
         
         if display_online_status:
-            userobject_key = str(display_userobject.key())
+            userobject_key = display_userobject.key.urlsafe()
             status_string = utils.get_vip_online_status_string(userobject_key)
             generated_html += u' <br>%s' % status_string
         
@@ -269,7 +271,7 @@ def get_userobject_summary_with_memcache_check(request, viewer_userobject, displ
         return None
     
     lang_code = request.LANGUAGE_CODE    
-    display_uid = str(display_userobject_key)
+    display_uid = display_userobject_key.urlsafe()
     display_userobject = utils_top_level.get_object_from_string(display_uid)  
 
     summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, display_online_status)              
@@ -304,31 +306,23 @@ def setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, pag
     # gets the results for the current search-by-name query
       
     try:
-        query_filter_dict = {}
-    
+        q = UserModel.query().order(-UserModel.last_login_string)
         
-        query_filter_dict['is_real_user = '] = True
-        query_filter_dict['user_is_marked_for_elimination = '] = False
-        query_filter_dict['username_combinations_list = '] = search_vals_dict['search_by_name']
+        q = q.filter(UserModel.is_real_user == True)
+        q = q.filter(UserModel.user_is_marked_for_elimination == False)
+        q = q.filter(UserModel.username_combinations_list == search_vals_dict['search_by_name'])
             
-        query = UserModel.all(keys_only = True).order("-last_login_string")
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)
-
         if paging_cursor:
-            query.with_cursor(paging_cursor)
-            
-        query_results_keys = query.fetch(num_results_needed)
+            (query_results_keys, new_cursor, more_results) = q.fetch_page(num_results_needed, start_cursor = paging_cursor, keys_only = True)
+        else:
+            (query_results_keys, new_cursor, more_results) = q.fetch_page(num_results_needed, keys_only = True)
+        return (query_results_keys, new_cursor, more_results)
             
     except:
         error_reporting.log_exception(logging.error, error_message = 'Search query exception.')
         query_results_keys = []
-   
-    # Query returns a value that points to the spot after the last result - which might not be None, even
-    # if there are no more values (ie. if it immediately follows the last value of the query)
-    new_cursor = query.cursor()  
-            
-    return (query_results_keys, new_cursor)
+        return (query_results_keys, None, False)
+               
 
 
 
@@ -347,21 +341,21 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
     """
     
     try:
-        query_filter_dict = {}
+        q = UserModel.query().order(-UserModel._properties[search_vals_dict['query_order']])
         
         # the following sequence selects the location query based on the tightest 
         # (most specific) region. I.e. if the client specifies a sub-region, then
         # that is the query that will be done.  However, if the client specified 
         # a country, but did not specify any more specific search criteria, then
         # the entire country will be searched. 
-        query_filter_dict['sub_region_ix_list = '] = search_vals_dict['sub_region']
-        query_filter_dict['region_ix_list = '] =  search_vals_dict['region']
-        query_filter_dict['country_ix_list = '] = search_vals_dict['country']
+        q = q.filter(UserModel.sub_region_ix_list == search_vals_dict['sub_region'])
+        q = q.filter(UserModel.region_ix_list ==  search_vals_dict['region'])
+        q = q.filter(UserModel.country_ix_list == search_vals_dict['country'])
         
         # if a value is set to don't care, then it will not be added to the filter dictionary, and 
         # will therefore have no effect on the query. If it is not set to don't care, it is added and 
         # the query will respect the constraint.
-        query_filter_dict['sex_ix_list = '] =  search_vals_dict['sex']
+        q = q.filter(UserModel.sex_ix_list ==  search_vals_dict['sex'])
             
         # We set the "sex" of the current user to dont care in order to amplify the query matches.
         # 
@@ -375,58 +369,46 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
             # spanish (my language_to_learn = Spanish) therefore, I want to see people whose 
             # languages list contains at least Spanish.             
             # this is a query on the "languages" list to see if *any* of the values match
-            query_filter_dict['languages = '] = search_vals_dict['language_to_learn']
-            query_filter_dict['languages_to_learn = '] = search_vals_dict['language_to_teach']
+            q = q.filter(UserModel.languages == search_vals_dict['language_to_learn'])
+            q = q.filter(UserModel.languages_to_learn == search_vals_dict['language_to_teach'])
             
         elif settings.BUILD_NAME == "Friend": # Setup Friend
             
-            query_filter_dict['friend_price_ix_list'] = search_vals_dict['friend_price']
+            q = q.filter(UserModel.friend_price_ix_list == search_vals_dict['friend_price'])
             
             # we do not yet pass in the currency as a search value - therefore default it to "----"
-            query_filter_dict['friend_currency_ix_list'] = "----"
+            q = q.filter(UserModel.friend_currency_ix_list == "----")
 
             #for menu_name in ['for_sale', 'to_buy']:
             menu_name = "for_sale"
             if search_vals_dict['%s_sub_menu' % menu_name] != "----":
                 # if the sub-menu is passed in, then try to to match the value in the sub-menu, otherwise try to match the
                 # category.
-                query_filter_dict['%s_ix_list = ' % menu_name ] = search_vals_dict['%s_sub_menu' % menu_name]
+                q = q.filter(UserModel._properties['%s_ix_list' % menu_name] == search_vals_dict['%s_sub_menu' % menu_name])
             elif search_vals_dict[menu_name] != "----":
                 # Note: this is a very special case - if no value is passed in for the "for_sale" parameter,
                 # then we completely exclude it from the search - this can only be done because the composite index 
                 # for this value is completely separate from the other index values, and therefore leaving it out
                 # of the query completely will result in a more efficient lookup. 
-                query_filter_dict['%s_ix_list = ' % menu_name] = search_vals_dict['%s' % menu_name]
+                q = q.filter(UserModel._properties['%s_ix_list' % menu_name] == search_vals_dict['%s' % menu_name])
                 
 
                         
         else: # setup for "dating" websites
-            query_filter_dict['preference_ix_list = '] = search_vals_dict['preference']
-            query_filter_dict['relationship_status_ix_list = '] = search_vals_dict['relationship_status']
+            q = q.filter(UserModel.preference_ix_list == search_vals_dict['preference'])
+            q = q.filter(UserModel.relationship_status_ix_list == search_vals_dict['relationship_status'])
         
-        query_filter_dict['age_ix_list = '] =  search_vals_dict['age']
+        q = q.filter(UserModel.age_ix_list ==  search_vals_dict['age'])
             
-        query_filter_dict['is_real_user = '] = True
-        query_filter_dict['user_is_marked_for_elimination = '] = False
+        q = q.filter(UserModel.is_real_user == True)
+        q = q.filter(UserModel.user_is_marked_for_elimination == False)
     
         # DO NOT REMOVE BOOKMARKS - to replace with cursors - search engines can come back to a page 
         # that is indexed by a bookmark, but cannot load a page that requires a cursor.
         if search_vals_dict['bookmark']:
-            query_order_bookmark_string = "%s <=" % search_vals_dict['query_order']
-            query_filter_dict[query_order_bookmark_string] =  search_vals_dict['bookmark']
-  
-            
-        # make sure that we remove the "None" values query. -- since "None" is the lowest value
-        # just keep anything is greater than none (thereby filtering the "None" values
-        #query_order_remove_none_values = "%s > " % query_order
-        #query_filter_dict[query_order_remove_none_values] = None
+            q = q.filter(Usermodel._properties[search_vals_dict['query_order']] <=  search_vals_dict['bookmark'])
         
-        query_order_string = "-%s" % search_vals_dict['query_order']
-        query = UserModel.all(keys_only = True).order(query_order_string)
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)
-    
-        query_results_keys = query.fetch(num_results_needed)
+        query_results_keys = q.fetch(num_results_needed, keys_only = True)
             
     except:
         error_reporting.log_exception(logging.error, error_message = 'Search query exception.')
@@ -759,7 +741,7 @@ def generate_search_results(request, type_of_search = "normal"):
             
             elif type_of_search == "by_name":
                 num_results_needed = query_size - len_query_results_currently_stored
-                (new_query_results_keys, paging_cursor) = setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, search_vals_dict['bookmark'])
+                (new_query_results_keys, paging_cursor, more_results) = setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, search_vals_dict['bookmark'])
             
             else:
                 assert(0)
@@ -786,7 +768,7 @@ def generate_search_results(request, type_of_search = "normal"):
                     # can remove this assert in the future. 
                     assert(len_new_query_results >= num_results_needed)
                     generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys[:-1], display_online_status)  
-                    last_userobject = utils_top_level.get_object_from_string(str(new_query_results_keys[-1]))
+                    last_userobject = utils_top_level.get_object_from_string(new_query_results_keys[-1].urlsafe())
                     # get the value of last_login_string, or unique_last_login (or in the future other criteria)
                     # that is stored on the "last_userobject"
                     search_vals_dict['bookmark'] = getattr(last_userobject, search_vals_dict['query_order'])
@@ -795,11 +777,10 @@ def generate_search_results(request, type_of_search = "normal"):
                     # therefore, we pass in the entire list of keys without chopping off the last value.
                     generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status) 
                     assert(paging_cursor)
-                    
-                    # Note, that the paging cursor refers to the spot immediately following the result set,
-                    # in which case we might show a "next" button that will display an empty page. This will
-                    # have to be fixed in the future once the expected fetch_page() functionality is implemented in the SDK.
-                    search_vals_dict['bookmark'] = paging_cursor
+                    if more_results:
+                        search_vals_dict['bookmark'] = paging_cursor
+                    else: 
+                        search_vals_dict['bookmark'] = ""
                 break
     
             if len_new_query_results < num_results_needed:

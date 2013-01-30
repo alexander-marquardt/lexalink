@@ -10,7 +10,7 @@ import os
 import time
 
 from google.appengine.api import memcache
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 import logging, site_configuration
 from rs import error_reporting, constants
@@ -40,10 +40,10 @@ def is_gaesessions_key(k):
     return k.startswith(COOKIE_NAME_PREFIX)
 
 
-class SessionModel(db.Model):
+class SessionModel(ndb.Model):
     """Contains session data.  key_name is the session ID and pdump contains a
     pickled dictionary which maps session variables to their values."""
-    pdump = db.BlobProperty()
+    pdump = ndb.BlobProperty()
 
 
 class Session(object):
@@ -185,14 +185,14 @@ class Session(object):
 
     @staticmethod
     def __encode_data(d):
-        """Returns a "pickled+" encoding of d.  d values of type db.Model are
+        """Returns a "pickled+" encoding of d.  d values of type ndb.Model are
         protobuf encoded before pickling to minimize CPU usage & data size."""
         # separate protobufs so we'll know how to decode (they are just strings)
         eP = {}  # for models encoded as protobufs
         eO = {}  # for everything else
         for k, v in d.iteritems():
-            if isinstance(v, db.Model):
-                eP[k] = db.model_to_protobuf(v)
+            if isinstance(v, ndb.Model):
+                eP[k] = ndb.ModelAdapter().entity_to_pb(v)
             else:
                 eO[k] = v
         return pickle.dumps((eP, eO), 2)
@@ -203,7 +203,7 @@ class Session(object):
         try:
             eP, eO = pickle.loads(pdump)
             for k, v in eP.iteritems():
-                eO[k] = db.model_from_protobuf(v)
+                eO[k] = ndb.ModelAdapter().pb_to_entity(v)
         except Exception, e:
             logging.warn("failed to decode session data: %s" % e)
             eO = {}
@@ -261,7 +261,7 @@ class Session(object):
         if self.sid:
             self.__clear_data()
         self.sid = sid
-        self.db_key = db.Key.from_path(SessionModel.kind(), sid, namespace='')
+        self.db_key = ndb.Key(SessionModel, sid, namespace='')
 
         # set the cookie if requested
         if make_cookie:
@@ -272,7 +272,7 @@ class Session(object):
         if self.sid:
             memcache.delete(self.sid, namespace='')  # not really needed; it'll go away on its own
             try:
-                db.delete(self.db_key)
+                self.db_key.delete()
             except:
                 pass  # either it wasn't in the db (maybe cookie/memcache-only) or db is down => cron will expire it
 
@@ -287,7 +287,7 @@ class Session(object):
                 logging.info("can't find session data in memcache for sid=%s (using memcache only sessions)" % self.sid)
                 self.terminate(False)  # we lost it; just kill the session
                 return
-            session_model_instance = db.get(self.db_key)
+            session_model_instance = self.db_key.get()
             if session_model_instance:
                 pdump = session_model_instance.pdump
             else:
@@ -505,12 +505,14 @@ def delete_expired_sessions():
     If there are more than 500 expired sessions, only 500 will be removed.
     """
     now_str = unicode(int(time.time()))
-    q = db.Query(SessionModel, keys_only=True, namespace='')
-    key = db.Key.from_path('SessionModel', now_str + u'\ufffd', namespace='')
+    q = SessionModel.query(namespace='').get(keys_only=True)
+    key = ndb.Key(SessionModel, now_str + u'\ufffd', namespace='')
     q.filter('__key__ < ', key)
     results = q.fetch(500)
-    db.delete(results)
-    return len(results)
+    len_results = len(results)
+    results.delete()
+    
+    return len_results
 
 
 def cleanup_sessions(request):
