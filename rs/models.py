@@ -27,7 +27,7 @@
 
 
 # the following code snippet is from the rapid_development_with_djang_gae presentation, p19.
-from google.appengine.ext import db 
+from google.appengine.ext import db , ndb
 from user_profile_main_data import UserSpec
 from user_profile_details import UserProfileDetails
 
@@ -671,30 +671,7 @@ class PaymentInfo(db.Model):
     
     txn_id = db.StringProperty(required = False, default=None)
     
-        
-class FriendRegsitrationTracker(db.Model):
-    
-    # This will reference the userobject that has referred the new user to sign up. Naming convention for the collections is reversed, since
-    # this is how it will appear on the userobjec - ie userobject.invitees_tracker_set will provide a reference back to this object, which 
-    # we can then use to find out which other users the user (stored in userobject) has invited.
-    referring_profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="invitees_tracker_collection")
-    referring_profile_name = db.StringProperty(required = False, default=None)
-    
-    # This will reference the userobject that has just signed up, due to an invitation from a friend. Naming convention as explained above.
-    invitee_profile_ref = db.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="referring_profiles_tracker_collection")
-    invitee_profile_name = db.StringProperty(required = False, default=None)
-    
-    # keep track of the ip address that the newly registered user is signing up from - this is used for later checking if the referring_profile
-    # user has already been credited for a registration from the invitee ip address.
-    ip_address_of_invitee = db.StringProperty(required = False, default=None)
-    
-    referral_credit_awarded = db.BooleanProperty(required = False, default = False)
-    reason_for_credit_denial = db.StringProperty(required = False, default='')
-    
-    # auto_now_add means that this date reflects the time that this object was created. 
-    creation_date = db.DateTimeProperty(auto_now_add=True) 
-
-    
+            
 class WatermarkPhotoModel(db.Model):
     # Will contain the watermark that will be used for marking all uploaded photos. This data structure is intended to
     # only have a single element, which means that a simple get() should be possible without having to filter results
@@ -921,6 +898,7 @@ class VideoPhoneUserInfo(db.Model):
     m_updatetime =  db.DateTimeProperty(auto_now = True) 
             
             
+
             
 class SiteMap(db.Model):
     # Contains XML sitemap data. This can used as a base class for both sitemaps, as well as for 
@@ -965,7 +943,6 @@ class SiteMapUserModel(SiteMap):
 
 
 class SiteMapUserModelIndex(SiteMap):
-    
     # This class specifically contains sitemap index data that indicates the UserModel sitemap files
     pass
 
@@ -974,3 +951,13 @@ class FakeParent(db.Model):
     # Used by any models that require a parent (in order to be considered in the same entity group)
     pass
 
+
+class ViewerTracker(ndb.Model):
+    displayed_profile = db.ReferenceProperty(reference_class = UserModel)
+    viewer_profile = db.ReferenceProperty(reference_class = UserModel)
+    view_time =  ndb.DateTimeProperty(auto_now = True) 
+        
+        
+class ViewedCounter(ndb.Model):
+    displayed_profile = db.ReferenceProperty(reference_class = UserModel)
+    viewed_counter = ndb.IntegerProperty(default = 0) 

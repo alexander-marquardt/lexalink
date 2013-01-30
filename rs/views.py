@@ -54,7 +54,7 @@ import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, lang_settings
-from rs import profile_utils, online_presence_support, online_presence_support
+from rs import profile_utils, online_presence_support, online_presence_support, track_viewers
 from django import http
 import http_utils, common_data_structs
 
@@ -140,7 +140,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             registered_user_bool = True # viewing user is logged in
             link_to_hide = 'login'
             show_vip_info = utils.do_display_online_status(owner_uid)
-
+            
         else:
             owner_userobject = None
             owner_uid = ''
@@ -236,6 +236,9 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 # Get the summary of the message history between these two users.
                 (html_for_mail_history_summary, have_sent_messages_object) =\
                  mailbox.get_mail_history_summary(request, owner_userobject, display_userobject)
+                
+                # track the fact that the logged in user is vieweing another persons profile
+                # track_viewers.store_viewer_in_displayed_profile_viewer_tracker(owner_uid, display_uid)
         
         (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(lang_code, display_uid)
       
