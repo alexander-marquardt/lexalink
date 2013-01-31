@@ -27,7 +27,7 @@
 
 import datetime
 
-from google.appengine.ext import db 
+from google.appengine.ext import ndb 
 from google.appengine.api import users
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
@@ -63,23 +63,23 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
     # easy viewing and maintenance.
     # what_to_show is a string that can either be "only_show_new" or "show_all"
     #
-
+    PhotoModel = models.PhotoModel
         
     PAGESIZE = 16 # total number of photos per page (how many to fetch in the query)
     PAGEWIDTH = 8 # number of photos per row
     
     continue_html =  generated_html = post_footer_html = post_header_html = ''
        
-    query_filter_dict = {}  
-    query_filter_dict['is_private'] = is_private    
+    q = PhotoModel.query().order(-PhotoModel.creation_date)    
+    q.filter(PhotoModel.is_private == is_private)   
     
     if what_to_show == "show_new" and is_private:
         # show the private photos that have not been reviewed
-        query_filter_dict['has_been_reviewed'] = False   
+        q.filter(PhotoModel.has_been_reviewed == False)  
         
     if what_to_show == "show_new" and not is_private:
         # show the public photos that have not been approved
-        query_filter_dict['is_approved'] = False   
+        q.filter(PhotoModel.is_approved == False)
     
     num_photos_deleted = 0
     num_photos_marked_private = 0
@@ -89,44 +89,43 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
 
     if request.method == 'POST': 
         
-        def store_options_for_photo_key(key, review_action_dict):
-            photo_object = db.get(key)
-            parent_uid = str(photo_object.parent_object.key())
+        def store_options_for_photo_key(photo_key, review_action_dict):
+            photo_object = photo_key.get()
+            parent_uid = photo_object.parent_object.urlsafe()
             # if we deleted a photo, we need to recompute the photo-based offsets
             store_data.store_photo_options(request, parent_uid, is_admin_photo_review = True, review_action_dict = review_action_dict)            
         
         delete_photo_list_of_keys = request.POST.getlist('delete_photo')
-        for key in delete_photo_list_of_keys:
+        for photo_key in delete_photo_list_of_keys:
             # delete the photo and recompute the photo-based offsets            
-            store_options_for_photo_key(key, review_action_dict = {'delete' : key})
+            store_options_for_photo_key(key, review_action_dict = {'delete' : photo_key})
             num_photos_deleted += 1
             
         mark_private_photo_list_of_keys = request.POST.getlist('mark_private_photo')
-        for key in mark_private_photo_list_of_keys:
+        for photo_key in mark_private_photo_list_of_keys:
             try:
                 # if we mark a photo private, we need to recompute the photo-based offsets                
                 # this could fail if we just deleted the photo - but then wy would we be marking it private .. 
-                store_options_for_photo_key(key, review_action_dict = {'is_private' : key})
+                store_options_for_photo_key(key, review_action_dict = {'is_private' : photo_key})
                 num_photos_marked_private += 1     
             except:
                 # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
                 error_reporting.log_exception(logging.error)            
             
             
-        def approve_or_unapprove_photo(key, is_approved):
-            photo_object = db.get(key)
+        def approve_or_unapprove_photo(photo_key_str, is_approved):
+            photo_object = ndb.Key(urlsafe = photo_key_str).get()
             photo_object.is_approved = is_approved
             utils.put_object(photo_object)
                 
-            parent_uid = str(photo_object.parent_object.key())
-            #utils.invalidate_user_summary_memcache(parent_uid)              
+            parent_uid = photo_object.parent_object.urlsafe()
             
         approve_photo_list_of_keys = request.POST.getlist('approve_photo')
         # Photo has been approved as a public photo
-        for key in approve_photo_list_of_keys:
+        for photo_key_str in approve_photo_list_of_keys:
             try:
                 # this could fail if we just deleted the photo
-                approve_or_unapprove_photo(key, True)    
+                approve_or_unapprove_photo(photo_key_str, True)    
                 num_photos_approved += 1  
             except:
                 # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
@@ -134,10 +133,10 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
 
             
         unapprove_photo_list_of_keys = request.POST.getlist('unapprove_photo')
-        for key in unapprove_photo_list_of_keys:
+        for photo_key_str in unapprove_photo_list_of_keys:
             try:
                 # this could fail if we just deleted the photo
-                approve_or_unapprove_photo(key, False)  
+                approve_or_unapprove_photo(photo_key_str, False)  
                 num_photos_unapproved += 1
                 
             except:
@@ -147,10 +146,10 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         reviewed_photo_list_of_keys = request.POST.getlist('reviewed_photo')
         # Photo has been reviewed - means that we have looked at it and determined that it doesn't need to be deleted
         # from the datastore
-        for key in reviewed_photo_list_of_keys:
+        for photo_key_str in reviewed_photo_list_of_keys:
             try:
                 # this could fail if we just deleted the photo
-                photo_object = db.get(key)
+                photo_object = ndb.Key(urlsafe = photo_key_str).get()
                 photo_object.has_been_reviewed = True
                 # remove the "original" (without watermark) photos - these were only necessary for verification
                 # of non-reviewed photos. 
@@ -171,20 +170,19 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
     # since we use this function for both deleting/approving, as well as displaying the photos -- we need a "final" pass
     # to process prviously marked photos -- this is indicated by the "final_pass" bookmark.
     
+    
+    
     if bookmark != 'final_pass':
         if bookmark :
             bookmark_key = db.Key(bookmark)
             photo_bookmark_object = db.get(bookmark_key)
-            query_filter_dict['creation_date <= '] =  photo_bookmark_object.creation_date # only get the photos that are older than the bookmark.
+            q.filter(PhotoModel.creation_date <=  photo_bookmark_object.creation_date) # only get the photos that are older than the bookmark.
        
         # note: creation_date refers to last time photo was updated
-        order_by = "-creation_date"
                   
-        query = models.PhotoModel.all().order(order_by)
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)
+        
     
-        batch = query.fetch(PAGESIZE + 1)
+        batch = q.fetch(PAGESIZE + 1)
     
         generated_html += """
         <table>
@@ -194,8 +192,8 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         
         for photo_object in batch[:PAGESIZE]:  
         
-            photo_object_key_str = str(photo_object.key())
-            photo_parentobject = photo_object.parent_object
+            photo_object_key_str = photo_object.key.urlsafe()
+            photo_parentobject = photo_object.parent_object.get()
             
             profile_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, photo_parentobject, is_primary_user=False)
             
@@ -273,7 +271,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             
         href = ''
         if len(batch) == PAGESIZE + 1:
-            bookmark = str(batch[-1].key())
+            bookmark = batch[-1].key.urlsafe()
             
     
             if not is_private:
