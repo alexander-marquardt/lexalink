@@ -247,7 +247,6 @@ class UserModelBackupTracker(ndb.Model):
     
     # The following contains a pointer to the main userobject. Note, we set the reference_class to None so that
     # we can later assign a pointer to the userobject (of class UserModel).
-    #userobject_ref = ndb.ReferenceProperty(reference_class=None, collection_name = 'userobject_pointer_set', indexed = False)
     userobject_ref = ndb.KeyProperty(indexed = False)
     
     
@@ -257,9 +256,6 @@ class UserModelBackupTracker(ndb.Model):
     
     # The following structures will contain copies of the userobject.  We periodically (on a rotating basis)
     # copy the userobject into an object referenced by one of the following properties.
-    #backup_1 = ndb.ReferenceProperty(reference_class=None, collection_name = 'backup_1_set', indexed = False)
-    #backup_2 = ndb.ReferenceProperty(reference_class=None, collection_name = 'backup_2_set', indexed = False)
-    #backup_3 = ndb.ReferenceProperty(reference_class=None, collection_name = 'backup_3_set', indexed = False)
     
     backup_1 = ndb.KeyProperty(indexed = False)
     backup_2 = ndb.KeyProperty(indexed = False)
@@ -575,7 +571,6 @@ class UserModel(ndb.Model):
     # to the profile photo, without having to do a query. Read about it at:
     # http://www.appenginetips.com/2008/05/anonymous-refer.html. 
     # It will be assigned after photos are uploaded.
-    #profile_photo = ndb.ReferenceProperty() #anonymous reference -- set later to key of the main profile photo
     
     #### other fields
     last_login = ndb.DateTimeProperty() 
@@ -661,7 +656,6 @@ class PaymentInfo(ndb.Model):
     
     # The following declaration creates a (virtual) property on the associated UserModel object that can be accessed such as:
     # userobject.payments_set[0] - Note: we can therefore also keep track of multiple payments for a single user. 
-    #owner_userobject = ndb.ReferenceProperty(reference_class = UserModel, required = False, default = None, collection_name="payments_set")
     owner_userobject = ndb.KeyProperty(kind = UserModel, default = None)
     
     # The username is stored here just for convenience, so that we can query by username (in the admin console) to see what payments
@@ -717,7 +711,6 @@ class PhotoModel(ndb.Model):
     
     # the following provides a link from the Photos to the user. This will create 
     # backlinks in the user model, that can be used to show the photos.
-    #parent_object = ndb.ReferenceProperty(reference_class = UserModel, required = False)
     parent_object = ndb.KeyProperty(kind=UserModel, required = False)
 
 class MailMessageModel(ndb.Model):
@@ -742,11 +735,9 @@ class MailMessageModel(ndb.Model):
     # the "messages_received" structure. These names are not used by our code, but must appear in order to dis-ambiguate
     # how these will appear on the referenced object.
     # m_to and m_from refer to the receiver and the sender of the current message. 
-    #m_from = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_sent')
     m_from = ndb.KeyProperty(kind = UserModel, required=False)
     
     # if we ever decide to allow multiple recipients, this could be changed to a list of keys. 
-    #m_to = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'mmm_received')
     m_to = ndb.KeyProperty(kind = UserModel, required = False)
     
     # date/time the message was sent/received
@@ -766,8 +757,6 @@ class UsersHaveSentMessages(ndb.Model):
     # This can be thought of as a sort of indicator
     # that allows us to extract the "top" message between each pair of users, by performing another query (once
     # we actually know that the two users have had previous contact)
-    #owner_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_owner')
-    #other_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False, collection_name = 'have_sent_messages_other')
     owner_ref = ndb.KeyProperty(kind = UserModel, required = False)
     other_ref = ndb.KeyProperty(kind = UserModel, required = False)
     
@@ -819,8 +808,7 @@ class InitiateContactModel(ndb.Model):
     #       access the key_stored for the "viewer_profile" (this means that the viewer has been given a key) - this could be a potential
     #       source of confusion since we are viewing the "displayed_profile" but checking the "viewer_profile" data structure for access to 
     #       the private photos.
-    #displayed_profile = ndb.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_displayed_profile')
-    #viewer_profile = ndb.ReferenceProperty(reference_class = UserModel, required = True, collection_name = 'contact_model_viewer_profile')
+
     displayed_profile = ndb.KeyProperty(kind = UserModel, required = True)
     viewer_profile = ndb.KeyProperty(kind = UserModel, required = True)
        
@@ -872,7 +860,6 @@ class EmailAutorizationModel(ndb.Model):
 # The following classes allow us to keep track of profiles that other users consider to be unacceptable.
 class CountUnacceptableProfile(ndb.Model):
     # keeps track of the number of unique times that this user has been marked as unacceptable.
-    #profile_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False)
     profile_ref = ndb.KeyProperty(kind = UserModel, required = False)
     
     count = ndb.IntegerProperty(default=0)
@@ -886,7 +873,6 @@ class CountUnacceptableProfile(ndb.Model):
     
 class CountReportingProfile(ndb.Model):
     # keeps track of the number of  times that this user has marked another profile as unacceptable.
-    # profile_ref = ndb.ReferenceProperty(reference_class = UserModel, required = False)
     profile_ref = ndb.KeyProperty(kind = UserModel, required = False)
     
     count = ndb.IntegerProperty(default=0)    
@@ -901,8 +887,6 @@ class MarkUnacceptableProfile(ndb.Model):
     # we will create an object that indicates that this viewing profile has reported the displayed_profile as being 
     # unacceptable. If this object already exists, then counters will not be modified since we don't want a single user
     # to be able to mark the same profile as unacceptable hundreds of times.
-    #displayed_profile = ndb.ReferenceProperty(required=False,reference_class = UserModel,  collection_name = 'unacceptable_model_displayed_profile')
-    #reporter_profile = ndb.ReferenceProperty(required=False,reference_class = UserModel, collection_name = 'unacceptable_model_viewer_profile')
     displayed_profile = ndb.KeyProperty(kind = UserModel, required=False)
     reporter_profile = ndb.KeyProperty(kind = UserModel, required=False)
     

@@ -329,8 +329,10 @@ def put_object(object_to_put):
     """
     
     object_to_put.put()
-    memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + object_to_put.key.urlsafe()
-    memcache.set(memcache_key_str, serialize_entities(object_to_put), constants.SECONDS_PER_MONTH)
+    
+    # Removed - NDB should be automatically caching 
+    # memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + object_to_put.key.urlsafe()
+    # memcache.set(memcache_key_str, serialize_entities(object_to_put), constants.SECONDS_PER_MONTH)
     
 
 def put_userobject(userobject):

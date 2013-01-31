@@ -314,8 +314,8 @@ def get_photo(request, photo_object_key_str, photo_size = 'small', is_admin_logi
             has_key_to_private_photos = False
             
             if (photo_object.is_private or not photo_object.is_approved) and 'userobject_str' in request.session:
-                primary_userobject_key = db.Key(request.session['userobject_str'])
-                display_userobject_key = photo_object.parent_object.key()
+                primary_userobject_key = ndb.Key(urlsafe = request.session['userobject_str'])
+                display_userobject_key = photo_object.parent_object
                 
                 if primary_userobject_key == display_userobject_key:
                     has_key_to_private_photos = True
@@ -622,7 +622,7 @@ def load_send_mail(request, other_uid):
     # returns this history/summary. 
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
-        other_userobject = db.get(db.Key(other_uid))
+        other_userobject = ndb.Key(urlsafe = other_uid).get()
         generated_html = mailbox.generate_mail_message_display_html(userobject, other_userobject, request.LANGUAGE_CODE)
     except:
         error_reporting.log_exception(logging.critical)
@@ -713,7 +713,7 @@ def favorite_message(request, have_sent_messages_id):
                  
     
     try:
-        have_sent_messages_object = db.get(db.Key(have_sent_messages_id)) 
+        have_sent_messages_object = ndb.Key(urlsafe = have_sent_messages_id).get()
         
         # just toggle the value
         have_sent_messages_object.other_is_favorite = not have_sent_messages_object.other_is_favorite

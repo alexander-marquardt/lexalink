@@ -156,7 +156,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                         
         # Loop over all photos, and mark them appropriately based on the inputs. 
 
-        all_user_photo_keys = PhotoModel.all(keys_only = True).filter('parent_object =', userobject).fetch(MAX_NUM_PHOTOS)  
+        all_user_photo_keys = PhotoModel.query().filter(PhotoModel.parent_object == userobject).fetch(MAX_NUM_PHOTOS, keys_only = True)  
         for photo_key in all_user_photo_keys:
             photo_key_str = photo_key.urlsafe()
             photo_object = photo_key.get()
@@ -2035,7 +2035,7 @@ def check_and_fix_userobject(userobject, lang_code):
     try:
         is_modified = False
         
-        owner_uid = str(userobject.key())
+        owner_uid = userobject.key.urlsafe()
                       
         # define the fields that we want to verify are set, and define the value to assign to them if they are not set.
         # The following values are manditory for all builds. 

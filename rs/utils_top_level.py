@@ -49,17 +49,21 @@ def get_object_from_string(object_str):
     """
         
     if not object_str:
-        return None           
+        return None   
+    
+    return_object = ndb.Key(urlsafe = object_str).get()
+    return return_object
 
-    memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + object_str 
-    return_object = deserialize_entities(memcache.get(memcache_key_str))
-    if return_object is not None:
-        return return_object
-    else:
-        # pull the object out of database and also update memcache
-        return_object = ndb.Key(urlsafe = object_str).get()
-        memcache.set(memcache_key_str, serialize_entities(return_object), constants.SECONDS_PER_MONTH)
-        return return_object
+# Removed memcaching since NDB should take care of this.
+    #memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + object_str 
+    #return_object = deserialize_entities(memcache.get(memcache_key_str))
+    #if return_object is not None:
+        #return return_object
+    #else:
+        ## pull the object out of database and also update memcache
+        #return_object = ndb.Key(urlsafe = object_str).get()
+        #memcache.set(memcache_key_str, serialize_entities(return_object), constants.SECONDS_PER_MONTH)
+        #return return_object
 
 
 def get_userobject_from_request(request):

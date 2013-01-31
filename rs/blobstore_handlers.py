@@ -119,7 +119,7 @@ def resize_and_put_photos(userobject, blob_info):
             uploaded_photo = orig_img.execute_transforms(output_encoding=images.PNG)
             photo.large_before_watermark = uploaded_photo
 
-            watermark = WatermarkPhotoModel.all().get()
+            watermark = WatermarkPhotoModel.query().get()
             if watermark and watermark.image:
                 # make the composite image the same size as the original "resized" image
                 composite_width = orig_img.width
@@ -186,7 +186,7 @@ def resize_and_put_photos(userobject, blob_info):
         except:
             error_reporting.log_exception(logging.error, error_message = 'resize_and_put_photos exception')
         else: # no exception occured
-            photo.parent_object = userobject
+            photo.parent_object = userobject.key
             photo.is_private = False
             photo.has_been_reviewed = False 
             if num_photos == 0:
@@ -199,9 +199,10 @@ def resize_and_put_photos(userobject, blob_info):
             # click on the "save changes" button, which is where we also set these values. Note, if this is not 
             # written (either here or in store_photo_options), then the users photos will not be displayed when 
             # someone views their profile.
-            userobject.unique_last_login_offset_ref.has_public_photo_offset = True
-            userobject.unique_last_login_offset_ref.has_profile_photo_offset = True
-            userobject.unique_last_login_offset_ref.put()
+            unique_last_login_offset_obj = userobject.unique_last_login_offset_ref.get()
+            unique_last_login_offset_obj.has_public_photo_offset = True
+            unique_last_login_offset_obj.has_profile_photo_offset = True
+            unique_last_login_offset_obj.put()
 
     else:
         # silently fail if they try to upload more photos -- they will easily see that the photo

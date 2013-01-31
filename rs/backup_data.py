@@ -68,7 +68,7 @@ def update_or_create_userobject_backups(request, userobject):
     
     try:
         try:
-            backup_tracker = userobject.backup_tracker
+            backup_tracker = userobject.backup_tracker.get()
         except:
             error_reporting.log_exception(logging.critical, error_message="User: %s error in backup_tracker - will be over-written" % userobject.username)
             backup_tracker = None
@@ -95,7 +95,7 @@ def update_or_create_userobject_backups(request, userobject):
         next_backup_object_name = {'backup_1': 'backup_2', 'backup_2': 'backup_3', 'backup_3':'backup_1'}
         
         most_recent_backup_object_name = backup_tracker.most_recent_backup_name
-        most_recent_backup_userobject = getattr(backup_tracker, most_recent_backup_object_name)
+        most_recent_backup_userobject = getattr(backup_tracker, most_recent_backup_object_name).get()
         
         if not most_recent_backup_userobject:
             # if the object doesn't exist, then we have not done any backups yet, and this object should

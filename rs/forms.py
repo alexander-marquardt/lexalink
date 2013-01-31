@@ -416,7 +416,7 @@ class FormUtils():
                         html_for_photo_designation_row.append(u'<tr>')
                         
                 if photo_object_key != None:
-                    photo_object_key_str = str(photo_object_key)
+                    photo_object_key_str = photo_object_key.urlsafe()
                     photo_object = utils_top_level.get_object_from_string(photo_object_key_str)
                                     
                     # this URL will ensure that ajax call to get the photo are able to locate

@@ -156,23 +156,24 @@ def get_or_create_unique_last_login(userobject, username):
         offset = 0 # the offset is in Days.
         # make sure it has the attribute, and that the attribute is set
         if hasattr(userobject, 'unique_last_login_offset_ref') and userobject.unique_last_login_offset_ref:
-            unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
+            unique_last_login_offset_key = userobject.unique_last_login_offset_ref
+            unique_last_login_offset_obj = unique_last_login_offset_key.get()
             
             # loop over all offset values, and assign the value if the boolean in offset_ref indicates
             # that it should be assigned.
             for (offset_name, value) in constants.offset_values.iteritems():
-                has_offset = getattr(unique_last_login_offset_ref, offset_name)
+                has_offset = getattr(unique_last_login_offset_obj, offset_name)
                 if has_offset:
                     
                     if offset_name == "has_private_photo_offset":
                         # only count private photos if they don't have any public/profile photos
-                        if not unique_last_login_offset_ref.has_profile_photo_offset and not unique_last_login_offset_ref.has_public_photo_offset:
+                        if not unique_last_login_offset_obj.has_profile_photo_offset and not unique_last_login_offset_obj.has_public_photo_offset:
                             # if it has a profile photo offset, don't count private_photo or public_photo offsets - 
                             # we want to avoid double counting.
                             offset += value
                     elif offset_name == "has_public_photo_offset":
                         # only count public photos if they don't have a profile photo
-                        if not unique_last_login_offset_ref.has_profile_photo_offset:
+                        if not unique_last_login_offset_obj.has_profile_photo_offset:
                             offset += value
                     else:
                         offset += value
@@ -363,24 +364,25 @@ def set_new_contact_counter_on_login(new_contact_counter_ref):
     #
     # Could consider running this in a transaction -- but is not really necessary, since it gets reset periodically...
 
+    new_contact_counter_obj = new_contact_counter_ref.get()
     
-    new_contact_counter_ref.previous_num_received_kiss = new_contact_counter_ref.num_received_kiss_since_last_login
-    new_contact_counter_ref.num_received_kiss_since_last_login = 0
+    new_contact_counter_obj.previous_num_received_kiss = new_contact_counter_obj.num_received_kiss_since_last_login
+    new_contact_counter_obj.num_received_kiss_since_last_login = 0
 
     
-    new_contact_counter_ref.previous_num_received_wink = new_contact_counter_ref.num_received_wink_since_last_login
-    new_contact_counter_ref.num_received_wink_since_last_login = 0
+    new_contact_counter_obj.previous_num_received_wink = new_contact_counter_obj.num_received_wink_since_last_login
+    new_contact_counter_obj.num_received_wink_since_last_login = 0
 
-    new_contact_counter_ref.previous_num_received_key = new_contact_counter_ref.num_received_key_since_last_login
-    new_contact_counter_ref.num_received_key_since_last_login = 0
+    new_contact_counter_obj.previous_num_received_key = new_contact_counter_obj.num_received_key_since_last_login
+    new_contact_counter_obj.num_received_key_since_last_login = 0
     
-    new_contact_counter_ref.previous_num_received_friend_request_since_last_login = new_contact_counter_ref.num_received_friend_request_since_last_login
-    new_contact_counter_ref.num_received_friend_request_since_last_login = 0
+    new_contact_counter_obj.previous_num_received_friend_request_since_last_login = new_contact_counter_obj.num_received_friend_request_since_last_login
+    new_contact_counter_obj.num_received_friend_request_since_last_login = 0
     
-    new_contact_counter_ref.previous_num_received_friend_confirmation_since_last_login = new_contact_counter_ref.num_received_friend_confirmation_since_last_login
-    new_contact_counter_ref.num_received_friend_confirmation_since_last_login = 0
+    new_contact_counter_obj.previous_num_received_friend_confirmation_since_last_login = new_contact_counter_obj.num_received_friend_confirmation_since_last_login
+    new_contact_counter_obj.num_received_friend_confirmation_since_last_login = 0
    
-    new_contact_counter_ref.put()
+    new_contact_counter_obj.put()
     
 
     

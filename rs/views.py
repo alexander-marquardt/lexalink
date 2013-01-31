@@ -475,15 +475,25 @@ def login(request, is_admin_login = False, referring_code = None):
                     
                 else:
                     
-                    query_filter_dict = {}
+                    # the following order is not really necessary -- but just ensures that the most recently
+                    # accessed object will be returned in case of a conflict (which might occur if a person uses the same email
+                    # address for multiple accounts)                    
+                    q_no_pw = UserModel.query().order(-UserModel.last_login_string)
                     
-                    # if the password has been reset, then the 'password_reset' value will contain
-                    # the new password (as opposed to directly overwriting the 'password' field). This is done  to prevent
-                    # random people from resetting other peoples passwords. -- Once the user has 
-                    # logged in using the new 'reset_password', then we copy this field over to the 'password'
-                    # field. If the user never logs in with this 'reset_password', then the original password
-                    # is not over-written -- and we instead erase the 'reset_password' value
-                    query_filter_dict_for_new_password = {}
+                    email_or_username_login = None
+                    if email_re.match(login_dict['username_email']):                       
+                        email_or_username_login = "email"
+                        q_no_pw = q_no_pw.filter(UserModel.email_address == login_dict['username_email'].lower())
+                    else:
+                        email_or_username_login = "username"
+                        username = login_dict['username_email'].upper()
+                        q_no_pw = q_no_pw.filter(UserModel.username == username)
+                        if (rematch_non_alpha.search(username) != None or len(username) < 3):
+                            error_list.append(ErrorMessages.username_alphabetic)
+                                            
+                    
+                    # make sure that we are accessing a "real" userobject (not a backup)    
+                    q_no_pw = q_no_pw.filter(UserModel.is_real_user == True)
                     
                     # Verify that the password only contains acceptable characters  - 
                     # this is necessary for the password hashing algorithm which only works with ascii chars, 
@@ -492,75 +502,53 @@ def login(request, is_admin_login = False, referring_code = None):
                         error_list.append(ErrorMessages.password_alphabetic)
                     else:
                         if not is_admin_login:
+                            # make sure that profile has not been marked for elimination (if we are an administrator, we can
+                            # still log into deleted accounts, so we don't add this value into the search query)
+                            q_no_pw = q_no_pw.filter(UserModel.user_is_marked_for_elimination == False)                          
                             
                             # make sure that the password is not empty -- should never even get into here
                             # if it is not set (earlier error checking should catch this). 
                             assert(login_dict['password'])
                                    
-                            # we do not check the password if this is an admin login - since 
-                            # admin logins are already verified using google account login.
-                            # All "normal" logins MUST check the password!!
-                            query_filter_dict['password'] = passhash(login_dict['password'])
-                            
-                            # make sure that profile has not been marked for elimination (if we are an administrator, we can
-                            # still log into deleted accounts, so we don't add this value into the search query)
-                            query_filter_dict['user_is_marked_for_elimination'] = False
-        
-                    if email_re.match(login_dict['username_email']):                       
-                        query_filter_dict['email_address'] = login_dict['username_email'].lower()
-                    else:
-                        username = login_dict['username_email'].upper()
-                        query_filter_dict['username'] = username
-                        if (rematch_non_alpha.search(username) != None or len(username) < 3):
-                            error_list.append(ErrorMessages.username_alphabetic)
-                        
-                    # make sure that we are accessing a "real" userobject (not a backup)    
-                    query_filter_dict['is_real_user'] = True
-                    
-                    # the following order is not really necessary -- but just ensures that the most recently
-                    # accessed object will be returned in case of a conflict (which might occur if a person uses the same email
-                    # address for multiple accounts)
-                    query_order_string = "-%s" % 'last_login_string'
+                            # All "normal" (non admin) logins MUST check the password!!
+                            q_normal_pw = q_no_pw.filter(UserModel.password == passhash(login_dict['password']))
+                        else:
+                            # for administrator, we don't filter on the password. Just take the previous query
+                            q_normal_pw = q_no_pw
+
+
     
                 if not error_list:
+                    # No errors so far. Continue validation.
+                    
+                    # Note: if the password has been reset, then the 'password_reset' value will contain
+                    # the new password (as opposed to directly overwriting the 'password' field). This is done  to prevent
+                    # random people from resetting other peoples passwords. -- Once the user has 
+                    # logged in using the new 'reset_password', then we copy this field over to the 'password'
+                    # field. If the user never logs in with this 'reset_password', then the original password
+                    # is not over-written -- and we instead erase the 'reset_password' value
                     
                     password_has_been_reset = False
-                    query = UserModel.all().order(query_order_string)
-                    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-                        query = query.filter(query_filter_key, query_filter_value)
-                    userobject = query.get()
+                    userobject = q_normal_pw.get()
     
                     if not userobject and not is_admin_login:
                         # if the original query failed, do a query using the 'password_reset' value --
                         # this will contain a new password, if the user has requested a new password be 
                         # sent to their email account.
                         # set up the query to check the 'password_reset' value
-                        del(query_filter_dict['password'])
-                        query_filter_dict['password_reset'] = passhash(login_dict['password'])                    
-    
-                        query = UserModel.all().order(query_order_string)
-                        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-                            query = query.filter(query_filter_key, query_filter_value)
-                        userobject = query.get()    
+                        q_reset_pw = q_no_pw.filter(UserModel.password_reset == passhash(login_dict['password']))
+
+                        userobject = q_reset_pw.get()    
                         if userobject:
                             password_has_been_reset = True
-    
-                        # Note, that the above code has deleted the password from the query, and instead used the password_reset value.
-                        # restore the query values to contain the original password. 
-                        del(query_filter_dict['password_reset'])
-                        query_filter_dict['password'] = passhash(login_dict['password'])
                     
                     
                     if not userobject and not is_admin_login:
                         # The user was unable to login -- 
                         # check to see if the username/email+password was registered at some point, and has been eliminated
     
-                        query_filter_dict['user_is_marked_for_elimination'] = True
-                        
-                        query = UserModel.all().order(query_order_string)
-                        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-                            query = query.filter(query_filter_key, query_filter_value)
-                        eliminated_userobject = query.get()
+                        q_eliminated = q_normal_pw.filter(UserModel.user_is_marked_for_elimination == True)
+                        eliminated_userobject = q_eliminated.get()
                         
                         # if no eliminated object was found, try again, but this time only if the user has entered a username (not an email)
                         # and we will remove the password from the query. This will allow better reporting for people who may have forgotten
@@ -568,16 +556,10 @@ def login(request, is_admin_login = False, referring_code = None):
                         # to see if an email address was registered)
                         if not eliminated_userobject:
                             
-                            if 'username' in query_filter_dict and query_filter_dict['username']:
+                            if email_or_username_login == 'username':
                                 # we know that a username as opposed to an email address was entered
-                                del(query_filter_dict['password'])
-                                query = UserModel.all().order(query_order_string)
-                                for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-                                    query = query.filter(query_filter_key, query_filter_value)
-                                eliminated_userobject = query.get()                            
-                                        
-                                # re-insert the password into the query parameters for future queries.
-                                query_filter_dict['password'] = passhash(login_dict['password'])
+                                q_eliminated = q_no_pw.filter(UserModel.user_is_marked_for_elimination == True)
+                                eliminated_userobject = q_eliminated.get()                            
                         
                         if eliminated_userobject:
                             # Let user know that the profile was eliminated. 
@@ -587,7 +569,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         else: # the profile (email + password OR username) did not appear in the list of eliminated userobjects
                             
                             # check to see if the username or email is registered but we can only find backup copies (as opposed to the real object)
-                            # This would be a *very serious* error condition that should be addressed immediately - this error check is here
+                            # This would be a serious error condition that should be addressed immediately - this error check is here
                             # because this condition has occured in the past for unknown reasons.
                              
                             # We are just making sure that if the username/email
@@ -597,24 +579,17 @@ def login(request, is_admin_login = False, referring_code = None):
                             # must include both eliminated and current profiles to prevent false error reporting, which could otherwise
                             # occur if a user eliminated a profile, but enters in the wrong password
                             
-                            del(query_filter_dict['user_is_marked_for_elimination']) 
-                            del(query_filter_dict['password'])
-                            
+
                             # search for a backup userobject
-                            query_filter_dict['is_real_user'] = False
-                            query = UserModel.all().order(query_order_string)
-                            for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-                                query = query.filter(query_filter_key, query_filter_value)
-                            backup_userobject = query.get()
+                            q_backup = q_no_pw.filter(UserModel.is_real_user == False)
+                            backup_userobject = q_backup.get()
                             
-                            # now search for a real userobject
-                            query_filter_dict['is_real_user'] = True
-                            query = UserModel.all().order(query_order_string)
-                            for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-                                query = query.filter(query_filter_key, query_filter_value)
-                            real_userobject = query.get()                        
-                            
-                            # if backup exists, and there is no "real" userobject, report an error.
+                            # Now we just check to see if an object exists that corresponds to the email_address or the username that
+                            # has been entered - but we ignore the password, since we are just checking to see if it exists (not that
+                            # the user has entered the password correctly)
+                            real_userobject = q_no_pw.get()
+                                                  
+                            # if backup exists but there is no associated "real" userobject, report an error.
                             if backup_userobject and not real_userobject:
                                 error_message  = u"""The profile of %s (entered with username_email=%s) has appeared as backup objects, 
                                 but primary object is not found (this condition can also occur if the user has erased their email address, but it remains
@@ -676,8 +651,8 @@ def login(request, is_admin_login = False, referring_code = None):
                          
                             # reset the new_messages_since_last_notification data strutures since the user 
                             # is logging in, and is obviously aware of new messages etc. 
-                            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref.key())
-                            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.new_contact_counter_ref.key()) 
+                            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref)
+                            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.new_contact_counter_ref) 
                             
                             # log information about this users login time, and IP address
                             utils.update_ip_address_on_user_tracker(userobject.user_tracker)
@@ -693,7 +668,8 @@ def login(request, is_admin_login = False, referring_code = None):
                         logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
     
                         # Set language to whatever the user used the last time they were logged in. 
-                        lang_code = userobject.search_preferences2.lang_code
+                        search_preferences = userobject.search_preferences2.get()
+                        lang_code = search_preferences.lang_code
                         assert(lang_settings.set_language_in_session(request, lang_code))
                         # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
                         # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
