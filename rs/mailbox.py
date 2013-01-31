@@ -284,7 +284,7 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
             
         if len(query_for_message) == SINGLE_CONVERSATION_PAGESIZE + 1:
             
-            bookmark_key_str = str(query_for_message[-1].key())
+            bookmark_key_str = query_for_message[-1].key.urlsafe()
             
             generated_html += """
             
@@ -397,11 +397,11 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
         
         other_profile = have_sent_messages_object.other_ref
     
-        to_uid = str(other_profile.key())
+        to_uid = other_profile.key.urlsafe()
         other_profile_href = profile_utils.get_userprofile_href(lang_code, other_profile, is_primary_user=False)
         
         
-        from_uid = str(userobject.key())
+        from_uid = userobject.key.urlsafe()
         
         generated_html += '<div class="grid_9 alpha omega cl-mailbox_results" id="id-display-send_mail-section">' # wrapper for JS
 
@@ -606,7 +606,7 @@ def display_conversation_summary(request, have_sent_messages_object,
                 handle_click_on_update_message_action_icon("%(have_sent_messages_key)s", "%(to_uid)s", "trash", "%(show_checkbox_js_val)s")
          });
          </script>
-         """ % {'have_sent_messages_key':have_sent_messages_key, 'to_uid': str(have_sent_messages_object.other_ref),
+         """ % {'have_sent_messages_key':have_sent_messages_key, 'to_uid': have_sent_messages_object.other_ref.urlsafe(),
                                                                            'show_checkbox_js_val': show_checkbox_js_val}        
         
                 
@@ -671,7 +671,7 @@ def display_conversation_summary(request, have_sent_messages_object,
                 other_userobject_href, other_userobject_href, other_userobject.username)
             
             if show_vip_info:
-                generated_html += u"<br>%s" % utils.get_vip_online_status_string(str(other_userobject.key()))
+                generated_html += u"<br>%s" % utils.get_vip_online_status_string(other_userobject.key.urlsafe())
         
 
             checkbox_html = '<td class="cl-mark_conversation-td"><input type = "checkbox" name="mark_conversation" \
@@ -973,7 +973,7 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
         message_controls_html += u'<div class="grid_2 omega">&nbsp;'
         bottom_next_link_html = ''
         if len(contact_query_results) == CONTACTS_PAGESIZE + 1:
-            next_page_bookmark = str(contact_query_results[-1].key())
+            next_page_bookmark = contact_query_results[-1].key.urlsafe()
             next_href = reverse('generate_mailbox_with_bookmark', kwargs = {'bookmark' : next_page_bookmark, 'mailbox_name': mailbox_name, 'owner_uid' : owner_uid})
             next_button = u'<a href="%s" rel="address:%s">%s >></a>\n' % (next_href, next_href, ugettext("Next"))
             message_controls_html += next_button

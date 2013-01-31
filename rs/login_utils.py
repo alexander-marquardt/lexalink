@@ -464,8 +464,7 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
                 
             if delete_or_enable == "enable": 
                 userobject.user_is_marked_for_elimination = False
-                #userobject.last_login_string = str(datetime.datetime.now())
-                #userobject.unique_last_login = str(datetime.datetime.now())
+
                 html_for_delete_account = u"<p>%s %s.</p>" % (ugettext("We have enabled the profile of"),
                     userobject.username)
                 userobject.reason_for_profile_removal = None
@@ -547,7 +546,7 @@ def delete_or_enable_account(request, owner_uid, delete_or_enable):
         if not owner_userobject:
             return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
         
-        assert(owner_uid == str(owner_userobject.key()))
+        assert(owner_uid == owner_userobject.key.urlsafe())
         
         return delete_or_enable_account_and_generate_response(request, owner_userobject, delete_or_enable)
     except:

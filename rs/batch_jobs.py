@@ -596,7 +596,7 @@ def deferred_copy_have_had_contact(request):
                     setattr(have_sent_messages_object, k, getattr(myobject, k))
 
                     
-                info_message = "**Writing have_sent_messages_object %s object<br>\n" % str(have_sent_messages_object.key())
+                info_message = "**Writing have_sent_messages_object %s object<br>\n" % have_sent_messages_object.key.urlsafe()
                 logging.info(info_message)     
     
                 have_sent_messages_object.put()
@@ -620,7 +620,7 @@ import datetime
 def write_mail_txn(myobject, props, text):
     
     try:
-        info_message = "**Considering copying MailMessageModel %s object<br>\n" % str(myobject.key())
+        info_message = "**Considering copying MailMessageModel %s object<br>\n" % myobject.key.urlsafe())
         logging.info(info_message)     
                         
 
@@ -719,7 +719,7 @@ def deferred_fix_initiate_contact_model(request):
         
         viewer_userobject_key = myobject.viewer_profile.key()
         display_userobject_key = myobject.displayed_profile.key()
-        correct_key_name = str(viewer_userobject_key) + str(display_userobject_key) 
+        correct_key_name = viewer_userobject_key.urlsafe() + display_userobject_key.urlsafe()
         
 
         original_key_name = myobject.key().id_or_name()

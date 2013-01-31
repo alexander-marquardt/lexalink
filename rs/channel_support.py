@@ -535,7 +535,7 @@ def store_create_new_group(request):
                 # check if the named group already exists, and if it does return it
                 chat_group = chat_support.query_chat_group_by_name(new_group_name)
                 if chat_group is not None:
-                    group_gid = str(chat_group.key())
+                    group_gid = chat_group.key.urlsafe()
                 else:
                     # otherwise, the group does not already exist and this user cannot create any more groups. Return an error.
                     return http.HttpResponseBadRequest(ugettext("Error - group creation limit exceeded"))

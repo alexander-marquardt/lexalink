@@ -883,8 +883,8 @@ def modify_active_initiate_contact_object(action, initiate_contact_object, usero
                  toggle_chat_friend_status(initiate_contact_object)
                 # invalidate memcache for chat_friend_tracker so that online users will 
                 # immediately see their new friends online
-                invalidate_memcache_for_friends_lists(str(userobject_key))
-                invalidate_memcache_for_friends_lists(str(other_userobject_key))
+                invalidate_memcache_for_friends_lists(userobject_key.urlsafe())
+                invalidate_memcache_for_friends_lists(other_userobject_key.urlsafe())
                 
             # Update the set time for bot setting and removing the action
             setattr(initiate_contact_object, action_stored_date_str, datetime.datetime.now())
@@ -1058,7 +1058,7 @@ def store_initiate_contact(request, to_uid):
 
                                 taskqueue.add(queue_name = 'fast-queue', countdown = countdown_time, \
                                               url='/rs/admin/send_new_message_notification_email/', params = {
-                                                  'uid': str(other_userobject.key())})
+                                                  'uid': other_userobject.key.urlsafe()})
                             except:
                                 error_reporting.log_exception(logging.critical)
                                 
@@ -1713,7 +1713,7 @@ def send_vip_congratulations_message(userobject):
     previous_language = translation.get_language() # remember the original language, so we can set it back when we finish 
     try:
         alex_object = get_alex_userobject()
-        to_uid = str(userobject.key())
+        to_uid = userobject.key.urlsafe()
         expiry_date = userobject.client_paid_status_expiry
         expiry_day = expiry_date.day
         expiry_month = expiry_date.month

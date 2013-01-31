@@ -180,7 +180,7 @@ def get_signup_fields_settings(request, uid):
     
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
-        assert(uid == str(userobject.key()))
+        assert(uid == userobject.key.urlsafe())
         response_dict = get_settings(request, UserSpec.signup_fields_to_display_in_order + ['region', 'sub_region'], userobject)
         
         # add additional location data to the response_dict 
@@ -200,7 +200,7 @@ def get_details_fields_settings(request, uid):
     response_dict = {}
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
-        assert(uid == str(userobject.key()))
+        assert(uid == userobject.key.urlsafe())
         response_dict =  get_settings(request, UserProfileDetails.details_fields_to_display_in_order, userobject)
     except:
         error_reporting.log_exception(logging.critical, request=request)
@@ -224,7 +224,7 @@ def get_generic_options_settings(request, uid, option_name):
     
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
-        assert(uid == str(userobject.key()))
+        assert(uid == userobject.key.urlsafe())
         list_of_selected_options  = getattr(userobject, option_name)
         return get_json_list(request, list_of_selected_options)
     except:
@@ -237,7 +237,7 @@ def get_email_address_settings(request, uid):
     
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
-        assert(uid == str(userobject.key()))
+        assert(uid == userobject.key.urlsafe())
         if userobject.email_address != "----":
             json_response = simplejson.dumps(userobject.email_address) 
         else: 
@@ -257,7 +257,7 @@ def get_about_user_settings(request, uid):
     
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
-        assert(uid == str(userobject.key()))
+        assert(uid == userobject.key.urlsafe())
         
         # is_primary_user is true, since this function can only be called after the user has edited his about_user value
         about_user = UserMainHTML.get_text_about_user(userobject, is_primary_user = True, for_edit = True)
@@ -276,7 +276,7 @@ def get_current_status_settings(request, uid):
     
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
-        assert(uid == str(userobject.key()))
+        assert(uid == userobject.key.urlsafe())
         current_status = ""
         if userobject.current_status != "----":
             current_status = userobject.current_status
@@ -295,7 +295,7 @@ def get_change_password_fields_settings(request, uid):
     # This stub is required so that the javascript calls are consistent and don't
     # require special case code for the passwords.
     userobject = utils_top_level.get_userobject_from_request(request)
-    assert(uid == str(userobject.key()))
+    assert(uid == userobject.key.urlsafe())
     return HttpResponse("")
 
 

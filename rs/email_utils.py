@@ -348,7 +348,7 @@ def change_notification_settings(request, subscription_option, username, hash_of
            hash_of_creation_date == userobject.hash_of_creation_date[:constants.EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE]:
             
             # update userobject to contain the newly selected option
-            userobject = db.run_in_transaction(userobject_txn, str(userobject.key()), subscription_option)
+            userobject = db.run_in_transaction(userobject_txn, userobject.key.urlsafe(), subscription_option)
             
             # update the when_to_send_next_notification to reflect the newly selected value in both the mail and contact
             # counter objects
@@ -638,7 +638,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             'app_name': settings.APP_NAME, 'link_to_build': link_to_build()}
         message.html += u"<p>%(notification_control)s" % {'notification_control': get_notification_control_html(userobject)}     
         
-        userobject_key = str(userobject.key())
+        userobject_key = userobject.key.urlsafe())
         
 
         
@@ -750,7 +750,7 @@ def send_batch_email_notifications(request,  object_type):
                         lang_code = "es"
                         
                     taskqueue.add(queue_name = 'mail-queue', url='/rs/admin/send_new_message_notification_email/', params = {
-                        'uid': str(userobject.key()), 'lang_code': lang_code})
+                        'uid': userobject.key.urlsafe(), 'lang_code': lang_code})
                     generated_html += "%s<br>" % (userobject.username)
                 except:
                     error_message = "send_new_message_notification_email unexpected exception. userobject: %s" % (repr(userobject))

@@ -408,7 +408,7 @@ def get_active_userobject_from_username(username):
         userobject = query.get()
         if userobject:
             # use memcache.add since we don't need to invalidate old data if the key is already valid
-            memcache_key_str = str(userobject.key()) + settings.VERSION_ID
+            memcache_key_str = userobject.key.urlsafe() + settings.VERSION_ID
             memcache.add(memcache_key_str, serialize_entities(userobject), constants.SECONDS_PER_MONTH)
             return userobject
         else:
@@ -1311,7 +1311,7 @@ def get_fake_mail_parent_entity_key(uid1, uid2):
 
 
 def get_have_sent_messages_key_name(owner_key, other_key):
-    key_name = "%s_and_%s" % (str(owner_key), str(other_key))
+    key_name = "%s_and_%s" % (owner_key.urlsafe(), other_key.urlsafe())
     return key_name
 
     
@@ -1353,7 +1353,7 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
     
         
     try:
-        memcache_key_str = constants.INITIATE_CONTACT_MEMCACHE_PREFIX + str(viewer_userobject_key) + str(display_userobject_key)
+        memcache_key_str = constants.INITIATE_CONTACT_MEMCACHE_PREFIX + viewer_userobject_key.urlsafe() + display_userobject_key.urlsafe()
         memcache_entity = memcache.get(memcache_key_str)
         
         if memcache_entity == 0 and not create_if_does_not_exist:
@@ -1375,7 +1375,7 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
             # 2) memcache_entity == 0 (we have queried the database previously, but it was empty) *and* 
             # create_if_does_not_exist is True (we need to create a new entity)
              
-            object_key_name = str(viewer_userobject_key) + str(display_userobject_key) 
+            object_key_name = viewer_userobject_key.urlsafe() + display_userobject_key.urlsafe() 
             initiate_contact_key = ndb.Key('InitiateContactModel', object_key_name)
             initiate_contact_object = initiate_contact_key.get()
             
@@ -1410,7 +1410,7 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
 def put_initiate_contact_object(initiate_contact_object, viewer_userobject_key, display_userobject_key):
     
     initiate_contact_object.put()
-    memcache_key_str = constants.INITIATE_CONTACT_MEMCACHE_PREFIX + str(viewer_userobject_key) + str(display_userobject_key)
+    memcache_key_str = constants.INITIATE_CONTACT_MEMCACHE_PREFIX + viewer_userobject_key.urlsafe() + display_userobject_key.urlsafe()
     memcache.set(memcache_key_str, serialize_entities(initiate_contact_object), constants.SECONDS_PER_MONTH)
     
     
@@ -1423,7 +1423,7 @@ def convert_string_key_from_old_app_to_current_app(old_key_string):
         old_app_name = old_key.app()
     
         new_key = ndb.Key(kind, id_or_name)
-        new_key_string = str(new_key)
+        new_key_string = new_key.urlsafe()
         new_app_name = new_key.app()
         
         # We should never be re-directing a key that is the same app name as the current app

@@ -360,7 +360,7 @@ def create_chat_group(group_name, group_creator_name, group_creator_uid_string):
         # The group already exists - No need to create another with the same name
         pass
     
-    return str(chat_group.key())
+    return chat_group.key.urlsafe()
     
 def get_chat_groups_dict(overwrite_memcache = False):
     # returns a dictionary containing the currently available chat groups 
