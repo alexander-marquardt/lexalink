@@ -156,7 +156,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                         
         # Loop over all photos, and mark them appropriately based on the inputs. 
 
-        all_user_photo_keys = PhotoModel.query().filter(PhotoModel.parent_object == userobject).fetch(MAX_NUM_PHOTOS, keys_only = True)  
+        all_user_photo_keys = PhotoModel.query().filter(PhotoModel.parent_object == userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)  
         for photo_key in all_user_photo_keys:
             photo_key_str = photo_key.urlsafe()
             photo_object = photo_key.get()
@@ -210,7 +210,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         unique_last_login_offset_object.has_public_photo_offset = has_public_photos
         unique_last_login_offset_object.has_private_photo_offset = has_private_photos
 
-        userobject.unique_last_login_offset_ref.put()
+        unique_last_login_offset_object.put()
     
         if not is_admin_photo_review:
             (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
@@ -221,7 +221,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         return HttpResponse('Success')
     
     except:
-        error_reporting.log_exception(logging.critical, request = request)       
+        error_reporting.log_exception(logging.critical)       
         return HttpResponse('Error')            
     
 #############################################
