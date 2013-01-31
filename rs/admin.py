@@ -411,14 +411,9 @@ def count_clients(request):
 def enable_username(request, name_to_enable):
     
     try:
-        query_filter_dict = {}
-        query_filter_dict['username'] = name_to_enable.upper()
-    
-        query = models.UserModel.all()
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)    
-            
-        userobject = query.get()
+        
+        q = models.UserModel.query().filter(models.UserModel.username == name_to_enable.upper())
+        userobject = q.get()
         
         return login_utils.delete_or_enable_account_and_generate_response(
             request, userobject, delete_or_enable = "enable")    
@@ -427,3 +422,61 @@ def enable_username(request, name_to_enable):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()
 
+
+    
+def run_query_to_remove_profiles(request, query_key, query_value, reason_for_removal):
+
+    PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors   
+    generated_html = ''
+    
+    q= models.UserModel.query().filter(models.UserModel._properties[query_key] == query_value)
+    userobject_batch = q.fetch(PAGESIZE)
+            
+    if not userobject_batch:
+        # there are no more objects - break out of this function.
+        info_message = "No more objects found - Exiting function<br>\n"
+        logging.info(info_message)
+        return info_message
+
+    for userobject in userobject_batch:  
+        try:
+            info_message = "** Eliminating %s userobject<br>\n" % userobject.username
+            generated_html += info_message
+            logging.info(info_message)                    
+            login_utils.delete_or_enable_account_and_generate_response(
+                request, userobject, delete_or_enable = "delete", reason_for_profile_removal = reason_for_removal)
+                
+        except:
+            error_reporting.log_exception(logging.critical)  
+        
+    return generated_html
+        
+        
+def batch_remove_all_users_with_given_ip_or_name(request, ip_to_remove = None, name_to_remove = None, reason_for_removal = 'terms'):
+
+    
+    """ This function scans the database for profiles that need to be fixed
+    """
+    PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
+    
+    try:
+                    
+        generated_html = 'Updating userobjects:<br><br>'
+                
+        if not (reason_for_removal == "scammer" or reason_for_removal == "terms" or reason_for_removal == "fake"):
+            return http.HttpResponse("Called with incorrect URL")
+
+        if ip_to_remove:
+            generated_html += run_query_to_remove_profiles(request, 'registration_ip_address', ip_to_remove, reason_for_removal)
+            generated_html += run_query_to_remove_profiles(request, 'login_ip_address', ip_to_remove, reason_for_removal)
+        elif name_to_remove:
+            generated_html += run_query_to_remove_profiles(request, 'username', name_to_remove.upper(), reason_for_removal)
+            
+        else:
+            return http.HttpResponse("Called with incorrect URL")
+            
+        return http.HttpResponse(generated_html)
+    except:
+        error_reporting.log_exception(logging.critical)
+        return http.HttpResponseServerError()
+    

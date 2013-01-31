@@ -3,19 +3,19 @@ Code is taken from http://code.google.com/appengine/articles/sharding_counters.h
 for details """
 
 from google.appengine.api import memcache
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 import random
 
-class GeneralCounterShardConfig(db.Model):
+class GeneralCounterShardConfig(ndb.Model):
     """Tracks the number of shards for each named counter."""
-    name = db.StringProperty(required=True)
-    num_shards = db.IntegerProperty(required=True, default=10)
+    name = ndb.StringProperty(required=True)
+    num_shards = ndb.IntegerProperty(default=10)
 
 
-class GeneralCounterShard(db.Model):
+class GeneralCounterShard(ndb.Model):
     """Shards for each named counter"""
-    name = db.StringProperty(required=True)
-    count = db.IntegerProperty(required=True, default=0)
+    name = ndb.StringProperty(required=True)
+    count = ndb.IntegerProperty(default=0)
 
 
 def get_count(name):
@@ -48,7 +48,7 @@ def increment(name):
             counter = GeneralCounterShard(key_name=shard_name, name=name)
         counter.count += 1
         counter.put()
-    db.run_in_transaction(txn)
+    ndb.transaction(lambda: txn())
     memcache.incr(name)
 
 
@@ -66,4 +66,4 @@ def increase_shards(name, num):
         if config.num_shards < num:
             config.num_shards = num
             config.put()
-    db.run_in_transaction(txn)
+    ndb.transaction(lambda: txn())

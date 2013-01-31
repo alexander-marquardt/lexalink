@@ -26,7 +26,7 @@
 ################################################################################
 
 
-from google.appengine.ext import db 
+from google.appengine.ext import ndb 
 from django import http 
 from django.shortcuts import render_to_response
 from models import VideoPhoneUserInfo

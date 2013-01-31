@@ -29,8 +29,8 @@
 """ This module contains support functions for logging-in the user. """
 
 import datetime, logging, pickle, StringIO, os, re
+from google.appengine.ext import ndb 
 
-from google.appengine.ext import db 
 from google.appengine.api import taskqueue
 
 # local settings
@@ -452,7 +452,7 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
         
         def txn(user_key):
             # run in transaction to prevent conflicts with other writes to the userobject.
-            userobject =  db.get(user_key) 
+            userobject =  user_key.get()
             
         
             if delete_or_enable == "delete":
@@ -476,7 +476,7 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
             
         # mark the userobject for elimination -- do in a transaction to ensure that there are no conflicts!
         
-        html_for_delete_account = txn(userobject.key())
+        html_for_delete_account = ndb.transaction(lambda: txn(userobject.key))
         
         info_message = "IP %s %s\n" % (remoteip, html_for_delete_account)
         logging.info(info_message)

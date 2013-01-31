@@ -31,7 +31,7 @@
 # functions allows us to import this file wherever we want, without worrying about 
 # circular references.
 
-from google.appengine.ext import db, ndb
+from google.appengine.ext import ndb
 from google.appengine.api.datastore import entity_pb
 from google.appengine.api import memcache
 from django.utils.translation import ugettext

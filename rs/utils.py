@@ -1220,12 +1220,13 @@ def add_session_id_to_user_tracker(user_tracker_ref, session_id):
     except:
         error_reporting.log_exception(logging.critical)
         
-def kill_user_sessions(user_tracker):
+def kill_user_sessions(user_tracker_key):
     # loops over the sessions identified in the user_tracker.list_of_session_ids list, and removes them from the database
     # This has the effect of immediately logging out all of the sessions that we remove. This is necessary for 
     # users that are behaving badly and that need to be immediately removed.
     
     try:
+        user_tracker = user_tracker_key.get()
         for session_id in user_tracker.list_of_session_ids:
             expiry_time = int(session_id[:-33])
             if time.time() <= expiry_time:

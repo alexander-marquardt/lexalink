@@ -30,7 +30,7 @@ import re, datetime
 
 from os import environ
 
-from google.appengine.ext import db 
+from google.appengine.ext import ndb 
 from google.appengine.api import mail
 from google.appengine.api import taskqueue
 
@@ -348,15 +348,15 @@ def change_notification_settings(request, subscription_option, username, hash_of
            hash_of_creation_date == userobject.hash_of_creation_date[:constants.EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE]:
             
             # update userobject to contain the newly selected option
-            userobject = db.run_in_transaction(userobject_txn, userobject.key.urlsafe(), subscription_option)
+            userobject = ndb.transaction(lambda: userobject_txn(userobject.key.urlsafe(), subscription_option))
             
             # update the when_to_send_next_notification to reflect the newly selected value in both the mail and contact
             # counter objects
             
             hours_between_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_message_notifications)
-            db.run_in_transaction (utils.when_to_send_next_notification_txn, userobject.unread_mail_count_ref.key(), hours_between_notifications)
+            ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.unread_mail_count_ref.key(), hours_between_notifications))
             hours_between_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_new_contacts_notifications)
-            db.run_in_transaction (utils.when_to_send_next_notification_txn, userobject.new_contact_counter_ref.key(), hours_between_notifications)
+            ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.new_contact_counter_ref.key(), hours_between_notifications))
             
             option_in_current_language = options_dict[subscription_option]
             

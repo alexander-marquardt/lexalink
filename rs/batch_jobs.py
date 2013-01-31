@@ -47,7 +47,6 @@ from models import UserModel
 import models
 import email_utils
 from constants import offset_values, ABOUT_USER_MIN_DESCRIPTION_LEN
-from google.appengine.ext import db 
 import store_data, login_utils, utils_top_level
 
 
@@ -564,57 +563,7 @@ def batch_fix_unique_last_login(request):
         #error_reporting.log_exception(logging.critical)
         #return http.HttpResponseServerError()
     
-    
-def deferred_copy_have_had_contact(request):
-    
-    try:
-        have_had_contact_key = None
-        if request.method == 'POST':
-            have_had_contact_key = request.POST.get('have_had_contact_key',None) 
-        if not have_had_contact_key:
-            error_reporting.log_exception(logging.critical)
-            return http.HttpResponse("Unknown Error")
-            
-        info_message = "**Copying HaveSentMessages %s object<br>\n" % have_had_contact_key
-        logging.info(info_message)     
-                        
-        myobject = db.get(have_had_contact_key)
-        
-        if myobject.copied_to_users_have_sent_messages_model != "ready_for_hr_datastore_v7" and \
-           myobject.copied_to_users_have_sent_messages_model != "copied_to_hr_datastore_v7":
-            
-            try:
-                owner_key = myobject.owner_ref.key()
-                other_key = myobject.other_ref.key()
-            
-                have_sent_messages_object = utils.get_have_sent_messages_object(owner_key, other_key, create_if_does_not_exist = True)
-           
 
-                klass = myobject.__class__
-                props = dict((k, v.__get__(myobject, klass)) for k, v in klass.properties().iteritems())
-                for k in props.keys():
-                    setattr(have_sent_messages_object, k, getattr(myobject, k))
-
-                    
-                info_message = "**Writing have_sent_messages_object %s object<br>\n" % have_sent_messages_object.key.urlsafe()
-                logging.info(info_message)     
-    
-                have_sent_messages_object.put()
-                myobject.copied_to_users_have_sent_messages_model = "copied_to_hr_datastore_v7"
-                myobject.put()
-            
-            except:
-                error_message = "have_had_contact = %s\nmodel = %s" % (have_had_contact_key, myobject)
-                error_reporting.log_exception(logging.critical, error_message = error_message) 
-                # we continue processing - this have_sent_messages object cannot be reproduced and is now lost
-                return http.HttpResponse("Un-fixable error")
-   
-    except :
-        error_reporting.log_exception(logging.critical) 
-        return http.HttpResponseServerError()
-    
-    return http.HttpResponse("OK")
-        
     
 import datetime
 def write_mail_txn(myobject, props, text):
@@ -668,98 +617,7 @@ def write_mail_txn(myobject, props, text):
         return None
         
         
-def deferred_copy_mailbox_model(request):
-    
-    try:
-        mailbox_model_key = None
-        if request.method == 'POST':
-            mailbox_model_key = request.POST.get('mailbox_model_key',None) 
-        if not mailbox_model_key:
-            error_reporting.log_exception(logging.critical, request = request)
-            return http.HttpResponse("Unknown Error")      
         
-        myobject = db.get(mailbox_model_key)
-        
-        
-        #if myobject.copied_to_mail_message_model != "ready_for_hr_datastore_v7" and \
-           #myobject.copied_to_mail_message_model != "copied_to_hr_datastore_v7" and \
-           #myobject.copied_to_mail_message_model != "previously_copied_v7":
-            
-        try:
-            klass = myobject.__class__
-            props = dict((k, v.__get__(myobject, klass)) for k, v in klass.properties().iteritems())
-            copied_string = db.run_in_transaction_custom_retries(10, write_mail_txn, myobject, props,  myobject.m_text_ref.text)       
-            #if copied_string:
-                #myobject.copied_to_mail_message_model = copied_string
-                #myobject.put()
-        except:
-            error_message = "mailbox_model_key = %s\nmailbox model = %s" % (mailbox_model_key, myobject)
-            error_reporting.log_exception(logging.critical, error_message = error_message) 
-            # We continue processing -- this message is permanently lost .. 
-            return http.HttpResponseServerError("Error")
-            
-    except :
-        error_reporting.log_exception(logging.critical) 
-        return http.HttpResponseServerError("Error")
-    
-    return http.HttpResponse("OK")
-               
-        
-def deferred_fix_initiate_contact_model(request):
-    
-    try:
-        initiate_contact_model_key = None
-        if request.method == 'POST':
-            initiate_contact_model_key = request.POST.get('initiate_contact_model_key',None) 
-        if not initiate_contact_model_key:
-            error_reporting.log_exception(logging.critical, request = request)
-            return http.HttpResponse("Unknown Error")      
-        
-        myobject = db.get(initiate_contact_model_key)
-        
-        viewer_userobject_key = myobject.viewer_profile.key()
-        display_userobject_key = myobject.displayed_profile.key()
-        correct_key_name = viewer_userobject_key.urlsafe() + display_userobject_key.urlsafe()
-        
-
-        original_key_name = myobject.key().id_or_name()
-        logging.info("Checking initiate_contact_model with key %s into new key %s" % (original_key_name, correct_key_name))
-
-        if original_key_name != correct_key_name:
-            # we need to copy this object into a new object with the correct key name        
-            logging.info("**Copying initiate_contact_model with key %s into new key %s" % (original_key_name, correct_key_name))
-
-            try:
-                klass = myobject.__class__
-                props = dict((k, v.__get__(myobject, klass)) for k, v in klass.properties().iteritems())
-                correct_initiate_contact_key = db.Key.from_path('InitiateContactModel', correct_key_name)
-                initiate_contact_object = models.InitiateContactModel(key = correct_initiate_contact_key,
-                                                                      displayed_profile = display_userobject_key, 
-                                                                      viewer_profile = viewer_userobject_key)
-            
-                for k in props.keys():
-                    setattr(initiate_contact_object, k, getattr(myobject, k))
-                
-                    
-                logging.info("**Writing key %s\nobject %s\n" % (initiate_contact_object.key().id_or_name(), initiate_contact_object))                    
-                utils.put_initiate_contact_object(initiate_contact_object, viewer_userobject_key, display_userobject_key)
-                
-                logging.info("**Deleting key %s\nobject %s\n" % (myobject.key().id_or_name(), myobject))
-                myobject.delete()
-                
-                
-            except:
-                error_message = "initiate_contact_model_key = %s\n initiate_contact_model = %s" % (initiate_contact_model_key, myobject)
-                error_reporting.log_exception(logging.critical, error_message = error_message) 
-                # We continue processing -- this message is permanently lost .. 
-                return http.HttpResponse("Un-fixable error")
-            
-    except :
-        error_reporting.log_exception(logging.critical) 
-        return http.HttpResponseServerError()
-    
-    return http.HttpResponse("OK")
-
 
     
 def batch_fix_initiate_contact_model(request):
@@ -898,70 +756,7 @@ def batch_fix_initiate_contact_model(request):
         #return http.HttpResponseServerError()
         
 
-    
-def run_query_to_remove_profiles(request, query_key, query_value, reason_for_removal):
 
-    PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors   
-    generated_html = ''
-    
-    query_filter_dict = {}
-    query_filter_dict[query_key] = query_value
-    
-    query = UserModel.all()
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-
-
-    userobject_batch = query.fetch(PAGESIZE)
-            
-    if not userobject_batch:
-        # there are no more objects - break out of this function.
-        info_message = "No more objects found - Exiting function<br>\n"
-        logging.info(info_message)
-        return info_message
-
-    for userobject in userobject_batch:  
-        try:
-            info_message = "** Eliminating %s userobject<br>\n" % userobject.username
-            generated_html += info_message
-            logging.info(info_message)                    
-            login_utils.delete_or_enable_account_and_generate_response(
-                request, userobject, delete_or_enable = "delete", reason_for_profile_removal = reason_for_removal)
-                
-        except:
-            error_reporting.log_exception(logging.critical)  
-        
-    return generated_html
-        
-        
-def batch_remove_all_users_with_given_ip_or_name(request, ip_to_remove = None, name_to_remove = None, reason_for_removal = 'terms'):
-
-    
-    """ This function scans the database for profiles that need to be fixed
-    """
-    PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
-    
-    try:
-                    
-        generated_html = 'Updating userobjects:<br><br>'
-                
-        if not (reason_for_removal == "scammer" or reason_for_removal == "terms" or reason_for_removal == "fake"):
-            return http.HttpResponse("Called with incorrect URL")
-
-        if ip_to_remove:
-            generated_html += run_query_to_remove_profiles(request, 'registration_ip_address', ip_to_remove, reason_for_removal)
-            generated_html += run_query_to_remove_profiles(request, 'login_ip_address', ip_to_remove, reason_for_removal)
-        elif name_to_remove:
-            generated_html += run_query_to_remove_profiles(request, 'username', name_to_remove.upper(), reason_for_removal)
-            
-        else:
-            return http.HttpResponse("Called with incorrect URL")
-            
-        return http.HttpResponse(generated_html)
-    except:
-        error_reporting.log_exception(logging.critical)
-        return http.HttpResponseServerError()
-    
 
    
 #def batch_create_username_combinations_list(request):

@@ -31,7 +31,6 @@ from django.core.urlresolvers import reverse
 from django.utils import simplejson
 from django import http
 from google.appengine.api import memcache
-from google.appengine.ext import db 
 from django.utils.translation import ugettext
 
 

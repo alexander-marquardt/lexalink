@@ -28,7 +28,6 @@
 This module contains functions for backing up critical data "in-the-cloud".
 This means that backed-up data is not protected from google server failures, 
 but it is somewhat protected from our own program trashing it"""
-from google.appengine.ext import db 
 
 import logging
 

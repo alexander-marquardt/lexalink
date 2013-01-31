@@ -26,7 +26,6 @@
 
 import settings
 
-from google.appengine.ext import db 
 from models import InitiateContactModel 
 import error_reporting, logging
     
