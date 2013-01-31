@@ -400,7 +400,8 @@ def get_notification_control_html(userobject):
         hash_of_creation_date = userobject.hash_of_creation_date[:constants.EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE]
         assert(hash_of_creation_date)
         
-        lang_code = userobject.search_preferences2.lang_code
+        search_preferences = userobject.search_preferences2.get()
+        lang_code = search_preferences.lang_code
         lang_idx = localizations.input_field_lang_idx[lang_code]
         translation.activate(lang_code)
 

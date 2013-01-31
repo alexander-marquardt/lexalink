@@ -337,7 +337,7 @@ class FormUtils():
         
         try:
             #photo_objects = display_userobject.photomodel_set.order('creation_date').fetch(MAX_NUM_PHOTOS)
-            photo_objects_keys = PhotoModel.all(keys_only=True).filter('parent_object =', display_userobject).fetch(MAX_NUM_PHOTOS)
+            photo_objects_keys = PhotoModel.query().filter(PhotoModel.parent_object == display_userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)
             num_photos = len(photo_objects_keys)
             displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, display_userobject.key.urlsafe())
             img_alt_text = "%s: %s" % (display_userobject.username, displayed_profile_title)

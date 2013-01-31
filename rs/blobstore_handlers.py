@@ -27,7 +27,6 @@
 import cgi 
 import logging, traceback
 
-from google.appengine.ext import db 
 from google.appengine.ext import blobstore
 from google.appengine.api import images
 from google.appengine.api import urlfetch
@@ -103,8 +102,9 @@ def resize_and_put_photos(userobject, blob_info):
     # responsible for resizing and writing photo into database.
     # both request and userobject are passed in, because depending on from where the request 
     # is received, it could require extra processing to extract userobject (easier to pass in)
-    
-    num_photos = userobject.photomodel_set.count(MAX_NUM_PHOTOS)
+
+    num_photos = PhotoModel.query().filter(PhotoModel.parent_object == userobject.key).count(MAX_NUM_PHOTOS)
+     
     # Check if user has used up their quota for photos. If so, we
     # silently fail (for now) -- TODO - add more informative error
     # message if user tries to exceed photo quota.
@@ -114,7 +114,7 @@ def resize_and_put_photos(userobject, blob_info):
             photo = PhotoModel()
             photo.name = blob_info.filename
             
-            orig_img = images.Image(blob_key=str(blob_info.key()))    
+            orig_img = images.Image(blob_key=str(blob_info.key()))  
             orig_img.resize(LARGE_IMAGE_X, LARGE_IMAGE_Y)
             uploaded_photo = orig_img.execute_transforms(output_encoding=images.PNG)
             photo.large_before_watermark = uploaded_photo
