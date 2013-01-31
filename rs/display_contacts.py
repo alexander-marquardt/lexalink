@@ -117,18 +117,18 @@ def generate_new_contacts_html(userobject):
     generated_html = ''
     
     
-    new_contact_counter_ref = userobject.new_contact_counter_ref
+    new_contact_counter_obj = userobject.new_contact_counter_ref.get()
     
-    new_kiss_count = new_contact_counter_ref.num_received_kiss_since_last_login + \
-             new_contact_counter_ref.previous_num_received_kiss
-    new_wink_count = new_contact_counter_ref.num_received_wink_since_last_login + \
-             new_contact_counter_ref.previous_num_received_wink
-    new_key_count = new_contact_counter_ref.num_received_key_since_last_login + \
-               new_contact_counter_ref.previous_num_received_key
-    new_friend_request_count = new_contact_counter_ref.num_received_friend_request_since_last_login + \
-                              new_contact_counter_ref.previous_num_received_friend_request
-    new_friend_confirmation_count = new_contact_counter_ref.num_received_friend_confirmation_since_last_login + \
-                                   new_contact_counter_ref.previous_num_received_friend_confirmation
+    new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_login + \
+             new_contact_counter_obj.previous_num_received_kiss
+    new_wink_count = new_contact_counter_obj.num_received_wink_since_last_login + \
+             new_contact_counter_obj.previous_num_received_wink
+    new_key_count = new_contact_counter_obj.num_received_key_since_last_login + \
+               new_contact_counter_obj.previous_num_received_key
+    new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_login + \
+                              new_contact_counter_obj.previous_num_received_friend_request
+    new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_login + \
+                                   new_contact_counter_obj.previous_num_received_friend_confirmation
     
     if new_wink_count or new_kiss_count or new_key_count or new_friend_request_count or new_friend_confirmation_count:
         
@@ -275,7 +275,7 @@ def generate_contacts_html(userobject, lang_code):
                 
 
                     
-                contact_query_results = queries.query_initiate_contact_by_type_of_contact(userobject.key(), contact_type, 
+                contact_query_results = queries.query_initiate_contact_by_type_of_contact(userobject.key, contact_type, 
                                                                                           sent_or_received,
                                                                                           MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY,
                                                                                           query_value_to_match)
@@ -285,7 +285,11 @@ def generate_contacts_html(userobject, lang_code):
         
                 for contact in contact_query_results:
                     
-                    profile = getattr(contact, profile_to_show)
+                    profile_key = getattr(contact, profile_to_show)
+                    
+                    # THIS IS INEFFICIENT  - Need to figure out a better way to generate the userprofile_href without 
+                    # getting the object.
+                    profile = profile_key.get()
                     
                     date = getattr(contact, date_key)
                     
