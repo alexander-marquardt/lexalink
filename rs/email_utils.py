@@ -638,7 +638,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             'app_name': settings.APP_NAME, 'link_to_build': link_to_build()}
         message.html += u"<p>%(notification_control)s" % {'notification_control': get_notification_control_html(userobject)}     
         
-        userobject_key = userobject.key.urlsafe())
+        userobject_key = userobject.key.urlsafe()
         
 
         

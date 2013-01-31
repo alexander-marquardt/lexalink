@@ -470,8 +470,10 @@ def load_mail_textarea(request, other_uid, section_name):
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
         assert(userobject)
+        owner_key = userobject.key
         owner_uid = userobject.key.urlsafe()
-        have_sent_messages_object = utils.get_have_sent_messages_object(owner_uid, other_uid)
+        other_key = ndb.Key(urlsafe = other_uid)
+        have_sent_messages_object = utils.get_have_sent_messages_object(owner_key, other_key)
         generated_html = mailbox.generate_mail_textarea(section_name, owner_uid, other_uid, have_sent_messages_object)
         return HttpResponse(generated_html)
     except:

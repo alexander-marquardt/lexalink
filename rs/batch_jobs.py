@@ -620,7 +620,7 @@ import datetime
 def write_mail_txn(myobject, props, text):
     
     try:
-        info_message = "**Considering copying MailMessageModel %s object<br>\n" % myobject.key.urlsafe())
+        info_message = "**Considering copying MailMessageModel %s object<br>\n" % myobject.key.urlsafe()
         logging.info(info_message)     
                         
 

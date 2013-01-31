@@ -1485,7 +1485,9 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
             # If they are trying to send too many messages in a single day, block the extra messages. This is required to prevent
             # "disk-usages attacks" on the database (ie. prevent two users that have previously had contact from sending a million
             # messages between them)
-            have_sent_messages_object = utils.get_have_sent_messages_object(from_uid, to_uid)
+            from_key = ndb.Key(urlsafe = from_uid)
+            to_key = ndb.Key(urlsafe = to_uid)
+            have_sent_messages_object = utils.get_have_sent_messages_object(from_key, to_key)
             
 
             if have_sent_messages_object and utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
@@ -1494,7 +1496,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 have_sent_messages_object.num_messages_to_other_sent_today = 0
                 have_sent_messages_object.put()
                 
-            initiate_contact_object = utils.get_initiate_contact_object(ndb.Key(urlsafe = from_uid), ndb.Key(urlsafe = to_uid))            
+            initiate_contact_object = utils.get_initiate_contact_object(from_key, to_key)            
             if not utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
                 error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window()
                 error_reporting.log_exception(logging.warning, error_message=error_message)  

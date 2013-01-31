@@ -88,42 +88,40 @@ def query_for_which_users_owner_has_contacted(bookmark, userobject, num_results_
     # This information is obtained from the UsersHaveSentMessages data structure. Also, checks to make sure that
     # the message is appropriate for the current mailbox view ("inbox", "trash", "spam", etc)
 
-    query_filter_dict = {}    
-
-    query_filter_dict['owner_ref = '] = userobject.key()
+    try:
+        q = models.UsersHaveSentMessages.query().order(-models.UsersHaveSentMessages.unique_m_date)
     
-    if mailbox_name == "inbox" :
-        query_filter_dict['mailbox_to_display_this_contact_messages ='] = "inbox"
-    elif mailbox_name == "trash":
-        query_filter_dict['mailbox_to_display_this_contact_messages ='] = "trash"
-    elif mailbox_name == "favorites":
-        query_filter_dict['other_is_favorite ='] = True
-    elif mailbox_name == "new":
-        query_filter_dict['message_chain_has_been_read ='] = False
-    elif mailbox_name == "received":
-        query_filter_dict['mailbox_to_display_this_contact_messages ='] = "inbox"
-        query_filter_dict["owner_is_sender = "] = False
-    elif mailbox_name == "sent":
-        query_filter_dict['mailbox_to_display_this_contact_messages ='] = "inbox"
-        query_filter_dict["owner_is_sender ="] = True
-    elif mailbox_name == "spam":
-        query_filter_dict['mailbox_to_display_this_contact_messages ='] = "spam"
-    else:
-        raise Exception("Unknown mailbox_name: %s" % mailbox_name)
+        q = q.filter(models.UsersHaveSentMessages.owner_ref == userobject.key)
+        
+        if mailbox_name == "inbox" :
+            q = q.filter(models.UsersHaveSentMessages.mailbox_to_display_this_contact_messages == "inbox")
+        elif mailbox_name == "trash":
+            q = q.filter(models.UsersHaveSentMessages.mailbox_to_display_this_contact_messages == "trash")
+        elif mailbox_name == "favorites":
+            q = q.filter(models.UsersHaveSentMessages.other_is_favorite == True )
+        elif mailbox_name == "new":
+            q = q.filter(models.UsersHaveSentMessages.message_chain_has_been_read == False )
+        elif mailbox_name == "received":
+            q = q.filter(models.UsersHaveSentMessages.mailbox_to_display_this_contact_messages == "inbox")
+            q = q.filter(models.UsersHaveSentMessages.owner_is_sender == False)
+        elif mailbox_name == "sent":
+            q = q.filter(models.UsersHaveSentMessages.mailbox_to_display_this_contact_messages == "inbox")
+            q = q.filter(models.UsersHaveSentMessages.owner_is_sender == True)
+        elif mailbox_name == "spam":
+            q = q.filter(models.UsersHaveSentMessages.mailbox_to_display_this_contact_messages == "spam")
+        else:
+            raise Exception("Unknown mailbox_name: %s" % mailbox_name)
+        
+        if bookmark:
+            bookmark_key = db.Key(bookmark)
+            users_have_sent_messages_bookmark = db.get(bookmark_key)
+            q = q.filter(models.UsersHaveSentMessages.unique_m_date <=  users_have_sent_messages_bookmark.unique_m_date)
+            
+        query_results = q.fetch(num_results_needed)
+        return query_results
     
-    if bookmark:
-        bookmark_key = db.Key(bookmark)
-        users_have_sent_messages_bookmark = db.get(bookmark_key)
-        query_filter_dict['unique_m_date <= '] =  users_have_sent_messages_bookmark.unique_m_date
-        
-    query = models.UsersHaveSentMessages.all().order('-unique_m_date')
-        
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-
-    query_results = query.fetch(num_results_needed)
-    return query_results
-
+    except:
+        error_reporting.log_exception(logging.critical)
 
 ###########################################################################
 def get_mail_history_summary(request, owner_userobject, display_userobject, show_checkbox_beside_summary=False):
@@ -242,7 +240,8 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
         
         for message in query_for_message[:SINGLE_CONVERSATION_PAGESIZE]:
            
-            profile = message.m_from
+            profile_key = message.m_from
+            profile = profile_key.get()
             # get the key for the m_from profile, without doing a full lookup:            
             m_to_key = message.m_to
             if m_to_key == userobject.key:
@@ -322,7 +321,7 @@ def  mark_new_have_sent_messages_object(userobject, other_userobject):
     # TEMPORARY code, to be left in until we have transitioned to the new datasture ... 
     
     
-    have_sent_messages_object = utils.get_have_sent_messages_object(userobject.key(), other_userobject.key())
+    have_sent_messages_object = utils.get_have_sent_messages_object(userobject.key, other_userobject.key)
     # have_sent_messages_object must be defined for the rest of this code to work.
     if have_sent_messages_object:
         if not have_sent_messages_object.message_chain_has_been_read:
@@ -374,7 +373,7 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
     
         # mark this conversation as read for the user that is currently logged in.
         # Note, this is marking it as read on the "have_sent_messages" object.
-        have_sent_messages_object = utils.get_have_sent_messages_object(userobject.key(), other_userobject.key())
+        have_sent_messages_object = utils.get_have_sent_messages_object(userobject.key, other_userobject.key)
         # have_sent_messages_object must be defined for the rest of this code to work.
         assert(have_sent_messages_object)
 
@@ -395,9 +394,10 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
         
         textarea_section_name = u"send_mail"
         
-        other_profile = have_sent_messages_object.other_ref
+        other_profile_key = have_sent_messages_object.other_ref
+        other_profile = other_profile_key.get()
     
-        to_uid = other_profile.key.urlsafe()
+        to_uid = other_profile_key.urlsafe()
         other_profile_href = profile_utils.get_userprofile_href(lang_code, other_profile, is_primary_user=False)
         
         
