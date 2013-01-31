@@ -181,7 +181,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 
                 display_userobject = owner_userobject
         
-                if not owner_userobject.search_preferences2.user_has_done_a_search:
+                search_preferences_object = owner_userobject.search_preferences2.get()
+                if not search_preferences_object.user_has_done_a_search:
                     new_user_welcome_text = u"%s<br><br>" % text_fields.welcome_text
                 if not owner_userobject.email_address_is_valid:
                     email_is_not_entered_text = u"%s<br><br>" % text_fields.email_is_not_entered_text
@@ -195,8 +196,9 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         least %(num_chars)s characters""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN)}
                     no_about_user_section_warning += u"<br><br>"
                 
-                if not (owner_userobject.unique_last_login_offset_ref.has_public_photo_offset or \
-                        owner_userobject.unique_last_login_offset_ref.has_private_photo_offset):
+                unique_last_login_offset_object = owner_userobject.unique_last_login_offset_ref.get()
+                if not (unique_last_login_offset_object.has_public_photo_offset or \
+                        unique_last_login_offset_object.has_private_photo_offset):
                     user_has_no_photo_text = u"%s<br><br>" % text_fields.user_has_no_photo_text
                 else:
                     user_has_no_photo_text = ''
@@ -623,7 +625,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         
                     if userobject:
                         # success, user is in database and has entered correct data
-                        owner_uid = str(userobject.key())
+                        owner_uid = userobject.key.urlsafe()
                         owner_nid = utils.get_nid_from_uid(owner_uid)
                         
                         # make sure that the userobject has all the parts that the code expects it to have.
@@ -722,15 +724,13 @@ def login(request, is_admin_login = False, referring_code = None):
                 error_list += login_utils.error_check_signup_parameters(login_dict, lang_idx)
                 
                 # Now check if username is already taken
-                query = UserModel.all()
-                query.filter('username =', login_dict['username'])
+                query = UserModel.query().filter(UserModel.username == login_dict['username'])
                 query_result = query.fetch(limit=1)
                 if len(query_result) > 0:
                     error_list.append(ErrorMessages.username_taken)
                 else:
                     # now check if the username is in the process of being registered (in EmailAuthorization model)
-                    query = models.EmailAutorizationModel.all()
-                    query.filter('username =', login_dict['username'])
+                    query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
                     query_result = query.fetch(limit=1)
                     if len(query_result) > 0:
                         error_list.append(ErrorMessages.username_taken)   

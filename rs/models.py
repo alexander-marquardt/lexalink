@@ -545,23 +545,23 @@ class UserModel(ndb.Model):
     # preferences, what they are looking for, etc. Most of these values
     # are based on the fields/values defined in UserProfileSpec class.
     
-    email_address_is_valid = ndb.BooleanProperty(required=True)
-    change_password_is_valid = ndb.BooleanProperty(required=True)
+    email_address_is_valid = ndb.BooleanProperty(default = False)
+    change_password_is_valid = ndb.BooleanProperty(default = False)
     password_attempted_change_date = ndb.DateTimeProperty(auto_now_add=True) # initially gets set to when the user profile is created
         
     about_user = ndb.TextProperty(default = '----')
     
     # this variable is used as an indicator that the user has put enough characters of 
     # description in their profile ... otherwise, they are given a warning.
-    has_about_user = ndb.BooleanProperty(required=True)
+    has_about_user = ndb.BooleanProperty(default = False)
 
-    height = ndb.StringProperty(required = True)
-    body_type = ndb.StringProperty(required = True)
-    hair_color = ndb.StringProperty(required = True)
-    hair_length = ndb.StringProperty(required = True)
-    eye_color = ndb.StringProperty(required = True)
-    drinking_habits = ndb.StringProperty(required = True)
-    smoker = ndb.StringProperty(required = True)
+    height = ndb.StringProperty(default = '----')
+    body_type = ndb.StringProperty(default = '----')
+    hair_color = ndb.StringProperty(default = '----')
+    hair_length = ndb.StringProperty(default = '----')
+    eye_color = ndb.StringProperty(default = '----')
+    drinking_habits = ndb.StringProperty(default = '----')
+    smoker = ndb.StringProperty(default = '----')
  
         
     # The following loop is a *big* part of the UserModel - we dynamically build this part of the model 

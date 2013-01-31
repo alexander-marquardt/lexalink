@@ -329,7 +329,7 @@ def put_object(object_to_put):
     """
     
     object_to_put.put()
-    memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + str(object_to_put.key())
+    memcache_key_str = constants.BASE_OBJECT_MEMCACHE_PREFIX + object_to_put.key.urlsafe()
     memcache.set(memcache_key_str, serialize_entities(object_to_put), constants.SECONDS_PER_MONTH)
     
 
@@ -452,13 +452,13 @@ def create_unread_mail_object():
     unread_mail = UnreadMailCount()
     unread_mail.unread_contact_count = 0
     unread_mail.put()
-    return unread_mail
+    return unread_mail.key
     
 def create_contact_counter_object():
     contact_counter = CountInitiateContact()
     # no need to set defaults to 0, as this is already done in the model definition.
     contact_counter.put()
-    return contact_counter
+    return contact_counter.key
 
 def get_vip_online_status_string(userobject_key):
     online_status = online_presence_support.get_online_status(userobject_key)
@@ -690,7 +690,7 @@ def clone_entity(e, **extra_args):
     """
     
     klass = e.__class__
-    props = dict((k, v.__get__(e, klass)) for k, v in klass.properties().iteritems())
+    props = dict((k, v.__get__(e, klass)) for k, v in klass._properties.iteritems())
     props.update(extra_args)
     return klass(**props)
 
@@ -776,20 +776,23 @@ def check_if_authorized_for_private_photos(primary_userobject_key, displayed_use
     return has_key_to_private_photos
 
 
-def delete_sub_object(parent_object, sub_object_name):
+def delete_sub_object(parent_object, sub_object_key):
     
     # accepts a string representing the name of a sub-object of userobject, and deletes it from the database.
     # This is used in the case of a failed registration attempt, and will be used later on when we write code to
     # clean-up and remove deleted profiles.
     
-    
-    object_to_delete = getattr(parent_object, sub_object_name)
+
     
     try:
+        
+        key_to_delete = getattr(parent_object, sub_object_key)
+        object_to_delete = key_to_delete.get()        
+
         error_message = """
         ***
-        Deleting %s: %s
-        """ %( sub_object_name, repr(object_to_delete))
+        Deleting key %s: %s referenced from %s
+        """ %( sub_object_key, repr(object_to_delete), repr(parent_object))
         
         error_reporting.log_exception(logging.warning, error_message = error_message ) 
         object_to_delete.delete()
@@ -797,8 +800,8 @@ def delete_sub_object(parent_object, sub_object_name):
     except: 
         error_message = """
         ***
-        Unable to delete %s: %s
-        """ %( sub_object_name, repr(object_to_delete))
+        Unable to delete key %s referenced from %s
+        """ % (sub_object_key, repr(parent_object))
         
         error_reporting.log_exception(logging.error, error_message = error_message ) 
         
@@ -853,15 +856,16 @@ def create_and_return_usertracker():
     user_tracker = models.UserTracker()
     user_tracker.put()
 
-    return user_tracker
+    return user_tracker.key
             
 
-def update_ip_address_on_user_tracker(user_tracker):
+def update_ip_address_on_user_tracker(user_tracker_ref):
     
     # store tracking information related to the IP address that the current user is entering from
     
     try:
         
+        user_tracker = user_tracker_ref.get()
         assert(user_tracker)
         
         remoteip  = environ['REMOTE_ADDR'] 
@@ -904,18 +908,19 @@ def update_email_address_on_user_tracker(userobject, email_address):
     # We have currently only designed this code to be called a single time (on user registration) -- if it is called more than that
     # this would be an error. 
     try:
-        user_tracker = userobject.user_tracker
-        assert(user_tracker)
+        user_tracker_obj = userobject.user_tracker.get()
         
-        position_of_email_address_in_user_tracker_list = get_first_position_of_value_in_list(email_address, user_tracker.verified_email_addresses_list)
+        assert(user_tracker_obj)
+        
+        position_of_email_address_in_user_tracker_list = get_first_position_of_value_in_list(email_address, user_tracker_obj.verified_email_addresses_list)
         
         assert position_of_email_address_in_user_tracker_list == None
         
-        user_tracker.verified_email_addresses_list.append(email_address)
-        user_tracker.first_time_email_address_verified_list.append(datetime.datetime.now())
-        user_tracker.last_time_email_address_verified_list.append(datetime.datetime.now())
+        user_tracker_obj.verified_email_addresses_list.append(email_address)
+        user_tracker_obj.first_time_email_address_verified_list.append(datetime.datetime.now())
+        user_tracker_obj.last_time_email_address_verified_list.append(datetime.datetime.now())
         
-        user_tracker.put()
+        user_tracker_obj.put()
         
     except:
         error_reporting.log_exception(logging.critical)       
@@ -1191,11 +1196,12 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
     return (return_dict)
 
 
-def add_session_id_to_user_tracker(user_tracker, session_id):
+def add_session_id_to_user_tracker(user_tracker_ref, session_id):
     # adds the current session identifier to the user_tracker so that if necessary we can clear the sessions from the
     # database, thereby forcing a logout of a user.
     
     try:
+        user_tracker = user_tracker_ref.get()
         # the following code allocates memory for the list up until the maximum number of sessions is stored,
         # at which point we start to wrap around the list. 
         list_length = len(user_tracker.list_of_session_ids)

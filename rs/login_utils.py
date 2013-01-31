@@ -61,34 +61,38 @@ import http_utils
 
 def store_session(request, userobject):
     
-    # terminate any existing session/remove cookies - however, do not clear the databse as this will slow down the login 
-    # let the cron jobs clear out the sessions from the database. 
-    request.session.terminate(clear_data=False)
+    try:
+        # terminate any existing session/remove cookies - however, do not clear the databse as this will slow down the login 
+        # let the cron jobs clear out the sessions from the database. 
+        request.session.terminate(clear_data=False)
+        
+        userobject_str = userobject.key.urlsafe()
+        owner_uid = userobject_str
+        
+        # set the object passsed in to have a reference to the current session. Note: the act of just writing a value into the session
+        # will cause a new session to be formed if one does not exist already. 
+        request.session.__setitem__('userobject_str', userobject_str)
+        
+        # the username is useful for chat conversations etc. without having to pull the entire userobject out of hte 
+        # database
+        request.session.__setitem__('username', userobject.username)
+        
+        # keep track of the current session id for the current user, so that if necessary we can remotely remove their sessions
+        # from the database.
+        utils.add_session_id_to_user_tracker(userobject.user_tracker, request.session.sid)
+        
+        # force user to appear online and active in the chat boxes (from module chat_support)
+        online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
+        channel_support.update_chat_boxes_status(owner_uid, constants.ChatBoxStatus.IS_ENABLED)
     
-    userobject_str = str(userobject.key())
-    owner_uid = userobject_str
+        # create "in-the-cloud" backups of the userobject
+        backup_data.update_or_create_userobject_backups(request, userobject)    
+        
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
+        chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
     
-    # set the object passsed in to have a reference to the current session. Note: the act of just writing a value into the session
-    # will cause a new session to be formed if one does not exist already. 
-    request.session.__setitem__('userobject_str', userobject_str)
-    
-    # the username is useful for chat conversations etc. without having to pull the entire userobject out of hte 
-    # database
-    request.session.__setitem__('username', userobject.username)
-    
-    # keep track of the current session id for the current user, so that if necessary we can remotely remove their sessions
-    # from the database.
-    utils.add_session_id_to_user_tracker(userobject.user_tracker, request.session.sid)
-    
-    # force user to appear online and active in the chat boxes (from module chat_support)
-    online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
-    channel_support.update_chat_boxes_status(owner_uid, constants.ChatBoxStatus.IS_ENABLED)
-
-    # create "in-the-cloud" backups of the userobject
-    backup_data.update_or_create_userobject_backups(request, userobject)    
-    
-    chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
-    chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
+    except: 
+        error_reporting.log_exception(logging.critical)      
     
 def html_for_posted_values(login_dict):
     # the following code returns posted values inside the generated HTML, so that we can use Jquery to 
@@ -127,9 +131,9 @@ def generate_get_string_for_passing_login_fields(post_dict):
 
 def create_and_put_unique_last_login_offset_ref():
     
-    unique_last_login_offset_ref = UniqueLastLoginOffsets()
-    unique_last_login_offset_ref.put()
-    return unique_last_login_offset_ref
+    unique_last_login_offset_obj = UniqueLastLoginOffsets()
+    unique_last_login_offset_obj.put()
+    return unique_last_login_offset_obj.key
     
 def get_or_create_unique_last_login(userobject, username):
     """ adds appropriate offsets to the current "unique_last_login" value so that 
@@ -147,40 +151,43 @@ def get_or_create_unique_last_login(userobject, username):
     caller.
     """
     
-    offset = 0 # the offset is in Days.
-    # make sure it has the attribute, and that the attribute is set
-    if hasattr(userobject, 'unique_last_login_offset_ref') and userobject.unique_last_login_offset_ref:
-        unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
-        
-        # loop over all offset values, and assign the value if the boolean in offset_ref indicates
-        # that it should be assigned.
-        for (offset_name, value) in constants.offset_values.iteritems():
-            has_offset = getattr(unique_last_login_offset_ref, offset_name)
-            if has_offset:
-                
-                if offset_name == "has_private_photo_offset":
-                    # only count private photos if they don't have any public/profile photos
-                    if not unique_last_login_offset_ref.has_profile_photo_offset and not unique_last_login_offset_ref.has_public_photo_offset:
-                        # if it has a profile photo offset, don't count private_photo or public_photo offsets - 
-                        # we want to avoid double counting.
-                        offset += value
-                elif offset_name == "has_public_photo_offset":
-                    # only count public photos if they don't have a profile photo
-                    if not unique_last_login_offset_ref.has_profile_photo_offset:
-                        offset += value
-                else:
-                    offset += value
-    else:
-        # create the attribute
-        unique_last_login_offset_ref = create_and_put_unique_last_login_offset_ref()
-        
-                
-    unique_last_login_with_offset = userobject.last_login + datetime.timedelta(hours=offset)
-    unique_last_login = "%s_%s" % (unique_last_login_with_offset, username)
+    try:
     
-    return (unique_last_login, unique_last_login_offset_ref)
+        offset = 0 # the offset is in Days.
+        # make sure it has the attribute, and that the attribute is set
+        if hasattr(userobject, 'unique_last_login_offset_ref') and userobject.unique_last_login_offset_ref:
+            unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
+            
+            # loop over all offset values, and assign the value if the boolean in offset_ref indicates
+            # that it should be assigned.
+            for (offset_name, value) in constants.offset_values.iteritems():
+                has_offset = getattr(unique_last_login_offset_ref, offset_name)
+                if has_offset:
+                    
+                    if offset_name == "has_private_photo_offset":
+                        # only count private photos if they don't have any public/profile photos
+                        if not unique_last_login_offset_ref.has_profile_photo_offset and not unique_last_login_offset_ref.has_public_photo_offset:
+                            # if it has a profile photo offset, don't count private_photo or public_photo offsets - 
+                            # we want to avoid double counting.
+                            offset += value
+                    elif offset_name == "has_public_photo_offset":
+                        # only count public photos if they don't have a profile photo
+                        if not unique_last_login_offset_ref.has_profile_photo_offset:
+                            offset += value
+                    else:
+                        offset += value
+        else:
+            # create the attribute
+            unique_last_login_offset_key = create_and_put_unique_last_login_offset_ref()
+            
+                    
+        unique_last_login_with_offset = userobject.last_login + datetime.timedelta(hours=offset)
+        unique_last_login = "%s_%s" % (unique_last_login_with_offset, username)
+        
+        return (unique_last_login, unique_last_login_offset_key)
 
-
+    except: 
+        error_reporting.log_exception(logging.critical)  
 
 #############################################
 
@@ -298,49 +305,53 @@ def create_search_preferences2_object(userobject, lang_code):
     # so, we just set the search setting to the same value as what the user has selected
     # Search location and age are set to the same as the client.
     
-    if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-        search_preferences2 = UserSearchPreferences2(sex=userobject.preference,
-                                                   relationship_status='----',
-                                                   country= "----",
-                                                   region = "----",
-                                                   sub_region = '----', # intentionally leave this loose.
-                                                   age='----', 
-                                                   user_has_done_a_search = False,
-                                                   preference=userobject.sex,
-                                                   query_order="unique_last_login",
-                                                   lang_code=lang_code,
-                                                   )
-    else:
-        if settings.BUILD_NAME == "Language":
-            search_preferences2 = UserSearchPreferences2(sex='----',
-                                                         country='----',
-                                                         region = '----',
-                                                         sub_region = '----', # intentionally leave this loose.
-                                                         age='----', 
-                                                         user_has_done_a_search = False,
-                                                         query_order="unique_last_login",
-                                                         language_to_teach = userobject.native_language,
-                                                         language_to_learn = userobject.language_to_learn,
-                                                         lang_code = lang_code,
-                                                         )
-        if settings.BUILD_NAME == "Friend":
-            search_preferences2 = UserSearchPreferences2(sex='----',
-                                                         country='----',
-                                                         region = '----',
-                                                         sub_region = '----', # intentionally leave this loose.
-                                                         age='----', 
-                                                         for_sale = "----", 
-                                                         to_buy = "----",
-                                                         for_sale_sub_menu = "----",
-                                                         to_buy_sub_menu = "----",
-                                                         user_has_done_a_search = False,
-                                                         query_order="unique_last_login",
-                                                         lang_code = lang_code,
-                                                         )
+    try:
+        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+            search_preferences2 = UserSearchPreferences2(sex=userobject.preference,
+                                                       relationship_status='----',
+                                                       country= "----",
+                                                       region = "----",
+                                                       sub_region = '----', # intentionally leave this loose.
+                                                       age='----', 
+                                                       user_has_done_a_search = False,
+                                                       preference=userobject.sex,
+                                                       query_order="unique_last_login",
+                                                       lang_code=lang_code,
+                                                       )
+        else:
+            if settings.BUILD_NAME == "Language":
+                search_preferences2 = UserSearchPreferences2(sex='----',
+                                                             country='----',
+                                                             region = '----',
+                                                             sub_region = '----', # intentionally leave this loose.
+                                                             age='----', 
+                                                             user_has_done_a_search = False,
+                                                             query_order="unique_last_login",
+                                                             language_to_teach = userobject.native_language,
+                                                             language_to_learn = userobject.language_to_learn,
+                                                             lang_code = lang_code,
+                                                             )
+            if settings.BUILD_NAME == "Friend":
+                search_preferences2 = UserSearchPreferences2(sex='----',
+                                                             country='----',
+                                                             region = '----',
+                                                             sub_region = '----', # intentionally leave this loose.
+                                                             age='----', 
+                                                             for_sale = "----", 
+                                                             to_buy = "----",
+                                                             for_sale_sub_menu = "----",
+                                                             to_buy_sub_menu = "----",
+                                                             user_has_done_a_search = False,
+                                                             query_order="unique_last_login",
+                                                             lang_code = lang_code,
+                                                             )
+        
+        search_preferences2.put()
+        
+        return search_preferences2.key
     
-    search_preferences2.put()
-    
-    return search_preferences2
+    except: 
+        error_reporting.log_exception(logging.critical)      
     
 #############################################
 
@@ -604,44 +615,29 @@ def query_for_authorization_info(username, secret_verification_code):
     assert(username)
     assert(secret_verification_code)
     
-    query_filter_dict = {}   
+    q = models.EmailAutorizationModel.query()
+    q = q.filter(models.EmailAutorizationModel.username == username)
+    q = q.filter(models.EmailAutorizationModel.secret_verification_code == secret_verification_code)
     
-    query_filter_dict['username'] = username
-    query_filter_dict['secret_verification_code'] = secret_verification_code
-    
-    query = models.EmailAutorizationModel.all()
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-        
-    authorization_info = query.get()
+    authorization_info = q.get()
     return authorization_info
 
 
 def check_authorization_info_for_email_registrations_today(creation_day, email_address):
     
-    query_filter_dict = {}   
-    
-    query_filter_dict['email_address'] = email_address
-    query_filter_dict['creation_day'] = creation_day
-
-    query = models.EmailAutorizationModel.all()
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
+    q = models.EmailAutorizationModel.query()
+    q = q.filter(models.EmailAutorizationModel.email_address == email_address)
+    q = q.filter(models.EmailAutorizationModel.creation_day == creation_day)
         
-    return query.count(constants.MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW)
+    return q.count(constants.MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW)
     
 def check_authorization_info_for_ip_address_registrations_today(creation_day, ip_address):
     
-    query_filter_dict = {}   
-    
-    query_filter_dict['ip_address'] = ip_address
-    query_filter_dict['creation_day'] = creation_day
-    
-    query = models.EmailAutorizationModel.all()
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)
-        
-    return query.count(constants.MAX_REGISTRATIONS_SINGLE_IP)  
+    q = models.EmailAutorizationModel.query()   
+    q = q.filter(models.EmailAutorizationModel.ip_address == ip_address)
+    q = q.filter(models.EmailAutorizationModel.creation_day == creation_day)
+
+    return q.count(constants.MAX_REGISTRATIONS_SINGLE_IP)  
 
 def email_address_already_has_account_registered(email_address):
     

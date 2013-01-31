@@ -78,13 +78,13 @@ def update_or_create_userobject_backups(request, userobject):
             assert(userobject.is_real_user)
             # create the backup_tracker, store it, and update the userobject.
             backup_tracker = models.UserModelBackupTracker()
-            backup_tracker.userobject_ref = userobject
+            backup_tracker.userobject_ref = userobject.key
             
             # doesn't really matter what most_recent_backup is set to since it is a rotating backup 
             # but we set it to a known value (backup_1)
             backup_tracker.most_recent_backup_name = "backup_1" 
             backup_tracker.put()
-            userobject.backup_tracker = backup_tracker
+            userobject.backup_tracker = backup_tracker.key
             # give the backup_tracker a reference to the parent userobject.
             utils.put_userobject(userobject)
         

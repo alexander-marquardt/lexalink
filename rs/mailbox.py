@@ -173,7 +173,7 @@ def get_mail_history_summary(request, owner_userobject, display_userobject, show
 ############################################################################
     
 
-def modify_user_unread_contact_count(unread_mail_count_obj, increment_or_decrement_value, hours_between_notifications = "NA"):
+def modify_user_unread_contact_count(unread_mail_count_ref, increment_or_decrement_value, hours_between_notifications = "NA"):
     
     # modifies the number of "unique" messages that the user has received .. meaning from
     # unique other users .. a single user that sends 5 messages is counted only once.
@@ -182,11 +182,11 @@ def modify_user_unread_contact_count(unread_mail_count_obj, increment_or_decreme
     # therefore, this value is ignored when we are marking messages as read (ie. we are passed in a negative 
     # increment_or_decrement_value value). 
     
-    def txn(unread_mail_count_obj, increment_or_decrement_value):
+    def txn(unread_mail_count_ref, increment_or_decrement_value):
         # updates the userobject.unread_mail_count value based on the value passed in. Must
         # be run in a transaction to ensure that only a single update can take place at a time.
         
-        unread_mail_count_obj = ndb.get(unread_mail_count_obj.key)
+        unread_mail_count_obj = unread_mail_count_ref.get()
         unread_mail_count_obj.unread_contact_count += increment_or_decrement_value
         unread_mail_count_obj.num_new_since_last_notification += increment_or_decrement_value
         
@@ -224,10 +224,10 @@ def modify_user_unread_contact_count(unread_mail_count_obj, increment_or_decreme
                 
             unread_mail_count_obj.when_to_send_next_notification_string = str(unread_mail_count_obj.when_to_send_next_notification)  
             unread_mail_count_obj.put()
-            return unread_mail_count_obj
+            return unread_mail_count_obj.key
          
-    return_val = ndb.transaction(lambda: txn(unread_mail_count_obj, increment_or_decrement_value))    
-    return return_val
+    unread_mail_count_key = ndb.transaction(lambda: txn(unread_mail_count_ref, increment_or_decrement_value))    
+    return unread_mail_count_key
     
 ###########################################################################
     

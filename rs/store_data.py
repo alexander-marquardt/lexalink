@@ -280,7 +280,7 @@ def verify_email_address_is_valid_and_send_confirmation(request, userobject, ema
                            # this is necessary because the task-queue could otherwise start in parallel with the writing of the userobject, which could 
                            # cause a failure due to to email address not yet being stored properly.
         taskqueue.add(queue_name = 'mail-queue',  countdown = countdown_time, url='/rs/admin/send_confirmation_email/',\
-                      params = {'uid': str(userobject.key()), 'email_address':email_address, 'remoteip': os.environ['REMOTE_ADDR'],
+                      params = {'uid': userobject.key.urlsafe(), 'email_address':email_address, 'remoteip': os.environ['REMOTE_ADDR'],
                                 'lang_code' : request.LANGUAGE_CODE})
     else:
         is_valid=False
@@ -1121,9 +1121,9 @@ def initialize_and_store_spam_tracker(current_spam_tracker):
         
         spam_tracker.put()
         
-        return spam_tracker
+        return spam_tracker.key
     else:
-        return current_spam_tracker
+        return current_spam_tracker.key
       
 
 #############################################    
@@ -1585,16 +1585,9 @@ def increase_reporting_or_reporter_unacceptable_count(model_class, userobject_ke
         profile_reporting_tracker.put()
         return profile_reporting_tracker 
         
-        
-        
-    query_filter_dict = {}   
-    query_filter_dict['profile_ref'] = userobject_key
-    
-    query = model_class.all()
-    for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-        query = query.filter(query_filter_key, query_filter_value)    
-        
-    profile_reporting_tracker = query.get()
+    q = model_class.query().filter(model_class.profile_ref == userobject_key)
+     
+    profile_reporting_tracker = q.get()
     profile_reporting_tracker = ndb.transaction(lambda: txn(profile_reporting_tracker))
 
     return profile_reporting_tracker
@@ -1697,7 +1690,7 @@ def welcome_new_user(request):
     if (alex_object):
         # make sure we don't send messages from a backup userobject!
         try:
-            to_uid = str(userobject.key())
+            to_uid = userobject.key.urlsafe()
             if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
                 replacement1 = ugettext('"wink" or a "kiss"')
                 replacement2 = ugettext('winks, kisses,')
@@ -1753,60 +1746,65 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
         therefore we would mark him initally as speaking both English and German. 
     """
     
-    copy_principal_user_data_fields_into_ix_lists(userobject)
+    try:
     
-    userobject.email_options = ['daily_notification_of_new_messages_or_contacts']
-    
-
-    for field_name in UserProfileDetails.enabled_checkbox_fields_list:
-        setattr(userobject, field_name, ['prefer_no_say' ])
-            
-    if settings.BUILD_NAME == "Language":
+        copy_principal_user_data_fields_into_ix_lists(userobject)
         
-        # set language fields to ['----', *language* ], since we know that the user has already specified 
-        # a language (only for LikeLangage)
-        userobject.languages = [u'----',]
-        userobject.languages.append(userobject.native_language)
-            
-        userobject.languages_to_learn = [u'----',]
-        userobject.languages_to_learn.append(userobject.language_to_learn)
-    else:
-        try:
-            # set the languages field to include the language that the user is currently viewing this website in.
-            # Note: we don't do this for Language, because viewing/reading in a language is not enough information 
-            # for us to determine if the user is tryingto learn the language, or if they speak well enough to teach
-            # someone else. Additionally, in Language, we have the user language. Here we are inferring it.
-            userobject.languages = []
-            userobject.languages.append(localizations.language_code_transaltion[lang_code])
-        except:
-            error_reporting.log_exception(logging.critical, error_message = "Error, unknown lang_code %s passed in" % lang_code)
-            userobject.languages = ['english',]
-            
-
-    userobject.last_login =  datetime.datetime.now()
-    userobject.last_login_string = str(userobject.last_login)
-
-    userobject.previous_last_login = datetime.datetime.now()
-    
-    userobject.hash_of_creation_date = utils.passhash(str(userobject.creation_date))
+        userobject.email_options = ['daily_notification_of_new_messages_or_contacts']
         
-    (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-     login_utils.get_or_create_unique_last_login(userobject, username)
     
-    userobject.unread_mail_count_ref = utils.create_unread_mail_object()
-    userobject.new_contact_counter_ref = utils.create_contact_counter_object()
+        for field_name in UserProfileDetails.enabled_checkbox_fields_list:
+            setattr(userobject, field_name, ['prefer_no_say' ])
+                
+        if settings.BUILD_NAME == "Language":
+            
+            # set language fields to ['----', *language* ], since we know that the user has already specified 
+            # a language (only for LikeLangage)
+            userobject.languages = [u'----',]
+            userobject.languages.append(userobject.native_language)
+                
+            userobject.languages_to_learn = [u'----',]
+            userobject.languages_to_learn.append(userobject.language_to_learn)
+        else:
+            try:
+                # set the languages field to include the language that the user is currently viewing this website in.
+                # Note: we don't do this for Language, because viewing/reading in a language is not enough information 
+                # for us to determine if the user is tryingto learn the language, or if they speak well enough to teach
+                # someone else. Additionally, in Language, we have the user language. Here we are inferring it.
+                userobject.languages = []
+                userobject.languages.append(localizations.language_code_transaltion[lang_code])
+            except:
+                error_reporting.log_exception(logging.critical, error_message = "Error, unknown lang_code %s passed in" % lang_code)
+                userobject.languages = ['english',]
+                
     
-    userobject.spam_tracker = initialize_and_store_spam_tracker(userobject.spam_tracker) 
+        userobject.last_login =  datetime.datetime.now()
+        userobject.last_login_string = str(userobject.last_login)
     
-    userobject.user_tracker = utils.create_and_return_usertracker()
+        userobject.previous_last_login = datetime.datetime.now()
         
-    sharding.increment("number_of_new_users_shard_counter")
-
-    # setup structures for chat
-    owner_uid = str(userobject.key()) 
-
-    # userobject will be put in the function that called this. 
-    return userobject 
+        userobject.hash_of_creation_date = utils.passhash(str(userobject.creation_date))
+            
+        (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
+         login_utils.get_or_create_unique_last_login(userobject, username)
+        
+        userobject.unread_mail_count_ref = utils.create_unread_mail_object()
+        userobject.new_contact_counter_ref = utils.create_contact_counter_object()
+        
+        userobject.spam_tracker = initialize_and_store_spam_tracker(userobject.spam_tracker) 
+        
+        userobject.user_tracker = utils.create_and_return_usertracker()
+            
+        sharding.increment("number_of_new_users_shard_counter")
+    
+        # setup structures for chat
+        owner_uid = userobject.key.urlsafe
+    
+        # userobject will be put in the function that called this. 
+        return userobject 
+    
+    except: 
+        error_reporting.log_exception(logging.critical)      
     
 
 def store_new_user_after_verify(request, fake_request=None):
@@ -1864,16 +1862,13 @@ def store_new_user_after_verify(request, fake_request=None):
         # at the same moment (before the object is written to the database) -- and if they have 
         # chosen the same password, they will be directed to the same account (this is a possible
         # bug with a one in a billion chance of actually being hit).
-        query_filter_dict = {}
-        query_filter_dict['username'] = username
-        query_filter_dict['password'] = password    
-        query_filter_dict['is_real_user'] = True
-        query_filter_dict['user_is_marked_for_elimination'] = False
-        query_order_string = "-%s" % 'last_login_string'
-        query = UserModel.all().order(query_order_string)
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)
-        userobject = query.get()
+        q = UserModel.query().order(-UserModel.last_login_string)
+        q = q.filter(UserModel.username == username)
+        q = q.filter(UserModel.password == password)    
+        q = q.filter(UserModel.is_real_user == True)
+        q = q.filter(UserModel.user_is_marked_for_elimination == False)
+
+        userobject = q.get()
         
         if userobject:
             # user is already authorized -- send back to login
@@ -1892,11 +1887,21 @@ def store_new_user_after_verify(request, fake_request=None):
         return ""
 
         
+        
+        
+        
     # do not change the order of the following calls. Userobject is written twice because this
     # is necessary to get a database key value. Also, since this is only on signup, efficiency is
     # not an issue.
     
     try:
+        
+        # Cleanup the login_dict before passing it in to the UserModel
+        if 'password_hashed' in login_dict:
+            del login_dict['password_hashed']
+        if 'login_type' in login_dict:
+            del login_dict['login_type']
+        
         # passing in the login_dict to the following declaration will copy the values into the user object.
         userobject = UserModel(**login_dict)
         userobject.is_real_user = True    
@@ -1940,8 +1945,8 @@ def store_new_user_after_verify(request, fake_request=None):
         # send the user a welcome email and key and wink from Alex
         welcome_new_user(request)
     
-        owner_uid = str(userobject.key())
-        owner_nid = userobject.key().id()
+        owner_uid = userobject.key.urlsafe()
+        owner_nid = userobject.key.id()
         
     except:
         # if there is any failure in the signup process, clean up all the data stored, and send the user back to the login page with the data that they
@@ -1985,36 +1990,39 @@ def store_new_user_after_verify_email_url(request, username, secret_verification
     # we must direct them directly to a web page (not just returning a URL unlike some of the code that is 
     # communicating with JavaScript code on the client side)
     
-    
-    authorization_info = login_utils.query_for_authorization_info(username, secret_verification_code)
+    try:
+        authorization_info = login_utils.query_for_authorization_info(username, secret_verification_code)
+            
+        if authorization_info:
+            login_get_dict = pickle.load(StringIO.StringIO(authorization_info.pickled_login_get_dict))
+            
+            # somewhat of a hack, but we create a fake request object so that we can use common code to process 
+            # the user information that was previously submitted.
+            class FakeRequest():
+                pass
+            
+            fake_request = FakeRequest()
+            fake_request.GET =  fake_request.REQUEST = login_get_dict
+            
+            response = store_new_user_after_verify(request, fake_request)
+            http_response = HttpResponseRedirect(response)
+            
+            return http_response
         
-    if authorization_info:
-        login_get_dict = pickle.load(StringIO.StringIO(authorization_info.pickled_login_get_dict))
+        else:
+            # could happen if the user clicks on the link more than once to authorize their account at some point after
+            # we have erased the authorization info.
+            warning_message = "Warning: User: %s Code %s  authorization_info not found" % (
+                username, secret_verification_code)
+            logging.warning(warning_message)
+            return HttpResponseRedirect("/?unable_to_verify_user=%s" % username)
         
-        # somewhat of a hack, but we create a fake request object so that we can use common code to process 
-        # the user information that was previously submitted.
-        class FakeRequest():
-            pass
-        
-        fake_request = FakeRequest()
-        fake_request.GET =  fake_request.REQUEST = login_get_dict
-        
-        response = store_new_user_after_verify(request, fake_request)
-        http_response = HttpResponseRedirect(response)
-        
-        return http_response
-    
-    else:
-        # could happen if the user clicks on the link more than once to authorize their account at some point after
-        # we have erased the authorization info.
-        warning_message = "Warning: User: %s Code %s  authorization_info not found" % (
-            username, secret_verification_code)
-        logging.warning(warning_message)
-        return HttpResponseRedirect("/?unable_to_verify_user=%s" % username)
-    
-    error_reporting.log_exception(logging.error, error_message = 'Reached end of function - redirect to /') 
-    return HttpResponseRedirect("/")
+        error_reporting.log_exception(logging.error, error_message = 'Reached end of function - redirect to /') 
 
+    except: 
+        error_reporting.log_exception(logging.critical)      
+        
+    return HttpResponseRedirect("/")
 
 def check_and_fix_userobject(userobject, lang_code):
     # module that verifies that userobject contains the important variables and sub-objects that are expected
