@@ -260,8 +260,11 @@ urlpatterns = patterns('',
     (r'^rs/admin/batch_email_notification_launcher/$', email_utils.batch_email_notification_launcher),
     # The followin functions will be called by the above function. Each of these will loop over the users and 
     # submit each user individually to the batch system for sending a notification.
-    (r'^rs/admin/email_new_message/$', email_utils.send_batch_email_notifications, {'object_type': models.UnreadMailCount}),
-    (r'^rs/admin/email_new_contacts/$', email_utils.send_batch_email_notifications, {'object_type': models.CountInitiateContact}),
+    (r'^rs/admin/email_new_message/$', email_utils.send_batch_email_notifications, {
+        'object_type': models.UnreadMailCount, 'key_type_on_usermodel' : models.UserModel.unread_mail_count_ref}),
+    (r'^rs/admin/email_new_contacts/$', email_utils.send_batch_email_notifications, {
+        'object_type': models.CountInitiateContact,
+        'key_type_on_usermodel' : models.UserModel.new_contact_counter_ref}),
     
     
     # The following sends a single notification to a single user. Will be called by the task manager, and re-queued

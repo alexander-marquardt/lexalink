@@ -1106,7 +1106,7 @@ def manage_mailbox(request, owner_uid):
             list_of_have_sent_messages_id = request.POST.getlist('mark_conversation')
             
             for have_sent_messages_id in list_of_have_sent_messages_id:
-                have_sent_message_key = db.Key(have_sent_messages_id)
+                have_sent_message_key = ndb.Key(urlsafe = have_sent_messages_id)
                 modify_message(have_sent_message_key, mailbox_to_move_message_to)
                 
             if not bookmark:

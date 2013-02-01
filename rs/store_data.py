@@ -989,7 +989,7 @@ def store_initiate_contact(request, to_uid):
                                     You have %(num_sent_chat_friend)s chat friends, which means that
                                     you have reached the limit of %(max_guest_requests)s on the number of chat friends
                                     that you are allowed to request.""")  % \
-                                        {'num_sent_chat_friend': new_contact_counter_obj.num_sent_chat_friend ,
+                                        {'num_sent_chat_friend': owner_new_contact_counter_obj.num_sent_chat_friend ,
                                          'max_guest_requests' : GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED}
                                     
                                     response_text += "<p>%s" % ugettext("""

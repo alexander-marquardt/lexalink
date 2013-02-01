@@ -679,11 +679,13 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
         
     return return_val
     
-def send_batch_email_notifications(request,  object_type):
+def send_batch_email_notifications(request,  object_type, key_type_on_usermodel):
     
     """ This function scans the database for users who need to be notified of new messages or new contacts. 
     
     object_type is either : models.UnreadMailCount or models.CountInitiateContact:
+    key_type_on_usermodel is either: models.UserModel.unread_mail_count_ref or models.UserModel.new_contact_counter_ref
+    
     """
     PAGESIZE = 50
     
@@ -709,23 +711,16 @@ def send_batch_email_notifications(request,  object_type):
             
         generated_html = 'Emails queued for:<br><br>'
                 
-        query_filter_dict = {}    
-                
-        # only send email messages to clients whose notification time has already passed.
-        query_filter_dict['when_to_send_next_notification_string <= ']   = cutoff_time
+        q = object_type.query().order(object_type.when_to_send_next_notification_string)    
         
-        order_by = "when_to_send_next_notification_string" # ascending
-            
-        query = object_type.all().order(order_by)
+        # only send email messages to clients whose notification time has already passed.
+        q = q.filter(object_type.when_to_send_next_notification_string <= cutoff_time)
+        
 
-            
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)
-    
         if batch_cursor:
-            query.with_cursor(batch_cursor)
-                                   
-        counter_object_batch = query.fetch(PAGESIZE)
+            counter_object_batch, batch_cursor, get_more = q.fetch_page(PAGESIZE, start_cursor = batch_cursor )
+        else:
+            counter_object_batch, batch_cursor, get_more = q.fetch_page(PAGESIZE)
         
         if not counter_object_batch:
             # there are no more objects - break out of this function.
@@ -736,8 +731,12 @@ def send_batch_email_notifications(request,  object_type):
 
             
             # the counter objects should have a one-to-one mapping to the userobjects that they are keeping track of .. therefore
-            # we just do a get on the object
-            userobject=counter_object.usermodel_set.filter('is_real_user =', True).filter('user_is_marked_for_elimination =', False).get()
+            # we just do a reverse lookup on UserModel to that references the current counter_object, and get() 
+            
+            q = UserModel.query()
+            q = q.filter(UserModel.is_real_user == True).filter(UserModel.user_is_marked_for_elimination == False)
+            q = q.filter(key_type_on_usermodel == counter_object.key)
+            userobject = q.get()
             
             if userobject and userobject.email_address_is_valid:
             
@@ -783,7 +782,6 @@ def send_batch_email_notifications(request,  object_type):
                 store_data.reset_new_contact_or_mail_counter_notification_settings(counter_object.key()) 
                 
         # queue up more jobs
-        batch_cursor = query.cursor()
         path = request.path_info
         taskqueue.add(queue_name = 'mail-queue', url=path, params={'batch_cursor': batch_cursor, 'cutoff_time': cutoff_time})
 
@@ -794,7 +792,7 @@ def send_batch_email_notifications(request,  object_type):
    
     
 def batch_email_notification_launcher(request):
-    # control task for queuing up batch notification jobs.
+    # control task for queuing up batch notification jobs. This is called as a cron job (see cron.yaml for schedule)
     
     # Queue up the profiles that have new messages
     try:

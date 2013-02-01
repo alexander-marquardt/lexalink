@@ -778,7 +778,7 @@ def check_if_authorized_for_private_photos(primary_userobject_key, displayed_use
     return has_key_to_private_photos
 
 
-def delete_sub_object(parent_object, sub_object_key):
+def delete_sub_object(parent_object, sub_object_key_name):
     
     # accepts a string representing the name of a sub-object of userobject, and deletes it from the database.
     # This is used in the case of a failed registration attempt, and will be used later on when we write code to
@@ -788,22 +788,21 @@ def delete_sub_object(parent_object, sub_object_key):
     
     try:
         
-        key_to_delete = getattr(parent_object, sub_object_key)
-        object_to_delete = key_to_delete.get()        
+        key_to_delete = getattr(parent_object, sub_object_key_name)
 
         error_message = """
         ***
         Deleting key %s: %s referenced from %s
-        """ %( sub_object_key, repr(object_to_delete), repr(parent_object))
+        """ %(key_to_delete, sub_object_key_name, parent_object.__class__.__name__)
         
         error_reporting.log_exception(logging.warning, error_message = error_message ) 
-        object_to_delete.delete()
+        key_to_delete.delete()
 
     except: 
         error_message = """
         ***
         Unable to delete key %s referenced from %s
-        """ % (sub_object_key, repr(parent_object))
+        """ % (sub_object_key_name, repr(parent_object))
         
         error_reporting.log_exception(logging.error, error_message = error_message ) 
         
@@ -1236,9 +1235,8 @@ def kill_user_sessions(user_tracker_key):
                 # by the cron jobs.
                 memcache.delete(session_id) 
                 nkey = ndb.Key(gaesessions.SessionModel, session_id)
-                db_entry_key = nkey.get()
-                if db_entry_key:
-                    db_entry_key.delete()    
+                if nkey:
+                    nkey.delete()    
                     logging.info("deleting database session key %s\n" % session_id)
                     
         user_tracker.list_of_session_ids = []
