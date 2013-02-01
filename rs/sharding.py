@@ -27,7 +27,7 @@ def get_count(name):
     total = memcache.get(name)
     if total is None:
         total = 0
-        for counter in GeneralCounterShard.all().filter('name = ', name):
+        for counter in GeneralCounterShard.query().filter(GeneralCounterShard.name == name):
             total += counter.count
         memcache.add(name, str(total), 60)
     return total
@@ -43,9 +43,9 @@ def increment(name):
     def txn():
         index = random.randint(0, config.num_shards - 1)
         shard_name = name + str(index)
-        counter = GeneralCounterShard.get_by_key_name(shard_name)
+        counter = GeneralCounterShard.get_by_id(shard_name)
         if counter is None:
-            counter = GeneralCounterShard(key_name=shard_name, name=name)
+            counter = GeneralCounterShard(id=shard_name, name=name)
         counter.count += 1
         counter.put()
     ndb.transaction(lambda: txn())
@@ -66,4 +66,4 @@ def increase_shards(name, num):
         if config.num_shards < num:
             config.num_shards = num
             config.put()
-    ndb.transaction(lambda: txn())
+    ndb.transaction(lambda: txn)

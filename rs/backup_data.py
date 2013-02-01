@@ -54,7 +54,7 @@ def create_backup_userobject_and_update_tracker(request, userobject, backup_obje
     # yet have a key.
     backup_userobject.put()
     
-    setattr(backup_tracker, backup_object_name, backup_userobject)
+    setattr(backup_tracker, backup_object_name, backup_userobject.key)
     backup_tracker.most_recent_backup_name = backup_object_name
     backup_tracker.put()
 
@@ -66,8 +66,11 @@ def update_or_create_userobject_backups(request, userobject):
     
     
     try:
+        backup_tracker = None
         try:
-            backup_tracker = userobject.backup_tracker.get()
+            backup_tracker_key = userobject.backup_tracker
+            if backup_tracker_key:
+                backup_tracker = backup_tracker_key.get()
         except:
             error_reporting.log_exception(logging.critical, error_message="User: %s error in backup_tracker - will be over-written" % userobject.username)
             backup_tracker = None
@@ -94,15 +97,17 @@ def update_or_create_userobject_backups(request, userobject):
         next_backup_object_name = {'backup_1': 'backup_2', 'backup_2': 'backup_3', 'backup_3':'backup_1'}
         
         most_recent_backup_object_name = backup_tracker.most_recent_backup_name
-        most_recent_backup_userobject = getattr(backup_tracker, most_recent_backup_object_name).get()
+        most_recent_backup_userobject_key = getattr(backup_tracker, most_recent_backup_object_name)
         
-        if not most_recent_backup_userobject:
+        if not most_recent_backup_userobject_key:
+            
             # if the object doesn't exist, then we have not done any backups yet, and this object should
             # be created. 
             create_backup_userobject_and_update_tracker(request, userobject, most_recent_backup_object_name, backup_tracker)
         else:
             # We know that at least one backup has been done, and so we check that an appropriate amount
             # of time has passed before doing the next backup.
+            most_recent_backup_userobject = most_recent_backup_userobject_key.get()
             time_passed_since_backup = current_time - most_recent_backup_userobject.last_login
             
             if time_passed_since_backup > datetime.timedelta(days = DAYS_BETWEEN_BACKUPS):
