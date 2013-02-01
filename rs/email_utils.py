@@ -215,7 +215,8 @@ def send_password_reset_email(userobject, new_password):
     # run from the users session.
     previous_language = translation.get_language() # remember the original language, so we can set it back when we finish 
     try:
-        translation.activate(userobject.search_preferences2.lang_code)        
+        search_preferences = userobject.search_preferences2.get()
+        translation.activate(search_preferences.lang_code)        
 
         remoteip  = environ['REMOTE_ADDR']        
         
@@ -245,7 +246,7 @@ it is recomendable that you change it in the administrative section of your prof
         logging.info(info_message)
     except:
         try:
-            error_message = u"Unable to send password reset email\n\nUser: %s\nEmail: %s\n" % (username, email_address)
+            error_message = u"Unable to send password reset email\n\nUser: %s\nEmail: %s\n" % (userobject.username, email_address)
             error_reporting.log_exception(logging.error, error_message = error_message)
         except:
             error_reporting.log_exception(logging.critical)
@@ -268,7 +269,7 @@ def delete_userobject_confirmation(request, username, hash_of_creation_date):
         if userobject :
             if hash_of_creation_date == userobject.hash_of_creation_date[:constants.EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE]:
             
-                translation.activate(userobject.search_preferences2.lang_code)   
+                translation.activate(userobject.search_preferences2.get().lang_code)   
                 
                 generated_html = u"""
                 <script type="text/javascript" language="javascript">
@@ -335,12 +336,12 @@ def change_notification_settings(request, subscription_option, username, hash_of
     try:
         # make sure that the subscription_option that is passed in is a valid option
         userobject = utils.get_active_userobject_from_username(username)
-        translation.activate(userobject.search_preferences2.lang_code)
+        translation.activate(userobject.search_preferences2.get().lang_code)
         
         # get the user language settings from the userobject
         try:
             # get lang_idx from the userobject
-            lang_idx = localizations.input_field_lang_idx[userobject.search_preferences2.lang_code]
+            lang_idx = localizations.input_field_lang_idx[userobject.search_preferences2.get().lang_code]
         except:
             # otherwise, get it from the request 
             lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]

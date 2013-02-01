@@ -73,7 +73,7 @@ def send_new_feature_email(userobject, return_message_html = False):
         if userobject:
             username = userobject.username
             email_address = userobject.email_address
-            lang_code = userobject.search_preferences2.lang_code
+            lang_code = userobject.search_preferences2.get().lang_code
             
         else:
             username = 'TESTING CODE'

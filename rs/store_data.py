@@ -251,9 +251,9 @@ def store_about_user(request, owner_uid):
             userobject.about_user = "----"
             
 
-            
-        userobject.unique_last_login_offset_ref.has_about_user_offset = True
-        userobject.unique_last_login_offset_ref.put()
+        unique_last_login_offset_obj = userobject.unique_last_login_offset_ref.get()
+        unique_last_login_offset_obj.has_about_user_offset = True
+        unique_last_login_offset_obj.put()
         (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
          login_utils.get_or_create_unique_last_login(userobject, userobject.username)
         
@@ -1722,7 +1722,7 @@ def send_vip_congratulations_message(userobject):
         expiry_year = expiry_date.year
         
         # set the language to be the users preferred language
-        translation.activate(userobject.search_preferences2.lang_code)
+        translation.activate(userobject.search_preferences2.get().lang_code)
         month_in_current_language = constants.MONTH_NAMES[expiry_month]
         date_in_current_language = ugettext("%(month)s %(day)s, %(year)s") % {'month': month_in_current_language, 
                                                                               'day' : expiry_day,
