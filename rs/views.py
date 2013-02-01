@@ -636,8 +636,9 @@ def login(request, is_admin_login = False, referring_code = None):
                                 # that his spam_tracker has accumulated a number of times being reported as spammer. We don't want to punish people
                                 # after they lose their vip status, and so we set the number of captchas solved to be equal to the number of times
                                 # reported as a spammer (this means that any previous spam messages will not require that a new captcha be solved). 
-                                userobject.spam_tracker.number_of_captchass_solved_total = userobject.spam_tracker.num_times_reported_as_spammer_total
-                                userobject.spam_tracker.put()
+                                spam_tracker =  userobject.spam_tracker.get()                           
+                                spam_tracker.number_of_captchass_solved_total = spam_tracker.num_times_reported_as_spammer_total
+                                spam_tracker.put()
                                 
                                 
                                 

@@ -406,7 +406,7 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
         # DO NOT REMOVE BOOKMARKS - to replace with cursors - search engines can come back to a page 
         # that is indexed by a bookmark, but cannot load a page that requires a cursor.
         if search_vals_dict['bookmark']:
-            q = q.filter(Usermodel._properties[search_vals_dict['query_order']] <=  search_vals_dict['bookmark'])
+            q = q.filter(UserModel._properties[search_vals_dict['query_order']] <=  search_vals_dict['bookmark'])
         
         query_results_keys = q.fetch(num_results_needed, keys_only = True)
             

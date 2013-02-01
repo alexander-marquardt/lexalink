@@ -590,6 +590,7 @@ def display_conversation_summary(request, have_sent_messages_object,
         have_sent_messages_key = ''
         assert(have_sent_messages_object)
         have_sent_messages_key =  have_sent_messages_object.key
+        have_sent_messages_key_str = have_sent_messages_key.urlsafe()
     
         if show_checkbox_beside_summary:
             show_checkbox_js_val = "yes"
@@ -599,14 +600,14 @@ def display_conversation_summary(request, have_sent_messages_object,
         generated_html += u"""
         <script type="text/javascript" language="javascript">
             $(document).ready(function(){
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key)s", "%(to_uid)s", "favorite", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key)s", "%(to_uid)s", "inbox", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key)s", "%(to_uid)s", "read", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key)s", "%(to_uid)s", "spam", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key)s", "%(to_uid)s", "trash", "%(show_checkbox_js_val)s")
+                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "favorite", "%(show_checkbox_js_val)s")
+                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "inbox", "%(show_checkbox_js_val)s")
+                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "read", "%(show_checkbox_js_val)s")
+                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "spam", "%(show_checkbox_js_val)s")
+                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "trash", "%(show_checkbox_js_val)s")
          });
          </script>
-         """ % {'have_sent_messages_key':have_sent_messages_key, 'to_uid': have_sent_messages_object.other_ref.urlsafe(),
+         """ % {'have_sent_messages_key_str':have_sent_messages_key_str, 'to_uid': have_sent_messages_object.other_ref.urlsafe(),
                                                                            'show_checkbox_js_val': show_checkbox_js_val}        
         
                 
@@ -639,11 +640,11 @@ def display_conversation_summary(request, have_sent_messages_object,
                        
         if show_checkbox_beside_summary:
             generated_html += u'<div id="id-have_sent_messages-%s" class="grid_9 alpha omega \
-            cl-mailbox_results cl-mail_seperator"><br>\n' % (have_sent_messages_key)            
+            cl-mailbox_results cl-mail_seperator"><br>\n' % (have_sent_messages_key_str)            
             
         else:
             generated_html += u'<div id="id-have_sent_messages-%s" class="grid_9 alpha omega \
-            cl-mailbox_results"><br>\n' % have_sent_messages_key
+            cl-mailbox_results"><br>\n' % have_sent_messages_key_str
             
         # if the checkbox is shown, then we are in the mailbox view of the message. Therefore, indicate additional information
         # about the user who has sent the message.
@@ -676,7 +677,7 @@ def display_conversation_summary(request, have_sent_messages_object,
 
             checkbox_html = '<td class="cl-mark_conversation-td"><input type = "checkbox" name="mark_conversation" \
             class = "cl-mark_conversation_checkbox" \
-            value="%(have_sent_messages_key)s"> </td>\n '  % {'have_sent_messages_key':have_sent_messages_key}
+            value="%(have_sent_messages_key_str)s"> </td>\n '  % {'have_sent_messages_key_str':have_sent_messages_key_str}
 
             
             generated_html += FormUtils.generate_profile_photo_html(lang_code, other_userobject, text_fields.no_photo, \
@@ -732,7 +733,7 @@ def display_conversation_summary(request, have_sent_messages_object,
         
         if other_userobject.user_is_marked_for_elimination:
             # provide feedback to the user about why this profile was eliminated
-            generated_html += utils.get_removed_user_reason_html(have_sent_messages_object.other_ref)
+            generated_html += utils.get_removed_user_reason_html(have_sent_messages_object.other_ref.get())
 
         
         for message in query_for_message: 
@@ -779,26 +780,26 @@ def display_conversation_summary(request, have_sent_messages_object,
         # put the mail icon and the eliminate/spam/blocked buttons inside a table.
         generated_html += u'<table class="%s"><tr>' % mail_control_table_class   
         
-        def mailbox_magage_html(action, have_sent_messages_key, img_html, status, new_row_html):
+        def mailbox_magage_html(action, have_sent_messages_key_str, img_html, status, new_row_html):
             return """
             <td class="cl-mail-icon-td">
-            <a id="id-%(action)s-have_sent_messages-%(have_sent_messages_key)s" href="#">
+            <a id="id-%(action)s-have_sent_messages-%(have_sent_messages_key_str)s" href="#">
             %(img_html)s
             %(status)s
             </a></td>%(new_row_html)s""" \
-                           % {"action": action, "have_sent_messages_key": have_sent_messages_key, "img_html": img_html,
+                           % {"action": action, "have_sent_messages_key_str": have_sent_messages_key_str, "img_html": img_html,
                               'status': status, 'new_row_html' : new_row_html}  
             
         if not have_sent_messages_object.message_chain_has_been_read:
             # allow user to mark message as read
             img_html = '<img src="%s" align=middle alt="Read">' % "/%s/img/checkmark.png" % settings.LIVE_STATIC_DIR
-            generated_html += mailbox_magage_html("read", have_sent_messages_key, img_html, ugettext("Mark as read"), new_row_html)  
+            generated_html += mailbox_magage_html("read", have_sent_messages_key_str, img_html, ugettext("Mark as read"), new_row_html)  
             
         if have_sent_messages_object.mailbox_to_display_this_contact_messages != "trash" and\
            have_sent_messages_object.mailbox_to_display_this_contact_messages != "spam":
             # allow user to mark  this message as trash
             img_html = '<img src="%s" align=middle alt="Delete">' % "/%s/img/mark_trash_mail.png" % settings.LIVE_STATIC_DIR
-            generated_html += mailbox_magage_html("trash", have_sent_messages_key,  img_html, ugettext("Delete"), new_row_html)
+            generated_html += mailbox_magage_html("trash", have_sent_messages_key_str,  img_html, ugettext("Delete"), new_row_html)
         else: # it is either trash or Spam -- allow the user to move it back to the normal mailbox
             if have_sent_messages_object.owner_is_sender: # show icon to move to "sent" mail
                 img_html = '<img src="%s" align=middle alt="Sent">' % "/%s/img/mailbox.png" % settings.LIVE_STATIC_DIR
@@ -806,12 +807,12 @@ def display_conversation_summary(request, have_sent_messages_object,
             else:
                 img_html = '<img src="%s" align=middle alt="Sent">' % "/%s/img/mailbox.png" % settings.LIVE_STATIC_DIR
                 status = ugettext("Move to received mailbox")
-            generated_html += mailbox_magage_html("inbox", have_sent_messages_key, img_html, status, new_row_html)
+            generated_html += mailbox_magage_html("inbox", have_sent_messages_key_str, img_html, status, new_row_html)
 
         if not have_sent_messages_object.owner_is_sender and have_sent_messages_object.mailbox_to_display_this_contact_messages != "spam":
             # allow user to mark  this message as spam
             img_html = '<img src="%s" align=middle alt="Spam">' % "/%s/img/mark_spam_mail.png" % settings.LIVE_STATIC_DIR
-            generated_html += mailbox_magage_html("spam", have_sent_messages_key, img_html, ugettext("Mark as spam"), new_row_html)
+            generated_html += mailbox_magage_html("spam", have_sent_messages_key_str, img_html, ugettext("Mark as spam"), new_row_html)
             
         
         # only show the "favorites" icon if the checkbox is shown too -- since having the
@@ -831,7 +832,7 @@ def display_conversation_summary(request, have_sent_messages_object,
             img_html = '<img src="%s" align=middle alt=''>' % fav_image
 
             # allow the user to mark a message as a favorite
-            generated_html += mailbox_magage_html("favorite", have_sent_messages_key, img_html, favorite_status, new_row_html)            
+            generated_html += mailbox_magage_html("favorite", have_sent_messages_key_str, img_html, favorite_status, new_row_html)            
             
         generated_html += u'</tr></table>'
         
@@ -1023,7 +1024,7 @@ def modify_message(have_sent_messages_key, mailbox_to_move_message_to):
         
         return_val = ''
         is_dirty = False
-        have_sent_messages_object = db.get(have_sent_messages_key) 
+        have_sent_messages_object = have_sent_messages_key.get()
         previous_mailbox = have_sent_messages_object.mailbox_to_display_this_contact_messages
         
         if have_sent_messages_object.mailbox_to_display_this_contact_messages != mailbox_to_move_message_to:
@@ -1043,10 +1044,10 @@ def modify_message(have_sent_messages_key, mailbox_to_move_message_to):
     
     try:
 
-        (have_sent_messages_object, return_val, previous_mailbox) =  db.run_in_transaction(txn, have_sent_messages_key)
+        (have_sent_messages_object, return_val, previous_mailbox) =  ndb.transaction(lambda: txn(have_sent_messages_key))
                               
-        owner_userobject = have_sent_messages_object.owner_ref
-        other_userobject = have_sent_messages_object.other_ref   
+        owner_userobject = have_sent_messages_object.owner_ref.get()
+        other_userobject = have_sent_messages_object.other_ref.get()   
         
 
         if not return_val:
@@ -1060,10 +1061,12 @@ def modify_message(have_sent_messages_key, mailbox_to_move_message_to):
         else:
             raise Exception("Unknown return val %s" % return_val)
             
+        spam_tracker = other_userobject.spam_tracker.get()
+            
         if previous_mailbox == "spam": 
             # we are moving this message out of the spam mailbox -- reduce the spam count on the sender           
-            other_userobject.spam_tracker.num_times_reported_as_spammer_total -= 1
-            other_userobject.spam_tracker.put()
+            spam_tracker.num_times_reported_as_spammer_total -= 1
+            spam_tracker.put()
     
         # if this is a spam message, then keep track of the number of spams that this user has sent
         if mailbox_to_move_message_to == "spam":
@@ -1073,8 +1076,8 @@ def modify_message(have_sent_messages_key, mailbox_to_move_message_to):
             # sending messages, and marking them as Spam
             if not have_sent_messages_object.owner_is_sender:
             
-                other_userobject.spam_tracker.num_times_reported_as_spammer_total += 1
-                other_userobject.spam_tracker.put()
+                spam_tracker.num_times_reported_as_spammer_total += 1
+                spam_tracker.put()
             
     except:
         error_reporting.log_exception(logging.critical)

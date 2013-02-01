@@ -1132,9 +1132,9 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                     return_dict[field_name] = generic_html_generator_for_list(lang_idx, lookup_field_name, field_vals_list_dict, 
                                                                               constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
             except:
-                error_message = "*Error* get_fields_in_current_language - %s Undefined" % field_name
+                error_message = "*Error* get_fields_in_current_language - %s value: %s" % (field_name, field_val)
                 return_dict[field_name] = ''
-                error_reporting.log_exception(logging.critical, error_message = error_message)
+                error_reporting.log_exception(logging.warning, error_message = error_message)
         
         try:
             if pluralize_sex:

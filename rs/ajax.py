@@ -703,7 +703,7 @@ def get_initiate_contact_settings(request, display_uid):
 @ajax_call_requires_login    
 def move_message(request, have_sent_messages_id, mailbox_to_move_message_to):        
     # marks the current message as read, and leaves it in the "inbox"
-    mailbox.modify_message(db.Key(have_sent_messages_id), mailbox_to_move_message_to)
+    mailbox.modify_message(ndb.Key(urlsafe = have_sent_messages_id), mailbox_to_move_message_to)
     # the HttpResponse is ignored .. so, shouldn't matter what the return value is.
     return HttpResponse("OK")    
         
@@ -721,8 +721,8 @@ def favorite_message(request, have_sent_messages_id):
         have_sent_messages_object.other_is_favorite = not have_sent_messages_object.other_is_favorite
         have_sent_messages_object.put()
         
-        userobject_key = have_sent_messages_object.owner_ref.key()
-        other_userobject_key = have_sent_messages_object.other_ref.key()
+        userobject_key = have_sent_messages_object.owner_ref
+        other_userobject_key = have_sent_messages_object.other_ref
                 
         initiate_contact_object = utils.get_initiate_contact_object(userobject_key, other_userobject_key, create_if_does_not_exist=True)
         

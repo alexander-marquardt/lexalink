@@ -71,15 +71,15 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
     continue_html =  generated_html = post_footer_html = post_header_html = ''
        
     q = PhotoModel.query().order(-PhotoModel.creation_date)    
-    q.filter(PhotoModel.is_private == is_private)   
+    q = q.filter(PhotoModel.is_private == is_private)   
     
     if what_to_show == "show_new" and is_private:
         # show the private photos that have not been reviewed
-        q.filter(PhotoModel.has_been_reviewed == False)  
+        q = q.filter(PhotoModel.has_been_reviewed == False)  
         
     if what_to_show == "show_new" and not is_private:
         # show the public photos that have not been approved
-        q.filter(PhotoModel.is_approved == False)
+        q = q.filter(PhotoModel.is_approved == False)
     
     num_photos_deleted = 0
     num_photos_marked_private = 0
@@ -176,7 +176,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         if bookmark :
             bookmark_key = db.Key(bookmark)
             photo_bookmark_object = db.get(bookmark_key)
-            q.filter(PhotoModel.creation_date <=  photo_bookmark_object.creation_date) # only get the photos that are older than the bookmark.
+            q = q.filter(PhotoModel.creation_date <=  photo_bookmark_object.creation_date) # only get the photos that are older than the bookmark.
        
         # note: creation_date refers to last time photo was updated
                   

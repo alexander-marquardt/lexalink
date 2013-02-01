@@ -41,7 +41,7 @@ def is_gaesessions_key(k):
 
 
 class SessionModel(ndb.Model):
-    """Contains session data.  key_name is the session ID and pdump contains a
+    """Contains session data.  id is the session ID and pdump contains a
     pickled dictionary which maps session variables to their values."""
     pdump = ndb.BlobProperty()
 
@@ -340,7 +340,7 @@ class Session(object):
             
         # persist the session to the datastore            
         try:
-            SessionModel(key_name=self.sid, pdump=pdump).put()
+            SessionModel(id=self.sid, pdump=pdump).put()
         except Exception, e:
             logging.error("unable to persist session to datastore for sid=%s (%s)" % (self.sid, e))
 
