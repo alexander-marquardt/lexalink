@@ -896,11 +896,12 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
             # the following code simply resets the unread message counter to zero if we are viewing the 
             # 'new' messages and the query is empty. This is to fix datastore errors that may occasionally
             # cause the counters to be off.
+            unread_mail_count_obj = userobject.unread_mail_count_ref.get()
             if mailbox_name == 'new':
-                amount_off_by = userobject.unread_mail_count_ref.unread_contact_count
+                amount_off_by = unread_mail_count_obj.unread_contact_count
                 if amount_off_by != 0:
                     try:
-                        userobject.unread_mail_count_ref = modify_user_unread_contact_count(userobject.unread_mail_count_ref, -amount_off_by, "NA")
+                        modify_user_unread_contact_count(unread_mail_count_obj, -amount_off_by, "NA")
                     except:
                         error_message = "User: %s counter exception" % userobject.username
                         error_reporting.log_exception(logging.error, error_message=error_message)    

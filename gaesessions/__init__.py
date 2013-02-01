@@ -505,10 +505,10 @@ def delete_expired_sessions():
     If there are more than 500 expired sessions, only 500 will be removed.
     """
     now_str = unicode(int(time.time()))
-    q = SessionModel.query(namespace='').get(keys_only=True)
+    q = SessionModel.query(namespace='')
     key = ndb.Key(SessionModel, now_str + u'\ufffd', namespace='')
     q.filter('__key__ < ', key)
-    results = q.fetch(500)
+    results = q.fetch(500, keys_only=True)
     len_results = len(results)
     results.delete()
     

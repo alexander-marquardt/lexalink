@@ -34,6 +34,7 @@ from django.utils.encoding import smart_unicode
 from django import http
 
 from google.appengine.ext import ndb
+from google.appengine.datastore.datastore_query import Cursor
 
 
 from google.appengine.api import memcache
@@ -741,7 +742,8 @@ def generate_search_results(request, type_of_search = "normal"):
             
             elif type_of_search == "by_name":
                 num_results_needed = query_size - len_query_results_currently_stored
-                (new_query_results_keys, paging_cursor, more_results) = setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, search_vals_dict['bookmark'])
+                start_cursor = Cursor(urlsafe=search_vals_dict['bookmark'])
+                (new_query_results_keys, paging_cursor, more_results) = setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, start_cursor)
             
             else:
                 assert(0)
@@ -778,7 +780,7 @@ def generate_search_results(request, type_of_search = "normal"):
                     generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status) 
                     assert(paging_cursor)
                     if more_results:
-                        search_vals_dict['bookmark'] = paging_cursor
+                        search_vals_dict['bookmark'] = paging_cursor.urlsafe()
                     else: 
                         search_vals_dict['bookmark'] = ""
                 break

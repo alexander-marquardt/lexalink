@@ -33,6 +33,7 @@ from os import environ
 from google.appengine.ext import ndb 
 from google.appengine.api import mail
 from google.appengine.api import taskqueue
+from google.appengine.datastore.datastore_query import Cursor
 
 from django.utils.encoding import smart_unicode
 from django import http
@@ -54,6 +55,8 @@ import mailbox, store_data, user_profile_details, rendering
 import html2text
 import models
 
+
+from google.appengine.api.datastore_errors import BadArgumentError
 
 def footer_common():
     
@@ -354,9 +357,9 @@ def change_notification_settings(request, subscription_option, username, hash_of
             # counter objects
             
             hours_between_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_message_notifications)
-            ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.unread_mail_count_ref.key(), hours_between_notifications))
+            ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.unread_mail_count_ref, hours_between_notifications))
             hours_between_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_new_contacts_notifications)
-            ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.new_contact_counter_ref.key(), hours_between_notifications))
+            ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.new_contact_counter_ref, hours_between_notifications))
             
             option_in_current_language = options_dict[subscription_option]
             
@@ -491,7 +494,8 @@ def send_new_message_notification_email(request):
         return http.HttpResponse(error_message)
     
     try:
-        lang_code = userobject.search_preferences2.lang_code
+        search_preferences = userobject.search_preferences2.get()
+        lang_code = search_preferences.lang_code
     except:
         # can happen on old profiles that don't have search_preferences2 defined - need to run maintenance one
         # day to fix this.
@@ -535,22 +539,24 @@ def send_new_message_notification_email(request):
         # This can also (potentially) trigger if aser has instant notification settings set for "contacts" (winks etc.), and someone
         # quickly retracts the contact before the message is sent. - In fact, we intentionally add a small delay before sending a 
         # notification email so that this "error" condition can be caught here - and the user will not be notified.
-        if userobject.unread_mail_count_ref.when_to_send_next_notification > datetime.datetime.now() and \
-           userobject.new_contact_counter_ref.when_to_send_next_notification > datetime.datetime.now():
+        unread_mail_count_obj = userobject.unread_mail_count_ref.get()
+        new_contact_counter_obj = userobject.new_contact_counter_ref.get()
+        if unread_mail_count_obj.when_to_send_next_notification > datetime.datetime.now() and \
+           new_contact_counter_obj.when_to_send_next_notification > datetime.datetime.now():
             error_message = 'Error on userobject %s\n\
             \tnew message notification time: %s and the string is: %s\n\
             \tnew contacts notification time: %s and the string is: %s\n\
             - NOT SENT' % (userobject.username, 
-                           userobject.unread_mail_count_ref.when_to_send_next_notification, \
-                           userobject.unread_mail_count_ref.when_to_send_next_notification_string,\
-                           userobject.new_contact_counter_ref.when_to_send_next_notification,
-                           userobject.new_contact_counter_ref.when_to_send_next_notification_string)
+                           unread_mail_count_obj.when_to_send_next_notification, \
+                           unread_mail_count_obj.when_to_send_next_notification_string,\
+                           new_contact_counter_obj.when_to_send_next_notification,
+                           new_contact_counter_obj.when_to_send_next_notification_string)
             error_reporting.log_exception(logging.warning, error_message=error_message)
             return http.HttpResponse(error_message)
         
         # make sure that the user has received a new message or contact since the last notification - otherwise, why are we in this function?
-        if userobject.unread_mail_count_ref.num_new_since_last_notification == 0 and \
-           userobject.new_contact_counter_ref.num_new_since_last_notification == 0:
+        if unread_mail_count_obj.num_new_since_last_notification == 0 and \
+           new_contact_counter_obj.num_new_since_last_notification == 0:
             error_message =  'Error on userobject %s - new message notification is attempting to send email to a user who has not received any \
             messages or contacts since the last update - NOT SENT' % (userobject.username)
             error_reporting.log_exception(logging.critical, error_message = error_message)
@@ -558,14 +564,14 @@ def send_new_message_notification_email(request):
             
         
         # if the user has unread messages, we will prepare the message text that indicates that they have unread messages. 
-        if userobject.unread_mail_count_ref.unread_contact_count:
+        if unread_mail_count_obj.unread_contact_count:
             user_has_unread_messages = True
                     
             message_text += u"<p>%s!" % ungettext('You have <strong>%(num_mail)s new/unread message</strong> ',
                     'You have <strong>%(num_mail)s new/unread messages</strong>',
-                    userobject.unread_mail_count_ref.unread_contact_count
+                    unread_mail_count_obj.unread_contact_count
             ) % {
-                'num_mail': userobject.unread_mail_count_ref.unread_contact_count,
+                'num_mail': unread_mail_count_obj.unread_contact_count,
             }     
             
 
@@ -579,15 +585,15 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             
 
             
-        new_contact_counter_ref = userobject.new_contact_counter_ref
+        new_contact_counter_obj = userobject.new_contact_counter_ref.get()
     
-        time_passed_since_last_initiate_contact_notification = datetime.datetime.now() - new_contact_counter_ref.date_of_last_notification
+        time_passed_since_last_initiate_contact_notification = datetime.datetime.now() - new_contact_counter_obj.date_of_last_notification
                         
-        new_kiss_count = new_contact_counter_ref.num_received_kiss_since_last_login 
-        new_wink_count = new_contact_counter_ref.num_received_wink_since_last_login 
-        new_key_count = new_contact_counter_ref.num_received_key_since_last_login 
-        new_friend_request_count = new_contact_counter_ref.num_received_friend_request_since_last_login
-        new_friend_confirmation_count = new_contact_counter_ref.num_received_friend_confirmation_since_last_login 
+        new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_login 
+        new_wink_count = new_contact_counter_obj.num_received_wink_since_last_login 
+        new_key_count = new_contact_counter_obj.num_received_key_since_last_login 
+        new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_login
+        new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_login 
         
         new_initiate_contact_bool = (new_kiss_count or new_wink_count or new_key_count or \
                                      new_friend_request_count or new_friend_confirmation_count)    
@@ -656,8 +662,8 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
         
             # don't update if "is_test_mode" since this is just a test run, and nothing
             # was really sent to the client.
-            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref.key())        
-            store_data.reset_new_contact_or_mail_counter_notification_settings(new_contact_counter_ref.key())
+            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref)        
+            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.new_contact_counter_ref)
         else:
             error_message = "Running server with is_test_mode=True -- emails not being sent out. "
             error_reporting.log_exception(logging.error, error_message = error_message)
@@ -699,7 +705,12 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
         cutoff_time = None        
         
         if request.method == 'POST':
-            batch_cursor = request.POST.get('batch_cursor',None)
+            try:
+                batch_cursor = Cursor(urlsafe = request.POST.get('batch_cursor', None))
+            except:
+                error_reporting.log_exception(logging.critical, error_message = "Unable to extract batch_cursor from POST. Set to None")
+                batch_cursor = None
+                
             cutoff_time = request.POST.get('cutoff_time', None)
             
 
@@ -718,7 +729,15 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
         
 
         if batch_cursor:
-            counter_object_batch, batch_cursor, get_more = q.fetch_page(PAGESIZE, start_cursor = batch_cursor )
+            try:
+                counter_object_batch, batch_cursor, get_more = q.fetch_page(PAGESIZE, start_cursor = batch_cursor )
+            except BadArgumentError:
+                # we will temporarily see this error when upgrading from db to ndb - this is due to the incompatible cursor
+                # types. In this case, just get without the cursor and it should be OK for the next round of fetches.
+                # This try/except can be removed after the transition to ndb is fully complete.
+                error_reporting.log_exception(logging.critical, error_message = "*** cursor = %s" % batch_cursor)
+                counter_object_batch, batch_cursor, get_more = q.fetch_page(PAGESIZE)
+                
         else:
             counter_object_batch, batch_cursor, get_more = q.fetch_page(PAGESIZE)
         
@@ -782,10 +801,12 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
                 store_data.reset_new_contact_or_mail_counter_notification_settings(counter_object.key()) 
                 
         # queue up more jobs
-        path = request.path_info
-        taskqueue.add(queue_name = 'mail-queue', url=path, params={'batch_cursor': batch_cursor, 'cutoff_time': cutoff_time})
+        if get_more:
+            path = request.path_info
+            taskqueue.add(queue_name = 'mail-queue', url=path, params={'batch_cursor': batch_cursor.urlsafe(), 'cutoff_time': cutoff_time})
 
         return http.HttpResponse(generated_html)
+    
     except:
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()

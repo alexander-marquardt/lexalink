@@ -299,10 +299,10 @@ def update_when_to_send_next_notification_after_profile_modification(userobject)
     hours_between_message_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_message_notifications)
     hours_between_new_contacts_notifications = utils.get_hours_between_notifications(userobject, constants.hours_between_new_contacts_notifications)
     
-    ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.unread_mail_count_ref.key(), \
+    ndb.transaction (lambda: utils.when_to_send_next_notification_txn(userobject.unread_mail_count_ref, \
                            hours_between_message_notifications))
     
-    ndb.transaction (lambda: utils.when_to_send_next_notification_txn (userobject.new_contact_counter_ref.key(), \
+    ndb.transaction (lambda: utils.when_to_send_next_notification_txn (userobject.new_contact_counter_ref, \
                            hours_between_new_contacts_notifications))      
     
     

@@ -116,12 +116,14 @@ def update_online_status(owner_uid, user_presence_status):
 def get_chat_boxes_status(owner_uid):
     # Check if the chatboxes for the user indicated by owner_uid are currenly eneabled (open) or disabled (closed).  
     
-    chat_boxes_status_memcache_key = constants.ChatBoxStatus.CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX  + owner_uid
-    chat_boxes_status = memcache.get(chat_boxes_status_memcache_key)    
-    
-    if chat_boxes_status is None:
-        chat_boxes_status = constants.ChatBoxStatus.IS_ENABLED
+    try:
+        chat_boxes_status_memcache_key = constants.ChatBoxStatus.CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX  + owner_uid
+        chat_boxes_status = memcache.get(chat_boxes_status_memcache_key)    
         
-    return chat_boxes_status
-    
+        if chat_boxes_status is None:
+            chat_boxes_status = constants.ChatBoxStatus.IS_ENABLED
+            
+        return chat_boxes_status
+    except:
+        error_reporting.log_exception(logging.critical, error_message = "owner_uid = %s" % owner_uid)
     

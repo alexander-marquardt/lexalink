@@ -42,7 +42,7 @@ def get_profile_url_description(lang_code, uid):
 def get_userprofile_href(lang_code, userobject, is_primary_user = False):
     
     if is_primary_user:
-        userobject_href =  reverse("edit_profile_url", kwargs={'display_nid' :userobject.key().id()})           
+        userobject_href =  reverse("edit_profile_url", kwargs={'display_nid' :userobject.key.integer_id()})           
     else:
         uid = userobject.key.urlsafe()
         profile_url_description = get_profile_url_description(lang_code, uid)
