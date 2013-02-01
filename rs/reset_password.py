@@ -124,7 +124,7 @@ def generate_and_save_password(email_address):
         username = userobject.username
         new_password = gen_passwd()
         info_message = "Setting %s email: %s password to: %s\nKey %s" % (
-            username, email_address, new_password, userobject.key())
+            username, email_address, new_password, userobject.key)
         logging.info(info_message)
         userobject.password_reset = passhash(new_password)
         utils.put_userobject(userobject)

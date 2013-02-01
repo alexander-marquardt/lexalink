@@ -706,9 +706,12 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
         
         if request.method == 'POST':
             try:
-                batch_cursor = Cursor(urlsafe = request.POST.get('batch_cursor', None))
+                cursor_str = request.POST.get('batch_cursor', None)
+                batch_cursor = Cursor(urlsafe = cursor_str) # this may generate an exception if the string is not formatted correctly
             except:
-                error_reporting.log_exception(logging.critical, error_message = "Unable to extract batch_cursor from POST. Set to None")
+                error_reporting.log_exception(logging.critical, 
+                                              error_message = "Unable to extract batch_cursor from POST. Set to None. \
+                                              cursor_str = %s" % cursor_str)
                 batch_cursor = None
                 
             cutoff_time = request.POST.get('cutoff_time', None)

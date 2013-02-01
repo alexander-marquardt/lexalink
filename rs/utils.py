@@ -392,20 +392,16 @@ def put_userobject(userobject):
 def get_active_userobject_from_username(username):
     
     try:
-        query_filter_dict = {}
+        q = UserModel.query().order(-UserModel.last_login_string)
         # ensure that unique_last_login None values are removed -- these are backup objects
-    #    query_filter_dict['last_login_string > '] = None 
-        order_by = "-last_login_string"
-        query_filter_dict['is_real_user ='] = True
-        query_filter_dict['user_is_marked_for_elimination ='] = False
-        query_filter_dict['username ='] = username
-                
-        query = do_query(UserModel, query_filter_dict, order_by)
-            
-        if query.count(2) > 1:
+        q = q.filter(UserModel.is_real_user == True)
+        q = q.filter(UserModel.user_is_marked_for_elimination == False)
+        q = q.filter(UserModel.username == username)
+                            
+        if q.count(2) > 1:
             logging.critical("User %s has more than one active userobject" % username)
     
-        userobject = query.get()
+        userobject = q.get()
         if userobject:
             # use memcache.add since we don't need to invalidate old data if the key is already valid
             memcache_key_str = userobject.key.urlsafe() + settings.VERSION_ID

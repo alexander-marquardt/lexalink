@@ -113,8 +113,8 @@ def query_for_which_users_owner_has_contacted(bookmark, userobject, num_results_
             raise Exception("Unknown mailbox_name: %s" % mailbox_name)
         
         if bookmark:
-            bookmark_key = db.Key(bookmark)
-            users_have_sent_messages_bookmark = db.get(bookmark_key)
+            bookmark_key = ndb.Key(urlsafe = bookmark)
+            users_have_sent_messages_bookmark = bookmark_key.get()
             q = q.filter(models.UsersHaveSentMessages.unique_m_date <=  users_have_sent_messages_bookmark.unique_m_date)
             
         query_results = q.fetch(num_results_needed)

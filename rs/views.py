@@ -417,7 +417,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         # make sure that it is a country that we support.
                         country_encoded = tmp_country_encoded
                     else:
-                        logging.warning("Logging in user in unknown country: %s" % http_country_code)  
+                        logging.info("Logging in user in unknown country: %s" % http_country_code)  
                         
                 http_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
                 if country_encoded and http_region_code:
