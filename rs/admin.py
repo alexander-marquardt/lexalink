@@ -89,24 +89,24 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
 
     if request.method == 'POST': 
         
-        def store_options_for_photo_key(photo_key, review_action_dict):
-            photo_object = photo_key.get()
+        def store_options_for_photo_key(photo_key_str, review_action_dict):
+            photo_object = ndb.Key(urlsafe = photo_key_str).get()
             parent_uid = photo_object.parent_object.urlsafe()
             # if we deleted a photo, we need to recompute the photo-based offsets
             store_data.store_photo_options(request, parent_uid, is_admin_photo_review = True, review_action_dict = review_action_dict)            
         
-        delete_photo_list_of_keys = request.POST.getlist('delete_photo')
-        for photo_key in delete_photo_list_of_keys:
+        delete_photo_list_of_keys_strs = request.POST.getlist('delete_photo')
+        for photo_key_str in delete_photo_list_of_keys_strs:
             # delete the photo and recompute the photo-based offsets            
-            store_options_for_photo_key(key, review_action_dict = {'delete' : photo_key})
+            store_options_for_photo_key(photo_key_str, review_action_dict = {'delete' : photo_key_str})
             num_photos_deleted += 1
             
-        mark_private_photo_list_of_keys = request.POST.getlist('mark_private_photo')
-        for photo_key in mark_private_photo_list_of_keys:
+        mark_private_photo_list_of_keys_strs = request.POST.getlist('mark_private_photo')
+        for photo_key_str in mark_private_photo_list_of_keys_strs:
             try:
                 # if we mark a photo private, we need to recompute the photo-based offsets                
                 # this could fail if we just deleted the photo - but then wy would we be marking it private .. 
-                store_options_for_photo_key(key, review_action_dict = {'is_private' : photo_key})
+                store_options_for_photo_key(photo_key_str, review_action_dict = {'is_private' : photo_key_str})
                 num_photos_marked_private += 1     
             except:
                 # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
@@ -120,9 +120,9 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
                 
             parent_uid = photo_object.parent_object.urlsafe()
             
-        approve_photo_list_of_keys = request.POST.getlist('approve_photo')
+        approve_photo_list_of_keys_strs = request.POST.getlist('approve_photo')
         # Photo has been approved as a public photo
-        for photo_key_str in approve_photo_list_of_keys:
+        for photo_key_str in approve_photo_list_of_keys_strs:
             try:
                 # this could fail if we just deleted the photo
                 approve_or_unapprove_photo(photo_key_str, True)    
@@ -132,8 +132,8 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
                 error_reporting.log_exception(logging.error)
 
             
-        unapprove_photo_list_of_keys = request.POST.getlist('unapprove_photo')
-        for photo_key_str in unapprove_photo_list_of_keys:
+        unapprove_photo_list_of_keys_strs = request.POST.getlist('unapprove_photo')
+        for photo_key_str in unapprove_photo_list_of_keys_strs:
             try:
                 # this could fail if we just deleted the photo
                 approve_or_unapprove_photo(photo_key_str, False)  
@@ -174,8 +174,8 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
     
     if bookmark != 'final_pass':
         if bookmark :
-            bookmark_key = db.Key(bookmark)
-            photo_bookmark_object = db.get(bookmark_key)
+            bookmark_key = ndb.Key(urlsafe = bookmark)
+            photo_bookmark_object =bookmark_key.get()
             q = q.filter(PhotoModel.creation_date <=  photo_bookmark_object.creation_date) # only get the photos that are older than the bookmark.
        
         # note: creation_date refers to last time photo was updated
