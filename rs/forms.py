@@ -1320,7 +1320,7 @@ def print_current_search_settings(search_vals_dict, lang_idx):
                     printed_value = field_dict_by_field_name[field_name][lang_idx][field_val]     
             except: 
                 error_message = "field_name = %s lang_idx = %s field_val = %s" % (field_name, lang_idx, field_val)
-                error_reporting.log_exception(logging.error, error_message = error_message)
+                error_reporting.log_exception(logging.warning, error_message = error_message)
                         
             generated_html += u'<td class="cl-search-td-left-align"><strong>&nbsp;%s:&nbsp;</strong></td>\n' % label        
             generated_html += u'<td class="cl-search-td-left-align" >%s</td>\n' % printed_value                             

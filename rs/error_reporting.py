@@ -92,9 +92,7 @@ def log_exception(logging_function, *args, **kwds):
     else:
         error_message += "No additional error information included"
         
-    msg = (u"""
-    ************************************************************************************
-    %s
+    msg = (u"""%s
     ******************************************
     Error Message: %s
     ******************************************

@@ -901,7 +901,7 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
                 amount_off_by = unread_mail_count_obj.unread_contact_count
                 if amount_off_by != 0:
                     try:
-                        modify_user_unread_contact_count(unread_mail_count_obj, -amount_off_by, "NA")
+                        modify_user_unread_contact_count(userobject.unread_mail_count_ref, -amount_off_by, "NA")
                     except:
                         error_message = "User: %s counter exception" % userobject.username
                         error_reporting.log_exception(logging.error, error_message=error_message)    
