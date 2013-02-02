@@ -757,9 +757,10 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
             # we just do a reverse lookup on UserModel to that references the current counter_object, and get() 
             
             q = UserModel.query()
-            q = q.filter(UserModel.is_real_user == True).filter(UserModel.user_is_marked_for_elimination == False)
+            q = q.filter(UserModel.is_real_user == True)
             q = q.filter(key_type_on_usermodel == counter_object.key)
-            userobject = q.get()
+            q_not_eliminated_user = q.filter(UserModel.user_is_marked_for_elimination == False)
+            userobject = q_not_eliminated_user.get()
             
             if userobject and userobject.email_address_is_valid:
             
@@ -783,14 +784,16 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
                     # check if the user has been marked for elimination. -- report as an warning for now, but later this can probably be removed
                     # the important thing is that eliminated users are also removed from the message queue. This is accomplished
                     # by the call to "reset_new_contact_or_mail_counter_notification_settings" which is called below.
-                    userobject=counter_object.usermodel_set.filter('is_real_user =', True).filter('user_is_marked_for_elimination =', True).get()
+                    q_eliminated_user = q.filter(UserModel.user_is_marked_for_elimination == True)
+                    userobject = q_eliminated_user.get()
+                    
                     if userobject: 
                         error_message = "User %s is marked for elimination but is in message queue\n\
                         userobject: %s\n\counter_object: %s\n" % (userobject.username, repr(userobject), repr(counter_object))
                         error_reporting.log_exception(logging.warning, error_message = error_message)
                     else:
                         error_message = "Userobject pointed to by counter is not valid\n\
-                        counter_object KEY: %s. Obect: %s\n" % ( counter_object.key(), counter_object)
+                        counter_object KEY: %s. Obect: %s\n" % ( counter_object.key, counter_object)
                         error_reporting.log_exception(logging.critical, error_message = error_message)
                 elif not userobject.email_address_is_valid:
                     error_message = "Userobject does have an email address\n\
