@@ -1448,11 +1448,15 @@ def get_username_combinations_list(username):
 def check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
     # checks if enough time has passed since the last "time window" in which the current user is allowed to send new
     # messages to the other user.
-    if have_sent_messages_object.datetime_first_message_to_other_today + datetime.timedelta(
-        hours = constants.NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER - constants.RESET_MAIL_LEEWAY) <  datetime.datetime.now():
-        return True
-    else:
-        return False
+    try:
+        if have_sent_messages_object.datetime_first_message_to_other_today + datetime.timedelta(
+            hours = constants.NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER - constants.RESET_MAIL_LEEWAY) <  datetime.datetime.now():
+            return True
+        else:
+            return False
+    except:
+        error_reporting.log_exception(logging.critical, error_message = "have_sent_messages_object = %s" % repr(have_sent_messages_object))   
+        
         
 def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
     # checks if the current user has exceeded the number of messages that he is allowed to send to the other

@@ -256,9 +256,11 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
             
             for member_uid in group_members_list:
                 user_presence_status = online_presence_support.get_online_status(member_uid)
-                chat_boxes_status = online_presence_support.get_chat_boxes_status(member_uid)
-                
-                if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE:                    
+                # I don't know what these 2 lines of code were here for, but they can be deleted at some point in the future. 
+                # I am temporarily commenting it out in case it served a purpose. Feb 2 2013.
+                # chat_boxes_status = online_presence_support.get_chat_boxes_status(member_uid)
+                # if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE:                    
+                if user_presence_status != constants.OnlinePresence.OFFLINE:                    
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
