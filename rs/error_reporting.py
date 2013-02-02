@@ -53,20 +53,20 @@ def log_exception(logging_function, *args, **kwds):
     
     if err:
         exception_name = cls.__name__
-        subject = 'Exception: %s: %s\n' % (exception_name, err)
+        reason_for_logging = 'Exception: %s: %s' % (exception_name, err)
         traceback_info = ''.join(traceback.format_exception(*excinfo))
-        
-        if exception_name == 'DeadlineExceededError':
-            # if the exception is a Deadline, lower the warning level -- this is generally
-            # caused by google issues, and we cannot do much about it. 
-            logging_function = logging.warning
                
     else: 
-        subject = 'Status (non Exception)\n'
-        traceback_info_file = StringIO.StringIO()
-        traceback.print_stack(limit=stack_limit, file = traceback_info_file)
-        traceback_info = traceback_info_file.getvalue()
-        traceback_info_file.close()
+        reason_for_logging = 'Status (non Exception)'
+        traceback_info = ''
+       
+    # we don't need to include the current "log_exception" function in the stack trace. 
+    start_frame = sys._getframe(1)
+    
+    call_stack_info_file = StringIO.StringIO()
+    traceback.print_stack(start_frame, limit=stack_limit, file = call_stack_info_file)
+    call_stack_info = call_stack_info_file.getvalue()
+    call_stack_info_file.close()
         
         
     if check_if_trend_micro_scanning():
@@ -93,22 +93,29 @@ def log_exception(logging_function, *args, **kwds):
         error_message += "No additional error information included"
         
     msg = (u"""
-    Status Message: %s
-    ***********
+    ************************************************************************************
+    %s
+    ******************************************
+    Error Message: %s
+    ******************************************
     Version: %s
-    ***********
+    ******************************************
     Traceback: %s
-    ***********
+    ******************************************
+    Call Stack: %s
+    ******************************************    
     Request: %s
+    ************************************************************************************    
+    
     """
-           % (error_message,
+           % (reason_for_logging,
+              error_message,
               os.getenv('CURRENT_VERSION_ID'),
               traceback_info,
+              call_stack_info,
               repr_request))
     
-    exception_message = "%s%s" %(subject, msg)
-    
-    logging_function(exception_message)
+    logging_function(msg)
         
         
 def error_500_go_to_login(request):
