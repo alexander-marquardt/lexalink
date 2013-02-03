@@ -510,7 +510,7 @@ def delete_expired_sessions():
     q.filter(SessionModel._key < key)
     results = q.fetch(500, keys_only=True)
     len_results = len(results)
-    results.delete()
+    ndb.delete_multi(results)
     
     return len_results
 

@@ -29,6 +29,7 @@
 import re, datetime
 
 from os import environ
+import exceptions
 
 from google.appengine.ext import ndb 
 from google.appengine.api import mail
@@ -711,8 +712,7 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
                 batch_cursor = Cursor(urlsafe = cursor_str) # this may generate an exception if the string is not formatted correctly
             except:
                 error_reporting.log_exception(logging.critical, 
-                                              error_message = "Unable to extract batch_cursor from POST. Set to None. \
-                                              cursor_str = %s" % cursor_str)
+                                              error_message = "Unable to extract batch_cursor from POST. Set to None.")
                 batch_cursor = None
                 
             cutoff_time = request.POST.get('cutoff_time', None)
@@ -767,10 +767,15 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
                 try:   
                     try:
                         # If a user has never logged in since we added the lang_code to the search_preferences2, then
-                        # they will not have a language code object.
-                        lang_code = userobject.search_preferences2.lang_code
-                    except:
+                        # they will not have a language code object. Eventually this exception handling can be removed.
+                        search_preferences = userobject.search_preferences2.get()
+                        lang_code = search_preferences.lang_code
+                    except exceptions.AttributeError:
+                        error_reporting.log_exception(logging.warning)
+                        search_preferences.lang_code = 'es'
+                        search_preferences.put()
                         lang_code = "es"
+                        
                         
                     taskqueue.add(queue_name = 'mail-queue', url='/rs/admin/send_new_message_notification_email/', params = {
                         'uid': userobject.key.urlsafe(), 'lang_code': lang_code})
@@ -805,7 +810,7 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
                     return http.HttpResponseServerError()
                     
                 # do not return an error http response from this, because we do not want to re-queue this task       
-                store_data.reset_new_contact_or_mail_counter_notification_settings(counter_object.key()) 
+                store_data.reset_new_contact_or_mail_counter_notification_settings(counter_object.key) 
                 
         # queue up more jobs
         if get_more:

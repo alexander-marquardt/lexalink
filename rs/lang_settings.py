@@ -86,10 +86,11 @@ def set_language_and_redirect_back(request, lang_code):
         userobject = utils_top_level.get_userobject_from_request(request)
         # if userobject exists, then update its language settings to reflect then new value
         if userobject:
-            if userobject.search_preferences2.lang_code != lang_code:
+            search_preferences = userobject.search_preferences2.get()
+            if search_preferences.lang_code != lang_code:
                 # only write it if it has changed, since db writes are expensive
-                userobject.search_preferences2.lang_code = lang_code
-                userobject.search_preferences2.put()
+                search_preferences.lang_code = lang_code
+                search_preferences.put()
 
         calling_url = request.META.get('HTTP_REFERER', None) # get the calling URL  
         if calling_url:
