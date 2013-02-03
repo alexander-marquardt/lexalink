@@ -36,7 +36,7 @@ from google.appengine.api.datastore import entity_pb
 from google.appengine.api import memcache
 from django.utils.translation import ugettext
 
-import logging
+import logging, pickle
 
 import constants, settings
 
@@ -100,24 +100,36 @@ def get_uid_from_request(request):
 #    memcache.set("somekey", serialize_entities(entities))
 
 
-def serialize_entities(models):
-    if models is None:
+def serialize_entity(obj):
+    
+    if obj is None:
         return None
-    elif isinstance(models, ndb.Model):
-    # Just one instance
-        return ndb.ModelAdapter().entity_to_pb(models).Encode()
     else:
-    # A list
-        return [ndb.ModelAdapter().entity_to_pb(x).Encode() for x in models]
+        return pickle.dumps(obj)
+    
+    #if models is None:
+        #return None
+    #elif isinstance(models, ndb.Model):
+    ## Just one instance
+        #return ndb.ModelAdapter().entity_to_pb(models).Encode()
+    #else:
+    ## A list
+        #return [ndb.ModelAdapter().entity_to_pb(x).Encode() for x in models]
 
-def deserialize_entities(data):
+def deserialize_entity(data):
+    
     if data is None:
         return None
-    elif isinstance(data, str):
-        # Just one instance
-        return ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(data))
     else:
-        return [ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(x)) for x in data]
+        return pickle.loads(data)
+    
+    #if data is None:
+        #return None
+    #elif isinstance(data, str):
+        ## Just one instance
+        #return ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(data))
+    #else:
+        #return [ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(x)) for x in data]
     
 
 

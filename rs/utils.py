@@ -49,7 +49,7 @@ from models import UserModel
 import constants, queries, text_fields, models, online_presence_support
 
 from models import UnreadMailCount, CountInitiateContact
-from utils_top_level import serialize_entities, deserialize_entities
+from utils_top_level import serialize_entity, deserialize_entity
 
 import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
 from rs.import_search_engine_overrides import *
@@ -405,7 +405,7 @@ def get_active_userobject_from_username(username):
         if userobject:
             # use memcache.add since we don't need to invalidate old data if the key is already valid
             memcache_key_str = userobject.key.urlsafe() + settings.VERSION_ID
-            memcache.add(memcache_key_str, serialize_entities(userobject), constants.SECONDS_PER_MONTH)
+            memcache.add(memcache_key_str, serialize_entity(userobject), constants.SECONDS_PER_MONTH)
             return userobject
         else:
             return None
@@ -1359,7 +1359,7 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
             
         elif memcache_entity is not None and memcache_entity != 0:
             # Entity found in memcache - just return it.
-            initiate_contact_object = deserialize_entities(memcache_entity) 
+            initiate_contact_object = deserialize_entity(memcache_entity) 
             return initiate_contact_object
             
         
@@ -1393,7 +1393,7 @@ def get_initiate_contact_object(viewer_userobject_key, display_userobject_key, c
                     
             elif initiate_contact_object:
                 # initiate_contact_object exists - write it into memcache for future gets
-                memcache.set(memcache_key_str, serialize_entities(initiate_contact_object), constants.SECONDS_PER_MONTH) 
+                memcache.set(memcache_key_str, serialize_entity(initiate_contact_object), constants.SECONDS_PER_MONTH) 
                 
         return initiate_contact_object
 
@@ -1406,7 +1406,7 @@ def put_initiate_contact_object(initiate_contact_object, viewer_userobject_key, 
     
     initiate_contact_object.put()
     memcache_key_str = constants.INITIATE_CONTACT_MEMCACHE_PREFIX + viewer_userobject_key.urlsafe() + display_userobject_key.urlsafe()
-    memcache.set(memcache_key_str, serialize_entities(initiate_contact_object), constants.SECONDS_PER_MONTH)
+    memcache.set(memcache_key_str, serialize_entity(initiate_contact_object), constants.SECONDS_PER_MONTH)
     
     
 def convert_string_key_from_old_app_to_current_app(old_key_string):

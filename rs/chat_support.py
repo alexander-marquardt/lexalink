@@ -69,7 +69,7 @@ def get_open_conversation_tracker_object(owner_uid, other_uid):
     open_conversation_tracker_object = None
     if open_conversations_dictionary is not None:
         if other_uid in open_conversations_dictionary:
-            open_conversation_tracker_object = utils_top_level.deserialize_entities(open_conversations_dictionary[other_uid])
+            open_conversation_tracker_object = utils_top_level.deserialize_entity(open_conversations_dictionary[other_uid])
                 
             
     return open_conversation_tracker_object
@@ -81,7 +81,7 @@ def put_open_conversation_tracker_object(owner_uid, other_uid, open_conversation
     open_conversations_dictionary = memcache.get(open_conversations_memcache_dictionary_key)
     if open_conversations_dictionary is None:
         open_conversations_dictionary = {}
-    open_conversations_dictionary[other_uid] = utils_top_level.serialize_entities(open_conversation_tracker_object)
+    open_conversations_dictionary[other_uid] = utils_top_level.serialize_entity(open_conversation_tracker_object)
     memcache.set(open_conversations_memcache_dictionary_key, open_conversations_dictionary)
 
 
@@ -146,7 +146,7 @@ def query_currently_open_conversations(owner_uid):
     currently_open_conversations_list = []
     if open_conversations_dictionary is not None:
         for other_uid in open_conversations_dictionary:
-            currently_open_conversations_list.append(utils_top_level.deserialize_entities(open_conversations_dictionary[other_uid]))
+            currently_open_conversations_list.append(utils_top_level.deserialize_entity(open_conversations_dictionary[other_uid]))
 
     return currently_open_conversations_list
 
@@ -412,7 +412,7 @@ def query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, ty
     # most recent messages that are stored in the memcache    
     for message_number in range(newest_message_number, lowest_message_number, -1):
         memcache_message_object_key = CHAT_MESSAGE_OBJECT_MEMCACHE_PREFIX + memcache_message_base_key + "_" + str(message_number)
-        chat_message_object = utils_top_level.deserialize_entities(memcache.get(memcache_message_object_key))
+        chat_message_object = utils_top_level.deserialize_entity(memcache.get(memcache_message_object_key))
         if chat_message_object != None:
             if chat_message_object.chat_msg_time_string >= last_update_time_string:
                 list_of_chat_messages.append(chat_message_object)
@@ -479,7 +479,7 @@ def store_chat_message_in_memcache(memcache_message_object_key, sender_username,
     chat_message.chat_msg_time_string = str(datetime.datetime.now())
     chat_message.chat_msg_text = message_text
     chat_message.sender_username = sender_username
-    success = memcache.set(memcache_message_object_key, utils_top_level.serialize_entities(chat_message), constants.CHAT_MESSAGE_EXPIRY_TIME)
+    success = memcache.set(memcache_message_object_key, utils_top_level.serialize_entity(chat_message), constants.CHAT_MESSAGE_EXPIRY_TIME)
     # returns True if successfully written to memcache, False if not set
     if not success:
         error_reporting.log_exception(logging.critical, error_message = "Failed to write chat message to memcache. Key: " + memcache_message_object_key)

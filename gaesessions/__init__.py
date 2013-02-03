@@ -507,7 +507,7 @@ def delete_expired_sessions():
     now_str = unicode(int(time.time()))
     q = SessionModel.query(namespace='')
     key = ndb.Key(SessionModel, now_str + u'\ufffd', namespace='')
-    q.filter('__key__ < ', key)
+    q.filter(SessionModel._key < key)
     results = q.fetch(500, keys_only=True)
     len_results = len(results)
     results.delete()

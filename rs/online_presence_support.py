@@ -59,7 +59,7 @@ def get_online_status(owner_uid):
     
     try:
         presence_tracker_memcache_key = constants.OnlinePresence.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
-        presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
+        presence_tracker = utils_top_level.deserialize_entity(memcache.get(presence_tracker_memcache_key))
         user_presence_status = constants.OnlinePresence.OFFLINE
         if presence_tracker is not None:
 
@@ -99,7 +99,7 @@ def update_online_status(owner_uid, user_presence_status):
         assert(user_presence_status)
         
         presence_tracker_memcache_key = constants.OnlinePresence.STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
-        presence_tracker = utils_top_level.deserialize_entities(memcache.get(presence_tracker_memcache_key))
+        presence_tracker = utils_top_level.deserialize_entity(memcache.get(presence_tracker_memcache_key))
         
         if presence_tracker is None:
             presence_tracker = models.OnlineStatusTracker()
@@ -107,7 +107,7 @@ def update_online_status(owner_uid, user_presence_status):
         presence_tracker.user_presence_status = user_presence_status
 
         presence_tracker.connection_verified_time = datetime.datetime.now()
-        memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entities(presence_tracker))  
+        memcache.set(presence_tracker_memcache_key, utils_top_level.serialize_entity(presence_tracker))  
             
     except:
         error_reporting.log_exception(logging.critical)
