@@ -63,285 +63,287 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
     # easy viewing and maintenance.
     # what_to_show is a string that can either be "only_show_new" or "show_all"
     #
-    PhotoModel = models.PhotoModel
+    try:
+        PhotoModel = models.PhotoModel
+            
+        PAGESIZE = 16 # total number of photos per page (how many to fetch in the query)
+        PAGEWIDTH = 8 # number of photos per row
         
-    PAGESIZE = 16 # total number of photos per page (how many to fetch in the query)
-    PAGEWIDTH = 8 # number of photos per row
+        continue_html =  generated_html = post_footer_html = post_header_html = ''
+           
+        q = PhotoModel.query().order(-PhotoModel.creation_date)    
+        q = q.filter(PhotoModel.is_private == is_private)   
+        
+        if what_to_show == "show_new" and is_private:
+            # show the private photos that have not been reviewed
+            q = q.filter(PhotoModel.has_been_reviewed == False)  
+            
+        if what_to_show == "show_new" and not is_private:
+            # show the public photos that have not been approved
+            q = q.filter(PhotoModel.is_approved == False)
+        
+        num_photos_deleted = 0
+        num_photos_marked_private = 0
+        num_photos_approved = 0
+        num_photos_reviewed = 0
+        num_photos_unapproved = 0
     
-    continue_html =  generated_html = post_footer_html = post_header_html = ''
-       
-    q = PhotoModel.query().order(-PhotoModel.creation_date)    
-    q = q.filter(PhotoModel.is_private == is_private)   
-    
-    if what_to_show == "show_new" and is_private:
-        # show the private photos that have not been reviewed
-        q = q.filter(PhotoModel.has_been_reviewed == False)  
-        
-    if what_to_show == "show_new" and not is_private:
-        # show the public photos that have not been approved
-        q = q.filter(PhotoModel.is_approved == False)
-    
-    num_photos_deleted = 0
-    num_photos_marked_private = 0
-    num_photos_approved = 0
-    num_photos_reviewed = 0
-    num_photos_unapproved = 0
-
-    if request.method == 'POST': 
-        
-        def store_options_for_photo_key(photo_key_str, review_action_dict):
-            photo_object = ndb.Key(urlsafe = photo_key_str).get()
-            parent_uid = photo_object.parent_object.urlsafe()
-            # if we deleted a photo, we need to recompute the photo-based offsets
-            store_data.store_photo_options(request, parent_uid, is_admin_photo_review = True, review_action_dict = review_action_dict)            
-        
-        delete_photo_list_of_keys_strs = request.POST.getlist('delete_photo')
-        for photo_key_str in delete_photo_list_of_keys_strs:
-            # delete the photo and recompute the photo-based offsets            
-            store_options_for_photo_key(photo_key_str, review_action_dict = {'delete' : photo_key_str})
-            num_photos_deleted += 1
+        if request.method == 'POST': 
             
-        mark_private_photo_list_of_keys_strs = request.POST.getlist('mark_private_photo')
-        for photo_key_str in mark_private_photo_list_of_keys_strs:
-            try:
-                # if we mark a photo private, we need to recompute the photo-based offsets                
-                # this could fail if we just deleted the photo - but then wy would we be marking it private .. 
-                store_options_for_photo_key(photo_key_str, review_action_dict = {'is_private' : photo_key_str})
-                num_photos_marked_private += 1     
-            except:
-                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
-                error_reporting.log_exception(logging.error)            
-            
-            
-        def approve_or_unapprove_photo(photo_key_str, is_approved):
-            photo_object = ndb.Key(urlsafe = photo_key_str).get()
-            photo_object.is_approved = is_approved
-            utils.put_object(photo_object)
-                
-            parent_uid = photo_object.parent_object.urlsafe()
-            
-        approve_photo_list_of_keys_strs = request.POST.getlist('approve_photo')
-        # Photo has been approved as a public photo
-        for photo_key_str in approve_photo_list_of_keys_strs:
-            try:
-                # this could fail if we just deleted the photo
-                approve_or_unapprove_photo(photo_key_str, True)    
-                num_photos_approved += 1  
-            except:
-                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
-                error_reporting.log_exception(logging.error)
-
-            
-        unapprove_photo_list_of_keys_strs = request.POST.getlist('unapprove_photo')
-        for photo_key_str in unapprove_photo_list_of_keys_strs:
-            try:
-                # this could fail if we just deleted the photo
-                approve_or_unapprove_photo(photo_key_str, False)  
-                num_photos_unapproved += 1
-                
-            except:
-                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
-                error_reporting.log_exception(logging.error)        
-            
-        reviewed_photo_list_of_keys = request.POST.getlist('reviewed_photo')
-        # Photo has been reviewed - means that we have looked at it and determined that it doesn't need to be deleted
-        # from the datastore
-        for photo_key_str in reviewed_photo_list_of_keys:
-            try:
-                # this could fail if we just deleted the photo
+            def store_options_for_photo_key(photo_key_str, review_action_dict):
                 photo_object = ndb.Key(urlsafe = photo_key_str).get()
-                if photo_object:
-                    photo_object.has_been_reviewed = True
-                    # remove the "original" (without watermark) photos - these were only necessary for verification
-                    # of non-reviewed photos. 
-                    photo_object.medium_before_watermark = None
-                    photo_object.large_before_watermark = None
-                    utils.put_object(photo_object)
-                    num_photos_reviewed += 1     
+                parent_uid = photo_object.parent_object.urlsafe()
+                # if we deleted a photo, we need to recompute the photo-based offsets
+                store_data.store_photo_options(request, parent_uid, is_admin_photo_review = True, review_action_dict = review_action_dict)            
+            
+            delete_photo_list_of_keys_strs = request.POST.getlist('delete_photo')
+            for photo_key_str in delete_photo_list_of_keys_strs:
+                # delete the photo and recompute the photo-based offsets            
+                store_options_for_photo_key(photo_key_str, review_action_dict = {'delete' : photo_key_str})
+                num_photos_deleted += 1
+                
+            mark_private_photo_list_of_keys_strs = request.POST.getlist('mark_private_photo')
+            for photo_key_str in mark_private_photo_list_of_keys_strs:
+                try:
+                    # if we mark a photo private, we need to recompute the photo-based offsets                
+                    # this could fail if we just deleted the photo - but then wy would we be marking it private .. 
+                    store_options_for_photo_key(photo_key_str, review_action_dict = {'is_private' : photo_key_str})
+                    num_photos_marked_private += 1     
+                except:
+                    # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
+                    error_reporting.log_exception(logging.error)            
+                
+                
+            def approve_or_unapprove_photo(photo_key_str, is_approved):
+                
+                modify_num_photos = 0
+                try:
+                    photo_object = ndb.Key(urlsafe = photo_key_str).get()
+                    
+                    # object may have been deleted - so make sure it exists
+                    if photo_object:
+                        photo_object.is_approved = is_approved
+                        utils.put_object(photo_object)    
+                        modify_num_photos = 1 if is_approved else -1
+    
+                    else:
+                        error_reporting.log_exception(logging.warning, error_message = "photo_object not found")                  
+                except:
+                    error_reporting.log_exception(logging.error) 
+                    return 0
+    
+                return modify_num_photos
+                                
+            approve_photo_list_of_keys_strs = request.POST.getlist('approve_photo')
+            # Photo has been approved as a public photo
+            for photo_key_str in approve_photo_list_of_keys_strs:
+                num_photos_approved += approve_or_unapprove_photo(photo_key_str, True)  
+            
+            unapprove_photo_list_of_keys_strs = request.POST.getlist('unapprove_photo')
+            for photo_key_str in unapprove_photo_list_of_keys_strs:
+                num_photos_approved += approve_or_unapprove_photo(photo_key_str, False)      
+                
+            reviewed_photo_list_of_keys = request.POST.getlist('reviewed_photo')
+            # Photo has been reviewed - means that we have looked at it and determined that it doesn't need to be deleted
+            # from the datastore. Remove the non-watermarked copies of the photos and mark the photo as reviewed.
+            for photo_key_str in reviewed_photo_list_of_keys:
+                try:
+                    
+                    photo_object = ndb.Key(urlsafe = photo_key_str).get()
+                    # we may have just deleted the photo_object, so make sure that it exists.
+                    if photo_object:
+                        photo_object.has_been_reviewed = True
+                        # remove the "original" (without watermark) photos - these were only necessary for verification
+                        # of non-reviewed photos. 
+                        photo_object.medium_before_watermark = None
+                        photo_object.large_before_watermark = None
+                        utils.put_object(photo_object)
+                        num_photos_reviewed += 1     
+                except:
+                    error_reporting.log_exception(logging.error)         
+                
+        generated_html += 'Deleted %d photos<br>\n' % num_photos_deleted
+        generated_html += 'Marked private %d photos<br>\n' % num_photos_marked_private
+        generated_html += 'Approved %d photos<br>\n' % num_photos_approved
+        generated_html += 'Reviewed %d photos<br><br><br>\n' % num_photos_reviewed
+        generated_html += 'Un-Approved %d photos<br>\n' % num_photos_unapproved
+        
+        # since we use this function for both deleting/approving, as well as displaying the photos -- we need a "final" pass
+        # to process prviously marked photos -- this is indicated by the "final_pass" bookmark.
+        
+        
+        
+        if bookmark != 'final_pass':
+            if bookmark :
+                bookmark_key = ndb.Key(urlsafe = bookmark)
+                photo_bookmark_object =bookmark_key.get()
+                q = q.filter(PhotoModel.creation_date <=  photo_bookmark_object.creation_date) # only get the photos that are older than the bookmark.
+           
+            # note: creation_date refers to last time photo was updated
+                      
+            
+        
+            batch = q.fetch(PAGESIZE + 1)
+        
+            generated_html += """
+            <table>
+            <tr>""" 
+    
+            num_in_current_row = 0
+            
+            for photo_object in batch[:PAGESIZE]:  
+            
+                photo_object_key_str = photo_object.key.urlsafe()
+                photo_parentobject = photo_object.parent_object.get()
+                
+                profile_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, photo_parentobject, is_primary_user=False)
+                
+                if photo_object.has_been_reviewed:
+                    url_for_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("medium", photo_object_key_str)
+                    url_for_large_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("large", photo_object_key_str)
                 else:
-                    error_reporting.log_exception(logging.warning, error_message = "photo_object not found")   
-            except:
-                # if it fails because it was just deleted
-                error_reporting.log_exception(logging.error)         
-            
-    generated_html += 'Deleted %d photos<br>\n' % num_photos_deleted
-    generated_html += 'Marked private %d photos<br>\n' % num_photos_marked_private
-    generated_html += 'Approved %d photos<br>\n' % num_photos_approved
-    generated_html += 'Reviewed %d photos<br><br><br>\n' % num_photos_reviewed
-    generated_html += 'Un-Approved %d photos<br>\n' % num_photos_unapproved
-    
-    # since we use this function for both deleting/approving, as well as displaying the photos -- we need a "final" pass
-    # to process prviously marked photos -- this is indicated by the "final_pass" bookmark.
-    
-    
-    
-    if bookmark != 'final_pass':
-        if bookmark :
-            bookmark_key = ndb.Key(urlsafe = bookmark)
-            photo_bookmark_object =bookmark_key.get()
-            q = q.filter(PhotoModel.creation_date <=  photo_bookmark_object.creation_date) # only get the photos that are older than the bookmark.
-       
-        # note: creation_date refers to last time photo was updated
-                  
-        
-    
-        batch = q.fetch(PAGESIZE + 1)
-    
-        generated_html += """
-        <table>
-        <tr>""" 
-
-        num_in_current_row = 0
-        
-        for photo_object in batch[:PAGESIZE]:  
-        
-            photo_object_key_str = photo_object.key.urlsafe()
-            photo_parentobject = photo_object.parent_object.get()
-            
-            profile_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, photo_parentobject, is_primary_user=False)
-            
-            if photo_object.has_been_reviewed:
-                url_for_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("medium", photo_object_key_str)
-                url_for_large_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("large", photo_object_key_str)
-            else:
-                url_for_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("medium_before_watermark", photo_object_key_str)
-                url_for_large_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("large_before_watermark", photo_object_key_str)
+                    url_for_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("medium_before_watermark", photo_object_key_str)
+                    url_for_large_photo = '/rs/admin/ajax/get_%s_photo/%s.png' % ("large_before_watermark", photo_object_key_str)
+                    
+                           
+                creation_datetime_formatted = utils.return_time_difference_in_friendly_format(photo_object.creation_date)
                 
-                       
-            creation_datetime_formatted = utils.return_time_difference_in_friendly_format(photo_object.creation_date)
-            
-            status_html = ''
-            if photo_object.is_approved:
-                status_html += '<span style="color:green"> Approved for public</span><br>'
-            else:
-                status_html += '<span style="color:red"> Not approved public</span><br>'
-                
-            if photo_object.has_been_reviewed:
-                fancybox_title = "Has been previously reviewed"
-                status_html += '<span style="color:green">Reviewed</span><br>'
-            else:
-                fancybox_title = "Admin view - these un-reviewed photos should *not* have watermarks"
-                status_html += '<span style="color:red">Not Reviewed</span><br>'
-            
-            generated_html += '<td>%s<br><a href="%s">%s</a><br>%s<br>' % (status_html, profile_href, photo_parentobject.username, 
-                                                                     creation_datetime_formatted)
-            
-            generated_html += """<table><tr><td class = "img_min_height"><a class="%s" rel=%s href="%s" title="%s"><img class = "%s" src = "%s"><br></td></tr></table>\n""" % (
-                "cl-fancybox-profile-gallery", "cl-gallery1", 
-                url_for_large_photo, fancybox_title, 'cl-photo-img', url_for_photo)        
-            
-            
-            generated_html += '<input type = "checkbox" name=delete_photo value="%s"> Delete <br>\n' %( photo_object_key_str)
-            
-            checked_val = ""
-            generated_html += '<input type = "checkbox" name=unapprove_photo value="%s" %s> Un-Approve public<br>\n' % (photo_object_key_str, checked_val)
-
-            if not is_private:
-                # it is marked as "public"
-                generated_html += '<input type = "checkbox" name=mark_private_photo value="%s"> Mark Private <br>\n' % (photo_object_key_str)
-                
-                # if the photo is new, we want to give the user at least X minutes to mark it as "private".
-                # Therefore, we don't mark it as "approved" which has the same effect as leaving it as "private" 
-                # which is desired because the user needs a window of time between uploding the photo and showing 
-                # it publicly so that they can mark private photos as "private" without risking public display.
-                if photo_object.creation_date > datetime.datetime.now() - datetime.timedelta(minutes = 5):
-                    checked_val = ''
+                status_html = ''
+                if photo_object.is_approved:
+                    status_html += '<span style="color:green"> Approved for public</span><br>'
                 else:
-                    if photo_object.is_approved:
-                        # if already approved, don't check it since that would be redundant
+                    status_html += '<span style="color:red"> Not approved public</span><br>'
+                    
+                if photo_object.has_been_reviewed:
+                    fancybox_title = "Has been previously reviewed"
+                    status_html += '<span style="color:green">Reviewed</span><br>'
+                else:
+                    fancybox_title = "Admin view - these un-reviewed photos should *not* have watermarks"
+                    status_html += '<span style="color:red">Not Reviewed</span><br>'
+                
+                generated_html += '<td>%s<br><a href="%s">%s</a><br>%s<br>' % (status_html, profile_href, photo_parentobject.username, 
+                                                                         creation_datetime_formatted)
+                
+                generated_html += """<table><tr><td class = "img_min_height"><a class="%s" rel=%s href="%s" title="%s"><img class = "%s" src = "%s"><br></td></tr></table>\n""" % (
+                    "cl-fancybox-profile-gallery", "cl-gallery1", 
+                    url_for_large_photo, fancybox_title, 'cl-photo-img', url_for_photo)        
+                
+                
+                generated_html += '<input type = "checkbox" name=delete_photo value="%s"> Delete <br>\n' %( photo_object_key_str)
+                
+                checked_val = ""
+                generated_html += '<input type = "checkbox" name=unapprove_photo value="%s" %s> Un-Approve public<br>\n' % (photo_object_key_str, checked_val)
+    
+                if not is_private:
+                    # it is marked as "public"
+                    generated_html += '<input type = "checkbox" name=mark_private_photo value="%s"> Mark Private <br>\n' % (photo_object_key_str)
+                    
+                    # if the photo is new, we want to give the user at least X minutes to mark it as "private".
+                    # Therefore, we don't mark it as "approved" which has the same effect as leaving it as "private" 
+                    # which is desired because the user needs a window of time between uploding the photo and showing 
+                    # it publicly so that they can mark private photos as "private" without risking public display.
+                    if photo_object.creation_date > datetime.datetime.now() - datetime.timedelta(minutes = 5):
                         checked_val = ''
                     else:
-                        checked_val = "checked"
-                    
-                generated_html += '<input type = "checkbox" name=approve_photo value="%s" %s> Approve for public<br>\n' % (photo_object_key_str, checked_val)
-                            
-            
-            if photo_object.has_been_reviewed:
-                checked_val = "" # we have already reviewed it, don't mark it again  as reviewed
-            else:
-                checked_val = "checked"
-            generated_html += '<input type = "checkbox" name=reviewed_photo value="%s" %s> Mark Reviewed <br>\n' % (photo_object_key_str, checked_val)
-
-
+                        if photo_object.is_approved:
+                            # if already approved, don't check it since that would be redundant
+                            checked_val = ''
+                        else:
+                            checked_val = "checked"
+                        
+                    generated_html += '<input type = "checkbox" name=approve_photo value="%s" %s> Approve for public<br>\n' % (photo_object_key_str, checked_val)
+                                
                 
-            generated_html += "</td>"
-      
-            num_in_current_row += 1
-            
-            if num_in_current_row == PAGEWIDTH:
-                generated_html += "</tr><tr>\n"
-                num_in_current_row = 0
-            
-        href = ''
-        if len(batch) == PAGESIZE + 1:
-            bookmark = batch[-1].key.urlsafe()
-            
+                if photo_object.has_been_reviewed:
+                    checked_val = "" # we have already reviewed it, don't mark it again  as reviewed
+                else:
+                    checked_val = "checked"
+                generated_html += '<input type = "checkbox" name=reviewed_photo value="%s" %s> Mark Reviewed <br>\n' % (photo_object_key_str, checked_val)
     
-            if not is_private:
-                href = "/rs/admin/review_public_photos_bookmark/%s/%s/" % (what_to_show, bookmark)
-                continue_html += '<a href=%s>Show next page</a><br>\n' % href
-            else:
-                href = "/rs/admin/review_private_photos_bookmark/%s/%s/" % (what_to_show, bookmark)
-                continue_html += '<a href=%s>Show next page</a><br>\n' % href
     
-        generated_html += """
-        </tr>\n
-        </table>
+                    
+                generated_html += "</td>"
+          
+                num_in_current_row += 1
+                
+                if num_in_current_row == PAGEWIDTH:
+                    generated_html += "</tr><tr>\n"
+                    num_in_current_row = 0
+                
+            href = ''
+            if len(batch) == PAGESIZE + 1:
+                bookmark = batch[-1].key.urlsafe()
+                
         
-        """
+                if not is_private:
+                    href = "/rs/admin/review_public_photos_bookmark/%s/%s/" % (what_to_show, bookmark)
+                    continue_html += '<a href=%s>Show next page</a><br>\n' % href
+                else:
+                    href = "/rs/admin/review_private_photos_bookmark/%s/%s/" % (what_to_show, bookmark)
+                    continue_html += '<a href=%s>Show next page</a><br>\n' % href
         
-        if href == '':
-            # note, since this is a final call, and it is only for processing the photos that we have marked for
-            # deletion, this call can be to either the private or the public photos code.
-            href = "/rs/admin/review_private_photos_bookmark/%s/final_pass/" % (what_to_show)
+            generated_html += """
+            </tr>\n
+            </table>
             
+            """
             
-        post_header_html = """
-        <head>
-        <style type="text/css">
-        .img_min_height {
-        height: %(image_height)spx;
-        }
-        </style>
-        <link rel="stylesheet" href="/%(live_static_dir)s/css/jquery.fancybox-1.3.4.css" type="text/css" media="screen">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-        <script type="text/javascript" src="/%(live_static_dir)s/js/rometo-utils.js"></script>
-
-        <script type="text/javascript" src="/%(live_static_dir)s/js/jquery.fancybox-1.3.4.js"></script>
-
-        <script type="text/javascript">
-        $(document).ready(function() {
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
-        });
-        </script>
-        </head>
-        """ % {'live_static_dir': settings.LIVE_STATIC_DIR, 'image_height' : constants.MEDIUM_IMAGE_Y}
-
-        post_header_html += '<form method = "POST" action = "%s">' % href
-        post_footer_html = """
-        <input type=submit  alt="" value="Process Marked Photos">
-        </form><br>\n"""
-      
-        
-    html_to_render = continue_html + post_header_html + generated_html + post_footer_html
-
-    user = users.get_current_user()
+            if href == '':
+                # note, since this is a final call, and it is only for processing the photos that we have marked for
+                # deletion, this call can be to either the private or the public photos code.
+                href = "/rs/admin/review_private_photos_bookmark/%s/final_pass/" % (what_to_show)
+                
+                
+            post_header_html = """
+            <head>
+            <style type="text/css">
+            .img_min_height {
+            height: %(image_height)spx;
+            }
+            </style>
+            <link rel="stylesheet" href="/%(live_static_dir)s/css/jquery.fancybox-1.3.4.css" type="text/css" media="screen">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+            <script type="text/javascript" src="/%(live_static_dir)s/js/rometo-utils.js"></script>
     
-    if user:
-        html_to_render += '<a href=/rs/admin/review_public_photos/show_all/>Review all public photos</a><br>\n'    
-        html_to_render += '<a href=/rs/admin/review_public_photos/show_new/>Review new public photos</a><br><br>\n'    
-        html_to_render += '<a href=/rs/admin/review_private_photos/show_all/>Review all private photos</a><br>\n'       
-        html_to_render += '<a href=/rs/admin/review_private_photos/show_new/>Review new private photos</a><br>\n'       
-        html_to_render += '<br>Welcome %s: <a href=\"%s\">sign out</a><br><br><br>' % (user.nickname(), users.create_logout_url("/"))
+            <script type="text/javascript" src="/%(live_static_dir)s/js/jquery.fancybox-1.3.4.js"></script>
+    
+            <script type="text/javascript">
+            $(document).ready(function() {
+            fancybox_setup($("a.cl-fancybox-profile-gallery"));
+            });
+            </script>
+            </head>
+            """ % {'live_static_dir': settings.LIVE_STATIC_DIR, 'image_height' : constants.MEDIUM_IMAGE_Y}
+    
+            post_header_html += '<form method = "POST" action = "%s">' % href
+            post_footer_html = """
+            <input type=submit  alt="" value="Process Marked Photos">
+            </form><br>\n"""
+          
+            
+        html_to_render = continue_html + post_header_html + generated_html + post_footer_html
+    
+        user = users.get_current_user()
         
-        for build_name in constants.app_name_dict.keys():
-            domain_name = constants.domain_name_dict[build_name]
-            app_name = constants.app_name_dict[build_name]
-            html_to_render += '<a href=http://%s/rs/admin/review_public_photos/show_new/>%s public photos</a><br>\n'  % (domain_name, app_name)
-
-
-    else:
-        html_to_render = "Error: user not logged in!!!!"
+        if user:
+            html_to_render += '<a href=/rs/admin/review_public_photos/show_all/>Review all public photos</a><br>\n'    
+            html_to_render += '<a href=/rs/admin/review_public_photos/show_new/>Review new public photos</a><br><br>\n'    
+            html_to_render += '<a href=/rs/admin/review_private_photos/show_all/>Review all private photos</a><br>\n'       
+            html_to_render += '<a href=/rs/admin/review_private_photos/show_new/>Review new private photos</a><br>\n'       
+            html_to_render += '<br>Welcome %s: <a href=\"%s\">sign out</a><br><br><br>' % (user.nickname(), users.create_logout_url("/"))
+            
+            for build_name in constants.app_name_dict.keys():
+                domain_name = constants.domain_name_dict[build_name]
+                app_name = constants.app_name_dict[build_name]
+                html_to_render += '<a href=http://%s/rs/admin/review_public_photos/show_new/>%s public photos</a><br>\n'  % (domain_name, app_name)
+    
+    
+        else:
+            html_to_render = "Error: user not logged in!!!!"
+            
+    except:
+        error_reporting.log_exception(logging.critical)  
+        html_to_render = "Critical error - check logs"
         
     return HttpResponse(html_to_render)
 
