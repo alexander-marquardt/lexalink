@@ -418,6 +418,14 @@ class ChatGroupTracker(ndb.Model):
     number_of_group_members = ndb.IntegerProperty(default = 0)
     
     # List of group members UIDs
+    
+    # Usage note: 
+    # create a copy to the list, do not reference directly. This is necessary to prevent the list items from 
+    # ocassionally getting mutated to _BaseValue items (this can happen if we directlly access the group_members_list
+    # and it is "put" at some time between the read of the group_tracker_object, and the use of the group_members_list).
+    # See: http://code.google.com/p/appengine-ndb-experiment/issues/detail?id=208. Note: I suspect that copying the list
+    # may not solve the problem entirely, and it may be necessary to use transactions to ensure that an entire operation
+    # succeeds (if desired) - but a more likely solution isto just ignore the list if the list has been mutated.
     group_members_list = ndb.StringProperty(repeated = True, indexed = False)
     
     # creator name for showing to other users, as well as for administrative 

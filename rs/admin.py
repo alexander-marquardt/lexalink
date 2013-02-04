@@ -150,15 +150,18 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             try:
                 # this could fail if we just deleted the photo
                 photo_object = ndb.Key(urlsafe = photo_key_str).get()
-                photo_object.has_been_reviewed = True
-                # remove the "original" (without watermark) photos - these were only necessary for verification
-                # of non-reviewed photos. 
-                photo_object.medium_before_watermark = None
-                photo_object.large_before_watermark = None
-                utils.put_object(photo_object)
-                num_photos_reviewed += 1     
+                if photo_object:
+                    photo_object.has_been_reviewed = True
+                    # remove the "original" (without watermark) photos - these were only necessary for verification
+                    # of non-reviewed photos. 
+                    photo_object.medium_before_watermark = None
+                    photo_object.large_before_watermark = None
+                    utils.put_object(photo_object)
+                    num_photos_reviewed += 1     
+                else:
+                    error_reporting.log_exception(logging.warning, error_message = "photo_object not found")   
             except:
-                # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
+                # if it fails because it was just deleted
                 error_reporting.log_exception(logging.error)         
             
     generated_html += 'Deleted %d photos<br>\n' % num_photos_deleted

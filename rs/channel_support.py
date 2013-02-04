@@ -358,7 +358,8 @@ def process_message_to_chat_group(from_uid, group_uid, chatbox_minimized_maximiz
                        
         verify_from_uid_is_in_group = False
         group_tracker_object = utils_top_level.get_object_from_string(group_uid)
-        for owner_uid in group_tracker_object.group_members_list:
+        group_members_list = group_tracker_object.group_members_list[:]
+        for owner_uid in group_members_list:
             
             if from_uid == owner_uid:
                 verify_from_uid_is_in_group = True
@@ -457,11 +458,13 @@ def open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation):
         if type_of_conversation == "group":
             # need to make sure that the current users uid is in the list of group members
             group_tracker_object = utils_top_level.get_object_from_string(other_uid)
-            if owner_uid not in group_tracker_object.group_members_list:
+            group_members_list = group_tracker_object.group_members_list[:]
+            if owner_uid not in group_members_list:
                 # For group conversations, the group_id is passed in the other_uid parameter
                 group_id = other_uid
                 
-                group_tracker_object.group_members_list.append(owner_uid)
+                group_members_list.append(owner_uid)
+                group_tracker_object.group_members_list = group_members_list
                 group_tracker_object.number_of_group_members += 1
                 utils.put_object(group_tracker_object)  
                 

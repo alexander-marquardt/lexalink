@@ -211,9 +211,10 @@ def delete_uid_from_group(owner_uid, group_id):
     try:
         # need to make sure that the current users uid is in the list of group members
         
-        idx  = group_tracker_object.group_members_list.index(owner_uid)
-        
-        del group_tracker_object.group_members_list[idx]
+        group_members_list = group_tracker_object.group_members_list[:]
+        idx  = group_members_list.index(owner_uid)
+        del group_members_list[idx]
+        group_tracker_object.group_members_list = group_members_list
         group_tracker_object.number_of_group_members -= 1
         utils.put_object(group_tracker_object)
         
@@ -252,14 +253,12 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
             group_members_names_dict = {} # must initialize as a dictionary since it is currently None
         
             group_tracker_object = utils_top_level.get_object_from_string(group_uid)
-            group_members_list = group_tracker_object.group_members_list
+            # create a copy to the list, see the ChatGroupTracker declaration for a description of why this is necessary.
+            group_members_list = group_tracker_object.group_members_list[:]
             
             for member_uid in group_members_list:
                 user_presence_status = online_presence_support.get_online_status(member_uid)
-                # I don't know what these 2 lines of code were here for, but they can be deleted at some point in the future. 
-                # I am temporarily commenting it out in case it served a purpose. Feb 2 2013.
-                # chat_boxes_status = online_presence_support.get_chat_boxes_status(member_uid)
-                # if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE:                    
+                                                                    
                 if user_presence_status != constants.OnlinePresence.OFFLINE:                    
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
