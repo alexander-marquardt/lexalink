@@ -1582,21 +1582,27 @@ def increase_reporting_or_reporter_unacceptable_count(model_class, userobject_ke
     
     def txn(profile_reporting_tracker):
         
-        if not profile_reporting_tracker:
-            profile_reporting_tracker = model_class()
-            profile_reporting_tracker.profile_ref = userobject_key   
+        try:
+            if not profile_reporting_tracker:
+                profile_reporting_tracker = model_class()
+                profile_reporting_tracker.profile_ref = userobject_key   
+                if model_class == models.CountUnacceptableProfile:
+                    # it is a new object, so this is the first time that it has been reported.
+                    profile_reporting_tracker.datetime_first_reported_in_small_time_window = datetime.datetime.now()
+                    
+            profile_reporting_tracker.count += increase_or_decrease_count
             
-        profile_reporting_tracker.count += increase_or_decrease_count
-        
-        if model_class == models.CountUnacceptableProfile:
-            if profile_reporting_tracker.datetime_first_reported_in_small_time_window + datetime.timedelta(hours = constants.SMALL_TIME_WINDOW_HOURS_FOR_COUNT_UNACCEPTABLE_PROFILE_REPORTS) <  datetime.datetime.now():
-                # window has closed, start a new one.
-                profile_reporting_tracker.datetime_first_reported_in_small_time_window  = datetime.datetime.now()
-                profile_reporting_tracker.num_times_reported_in_small_time_window = 1
-            else:
-                # within the window - so increase the count
-                profile_reporting_tracker.num_times_reported_in_small_time_window += 1
-        
+            if model_class == models.CountUnacceptableProfile:
+                if profile_reporting_tracker.datetime_first_reported_in_small_time_window + datetime.timedelta(hours = constants.SMALL_TIME_WINDOW_HOURS_FOR_COUNT_UNACCEPTABLE_PROFILE_REPORTS) <  datetime.datetime.now():
+                    # window has closed, start a new one.
+                    profile_reporting_tracker.datetime_first_reported_in_small_time_window  = datetime.datetime.now()
+                    profile_reporting_tracker.num_times_reported_in_small_time_window = 1
+                else:
+                    # within the window - so increase the count
+                    profile_reporting_tracker.num_times_reported_in_small_time_window += 1
+        except:
+            error_reporting.log_exception(logging.error, "profile_reporting_tracker = %s" % repr(profile_reporting_tracker))                
+
         profile_reporting_tracker.put()
         return profile_reporting_tracker 
         

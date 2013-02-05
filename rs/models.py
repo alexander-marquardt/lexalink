@@ -799,7 +799,7 @@ class UsersHaveSentMessages(ndb.Model):
     # In order to limit the number of messages sent from "owner" to "other" in a single day, we need to keep track
     # of when the first message of the day was sent - and then start counting the number of messages from
     # that time.
-    datetime_first_message_to_other_today  = ndb.DateTimeProperty(indexed = False, auto_now_add = True) 
+    datetime_first_message_to_other_today  = ndb.DateTimeProperty(indexed = False) 
     
     # Keep track of the number of messages that the "owner" has sent to the "other" profile in the current day.
     num_messages_to_other_sent_today = ndb.IntegerProperty(default = 0, indexed = False) 
@@ -877,7 +877,7 @@ class CountUnacceptableProfile(ndb.Model):
     # Track how many times profile is reported as unacceptable in the "small time window" - which 
     # is defined as the number of hours in which we will ban an account if they receive too many 
     # reports.
-    datetime_first_reported_in_small_time_window  = ndb.DateTimeProperty(auto_now_add=True, indexed = False) 
+    datetime_first_reported_in_small_time_window  = ndb.DateTimeProperty(indexed = False) 
     num_times_reported_in_small_time_window = ndb.IntegerProperty(indexed = False, default=0)
     
     

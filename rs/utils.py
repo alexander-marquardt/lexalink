@@ -1306,6 +1306,7 @@ def get_have_sent_messages_object(owner_key, other_key, create_if_does_not_exist
         have_sent_messages_object = have_sent_messages_key.get()
         if not have_sent_messages_object and create_if_does_not_exist:
             have_sent_messages_object = models.UsersHaveSentMessages(id = get_have_sent_messages_key_name(owner_key, other_key))
+            have_sent_messages_object.datetime_first_message_to_other_today = datetime.datetime.now()
             have_sent_messages_object.put()
         return have_sent_messages_object
     except:
@@ -1439,7 +1440,7 @@ def check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
         else:
             return False
     except:
-        error_reporting.log_exception(logging.critical, error_message = "have_sent_messages_object = %s" % repr(have_sent_messages_object))   
+        error_reporting.log_exception(logging.error, error_message = "have_sent_messages_object = %s" % repr(have_sent_messages_object))   
         # We screwed up - so we give the user the benefit of the doubt and return True (ie. reset the counter to allow more messages
         # to be sent today)
         return True

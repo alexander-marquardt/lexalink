@@ -129,7 +129,6 @@ BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 BASE_OBJECT_MEMCACHE_PREFIX = "_base_object_" + site_configuration.VERSION_ID + "_"
 PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX = "_profile_url_description_"  + site_configuration.VERSION_ID + "_"
 PROFILE_TITLE_MEMCACHE_PREFIX = "_profile_title_"  + site_configuration.VERSION_ID + "_"
-#PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX = "_profile_first_half_summary:" + site_configuration.VERSION_ID
 NID_MEMCACHE_PREFIX = "_nid_memcache_prefix_" + site_configuration.VERSION_ID
 INITIATE_CONTACT_MEMCACHE_PREFIX = "_initiate_contact_" + site_configuration.VERSION_ID + "_"
 
@@ -442,7 +441,6 @@ else:
 
 # Memcache object to store the VIP (client_paid_status) for each user 
 # We don't set a timeout on this, since we will manually expire it if the userobject is updated. 
-CLIENT_PAID_STATUS_MEMCACHE_PREFIX = "_CLIENT_PAID_STATUS_MEMCACHE_PREFIX_" + site_configuration.VERSION_ID + "_"
 HIDDEN_ONLINE_STATUS = "hidden_online_status"
 
 # Define how many minutes of viewing others online status they will be allowed in a time window
