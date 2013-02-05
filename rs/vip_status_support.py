@@ -162,35 +162,32 @@ def instant_payment_notification(request):
     
   #return HttpResponse("OK")
 
-def check_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id):
+def check_payment_and_update_structures(userobject, currency, amount_paid, num_credits_awarded, txn_id):
   
   # This stores information about the user that has made the payment. This is stored for informational purposes.
   
+  # DO NOT wrap this in a try/except - we will let the outer blocks exception handlers deal with any exceptions
+  # since they send notification email to the administrator.
   transaction_is_ok = False
-  try:
-   
-    amount_paid_times_100 = int(float(amount) * 100)
-     
-    # make sure that the txn_id is not already stored in the database in order to prevent duplicate submissions
-    query = models.PaymentInfo.gql("WHERE txn_id = :txn_id", txn_id = txn_id)
-    if not query.get():
-      logging.info("Storing IPN transaction ID %s" % txn_id)
+      
+  # make sure that the txn_id is not already stored in the database in order to prevent duplicate submissions
+  query = models.PaymentInfo.gql("WHERE txn_id = :txn_id", txn_id = txn_id)
+  if not query.get():
+    logging.info("Storing IPN transaction ID %s" % txn_id)
 
-      payment_object = models.PaymentInfo()
-      payment_object.username = userobject.username
-      payment_object.owner_userobject = userobject
-      payment_object.amount_paid_times_100 = amount_paid_times_100
-      payment_object.date_paid = datetime.datetime.now()
-      payment_object.num_credits_awarded = num_credits_awarded
-      payment_object.txn_id = txn_id
-      transaction_is_ok = True
+    payment_object = models.PaymentInfo()
+    payment_object.username = userobject.username
+    payment_object.owner_userobject = userobject.key
+    payment_object.amount_paid = amount_paid
+    payment_object.currency = currency
+    payment_object.date_paid = datetime.datetime.now()
+    payment_object.num_credits_awarded = num_credits_awarded
+    payment_object.txn_id = txn_id
+    transaction_is_ok = True
 
-      payment_object.put()
-    else:
-      logging.error("Not processing IPN transaction ID %s since it is already stored" % txn_id)
-    
-  except:
-    error_reporting.log_exception(logging.critical)
+    payment_object.put()
+  else:
+    logging.error("Not processing IPN transaction ID %s since it is already stored" % txn_id)
   
   return transaction_is_ok
 
@@ -273,7 +270,7 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
     
     
 
-def manually_give_paid_status(request, username, num_credits):
+def manually_give_paid_status(request, username, num_credits, txn_id = None):
   
   try:
     num_credits = int(num_credits)
@@ -283,6 +280,13 @@ def manually_give_paid_status(request, username, num_credits):
     q = q.filter(UserModel.is_real_user == True)
     userobject = q.get()
 
+    if txn_id:
+      # manually add in the txn_id if it is inclded
+      amount = num_credits / 100
+      currency = "EUR"
+      check_payment_and_update_structures(userobject, currency, amount, 
+                                          num_credits, txn_id)
+    
     update_userobject_vip_status(userobject,  num_credits, payer_email = "N/A - manually awarded") 
     return http_utils.ajax_compatible_http_response(request, "Done")
   

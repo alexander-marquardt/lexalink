@@ -298,6 +298,7 @@ urlpatterns = patterns('',
     (r'^rs/admin/cleanup_sessions/$', gaesessions.cleanup_sessions),
     
     (r'^rs/admin/manually_give_paid_status/(?P<username>[\w]+)/(?P<num_credits>[\w]+)/$', vip_status_support.manually_give_paid_status),
+    (r'^rs/admin/manually_give_paid_status/(?P<username>[\w]+)/(?P<num_credits>[\w]+)/(?P<txn_id>[\w]+)/$', vip_status_support.manually_give_paid_status),
     (r'^rs/admin/manually_remove_paid_status/(?P<username>[\w]+)/$', vip_status_support.manually_remove_paid_status),
     
     #(r'^rs/admin/test_store_payment_and_update_structures/(?P<username>[\w]+)/(?P<txn_id>[\w]+)/$', vip_status_support.test_store_payment_and_update_structures),
