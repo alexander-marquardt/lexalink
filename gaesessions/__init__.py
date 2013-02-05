@@ -297,7 +297,9 @@ class Session(object):
                 pdump = session_model_instance.pdump
             else:
                 expiry_datetime = self.get_expiration_datetime()
-                logging.error("can't find session data in the datastore for sid=%s expiry: %s" % (self.sid, expiry_datetime))
+                # This can happen if the user has multiple windows open, and logs out in one of the windows but 
+                # the other windows continue to request information.
+                logging.warning("can't find session data in the datastore for sid=%s expiry: %s" % (self.sid, expiry_datetime))
                 self.terminate(False)  # we lost it; just kill the session
                 return
         self.data = self.__decode_data(pdump)
