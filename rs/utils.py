@@ -1456,7 +1456,10 @@ def check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
             return False
     except:
         error_reporting.log_exception(logging.critical, error_message = "have_sent_messages_object = %s" % repr(have_sent_messages_object))   
-        
+        # We screwed up - so we give the user the benefit of the doubt and return True (ie. reset the counter to allow more messages
+        # to be sent today)
+        return True
+    
         
 def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
     # checks if the current user has exceeded the number of messages that he is allowed to send to the other
