@@ -669,19 +669,21 @@ def store_change_password_fields(request, owner_uid):
 ###########################################################################
 def  reset_new_contact_or_mail_counter_notification_settings(object_ref_key):
     # resets the date_of_last_notification on the object to the current time. This can be used for both "new_contact_counter" and "unread_mail_count"
-            
-    def txn(new_contact_counter_ref_key):
-
-        counter_obj = object_ref_key.get()
-        counter_obj.date_of_last_notification = datetime.datetime.now()
-        counter_obj.num_new_since_last_notification = 0
-        counter_obj.when_to_send_next_notification = datetime.datetime.max
-        counter_obj.when_to_send_next_notification_string = str(counter_obj.when_to_send_next_notification)
-        counter_obj.put()
+    try:      
+        
+        def txn(new_contact_counter_ref_key):
     
-    ndb.transaction(lambda: txn(object_ref_key))
+            counter_obj = object_ref_key.get()
+            counter_obj.date_of_last_notification = datetime.datetime.now()
+            counter_obj.num_new_since_last_notification = 0
+            counter_obj.when_to_send_next_notification = datetime.datetime.max
+            counter_obj.when_to_send_next_notification_string = str(counter_obj.when_to_send_next_notification)
+            counter_obj.put()
+        
+        ndb.transaction(lambda: txn(object_ref_key))
     
-
+    except:
+        error_reporting.log_exception(logging.critical)            
     
     
 ###########################################################################
@@ -692,45 +694,48 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_
     # be run in a transaction to ensure that only a single update can take place at a time.
     # This value is used for tracking number of kisses, winks, keys, received by a user since their
     # last login. 
-            
-    def txn(new_contact_counter_ref_key, action_for_contact_count, value):
-
-        new_contact_counter_obj = new_contact_counter_ref_key.get()
-        current_count = getattr(new_contact_counter_obj, action_for_contact_count)
-        current_count += value
-        setattr(new_contact_counter_obj, action_for_contact_count, current_count)
-        
-        if update_notification_times:
-            new_contact_counter_obj.num_new_since_last_notification += value
-
-            if value > 0:
-                # only update notification settings if the user has received a new
-                # contact (not one that is delted)
-                if hours_between_notifications != None:
-                    new_contact_counter_obj.when_to_send_next_notification = \
-                                           new_contact_counter_obj.date_of_last_notification + \
-                                           datetime.timedelta(hours = hours_between_notifications)
-                else:
-                    new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
-                                
-            if new_contact_counter_obj.num_new_since_last_notification <= 0:
-                # this number can go negative if someone gives a kiss, and then takes it away. Not an exception,
-                # but it is good to keep it non-negative so that if new contacts are received after old contacts
-                # are taken away, this number will still be positive.
-                new_contact_counter_obj.num_new_since_last_notification = 0
+    try:
                 
-                # don't send a notification if there are no new contacts
-                new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
+        def txn(new_contact_counter_ref_key, action_for_contact_count, value):
+    
+            new_contact_counter_obj = new_contact_counter_ref_key.get()
+            current_count = getattr(new_contact_counter_obj, action_for_contact_count)
+            current_count += value
+            setattr(new_contact_counter_obj, action_for_contact_count, current_count)
             
-            new_contact_counter_obj.when_to_send_next_notification_string = str(new_contact_counter_obj.when_to_send_next_notification)  
-            
-        new_contact_counter_obj.put()
+            if update_notification_times:
+                new_contact_counter_obj.num_new_since_last_notification += value
+    
+                if value > 0:
+                    # only update notification settings if the user has received a new
+                    # contact (not one that is delted)
+                    if hours_between_notifications != None:
+                        new_contact_counter_obj.when_to_send_next_notification = \
+                                               new_contact_counter_obj.date_of_last_notification + \
+                                               datetime.timedelta(hours = hours_between_notifications)
+                    else:
+                        new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
+                                    
+                if new_contact_counter_obj.num_new_since_last_notification <= 0:
+                    # this number can go negative if someone gives a kiss, and then takes it away. Not an exception,
+                    # but it is good to keep it non-negative so that if new contacts are received after old contacts
+                    # are taken away, this number will still be positive.
+                    new_contact_counter_obj.num_new_since_last_notification = 0
+                    
+                    # don't send a notification if there are no new contacts
+                    new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
+                
+                new_contact_counter_obj.when_to_send_next_notification_string = str(new_contact_counter_obj.when_to_send_next_notification)  
+                
+            new_contact_counter_obj.put()
+            return new_contact_counter_obj
+        
+        
+        new_contact_counter_obj = ndb.transaction(lambda: txn(new_contact_counter_ref_key, action_for_contact_count, value))
         return new_contact_counter_obj
-    
-    
-    new_contact_counter_obj = ndb.transaction(lambda: txn(new_contact_counter_ref_key, action_for_contact_count, value))
-    return new_contact_counter_obj
-                       
+
+    except:
+        error_reporting.log_exception(logging.critical)          
 
 ###########################################################################
         
@@ -1100,31 +1105,35 @@ def store_initiate_contact(request, to_uid):
 #############################################
 
 def initialize_and_store_spam_tracker(current_spam_tracker):
+    
+    try:
 
-    if current_spam_tracker == None:
-
-        spam_tracker = SpamMailStructures()
-
-        spam_tracker.datetime_first_mail_sent_today  = datetime.datetime.now()
+        if current_spam_tracker == None:
+    
+            spam_tracker = SpamMailStructures()
+    
+            spam_tracker.datetime_first_mail_sent_today  = datetime.datetime.now()
+            
+            spam_tracker.num_mails_sent_today = 0
+            spam_tracker.num_mails_sent_total = 0
+            
+            spam_tracker.num_times_reported_as_spammer_total = 0
+            
+            spam_tracker.num_times_blocked = 0
+            
+            spam_tracker.num_times_reported_as_good_today = 0
+            spam_tracker.num_times_reported_as_good_total = 0
+            
+            spam_tracker.number_of_captchass_solved_total = 0         
+            
+            spam_tracker.put()
+            
+            return spam_tracker.key
+        else:
+            return current_spam_tracker.key
         
-        spam_tracker.num_mails_sent_today = 0
-        spam_tracker.num_mails_sent_total = 0
-        
-        spam_tracker.num_times_reported_as_spammer_total = 0
-        
-        spam_tracker.num_times_blocked = 0
-        
-        spam_tracker.num_times_reported_as_good_today = 0
-        spam_tracker.num_times_reported_as_good_total = 0
-        
-        spam_tracker.number_of_captchass_solved_total = 0         
-        
-        spam_tracker.put()
-        
-        return spam_tracker.key
-    else:
-        return current_spam_tracker.key
-      
+    except:
+        error_reporting.log_exception(logging.critical)  
 
 #############################################    
 
@@ -1373,54 +1382,58 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
     # the  user about their currrent spam-sending statistics.
     
     show_captcha = False
-    spam_statistics_string = ''
+    spam_statistics_string = ''  
     
-    if userobject.client_is_exempt_from_spam_captchas:
-        # if this user is paid member, they do not have to see messages about spam, or to solve captchas
-        # in the case that someone has indicated that they sent spam. 
-        return (show_captcha, spam_statistics_string)
+    try:
 
-    if not userobject.spam_tracker:
-        # if it doesn't exist, create it! (will only be done once in the life of every user..
-        # and only for old users that were not initialized correctly -- can remove this
-        # code if DB maintenance is done.
-        userobject.spam_tracker = initialize_and_store_spam_tracker(userobject.spam_tracker) 
-        put_userobject(userobject)  
-        
-    spam_tracker = userobject.spam_tracker.get()
-        
-    if spam_tracker.num_times_reported_as_spammer_total > spam_tracker.number_of_captchass_solved_total \
-       and not have_sent_messages_bool: 
-
-        # each message that is marked as a SPAM requires that the user enter a captcha.
-        show_captcha = True  
-      
-
-    # only show spam statistics for profiles that the user has not already had contact with
-    if not have_sent_messages_bool:
-        
-        if spam_tracker.num_mails_sent_total > 0:
-            percent_total_spam = float(spam_tracker.num_times_reported_as_spammer_total)/spam_tracker.num_mails_sent_total
-        else:
-            percent_total_spam = 0
-        
-        spam_statistics_string += u"""<div><strong>%(spam_stats_string)s</strong>
-        %(num_times_reported)s %(of_string)s %(num_mails_sent)s %(sent_string)s (%(percent).0f%%).<br>
-        %(if_you_send_spam)s<br><br></div>"""% {
-            'spam_stats_string' : ugettext("Statistics of spam sent from your account:"),    
-            'of_string' : ugettext("of"), 
-            'sent_string' : ugettext("sent"),
-            'if_you_send_spam' : ugettext('If you send spam, you will have to write "captchas" before being allowed \
-to send more messages. Additionally, if you send a lot of spam, your messages will be sent directly to the spam mailbox.'),
+        if userobject.client_is_exempt_from_spam_captchas:
+            # if this user is paid member, they do not have to see messages about spam, or to solve captchas
+            # in the case that someone has indicated that they sent spam. 
+            return (show_captcha, spam_statistics_string)
+    
+        if not userobject.spam_tracker:
+            # if it doesn't exist, create it! (will only be done once in the life of every user..
+            # and only for old users that were not initialized correctly -- can remove this
+            # code if DB maintenance is done.
+            userobject.spam_tracker = initialize_and_store_spam_tracker(userobject.spam_tracker) 
+            put_userobject(userobject)  
             
-            'num_times_reported' : spam_tracker.num_times_reported_as_spammer_total, 
-            'num_mails_sent' : spam_tracker.num_mails_sent_total,
-            'percent': 100*percent_total_spam}
-
+        spam_tracker = userobject.spam_tracker.get()
+            
+        if spam_tracker.num_times_reported_as_spammer_total > spam_tracker.number_of_captchass_solved_total \
+           and not have_sent_messages_bool: 
     
+            # each message that is marked as a SPAM requires that the user enter a captcha.
+            show_captcha = True  
+          
     
+        # only show spam statistics for profiles that the user has not already had contact with
+        if not have_sent_messages_bool:
+            
+            if spam_tracker.num_mails_sent_total > 0:
+                percent_total_spam = float(spam_tracker.num_times_reported_as_spammer_total)/spam_tracker.num_mails_sent_total
+            else:
+                percent_total_spam = 0
+            
+            spam_statistics_string += u"""<div><strong>%(spam_stats_string)s</strong>
+            %(num_times_reported)s %(of_string)s %(num_mails_sent)s %(sent_string)s (%(percent).0f%%).<br>
+            %(if_you_send_spam)s<br><br></div>"""% {
+                'spam_stats_string' : ugettext("Statistics of spam sent from your account:"),    
+                'of_string' : ugettext("of"), 
+                'sent_string' : ugettext("sent"),
+                'if_you_send_spam' : ugettext('If you send spam, you will have to write "captchas" before being allowed \
+    to send more messages. Additionally, if you send a lot of spam, your messages will be sent directly to the spam mailbox.'),
+                
+                'num_times_reported' : spam_tracker.num_times_reported_as_spammer_total, 
+                'num_mails_sent' : spam_tracker.num_mails_sent_total,
+                'percent': 100*percent_total_spam}
+    
+        
+    
+    except:
+        error_reporting.log_exception(logging.critical)  
+        
     return (show_captcha, spam_statistics_string)
-
 
 #############################################
 def check_captcha(request):
