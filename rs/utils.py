@@ -363,12 +363,6 @@ def put_userobject(userobject):
     uid = userobject.key.urlsafe()
     
     
-    # invalidate the client_paid_status memcache value since we may have just updated it.
-    client_paid_status_memcache_key = constants.CLIENT_PAID_STATUS_MEMCACHE_PREFIX + uid
-    memcache.delete(client_paid_status_memcache_key)
-    
-    #invalidate_user_summary_memcache(uid)
-    
     for lang_tuple in settings.LANGUAGES:
         lang_code = lang_tuple[0]
         url_description_memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid
@@ -377,16 +371,6 @@ def put_userobject(userobject):
         profile_title_memcache_key_str = lang_code + constants.PROFILE_TITLE_MEMCACHE_PREFIX + uid
         memcache_status = memcache.delete(profile_title_memcache_key_str)
         
-
-#def invalidate_user_summary_memcache(uid):
-    ## invalidates the profile summary that is stored in memcache - this should be done when 
-    ## changes to the user profile are made, including any modifications to the photos that
-    ## have been uploaded - also, when photos are approved this should be called. 
-    #for lang_tuple in settings.LANGUAGES:
-        #lang_code = lang_tuple[0]
-        #summary_first_half_memcache_key_str = lang_code + constants.PROFILE_FIRST_HALF_SUMMARY_MEMCACHE_PREFIX + uid
-        #memcache_status = memcache.delete(summary_first_half_memcache_key_str)
-    
 
     
 def get_active_userobject_from_username(username):
@@ -1533,15 +1517,9 @@ def get_vip_status(userobject):
 
 def get_nid_from_uid(uid):
     # function that looks up the nid [ie. key().id()] based on the uid. 
-    memcache_key = constants.NID_MEMCACHE_PREFIX + uid
-    nid = memcache.get(memcache_key)    
-    
-    if nid is None:
-        #userobject = utils_top_level.get_object_from_string(uid)
-        userobject = ndb.Key(urlsafe = uid).get()
-        nid = userobject.key.integer_id()
-        memcache.set(memcache_key, nid, constants.SECONDS_PER_DAY)
-    
+
+    userobject = ndb.Key(urlsafe = uid).get()
+    nid = userobject.key.integer_id()
     return nid
     
 def get_uid_from_nid(nid):
@@ -1651,22 +1629,8 @@ def do_display_online_status(owner_uid):
 
     try:    
     
-        # First, check if the user is a VIP (paid client). In order to not have to query the userobject,
-        # we check for the client_paid_status in memcache. If not there, then we load the userobject, and
-        # write the value to memcache. 
-        client_paid_status_memcache_key = constants.CLIENT_PAID_STATUS_MEMCACHE_PREFIX + owner_uid
-        client_paid_status = memcache.get(client_paid_status_memcache_key)
-        
-        if client_paid_status is None:
-            # client_paid_status not found in memcache for this uid
-            userobject = utils_top_level.get_object_from_string(owner_uid)
-            client_paid_status = userobject.client_paid_status
-            if client_paid_status is None:
-                # we must set the memcache value to something other than None, in order to prevent us from
-                # interpreting a "None" value as a memcache miss. 
-                memcache.set(client_paid_status_memcache_key, False)
-            else:
-                memcache.set(client_paid_status_memcache_key, client_paid_status)
+        userobject = utils_top_level.get_object_from_string(owner_uid)
+        client_paid_status = userobject.client_paid_status
         
         if client_paid_status:
             # This is a VIP (paid) member - always show online status 

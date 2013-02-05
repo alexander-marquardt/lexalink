@@ -261,7 +261,7 @@ def display_userobject_second_half_summary(viewer_userobject, display_userobject
         return ""        
         
         
-def get_userobject_summary_with_memcache_check(request, viewer_userobject, display_userobject_key, display_online_status):
+def get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status):
     
     """
     This is a wrapper function for display_userobject_summary that computes the summary only if it is not in
@@ -295,7 +295,7 @@ def generate_html_for_search_results(request, viewer_userobject, query_results_k
 
     
     for display_userobject_key in query_results_keys:
-        generated_html += get_userobject_summary_with_memcache_check(request, viewer_userobject, display_userobject_key, display_online_status)
+        generated_html += get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status)
         
     return generated_html
 
