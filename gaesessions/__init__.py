@@ -174,7 +174,7 @@ class Session(object):
         # make a random ID (random.randrange() is 10x faster but less secure?)
         if expire_ts is None:
             expire_dt = datetime.datetime.now() + self.lifetime
-            expire_ts = int(time.mktime((expire_dt).timetuple()))
+            expire_ts = int(time.mktime(expire_dt.timetuple()))
         else:
             expire_ts = int(expire_ts)
         if ssl_only:
@@ -261,7 +261,7 @@ class Session(object):
         if self.sid:
             self.__clear_data()
         self.sid = sid
-        self.db_key = ndb.Key(SessionModel, sid, namespace='')
+        self.ndb_key = ndb.Key(SessionModel, sid, namespace='')
 
         # set the cookie if requested
         if make_cookie:
@@ -272,7 +272,7 @@ class Session(object):
         if self.sid:
             memcache.delete(self.sid, namespace='')  # not really needed; it'll go away on its own
             try:
-                self.db_key.delete()
+                self.ndb_key.delete()
             except:
                 pass  # either it wasn't in the db (maybe cookie/memcache-only) or db is down => cron will expire it
 
@@ -287,11 +287,13 @@ class Session(object):
                 logging.info("can't find session data in memcache for sid=%s (using memcache only sessions)" % self.sid)
                 self.terminate(False)  # we lost it; just kill the session
                 return
-            session_model_instance = self.db_key.get()
+            session_model_instance = self.ndb_key.get()
             if session_model_instance:
                 pdump = session_model_instance.pdump
             else:
-                logging.error("can't find session data in the datastore for sid=%s" % self.sid)
+                expiry_timestamp = self.get_expiration()
+                expiry_datetime = datetime.datetime.fromtimestamp(expiry_timestamp)
+                logging.error("can't find session data in the datastore for sid=%s expiry: %s" % (self.sid, expiry_datetime))
                 self.terminate(False)  # we lost it; just kill the session
                 return
         self.data = self.__decode_data(pdump)
