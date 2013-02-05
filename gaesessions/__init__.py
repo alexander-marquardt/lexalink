@@ -273,6 +273,7 @@ class Session(object):
 
     def __clear_data(self):
         """Deletes this session from memcache and the datastore."""
+        logging.info("erasing session from database and memcache %s" % self.sid)      
         if self.sid:
             memcache.delete(self.sid, namespace='')  # not really needed; it'll go away on its own
             try:
