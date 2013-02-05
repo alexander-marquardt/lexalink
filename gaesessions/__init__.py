@@ -168,6 +168,10 @@ class Session(object):
             return int(self.sid[:-33])
         except:
             return 0
+        
+    def get_expiration_datetime(self):
+        expiry_timestamp = self.get_expiration()
+        return datetime.datetime.fromtimestamp(expiry_timestamp)        
 
     def __make_sid(self, expire_ts=None, ssl_only=False):
         """Returns a new session ID."""
@@ -291,8 +295,7 @@ class Session(object):
             if session_model_instance:
                 pdump = session_model_instance.pdump
             else:
-                expiry_timestamp = self.get_expiration()
-                expiry_datetime = datetime.datetime.fromtimestamp(expiry_timestamp)
+                expiry_datetime = self.get_expiration_datetime()
                 logging.error("can't find session data in the datastore for sid=%s expiry: %s" % (self.sid, expiry_datetime))
                 self.terminate(False)  # we lost it; just kill the session
                 return

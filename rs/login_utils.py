@@ -91,6 +91,9 @@ def store_session(request, userobject):
         chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
         chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
     
+        expiry_datetime = request.session.get_expiration_datetime()
+        logging.info("Stored session id %s for user %s (%s). Expires %s" % (request.session.sid, 
+                                            userobject.username, userobject.key, expiry_datetime))
     except: 
         error_reporting.log_exception(logging.critical)      
     
