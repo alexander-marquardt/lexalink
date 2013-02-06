@@ -25,10 +25,13 @@
 # limitations under the License.
 ################################################################################
 
+from django.utils.translation import ugettext
 
 import models
 from google.appengine.ext import ndb
-from rs import utils, models, error_reporting
+from google.appengine.datastore.datastore_query import Cursor
+from rs import utils, models, error_reporting, display_profiles_summary, utils_top_level
+import rendering
 import datetime, logging
 
 PAGESIZE = 6
@@ -36,6 +39,7 @@ PAGESIZE = 6
 def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
     """ Keep track of which profiles "viewers" have viewed other "displayed" profiles  """
 
+    logging.info("*************** store_viewer_in_displayed_profile_viewer_tracker")
     try:
         viewer_key = ndb.Key(urlsafe = viewer_uid)
         displayed_key = ndb.Key(urlsafe = displayed_uid)
@@ -48,8 +52,8 @@ def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
         
         # Check if the database already has stored an entry for the viewer looking at the displayed profile
         vt_q = models.ViewerTracker.query()
-        vt_q = vt_q.filter(models.ViewerTracker.displayed_profile == viewer_key)
-        vt_q = vt_q.filter(models.ViewerTracker.viewer_profile == displayed_key)
+        vt_q = vt_q.filter(models.ViewerTracker.displayed_profile == displayed_key)
+        vt_q = vt_q.filter(models.ViewerTracker.viewer_profile == viewer_key)
         viewer_tracker_object = vt_q.get()
         
         if viewer_tracker_object:
@@ -69,12 +73,12 @@ def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
             viewed_counter_object = models.ViewedCounter()
         
         if is_a_new_viewer:
-            viewed_counter_object.viewed_counter += 1
+            viewed_counter_object.num_views += 1
             viewed_counter_object.put()
         
         
     except:
-        error_reporting.log_exception(logging.critical, error_message = error_message)
+        error_reporting.log_exception(logging.critical)
         
 
 def get_number_of_views_of_profile(profile_key):
@@ -96,10 +100,12 @@ def get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_
         
 def get_list_of_profile_views(profile_key, paging_cursor):
     
+    # get the list of proviles that have looked at the "profile_key" profile. (ie. displayed_profile == profile_key)
+    
     # Check if the database already has stored an entry for the viewer looking at the displayed profile
     vt_q = models.ViewerTracker.query()
-    vt_q = vt_q.order(-ViewerTracker.view_time)
-    vt_q = vt_q.filter(models.ViewerTracker.viewer_profile == displayed_key)
+    vt_q = vt_q.order(-models.ViewerTracker.view_time)
+    vt_q = vt_q.filter(models.ViewerTracker.displayed_profile == profile_key)
 
     if paging_cursor:
         (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(PAGESIZE, start_cursor = paging_cursor)
@@ -110,3 +116,48 @@ def get_list_of_profile_views(profile_key, paging_cursor):
     viewer_profile_keys_list = get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_list)
     
     return (viewer_profile_keys_list, new_cursor, more_results)
+
+
+def generate_html_for_profile_views(request):
+    
+    try:
+        userobject =  utils_top_level.get_userobject_from_request(request)
+        
+        if not userobject:
+            return ''
+        
+        owner_uid = userobject.key.urlsafe()
+        
+        generated_title = generated_header = ugettext("Profile views")
+        generated_html_hidden_variables = ''
+        generated_html_top_next_button = ''
+        generated_html_bottom_next_button = ''    
+        post_action = "/%s/profile_views/" % (request.LANGUAGE_CODE)
+        generated_html_top = display_profiles_summary.generate_summary_html_top(post_action, generated_header)
+        generated_html_bottom = display_profiles_summary.generate_summary_html_bottom()
+        display_online_status = utils.do_display_online_status(owner_uid)
+        
+        cursor_str = request.GET.get('profile_views_cursor',None)
+        paging_cursor = Cursor(urlsafe = cursor_str)
+        
+        (viewer_profile_keys_list, new_cursor, more_results) = get_list_of_profile_views(userobject.key, paging_cursor)
+        generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, viewer_profile_keys_list, 
+                                                                                          display_online_status)
+        
+        if more_results:
+            generated_html_hidden_variables = \
+                                u'<input type=hidden id="id-profile_views_cursor" name="profile_views_cursor" \
+                                value="%(profile_views_cursor)s">\n' % {'profile_views_cursor': new_cursor.urlsafe()}           
+            (generated_html_top_next_button, generated_html_bottom_next_button) = display_profiles_summary.generate_next_button_html()
+            
+        
+        generated_html =  generated_html_top + generated_html_hidden_variables + generated_html_top_next_button + \
+                       generated_html_body + generated_html_bottom_next_button + generated_html_bottom
+        
+        return rendering.render_main_html(request, generated_html, userobject, page_title = generated_title, 
+                                          refined_links_html = '', show_social_buttons = True,
+                                          page_meta_description = '')
+        
+    except:
+        error_reporting.log_exception(logging.critical)
+        return rendering.render_main_html(request, 'Error')

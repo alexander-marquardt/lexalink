@@ -30,7 +30,7 @@ from django.conf.urls.defaults import *
 from rs import views, ajax, store_data, search_results, mailbox, display_contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, lang_settings, channel_support, vip_status_support, \
-     videochat, rendering, sitemaps, mail_handlers
+     videochat, rendering, sitemaps, mail_handlers, track_viewers
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
 import gaesessions
@@ -80,6 +80,7 @@ urlpatterns = patterns('',
     # url(r'^rs/generate_search_results/$', search_results.generate_search_results, name="generate_search_results"),
     url(r'^rs/generate_search_results/$', search_results.permanent_search_query_redirect, name="generate_search_results"),
     
+    url(r'^profile_views/$', track_viewers.generate_html_for_profile_views),
     
     url(r'^rs/auth/generate_mailbox/(?P<mailbox_name>[\w|-]+)/(?P<owner_uid>[\w|-]+)/$', 
         mailbox.generate_mailbox, name = "generate_mailbox"),
