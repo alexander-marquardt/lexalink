@@ -455,7 +455,8 @@ def generate_search_results(request, type_of_search = "normal"):
             assert(0)
 
 
-        generated_html_top = display_profiles_summary.generate_summary_html_top(generated_header)
+        header_html = "%s: %s" % (ugettext("Showing results for"), generated_header)
+        generated_html_top = display_profiles_summary.generate_summary_html_top(header_html)
         generated_html_open_form = display_profiles_summary.generate_summary_html_open_form(post_action)
         generated_html_body =  u'<div class="cl-clear"></div>\n'
         

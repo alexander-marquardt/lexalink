@@ -206,6 +206,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             # be rendered, we are sure that they are active. The computational cost of this is very low.
             online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
             additional_ads_to_append = get_additional_ads_to_append(request, userobject)
+            
+            num_profile_views_since_last_check = userobject.viewed_profile_counter_ref.get().num_views_since_last_check
     
         else:
             registered_user_bool = False
@@ -214,6 +216,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             owner_uid = ''
             owner_nid = ''
             owner_message_count = new_contact_count = 0
+            num_views_since_last_check = 0
             if not hide_why_to_register:
                 why_to_register = ugettext("Remember the following benefits of registering with %(app_name)s.") % {'app_name': settings.APP_NAME}
                 why_to_register += u"<br><br><ul>"
@@ -263,7 +266,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields['do_not_try_to_dynamically_load_search_values'] = do_not_try_to_dynamically_load_search_values
         primary_user_presentation_data_fields['remove_chatboxes'] = "yes" if remove_chatboxes else "no"
         primary_user_presentation_data_fields['client_paid_status'] = client_paid_status
-        
+        primary_user_presentation_data_fields['num_profile_views_since_last_check'] = num_profile_views_since_last_check
             
         # Information for users that have not signed up for an account.
         guest_user_data_fields = {}

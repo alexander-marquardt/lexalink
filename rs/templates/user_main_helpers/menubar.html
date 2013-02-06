@@ -92,8 +92,8 @@
                 <a href="{% url show_profile_views %}"
                 class="top_link">
                     <span>{% trans "Profile views" %}
-                    {% if primary_user_presentation_data_fields.profile_views_since_last_check %}
-                        [{{ primary_user_presentation_data_fields.profile_views_since_last_check }} {% trans "new" %}]
+                    {% if primary_user_presentation_data_fields.num_profile_views_since_last_check %}
+                        [{{ primary_user_presentation_data_fields.num_profile_views_since_last_check }} {% trans "new" %}]
                     {% endif %}
                     </span>
                 </a>

@@ -31,7 +31,7 @@ import models
 from google.appengine.ext import ndb
 from google.appengine.datastore.datastore_query import Cursor
 from rs import utils, models, error_reporting, display_profiles_summary, utils_top_level
-import rendering
+import rendering, site_configuration
 import datetime, logging
 
 PAGESIZE = 6
@@ -58,10 +58,12 @@ def store_viewer_in_owner_profile_viewer_tracker(viewer_uid, displayed_uid):
         viewer_tracker_object = vt_q.get()
         
         if viewer_tracker_object:
+            last_view_time = viewer_tracker_object.view_time 
             viewer_tracker_object.view_time = datetime.datetime.now()
             is_a_new_viewer = False
         else:
             # create a new object
+            last_view_time = datetime.datetime.min
             viewer_tracker_object = models.ViewerTracker()
             viewer_tracker_object.displayed_profile = displayed_key
             viewer_tracker_object.viewer_profile = viewer_key
@@ -69,15 +71,25 @@ def store_viewer_in_owner_profile_viewer_tracker(viewer_uid, displayed_uid):
             
         viewer_tracker_object.put()
         
+        # Now deal with the viewed_profile_counter_object, which tracks how man other people have viewed a particular profile.
+        write_profile_counter_object = False
         viewed_profile_counter_object = viewed_profile_counter_object_future.get_result()
         if not viewed_profile_counter_object:
             raise Exception("viewed_profile_counter_object not found")
             
         if is_a_new_viewer:
             viewed_profile_counter_object.count_num_unique_views += 1
-          
-        viewed_profile_counter_object.num_views_since_last_check  += 1
-        viewed_profile_counter_object.put()
+            write_profile_counter_object = True
+        
+        if last_view_time < viewed_profile_counter_object.last_check_time:
+            # We only want to count each viewer a single time in the "num_views_since_last_check" field.
+            # Therefore, if the viewer profile last looked at the displayed profile some time before 
+            # the displayed profile looked at "profile views", then we increase the value.
+            viewed_profile_counter_object.num_views_since_last_check  += 1
+            write_profile_counter_object = True
+         
+        if write_profile_counter_object:
+            viewed_profile_counter_object.put()
         
         
     except:
@@ -166,7 +178,7 @@ def generate_html_for_profile_views(request):
         display_online_status = utils.do_display_online_status(owner_uid)
         owner_is_vip = utils.owner_is_vip(owner_uid)
         
-        generated_title = generated_header = ugettext("%(username)s profile views.") % {'username' : userobject.username}
+        generated_title = header_html = ugettext("Members that have viewed your profile (members that viewed your profile most recently are shown first).") % {'username' : userobject.username}
         generated_html_before_form = ''
 
         viewed_profile_counter_object = userobject.viewed_profile_counter_ref.get()
@@ -178,23 +190,31 @@ def generate_html_for_profile_views(request):
         
         generated_html_before_form += u'<div class="cl-clear"></div>\n'
         generated_html_before_form += '<ul>\n'
-        generated_html_before_form += "<li>%s</li>\n" % ugettext("Your profile has been viewed %(num_views_since_last_check)s times since you last checked %(last_check_time_str)s") % {
+        generated_html_before_form += "<li>%s</li>\n" % ugettext("""Your profile has been viewed by %(num_views_since_last_check)s members since you last checked %(last_check_time_str)s. 
+        """) % {
             'num_views_since_last_check' : num_views_since_last_check, 
             'last_check_time_str' : last_check_time_str}
         
-        generated_html_before_form += "<li>%s</li>\n" % ugettext("%(count_num_unique_views)s people have viewed your profile since %(unique_views_since_date_str)s") % {
+        generated_html_before_form += "<li>%s</li>\n" % ugettext("""
+        %(count_num_unique_views)s members have viewed your profile since %(unique_views_since_date_str)s
+        """) % {
             'count_num_unique_views' : count_num_unique_views,
             'unique_views_since_date_str' : unique_views_since_date_str,}
         
         
         if not owner_is_vip:
+            assert(MAX_PROFILE_VIEWS_TO_SHOW_TO_NON_VIP == 1) # if this number is changed, we need to change the error message below
+            generated_html_before_form += "<li>%s</li>" % ugettext("As a free (non-VIP) member of %(app_name)s you can only see the last person that viewed your profile") % {
+                'app_name' : site_configuration.APP_NAME}
             # make sure that we don't show negative number of people that have viewed the profile
-            num_hidden_views = max(get_total_unique_number_of_views_of_profile(userobject.viewed_profile_counter_ref) - MAX_PROFILE_VIEWS_TO_SHOW_TO_NON_VIP, 0)
             upgrade_to_vip_text = ugettext("Upgrade to VIP")
             vip_status_link = '<a class="cl-see_all_vip_benefits" href="#">%s</a>' % upgrade_to_vip_text
             generated_html_before_form += "<li>%s</li>\n" % (
-                ugettext("""%(vip_status_link)s to see all other members that have viewed your profile""") % {
-                    'vip_status_link' : vip_status_link})
+                ugettext("""%(vip_status_link)s to see all %(count_num_unique_views)s members that have viewed your 
+                profile since %(unique_views_since_date_str)s""") % {
+                    'vip_status_link' : vip_status_link, 
+                    'count_num_unique_views' : count_num_unique_views,
+                    'unique_views_since_date_str' : unique_views_since_date_str,})
             
         generated_html_before_form += "</ul>\n"
             
@@ -203,7 +223,7 @@ def generate_html_for_profile_views(request):
         generated_html_bottom_next_button = ''  
         
         post_action = "/%s/profile_views/" % (request.LANGUAGE_CODE)
-        generated_html_top = display_profiles_summary.generate_summary_html_top(generated_header)
+        generated_html_top = display_profiles_summary.generate_summary_html_top(header_html)
         
         generated_html_open_form = display_profiles_summary.generate_summary_html_open_form(post_action)        
         generated_html_close_form = display_profiles_summary.generate_summary_html_close_form()

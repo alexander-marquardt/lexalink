@@ -270,7 +270,7 @@ def generate_html_for_list_of_profiles(request, viewer_userobject, query_results
         
     return generated_html
 
-def generate_summary_html_top(generated_header):
+def generate_summary_html_top(header_html):
 
     # used for generatingthe HTML that defines the "top" part of the search results (ie. the opening of the form
     # element, as well as the header.
@@ -278,10 +278,8 @@ def generate_summary_html_top(generated_header):
     generated_html_top = ''
     
     generated_html_top += u'<div class="cl-clear"></div>\n'
-    generated_html_top += u'<div class="grid_9 alpha omega">&nbsp;</div>\n'
-    generated_html_top += u'<div class="cl-clear"></div>\n'
-    generated_html_top += u'<div class="grid_9 alpha omega">\n'
-    generated_html_top += u'<h1>%s: %s</h1>\n' % (ugettext("Showing results for"), generated_header)
+    generated_html_top += u'<div class="grid_9 alpha omega"><br><br>\n'
+    generated_html_top += u'<h1>%s</h1>\n' % header_html
     generated_html_top += u'</div> <!-- end grid9 -->\n'    
     return generated_html_top
     
