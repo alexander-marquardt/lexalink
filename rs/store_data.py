@@ -1007,6 +1007,9 @@ def store_initiate_contact(request, to_uid):
                                      
 
                                     response_text += utils.render_paypal_button(request, userobject.username, userobject_nid)
+                                    
+                                    see_vip_benefits_txt = ugettext("See VIP benefits")
+                                    response_text += '<strong><a class="cl-dialog_anchor cl-see_all_vip_benefits" href="#">%s</a></strong>' % see_vip_benefits_txt
 
                         if request_denied:
                             # un-do the request (toggle it) by calling the same function again, Note that we override the 

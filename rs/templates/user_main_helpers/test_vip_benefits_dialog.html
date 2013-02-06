@@ -32,7 +32,7 @@
         {{ paypal_button }}
 
         <p>
-        <a class="cl-dialog_anchor" id="id-see_all_vip_benefits" href="#">{% trans "See VIP benefits" %}</a>
+        <a class="cl-dialog_anchor cl-see_all_vip_benefits" href="#">{% trans "See VIP benefits" %}</a>
         </p>
 
     </div>
@@ -122,8 +122,9 @@ $(document).ready(function() {
         show_online_status_button_click_dialog();
     });
 
-    $('#id-see_all_vip_benefits').click(function() {
+    $(document).on("click",'.cl-see_all_vip_benefits', function(e) {
         show_all_vip_benefits_dialog();
+        e.preventDefault();
     })
 
 });

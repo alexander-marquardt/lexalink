@@ -35,11 +35,11 @@ import rendering
 import datetime, logging
 
 PAGESIZE = 6
+MAX_TO_SHOW_TO_NON_VIP = 1
 
 def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
     """ Keep track of which profiles "viewers" have viewed other "displayed" profiles  """
 
-    logging.info("*************** store_viewer_in_displayed_profile_viewer_tracker")
     try:
         viewer_key = ndb.Key(urlsafe = viewer_uid)
         displayed_key = ndb.Key(urlsafe = displayed_uid)
@@ -71,7 +71,8 @@ def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
         viewed_counter_object = viewed_counter_object_future.get_result()
         if not viewed_counter_object:
             viewed_counter_object = models.ViewedCounter()
-        
+            viewed_counter_object.displayed_profile = displayed_key
+            
         if is_a_new_viewer:
             viewed_counter_object.num_views += 1
             viewed_counter_object.put()
@@ -85,12 +86,19 @@ def get_number_of_views_of_profile(profile_key):
     
     vc_q = models.ViewedCounter.query()
     vc_q = vc_q.filter(models.ViewedCounter.displayed_profile == profile_key)    
-    viewed_counter = c_q.get()
-    num_views = viewer_counter.num_views
+    viewed_counter = vc_q.get()
+    if viewed_counter:
+        num_views = viewed_counter.num_views
+    else:
+        num_views = 0
+        
     return num_views
 
 
 def get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_list):
+    
+    # loop over the list of viewer_tracker_objects, and return a list of the corresponding 
+    # UserModel objects keys. 
     
     viewer_profile_keys_list = []
     for viewer_tracker_object in viewer_tracker_object_list:
@@ -98,20 +106,30 @@ def get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_
         
     return viewer_profile_keys_list
         
-def get_list_of_profile_views(profile_key, paging_cursor):
+def get_list_of_profile_views(profile_key, owner_is_vip, paging_cursor):
     
     # get the list of proviles that have looked at the "profile_key" profile. (ie. displayed_profile == profile_key)
     
+    if owner_is_vip: 
+        # If they are VIP, then the will see all of the people that have viewed their profile in the past 3 months
+        num_profiles_to_get = PAGESIZE
+    else:
+        num_profiles_to_get = MAX_TO_SHOW_TO_NON_VIP    
+        paging_cursor = None
+
     # Check if the database already has stored an entry for the viewer looking at the displayed profile
     vt_q = models.ViewerTracker.query()
     vt_q = vt_q.order(-models.ViewerTracker.view_time)
     vt_q = vt_q.filter(models.ViewerTracker.displayed_profile == profile_key)
 
     if paging_cursor:
-        (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(PAGESIZE, start_cursor = paging_cursor)
+        (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(num_profiles_to_get, start_cursor = paging_cursor)
     else:
-        (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(PAGESIZE)        
+        (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(num_profiles_to_get)        
         
+    if not owner_is_vip:
+        new_cursor = None
+        more_results = False
     
     viewer_profile_keys_list = get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_list)
     
@@ -120,30 +138,46 @@ def get_list_of_profile_views(profile_key, paging_cursor):
 
 def generate_html_for_profile_views(request):
     
+    # Generates the display html that shows which other members have viewed the current users profile. 
+    
     try:
         userobject =  utils_top_level.get_userobject_from_request(request)
         
         if not userobject:
             return ''
         
-        owner_uid = userobject.key.urlsafe()
+        owner_key = userobject.key
+        owner_uid = owner_key.urlsafe()
+        display_online_status = utils.do_display_online_status(owner_uid)
+        owner_is_vip = utils.owner_is_vip(owner_uid)
         
-        generated_title = generated_header = ugettext("Profile views")
+
+        
+        generated_title = generated_header = ugettext("%(username)s profile views") % {'username' : userobject.username}
         generated_html_hidden_variables = ''
         generated_html_top_next_button = ''
-        generated_html_bottom_next_button = ''    
+        generated_html_bottom_next_button = ''  
+        
         post_action = "/%s/profile_views/" % (request.LANGUAGE_CODE)
         generated_html_top = display_profiles_summary.generate_summary_html_top(post_action, generated_header)
         generated_html_bottom = display_profiles_summary.generate_summary_html_bottom()
-        display_online_status = utils.do_display_online_status(owner_uid)
         
         cursor_str = request.GET.get('profile_views_cursor',None)
         paging_cursor = Cursor(urlsafe = cursor_str)
         
-        (viewer_profile_keys_list, new_cursor, more_results) = get_list_of_profile_views(userobject.key, paging_cursor)
+        (viewer_profile_keys_list, new_cursor, more_results) = get_list_of_profile_views(userobject.key, owner_is_vip, paging_cursor)            
+        
         generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, viewer_profile_keys_list, 
                                                                                           display_online_status)
-        
+        if not owner_is_vip:
+            # make sure that we don't show negative number of people that have viewed the profile
+            num_hidden_views = max(get_number_of_views_of_profile(owner_key) - MAX_TO_SHOW_TO_NON_VIP, 0)
+            upgrade_to_vip_text = ugettext("Upgrade to VIP")
+            vip_status_link = '<a class="cl-see_all_vip_benefits" href="#">%s</a>' % upgrade_to_vip_text
+            generated_html_body += "<p><h1>%s</h1></p>" % ugettext("""Plus %(num_hidden_views)d others. 
+            %(vip_status_link)s to see all other members that have viewed your profile""") % {
+                                'num_hidden_views' : num_hidden_views, 'vip_status_link' : vip_status_link}
+                                                                                        
         if more_results:
             generated_html_hidden_variables = \
                                 u'<input type=hidden id="id-profile_views_cursor" name="profile_views_cursor" \

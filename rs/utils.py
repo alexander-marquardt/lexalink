@@ -1652,6 +1652,17 @@ def do_display_online_status(owner_uid):
         error_reporting.log_exception(logging.error) 
         return False
 
+def owner_is_vip(owner_uid):
+    
+    userobject = utils_top_level.get_object_from_string(owner_uid)
+    client_paid_status = userobject.client_paid_status
+    
+    if client_paid_status:
+        # This is a VIP (paid) member - always show online status 
+        return True     
+    else :
+        return False
+
 def set_show_online_status_timeout(owner_uid):
     
     # keep track of how long this user will be allowed to view other users online status, 
