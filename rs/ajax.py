@@ -343,7 +343,7 @@ def get_photo(request, photo_object_key_str, photo_size = 'small', is_admin_logi
             else:
                 error_reporting.log_exception(logging.warning, request=request, \
                                               error_message = 'User: "%s" Unauthorized photo access to profile: "%s:' % \
-                                              (utils.get_username_from_request(request), utils.get_username_from_userobject(photo_object.parent_object)))
+                                              (utils.get_username_from_request(request), utils.get_username_from_userobject(photo_object.parent_object.get())))
                 response = HttpResponse("Error: Unauthorized access")
 
             return response
