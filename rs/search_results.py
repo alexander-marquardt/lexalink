@@ -61,7 +61,6 @@ if settings.BUILD_NAME == "Friend":
 
 PAGESIZE = 6
 
-MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
 
 
@@ -524,7 +523,7 @@ def generate_search_results(request, type_of_search = "normal"):
             elif  0 < len_new_query_results < num_results_needed:
                 # the current query was not able to get enough results to satisfy the current query, we 
                 # generate results for the results that were returned. 
-                generated_html_body +=  display_profiles_summary.generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status)  
+                generated_html_body +=  display_profiles_summary.generate_html_for_list_of_profiles(request, viewer_userobject, new_query_results_keys, display_online_status)  
                 len_query_results_currently_stored += len_new_query_results
                 search_vals_dict['bookmark'] = ""
                 
@@ -534,7 +533,7 @@ def generate_search_results(request, type_of_search = "normal"):
                     # by construction, we are guaranteed that len_new_query_results >= num_results_needed.
                     # can remove this assert in the future. 
                     assert(len_new_query_results >= num_results_needed)
-                    generated_html_body += display_profiles_summary.generate_html_for_search_results(request, viewer_userobject, new_query_results_keys[:-1], display_online_status)  
+                    generated_html_body += display_profiles_summary.generate_html_for_list_of_profiles(request, viewer_userobject, new_query_results_keys[:-1], display_online_status)  
                     last_userobject = utils_top_level.get_object_from_string(new_query_results_keys[-1].urlsafe())
                     # get the value of last_login_string, or unique_last_login (or in the future other criteria)
                     # that is stored on the "last_userobject"
@@ -542,7 +541,7 @@ def generate_search_results(request, type_of_search = "normal"):
                 elif type_of_search == "by_name":
                     # cursors are used for this search, and we did not generate an extra tail value as a bookmark
                     # therefore, we pass in the entire list of keys without chopping off the last value.
-                    generated_html_body += display_profiles_summary.generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status) 
+                    generated_html_body += display_profiles_summary.generate_html_for_list_of_profiles(request, viewer_userobject, new_query_results_keys, display_online_status) 
                     assert(paging_cursor)
                     if more_results:
                         search_vals_dict['bookmark'] = paging_cursor.urlsafe()

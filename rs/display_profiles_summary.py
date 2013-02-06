@@ -251,7 +251,8 @@ def get_userobject_summary(request, viewer_userobject, display_userobject_key, d
     return summary_first_half_html + summary_second_half_html
     
 
-def generate_html_for_search_results(request, viewer_userobject, query_results_keys, display_online_status):
+
+def generate_html_for_list_of_profiles(request, viewer_userobject, query_results_keys, display_online_status):
     # Accepts results from a query, which is an array of user profiles that matched the previous query.
     # Goes through each profile, and generates a snippett of text + profile photo, which give a 
     # basic introduction to the user.
