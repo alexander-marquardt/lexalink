@@ -80,7 +80,7 @@ urlpatterns = patterns('',
     # url(r'^rs/generate_search_results/$', search_results.generate_search_results, name="generate_search_results"),
     url(r'^rs/generate_search_results/$', search_results.permanent_search_query_redirect, name="generate_search_results"),
     
-    url(r'^show_profile_views/$', track_viewers.generate_html_for_profile_views),
+    url(r'^show_profile_views/$', track_viewers.generate_html_for_profile_views, name = 'show_profile_views'),
     
     url(r'^rs/auth/generate_mailbox/(?P<mailbox_name>[\w|-]+)/(?P<owner_uid>[\w|-]+)/$', 
         mailbox.generate_mailbox, name = "generate_mailbox"),

@@ -1738,17 +1738,12 @@ def send_vip_congratulations_message(userobject):
     try:
         alex_object = get_alex_userobject()
         to_uid = userobject.key.urlsafe()
-        expiry_date = userobject.client_paid_status_expiry
-        expiry_day = expiry_date.day
-        expiry_month = expiry_date.month
-        expiry_year = expiry_date.year
         
         # set the language to be the users preferred language
         translation.activate(userobject.search_preferences2.get().lang_code)
-        month_in_current_language = constants.MONTH_NAMES[expiry_month]
-        date_in_current_language = ugettext("%(month)s %(day)s, %(year)s") % {'month': month_in_current_language, 
-                                                                              'day' : expiry_day,
-                                                                              'year' : expiry_year}
+
+        date_in_current_language = get_date_in_current_language(userobject.client_paid_status_expiry)
+        
         text = ugettext("Congratulations, you are now a VIP member until %(date)s.") % {'date' : date_in_current_language}
         actually_store_send_mail(alex_object, to_uid, text)
     except:
@@ -1935,6 +1930,7 @@ def store_new_user_after_verify(request, fake_request=None):
                
         userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, request.LANGUAGE_CODE) 
         userobject = setup_new_user_defaults_and_structures(userobject, login_dict['username'], request.LANGUAGE_CODE)
+        userobject.viewed_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
 
         
         # store indication of email address validity (syntactically valid )
@@ -2079,6 +2075,14 @@ def check_and_fix_userobject(userobject, lang_code):
             'email_options' : (lambda x: x, (['daily_notification_of_new_messages',],)),
 
         }
+        
+        try:
+            viewed_profile_counter_obj = userobject.viewed_profile_counter_ref.get()
+            assert(viewed_profile_counter_obj)
+        except:
+            error_reporting.log_exception(logging.warning, error_message="fixing userobject to have a valid viewed_profile_counter_ref")   
+            userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
+            utils.put_userobject(userobject)
 
         # Some checkbox fields may or may not appear in individual builds, and therefore we have to check the
         # UserProfileDetails.enabled_checkbox_fields_list[] to see if it is necessary to check the field 

@@ -454,7 +454,9 @@ def generate_search_results(request, type_of_search = "normal"):
         else:
             assert(0)
 
-        generated_html_top = display_profiles_summary.generate_summary_html_top(post_action, generated_header)
+
+        generated_html_top = display_profiles_summary.generate_summary_html_top(generated_header)
+        generated_html_open_form = display_profiles_summary.generate_summary_html_open_form(post_action)
         generated_html_body =  u'<div class="cl-clear"></div>\n'
         
        
@@ -578,11 +580,11 @@ def generate_search_results(request, type_of_search = "normal"):
             
             
             
-        generated_html_bottom = display_profiles_summary.generate_summary_html_bottom()
+        generated_html_close_form = display_profiles_summary.generate_summary_html_close_form()
     
             
-        generated_html =  generated_html_top + generated_html_hidden_variables + generated_html_top_next_button + \
-                       generated_html_body + generated_html_bottom_next_button + generated_html_bottom
+        generated_html =  generated_html_top + generated_html_open_form + generated_html_hidden_variables + \
+        generated_html_top_next_button + generated_html_body + generated_html_bottom_next_button + generated_html_close_form
         
         return rendering.render_main_html(request, generated_html, viewer_userobject, page_title = generated_title, 
                                           refined_links_html = refined_links_html, show_social_buttons = True,

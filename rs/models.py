@@ -658,6 +658,8 @@ class UserModel(ndb.Model):
     # if client has paid money for their status, we exempt them from captchas (for the duration of their status)
     client_is_exempt_from_spam_captchas = ndb.BooleanProperty(default=False)
     
+    # This is a forward reference to "ViewedProfileCounter" model (defined below)
+    viewed_profile_counter_ref = ndb.KeyProperty(default = None)
     
 class PaymentInfo(ndb.Model):
     # This class keeps track of how much a user has paid/donated, what date the donation was made, etc.
@@ -966,9 +968,23 @@ class FakeParent(ndb.Model):
 class ViewerTracker(ndb.Model):
     displayed_profile = ndb.KeyProperty(kind = UserModel)
     viewer_profile = ndb.KeyProperty(kind = UserModel)
-    view_time =  ndb.DateTimeProperty(auto_now = True) 
+    view_time =  ndb.DateTimeProperty(auto_now_add = True) 
         
         
-class ViewedCounter(ndb.Model):
-    displayed_profile = ndb.KeyProperty(kind = UserModel)
-    num_views = ndb.IntegerProperty(default = 0) 
+class ViewedProfileCounter(ndb.Model):
+    owner_profile = ndb.KeyProperty(kind = UserModel)
+    
+    # keep track of the number of *unique* profiles that have viewed the displayed profile. This will likely be limited
+    # to counting the profiles that have viewed this profile in the past 30 days (or whatever we put as a limit). This means
+    # that when we clear out old ViewerTracker objects, we must also reduce this count by the associated ammount. 
+    count_num_unique_views = ndb.IntegerProperty(default = 0)    
+
+    # We periodically remove old ViewerTracker items, and this means that we also need to subtract the removed items from
+    # count_num_unique_views. Keep track of when the last time we removed items so that we can report to the user from
+    # which date the count that they are seeing is valid from. 
+    unique_views_since_date = ndb.DateTimeProperty(auto_now_add = True) 
+    
+    # track how man times this profile has been viewed since the last time the owner of this profile viewed 
+    # the list of who has viewed him.
+    last_check_time =  ndb.DateTimeProperty(auto_now_add = True) 
+    num_views_since_last_check = ndb.IntegerProperty(default = 0) 

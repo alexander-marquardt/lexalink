@@ -299,6 +299,12 @@ def get_login_dict_from_post(request, login_type):
     return (login_dict) 
 
 
+def create_viewed_profile_counter_object(userobject_key):
+
+    viewed_counter_object = models.ViewedProfileCounter()
+    viewed_counter_object.owner_profile = userobject_key
+    viewed_counter_object.put()
+    return viewed_counter_object.key
 
 
 #############################################

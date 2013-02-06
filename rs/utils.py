@@ -1688,3 +1688,30 @@ def set_show_online_status_timeout(owner_uid):
     except:
         error_reporting.log_exception(logging.error) 
         return "Error"        
+    
+    
+def get_date_in_current_language(datetime_date):
+    # returns date in language appropriate format, which includes month, day, and year. Does not include
+    # hours. 
+    
+    datetime_date_day = datetime_date.day
+    datetime_date_month = datetime_date.month
+    datetime_date_year = datetime_date.year
+
+    month_in_current_language = constants.MONTH_NAMES[datetime_date_month]
+    date_in_current_language = ugettext("%(month)s %(day)s, %(year)s") % {'month': month_in_current_language, 
+                                                                          'day' : datetime_date_day,
+                                                                          'year' : datetime_date_year}
+    return date_in_current_language
+
+def get_date_or_time_in_current_language(datetime_date):
+    
+    # if more than 24 hours have passed, returns date in month, day, and year format. Otherwise,
+    # returns it in the format of "5 hours ago" (because we don't handle timezones properly yet)
+    
+    if datetime.datetime.now() - datetime_date >= datetime.timedelta(hours = 24):
+        time_str = get_date_in_current_language(datetime_date)
+    else:
+        time_str = return_time_difference_in_friendly_format(datetime_date, capitalize = False)
+        
+    return time_str
