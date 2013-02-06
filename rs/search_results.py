@@ -47,6 +47,7 @@ from rs.user_profile_main_data import UserSpec
 from rs.user_profile_details import UserProfileDetails
 from rs.constants import ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN
 from rs.localizations import *
+from rs import display_profiles_summary
 import store_data, utils, error_reporting
 import rendering, text_fields, utils_top_level, vip_status_support
 import profile_utils
@@ -62,242 +63,6 @@ PAGESIZE = 6
 
 MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
-
-def display_userobject_first_half_summary(request, display_userobject, display_online_status):
-    # returns a summary of a single users userobject. 
-    #
-    
-    try:
-        
-        lang_code = request.LANGUAGE_CODE
-        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-        lang_idx_offset = lang_idx + 1        
-        
-        # This is just a security checking funcion, since we previously set last_login to None for userobjects that had been 
-        # eliminated -- we should never show a userobject if it's last_login is None -- and this code just notifies us if this happens.
-        if display_userobject.last_login_string == None or display_userobject.unique_last_login == None:
-            logging.warning("last_login values set to none for userobject %s" % display_userobject.username)  
-            
-        
-        generated_html = ''
-        
-        generated_html += u'<div class="grid_9 alpha omega cl-search_results">\n'
-        generated_html += u'<!-- following line defines the horizontal bar -->'
-        generated_html += u'<div class = "grid_9 alpha omega cl-divider-line" ></div>'
-        generated_html += u'<div class="grid_9 alpha omega cl-search_seperator" ></div>'
-    
-        generated_html += u'<div class="grid_9 alpha omega"> &nbsp;</div>\n'
-    
-        userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
-    
-        heading_text = ugettext("See profile of:")
-        generated_html += u'<div class="grid_9 alpha omega cl-text-14pt-format">\
-        <a href="%s" rel="address:%s"><strong>%s</strong> %s </a>' % (
-            userobject_href, userobject_href, heading_text, display_userobject.username)
-
-        
-        if display_online_status:
-            userobject_key = display_userobject.key.urlsafe()
-            status_string = utils.get_vip_online_status_string(userobject_key)
-            generated_html += u' <br>%s' % status_string
-        
-        generated_html += "<br><br></div>\n"
-        
-        
-        
-        status_string = ''
-        # Note, the "and userobject.current_status" should be eventually removed for efficiency .. but
-        # is needed temporarily because some of the users might have this value set to "" from a previous 
-        # code revision.
-        if display_userobject.current_status != "----" and display_userobject.current_status:
-            #time_string = utils.return_time_difference_in_friendly_format(userobject.current_status_update_time)
-            status_string = u"<em>%s</em>" % (display_userobject.current_status)
-            generated_html += u'<div class="grid_9 alpha omega ">%s<br><br></div>\n' % (status_string)
-        
-            
-        photo_message = get_photo_message(display_userobject)
-            
-    
-        # get userobject photo
-        generated_html += '<div class="grid_2 alpha">\n'
-        
-        generated_html += FormUtils.generate_profile_photo_html(lang_code, display_userobject, photo_message, userobject_href, photo_size="medium")
-    
-    
-        generated_html += '</div> <!-- end grid2 -->\n'
-    
-    
-        # container for all the userobject information
-        generated_html += '<div class="grid_7 omega">\n'
-    
-    
-    
-        generated_html += utils.generate_profile_summary_table(request, display_userobject)
-
-
-        
-        # section for getting the text description of the user
-        about_user = display_userobject.about_user
-        if about_user != "----":
-            generated_html += u'<Strong>%s:&nbsp;</Strong>\n' % ugettext("About me")
-    
-            if len(about_user) > ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN: 
-                about_user = display_userobject.about_user[:ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN] + "  ..."
-
-                    
-            generated_html += u'%s\n' % about_user
-            generated_html += u'<br><br>'
-            
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-            # section for getting physical description of the user
-            description_printed = False
-            for detail_field in UserProfileDetails.details_fields_to_display_in_order:
-                label = UserProfileDetails.details_fields[detail_field]['label'][lang_idx]                         
-                value = UserProfileDetails.details_fields_options_dict[detail_field][lang_idx][getattr(display_userobject, detail_field)]
-                
-                if (value != u'----'):
-        
-                    description_printed = True   
-                    generated_html += smart_unicode('<strong>%s</strong>: \n' % label)
-                    if detail_field != UserProfileDetails.details_fields_to_display_in_order[-1]:
-                        generated_html += u'%s. ' % value
-                    else:
-                        generated_html += u'%s' % value   
-                    
-            if description_printed:
-                generated_html += u'<br>\n'
-            
-        # section for getting all other information about the user
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-            if display_userobject.languages[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % ugettext("Languages I speak")
-                mylist += utils.generic_html_generator_for_list(lang_idx, 'languages' , display_userobject.languages )
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist
-
-        if settings.BUILD_NAME == "Language" :
-            # Show native language of the user
-            generated_html += u'<strong>%s:</strong> %s<br>' % (ugettext("Native language"),
-                user_profile_main_data.UserSpec.signup_fields_options_dict['native_language'][lang_idx][display_userobject.native_language])
-  
-        if settings.BUILD_NAME != "Friend":
-            if display_userobject.entertainment[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % UserProfileDetails.checkbox_fields['entertainment']['label'][lang_idx]
-                mylist += utils.generic_html_generator_for_list(lang_idx, 'entertainment', display_userobject.entertainment)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist
-                
-            if display_userobject.athletics[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % UserProfileDetails.checkbox_fields['athletics']['label'][lang_idx]
-                mylist += utils.generic_html_generator_for_list(lang_idx, 'athletics', display_userobject.athletics)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist
-                
-        else: # Friend
-            #sale_or_buy in ['for_sale', 'to_buy']:
-            if len(display_userobject.for_sale_ix_list) > 1:
-                sale_or_buy = 'for_sale'
-                master_label = friend_bazaar_specific_code.label_tuples[sale_or_buy][lang_idx]
-                generated_html += u"<strong>%s:</strong><br>" % master_label
-                
-                for category in friend_bazaar_specific_code.category_definitions_dict.keys():
-                    field_name = '%s_%s' % (sale_or_buy, category)                
-                    
-                    field_list = getattr(display_userobject, field_name)
-                    if field_list[0] != "prefer_no_say":
-                        mylist = u'<em>%s:</em> ' % UserProfileDetails.checkbox_fields[field_name]['label'][lang_idx]
-                        mylist += utils.generic_html_generator_for_list(lang_idx, field_name, field_list)
-                        if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                            generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                        else: generated_html += u'%s<br>' % mylist
-                generated_html += u'<br>'
-        
-        if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger": # do not show turn-ons for other builds
-            if display_userobject.turn_ons[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % UserProfileDetails.checkbox_fields['turn_ons']['label'][lang_idx]
-                mylist += utils.generic_html_generator_for_list(lang_idx, 'turn_ons', display_userobject.turn_ons)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist      
-            
-            if display_userobject.erotic_encounters[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % UserProfileDetails.checkbox_fields['erotic_encounters']['label'][lang_idx]
-                mylist += utils.generic_html_generator_for_list(lang_idx, 'erotic_encounters', display_userobject.erotic_encounters)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist                      
-    
-        return generated_html
-    except:
-        error_reporting.log_exception(logging.critical, error_message = 'display_userobject_first_half_summary %s exception.' % display_userobject.username)
-        return ""
-
-
-def display_userobject_second_half_summary(viewer_userobject, display_userobject):
-    
-    """ 
-    Generates the part of the user summary that cannot be cached such as the last entrance time, which can change (and which
-    must be displayed relative to the current time) """
-    
-    try: 
-        generated_html = ''
-        last_time_in_system = return_time_difference_in_friendly_format(display_userobject.last_login)
-        
-        generated_html += u'<br><strong>%s: </strong>%s' % (ugettext("Last entrance"), last_time_in_system )
-        generated_html += u'<br><br>\n'
-        
-        generated_html += u'</div> <!-- end grid8 -->'
-        generated_html += u'</div> <!-- end grid10 -->\n'
-        
-        generated_html += utils.generate_profile_information_for_administrator(viewer_userobject, display_userobject)
-        
-        
-        return generated_html
-    except:
-        error_reporting.log_exception(logging.critical, error_message = 'display_userobject_second_half_summary %s exception.' % display_userobject.username)
-        return ""        
-        
-        
-def get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status):
-    
-    """
-    This is a wrapper function for display_userobject_summary that computes the summary only if it is not in
-    memcache. We removed the memcaching of the summaries.
-    """
-    
-    if not display_userobject_key:
-        return None
-    
-    lang_code = request.LANGUAGE_CODE    
-    display_uid = display_userobject_key.urlsafe()
-    display_userobject = utils_top_level.get_object_from_string(display_uid)  
-
-    summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, display_online_status)              
-    summary_second_half_html = display_userobject_second_half_summary(viewer_userobject, display_userobject)
-        
-    return summary_first_half_html + summary_second_half_html
-    
-
-def generate_html_for_search_results(request, viewer_userobject, query_results_keys, display_online_status):
-    # Accepts results from a query, which is an array of user profiles that matched the previous query.
-    # Goes through each profile, and generates a snippett of text + profile photo, which give a 
-    # basic introduction to the user.
-
-
-    generated_html = """<script type="text/javascript">
-        $(document).ready(function() {
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
-        });
-        </script>"""
-
-    
-    for display_userobject_key in query_results_keys:
-        generated_html += get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status)
-        
-    return generated_html
 
 
 
@@ -759,7 +524,7 @@ def generate_search_results(request, type_of_search = "normal"):
             elif  0 < len_new_query_results < num_results_needed:
                 # the current query was not able to get enough results to satisfy the current query, we 
                 # generate results for the results that were returned. 
-                generated_html_body +=  generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status)  
+                generated_html_body +=  display_profiles_summary.generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status)  
                 len_query_results_currently_stored += len_new_query_results
                 search_vals_dict['bookmark'] = ""
                 
@@ -769,7 +534,7 @@ def generate_search_results(request, type_of_search = "normal"):
                     # by construction, we are guaranteed that len_new_query_results >= num_results_needed.
                     # can remove this assert in the future. 
                     assert(len_new_query_results >= num_results_needed)
-                    generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys[:-1], display_online_status)  
+                    generated_html_body += display_profiles_summary.generate_html_for_search_results(request, viewer_userobject, new_query_results_keys[:-1], display_online_status)  
                     last_userobject = utils_top_level.get_object_from_string(new_query_results_keys[-1].urlsafe())
                     # get the value of last_login_string, or unique_last_login (or in the future other criteria)
                     # that is stored on the "last_userobject"
@@ -777,7 +542,7 @@ def generate_search_results(request, type_of_search = "normal"):
                 elif type_of_search == "by_name":
                     # cursors are used for this search, and we did not generate an extra tail value as a bookmark
                     # therefore, we pass in the entire list of keys without chopping off the last value.
-                    generated_html_body += generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status) 
+                    generated_html_body += display_profiles_summary.generate_html_for_search_results(request, viewer_userobject, new_query_results_keys, display_online_status) 
                     assert(paging_cursor)
                     if more_results:
                         search_vals_dict['bookmark'] = paging_cursor.urlsafe()
