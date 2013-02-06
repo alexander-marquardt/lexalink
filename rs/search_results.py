@@ -62,10 +62,6 @@ if settings.BUILD_NAME == "Friend":
 PAGESIZE = 6
 
 
-
-
-
-
 #####################################
 def setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, paging_cursor):
     # gets the results for the current search-by-name query
@@ -382,10 +378,10 @@ def generate_search_results(request, type_of_search = "normal"):
     # type_of_search "normal" or "by_name"
 
     
-    try:
-        generated_html_top = u''
-        generated_html_submit_search_first_half = ''
-        generated_html_submit_search_second_half = ''        
+    try:       
+        generated_html_hidden_variables = ''
+        generated_html_top_next_button = ''
+        generated_html_bottom_next_button = ''
         
         viewer_userobject =  utils_top_level.get_userobject_from_request(request)
         viewer_uid = utils_top_level.get_uid_from_request(request)
@@ -424,7 +420,7 @@ def generate_search_results(request, type_of_search = "normal"):
             # the most recent query values
             search_vals_dict['available_in_html'] = 'Yes' # read by JS to check that passed in search values are written into hidden fields.
             for (search_var, search_val) in search_vals_dict.iteritems():
-                generated_html_top += \
+                generated_html_hidden_variables += \
                     u'<input type=hidden id="id-passed_in_search-%(search_var)s" name="passed_in_search-%(search_var)s" \
                     value="%(search_val)s">\n' % {'search_var': search_var, 'search_val': search_val}            
             del search_vals_dict['available_in_html']
@@ -458,13 +454,7 @@ def generate_search_results(request, type_of_search = "normal"):
         else:
             assert(0)
 
-        generated_html_top += u'<form method=GET action="%s" rel="address:%s">\n' % (post_action, post_action)
-        generated_html_top += u'<div class="cl-clear"></div>\n'
-        generated_html_top += u'<div class="grid_9 alpha omega">&nbsp;</div>\n'
-        generated_html_top += u'<div class="cl-clear"></div>\n'
-        generated_html_top += u'<div class="grid_9 alpha omega">\n'
-        generated_html_top += u'<p><h1>%s: %s</h1></p>' % (ugettext("Showing results for"), generated_header)
-        generated_html_top += u'</div> <!-- end grid7 -->\n'
+        generated_html_top = display_profiles_summary.generate_summary_html_top(post_action, generated_header)
         generated_html_body =  u'<div class="cl-clear"></div>\n'
         
        
@@ -579,38 +569,20 @@ def generate_search_results(request, type_of_search = "normal"):
             # The following loop prints out the search variables *after* all loosening criteria has been applied. This will also print
             # out the bookmark that will be used when retrieving the "next" page.
             for (search_var, search_val) in search_vals_dict.iteritems():
-                generated_html_submit_search_first_half += \
+                generated_html_hidden_variables += \
                     u'<input type=hidden id="id-%(search_var)s" name="%(search_var)s" \
                     value="%(search_val)s">\n' % {'search_var': search_var, 'search_val': search_val}      
             
-            generated_html_submit_search_first_half += u"""<script type="text/javascript" language="javascript">
-            $(document).ready(function(){
-                mouseover_button_handler($(".cl-submit"));
-            });
-            </script>\n """ 
-            
-            generated_html_submit_search_first_half += u'<div class="cl-clear"></div>\n'
-            generated_html_submit_search_first_half += u'<div class="grid_9 alpha omega">\n'
-            generated_html_submit_search_first_half += u'<input type="submit" class="cl-submit" value="%s >>">\n' % ugettext("Next")
-            generated_html_submit_search_first_half += u'</div> <!-- grid_9 -->\n'
-            generated_html_submit_search_first_half += u'<div class="cl-clear"></div>\n'
 
-            generated_html_submit_search_second_half += u'<!-- following line defines the horizontal bar -->'
-            generated_html_submit_search_second_half += u'<div class="grid_9 alpha omega cl-divider-line " ></div>'
-            generated_html_submit_search_second_half += u'<div class="grid_9 alpha omega cl-search_seperator" ></div>'
-                
-            generated_html_submit_search_second_half += u'<div class="grid_9 alpha omega">&nbsp;</div>\n'
-            generated_html_submit_search_second_half += u'<div class="cl-clear"></div>\n'
-            generated_html_submit_search_second_half += u'<div class="grid_9 alpha omega">\n'
-            generated_html_submit_search_second_half += u'<input type="submit" class="cl-submit" value="%s >>">\n' % ugettext("Next")
-            generated_html_submit_search_second_half += u'</div> <!-- grid_9 -->\n'
-            generated_html_submit_search_second_half += u'<div class="grid_9 alpha omega"><br><br><br><br></div>\n'
+            (generated_html_top_next_button, generated_html_bottom_next_button) = display_profiles_summary.generate_next_button_html()
             
-        generated_html_submit_search_second_half += u'</form>\n'
+            
+            
+        generated_html_bottom = display_profiles_summary.generate_summary_html_bottom()
     
             
-        generated_html = generated_html_top + generated_html_submit_search_first_half + \
-                       generated_html_body + generated_html_submit_search_second_half
+        generated_html =  generated_html_top + generated_html_hidden_variables + generated_html_top_next_button + \
+                       generated_html_body + generated_html_bottom_next_button + generated_html_bottom
         
         return rendering.render_main_html(request, generated_html, viewer_userobject, page_title = generated_title, 
                                           refined_links_html = refined_links_html, show_social_buttons = True,

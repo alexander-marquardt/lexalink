@@ -240,7 +240,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                  mailbox.get_mail_history_summary(request, owner_userobject, display_userobject)
                 
                 # track the fact that the logged in user is vieweing another persons profile
-                # track_viewers.store_viewer_in_displayed_profile_viewer_tracker(owner_uid, display_uid)
+                track_viewers.store_viewer_in_displayed_profile_viewer_tracker(owner_uid, display_uid)
         
         (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(lang_code, display_uid)
       

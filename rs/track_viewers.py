@@ -31,6 +31,8 @@ from google.appengine.ext import ndb
 from rs import utils, models, error_reporting
 import datetime, logging
 
+PAGESIZE = 6
+
 def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
     """ Keep track of which profiles "viewers" have viewed other "displayed" profiles  """
 
@@ -45,10 +47,10 @@ def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
         viewed_counter_object_future = vc_q.get_async() # note async - this is a "future", not an object
         
         # Check if the database already has stored an entry for the viewer looking at the displayed profile
-        vo_q = models.ViewerTracker.query()
-        vo_q = vo_q.filter(models.ViewerTracker.displayed_profile == viewer_key)
-        vo_q = vo_q.filter(models.ViewerTracker.viewer_profile == displayed_key)
-        viewer_tracker_object = vo_q.get()
+        vt_q = models.ViewerTracker.query()
+        vt_q = vt_q.filter(models.ViewerTracker.displayed_profile == viewer_key)
+        vt_q = vt_q.filter(models.ViewerTracker.viewer_profile == displayed_key)
+        viewer_tracker_object = vt_q.get()
         
         if viewer_tracker_object:
             viewer_tracker_object.view_time = datetime.datetime.now()
@@ -74,3 +76,37 @@ def store_viewer_in_displayed_profile_viewer_tracker(viewer_uid, displayed_uid):
     except:
         error_reporting.log_exception(logging.critical, error_message = error_message)
         
+
+def get_number_of_views_of_profile(profile_key):
+    
+    vc_q = models.ViewedCounter.query()
+    vc_q = vc_q.filter(models.ViewedCounter.displayed_profile == profile_key)    
+    viewed_counter = c_q.get()
+    num_views = viewer_counter.num_views
+    return num_views
+
+
+def get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_list):
+    
+    viewer_profile_keys_list = []
+    for viewer_tracker_object in viewer_tracker_object_list:
+        viewer_profile_keys_list.append(viewer_tracker_object.viewer_profile)
+        
+    return viewer_profile_keys_list
+        
+def get_list_of_profile_views(profile_key, paging_cursor):
+    
+    # Check if the database already has stored an entry for the viewer looking at the displayed profile
+    vt_q = models.ViewerTracker.query()
+    vt_q = vt_q.order(-ViewerTracker.view_time)
+    vt_q = vt_q.filter(models.ViewerTracker.viewer_profile == displayed_key)
+
+    if paging_cursor:
+        (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(PAGESIZE, start_cursor = paging_cursor)
+    else:
+        (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(PAGESIZE)        
+        
+    
+    viewer_profile_keys_list = get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_list)
+    
+    return (viewer_profile_keys_list, new_cursor, more_results)

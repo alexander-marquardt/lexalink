@@ -971,4 +971,4 @@ class ViewerTracker(ndb.Model):
         
 class ViewedCounter(ndb.Model):
     displayed_profile = ndb.KeyProperty(kind = UserModel)
-    viewed_counter = ndb.IntegerProperty(default = 0) 
+    num_views = ndb.IntegerProperty(default = 0) 

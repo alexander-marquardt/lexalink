@@ -269,3 +269,54 @@ def generate_html_for_list_of_profiles(request, viewer_userobject, query_results
         generated_html += get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status)
         
     return generated_html
+
+def generate_summary_html_top(post_action, generated_header):
+
+    # used for generatingthe HTML that defines the "top" part of the search results (ie. the opening of the form
+    # element, as well as the header.
+    
+    generated_html_top = ''
+    
+    generated_html_top += u'<form method=GET action="%s" rel="address:%s">\n' % (post_action, post_action)
+    generated_html_top += u'<div class="cl-clear"></div>\n'
+    generated_html_top += u'<div class="grid_9 alpha omega">&nbsp;</div>\n'
+    generated_html_top += u'<div class="cl-clear"></div>\n'
+    generated_html_top += u'<div class="grid_9 alpha omega">\n'
+    generated_html_top += u'<p><h1>%s: %s</h1></p>' % (ugettext("Showing results for"), generated_header)
+    generated_html_top += u'</div> <!-- end grid7 -->\n'    
+    
+    return generated_html_top
+
+def generate_summary_html_bottom():
+    generated_html_bottom = u'</form>\n'
+    return generated_html_bottom
+
+
+def generate_next_button_html():
+    
+    generated_html_top_next_button = ''
+    generated_html_top_next_button += u"""<script type="text/javascript" language="javascript">
+    $(document).ready(function(){
+        mouseover_button_handler($(".cl-submit"));
+    });
+    </script>\n """ 
+    
+    generated_html_top_next_button += u'<div class="cl-clear"></div>\n'
+    generated_html_top_next_button += u'<div class="grid_9 alpha omega">\n'
+    generated_html_top_next_button += u'<input type="submit" class="cl-submit" value="%s >>">\n' % ugettext("Next")
+    generated_html_top_next_button += u'</div> <!-- grid_9 -->\n'
+    generated_html_top_next_button += u'<div class="cl-clear"></div>\n'
+
+    generated_html_bottom_next_button = ''
+    generated_html_bottom_next_button += u'<!-- following line defines the horizontal bar -->'
+    generated_html_bottom_next_button += u'<div class="grid_9 alpha omega cl-divider-line " ></div>'
+    generated_html_bottom_next_button += u'<div class="grid_9 alpha omega cl-search_seperator" ></div>'
+        
+    generated_html_bottom_next_button += u'<div class="grid_9 alpha omega">&nbsp;</div>\n'
+    generated_html_bottom_next_button += u'<div class="cl-clear"></div>\n'
+    generated_html_bottom_next_button += u'<div class="grid_9 alpha omega">\n'
+    generated_html_bottom_next_button += u'<input type="submit" class="cl-submit" value="%s >>">\n' % ugettext("Next")
+    generated_html_bottom_next_button += u'</div> <!-- grid_9 -->\n'
+    generated_html_bottom_next_button += u'<div class="grid_9 alpha omega"><br><br><br><br></div>\n'    
+    
+    return (generated_html_top_next_button, generated_html_bottom_next_button)
