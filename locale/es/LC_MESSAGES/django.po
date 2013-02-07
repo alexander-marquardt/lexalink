@@ -3071,7 +3071,7 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"        %(count_num_unique_views)s personas han visto tu perfil desde hace "
+"        %(count_num_unique_views)s personas han visto tu perfil desde "
 "%(unique_views_since_date_str)s\n"
 "        "
 
