@@ -32,6 +32,9 @@ import site_configuration
 from rs import utils_top_level, error_reporting, localizations, profile_utils, utils, forms, constants
 from rs import user_profile_details, user_profile_main_data
 
+if site_configuration.BUILD_NAME == "Friend":
+    import friend_bazaar_specific_code
+
 MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
 def display_userobject_first_half_summary(request, display_userobject, display_online_status):
