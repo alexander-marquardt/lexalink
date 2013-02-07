@@ -207,7 +207,12 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
             additional_ads_to_append = get_additional_ads_to_append(request, userobject)
             
-            num_profile_views_since_last_check = userobject.viewed_profile_counter_ref.get().num_views_since_last_check
+            try:
+                num_profile_views_since_last_check = userobject.viewed_profile_counter_ref.get().num_views_since_last_check
+            except:
+                # remove this try/except once the database has been upated.
+                logging.warning("userobject.viewed_profile_counter_ref not defined yet")
+                num_profile_views_since_last_check = 0
     
         else:
             registered_user_bool = False

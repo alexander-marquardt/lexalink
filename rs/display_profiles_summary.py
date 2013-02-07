@@ -29,7 +29,8 @@ from django.utils.translation import ugettext
 
 import logging
 import site_configuration
-from rs import utils_top_level, error_reporting, localizations, profile_utils, utils, forms, constants, user_profile_details
+from rs import utils_top_level, error_reporting, localizations, profile_utils, utils, forms, constants
+from rs import user_profile_details, user_profile_main_data
 
 MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
