@@ -128,7 +128,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
                 if (value != u'----'):
         
                     description_printed = True   
-                    generated_html += smart_unicode('<strong>%s</strong>: \n' % label)
+                    generated_html += u'<strong>%s</strong>: \n' % label
                     if detail_field != user_profile_details.UserProfileDetails.details_fields_to_display_in_order[-1]:
                         generated_html += u'%s. ' % value
                     else:
