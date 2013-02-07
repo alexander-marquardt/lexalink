@@ -1,6 +1,6 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
-application: swingersapp
+application: lesbianapplication
 version: 2013-02-07-1640-dev
 runtime: python27
 api_version: 1
@@ -29,8 +29,8 @@ handlers:
   login: admin
 
 - url: /favicon.ico
-  static_files: rs/static/auto-generated-2013-02-07-1640-dev/img/Swinger/favicon.ico
-  upload: rs/static/auto-generated-2013-02-07-1640-dev/img/Swinger/favicon.ico
+  static_files: rs/static/auto-generated-2013-02-07-1640-dev/img/Lesbian/favicon.ico
+  upload: rs/static/auto-generated-2013-02-07-1640-dev/img/Lesbian/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location
