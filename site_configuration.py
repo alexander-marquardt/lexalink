@@ -67,7 +67,7 @@ if BATCH_BUILD_NAME == '':
     BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
     BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
-    #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
+    BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
     #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
     #BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
 
