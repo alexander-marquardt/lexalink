@@ -112,7 +112,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
             generated_html += u'<Strong>%s:&nbsp;</Strong>\n' % ugettext("About me")
     
             if len(about_user) > constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN: 
-                about_user = display_userobject.about_user[:ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN] + "  ..."
+                about_user = display_userobject.about_user[:constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN] + "  ..."
 
                     
             generated_html += u'%s\n' % about_user

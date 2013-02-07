@@ -1,7 +1,7 @@
 # DO NOT EDIT - Auto-generated from app_generic.yaml
 
 application: swingersapp
-version: 2013-02-07-1615
+version: 2013-02-07-1632-dev
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -29,19 +29,19 @@ handlers:
   login: admin
 
 - url: /favicon.ico
-  static_files: rs/static/auto-generated-2013-02-07-1615/img/Swinger/favicon.ico
-  upload: rs/static/auto-generated-2013-02-07-1615/img/Swinger/favicon.ico
+  static_files: rs/static/auto-generated-2013-02-07-1632-dev/img/Swinger/favicon.ico
+  upload: rs/static/auto-generated-2013-02-07-1632-dev/img/Swinger/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. We re-map the directory location
 # for each new build name to ensure that out-of-date static files will not be accessed through
 # cached data (since the directory name changes, old caches will not be hit)
 
-- url: /rs/static/auto-generated-2013-02-07-1615
-  static_dir: rs/static/auto-generated-2013-02-07-1615
+- url: /rs/static/auto-generated-2013-02-07-1632-dev
+  static_dir: rs/static/auto-generated-2013-02-07-1632-dev
   
-- url: /rs/static/auto-generated-2013-02-07-1615
-  static_dir: rs/static/auto-generated-2013-02-07-1615
+- url: /rs/static/auto-generated-2013-02-07-1632-dev
+  static_dir: rs/static/auto-generated-2013-02-07-1632-dev
   
 - url: /rs/admin/.+
   script: djangoappengine.main.application
