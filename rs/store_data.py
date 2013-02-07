@@ -1646,7 +1646,7 @@ def store_report_unacceptable_profile(request, display_uid):
         else:
             # the user has previously denounced the current profile, but is now retracting their complaint -- so, delete the 
             # mark_unacceptable_profile object
-            mark_unacceptable_profile.delete()
+            mark_unacceptable_profile.key.delete()
             increase_or_decrease_count = -1 # we are removing a report of an unacceptable profile
             response = text_fields.profile_unreported
          
