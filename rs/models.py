@@ -140,6 +140,7 @@ class UserSearchPreferences2(ndb.Model):
         
     # Note: the following value is not a search-vale -- but, it did not make sense to create a new structure 
     # just for storing this, and I didn't want to write it onto the main userobject.
+    # Looking back on this - I should have made a new object for this. TODO
     if settings.BUILD_NAME != 'Language' and settings.BUILD_NAME != "Friend":
         lang_code = ndb.StringProperty(default = 'es', indexed = False)
     else:

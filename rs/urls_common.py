@@ -306,6 +306,9 @@ urlpatterns = patterns('',
     #(r'^rs/admin/approve_public_photos_bookmark/(?P<bookmark>[\w|-]+)/$',admin.mark_photos_as_approved),
     #(r'^rs/admin/approve_public_photos/$',admin.mark_photos_as_approved),
     
+    (r'^rs/admin/batch_fix_viewed_profile_counter/$', batch_jobs.batch_fix_viewed_profile_counter), 
+    (r'^rs/admin/fix_items_sub_batch/$', batch_jobs.fix_items_sub_batch),
+    
     
     (r'^rs/admin/login/$', views.login, {'is_admin_login': True}),
       

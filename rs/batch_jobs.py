@@ -33,7 +33,7 @@ These can be triggered by accessing a "secret" URL."""
 
 import logging, re
 import time
-
+from google.appengine.ext import ndb 
 from google.appengine.api import mail
 from google.appengine.api import taskqueue
 
@@ -204,226 +204,46 @@ def batch_send_email(request):
 
 
     
-#from django.forms.fields import email_re
-    
-#def batch_fix(request):
 
-    
-    #""" This function scans the database for profiles that need to be fixed
-    #"""
-    #PAGESIZE = 20
-    
-    ## Note: to user cursors, filter parameters must be the same for all queries. 
-    ## This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    ## why the code wasn't working).
-    
-    #try:
-        
-        #batch_cursor = None
-        
-        #if request.method == 'POST':
-            #batch_cursor = request.POST.get('batch_cursor',None)          
-            
-        #generated_html = 'Fixing profiles:<br><br>'
-        
-        #logging.info("Paging new page with cursor %s" % batch_cursor)
-                
-        #query_filter_dict = {}    
-
-        #query_filter_dict['is_real_user = '] = True
-        ##query_filter_dict['user_is_marked_for_elimination = '] = False
-        ## NOTE: Normally this should be false .. .but we are running this over eliminated profiles
-        ## so the profile summary can be displayed correctly in mailbox of other people
-        ## (even though they are eliminated)
-        #query_filter_dict['user_is_marked_for_elimination = '] = True
-        
-        #order_by = "-last_login_string"
-        
-        #query = UserModel.all().order(order_by)
-        #for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            #query = query.filter(query_filter_key, query_filter_value)
-
- 
-        #if batch_cursor:
-            #query.with_cursor(batch_cursor)
-                                   
-        #userobject_batch = query.fetch(PAGESIZE)
-        
-        #match_GB_region = re.compile(r'EN,(.{1,3}),')
-        
-        #if not userobject_batch:
-            ## there are no more objects - break out of this function.
-            #info_message = "No more objects found - Exiting function<br>\n"
-            #logging.info(info_message)
-            #return http.HttpResponse(info_message)
-
-        #for userobject in userobject_batch:  
-            #try:
-                #info_message = "Checking %s<br>\n" % userobject.username
-                #generated_html += info_message
-                #logging.info(info_message)
-    
-                #languages_list = userobject.languages
-                #dirty = False
-                #for idx, language in enumerate(languages_list):
-                    #if languages_list[idx] == "arab":
-                        #dirty = True
-                        #new_language = "arabic"
-                        #info_message = "**Changing %s from %s to %s<br>\n" % (userobject.username, languages_list[idx], new_language)
-                        #languages_list[idx] = "arabic"
-
-                        #generated_html += info_message
-                        #logging.info(info_message)
-                        
-                #if userobject.country == "EN,,":
-                    #dirty = True
-                    #new_country = "GB,,"
-                    #info_message = "**Changing %s to %s <br>\n" % (userobject.country, new_country)
-                    #userobject.country = new_country
-                    #generated_html += info_message
-                    #logging.info(info_message)
-                    #match = match_GB_region.match(userobject.region)
-                    #if match:
-                        #region = match.group(1)
-                        #new_region = "GB,%s," % region
-                        #info_message = "**Changing '%s' to '%s' <br>\n" % (userobject.region, new_region)
-                        #userobject.region = new_region
-                        #generated_html += info_message
-                        #logging.info(info_message)      
-                
-                #if userobject.region == "ES,AD,":
-                    #dirty = True
-                    #new_country = "AD,,"
-                    #new_region = "----"
-                    #new_sub_region = "----"
-                    
-                    #info_message = "**Changing %s to country: %s regions: %s sub_region: %s" % (
-                        #userobject.region, new_country, new_region, new_sub_region)
-                    #userobject.country = new_country
-                    #userobject.region = new_region
-                    #userobject.sub_region = new_sub_region
-                    #generated_html += info_message
-                    #logging.info(info_message)  
-                    
-                    
-                #if dirty:
-                    #info_message = "**Writing %s userobject<br>\n" % userobject.username
-                    #generated_html += info_message
-                    #logging.info(info_message)     
-                    #userobject.languages = languages_list
-                    #utils.put_userobject(userobject)
-                    
-                ##sp_dirty = False
-                ##search_preferences2 = userobject.search_preferences2
-                
-                ##if search_preferences2.sex == 'dont_care':
-                    ##sp_dirty = True
-                    ##search_preferences2.sex = '----'
-                    ##info_message = "**Changing search_preferences2.sex from dont_care to ----"
-                    ##generated_html += info_message
-                    ##logging.info(info_message)  
-                    
-                ##if search_preferences2.relationship_status == 'dont_care':
-                    ##sp_dirty = True
-                    ##search_preferences2.relationship_status = '----'
-                    ##info_message = "**Changing search_preferences2.relationship_status from dont_care to ----"
-                    ##generated_html += info_message
-                    ##logging.info(info_message)                      
-                    
-                ##if search_preferences2.country == 'dont_care':
-                    ##sp_dirty = True
-                    ##search_preferences2.country = '----'
-                    ##info_message = "**Changing search_preferences2.country from dont_care to ----"
-                    ##generated_html += info_message
-                    ##logging.info(info_message)    
-                    
-                ##if search_preferences2.region == 'dont_care':
-                    ##sp_dirty = True
-                    ##search_preferences2.region = '----'
-                    ##info_message = "**Changing search_preferences2.region from dont_care to ----"
-                    ##generated_html += info_message
-                    ##logging.info(info_message)    
-                    
-                ##if search_preferences2.sub_region == 'dont_care':
-                    ##sp_dirty = True
-                    ##search_preferences2.sub_region = '----'
-                    ##info_message = "**Changing search_preferences2.sub_region from dont_care to ----"
-                    ##generated_html += info_message
-                    ##logging.info(info_message)    
-                    
-                ##if search_preferences2.age == 'dont_care':
-                    ##sp_dirty = True
-                    ##search_preferences2.age = '----'
-                    ##info_message = "**Changing search_preferences2.age from dont_care to ----"
-                    ##generated_html += info_message
-                    ##logging.info(info_message)                                                     
-                    
-                    
-                ##if search_preferences2.preference == 'dont_care':
-                    ##sp_dirty = True
-                    ##search_preferences2.preference = '----'
-                    ##info_message = "**Changing search_preferences2.preference from dont_care to ----"
-                    ##generated_html += info_message
-                    ##logging.info(info_message)   
-                    
-                ##if sp_dirty:
-                    ##info_message = "**Writing search_preferences2 object for %s<br>" % userobject.username
-                    ##generated_html += info_message
-                    ##logging.info(info_message)                       
-                    
-                    ##search_preferences2.put()
-                    
-            #except:
-                #error_reporting.log_exception(logging.critical)  
-                
-                    
-        ## queue up more jobs
-        #batch_cursor = query.cursor()
-        #path = request.path_info
-        #taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
-
-        #return http.HttpResponse(generated_html)
-    #except:
-        #error_reporting.log_exception(logging.critical)
-        #return http.HttpResponseServerError()
-
-#def batch_fix(request):
-    
-    #from appengine_django.sessions.models import Session
-    
-    #""" Code to delete all of the "Session" objects from the datastore - they have been replaced by the new
-        #session handling code, which stores data in the "SessionModel" objects."""
-
-    #try:
-        #msg = "Starting code to remove Session entries from datastore"
-        #logging.info(msg)        
-        
-        #q = db.Query(Session, keys_only=True)
-        #results = q.fetch(500)
-        #len_results = len(results)
-        
-        #if len_results:
-            #db.delete(results)
-           
-            #msg = "Deleted %s Session entries from datastore on this pass" % len_results
-            #logging.info(msg)
-            #path = request.path_info
-            #time.sleep(0.1) # just in case it takes a few milliseconds for the DB to get updated
-            #taskqueue.add(queue_name = 'background-processing-queue', url=path)
-        #else:
-            #msg = "No more entries to delete"
-            #logging.info(msg)
-            #return http.HttpResponse(msg)
-
-        #return http.HttpResponse("Seems to be working")
-    #except:
-        #error_reporting.log_exception(logging.critical)
-        #return http.HttpResponseServerError()
-   
  
 
 import login_utils
-def batch_fix_unique_last_login(request):
+from google.appengine.datastore.datastore_query import Cursor
+
+def fix_items_sub_batch (request):
+    
+    if request.method == 'POST':
+        userobject_batch_keys_strs = request.POST.getlist('userobject_batch_keys_strs')     
+    else:
+        return http.HttpResponse('No post received')
+    
+    for userobject_key_str in userobject_batch_keys_strs:  
+        userobject = ndb.Key(urlsafe = userobject_key_str).get()
+        try:
+            info_message = ''
+            info_message += "**Checking %s userobject<br>\n" % userobject.username
+            
+            if not userobject.viewed_profile_counter_ref:
+                userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
+                userobject.put()
+                info_message += "**Wrote %s userobject<br>\n" % userobject.username
+        except:
+            error_reporting.log_exception(logging.critical)  
+            
+        try:
+            search_preferences_key = userobject.search_preferences2
+            if not search_preferences_key:
+                userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, 'es') 
+                userobject.put()
+                info_message += "**Updated search_preferences2 on %s's object<br>\n" % userobject.username
+                
+            logging.info(info_message)   
+        except:
+            error_reporting.log_exception(logging.critical)  
+            
+    return http.HttpResponse('OK')
+                
+def batch_fix_viewed_profile_counter(request):
 
     
     """ This function scans the database for profiles that need to be fixed
@@ -441,50 +261,33 @@ def batch_fix_unique_last_login(request):
         
         if request.method == 'POST':
             batch_cursor = request.POST.get('batch_cursor',None)          
-            
+        paging_cursor = Cursor(urlsafe = batch_cursor)
+        
         generated_html = 'Updating userobjects:<br><br>'
         
         logging.info("Paging new page with cursor %s" % batch_cursor)
                 
-        query_filter_dict = {}    
-
-        query_filter_dict['is_real_user = '] = True
-        query_filter_dict['user_is_marked_for_elimination = '] = False
+        q = UserModel.query().order(UserModel._key)
+        q = q.filter(UserModel.is_real_user == True)
+        q = q.filter(UserModel.user_is_marked_for_elimination == False)
         
-        order_by = "__key__"       
-        
-        query = UserModel.all().order(order_by)
-        for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            query = query.filter(query_filter_key, query_filter_value)
-
- 
-        if batch_cursor:
-            query.with_cursor(batch_cursor)
-                                   
-        userobject_batch = query.fetch(PAGESIZE)
+        if paging_cursor:
+            (userobject_batch_keys, new_cursor, more_results) = q.fetch_page(PAGESIZE, start_cursor = paging_cursor, keys_only = True)
+        else:
+            (userobject_batch_keys, new_cursor, more_results) = q.fetch_page(PAGESIZE, keys_only = True)               
                 
-        if not userobject_batch:
-            # there are no more objects - break out of this function.
-            info_message = "No more objects found - Exiting function<br>\n"
-            logging.info(info_message)
-            return http.HttpResponse(info_message)
-
-        for userobject in userobject_batch:  
-            try:
-                info_message = "**Checking %s userobject<br>\n" % userobject.username
-                logging.info(info_message)     
-                (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-                 login_utils.get_or_create_unique_last_login(userobject, userobject.username)
-                utils.put_userobject(userobject)
-                info_message = "**Wrote %s userobject<br>\n" % userobject.username
-                logging.info(info_message)   
-            except:
-                error_reporting.log_exception(logging.critical)  
-                
+        userobject_batch_keys_strs = []
+        for userobject_key in userobject_batch_keys:
+            userobject_batch_keys_strs.append(userobject_key.urlsafe())
+            
+            
+        taskqueue.add(queue_name = 'background-processing-queue', url='/rs/admin/fix_items_sub_batch/', 
+                      params={'userobject_batch_keys_strs': userobject_batch_keys_strs})
+            
         # queue up more jobs
-        batch_cursor = query.cursor()
-        path = request.path_info
-        taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
+        if more_results:
+            path = request.path_info
+            taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': new_cursor.urlsafe()})
 
         return http.HttpResponse(generated_html)
     except:

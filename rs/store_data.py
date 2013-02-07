@@ -1930,7 +1930,7 @@ def store_new_user_after_verify(request, fake_request=None):
                
         userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, request.LANGUAGE_CODE) 
         userobject = setup_new_user_defaults_and_structures(userobject, login_dict['username'], request.LANGUAGE_CODE)
-        userobject.viewed_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
+        userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
 
         
         # store indication of email address validity (syntactically valid )
@@ -1982,7 +1982,7 @@ def store_new_user_after_verify(request, fake_request=None):
             utils.delete_sub_object(userobject.backup_tracker, 'backup_1') # Note: by construction the first backup object is "backup_1"
             utils.delete_sub_object(userobject, 'backup_tracker')
             utils.delete_sub_object(userobject, 'user_tracker')
-            utils.delete_sub_object(userobject, 'viewed_counter_ref')
+            utils.delete_sub_object(userobject, 'viewed_profile_counter_ref')
 
             try: 
                 userobject.delete() # (Finally - remove the userobject)
