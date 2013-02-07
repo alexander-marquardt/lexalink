@@ -3048,8 +3048,8 @@ msgid "You have un-reported this profile"
 msgstr "Has quitado la denuncia contra este perfil"
 
 #: rs/track_viewers.py:179
-msgid "Members that have viewed your profile (most recent are shown first)."
-msgstr ""
+msgid "Members that have viewed your profile (most recent are shown first)"
+msgstr "Personas que han visto tu perfil (últimas visitas primeras)"
 
 #: rs/track_viewers.py:195
 #, python-format
