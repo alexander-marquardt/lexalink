@@ -176,7 +176,7 @@ def generate_html_for_profile_views(request):
         display_online_status = utils.do_display_online_status(owner_uid)
         owner_is_vip = utils.owner_is_vip(owner_uid)
         
-        generated_title = header_html = ugettext("Members that have viewed your profile (most recent are shown first).") % {'username' : userobject.username}
+        generated_title = header_html = "%s." % ugettext("Members that have viewed your profile (most recent are shown first)") % {'username' : userobject.username}
         generated_html_before_form = ''
 
         viewed_profile_counter_object = userobject.viewed_profile_counter_ref.get()
