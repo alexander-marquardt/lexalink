@@ -29,7 +29,7 @@ import os, datetime
 
 from rs.private_data import *
 
-VERSION_ID = '2013-02-07-1644-after_updates_complete'
+VERSION_ID = '2013-02-07-1644-after-updates-complete'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = True
