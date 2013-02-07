@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-22 14:16+0100\n"
+"POT-Creation-Date: 2013-02-07 16:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,81 +24,81 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:366
+#: rs/admin.py:369
 #, python-format
 msgid ""
 "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
 "approximately %(shutdown_time)s minutes for maintenance"
 msgstr ""
 
-#: rs/admin.py:383
+#: rs/admin.py:386
 #, python-format
 msgid ""
 "We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
 "for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
 msgstr ""
 
-#: rs/ajax.py:514
+#: rs/ajax.py:517
 #, python-format
 msgid ""
 "\n"
-"    When you click on \"Save\", you will receive an email from <em>%"
-"(sender_email)s</em> that will confirm\n"
+"    When you click on \"Save\", you will receive an email from <em>"
+"%(sender_email)s</em> that will confirm\n"
 "    that your email address has been correctly stored."
 msgstr ""
 
-#: rs/ajax.py:641
+#: rs/ajax.py:644
 msgid "Greeting sent"
 msgstr ""
 
-#: rs/ajax.py:643
+#: rs/ajax.py:646
 msgid "Wink sent"
 msgstr ""
 
-#: rs/ajax.py:648
+#: rs/ajax.py:651
 msgid "Is favorite"
 msgstr ""
 
-#: rs/ajax.py:649
+#: rs/ajax.py:652
 msgid "Kiss sent"
 msgstr ""
 
-#: rs/ajax.py:650
+#: rs/ajax.py:653
 msgid "Has accsess to your private profile"
 msgstr ""
 
-#: rs/ajax.py:651
+#: rs/ajax.py:654
 msgid "Is blocked (new messages automatically deleted)"
 msgstr ""
 
-#: rs/ajax.py:655
+#: rs/ajax.py:658
 msgid "You are waiting for a confirmation of your chat request"
 msgstr ""
 
-#: rs/ajax.py:656
+#: rs/ajax.py:659
 msgid "You have received a chat request"
 msgstr ""
 
-#: rs/ajax.py:657
+#: rs/ajax.py:660
 msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
 msgstr ""
 
-#: rs/ajax.py:697 rs/display_contacts.py:337 rs/forms.py:1083
-#: rs/login_utils.py:248 rs/rendering.py:392 rs/store_data.py:1554
-#: rs/utils.py:1547
+#: rs/ajax.py:700 rs/display_contacts.py:341 rs/forms.py:1083
+#: rs/login_utils.py:259 rs/rendering.py:395 rs/store_data.py:1577
+#: rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
 msgstr "Error internal - este error será investigado inmediatamente"
 
-#: rs/batch_jobs.py:88
+#: rs/batch_jobs.py:87
 #, python-format
 msgid "FriendBazaar.com - from the creators of %(app_name)s"
 msgstr ""
 
-#: rs/batch_jobs.py:95
+#: rs/batch_jobs.py:94
 #, python-format
 msgid "Friend welcome %(username)s %(app_name)s"
 msgstr ""
@@ -110,12 +111,12 @@ msgstr ""
 msgid "More details about me"
 msgstr ""
 
-#: rs/callbacks_from_html.py:98 rs/search_results.py:170
+#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:143
 #: rs/user_profile_details.py:204
 msgid "Languages I speak"
 msgstr ""
 
-#: rs/callbacks_from_html.py:121 rs/login_utils.py:912
+#: rs/callbacks_from_html.py:121 rs/login_utils.py:918
 msgid "Email"
 msgstr ""
 
@@ -140,8 +141,8 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                    As a VIP Member, <strong>you are allowed to contact %"
-"(num)s new people every %(hr)s hours</strong>\n"
+"                    As a VIP Member, <strong>you are allowed to contact "
+"%(num)s new people every %(hr)s hours</strong>\n"
 "                    People that you have already exchanged messages with in "
 "the past do not count in this limit. %(sent)s<br><br>\n"
 "                    "
@@ -168,249 +169,249 @@ msgstr ""
 msgid "See the bottom of the window for information on becoming a VIP member."
 msgstr ""
 
-#: rs/channel_support.py:541
+#: rs/channel_support.py:543
 msgid "Error - group creation limit exceeded"
 msgstr ""
 
-#: rs/channel_support.py:562
+#: rs/channel_support.py:564
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
-#: rs/constants.py:202 rs/templates/user_main_helpers/chat.html:70
+#: rs/constants.py:201 rs/templates/user_main_helpers/chat.html:70
 msgid "(Active)"
 msgstr ""
 
-#: rs/constants.py:203 rs/templates/user_main_helpers/chat.html:77
+#: rs/constants.py:202 rs/templates/user_main_helpers/chat.html:77
 msgid "(Idle)"
 msgstr ""
 
-#: rs/constants.py:204 rs/templates/user_main_helpers/chat.html:84
+#: rs/constants.py:203 rs/templates/user_main_helpers/chat.html:84
 msgid "(Away)"
 msgstr ""
 
-#: rs/constants.py:205
+#: rs/constants.py:204
 msgid "(Offline)"
 msgstr ""
 
-#: rs/constants.py:409
+#: rs/constants.py:408
 msgid "confidential dating website"
 msgstr ""
 
-#: rs/constants.py:413
+#: rs/constants.py:412
 msgid "serious dating website"
 msgstr ""
 
-#: rs/constants.py:416
+#: rs/constants.py:415
 msgid "website to learn languages and meet people"
 msgstr ""
 
-#: rs/constants.py:419
+#: rs/constants.py:418
 msgid "lesbian dating website"
 msgstr ""
 
-#: rs/constants.py:423
+#: rs/constants.py:422
 msgid "gay dating website"
 msgstr ""
 
-#: rs/constants.py:427
+#: rs/constants.py:426
 msgid "swingers website"
 msgstr ""
 
-#: rs/constants.py:431
+#: rs/constants.py:430
 msgid "website to meet people, make friends, and to earn money"
 msgstr ""
 
-#: rs/constants.py:491
+#: rs/constants.py:489
 msgid "confidential dating"
 msgstr ""
 
-#: rs/constants.py:492
+#: rs/constants.py:490
 msgid "dating"
 msgstr ""
 
-#: rs/constants.py:493
+#: rs/constants.py:491
 msgid "language exchange"
 msgstr ""
 
-#: rs/constants.py:494
+#: rs/constants.py:492
 msgid "swingers"
 msgstr ""
 
-#: rs/constants.py:495
+#: rs/constants.py:493
 msgid "gay dating"
 msgstr ""
 
-#: rs/constants.py:496
+#: rs/constants.py:494
 msgid "lesbian dating"
 msgstr ""
 
-#: rs/constants.py:583
+#: rs/constants.py:581
 msgid ""
 "Username needs at least 3 characters and can only contain letters and "
 "numbers. Additionally, it may not contain any spaces."
 msgstr ""
 
-#: rs/constants.py:585
+#: rs/constants.py:583
 msgid "Password required"
 msgstr ""
 
-#: rs/constants.py:586
+#: rs/constants.py:584
 msgid ""
 "Password may only contain letters and numbers, and cannot contain spaces."
 msgstr ""
 
-#: rs/constants.py:587
+#: rs/constants.py:585
 msgid "The password and the verification must be the same."
 msgstr ""
 
-#: rs/constants.py:588
+#: rs/constants.py:586
 msgid "The username that you have selected is not available."
 msgstr ""
 
-#: rs/constants.py:589
+#: rs/constants.py:587
 msgid "Username/email + password is incorrect"
 msgstr ""
 
-#: rs/constants.py:590
+#: rs/constants.py:588
 msgid "The email address is not valid"
 msgstr ""
 
-#: rs/constants.py:594
+#: rs/constants.py:592
 #, python-format
 msgid ""
-"You can only send %(guest_num)s messages to another user in a single %(hours)"
-"s-hour period. \n"
+"You can only send %(guest_num)s messages to another user in a single "
+"%(hours)s-hour period. \n"
 "        However, if the other user is a \"chat friend\" of yours, then you "
 "can send them %(chat_friend_num)s messages in a single \n"
 "        %(hours)s-hour period. "
 msgstr ""
 
-#: rs/constants.py:608
+#: rs/constants.py:606
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:609 rs/mailbox.py:628 rs/text_fields.py:75
+#: rs/constants.py:607 rs/mailbox.py:627 rs/text_fields.py:75
 msgid "Sent"
 msgstr ""
 
-#: rs/constants.py:610 rs/mailbox.py:620 rs/mailbox.py:634
+#: rs/constants.py:608 rs/mailbox.py:619 rs/mailbox.py:633
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr ""
 
-#: rs/constants.py:611
+#: rs/constants.py:609
 msgid "Saved"
 msgstr ""
 
-#: rs/constants.py:614
+#: rs/constants.py:612
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:615
+#: rs/constants.py:613
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:617
+#: rs/constants.py:615
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:618
+#: rs/constants.py:616
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:621
+#: rs/constants.py:619
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:623
+#: rs/constants.py:621
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:624
+#: rs/constants.py:622
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:625
+#: rs/constants.py:623
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:626
+#: rs/constants.py:624
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:630 rs/constants.py:631
+#: rs/constants.py:628 rs/constants.py:629
 msgid "Chat requests"
 msgstr ""
 
-#: rs/constants.py:632
+#: rs/constants.py:630
 msgid "Chat connections"
 msgstr ""
 
-#: rs/constants.py:636
+#: rs/constants.py:634
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:638
+#: rs/constants.py:636
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:639
+#: rs/constants.py:637
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:640
+#: rs/constants.py:638
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:641
+#: rs/constants.py:639
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:681
+#: rs/constants.py:680
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:682
+#: rs/constants.py:681
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:683
+#: rs/constants.py:682
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:684
+#: rs/constants.py:683
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:685
+#: rs/constants.py:684
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:686
+#: rs/constants.py:685
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:687
+#: rs/constants.py:686
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:688
+#: rs/constants.py:687
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:689
+#: rs/constants.py:688
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:689
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:691
+#: rs/constants.py:690
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:692
+#: rs/constants.py:691
 msgid "December"
 msgstr ""
 
@@ -429,211 +430,232 @@ msgstr ""
 msgid "You don't have any yet"
 msgstr ""
 
-#: rs/email_utils.py:60 rs/email_utils.py:634
+#: rs/display_profiles_summary.py:63 rs/forms.py:298
+msgid "See profile of:"
+msgstr "See profile and get in contact with:"
+
+#: rs/display_profiles_summary.py:112
+msgid "About me"
+msgstr ""
+
+#: rs/display_profiles_summary.py:151
+msgid "Native language"
+msgstr ""
+
+#: rs/display_profiles_summary.py:219
+msgid "Last entrance"
+msgstr ""
+
+#: rs/display_profiles_summary.py:306 rs/display_profiles_summary.py:318
+#: rs/mailbox.py:980
+msgid "Next"
+msgstr ""
+
+#: rs/email_utils.py:64 rs/email_utils.py:643
 msgid "Cheers"
 msgstr ""
 
-#: rs/email_utils.py:67
+#: rs/email_utils.py:71
 #, python-format
 msgid "This account has been requested from the IP address: %(remoteip)s."
 msgstr ""
 
-#: rs/email_utils.py:74
+#: rs/email_utils.py:78
 #, python-format
 msgid "Someone with the IP address: %(remoteip)s has requested this."
 msgstr ""
 
-#: rs/email_utils.py:178
+#: rs/email_utils.py:182
 msgid "Confirmation of your email address"
 msgstr ""
 
-#: rs/email_utils.py:182 rs/email_utils.py:225 rs/email_utils.py:285
-#: rs/email_utils.py:363 rs/email_utils.py:633 rs/login_utils.py:672
-#: rs/login_utils.py:695
+#: rs/email_utils.py:186 rs/email_utils.py:230 rs/email_utils.py:290
+#: rs/email_utils.py:368 rs/email_utils.py:642 rs/login_utils.py:678
+#: rs/login_utils.py:701
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
 
-#: rs/email_utils.py:183
+#: rs/email_utils.py:187
 msgid "Your account has been correctly registered"
 msgstr ""
 
-#: rs/email_utils.py:220 rs/reset_password.py:83
+#: rs/email_utils.py:225 rs/reset_password.py:83
 msgid "New password"
 msgstr ""
 
-#: rs/email_utils.py:226
+#: rs/email_utils.py:231
 #, python-format
 msgid "Your new password is: %(new_password)s"
 msgstr ""
 
-#: rs/email_utils.py:227
+#: rs/email_utils.py:232
 #, python-format
 msgid ""
-"If you have not requested a new password, you can continue to use %(app_name)"
-"s with your current password and the new password will be invalidated the "
-"next time you login"
+"If you have not requested a new password, you can continue to use "
+"%(app_name)s with your current password and the new password will be "
+"invalidated the next time you login"
 msgstr ""
 
-#: rs/email_utils.py:230
+#: rs/email_utils.py:235
 msgid ""
 "If you decide to use the new password, it is recomendable that you change it "
 "in the administrative section of your profile"
 msgstr ""
 
-#: rs/email_utils.py:283
+#: rs/email_utils.py:288
 #, python-format
 msgid "Yes, I am sure I want to eliminate the profile of %(username)s"
 msgstr ""
 
-#: rs/email_utils.py:286
+#: rs/email_utils.py:291
 msgid "Are you sure you want to eliminate your account?"
 msgstr ""
 
-#: rs/email_utils.py:295 rs/login_utils.py:508
+#: rs/email_utils.py:300 rs/login_utils.py:529
 msgid "Error - Not authorized"
 msgstr ""
 
-#: rs/email_utils.py:304
+#: rs/email_utils.py:309
 #, python-format
 msgid "Nick: %(username)s not found - have you already deleted it?"
 msgstr ""
 
-#: rs/email_utils.py:364
+#: rs/email_utils.py:369
 msgid "We have changed your notification options to"
 msgstr ""
 
-#: rs/email_utils.py:369
+#: rs/email_utils.py:374
 #, python-format
 msgid ""
-"Error: we have not been able to change the notification options for %"
-"(username)s"
+"Error: we have not been able to change the notification options for "
+"%(username)s"
 msgstr ""
 
-#: rs/email_utils.py:371
+#: rs/email_utils.py:376
 #, python-format
 msgid ""
 "You can change your notification settings by entering into %(link_to_build)s "
 "and directly modifying your profile"
 msgstr ""
 
-#: rs/email_utils.py:413 rs/templates/login.html:278
+#: rs/email_utils.py:419 rs/templates/login.html:278
 #: rs/templates/login.html.py:284
 msgid "Have you forgotten your password?"
 msgstr ""
 
-#: rs/email_utils.py:416 rs/email_utils.py:442
+#: rs/email_utils.py:422 rs/email_utils.py:448
 msgid "Here"
 msgstr ""
 
-#: rs/email_utils.py:417
+#: rs/email_utils.py:423
 msgid "you can request a new password"
 msgstr ""
 
-#: rs/email_utils.py:419 rs/user_profile_details.py:225
+#: rs/email_utils.py:425 rs/user_profile_details.py:225
 msgid "Email notification settings"
 msgstr ""
 
-#: rs/email_utils.py:420
+#: rs/email_utils.py:426
 msgid "You have currently selected"
 msgstr "You have currently selected"
 
-#: rs/email_utils.py:422
+#: rs/email_utils.py:428
 msgid ""
 "You can change this option by clicking on one of the options below, or by "
 "directly modifying \"My profile\" in"
 msgstr ""
 
-#: rs/email_utils.py:433
+#: rs/email_utils.py:439
 msgid "Option"
 msgstr ""
 
-#: rs/email_utils.py:438
+#: rs/email_utils.py:444
 msgid "Would you like to eliminate the profile of"
 msgstr "Would you like to eliminate the profile of"
 
-#: rs/email_utils.py:444
+#: rs/email_utils.py:450
 msgid "you can eliminate it"
 msgstr "you can eliminate it"
 
-#: rs/email_utils.py:508
+#: rs/email_utils.py:515
 msgid "violet"
 msgstr ""
 
-#: rs/email_utils.py:510
+#: rs/email_utils.py:517
 msgid "gray"
 msgstr ""
 
-#: rs/email_utils.py:512
+#: rs/email_utils.py:519
 msgid "green"
 msgstr ""
 
-#: rs/email_utils.py:563
+#: rs/email_utils.py:572
 #, python-format
 msgid "You have <strong>%(num_mail)s new/unread message</strong> "
 msgid_plural "You have <strong>%(num_mail)s new/unread messages</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/email_utils.py:572
+#: rs/email_utils.py:581
 msgid "You can read your messages after entering in"
 msgstr ""
 
-#: rs/email_utils.py:574 rs/email_utils.py:624
+#: rs/email_utils.py:583 rs/email_utils.py:633
 #, python-format
 msgid ""
 "by clicking on \"%(field)s\" in the %(bar_color)s bar just below the logo of "
 "%(app_name)s"
 msgstr ""
 
-#: rs/email_utils.py:575 rs/templates/user_main_helpers/menubar.html:56
+#: rs/email_utils.py:584 rs/templates/user_main_helpers/menubar.html:56
 msgid "Messages"
 msgstr ""
 
-#: rs/email_utils.py:576
+#: rs/email_utils.py:585
 msgid ""
 "You can mark the new messages as \"read\" by opening (clicking on) each "
 "message, or by marking the checkbox beside multiple messages and clicking "
 "\"Mark as read\""
 msgstr ""
 
-#: rs/email_utils.py:598
+#: rs/email_utils.py:607
 msgid "Additionally, since"
 msgstr ""
 
-#: rs/email_utils.py:600
+#: rs/email_utils.py:609
 msgid "Since"
 msgstr ""
 
-#: rs/email_utils.py:603
+#: rs/email_utils.py:612
 #, python-format
 msgid "your last entrance %(last_entrance)s, you have received"
 msgstr ""
 
-#: rs/email_utils.py:616
+#: rs/email_utils.py:625
 msgid "and"
 msgstr ""
 
-#: rs/email_utils.py:622
+#: rs/email_utils.py:631
 #, python-format
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr ""
 
-#: rs/email_utils.py:625 rs/profile_utils.py:93
-#: rs/templates/user_main_helpers/menubar.html:93
+#: rs/email_utils.py:634 rs/profile_utils.py:93
+#: rs/templates/user_main_helpers/menubar.html:107
 msgid "Contacts"
 msgstr ""
 
-#: rs/email_utils.py:630
+#: rs/email_utils.py:639
 msgid "Emails and/or new contacts"
 msgstr ""
 
-#: rs/email_utils.py:864
+#: rs/email_utils.py:896
 msgid ""
 "A nice website that I thought you might be interested in having a look at"
 msgstr ""
 
-#: rs/email_utils.py:868
+#: rs/email_utils.py:900
 #, python-format
 msgid ""
 "You can personalize and forward this message (or put it on facebook, "
@@ -641,11 +663,11 @@ msgid ""
 "credits in %(app_name)s."
 msgstr ""
 
-#: rs/email_utils.py:871
+#: rs/email_utils.py:903
 msgid "Dear Friend"
 msgstr ""
 
-#: rs/email_utils.py:873
+#: rs/email_utils.py:905
 #, python-format
 msgid ""
 "I am a member of %(app_name)s.com and thought that you might be interested "
@@ -653,7 +675,7 @@ msgid ""
 "I have used to meet many interesting people."
 msgstr ""
 
-#: rs/email_utils.py:877
+#: rs/email_utils.py:909
 #, python-format
 msgid ""
 "If you click on the link below and decide to sign up, both you and I will "
@@ -661,17 +683,13 @@ msgid ""
 "status gives extra message quota and has other benefits)."
 msgstr ""
 
-#: rs/email_utils.py:886
+#: rs/email_utils.py:918
 msgid "Kind Regards"
 msgstr ""
 
 #: rs/forms.py:99
 msgid "Warning"
 msgstr ""
-
-#: rs/forms.py:298 rs/search_results.py:90
-msgid "See profile of:"
-msgstr "See profile and get in contact with:"
 
 #: rs/forms.py:313 rs/templates/user_main_helpers/main_body.html:97
 msgid "Eliminated"
@@ -1329,167 +1347,168 @@ msgid "Euro"
 msgstr ""
 
 #: rs/friend_bazaar_specific_code.py:396 rs/friend_bazaar_specific_code.py:521
-#: rs/localizations.py:168 rs/localizations.py:189 rs/localizations.py:438
+#: rs/localizations.py:169 rs/localizations.py:190 rs/localizations.py:439
 msgid "US"
 msgstr "United States of America"
 
 #: rs/friend_bazaar_specific_code.py:397 rs/friend_bazaar_specific_code.py:520
-#: rs/localizations.py:169 rs/localizations.py:188 rs/localizations.py:436
+#: rs/localizations.py:170 rs/localizations.py:189 rs/localizations.py:437
 msgid "GB"
 msgstr "United Kingdom"
 
 #: rs/friend_bazaar_specific_code.py:398 rs/friend_bazaar_specific_code.py:411
-#: rs/localizations.py:162 rs/localizations.py:216
+#: rs/localizations.py:162 rs/localizations.py:217
 msgid "AR"
 msgstr "Argentina"
 
 #: rs/friend_bazaar_specific_code.py:399 rs/friend_bazaar_specific_code.py:429
-#: rs/localizations.py:163 rs/localizations.py:249
+#: rs/localizations.py:164 rs/localizations.py:250
 msgid "CL"
 msgstr "Chile"
 
 #: rs/friend_bazaar_specific_code.py:400 rs/friend_bazaar_specific_code.py:431
-#: rs/localizations.py:164 rs/localizations.py:253
+#: rs/localizations.py:165 rs/localizations.py:254
 msgid "CO"
 msgstr "Colombia"
 
 #: rs/friend_bazaar_specific_code.py:401 rs/friend_bazaar_specific_code.py:474
-#: rs/localizations.py:165 rs/localizations.py:185 rs/localizations.py:346
+#: rs/localizations.py:166 rs/localizations.py:186 rs/localizations.py:347
 msgid "MX"
 msgstr "Mexico"
 
 #: rs/friend_bazaar_specific_code.py:402 rs/friend_bazaar_specific_code.py:525
-#: rs/localizations.py:170 rs/localizations.py:443
+#: rs/localizations.py:171 rs/localizations.py:444
 msgid "VE"
 msgstr "Venezuela"
 
-#: rs/friend_bazaar_specific_code.py:407 rs/localizations.py:208
+#: rs/friend_bazaar_specific_code.py:407 rs/localizations.py:209
 msgid "AL"
 msgstr "Albania"
 
-#: rs/friend_bazaar_specific_code.py:408 rs/localizations.py:209
+#: rs/friend_bazaar_specific_code.py:408 rs/localizations.py:210
 msgid "DZ"
 msgstr "Algeria"
 
-#: rs/friend_bazaar_specific_code.py:409 rs/localizations.py:212
+#: rs/friend_bazaar_specific_code.py:409 rs/localizations.py:213
 msgid "AO"
 msgstr "Angola"
 
-#: rs/friend_bazaar_specific_code.py:410 rs/localizations.py:217
+#: rs/friend_bazaar_specific_code.py:410 rs/localizations.py:218
 msgid "AM"
 msgstr "Armenia"
 
-#: rs/friend_bazaar_specific_code.py:412 rs/localizations.py:219
+#: rs/friend_bazaar_specific_code.py:412 rs/localizations.py:220
 msgid "AU"
 msgstr "Australia"
 
-#: rs/friend_bazaar_specific_code.py:413 rs/localizations.py:221
+#: rs/friend_bazaar_specific_code.py:413 rs/localizations.py:222
 msgid "AZ"
 msgstr "Azerbaijan"
 
-#: rs/friend_bazaar_specific_code.py:414 rs/localizations.py:222
+#: rs/friend_bazaar_specific_code.py:414 rs/localizations.py:223
 msgid "BS"
 msgstr "Bahamas"
 
-#: rs/friend_bazaar_specific_code.py:415 rs/localizations.py:223
+#: rs/friend_bazaar_specific_code.py:415 rs/localizations.py:224
 msgid "BH"
 msgstr "Bahrain"
 
-#: rs/friend_bazaar_specific_code.py:416 rs/localizations.py:224
+#: rs/friend_bazaar_specific_code.py:416 rs/localizations.py:225
 msgid "BD"
 msgstr "Bangladesh"
 
-#: rs/friend_bazaar_specific_code.py:417 rs/localizations.py:225
+#: rs/friend_bazaar_specific_code.py:417 rs/localizations.py:226
 msgid "BB"
 msgstr "Barbados"
 
-#: rs/friend_bazaar_specific_code.py:418 rs/localizations.py:226
+#: rs/friend_bazaar_specific_code.py:418 rs/localizations.py:227
 msgid "BY"
 msgstr "Belarus"
 
-#: rs/friend_bazaar_specific_code.py:419 rs/localizations.py:228
+#: rs/friend_bazaar_specific_code.py:419 rs/localizations.py:229
 msgid "BZ"
 msgstr "Belize"
 
-#: rs/friend_bazaar_specific_code.py:420 rs/localizations.py:230
+#: rs/friend_bazaar_specific_code.py:420 rs/localizations.py:231
 msgid "BM"
 msgstr "Bermuda"
 
-#: rs/friend_bazaar_specific_code.py:421 rs/localizations.py:231
+#: rs/friend_bazaar_specific_code.py:421 rs/localizations.py:232
 msgid "BT"
 msgstr "Bhutan"
 
-#: rs/friend_bazaar_specific_code.py:422 rs/localizations.py:232
+#: rs/friend_bazaar_specific_code.py:422 rs/localizations.py:233
 msgid "BO"
 msgstr "Bolivia"
 
-#: rs/friend_bazaar_specific_code.py:423 rs/localizations.py:233
+#: rs/friend_bazaar_specific_code.py:423 rs/localizations.py:234
 msgid "BA"
 msgstr "Bosnia and Herzegovina"
 
-#: rs/friend_bazaar_specific_code.py:424 rs/localizations.py:178
-#: rs/localizations.py:236
+#: rs/friend_bazaar_specific_code.py:424 rs/localizations.py:179
+#: rs/localizations.py:237
 msgid "BR"
 msgstr "Brazil"
 
-#: rs/friend_bazaar_specific_code.py:425 rs/localizations.py:238
+#: rs/friend_bazaar_specific_code.py:425 rs/localizations.py:239
 msgid "BN"
 msgstr "Brunei Darussalam"
 
-#: rs/friend_bazaar_specific_code.py:426 rs/localizations.py:239
+#: rs/friend_bazaar_specific_code.py:426 rs/localizations.py:240
 msgid "BG"
 msgstr "Bulgaria"
 
-#: rs/friend_bazaar_specific_code.py:427 rs/localizations.py:244
+#: rs/friend_bazaar_specific_code.py:427 rs/localizations.py:163
+#: rs/localizations.py:245
 msgid "CA"
 msgstr "Canada"
 
-#: rs/friend_bazaar_specific_code.py:428 rs/localizations.py:246
+#: rs/friend_bazaar_specific_code.py:428 rs/localizations.py:247
 msgid "KY"
 msgstr "Cayman Islands"
 
-#: rs/friend_bazaar_specific_code.py:430 rs/localizations.py:179
-#: rs/localizations.py:250
+#: rs/friend_bazaar_specific_code.py:430 rs/localizations.py:180
+#: rs/localizations.py:251
 msgid "CN"
 msgstr "China"
 
-#: rs/friend_bazaar_specific_code.py:432 rs/localizations.py:258
+#: rs/friend_bazaar_specific_code.py:432 rs/localizations.py:259
 msgid "CR"
 msgstr "Costa Rica"
 
-#: rs/friend_bazaar_specific_code.py:433 rs/localizations.py:260
+#: rs/friend_bazaar_specific_code.py:433 rs/localizations.py:261
 msgid "HR"
 msgstr "Croatia"
 
-#: rs/friend_bazaar_specific_code.py:434 rs/localizations.py:261
+#: rs/friend_bazaar_specific_code.py:434 rs/localizations.py:262
 msgid "CU"
 msgstr "Cuba"
 
-#: rs/friend_bazaar_specific_code.py:435 rs/localizations.py:263
+#: rs/friend_bazaar_specific_code.py:435 rs/localizations.py:264
 msgid "CZ"
 msgstr "Czech Republic"
 
-#: rs/friend_bazaar_specific_code.py:436 rs/localizations.py:264
+#: rs/friend_bazaar_specific_code.py:436 rs/localizations.py:265
 msgid "DK"
 msgstr "Denmark"
 
-#: rs/friend_bazaar_specific_code.py:437 rs/localizations.py:267
+#: rs/friend_bazaar_specific_code.py:437 rs/localizations.py:268
 msgid "DO"
 msgstr "Dominican Republic"
 
-#: rs/friend_bazaar_specific_code.py:438 rs/localizations.py:269
+#: rs/friend_bazaar_specific_code.py:438 rs/localizations.py:270
 msgid "EG"
 msgstr "Egypt"
 
-#: rs/friend_bazaar_specific_code.py:439 rs/localizations.py:270
+#: rs/friend_bazaar_specific_code.py:439 rs/localizations.py:271
 msgid "SV"
 msgstr "El Salvador"
 
-#: rs/friend_bazaar_specific_code.py:441 rs/localizations.py:273
+#: rs/friend_bazaar_specific_code.py:441 rs/localizations.py:274
 msgid "EE"
 msgstr "Estonia"
 
-#: rs/friend_bazaar_specific_code.py:442 rs/localizations.py:277
+#: rs/friend_bazaar_specific_code.py:442 rs/localizations.py:278
 msgid "FJ"
 msgstr "Fiji"
 
@@ -1497,271 +1516,271 @@ msgstr "Fiji"
 msgid "FP"
 msgstr ""
 
-#: rs/friend_bazaar_specific_code.py:445 rs/localizations.py:285
+#: rs/friend_bazaar_specific_code.py:445 rs/localizations.py:286
 msgid "GE"
 msgstr "Georgia"
 
-#: rs/friend_bazaar_specific_code.py:446 rs/localizations.py:288
+#: rs/friend_bazaar_specific_code.py:446 rs/localizations.py:289
 msgid "GI"
 msgstr "Gibraltar"
 
-#: rs/friend_bazaar_specific_code.py:447 rs/localizations.py:294
+#: rs/friend_bazaar_specific_code.py:447 rs/localizations.py:295
 msgid "GT"
 msgstr "Guatemala"
 
-#: rs/friend_bazaar_specific_code.py:448 rs/localizations.py:298
+#: rs/friend_bazaar_specific_code.py:448 rs/localizations.py:299
 msgid "GY"
 msgstr "Guyana"
 
-#: rs/friend_bazaar_specific_code.py:449 rs/localizations.py:301
+#: rs/friend_bazaar_specific_code.py:449 rs/localizations.py:302
 msgid "HN"
 msgstr "Honduras"
 
-#: rs/friend_bazaar_specific_code.py:450 rs/localizations.py:302
+#: rs/friend_bazaar_specific_code.py:450 rs/localizations.py:303
 msgid "HK"
 msgstr "Hong Kong"
 
-#: rs/friend_bazaar_specific_code.py:451 rs/localizations.py:303
+#: rs/friend_bazaar_specific_code.py:451 rs/localizations.py:304
 msgid "HU"
 msgstr "Hungary"
 
-#: rs/friend_bazaar_specific_code.py:452 rs/localizations.py:304
+#: rs/friend_bazaar_specific_code.py:452 rs/localizations.py:305
 msgid "IS"
 msgstr "Iceland"
 
-#: rs/friend_bazaar_specific_code.py:453 rs/localizations.py:305
+#: rs/friend_bazaar_specific_code.py:453 rs/localizations.py:306
 msgid "IN"
 msgstr "India"
 
-#: rs/friend_bazaar_specific_code.py:454 rs/localizations.py:306
+#: rs/friend_bazaar_specific_code.py:454 rs/localizations.py:307
 msgid "ID"
 msgstr "Indonesia"
 
-#: rs/friend_bazaar_specific_code.py:455 rs/localizations.py:307
+#: rs/friend_bazaar_specific_code.py:455 rs/localizations.py:308
 msgid "IR"
 msgstr "Iran"
 
-#: rs/friend_bazaar_specific_code.py:456 rs/localizations.py:308
+#: rs/friend_bazaar_specific_code.py:456 rs/localizations.py:309
 msgid "IQ"
 msgstr "Iraq"
 
-#: rs/friend_bazaar_specific_code.py:457 rs/localizations.py:311
+#: rs/friend_bazaar_specific_code.py:457 rs/localizations.py:312
 msgid "IL"
 msgstr "Israel"
 
-#: rs/friend_bazaar_specific_code.py:458 rs/localizations.py:313
+#: rs/friend_bazaar_specific_code.py:458 rs/localizations.py:314
 msgid "JM"
 msgstr "Jamaica"
 
-#: rs/friend_bazaar_specific_code.py:459 rs/localizations.py:183
-#: rs/localizations.py:314
+#: rs/friend_bazaar_specific_code.py:459 rs/localizations.py:184
+#: rs/localizations.py:315
 msgid "JP"
 msgstr "Japan"
 
-#: rs/friend_bazaar_specific_code.py:460 rs/localizations.py:316
+#: rs/friend_bazaar_specific_code.py:460 rs/localizations.py:317
 msgid "JO"
 msgstr "Jordan"
 
-#: rs/friend_bazaar_specific_code.py:461 rs/localizations.py:317
+#: rs/friend_bazaar_specific_code.py:461 rs/localizations.py:318
 msgid "KZ"
 msgstr "Kazakhstan"
 
-#: rs/friend_bazaar_specific_code.py:462 rs/localizations.py:184
-#: rs/localizations.py:321
+#: rs/friend_bazaar_specific_code.py:462 rs/localizations.py:185
+#: rs/localizations.py:322
 msgid "KR"
 msgstr "Korea (South)"
 
-#: rs/friend_bazaar_specific_code.py:463 rs/localizations.py:322
+#: rs/friend_bazaar_specific_code.py:463 rs/localizations.py:323
 msgid "KW"
 msgstr "Kuwait"
 
-#: rs/friend_bazaar_specific_code.py:464 rs/localizations.py:323
+#: rs/friend_bazaar_specific_code.py:464 rs/localizations.py:324
 msgid "KG"
 msgstr "Kyrgyzstan"
 
-#: rs/friend_bazaar_specific_code.py:465 rs/localizations.py:324
+#: rs/friend_bazaar_specific_code.py:465 rs/localizations.py:325
 msgid "LA"
 msgstr "Laos"
 
-#: rs/friend_bazaar_specific_code.py:466 rs/localizations.py:325
+#: rs/friend_bazaar_specific_code.py:466 rs/localizations.py:326
 msgid "LV"
 msgstr "Latvia"
 
-#: rs/friend_bazaar_specific_code.py:467 rs/localizations.py:326
+#: rs/friend_bazaar_specific_code.py:467 rs/localizations.py:327
 msgid "LB"
 msgstr "Lebanon"
 
-#: rs/friend_bazaar_specific_code.py:468 rs/localizations.py:329
+#: rs/friend_bazaar_specific_code.py:468 rs/localizations.py:330
 msgid "LY"
 msgstr "Libya"
 
-#: rs/friend_bazaar_specific_code.py:469 rs/localizations.py:331
+#: rs/friend_bazaar_specific_code.py:469 rs/localizations.py:332
 msgid "LT"
 msgstr "Lithuania"
 
-#: rs/friend_bazaar_specific_code.py:471 rs/localizations.py:334
+#: rs/friend_bazaar_specific_code.py:471 rs/localizations.py:335
 msgid "MK"
 msgstr "Macedonia"
 
-#: rs/friend_bazaar_specific_code.py:472 rs/localizations.py:337
+#: rs/friend_bazaar_specific_code.py:472 rs/localizations.py:338
 msgid "MY"
 msgstr "Malaysia"
 
-#: rs/friend_bazaar_specific_code.py:473 rs/localizations.py:338
+#: rs/friend_bazaar_specific_code.py:473 rs/localizations.py:339
 msgid "MV"
 msgstr "Maldives"
 
-#: rs/friend_bazaar_specific_code.py:475 rs/localizations.py:348
+#: rs/friend_bazaar_specific_code.py:475 rs/localizations.py:349
 msgid "MD"
 msgstr "Moldova"
 
-#: rs/friend_bazaar_specific_code.py:476 rs/localizations.py:350
+#: rs/friend_bazaar_specific_code.py:476 rs/localizations.py:351
 msgid "MN"
 msgstr "Mongolia"
 
-#: rs/friend_bazaar_specific_code.py:477 rs/localizations.py:353
+#: rs/friend_bazaar_specific_code.py:477 rs/localizations.py:354
 msgid "MA"
 msgstr "Morocco"
 
-#: rs/friend_bazaar_specific_code.py:479 rs/localizations.py:362
+#: rs/friend_bazaar_specific_code.py:479 rs/localizations.py:363
 msgid "NZ"
 msgstr "New Zealand"
 
-#: rs/friend_bazaar_specific_code.py:480 rs/localizations.py:363
+#: rs/friend_bazaar_specific_code.py:480 rs/localizations.py:364
 msgid "NI"
 msgstr "Nicaragua"
 
-#: rs/friend_bazaar_specific_code.py:482 rs/localizations.py:369
+#: rs/friend_bazaar_specific_code.py:482 rs/localizations.py:370
 msgid "NO"
 msgstr "Norway"
 
-#: rs/friend_bazaar_specific_code.py:483 rs/localizations.py:370
+#: rs/friend_bazaar_specific_code.py:483 rs/localizations.py:371
 msgid "OM"
 msgstr "Oman"
 
-#: rs/friend_bazaar_specific_code.py:484 rs/localizations.py:371
+#: rs/friend_bazaar_specific_code.py:484 rs/localizations.py:372
 msgid "PK"
 msgstr "Pakistan"
 
-#: rs/friend_bazaar_specific_code.py:485 rs/localizations.py:374
+#: rs/friend_bazaar_specific_code.py:485 rs/localizations.py:375
 msgid "PA"
 msgstr "Panama"
 
-#: rs/friend_bazaar_specific_code.py:486 rs/localizations.py:375
+#: rs/friend_bazaar_specific_code.py:486 rs/localizations.py:376
 msgid "PG"
 msgstr "Papua New Guinea"
 
-#: rs/friend_bazaar_specific_code.py:487 rs/localizations.py:376
+#: rs/friend_bazaar_specific_code.py:487 rs/localizations.py:377
 msgid "PY"
 msgstr "Paraguay"
 
-#: rs/friend_bazaar_specific_code.py:488 rs/localizations.py:166
-#: rs/localizations.py:377
+#: rs/friend_bazaar_specific_code.py:488 rs/localizations.py:167
+#: rs/localizations.py:378
 msgid "PE"
 msgstr "Peru"
 
-#: rs/friend_bazaar_specific_code.py:489 rs/localizations.py:378
+#: rs/friend_bazaar_specific_code.py:489 rs/localizations.py:379
 msgid "PH"
 msgstr "Philippines"
 
-#: rs/friend_bazaar_specific_code.py:490 rs/localizations.py:380
+#: rs/friend_bazaar_specific_code.py:490 rs/localizations.py:381
 msgid "PL"
 msgstr "Poland"
 
-#: rs/friend_bazaar_specific_code.py:492 rs/localizations.py:383
+#: rs/friend_bazaar_specific_code.py:492 rs/localizations.py:384
 msgid "QA"
 msgstr "Qatar"
 
-#: rs/friend_bazaar_specific_code.py:493 rs/localizations.py:385
+#: rs/friend_bazaar_specific_code.py:493 rs/localizations.py:386
 msgid "RO"
 msgstr "Romania"
 
-#: rs/friend_bazaar_specific_code.py:494 rs/localizations.py:186
-#: rs/localizations.py:386
+#: rs/friend_bazaar_specific_code.py:494 rs/localizations.py:187
+#: rs/localizations.py:387
 msgid "RU"
 msgstr "Russian Federation"
 
-#: rs/friend_bazaar_specific_code.py:496 rs/localizations.py:398
+#: rs/friend_bazaar_specific_code.py:496 rs/localizations.py:399
 msgid "SA"
 msgstr "Saudi Arabia"
 
-#: rs/friend_bazaar_specific_code.py:497 rs/localizations.py:400
+#: rs/friend_bazaar_specific_code.py:497 rs/localizations.py:401
 msgid "RS"
 msgstr "Serbia"
 
-#: rs/friend_bazaar_specific_code.py:499 rs/localizations.py:403
+#: rs/friend_bazaar_specific_code.py:499 rs/localizations.py:404
 msgid "SG"
 msgstr "Singapore"
 
-#: rs/friend_bazaar_specific_code.py:501 rs/localizations.py:408
+#: rs/friend_bazaar_specific_code.py:501 rs/localizations.py:409
 msgid "ZA"
 msgstr "South Africa"
 
-#: rs/friend_bazaar_specific_code.py:503 rs/localizations.py:411
+#: rs/friend_bazaar_specific_code.py:503 rs/localizations.py:412
 msgid "LK"
 msgstr "Sri Lanka"
 
-#: rs/friend_bazaar_specific_code.py:504 rs/localizations.py:413
+#: rs/friend_bazaar_specific_code.py:504 rs/localizations.py:414
 msgid "SR"
 msgstr "Suriname"
 
-#: rs/friend_bazaar_specific_code.py:506 rs/localizations.py:416
+#: rs/friend_bazaar_specific_code.py:506 rs/localizations.py:417
 msgid "SE"
 msgstr "Sweden"
 
-#: rs/friend_bazaar_specific_code.py:507 rs/localizations.py:417
+#: rs/friend_bazaar_specific_code.py:507 rs/localizations.py:418
 msgid "CH"
 msgstr "Switzerland"
 
-#: rs/friend_bazaar_specific_code.py:508 rs/localizations.py:418
+#: rs/friend_bazaar_specific_code.py:508 rs/localizations.py:419
 msgid "SY"
 msgstr "Syria"
 
-#: rs/friend_bazaar_specific_code.py:509 rs/localizations.py:419
+#: rs/friend_bazaar_specific_code.py:509 rs/localizations.py:420
 msgid "TW"
 msgstr "Taiwan"
 
-#: rs/friend_bazaar_specific_code.py:511 rs/localizations.py:422
+#: rs/friend_bazaar_specific_code.py:511 rs/localizations.py:423
 msgid "TH"
 msgstr "Thailand"
 
-#: rs/friend_bazaar_specific_code.py:512 rs/localizations.py:427
+#: rs/friend_bazaar_specific_code.py:512 rs/localizations.py:428
 msgid "TT"
 msgstr "Trinidad and Tobago"
 
-#: rs/friend_bazaar_specific_code.py:514 rs/localizations.py:428
+#: rs/friend_bazaar_specific_code.py:514 rs/localizations.py:429
 msgid "TN"
 msgstr "Tunisia"
 
-#: rs/friend_bazaar_specific_code.py:515 rs/localizations.py:429
+#: rs/friend_bazaar_specific_code.py:515 rs/localizations.py:430
 msgid "TR"
 msgstr "Turkey"
 
-#: rs/friend_bazaar_specific_code.py:516 rs/localizations.py:430
+#: rs/friend_bazaar_specific_code.py:516 rs/localizations.py:431
 msgid "TM"
 msgstr "Turkmenistan"
 
-#: rs/friend_bazaar_specific_code.py:518 rs/localizations.py:434
+#: rs/friend_bazaar_specific_code.py:518 rs/localizations.py:435
 msgid "UA"
 msgstr "Ukraine"
 
-#: rs/friend_bazaar_specific_code.py:519 rs/localizations.py:435
+#: rs/friend_bazaar_specific_code.py:519 rs/localizations.py:436
 msgid "AE"
 msgstr "United Arab Emirates"
 
-#: rs/friend_bazaar_specific_code.py:522 rs/localizations.py:439
+#: rs/friend_bazaar_specific_code.py:522 rs/localizations.py:440
 msgid "UY"
 msgstr "Uruguay"
 
-#: rs/friend_bazaar_specific_code.py:523 rs/localizations.py:440
+#: rs/friend_bazaar_specific_code.py:523 rs/localizations.py:441
 msgid "UZ"
 msgstr "Uzbekistan"
 
-#: rs/friend_bazaar_specific_code.py:526 rs/localizations.py:444
+#: rs/friend_bazaar_specific_code.py:526 rs/localizations.py:445
 msgid "VN"
 msgstr "Vietnam"
 
-#: rs/friend_bazaar_specific_code.py:528 rs/localizations.py:449
+#: rs/friend_bazaar_specific_code.py:528 rs/localizations.py:450
 msgid "YE"
 msgstr "Yemen"
 
@@ -1776,8 +1795,8 @@ msgstr ""
 #: rs/html_container.py:112 rs/html_container.py:118 rs/html_container.py:123
 #, python-format
 msgid ""
-"Write a description about yourself and what you are looking for %"
-"(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s."
+"Write a description about yourself and what you are looking for "
+"%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s."
 msgstr ""
 "Click on \"edit\" to the left to write a description about yourself and what "
 "you hope to find.\n"
@@ -2117,168 +2136,168 @@ msgstr ""
 msgid "Yoruba"
 msgstr ""
 
-#: rs/localizations.py:167 rs/localizations.py:187 rs/localizations.py:410
+#: rs/localizations.py:168 rs/localizations.py:188 rs/localizations.py:411
 msgid "ES"
 msgstr "Spain"
 
-#: rs/localizations.py:180 rs/localizations.py:279
+#: rs/localizations.py:181 rs/localizations.py:280
 msgid "FR"
 msgstr "France"
 
-#: rs/localizations.py:181 rs/localizations.py:286
+#: rs/localizations.py:182 rs/localizations.py:287
 msgid "DE"
 msgstr "Germany"
 
-#: rs/localizations.py:182 rs/localizations.py:312
+#: rs/localizations.py:183 rs/localizations.py:313
 msgid "IT"
 msgstr "Italy"
 
-#: rs/localizations.py:211
+#: rs/localizations.py:212
 msgid "AD"
 msgstr "Andorra"
 
-#: rs/localizations.py:214
+#: rs/localizations.py:215
 msgid "AQ"
 msgstr "Antarctica"
 
-#: rs/localizations.py:220
+#: rs/localizations.py:221
 msgid "AT"
 msgstr "Austria"
 
-#: rs/localizations.py:227
+#: rs/localizations.py:228
 msgid "BE"
 msgstr "Belgium"
 
-#: rs/localizations.py:242
+#: rs/localizations.py:243
 msgid "KH"
 msgstr "Cambodia"
 
-#: rs/localizations.py:262
+#: rs/localizations.py:263
 msgid "CY"
 msgstr "Cyprus"
 
-#: rs/localizations.py:268
+#: rs/localizations.py:269
 msgid "EC"
 msgstr "Ecuador"
 
-#: rs/localizations.py:278
+#: rs/localizations.py:279
 msgid "FI"
 msgstr "Finland"
 
-#: rs/localizations.py:280
+#: rs/localizations.py:281
 msgid "GF"
 msgstr "French Guiana"
 
-#: rs/localizations.py:281
+#: rs/localizations.py:282
 msgid "PF"
 msgstr "French Polynesia"
 
-#: rs/localizations.py:289
+#: rs/localizations.py:290
 msgid "GR"
 msgstr "Greece"
 
-#: rs/localizations.py:290
+#: rs/localizations.py:291
 msgid "GL"
 msgstr "Greenland"
 
-#: rs/localizations.py:309
+#: rs/localizations.py:310
 msgid "IE"
 msgstr "Ireland"
 
-#: rs/localizations.py:330
+#: rs/localizations.py:331
 msgid "LI"
 msgstr "Liechtenstein"
 
-#: rs/localizations.py:332
+#: rs/localizations.py:333
 msgid "LU"
 msgstr "Luxembourg"
 
-#: rs/localizations.py:333
+#: rs/localizations.py:334
 msgid "MO"
 msgstr "Macau"
 
-#: rs/localizations.py:340
+#: rs/localizations.py:341
 msgid "MT"
 msgstr "Malta"
 
-#: rs/localizations.py:349
+#: rs/localizations.py:350
 msgid "MC"
 msgstr "Monaco"
 
-#: rs/localizations.py:359
+#: rs/localizations.py:360
 msgid "NL"
 msgstr "Netherlands"
 
-#: rs/localizations.py:381
+#: rs/localizations.py:382
 msgid "PT"
 msgstr "Portugal"
 
-#: rs/localizations.py:382
+#: rs/localizations.py:383
 msgid "PR"
 msgstr "Puerto Rico"
 
-#: rs/localizations.py:404
+#: rs/localizations.py:405
 msgid "SK"
 msgstr "Slovakia"
 
-#: rs/localizations.py:405
+#: rs/localizations.py:406
 msgid "SI"
 msgstr "Slovenia"
 
-#: rs/localizations.py:423
+#: rs/localizations.py:424
 msgid "TL"
 msgstr "Timor-Leste"
 
-#: rs/localizations.py:448
+#: rs/localizations.py:449
 msgid "EH"
 msgstr "Western Sahara"
 
-#: rs/localizations.py:672 rs/localizations.py:684
+#: rs/localizations.py:673 rs/localizations.py:685
 msgid "All Countries"
 msgstr ""
 
-#: rs/login_utils.py:225
+#: rs/login_utils.py:236
 msgid "is not valid"
 msgstr ""
 
-#: rs/login_utils.py:448
+#: rs/login_utils.py:470
 msgid "We have eliminated the profile of"
 msgstr ""
 
-#: rs/login_utils.py:456
+#: rs/login_utils.py:477
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:482 rs/login_utils.py:511 rs/views.py:906
+#: rs/login_utils.py:503 rs/login_utils.py:532 rs/views.py:887
 msgid "You have exited"
 msgstr ""
 
-#: rs/login_utils.py:506
+#: rs/login_utils.py:527
 msgid "Profile does not exist"
 msgstr ""
 
-#: rs/login_utils.py:670
+#: rs/login_utils.py:676
 msgid "Verification of your email and registration"
 msgstr ""
 
-#: rs/login_utils.py:674
+#: rs/login_utils.py:680
 #, python-format
 msgid ""
 "To activate your account in %(app_name)s, click on the following link to "
 "verify your request"
 msgstr ""
 
-#: rs/login_utils.py:683
+#: rs/login_utils.py:689
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:694
+#: rs/login_utils.py:700
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:697
+#: rs/login_utils.py:703
 #, python-format
 msgid ""
 "\n"
@@ -2288,7 +2307,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:740
+#: rs/login_utils.py:746
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2296,7 +2315,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:767
+#: rs/login_utils.py:773
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2305,15 +2324,15 @@ msgid ""
 "this account."
 msgstr ""
 
-#: rs/login_utils.py:851
+#: rs/login_utils.py:857
 msgid "We have sent registration instructions to"
 msgstr ""
 
-#: rs/login_utils.py:852
+#: rs/login_utils.py:858
 msgid "from"
 msgstr ""
 
-#: rs/login_utils.py:857
+#: rs/login_utils.py:863
 #, python-format
 msgid ""
 "If you do not receive an email within a few minutes please check your Spam "
@@ -2323,92 +2342,92 @@ msgid ""
 "        future emails from us without any problems."
 msgstr ""
 
-#: rs/login_utils.py:866
+#: rs/login_utils.py:872
 msgid "If you have any problems or suggestions, send us a message at"
 msgstr ""
 
-#: rs/login_utils.py:871 rs/login_utils.py:915
+#: rs/login_utils.py:877 rs/login_utils.py:921
 msgid "Registering"
 msgstr ""
 
-#: rs/login_utils.py:909
+#: rs/login_utils.py:915
 msgid "If the email address "
 msgstr ""
 
-#: rs/login_utils.py:909
+#: rs/login_utils.py:915
 msgid "is not correct, re-enter it here"
 msgstr ""
 
-#: rs/login_utils.py:912
+#: rs/login_utils.py:918
 msgid "Change email address"
 msgstr ""
 
-#: rs/mailbox.py:273 rs/mailbox.py:766
+#: rs/mailbox.py:267 rs/mailbox.py:765
 msgid "From"
 msgstr ""
 
-#: rs/mailbox.py:419
+#: rs/mailbox.py:414
 msgid "To"
 msgstr ""
 
-#: rs/mailbox.py:619
+#: rs/mailbox.py:618
 msgid "Deleted (mail)"
 msgstr "Deleted"
 
-#: rs/mailbox.py:623
+#: rs/mailbox.py:622
 msgid "Spam"
 msgstr ""
 
-#: rs/mailbox.py:624
+#: rs/mailbox.py:623
 msgid "Received (mail)"
 msgstr "Received"
 
-#: rs/mailbox.py:633
+#: rs/mailbox.py:632
 msgid "Read (mail)"
 msgstr "Read"
 
-#: rs/mailbox.py:637
+#: rs/mailbox.py:636
 msgid "New (mail)"
 msgstr "New"
 
-#: rs/mailbox.py:704
+#: rs/mailbox.py:703
 msgid ""
 "Message history (click on the message text to see more detailed history)"
 msgstr ""
 
-#: rs/mailbox.py:771
+#: rs/mailbox.py:770
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:797 rs/mailbox.py:964
+#: rs/mailbox.py:796 rs/mailbox.py:964
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:803 rs/mailbox.py:962
+#: rs/mailbox.py:802 rs/mailbox.py:962
 msgid "Delete"
 msgstr ""
 
-#: rs/mailbox.py:807
+#: rs/mailbox.py:806
 msgid "Move to sent mailbox"
 msgstr ""
 
-#: rs/mailbox.py:810
+#: rs/mailbox.py:809
 msgid "Move to received mailbox"
 msgstr ""
 
-#: rs/mailbox.py:816
+#: rs/mailbox.py:815
 msgid "Mark as spam"
 msgstr ""
 
-#: rs/mailbox.py:829
+#: rs/mailbox.py:828
 msgid "Favorite"
 msgstr ""
 
-#: rs/mailbox.py:832
+#: rs/mailbox.py:831
 msgid "Add to your favorites"
 msgstr ""
 
-#: rs/mailbox.py:895
+#: rs/mailbox.py:894
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
@@ -2423,10 +2442,6 @@ msgstr "All"
 #: rs/mailbox.py:957
 msgid "None (messages - override)"
 msgstr "None"
-
-#: rs/mailbox.py:980 rs/search_results.py:847 rs/search_results.py:858
-msgid "Next"
-msgstr ""
 
 #: rs/mailbox.py:996
 msgid ""
@@ -2448,26 +2463,26 @@ msgstr ""
 #: rs/profile_utils.py:101
 #, python-format
 msgid ""
-"%(relationship_status)s%(sex)sSeeking%(extra_detail)s%(preference)sIn%"
-"(location)s"
+"%(relationship_status)s%(sex)sSeeking%(extra_detail)s%(preference)sIn"
+"%(location)s"
 msgstr ""
 
-#: rs/profile_utils.py:109 rs/profile_utils.py:110 rs/utils_top_level.py:133
+#: rs/profile_utils.py:109 rs/profile_utils.py:110 rs/utils_top_level.py:149
 msgid "Lesbian"
 msgstr ""
 
 #: rs/profile_utils.py:115
 #, python-format
 msgid ""
-"%(sex)sSeeking%(extra_detail)s%(preference)sFor %(relationship_status)s In %"
-"(location)s"
+"%(sex)sSeeking%(extra_detail)s%(preference)sFor %(relationship_status)s In "
+"%(location)s"
 msgstr ""
 
 #: rs/profile_utils.py:123
 #, python-format
 msgid ""
-"Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %"
-"(location)s"
+"Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In "
+"%(location)s"
 msgstr ""
 
 #: rs/profile_utils.py:129
@@ -2475,12 +2490,12 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:218 rs/views.py:161
+#: rs/rendering.py:221 rs/views.py:159
 #, python-format
 msgid "Remember the following benefits of registering with %(app_name)s."
 msgstr ""
 
-#: rs/rendering.py:220 rs/views.py:163
+#: rs/rendering.py:223 rs/views.py:161
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:146
 #, python-format
 msgid "List of benefits for registering with %(app_name)s."
@@ -2491,7 +2506,7 @@ msgstr ""
 "your privacy. Your profile has a public part, and a private part. Only "
 "members who you authorize will have access to your private photos."
 
-#: rs/rendering.py:233 rs/views.py:156
+#: rs/rendering.py:236 rs/views.py:154
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2510,8 +2525,8 @@ msgstr ""
 #: rs/reset_password.py:71
 #, python-format
 msgid ""
-"When you click on \"Send\", you will receive an email from <em>%"
-"(sender_email)s</em> with your new password."
+"When you click on \"Send\", you will receive an email from <em>"
+"%(sender_email)s</em> with your new password."
 msgstr ""
 
 #: rs/reset_password.py:74
@@ -2521,8 +2536,8 @@ msgid ""
 "** This only works if you have previously registered your email address. If "
 "you did not register an\n"
 "email address, then it is not possible to recover your account.<br><br>\n"
-"If you have a problem or a suggestion, send us an email to <strong>%"
-"(sender_email)s.</strong>"
+"If you have a problem or a suggestion, send us an email to <strong>"
+"%(sender_email)s.</strong>"
 msgstr ""
 
 #: rs/reset_password.py:158
@@ -2551,104 +2566,92 @@ msgstr ""
 msgid "Finished"
 msgstr ""
 
-#: rs/search_results.py:139
-msgid "About me"
-msgstr ""
-
-#: rs/search_results.py:178
-msgid "Native language"
-msgstr ""
-
-#: rs/search_results.py:246
-msgid "Last entrance"
-msgstr ""
-
-#: rs/search_results.py:451 rs/search_results.py:487
+#: rs/search_results.py:194 rs/search_results.py:230
 #, python-format
 msgid "generated_search_title %(sex)s"
 msgstr "%(sex)s"
 
-#: rs/search_results.py:454 rs/search_results.py:472 rs/search_results.py:489
+#: rs/search_results.py:197 rs/search_results.py:215 rs/search_results.py:232
 msgid "All people (feminine)"
 msgstr "All people"
 
-#: rs/search_results.py:456
+#: rs/search_results.py:199
 msgid "All lesbian types"
 msgstr ""
 
-#: rs/search_results.py:459
+#: rs/search_results.py:202
 #, python-format
 msgid "generated_search_title %(preference)s"
 msgstr "seeking %(preference)s"
 
-#: rs/search_results.py:469
+#: rs/search_results.py:212
 #, python-format
 msgid "generated_search_title %(language_to_learn)s"
 msgstr "%(language_to_learn)s speakers"
 
-#: rs/search_results.py:475
+#: rs/search_results.py:218
 #, python-format
 msgid "generated_search_title %(language_to_teach)s"
 msgstr "that want to learn %(language_to_teach)s"
 
-#: rs/search_results.py:481
+#: rs/search_results.py:224
 #, python-format
 msgid "Sex: %(sex)s"
 msgstr ""
 
-#: rs/search_results.py:492
+#: rs/search_results.py:235
 #, python-format
 msgid "interested in %(for_sale_sub_menu)s"
 msgstr ""
 
-#: rs/search_results.py:495
+#: rs/search_results.py:238
 #, python-format
 msgid "interested in %(for_sale)s"
 msgstr ""
 
-#: rs/search_results.py:501
+#: rs/search_results.py:244
 #, python-format
 msgid "Price: %(friend_price)s. Currency: %(friend_currency)s"
 msgstr ""
 
-#: rs/search_results.py:505
+#: rs/search_results.py:248
 #, python-format
 msgid "Price: %(friend_price)s"
 msgstr ""
 
-#: rs/search_results.py:517
+#: rs/search_results.py:260
 #, python-format
 msgid "generated_search_title %(location)s"
 msgstr "In: %(location)s"
 
-#: rs/search_results.py:519
+#: rs/search_results.py:262
 msgid "In: The entire world"
 msgstr "In: The entire world"
 
-#: rs/search_results.py:522
+#: rs/search_results.py:265
 #, python-format
 msgid "generated_search_title %(age)s"
 msgstr "Age: %(age)s"
 
-#: rs/search_results.py:527
+#: rs/search_results.py:270
 msgid "Ordered by"
 msgstr ""
 
-#: rs/search_results.py:531
+#: rs/search_results.py:274
 #, python-format
 msgid "Status generated_search_title %(relationship_status)s"
 msgstr "Relationship status: %(relationship_status)s"
 
-#: rs/search_results.py:535
+#: rs/search_results.py:278
 #, python-format
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:719
+#: rs/search_results.py:458
 msgid "Showing results for"
 msgstr ""
 
-#: rs/store_data.py:959
+#: rs/store_data.py:969
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2657,7 +2660,7 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:970
+#: rs/store_data.py:980
 #, python-format
 msgid ""
 "You have reached the limit of %(max_requests)s on the number of chat "
@@ -2668,27 +2671,27 @@ msgid ""
 "chat friends, you must remove some of your current chat friends."
 msgstr ""
 
-#: rs/store_data.py:983
+#: rs/store_data.py:993
 #, python-format
 msgid ""
 "\n"
 "                                    You have %(num_sent_chat_friend)s chat "
 "friends, which means that\n"
-"                                    you have reached the limit of %"
-"(max_guest_requests)s on the number of chat friends\n"
+"                                    you have reached the limit of "
+"%(max_guest_requests)s on the number of chat friends\n"
 "                                    that you are allowed to request."
 msgstr ""
 
-#: rs/store_data.py:990
+#: rs/store_data.py:1000
 #, python-format
 msgid ""
 "\n"
-"                                    If you wish to increase this limit to %"
-"(max_requests)s, \n"
+"                                    If you wish to increase this limit to "
+"%(max_requests)s, \n"
 "                                    you could consider becoming a VIP member."
 msgstr ""
 
-#: rs/store_data.py:995
+#: rs/store_data.py:1005
 msgid ""
 "Alternatively, you can remove some of your current chat friends before "
 "requesting additional chat friends, or\n"
@@ -2696,55 +2699,60 @@ msgid ""
 "you to be their chat friend. "
 msgstr ""
 
-#: rs/store_data.py:1405
+#: rs/store_data.py:1011
+#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
+msgid "See VIP benefits"
+msgstr ""
+
+#: rs/store_data.py:1424
 msgid "Statistics of spam sent from your account:"
 msgstr ""
 
-#: rs/store_data.py:1406
+#: rs/store_data.py:1425
 msgid "of"
 msgstr ""
 
-#: rs/store_data.py:1407
+#: rs/store_data.py:1426
 msgid "sent"
 msgstr ""
 
-#: rs/store_data.py:1408
+#: rs/store_data.py:1427
 msgid ""
-"If you send spam, you will have to write \"captchas\" before being allowed "
-"to send more messages. Additionally, if you send a lot of spam, your "
-"messages will be sent directly to the spam mailbox."
+"If you send spam, you will have to write \"captchas\" before being "
+"allowed     to send more messages. Additionally, if you send a lot of spam, "
+"your messages will be sent directly to the spam mailbox."
 msgstr ""
 
-#: rs/store_data.py:1475
+#: rs/store_data.py:1496
 msgid "Captcha is incorrect, try again"
 msgstr ""
 
-#: rs/store_data.py:1502
+#: rs/store_data.py:1525
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr ""
 
-#: rs/store_data.py:1697
+#: rs/store_data.py:1719
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/store_data.py:1698
+#: rs/store_data.py:1720
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/store_data.py:1700
+#: rs/store_data.py:1722
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/store_data.py:1701
+#: rs/store_data.py:1723
 msgid "greetings"
 msgstr ""
 
-#: rs/store_data.py:1704
+#: rs/store_data.py:1726
 #, python-format
 msgid ""
-"Welcome to %(app_name)s, and good luck with your search! %(replacement1)s %"
-"(replacement2)s"
+"Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
+"%(replacement2)s"
 msgstr ""
 "Welcome! \n"
 "\n"
@@ -2781,12 +2789,7 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/store_data.py:1727
-#, python-format
-msgid "%(month)s %(day)s, %(year)s"
-msgstr ""
-
-#: rs/store_data.py:1730
+#: rs/store_data.py:1747
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
@@ -2902,6 +2905,46 @@ msgstr ""
 
 #: rs/text_fields.py:79
 msgid "You have un-reported this profile"
+msgstr ""
+
+#: rs/track_viewers.py:179
+msgid "Members that have viewed your profile (most recent are shown first)."
+msgstr ""
+
+#: rs/track_viewers.py:195
+#, python-format
+msgid ""
+"Your profile has been viewed by %(num_views_since_last_check)s members since "
+"you last checked %(last_check_time_str)s. \n"
+"            "
+msgstr ""
+
+#: rs/track_viewers.py:200
+#, python-format
+msgid ""
+"\n"
+"        %(count_num_unique_views)s members have viewed your profile since "
+"%(unique_views_since_date_str)s\n"
+"        "
+msgstr ""
+
+#: rs/track_viewers.py:209
+#, python-format
+msgid ""
+"As a free (non-VIP) member of %(app_name)s you can only see the last person "
+"that viewed your profile"
+msgstr ""
+
+#: rs/track_viewers.py:212
+msgid "Upgrade to VIP"
+msgstr ""
+
+#: rs/track_viewers.py:215
+#, python-format
+msgid ""
+"%(vip_status_link)s to see all %(count_num_unique_views)s members that have "
+"viewed your \n"
+"                profile since %(unique_views_since_date_str)s"
 msgstr ""
 
 #: rs/user_profile_details.py:58
@@ -3825,115 +3868,120 @@ msgstr ""
 msgid "I am currently in"
 msgstr ""
 
-#: rs/utils.py:545
+#: rs/utils.py:513
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:558
+#: rs/utils.py:526
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:573
+#: rs/utils.py:541
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:588
+#: rs/utils.py:556
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:605
+#: rs/utils.py:573
 msgid "ago (capitalize if first word)"
 msgstr "ago"
 
-#: rs/utils.py:607
+#: rs/utils.py:575
 msgid "ago"
 msgstr ""
 
-#: rs/utils.py:611
+#: rs/utils.py:579
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr ""
 
-#: rs/utils.py:616
+#: rs/utils.py:584
 msgid "In"
 msgstr ""
 
-#: rs/utils.py:618
+#: rs/utils.py:586
 msgid "in"
 msgstr ""
 
-#: rs/utils.py:1045
+#: rs/utils.py:1015
 msgid "Interested in:"
 msgstr ""
 
-#: rs/utils.py:1048
+#: rs/utils.py:1018
 msgid ", and"
 msgstr ""
 
-#: rs/utils.py:1488
+#: rs/utils.py:1476
 #, python-format
 msgid ""
-"If you see any other profiles like this, please send an email to support@%"
-"(app_name)s to notify us of the user name."
+"If you see any other profiles like this, please send an email to support@"
+"%(app_name)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1493
+#: rs/utils.py:1481
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1498
+#: rs/utils.py:1486
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1505
+#: rs/utils.py:1493
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1512
+#: rs/utils.py:1500
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils_top_level.py:125
+#: rs/utils.py:1702
+#, python-format
+msgid "%(month)s %(day)s, %(year)s"
+msgstr ""
+
+#: rs/utils_top_level.py:141
 msgid "Gay men"
 msgstr ""
 
-#: rs/utils_top_level.py:131
+#: rs/utils_top_level.py:147
 msgid "Lesbians"
 msgstr ""
 
-#: rs/views.py:196
+#: rs/views.py:195
 #, python-format
 msgid ""
 "It is recommendable that you write a description of at \n"
 "        least %(num_chars)s characters"
 msgstr ""
-"It is recommendable that you <strong>write a description of at least %"
-"(num_chars)s characters</strong> (about 2 lines) about yourself. Without a "
+"It is recommendable that you <strong>write a description of at least "
+"%(num_chars)s characters</strong> (about 2 lines) about yourself. Without a "
 "description, many people will not respond to your messages. Additionally, "
 "the more complete that your profile is, the higher your profile will appear "
 "in search results."
 
-#: rs/views.py:880
+#: rs/views.py:861
 msgid "terms.html"
 msgstr ""
 
@@ -4070,8 +4118,8 @@ msgstr ""
 #, fuzzy, python-format
 msgid "Advertise on %(app_name)s"
 msgstr ""
-"You will see the online status (Active, Idle, Away, or Offline) of all %"
-"(app_name)s members."
+"You will see the online status (Active, Idle, Away, or Offline) of all "
+"%(app_name)s members."
 
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:10
 msgid "Thanks for using"
@@ -4500,8 +4548,8 @@ msgstr ""
 msgid ""
 "To protect your privacy, if you choose to pay with credit card you will be "
 "billed\n"
-"            with a discrete name that cannot be easily linked to %(app_name)"
-"s.\n"
+"            with a discrete name that cannot be easily linked to "
+"%(app_name)s.\n"
 "            "
 msgstr ""
 
@@ -4513,8 +4561,8 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"        Your session has closed - you must re-login to continue to use %"
-"(app_name)s.\n"
+"        Your session has closed - you must re-login to continue to use "
+"%(app_name)s.\n"
 "    "
 msgstr ""
 
@@ -4705,18 +4753,23 @@ msgid "Sent (plural - override)"
 msgstr "Sent"
 
 #: rs/templates/user_main_helpers/menubar.html:95
+msgid "Profile views"
+msgstr ""
+
+#: rs/templates/user_main_helpers/menubar.html:97
+#: rs/templates/user_main_helpers/menubar.html:109
 msgid "new"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:104
+#: rs/templates/user_main_helpers/menubar.html:118
 msgid "More"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:110
+#: rs/templates/user_main_helpers/menubar.html:124
 msgid "View others online status"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:120
+#: rs/templates/user_main_helpers/menubar.html:134
 msgid "Exit"
 msgstr ""
 
@@ -4813,10 +4866,6 @@ msgid ""
 "        "
 msgstr ""
 
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
-msgid "See VIP benefits"
-msgstr ""
-
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:44
 #, python-format
 msgid ""
@@ -4863,23 +4912,32 @@ msgstr ""
 #, python-format
 msgid "Online status benefits %(app_name)s"
 msgstr ""
-"You will see the online status (Active, Idle, Away, or Offline) of all %"
-"(app_name)s members."
+"You will see the online status (Active, Idle, Away, or Offline) of all "
+"%(app_name)s members."
 
 #: rs/templates/user_main_helpers/vip_benefits.html:7
 #, python-format
 msgid ""
 "\n"
-"                vip_chat_friends %(vip)s %(free)s %(cf_num_messages)s %"
-"(std_num_messages)s"
+"            You will see all of the other %(app_name)s members that have "
+"viewed your profile over the past %(days)s days. \n"
+"            "
+msgstr ""
+
+#: rs/templates/user_main_helpers/vip_benefits.html:10
+#, python-format
+msgid ""
+"\n"
+"                vip_chat_friends %(vip)s %(free)s %(cf_num_messages)s "
+"%(std_num_messages)s"
 msgstr ""
 "\n"
-"                An increased limit on the number of \"chat friends\" to %"
-"(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
+"                An increased limit on the number of \"chat friends\" to "
+"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
 "friends\" you can send unlimited chat text, and can send %(cf_num_messages)s "
 "messages per day (versus %(std_num_messages)s per day for all other people)."
 
-#: rs/templates/user_main_helpers/vip_benefits.html:9
+#: rs/templates/user_main_helpers/vip_benefits.html:12
 msgid "You can update your email address"
 msgstr ""
 "You can modify your contact email address whenever you like (versus non VIP "
