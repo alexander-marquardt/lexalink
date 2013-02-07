@@ -495,6 +495,8 @@ type_of_site_for_vip_invite = {
     'Friend': '',
 }
 
+
+NUMER_OF_DAYS_PROFILE_VIEWS_STORED = 30
 ## START VIP/Paid Client Related
 ###################################################
 
@@ -662,6 +664,7 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'vip_num_new_people_messages_allowed_in_window' : VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
                           'STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                           'CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW' : CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                          'NUMER_OF_DAYS_PROFILE_VIEWS_STORED' : NUMER_OF_DAYS_PROFILE_VIEWS_STORED,
                           'num_chat_friends_for_free_clients' :  GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
                           'num_chat_friends_for_vip_clients' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED,  
                           'google_ad_160x600' : GOOGLE_AD_160x600,
