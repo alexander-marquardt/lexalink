@@ -1982,6 +1982,7 @@ def store_new_user_after_verify(request, fake_request=None):
             utils.delete_sub_object(userobject.backup_tracker, 'backup_1') # Note: by construction the first backup object is "backup_1"
             utils.delete_sub_object(userobject, 'backup_tracker')
             utils.delete_sub_object(userobject, 'user_tracker')
+            utils.delete_sub_object(userobject, 'viewed_counter_ref')
 
             try: 
                 userobject.delete() # (Finally - remove the userobject)
@@ -2064,6 +2065,7 @@ def check_and_fix_userobject(userobject, lang_code):
             # will be passed in to the function. This is necessary to delay execution of the function until it is verified that
             # it needs to be called.
             'new_contact_counter_ref': (utils.create_contact_counter_object, ()),
+            'viewed_profile_counter_ref' : (login_utils.create_viewed_profile_counter_object, (userobject.key,)),
             'unread_mail_count_ref': (utils.create_unread_mail_object, ()),
             'spam_tracker': (initialize_and_store_spam_tracker, (None,)),
             'search_preferences2' : (login_utils.create_search_preferences2_object, (userobject, lang_code)),
@@ -2076,13 +2078,6 @@ def check_and_fix_userobject(userobject, lang_code):
 
         }
         
-        try:
-            viewed_profile_counter_obj = userobject.viewed_profile_counter_ref.get()
-            assert(viewed_profile_counter_obj)
-        except:
-            error_reporting.log_exception(logging.warning, error_message="fixing userobject to have a valid viewed_profile_counter_ref")   
-            userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
-            utils.put_userobject(userobject)
 
         # Some checkbox fields may or may not appear in individual builds, and therefore we have to check the
         # UserProfileDetails.enabled_checkbox_fields_list[] to see if it is necessary to check the field 

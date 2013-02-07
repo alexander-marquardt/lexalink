@@ -71,11 +71,9 @@ def store_viewer_in_owner_profile_viewer_tracker(viewer_uid, displayed_uid):
             
         viewer_tracker_object.put()
         
-        # Now deal with the viewed_profile_counter_object, which tracks how man other people have viewed a particular profile.
+        # Now deal with the viewed_profile_counter_object, which tracks how many other people have viewed a particular profile.
         write_profile_counter_object = False
         viewed_profile_counter_object = viewed_profile_counter_object_future.get_result()
-        if not viewed_profile_counter_object:
-            raise Exception("viewed_profile_counter_object not found")
             
         if is_a_new_viewer:
             viewed_profile_counter_object.count_num_unique_views += 1
@@ -178,7 +176,7 @@ def generate_html_for_profile_views(request):
         display_online_status = utils.do_display_online_status(owner_uid)
         owner_is_vip = utils.owner_is_vip(owner_uid)
         
-        generated_title = header_html = ugettext("Members that have viewed your profile (members that viewed your profile most recently are shown first).") % {'username' : userobject.username}
+        generated_title = header_html = ugettext("Members that have viewed your profile (most recent are shown first).") % {'username' : userobject.username}
         generated_html_before_form = ''
 
         viewed_profile_counter_object = userobject.viewed_profile_counter_ref.get()
@@ -190,10 +188,14 @@ def generate_html_for_profile_views(request):
         
         generated_html_before_form += u'<div class="cl-clear"></div>\n'
         generated_html_before_form += '<ul>\n'
-        generated_html_before_form += "<li>%s</li>\n" % ugettext("""Your profile has been viewed by %(num_views_since_last_check)s members since you last checked %(last_check_time_str)s. 
-        """) % {
-            'num_views_since_last_check' : num_views_since_last_check, 
-            'last_check_time_str' : last_check_time_str}
+        
+        if (viewed_profile_counter_object.last_check_time != datetime.datetime.min):
+            # if they have never checked who has viewed their profile, then this information is idential to the 
+            # value presented in the unique_views_since_date_str, and could be confusing - just eliminate it.
+            generated_html_before_form += "<li>%s</li>\n" % ugettext("""Your profile has been viewed by %(num_views_since_last_check)s members since you last checked %(last_check_time_str)s. 
+            """) % {
+                'num_views_since_last_check' : num_views_since_last_check, 
+                'last_check_time_str' : last_check_time_str}
         
         generated_html_before_form += "<li>%s</li>\n" % ugettext("""
         %(count_num_unique_views)s members have viewed your profile since %(unique_views_since_date_str)s

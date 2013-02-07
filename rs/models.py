@@ -984,7 +984,7 @@ class ViewedProfileCounter(ndb.Model):
     # which date the count that they are seeing is valid from. 
     unique_views_since_date = ndb.DateTimeProperty(auto_now_add = True) 
     
-    # track how man times this profile has been viewed since the last time the owner of this profile viewed 
-    # the list of who has viewed him.
-    last_check_time =  ndb.DateTimeProperty(auto_now_add = True) 
+    # track how man times this profile has been viewed since the last time this member checked
+    # who has viewed him.
+    last_check_time =  ndb.DateTimeProperty(default = datetime.datetime.min) 
     num_views_since_last_check = ndb.IntegerProperty(default = 0) 
