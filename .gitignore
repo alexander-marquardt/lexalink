@@ -10,6 +10,9 @@ rs/static/auto-generated*
 # Environment for the WingIDE environment that I use
 Wing_project.wpr
 
+# app.yaml - auto-generated - no need to track
+app.yaml
+
 # local storage
 .gaedata
 
