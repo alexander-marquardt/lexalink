@@ -284,31 +284,31 @@
 
             <div class="grid_6 alpha cl-center-text cl-text-large-format cl-login-text">
                 <br><br>
-                
-                {% trans "Free" %} - {% trans "Live chat and messages included" %}<br><br>
+
+                {% if not SITE_IS_TOTALLY_FREE %}
+                    {% trans "Free" %} - {% trans "Live chat and messages included" %}<br><br>
+                {% else %}
+                    {% trans "100 Percent Free" %} - {% trans "Live chat and messages included" %}<br><br>
+                    {% trans "We never ask for your credit card or any other form of payment" %}<br><br>
+                {% endif %}
 
                 {% ifequal app_name "RomanceSecreto" %}
                     {% trans "Over 50 percent of our members are single!" %}<br><br>
                 {% endifequal %}
 
 
-                {% ifequal build_name "Discrete" %}
-                * {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
-                {% endifequal %}
+                {% if ADULT_ORIENTED_SITE %}
+                    {% if build_name != "Swinger" %}
+                        {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
+                    {% endif %}
+                {% endif %}
 
-                {% ifequal build_name "Swinger" %}
-                * {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
-                {% endifequal %}
-
-                {% ifequal build_name "Gay" %}
-                * {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
-                {% endifequal %}
             </div>
 
 
         </div>
-        <br><br><br>
         <div class="grid_12 alpha omega cl-center-text  cl-text-large-format cl-login-text cl-xfbml">
+            <br><br><br>
             {% blocktrans with app_name as app_name %}
             If you like {{app_name }} click here:
             {% endblocktrans %}

@@ -63,9 +63,9 @@ if BATCH_BUILD_NAME == '':
     # we are interested in executing. Be sure to re-boot the development server each time you change
     # the build name.
     
-    #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
+    BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
     #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
-    BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
+    #BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
     #BUILD_NAME = 'Gay'       # originally used for GaySetup.com

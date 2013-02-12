@@ -137,7 +137,7 @@
     <div class="grid_5 omega cl-color-text">
 
 
-        {% if primary_user_profile_data_fields.is_adult %}
+        {% if ADULT_ORIENTED_SITE %}
 
         <strong>{% trans "Rules:" %}</strong>
         <ul>
@@ -147,8 +147,8 @@
                 {% trans "Only authorized people will have access to your private photos." %}
             <li>
                 {% trans "Read - command verb" %}
-                <a href={% url views.terms %}>{% trans "Terms and conditions" %}</a>
-                {% trans "for the rules of" %} {{ build_name }}.
+                <a href="{% url views.terms %}">{% trans "Terms and conditions" %}</a>
+                {% trans "for the rules of" %} {{ app_name }}.
             <li>
                 {% trans "Photos that do not follow the rules will be erased without notification." %}
         </ul>
@@ -163,7 +163,7 @@
                 {% trans "Only authorized people will have access to your private photos." %}
             <li>
                 {% trans "Read - command verb" %}
-                <a href={% url views.terms %}>{% trans "Terms and conditions" %}</a>
+                <a href="{% url views.terms %}">{% trans "Terms and conditions" %}</a>
                 {% trans "for the rules of" %} {{ build_name }}.
             <li>
                 {% trans "Photos that do not follow the rules will be erased without notification." %}

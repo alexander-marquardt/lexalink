@@ -297,7 +297,6 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             primary_user_profile_data_fields.max_checkbox_values_in_combined_ix_list = constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST
             primary_user_profile_data_fields.owner_uid = owner_uid
             primary_user_profile_data_fields.owner_nid = owner_nid
-            primary_user_profile_data_fields.is_adult = constants.IS_ADULT
             
             
             

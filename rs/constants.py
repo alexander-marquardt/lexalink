@@ -421,11 +421,13 @@ else:
     
 ###################################################
 ## START Site-description 
-IS_ADULT = False # used in determining what sort of behavior (ie. photo uploads) is allowed, and instructions that will be shown
-    
+ADULT_ORIENTED_SITE = False # used in determining what sort of behavior (ie. photo uploads) is allowed, and instructions that will be shown
+SITE_IS_TOTALLY_FREE = True    
+
 if settings.BUILD_NAME == "Discrete":
     SITE_TYPE = ugettext_lazy('confidential dating website')
-    IS_ADULT = True    
+    ADULT_ORIENTED_SITE = True    
+    SITE_IS_TOTALLY_FREE = False
     
 elif settings.BUILD_NAME == "Single":
     SITE_TYPE = ugettext_lazy('serious dating website')
@@ -435,15 +437,15 @@ elif settings.BUILD_NAME == "Language":
 
 elif settings.BUILD_NAME == "Lesbian": 
     SITE_TYPE = ugettext_lazy('lesbian dating website')
-    IS_ADULT = True
+    ADULT_ORIENTED_SITE = True
     
 elif settings.BUILD_NAME == "Gay":
     SITE_TYPE = ugettext_lazy('gay dating website')    
-    IS_ADULT = True
+    ADULT_ORIENTED_SITE = True
       
 elif settings.BUILD_NAME == "Swinger":
     SITE_TYPE = ugettext_lazy('swingers website')
-    IS_ADULT = True
+    ADULT_ORIENTED_SITE = True
 
 elif settings.BUILD_NAME == "Friend":
     SITE_TYPE = ugettext_lazy('website to meet people, make friends, and to earn money')
@@ -693,6 +695,8 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES' : SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES,
                           'BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS' : BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS,
                           'SHOW_VIP_UPGRADE_OPTION' : SHOW_VIP_UPGRADE_OPTION,
+                          'ADULT_ORIENTED_SITE' : ADULT_ORIENTED_SITE, 
+                          'SITE_IS_TOTALLY_FREE' : SITE_IS_TOTALLY_FREE, 
                           }
 
 

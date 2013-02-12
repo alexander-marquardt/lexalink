@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-12 20:20+0100\n"
+"POT-Creation-Date: 2013-02-12 22:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:700 rs/display_contacts.py:341 rs/forms.py:1083
-#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1572
+#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1577
 #: rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -159,13 +159,13 @@ msgid ""
 "                    "
 msgstr ""
 
-#: rs/callbacks_from_html.py:231
+#: rs/callbacks_from_html.py:232
 msgid ""
 "If you wish to increase this limit, <strong>please consider becoming a VIP "
 "Member</strong>."
 msgstr ""
 
-#: rs/callbacks_from_html.py:232
+#: rs/callbacks_from_html.py:233
 msgid "See the bottom of the window for information on becoming a VIP member."
 msgstr ""
 
@@ -177,106 +177,106 @@ msgstr ""
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
-#: rs/constants.py:201 rs/templates/user_main_helpers/chat.html:70
+#: rs/constants.py:220 rs/templates/user_main_helpers/chat.html:70
 msgid "(Active)"
 msgstr ""
 
-#: rs/constants.py:202 rs/templates/user_main_helpers/chat.html:77
+#: rs/constants.py:221 rs/templates/user_main_helpers/chat.html:77
 msgid "(Idle)"
 msgstr ""
 
-#: rs/constants.py:203 rs/templates/user_main_helpers/chat.html:84
+#: rs/constants.py:222 rs/templates/user_main_helpers/chat.html:84
 msgid "(Away)"
 msgstr ""
 
-#: rs/constants.py:204
+#: rs/constants.py:223
 msgid "(Offline)"
 msgstr ""
 
-#: rs/constants.py:408
+#: rs/constants.py:428
 msgid "confidential dating website"
 msgstr ""
 
-#: rs/constants.py:412
+#: rs/constants.py:433
 msgid "serious dating website"
 msgstr ""
 
-#: rs/constants.py:415
+#: rs/constants.py:436
 msgid "website to learn languages and meet people"
 msgstr ""
 
-#: rs/constants.py:418
+#: rs/constants.py:439
 msgid "lesbian dating website"
 msgstr ""
 
-#: rs/constants.py:422
+#: rs/constants.py:443
 msgid "gay dating website"
 msgstr ""
 
-#: rs/constants.py:426
+#: rs/constants.py:447
 msgid "swingers website"
 msgstr ""
 
-#: rs/constants.py:430
+#: rs/constants.py:451
 msgid "website to meet people, make friends, and to earn money"
 msgstr ""
 
-#: rs/constants.py:489
+#: rs/constants.py:511
 msgid "confidential dating"
 msgstr ""
 
-#: rs/constants.py:490
+#: rs/constants.py:512
 msgid "dating"
 msgstr ""
 
-#: rs/constants.py:491
+#: rs/constants.py:513
 msgid "language exchange"
 msgstr ""
 
-#: rs/constants.py:492
+#: rs/constants.py:514
 msgid "swingers"
 msgstr ""
 
-#: rs/constants.py:493
+#: rs/constants.py:515
 msgid "gay dating"
 msgstr ""
 
-#: rs/constants.py:494
+#: rs/constants.py:516
 msgid "lesbian dating"
 msgstr ""
 
-#: rs/constants.py:581
+#: rs/constants.py:603
 msgid ""
 "Username needs at least 3 characters and can only contain letters and "
 "numbers. Additionally, it may not contain any spaces."
 msgstr ""
 
-#: rs/constants.py:583
+#: rs/constants.py:605
 msgid "Password required"
 msgstr ""
 
-#: rs/constants.py:584
+#: rs/constants.py:606
 msgid ""
 "Password may only contain letters and numbers, and cannot contain spaces."
 msgstr ""
 
-#: rs/constants.py:585
+#: rs/constants.py:607
 msgid "The password and the verification must be the same."
 msgstr ""
 
-#: rs/constants.py:586
+#: rs/constants.py:608
 msgid "The username that you have selected is not available."
 msgstr ""
 
-#: rs/constants.py:587
+#: rs/constants.py:609
 msgid "Username/email + password is incorrect"
 msgstr ""
 
-#: rs/constants.py:588
+#: rs/constants.py:610
 msgid "The email address is not valid"
 msgstr ""
 
-#: rs/constants.py:592
+#: rs/constants.py:614
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to another user in a single "
@@ -286,132 +286,132 @@ msgid ""
 "        %(hours)s-hour period. "
 msgstr ""
 
-#: rs/constants.py:606
+#: rs/constants.py:628
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:607 rs/mailbox.py:628 rs/text_fields.py:75
+#: rs/constants.py:629 rs/mailbox.py:628 rs/text_fields.py:75
 msgid "Sent"
 msgstr ""
 
-#: rs/constants.py:608 rs/mailbox.py:620 rs/mailbox.py:634
+#: rs/constants.py:630 rs/mailbox.py:620 rs/mailbox.py:634
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr ""
 
-#: rs/constants.py:609
+#: rs/constants.py:631
 msgid "Saved"
 msgstr ""
 
-#: rs/constants.py:612
+#: rs/constants.py:634
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:613
+#: rs/constants.py:635
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:615
+#: rs/constants.py:637
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:616
+#: rs/constants.py:638
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:619
+#: rs/constants.py:641
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:621
+#: rs/constants.py:643
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:622
+#: rs/constants.py:644
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:623
+#: rs/constants.py:645
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:624
+#: rs/constants.py:646
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:628 rs/constants.py:629
+#: rs/constants.py:650 rs/constants.py:651
 msgid "Chat requests"
 msgstr ""
 
-#: rs/constants.py:630
+#: rs/constants.py:652
 msgid "Chat connections"
 msgstr ""
 
-#: rs/constants.py:634
+#: rs/constants.py:656
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:636
+#: rs/constants.py:658
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:637
+#: rs/constants.py:659
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:638
+#: rs/constants.py:660
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:639
+#: rs/constants.py:661
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:680
+#: rs/constants.py:704
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:681
+#: rs/constants.py:705
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:682
+#: rs/constants.py:706
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:683
+#: rs/constants.py:707
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:684
+#: rs/constants.py:708
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:685
+#: rs/constants.py:709
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:686
+#: rs/constants.py:710
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:687
+#: rs/constants.py:711
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:688
+#: rs/constants.py:712
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:689
+#: rs/constants.py:713
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:714
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:691
+#: rs/constants.py:715
 msgid "December"
 msgstr ""
 
@@ -2231,7 +2231,7 @@ msgstr ""
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:503 rs/login_utils.py:532 rs/views.py:890
+#: rs/login_utils.py:503 rs/login_utils.py:532 rs/views.py:889
 msgid "You have exited"
 msgstr ""
 
@@ -2635,65 +2635,66 @@ msgid ""
 "chat friends."
 msgstr ""
 
-#: rs/store_data.py:998
+#: rs/store_data.py:1003
 #, python-format
 msgid ""
 "\n"
-"                                    If you wish to increase this limit to "
-"%(max_requests)s, \n"
-"                                    you could consider becoming a VIP member."
+"                                        If you wish to increase this limit "
+"to %(max_requests)s, \n"
+"                                        you could consider becoming a VIP "
+"member."
 msgstr ""
 
-#: rs/store_data.py:1006
+#: rs/store_data.py:1011
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr ""
 
-#: rs/store_data.py:1419
+#: rs/store_data.py:1424
 msgid "Statistics of spam sent from your account:"
 msgstr ""
 
-#: rs/store_data.py:1420
+#: rs/store_data.py:1425
 msgid "of"
 msgstr ""
 
-#: rs/store_data.py:1421
+#: rs/store_data.py:1426
 msgid "sent"
 msgstr ""
 
-#: rs/store_data.py:1422
+#: rs/store_data.py:1427
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages. Additionally, if you send a lot of spam, "
 "your messages will be sent directly to the spam mailbox."
 msgstr ""
 
-#: rs/store_data.py:1491
+#: rs/store_data.py:1496
 msgid "Captcha is incorrect, try again"
 msgstr ""
 
-#: rs/store_data.py:1520
+#: rs/store_data.py:1525
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr ""
 
-#: rs/store_data.py:1714
+#: rs/store_data.py:1719
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/store_data.py:1715
+#: rs/store_data.py:1720
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/store_data.py:1717
+#: rs/store_data.py:1722
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/store_data.py:1718
+#: rs/store_data.py:1723
 msgid "greetings"
 msgstr ""
 
-#: rs/store_data.py:1721
+#: rs/store_data.py:1726
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2734,7 +2735,7 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/store_data.py:1742
+#: rs/store_data.py:1747
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
@@ -3901,7 +3902,7 @@ msgstr ""
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils.py:1702
+#: rs/utils.py:1715
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr ""
@@ -3926,7 +3927,7 @@ msgstr ""
 "the more complete that your profile is, the higher your profile will appear "
 "in search results."
 
-#: rs/views.py:864
+#: rs/views.py:863
 msgid "terms.html"
 msgstr ""
 
@@ -4060,11 +4061,9 @@ msgid ""
 msgstr ""
 
 #: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:14
-#, fuzzy, python-format
+#, python-format
 msgid "Advertise on %(app_name)s"
 msgstr ""
-"You will see the online status (Active, Idle, Away, or Offline) of all "
-"%(app_name)s members."
 
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:10
 msgid "Thanks for using"
@@ -4386,24 +4385,31 @@ msgstr ""
 msgid "Enter with a guest account"
 msgstr ""
 
-#: rs/templates/login.html:288
+#: rs/templates/login.html:289
 msgid "Free"
 msgstr ""
 
-#: rs/templates/login.html:288
+#: rs/templates/login.html:289 rs/templates/login.html.py:291
 msgid "Live chat and messages included"
 msgstr ""
 
 #: rs/templates/login.html:291
+msgid "100 Percent Free"
+msgstr "100% Free"
+
+#: rs/templates/login.html:292
+msgid "We never ask for your credit card or any other form of payment"
+msgstr ""
+
+#: rs/templates/login.html:296
 msgid "Over 50 percent of our members are single!"
 msgstr "Over 50% of our memmbers are single!"
 
-#: rs/templates/login.html:296 rs/templates/login.html.py:300
-#: rs/templates/login.html:304
+#: rs/templates/login.html:301
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr ""
 
-#: rs/templates/login.html:312
+#: rs/templates/login.html:310
 #, python-format
 msgid ""
 "\n"
@@ -4469,16 +4475,16 @@ msgstr ""
 msgid " Register me"
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:33
+#: rs/templates/user_main_helpers/become_a_vip.html:34
 #, python-format
 msgid "If you like %(app_name)s, consider becoming a VIP member"
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:40
+#: rs/templates/user_main_helpers/become_a_vip.html:41
 msgid "VIP benefits include"
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:45
+#: rs/templates/user_main_helpers/become_a_vip.html:46
 msgid ""
 "\n"
 "        Payments are processed by PayPal (an eBay company, and one of the "
@@ -4487,7 +4493,7 @@ msgid ""
 "        "
 msgstr ""
 
-#: rs/templates/user_main_helpers/become_a_vip.html:52
+#: rs/templates/user_main_helpers/become_a_vip.html:53
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit card you will be "
@@ -4705,15 +4711,15 @@ msgstr ""
 msgid "new"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:118
+#: rs/templates/user_main_helpers/menubar.html:119
 msgid "More"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:124
+#: rs/templates/user_main_helpers/menubar.html:125
 msgid "View others online status"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:134
+#: rs/templates/user_main_helpers/menubar.html:136
 msgid "Exit"
 msgstr ""
 
@@ -4842,7 +4848,7 @@ msgid ""
 "        the associated action):"
 msgstr ""
 
-#: rs/templates/user_main_helpers/vip_benefits.html:4
+#: rs/templates/user_main_helpers/vip_benefits.html:6
 #, python-format
 msgid ""
 "\n"
@@ -4852,14 +4858,14 @@ msgstr ""
 "Increased message quota that allows you to contact %(vip)s new people per "
 "day (versus %(free)s for non-VIP members)."
 
-#: rs/templates/user_main_helpers/vip_benefits.html:6
+#: rs/templates/user_main_helpers/vip_benefits.html:8
 #, python-format
 msgid "Online status benefits %(app_name)s"
 msgstr ""
 "You will see the online status (Active, Idle, Away, or Offline) of all "
 "%(app_name)s members."
 
-#: rs/templates/user_main_helpers/vip_benefits.html:7
+#: rs/templates/user_main_helpers/vip_benefits.html:9
 #, python-format
 msgid ""
 "\n"
@@ -4868,7 +4874,7 @@ msgid ""
 "            "
 msgstr ""
 
-#: rs/templates/user_main_helpers/vip_benefits.html:10
+#: rs/templates/user_main_helpers/vip_benefits.html:12
 #, python-format
 msgid ""
 "\n"
@@ -4881,7 +4887,7 @@ msgstr ""
 "friends\" you can send unlimited chat text, and can send %(cf_num_messages)s "
 "messages per day (versus %(std_num_messages)s per day for all other people)."
 
-#: rs/templates/user_main_helpers/vip_benefits.html:12
+#: rs/templates/user_main_helpers/vip_benefits.html:14
 msgid "You can update your email address"
 msgstr ""
 "You can modify your contact email address whenever you like (versus non VIP "
