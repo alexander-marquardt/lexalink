@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-07 16:49+0100\n"
+"POT-Creation-Date: 2013-02-12 15:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:700 rs/display_contacts.py:341 rs/forms.py:1083
-#: rs/login_utils.py:259 rs/rendering.py:395 rs/store_data.py:1577
+#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1577
 #: rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -111,7 +111,7 @@ msgstr ""
 msgid "More details about me"
 msgstr ""
 
-#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:143
+#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:147
 #: rs/user_profile_details.py:204
 msgid "Languages I speak"
 msgstr ""
@@ -290,11 +290,11 @@ msgstr ""
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:607 rs/mailbox.py:627 rs/text_fields.py:75
+#: rs/constants.py:607 rs/mailbox.py:628 rs/text_fields.py:75
 msgid "Sent"
 msgstr ""
 
-#: rs/constants.py:608 rs/mailbox.py:619 rs/mailbox.py:633
+#: rs/constants.py:608 rs/mailbox.py:620 rs/mailbox.py:634
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr ""
@@ -430,24 +430,24 @@ msgstr ""
 msgid "You don't have any yet"
 msgstr ""
 
-#: rs/display_profiles_summary.py:63 rs/forms.py:298
+#: rs/display_profiles_summary.py:67 rs/forms.py:298
 msgid "See profile of:"
 msgstr "See profile and get in contact with:"
 
-#: rs/display_profiles_summary.py:112
+#: rs/display_profiles_summary.py:116
 msgid "About me"
 msgstr ""
 
-#: rs/display_profiles_summary.py:151
+#: rs/display_profiles_summary.py:155
 msgid "Native language"
 msgstr ""
 
-#: rs/display_profiles_summary.py:219
+#: rs/display_profiles_summary.py:223
 msgid "Last entrance"
 msgstr ""
 
-#: rs/display_profiles_summary.py:306 rs/display_profiles_summary.py:318
-#: rs/mailbox.py:980
+#: rs/display_profiles_summary.py:310 rs/display_profiles_summary.py:322
+#: rs/mailbox.py:981
 msgid "Next"
 msgstr ""
 
@@ -2268,7 +2268,7 @@ msgstr ""
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:503 rs/login_utils.py:532 rs/views.py:887
+#: rs/login_utils.py:503 rs/login_utils.py:532 rs/views.py:890
 msgid "You have exited"
 msgstr ""
 
@@ -2362,98 +2362,98 @@ msgstr ""
 msgid "Change email address"
 msgstr ""
 
-#: rs/mailbox.py:267 rs/mailbox.py:765
+#: rs/mailbox.py:268 rs/mailbox.py:766
 msgid "From"
 msgstr ""
 
-#: rs/mailbox.py:414
+#: rs/mailbox.py:415
 msgid "To"
 msgstr ""
 
-#: rs/mailbox.py:618
+#: rs/mailbox.py:619
 msgid "Deleted (mail)"
 msgstr "Deleted"
 
-#: rs/mailbox.py:622
+#: rs/mailbox.py:623
 msgid "Spam"
 msgstr ""
 
-#: rs/mailbox.py:623
+#: rs/mailbox.py:624
 msgid "Received (mail)"
 msgstr "Received"
 
-#: rs/mailbox.py:632
+#: rs/mailbox.py:633
 msgid "Read (mail)"
 msgstr "Read"
 
-#: rs/mailbox.py:636
+#: rs/mailbox.py:637
 msgid "New (mail)"
 msgstr "New"
 
-#: rs/mailbox.py:703
+#: rs/mailbox.py:704
 msgid ""
 "Message history (click on the message text to see more detailed history)"
 msgstr ""
 
-#: rs/mailbox.py:770
+#: rs/mailbox.py:771
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:796 rs/mailbox.py:964
+#: rs/mailbox.py:797 rs/mailbox.py:965
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:802 rs/mailbox.py:962
+#: rs/mailbox.py:803 rs/mailbox.py:963
 msgid "Delete"
 msgstr ""
 
-#: rs/mailbox.py:806
+#: rs/mailbox.py:807
 msgid "Move to sent mailbox"
 msgstr ""
 
-#: rs/mailbox.py:809
+#: rs/mailbox.py:810
 msgid "Move to received mailbox"
 msgstr ""
 
-#: rs/mailbox.py:815
+#: rs/mailbox.py:816
 msgid "Mark as spam"
 msgstr ""
 
-#: rs/mailbox.py:828
+#: rs/mailbox.py:829
 msgid "Favorite"
 msgstr ""
 
-#: rs/mailbox.py:831
+#: rs/mailbox.py:832
 msgid "Add to your favorites"
 msgstr ""
 
-#: rs/mailbox.py:894
+#: rs/mailbox.py:895
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:957
+#: rs/mailbox.py:958
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:957 rs/templates/user_main_helpers/menubar.html:64
+#: rs/mailbox.py:958 rs/templates/user_main_helpers/menubar.html:64
 msgid "All (messages - override)"
 msgstr "All"
 
-#: rs/mailbox.py:957
+#: rs/mailbox.py:958
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:996
+#: rs/mailbox.py:997
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:998
+#: rs/mailbox.py:999
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:999
+#: rs/mailbox.py:1000
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2490,12 +2490,12 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:221 rs/views.py:159
+#: rs/rendering.py:222 rs/views.py:159
 #, python-format
 msgid "Remember the following benefits of registering with %(app_name)s."
 msgstr ""
 
-#: rs/rendering.py:223 rs/views.py:161
+#: rs/rendering.py:224 rs/views.py:161
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:146
 #, python-format
 msgid "List of benefits for registering with %(app_name)s."
@@ -2506,7 +2506,7 @@ msgstr ""
 "your privacy. Your profile has a public part, and a private part. Only "
 "members who you authorize will have access to your private photos."
 
-#: rs/rendering.py:236 rs/views.py:154
+#: rs/rendering.py:237 rs/views.py:154
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2908,7 +2908,7 @@ msgid "You have un-reported this profile"
 msgstr ""
 
 #: rs/track_viewers.py:179
-msgid "Members that have viewed your profile (most recent are shown first)."
+msgid "Members that have viewed your profile (most recent are shown first)"
 msgstr ""
 
 #: rs/track_viewers.py:195
@@ -2916,16 +2916,16 @@ msgstr ""
 msgid ""
 "Your profile has been viewed by %(num_views_since_last_check)s members since "
 "you last checked %(last_check_time_str)s. \n"
-"            "
+"                "
 msgstr ""
 
 #: rs/track_viewers.py:200
 #, python-format
 msgid ""
 "\n"
-"        %(count_num_unique_views)s members have viewed your profile since "
-"%(unique_views_since_date_str)s\n"
-"        "
+"            %(count_num_unique_views)s members have viewed your profile "
+"since %(unique_views_since_date_str)s\n"
+"            "
 msgstr ""
 
 #: rs/track_viewers.py:209
@@ -2944,7 +2944,7 @@ msgstr ""
 msgid ""
 "%(vip_status_link)s to see all %(count_num_unique_views)s members that have "
 "viewed your \n"
-"                profile since %(unique_views_since_date_str)s"
+"                    profile since %(unique_views_since_date_str)s"
 msgstr ""
 
 #: rs/user_profile_details.py:58
@@ -3981,7 +3981,7 @@ msgstr ""
 "the more complete that your profile is, the higher your profile will appear "
 "in search results."
 
-#: rs/views.py:861
+#: rs/views.py:864
 msgid "terms.html"
 msgstr ""
 
@@ -4450,9 +4450,8 @@ msgid "Live chat and messages included"
 msgstr ""
 
 #: rs/templates/login.html:243
-#, python-format
-msgid "Over 50%% of our members are single!"
-msgstr ""
+msgid "Over 50 percent of our members are single!"
+msgstr "Over 50% of our memmbers are single!"
 
 #: rs/templates/login.html:254 rs/templates/login.html.py:258
 #: rs/templates/login.html:262
