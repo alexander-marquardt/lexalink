@@ -178,7 +178,7 @@ def check_payment_and_update_structures(userobject, currency, amount_paid, num_c
     payment_object = models.PaymentInfo()
     payment_object.username = userobject.username
     payment_object.owner_userobject = userobject.key
-    payment_object.amount_paid = amount_paid
+    payment_object.amount_paid = int(float(amount_paid))
     payment_object.currency = currency
     payment_object.date_paid = datetime.datetime.now()
     payment_object.num_credits_awarded = num_credits_awarded
