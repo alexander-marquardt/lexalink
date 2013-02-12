@@ -26,25 +26,30 @@
 ################################################################################
 -->
 {% if errors %}
-    {% ifequal build_name "Discrete" %}
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-    {% endifequal %}
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
 
-    <p><span class="cl-text-24pt-format cl-warning-text">
-    {% trans "There is a problem" %}:</span></p>
-    <ul>
-    {% for error in errors %}
-        <li> {{ error|safe }} </li>
-    {% endfor %}
-    </ul>
+    <div id="id-show_login_errors_dialog_box" style="display:none;">
 
+        <p><span class="cl-text-24pt-format cl-warning-text">
+        {% trans "There is a problem" %}:</span></p>
+        <ul>
+        {% for error in errors %}
+            <li> {{ error|safe }} </li>
+        {% endfor %}
+        </ul>
+    </div>
         
     <p>&nbsp;</p>
+
+    <script type="text/javascript">
+        // Show the errors in a dialog box
+        $(document).ready(function() {
+            $("#id-show_login_errors_dialog_box").dialog({
+                width: '500px'
+            });
+            $("#id-show_login_errors_dialog_box").dialog('open');
+        });
+
+    </script>
+
 {% endif %}
+
