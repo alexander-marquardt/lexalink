@@ -406,7 +406,7 @@ msgstr "febrero"
 
 #: rs/constants.py:682
 msgid "March"
-msgstr "maarzo"
+msgstr "marzo"
 
 #: rs/constants.py:683
 msgid "April"
