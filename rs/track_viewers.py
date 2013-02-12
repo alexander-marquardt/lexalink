@@ -168,6 +168,7 @@ def generate_html_for_profile_views(request):
         
         if not userobject:
             generated_html = ''
+            generated_title = ''
             
         else:
             owner_key = userobject.key
