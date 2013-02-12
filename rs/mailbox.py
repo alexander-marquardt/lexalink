@@ -34,6 +34,7 @@ from google.appengine.ext import ndb
 
 from django.utils.encoding import smart_unicode
 from django.http import HttpResponseRedirect
+from django import http
 from django.utils.translation import ugettext
 
 import settings
@@ -1119,7 +1120,7 @@ def manage_mailbox(request, owner_uid):
                 
         else:
             error_reporting.log_exception(logging.info, error_message = "Expected post data.", request=request)
-            return
+            return http.HttpResponseServerError("Error")
     except:
         error_reporting.log_exception(logging.critical)
         return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
