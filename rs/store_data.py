@@ -1742,7 +1742,7 @@ def send_vip_congratulations_message(userobject):
         # set the language to be the users preferred language
         translation.activate(userobject.search_preferences2.get().lang_code)
 
-        date_in_current_language = get_date_in_current_language(userobject.client_paid_status_expiry)
+        date_in_current_language = utils.get_date_in_current_language(userobject.client_paid_status_expiry)
         
         text = ugettext("Congratulations, you are now a VIP member until %(date)s.") % {'date' : date_in_current_language}
         actually_store_send_mail(alex_object, to_uid, text)
