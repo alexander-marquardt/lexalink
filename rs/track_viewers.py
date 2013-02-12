@@ -129,11 +129,11 @@ def get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_
         
     return viewer_profile_keys_list
         
-def get_list_of_profile_views(profile_key, owner_is_vip, paging_cursor):
+def get_list_of_profile_views(profile_key, show_online_status, paging_cursor):
     
     # get the list of proviles that have looked at the "profile_key" profile. (ie. owner_profile == profile_key)
     
-    if owner_is_vip: 
+    if show_online_status: 
         # If they are VIP, then the will see all of the people that have viewed their profile in the past 3 months
         num_profiles_to_get = PAGESIZE
     else:
@@ -150,7 +150,7 @@ def get_list_of_profile_views(profile_key, owner_is_vip, paging_cursor):
     else:
         (viewer_tracker_object_list, new_cursor, more_results) = vt_q.fetch_page(num_profiles_to_get)        
         
-    if not owner_is_vip:
+    if not show_online_status:
         new_cursor = None
         more_results = False
     
@@ -174,7 +174,7 @@ def generate_html_for_profile_views(request):
             owner_key = userobject.key
             owner_uid = owner_key.urlsafe()
             display_online_status = utils.do_display_online_status(owner_uid)
-            owner_is_vip = utils.owner_is_vip(owner_uid)
+            show_online_status = utils.show_online_status(owner_uid)
             
             generated_title = header_html = "%s." % ugettext("Members that have viewed your profile (most recent are shown first)") % {'username' : userobject.username}
             generated_html_before_form = ''
@@ -204,7 +204,7 @@ def generate_html_for_profile_views(request):
                 'unique_views_since_date_str' : unique_views_since_date_str,}
             
             
-            if not owner_is_vip:
+            if not show_online_status:
                 assert(MAX_PROFILE_VIEWS_TO_SHOW_TO_NON_VIP == 1) # if this number is changed, we need to change the error message below
                 generated_html_before_form += "<li>%s</li>" % ugettext("As a free (non-VIP) member of %(app_name)s you can only see the last person that viewed your profile") % {
                     'app_name' : site_configuration.APP_NAME}
@@ -233,7 +233,7 @@ def generate_html_for_profile_views(request):
             cursor_str = request.GET.get('profile_views_cursor',None)
             paging_cursor = Cursor(urlsafe = cursor_str)
             
-            (viewer_profile_keys_list, new_cursor, more_results) = get_list_of_profile_views(userobject.key, owner_is_vip, paging_cursor)            
+            (viewer_profile_keys_list, new_cursor, more_results) = get_list_of_profile_views(userobject.key, show_online_status, paging_cursor)            
             
             generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, viewer_profile_keys_list, 
                                                                                               display_online_status)

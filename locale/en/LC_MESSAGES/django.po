@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
+"POT-Creation-Date: 2013-02-12 20:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86,7 +86,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:700 rs/display_contacts.py:341 rs/forms.py:1083
-#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1577
+#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1572
 #: rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -539,8 +539,8 @@ msgid ""
 "and directly modifying your profile"
 msgstr ""
 
-#: rs/email_utils.py:419 rs/templates/login.html:278
-#: rs/templates/login.html.py:284
+#: rs/email_utils.py:419 rs/templates/login.html:265
+#: rs/templates/login.html.py:271
 msgid "Have you forgotten your password?"
 msgstr ""
 
@@ -648,43 +648,6 @@ msgstr ""
 
 #: rs/email_utils.py:639
 msgid "Emails and/or new contacts"
-msgstr ""
-
-#: rs/email_utils.py:896
-msgid ""
-"A nice website that I thought you might be interested in having a look at"
-msgstr ""
-
-#: rs/email_utils.py:900
-#, python-format
-msgid ""
-"You can personalize and forward this message (or put it on facebook, "
-"twitter, etc.) so that both you and your friends         can earn VIP "
-"credits in %(app_name)s."
-msgstr ""
-
-#: rs/email_utils.py:903
-msgid "Dear Friend"
-msgstr ""
-
-#: rs/email_utils.py:905
-#, python-format
-msgid ""
-"I am a member of %(app_name)s.com and thought that you might be interested "
-"in trying it out. It is a                free %(site_description)s site that "
-"I have used to meet many interesting people."
-msgstr ""
-
-#: rs/email_utils.py:909
-#, python-format
-msgid ""
-"If you click on the link below and decide to sign up, both you and I will "
-"earn %(value)s credit which         is enough credit for VIP status (VIP "
-"status gives extra message quota and has other benefits)."
-msgstr ""
-
-#: rs/email_utils.py:918
-msgid "Kind Regards"
 msgstr ""
 
 #: rs/forms.py:99
@@ -2660,29 +2623,19 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:980
-#, python-format
-msgid ""
-"You have reached the limit of %(max_requests)s on the number of chat "
-"friends\n"
-"                                    that you are allowed to request and/or "
-"accept.\n"
-"                                    Before requesting/accepting additional "
-"chat friends, you must remove some of your current chat friends."
-msgstr ""
-
-#: rs/store_data.py:993
+#: rs/store_data.py:975
 #, python-format
 msgid ""
 "\n"
-"                                    You have %(num_sent_chat_friend)s chat "
-"friends, which means that\n"
-"                                    you have reached the limit of "
-"%(max_guest_requests)s on the number of chat friends\n"
-"                                    that you are allowed to request."
+"                            You have reached the limit of %(max_requests)s "
+"on the number of chat friends\n"
+"                            that you are allowed to request. Before "
+"requesting additional chat \n"
+"                            friends, you must remove some of your current "
+"chat friends."
 msgstr ""
 
-#: rs/store_data.py:1000
+#: rs/store_data.py:998
 #, python-format
 msgid ""
 "\n"
@@ -2691,64 +2644,56 @@ msgid ""
 "                                    you could consider becoming a VIP member."
 msgstr ""
 
-#: rs/store_data.py:1005
-msgid ""
-"Alternatively, you can remove some of your current chat friends before "
-"requesting additional chat friends, or\n"
-"                                    you can ask the other person to invite "
-"you to be their chat friend. "
-msgstr ""
-
-#: rs/store_data.py:1011
+#: rs/store_data.py:1006
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr ""
 
-#: rs/store_data.py:1424
+#: rs/store_data.py:1419
 msgid "Statistics of spam sent from your account:"
 msgstr ""
 
-#: rs/store_data.py:1425
+#: rs/store_data.py:1420
 msgid "of"
 msgstr ""
 
-#: rs/store_data.py:1426
+#: rs/store_data.py:1421
 msgid "sent"
 msgstr ""
 
-#: rs/store_data.py:1427
+#: rs/store_data.py:1422
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages. Additionally, if you send a lot of spam, "
 "your messages will be sent directly to the spam mailbox."
 msgstr ""
 
-#: rs/store_data.py:1496
+#: rs/store_data.py:1491
 msgid "Captcha is incorrect, try again"
 msgstr ""
 
-#: rs/store_data.py:1525
+#: rs/store_data.py:1520
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr ""
 
-#: rs/store_data.py:1719
+#: rs/store_data.py:1714
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/store_data.py:1720
+#: rs/store_data.py:1715
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/store_data.py:1722
+#: rs/store_data.py:1717
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/store_data.py:1723
+#: rs/store_data.py:1718
 msgid "greetings"
 msgstr ""
 
-#: rs/store_data.py:1726
+#: rs/store_data.py:1721
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2789,7 +2734,7 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/store_data.py:1747
+#: rs/store_data.py:1742
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
@@ -4433,32 +4378,32 @@ msgstr ""
 msgid "Enter"
 msgstr ""
 
-#: rs/templates/login.html:232
+#: rs/templates/login.html:234
 msgid "Do you want to look around before registering?"
 msgstr ""
 
-#: rs/templates/login.html:235
+#: rs/templates/login.html:237
 msgid "Enter with a guest account"
 msgstr ""
 
-#: rs/templates/login.html:239
+#: rs/templates/login.html:288
 msgid "Free"
 msgstr ""
 
-#: rs/templates/login.html:239
+#: rs/templates/login.html:288
 msgid "Live chat and messages included"
 msgstr ""
 
-#: rs/templates/login.html:243
+#: rs/templates/login.html:291
 msgid "Over 50 percent of our members are single!"
 msgstr "Over 50% of our memmbers are single!"
 
-#: rs/templates/login.html:254 rs/templates/login.html.py:258
-#: rs/templates/login.html:262
+#: rs/templates/login.html:296 rs/templates/login.html.py:300
+#: rs/templates/login.html:304
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr ""
 
-#: rs/templates/login.html:300
+#: rs/templates/login.html:312
 #, python-format
 msgid ""
 "\n"
@@ -4488,7 +4433,7 @@ msgstr ""
 msgid "Register / Enter"
 msgstr ""
 
-#: rs/templates/login_helpers/login_errors.html:41
+#: rs/templates/login_helpers/login_errors.html:33
 msgid "There is a problem"
 msgstr ""
 

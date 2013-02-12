@@ -112,20 +112,22 @@
                 </a>
             </li>
 
-            <li class="top">
-                <a href="#" class="top_link">
-                    <span class="down">
-                    {% trans "More" %}
-                    </span>
-                </a>
-                <ul class="sub">
-			        <li>
-                        <a id="id-show_online_status_menu_element" class ="cl-stay_on_current_page" href="#">
-                            {% trans "View others online status" %}
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            {% if SHOW_VIP_UPGRADE_OPTION %}
+                <li class="top">
+                    <a href="#" class="top_link">
+                        <span class="down">
+                        {% trans "More" %}
+                        </span>
+                    </a>
+                    <ul class="sub">
+                        <li>
+                            <a id="id-show_online_status_menu_element" class ="cl-stay_on_current_page" href="#">
+                                {% trans "View others online status" %}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
 
 
             <li class="top-right">

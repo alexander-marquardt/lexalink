@@ -281,7 +281,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         else:
             display_welcome_section = False
             
-        (vip_status) = utils.get_vip_status(display_userobject)
+        (vip_status) = utils.get_client_paid_status(display_userobject)
         
         # The following data fields are shown to the logged in user when they are viewing their own profile -- mostly
         # suggestions on what they need to do to make their profile complete.
@@ -629,7 +629,7 @@ def login(request, is_admin_login = False, referring_code = None):
                             userobject.last_login =  datetime.datetime.now()   
                             userobject.last_login_string = str(userobject.last_login)
                                                     
-                            if not utils.get_vip_status(userobject):
+                            if not utils.get_client_paid_status(userobject):
                                 # client has lost their VIP status - clear from both the userobject and and the 
                                 # unique_last_login_offset structures.
                                 userobject.client_paid_status = None

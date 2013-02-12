@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
+"POT-Creation-Date: 2013-02-12 20:21+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:700 rs/display_contacts.py:341 rs/forms.py:1083
-#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1577
+#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1572
 #: rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -582,8 +582,8 @@ msgstr ""
 "Puedes cambiar tus opciones de notificaciones dentro de  %(link_to_build)s "
 "por modificar tu perfil directamente"
 
-#: rs/email_utils.py:419 rs/templates/login.html:278
-#: rs/templates/login.html.py:284
+#: rs/email_utils.py:419 rs/templates/login.html:265
+#: rs/templates/login.html.py:271
 msgid "Have you forgotten your password?"
 msgstr "¿Has olvidado tu contraseña?"
 
@@ -699,52 +699,6 @@ msgstr "Contactos"
 #: rs/email_utils.py:639
 msgid "Emails and/or new contacts"
 msgstr "Correo electrónico y/o contactos nuevos"
-
-#: rs/email_utils.py:896
-msgid ""
-"A nice website that I thought you might be interested in having a look at"
-msgstr ""
-"Un buen sitio web en el que podrías estar interesado en echar un vistazo"
-
-#: rs/email_utils.py:900
-#, python-format
-msgid ""
-"You can personalize and forward this message (or put it on facebook, "
-"twitter, etc.) so that both you and your friends         can earn VIP "
-"credits in %(app_name)s."
-msgstr ""
-"Puedes personalizar y reenviar este mensaje (o ponerlo en facebook, twitter, "
-"etc.) para que tú y tus amigos podáis ganar créditos VIP en %(app_name)s."
-
-#: rs/email_utils.py:903
-msgid "Dear Friend"
-msgstr "Estimado Amigo"
-
-#: rs/email_utils.py:905
-#, python-format
-msgid ""
-"I am a member of %(app_name)s.com and thought that you might be interested "
-"in trying it out. It is a                free %(site_description)s site that "
-"I have used to meet many interesting people."
-msgstr ""
-"Soy miembro de %(app_name)s.com y he pensado que podríais estar interesado "
-"en probarlo. Es una página gratuita %(site_description)s que he utilizado "
-"para conocer a muchas personas interesantes."
-
-#: rs/email_utils.py:909
-#, python-format
-msgid ""
-"If you click on the link below and decide to sign up, both you and I will "
-"earn %(value)s credit which         is enough credit for VIP status (VIP "
-"status gives extra message quota and has other benefits)."
-msgstr ""
-"Si haces clic en el enlace debajo y decides inscribirte, tanto tú como yo "
-"ganaremos %(value)s creditos que serán suficientes para conseguir estado VIP "
-"(el estado VIP te da quota extra de mensajes y otros beneficios)."
-
-#: rs/email_utils.py:918
-msgid "Kind Regards"
-msgstr "Un Saludo"
 
 #: rs/forms.py:99
 msgid "Warning"
@@ -2774,36 +2728,22 @@ msgstr ""
 "enviar. Antes de enviar las llaves adicionales, debes recuperar las llaves "
 "que has dado a otros usuarios."
 
-#: rs/store_data.py:980
-#, python-format
+#: rs/store_data.py:975
+#, fuzzy, python-format
 msgid ""
-"You have reached the limit of %(max_requests)s on the number of chat "
-"friends\n"
-"                                    that you are allowed to request and/or "
-"accept.\n"
-"                                    Before requesting/accepting additional "
-"chat friends, you must remove some of your current chat friends."
+"\n"
+"                            You have reached the limit of %(max_requests)s "
+"on the number of chat friends\n"
+"                            that you are allowed to request. Before "
+"requesting additional chat \n"
+"                            friends, you must remove some of your current "
+"chat friends."
 msgstr ""
 "Has llegado al límite de %(max_requests)s en el número de amigos de chat que "
-"se te permite solicitar y/o aceptar. Antes de solicitar/aceptar amigos "
+"se te permite solicitar. Antes de solicitar/aceptar amigos "
 "adicionales de chat, debes quitar algunos de tus amigos actuales de chat."
 
-#: rs/store_data.py:993
-#, python-format
-msgid ""
-"\n"
-"                                    You have %(num_sent_chat_friend)s chat "
-"friends, which means that\n"
-"                                    you have reached the limit of "
-"%(max_guest_requests)s on the number of chat friends\n"
-"                                    that you are allowed to request."
-msgstr ""
-"\n"
-"Tienes %(num_sent_chat_friend)s amigos de chat, lo que significa que has "
-"llegado al límite de %(max_guest_requests)s en el número de amigos de chat "
-"que se te permite solicitar. "
-
-#: rs/store_data.py:1000
+#: rs/store_data.py:998
 #, python-format
 msgid ""
 "\n"
@@ -2815,36 +2755,24 @@ msgstr ""
 "Si quieres aumentar este limite a %(max_requests)s, podrías hacerte miembro "
 "VIP."
 
-#: rs/store_data.py:1005
-msgid ""
-"Alternatively, you can remove some of your current chat friends before "
-"requesting additional chat friends, or\n"
-"                                    you can ask the other person to invite "
-"you to be their chat friend. "
-msgstr ""
-"Alternativamente, puedes quitar algunos de tu amigos de chat actuales antes "
-"de solicitar más amigos de chat, o puedes pedir a la otra persona que te "
-"invite como amigo de chat."
-
-#: rs/store_data.py:1011
+#: rs/store_data.py:1006
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr "Ver beneficios VIP"
 
-#: rs/store_data.py:1424
+#: rs/store_data.py:1419
 msgid "Statistics of spam sent from your account:"
 msgstr "Estadisticas de spam enviado desde tu cuenta:"
 
-#: rs/store_data.py:1425
+#: rs/store_data.py:1420
 msgid "of"
 msgstr "de"
 
-#: rs/store_data.py:1426
+#: rs/store_data.py:1421
 msgid "sent"
 msgstr "enviado"
 
-#: rs/store_data.py:1427
-#, fuzzy
+#: rs/store_data.py:1422
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages. Additionally, if you send a lot of spam, "
@@ -2854,32 +2782,32 @@ msgstr ""
 "más mensajes. Si envías mucho spam tus mensajes se entregarán directamente "
 "al buzon de spam."
 
-#: rs/store_data.py:1496
+#: rs/store_data.py:1491
 msgid "Captcha is incorrect, try again"
 msgstr "Captcha incorrecta, intentalo de nuevo"
 
-#: rs/store_data.py:1525
+#: rs/store_data.py:1520
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
 
-#: rs/store_data.py:1719
+#: rs/store_data.py:1714
 msgid "\"wink\" or a \"kiss\""
 msgstr "\"guiño\" o un \"beso\""
 
-#: rs/store_data.py:1720
+#: rs/store_data.py:1715
 msgid "winks, kisses,"
 msgstr "guiños, besos"
 
-#: rs/store_data.py:1722
+#: rs/store_data.py:1717
 msgid "\"greeting\""
 msgstr "\"saludo\""
 
-#: rs/store_data.py:1723
+#: rs/store_data.py:1718
 msgid "greetings"
 msgstr "saludos"
 
-#: rs/store_data.py:1726
+#: rs/store_data.py:1721
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2918,7 +2846,7 @@ msgstr ""
 "\n"
 "¡Bienvenido a %(app_name)s, y mucha suerte en tu búsqueda!  "
 
-#: rs/store_data.py:1747
+#: rs/store_data.py:1742
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr "Felicidades, ya eres un miembro VIP hasta %(date)s."
@@ -4723,32 +4651,32 @@ msgstr "contraseña"
 msgid "Enter"
 msgstr "Entrar"
 
-#: rs/templates/login.html:232
+#: rs/templates/login.html:234
 msgid "Do you want to look around before registering?"
 msgstr "¿Quieres mirar antes de registrarte?"
 
-#: rs/templates/login.html:235
+#: rs/templates/login.html:237
 msgid "Enter with a guest account"
 msgstr "Entra con una cuenta de invitado"
 
-#: rs/templates/login.html:239
+#: rs/templates/login.html:288
 msgid "Free"
 msgstr "Gratis"
 
-#: rs/templates/login.html:239
+#: rs/templates/login.html:288
 msgid "Live chat and messages included"
 msgstr "Chatear y enviar mensajes incluido"
 
-#: rs/templates/login.html:243
+#: rs/templates/login.html:291
 msgid "Over 50 percent of our members are single!"
 msgstr "¡Más del 50% de nuestros socios son solter@s!"
 
-#: rs/templates/login.html:254 rs/templates/login.html.py:258
-#: rs/templates/login.html:262
+#: rs/templates/login.html:296 rs/templates/login.html.py:300
+#: rs/templates/login.html:304
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr "no permite ni tiene contenido explícito, pornográfico u obsceno"
 
-#: rs/templates/login.html:300
+#: rs/templates/login.html:312
 #, python-format
 msgid ""
 "\n"
@@ -4781,7 +4709,7 @@ msgstr "Prensa"
 msgid "Register / Enter"
 msgstr "Regístrate / Entrar"
 
-#: rs/templates/login_helpers/login_errors.html:41
+#: rs/templates/login_helpers/login_errors.html:33
 msgid "There is a problem"
 msgstr "Hay un problema"
 
@@ -5276,6 +5204,68 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid ""
+#~ "A nice website that I thought you might be interested in having a look at"
+#~ msgstr ""
+#~ "Un buen sitio web en el que podrías estar interesado en echar un vistazo"
+
+#~ msgid ""
+#~ "You can personalize and forward this message (or put it on facebook, "
+#~ "twitter, etc.) so that both you and your friends         can earn VIP "
+#~ "credits in %(app_name)s."
+#~ msgstr ""
+#~ "Puedes personalizar y reenviar este mensaje (o ponerlo en facebook, "
+#~ "twitter, etc.) para que tú y tus amigos podáis ganar créditos VIP en "
+#~ "%(app_name)s."
+
+#~ msgid "Dear Friend"
+#~ msgstr "Estimado Amigo"
+
+#~ msgid ""
+#~ "I am a member of %(app_name)s.com and thought that you might be "
+#~ "interested in trying it out. It is a                free "
+#~ "%(site_description)s site that I have used to meet many interesting "
+#~ "people."
+#~ msgstr ""
+#~ "Soy miembro de %(app_name)s.com y he pensado que podríais estar "
+#~ "interesado en probarlo. Es una página gratuita %(site_description)s que "
+#~ "he utilizado para conocer a muchas personas interesantes."
+
+#~ msgid ""
+#~ "If you click on the link below and decide to sign up, both you and I will "
+#~ "earn %(value)s credit which         is enough credit for VIP status (VIP "
+#~ "status gives extra message quota and has other benefits)."
+#~ msgstr ""
+#~ "Si haces clic en el enlace debajo y decides inscribirte, tanto tú como yo "
+#~ "ganaremos %(value)s creditos que serán suficientes para conseguir estado "
+#~ "VIP (el estado VIP te da quota extra de mensajes y otros beneficios)."
+
+#~ msgid "Kind Regards"
+#~ msgstr "Un Saludo"
+
+#~ msgid ""
+#~ "\n"
+#~ "                                    You have %(num_sent_chat_friend)s "
+#~ "chat friends, which means that\n"
+#~ "                                    you have reached the limit of "
+#~ "%(max_guest_requests)s on the number of chat friends\n"
+#~ "                                    that you are allowed to request."
+#~ msgstr ""
+#~ "\n"
+#~ "Tienes %(num_sent_chat_friend)s amigos de chat, lo que significa que has "
+#~ "llegado al límite de %(max_guest_requests)s en el número de amigos de "
+#~ "chat que se te permite solicitar. "
+
+#~ msgid ""
+#~ "Alternatively, you can remove some of your current chat friends before "
+#~ "requesting additional chat friends, or\n"
+#~ "                                    you can ask the other person to "
+#~ "invite you to be their chat friend. "
+#~ msgstr ""
+#~ "Alternativamente, puedes quitar algunos de tu amigos de chat actuales "
+#~ "antes de solicitar más amigos de chat, o puedes pedir a la otra persona "
+#~ "que te invite como amigo de chat."
 
 #~ msgid "View online status"
 #~ msgstr "Ver estado de conexión"

@@ -29,7 +29,7 @@
 from django.utils.translation import ugettext_lazy
 
 import re
-import datetime
+import datetime, logging
 
 from rs.private_data import *
 import settings, site_configuration
@@ -44,6 +44,17 @@ elif settings.LANGUAGE_CODE == 'es':
 else:
     raise Exception("Unknown settings.LANGUAGE_CODE")
 
+
+# The following "SHOW_VIP_UPGRADE_OPTION" is at the top because it is used in some of the other 
+# constant declarations. If we don't allow the users to purchase a VIP option for a particular build,
+# then we treat all the users of that build as VIP (to some degree). 
+if site_configuration.BUILD_NAME == 'Discrete':
+    SHOW_VIP_UPGRADE_OPTION = True
+else:
+    # currently, only Discrete build allows users to upgrade to VIP. 
+    # Other sites are supported by advertising.
+    SHOW_VIP_UPGRADE_OPTION = False
+
     
 if settings.BUILD_NAME == "Language" : 
     minimum_registration_age = 14
@@ -55,15 +66,23 @@ else:
     
 # Define the number of new people that the user can send messages to in a given time window. 
 WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
-if settings.BUILD_NAME == "Discrete":
+if SHOW_VIP_UPGRADE_OPTION:
+    # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 2 # after this number of messages, sending messages is blocked for non-paying members.
 else:
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 4
+    
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
     
 NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 24 # to prevent a pair of users from overloading the servers by sending infinite messages between them - put a limit
-STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 2 # can only send X messages to another user in a window period
+
+if SHOW_VIP_UPGRADE_OPTION:
+    # VIP purchase is available - this user should pay if they want to send more messages.
+    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 2 # can only send X messages to another user in a window period
+else:
+    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 4
+    
 # If the users are "chat friends" then they can send more messages between them in time window period. 
 CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
     
@@ -159,10 +178,10 @@ NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a que
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
 
 # this is the limit on the number of chat_friends for non-registered users
-if settings.BUILD_NAME == 'Discrete':
-    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 3 
+if SHOW_VIP_UPGRADE_OPTION:
+    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 2 
 else:
-    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 10 
+    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 50 
 
 class OnlinePresenceConstants(object):
     MAX_ACTIVE_POLLING_DELAY_IN_CLIENT = 30 # Cap on the number of *scheduled* seconds between polls from the client (reality can take more time)
@@ -439,6 +458,7 @@ else:
 ###################################################
 ## START VIP/Paid Client Related
 
+
 # Memcache object to store the VIP (client_paid_status) for each user 
 # We don't set a timeout on this, since we will manually expire it if the userobject is updated. 
 HIDDEN_ONLINE_STATUS = "hidden_online_status"
@@ -672,7 +692,7 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'analytics_id' : site_configuration.ANALYTICS_ID,
                           'SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES' : SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES,
                           'BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS' : BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS,
-                          
+                          'SHOW_VIP_UPGRADE_OPTION' : SHOW_VIP_UPGRADE_OPTION,
                           }
 
 

@@ -1506,7 +1506,7 @@ Please do not send emails or contact them in any manner, since their goal is to 
 
     return generated_html
 
-def get_vip_status(userobject):
+def get_client_paid_status(userobject):
     
     vip_status = None
     if userobject.client_paid_status and userobject.client_paid_status_expiry > datetime.datetime.now():
@@ -1597,25 +1597,28 @@ def render_paypal_button(request, username, owner_nid):
     
     try:
     
-        if request.session.__contains__('userobject_str'):
-            # only show paypal button to users that are logged-in.
-                        
-            paypal_data = {}
-            paypal_data['language'] = request.LANGUAGE_CODE
-            paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
-            paypal_data['owner_nid'] = owner_nid    
-            paypal_data['username'] = username
-            paypal_data['paypal_en_button_id'] = site_configuration.PAYPAL_EN_BUTTON_ID
-            paypal_data['paypal_es_button_id'] = site_configuration.PAYPAL_ES_BUTTON_ID   
-            paypal_data['paypal_sandbox_button_id'] = site_configuration.PAYPAL_SANDBOX_BUTTON_ID
+        if constants.SHOW_VIP_UPGRADE_OPTION:
+            if request.session.__contains__('userobject_str'):
+                # only show paypal button to users that are logged-in.
+                            
+                paypal_data = {}
+                paypal_data['language'] = request.LANGUAGE_CODE
+                paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
+                paypal_data['owner_nid'] = owner_nid    
+                paypal_data['username'] = username
+                paypal_data['paypal_en_button_id'] = site_configuration.PAYPAL_EN_BUTTON_ID
+                paypal_data['paypal_es_button_id'] = site_configuration.PAYPAL_ES_BUTTON_ID   
+                paypal_data['paypal_sandbox_button_id'] = site_configuration.PAYPAL_SANDBOX_BUTTON_ID
+                
             
-        
-            template = loader.get_template("user_main_helpers/paypal_button.html")    
-            context = Context (dict({
-                'paypal_data': paypal_data,
-                'request' : request, 
-                }, **constants.template_common_fields))    
-            return template.render(context) 
+                template = loader.get_template("user_main_helpers/paypal_button.html")    
+                context = Context (dict({
+                    'paypal_data': paypal_data,
+                    'request' : request, 
+                    }, **constants.template_common_fields))    
+                return template.render(context) 
+            else:
+                return ''
         else:
             return ''
         
@@ -1630,21 +1633,27 @@ def do_display_online_status(owner_uid):
 
     try:    
     
-        userobject = utils_top_level.get_object_from_string(owner_uid)
-        client_paid_status = userobject.client_paid_status
-        
-        if client_paid_status:
-            # This is a VIP (paid) member - always show online status 
-            show_online_status = True 
-        else:
-            # This is a non-VIP (free) member.
-            # check if they are currently in a trial period. I
-            show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
-            show_online_status= memcache.get(show_online_status_memcache_key)   
-            if show_online_status is not None:
-                show_online_status = True
+        if constants.SHOW_VIP_UPGRADE_OPTION:
+            # This build has the option of upgrading to VIP - therefore we just give them a taste of the VIP benefits
+            
+            userobject = utils_top_level.get_object_from_string(owner_uid)
+            client_paid_status = userobject.client_paid_status
+            
+            if client_paid_status:
+                # This is a VIP (paid) member - always show online status 
+                show_online_status = True 
             else:
-                show_online_status = False
+                # This is a non-VIP (free) member.
+                # check if they are currently in a trial period. I
+                show_online_status_memcache_key = constants.SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX + owner_uid
+                show_online_status= memcache.get(show_online_status_memcache_key)   
+                if show_online_status is not None:
+                    show_online_status = True
+                else:
+                    show_online_status = False
+        else:
+            # For this build, upgrading to VIP is not an option - all users are treated as VIP.
+            show_online_status = True
                 
         return show_online_status
     
@@ -1652,16 +1661,20 @@ def do_display_online_status(owner_uid):
         error_reporting.log_exception(logging.error) 
         return False
 
-def owner_is_vip(owner_uid):
+def show_online_status(owner_uid):
     
-    userobject = utils_top_level.get_object_from_string(owner_uid)
-    client_paid_status = userobject.client_paid_status
-    
-    if client_paid_status:
-        # This is a VIP (paid) member - always show online status 
-        return True     
-    else :
-        return False
+    if constants.SHOW_VIP_UPGRADE_OPTION:
+        userobject = utils_top_level.get_object_from_string(owner_uid)
+        client_paid_status = userobject.client_paid_status
+        
+        if client_paid_status:
+            # This is a VIP (paid) member - always show online status 
+            return True     
+        else :
+            return False
+    else:
+        # The current build does not allow upgrades - treat all users as VIP
+        return True
 
 def set_show_online_status_timeout(owner_uid):
     

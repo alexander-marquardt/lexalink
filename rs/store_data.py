@@ -971,16 +971,22 @@ def store_initiate_contact(request, to_uid):
                                               % {'max_keys' : constants.MAX_KEYS_SENT_ALLOWED}
                                 request_denied = True
                                 
+                        def max_chat_friends_response_text(chat_friend_requests_allowed):
+                            return ugettext("""
+                            You have reached the limit of %(max_requests)s on the number of chat friends
+                            that you are allowed to request. Before requesting additional chat 
+                            friends, you must remove some of your current chat friends.""") \
+                                   % {'max_requests' : chat_friend_requests_allowed}
+                                
                         if action == "chat_friend":
                             if userobject.client_paid_status or initiate_contact_object.chat_friend_stored != "request_sent":
                                 # VIP clients are allowed to have the max number of chat friends OR
                                 # we allow people to accept friend requests even after their free limit on friends has been exceeded. 
-                                # ... But not to initiate new friend requests,
+                                # ... But not to initiate new friend requests, However, we *never* allow them to exceed
+                                # MAX_CHAT_FRIEND_REQUESTS_ALLOWED number of chat friends. This limit is in place because 
+                                # it could use excessive CPU resources if the list gets too big.
                                 if owner_new_contact_counter_obj.num_sent_chat_friend >= MAX_CHAT_FRIEND_REQUESTS_ALLOWED:
-                                    response_text = "<p>%s" % ugettext("""You have reached the limit of %(max_requests)s on the number of chat friends
-                                    that you are allowed to request and/or accept.
-                                    Before requesting/accepting additional chat friends, you must remove some of your current chat friends.""") \
-                                                  % {'max_requests' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED}
+                                    response_text = "<p>%s" % max_chat_friends_response_text(MAX_CHAT_FRIEND_REQUESTS_ALLOWED)
                                     request_denied = True                                
                             
                             else:
@@ -990,26 +996,20 @@ def store_initiate_contact(request, to_uid):
                                     
                                     request_denied = True  
                                     
-                                    response_text = "<p>%s" % ugettext("""
-                                    You have %(num_sent_chat_friend)s chat friends, which means that
-                                    you have reached the limit of %(max_guest_requests)s on the number of chat friends
-                                    that you are allowed to request.""")  % \
-                                        {'num_sent_chat_friend': owner_new_contact_counter_obj.num_sent_chat_friend ,
-                                         'max_guest_requests' : GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED}
+                                    response_text = "<p>%s" % max_chat_friends_response_text(GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED)
                                     
-                                    response_text += "<p>%s" % ugettext("""
-                                    If you wish to increase this limit to %(max_requests)s, 
-                                    you could consider becoming a VIP member.""")   % \
-                                        {'max_requests' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED}
-                                    
-                                    response_text += "<p>%s" %ugettext("""Alternatively, you can remove some of your current chat friends before requesting additional chat friends, or
-                                    you can ask the other person to invite you to be their chat friend. """)
+                                    if constants.SHOW_VIP_UPGRADE_OPTION:
+                                        
+                                        response_text += "<p>%s" % ugettext("""
+                                        If you wish to increase this limit to %(max_requests)s, 
+                                        you could consider becoming a VIP member.""")   % \
+                                            {'max_requests' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED}
                                      
 
-                                    response_text += utils.render_paypal_button(request, userobject.username, userobject_nid)
-                                    
-                                    see_vip_benefits_txt = ugettext("See VIP benefits")
-                                    response_text += '<strong><a class="cl-dialog_anchor cl-see_all_vip_benefits" href="#">%s</a></strong>' % see_vip_benefits_txt
+                                        response_text += utils.render_paypal_button(request, userobject.username, userobject_nid)
+                                        
+                                        see_vip_benefits_txt = ugettext("See VIP benefits")
+                                        response_text += '<strong><a class="cl-dialog_anchor cl-see_all_vip_benefits" href="#">%s</a></strong>' % see_vip_benefits_txt
 
                         if request_denied:
                             # un-do the request (toggle it) by calling the same function again, Note that we override the 
@@ -1537,7 +1537,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 # to send messages to each user. 
                 
                 if not sender_userobject.client_paid_status:
-                    num_emails_per_day = GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                    num_emails_per_day = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                 else:
                     # VIP member has extra messages allocated
                     num_emails_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
