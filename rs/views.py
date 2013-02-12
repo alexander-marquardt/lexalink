@@ -239,8 +239,11 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 (html_for_mail_history_summary, have_sent_messages_object) =\
                  mailbox.get_mail_history_summary(request, owner_userobject, display_userobject)
                 
-                # track the fact that the logged in user is vieweing another persons profile
-                track_viewers.store_viewer_in_owner_profile_viewer_tracker(owner_uid, display_uid)
+                # make sure that user that we are looking at has not been eliminated before trying to
+                # track a viewer (this check can e eliminated in a few months)
+                if not display_userobject.user_is_marked_for_elimination:
+                    # track the fact that the logged in user is vieweing another persons profile
+                    track_viewers.store_viewer_in_owner_profile_viewer_tracker(owner_uid, display_uid)
         
         (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(lang_code, display_uid)
       
