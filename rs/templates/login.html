@@ -228,39 +228,26 @@
                 {{ maintenance_shutdown_warning|safe }}
             {% endif %}
 
-            <br><br>
+
+            <div class="grid_6 alpha cl-center-text cl-text-large-format cl-login-text">
+            <br>
             {% trans "Do you want to look around before registering?" %}<br>
             <a id="id-enter_guest" class="ui-state-default cl-enter_guest" href="{% url search_gen %}?query_order=unique_last_login"
                rel="address:{% url search_gen %}?query_order=unique_last_login">
                 {% trans "Enter with a guest account" %}
             </a>
             <br><br>
+            </div>
 
-            {% trans "Free" %} - {% trans "Live chat and messages included" %}<br>
-            <br><br>
 
-            {% ifequal app_name "RomanceSecreto" %}
-                {% trans "Over 50% of our members are single!" %}<br><br>
-            {% endifequal %}
+
+            </ul>
 
             {% if not maintenance_shutdown_warning %}
 
                 {% include "login_helpers/right_login_table.html" %}
 
             {% endif %}
-
-            
-            {% ifequal build_name "Discrete" %}
-            {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %} <br><br><br>
-            {% endifequal %}
-
-            {% ifequal build_name "Swinger" %}
-            {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %} <br><br><br>
-            {% endifequal %}
-
-            {% ifequal build_name "Gay" %}
-            {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %} <br><br><br>
-            {% endifequal %}
 
 
 
@@ -272,30 +259,55 @@
 
 
             {% ifequal login_type "left_side_fields" %}
-            <div class="grid_6 alpha omega cl-right-text cl-text-24pt-format">
+            <div class="grid_6 alpha omega cl-right-text cl-text-24pt-format cl-forgot-password-block">
                 <!-- Problem logging in - make password 24 pt -->
                 <a href="{% url reset_password %}" rel="address:{% url reset_password %}"><br>
                     {% trans "Have you forgotten your password?" %}
                 </a>
             </div>
             {% else %}
-            <div class="grid_6 alpha omega cl-right-text cl-text-12pt-format">
+            <div class="grid_6 alpha omega cl-right-text cl-text-12pt-format cl-forgot-password-block">
                 <a href="{% url reset_password %}" rel="address:{% url reset_password %}"><br>
                     {% trans "Have you forgotten your password?" %}
                 </a>
             </div>
             {% endifequal %}
-            {% include "login_helpers/login_errors.html" %}
 
-            {% if not errors %}
-            <div class="cl-link-from-image">
-                <a id="id-image-link" href="{% url search_gen %}?query_order=unique_last_login"
-                   rel="address:{% url search_gen %}?query_order=unique_last_login"></a>
+
+            
+
+
+
+            <div class="cl-over-image grid_6">{% include "login_helpers/login_errors.html" %}</div>
+
+
+
+            <div class="grid_6 alpha cl-center-text cl-text-large-format cl-login-text">
+                <br><br>
+                
+                {% trans "Free" %} - {% trans "Live chat and messages included" %}<br><br>
+
+                {% ifequal app_name "RomanceSecreto" %}
+                    {% trans "Over 50 percent of our members are single!" %}<br><br>
+                {% endifequal %}
+
+
+                {% ifequal build_name "Discrete" %}
+                * {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
+                {% endifequal %}
+
+                {% ifequal build_name "Swinger" %}
+                * {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
+                {% endifequal %}
+
+                {% ifequal build_name "Gay" %}
+                * {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
+                {% endifequal %}
             </div>
-            {% endif %}
+
 
         </div>
-        <br><br>
+        <br><br><br>
         <div class="grid_12 alpha omega cl-center-text  cl-text-large-format cl-login-text cl-xfbml">
             {% blocktrans with app_name as app_name %}
             If you like {{app_name }} click here:

@@ -198,6 +198,12 @@ font-weight: bold;
         padding: 5px;
 }
 
+.cl-forgot-password-block {
+    height: 120px;
+    display: block;
+}
+
+
 
 .underline {text-decoration: underline}
 
@@ -372,6 +378,9 @@ td.cl-info-td
 	padding: 5px;
 }
 
+.cl-gray-text {
+    color: #a1a1a1;
+}
 
 td.cl-info-60px-width-td 
 {
