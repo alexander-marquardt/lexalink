@@ -335,7 +335,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             for build_name in constants.app_name_dict.keys():
                 domain_name = constants.domain_name_dict[build_name]
                 app_name = constants.app_name_dict[build_name]
-                html_to_render += '<a href=http://%s/rs/admin/review_public_photos/show_new/>%s public photos</a><br>\n'  % (domain_name, app_name)
+                html_to_render += '<a href=http://www.%s/rs/admin/review_public_photos/show_new/>%s public photos</a><br>\n'  % (domain_name, app_name)
     
     
         else:
