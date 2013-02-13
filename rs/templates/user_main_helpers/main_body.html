@@ -353,6 +353,8 @@
 </div>
 
 
+
+{% if SHOW_VIP_UPGRADE_OPTION %}
 <div class="cl-clear"></div>
 <div class="grid_2 alpha">
     <strong>{% trans "VIP Status" %}:</strong><br>
@@ -371,6 +373,8 @@
         </p>
     </div>
 </div> <!-- end grid10 omega -->
+{% endif %}
+        
 <div class="cl-clear"></div>
 <!------------------------------------------------------------>
 <!-- "email_address" section - allow user to enter email address if desired -->
