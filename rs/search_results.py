@@ -444,7 +444,8 @@ def generate_search_results(request, type_of_search = "normal"):
             
                 
         elif type_of_search == "by_name":
-            search_vals_dict["search_by_name"] = request.GET.get("search_by_name",'').upper()
+            search_vals_dict["search_by_name"] = request.GET.get("search_by_name",'').upper().replace(' ', '')
+            
             generated_header = "%s" % search_vals_dict["search_by_name"]
             generated_title = generated_header
             generated_meta_description = u''
