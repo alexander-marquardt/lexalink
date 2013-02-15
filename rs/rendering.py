@@ -132,34 +132,20 @@ except:
     
 
 
-def get_sidebar_ad(request, ads_to_get):
+def get_ad(request, ads_to_select_from):
     
-    if ads_to_get == "ashley_madison_sidebar_ads":
+    if ads_to_select_from == "ashley_madison_sidebar_ads" or ads_to_select_from == "ashley_madison_bottom_banner_ads":
         banner_html = ''
         # Temporarily disable Ashley Madison advertisments.
         return banner_html
     
     if proprietary_ads_found:
-        if len(getattr(advertisements, ads_to_get)[request.LANGUAGE_CODE]) >= 1:
-            idx = random.randint(0, len(getattr(advertisements, ads_to_get)[request.LANGUAGE_CODE]) - 1)
-            banner_html = getattr(advertisements, ads_to_get)[request.LANGUAGE_CODE][idx]
-    
+        if len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) >= 1:
+            idx = random.randint(0, len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) - 1)
+            banner_html = getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE][idx]
         
     return banner_html
 
-def get_ashley_madison_bottom_banner_ad(request):
-    
-    banner_html = ''
-    
-    # temporarily disable the bottom banner
-    return banner_html
-    
-    if proprietary_ads_found:
-        if len(advertisements.ashley_madison_horiz_banner_ads[request.LANGUAGE_CODE]) >= 1:
-            idx = random.randint(0, len(advertisements.ashley_madison_horiz_banner_ads[request.LANGUAGE_CODE]) - 1)
-            banner_html = advertisements.ashley_madison_horiz_banner_ads[request.LANGUAGE_CODE][idx]
-    
-    return banner_html
 
 def render_main_html(request, generated_html, userobject = None, link_to_hide = '', 
                      page_title = '', refined_links_html = '', show_social_buttons = False, page_meta_description = '',
@@ -327,23 +313,23 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         
         if enable_ads:
             if constants.enable_ashley_madison_ads:
-                advertising_info.bottom_banner_ad = get_ashley_madison_bottom_banner_ad(request)
-                advertising_info.sidebar_ad1 = get_sidebar_ad(request, "ashley_madison_sidebar_ads")
-                advertising_info.sidebar_ad2 = get_sidebar_ad(request, "ashley_madison_sidebar_ads")
+                advertising_info.bottom_banner_ad = get_ad(request, "ashley_madison_bottom_banner_ads")
+                advertising_info.sidebar_ad1 = get_ad(request, "ashley_madison_sidebar_ads")
+                advertising_info.sidebar_ad2 = get_ad(request, "ashley_madison_sidebar_ads")
                 
             elif constants.enable_affiliate_united_ads:
                 advertising_info.bottom_banner_ad = None
-                advertising_info.sidebar_ad1 = get_sidebar_ad(request, "affiliates_united_sidebar_ads")
-                advertising_info.sidebar_ad2 = get_sidebar_ad(request, "affiliates_united_sidebar_ads")
+                advertising_info.sidebar_ad1 = get_ad(request, "affiliates_united_sidebar_ads")
+                advertising_info.sidebar_ad2 = get_ad(request, "affiliates_united_sidebar_ads")
                 
             else:
                 advertising_info.bottom_banner_ad = None                
                 advertising_info.sidebar_ad1 =  None
                 advertising_info.sidebar_ad2 =  None
                 
-           
         advertising_info.enable_ads = enable_ads
         advertising_info.enable_google_ads = constants.enable_google_ads
+        
                 
         if request.POST:
             # if anything is posted, then hide the language change links. This is necessary because
