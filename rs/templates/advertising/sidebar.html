@@ -35,26 +35,26 @@
         {% include 'advertising/publisher/google_160x600.html' %}
         <br><br>
     {% endif %}
-    
-    {% if advertising_info.enable_ashley_madison_ads %}
-        <!-- ashley madison advertisements are enabled -->
-        {{ advertising_info.ashley_madison_sidebar_ad1|safe }}
-        <br><br>
-    {% endif %}
-    
+
+
     {% for ad in advertising_info.ad_template_list %}
         {% include ad %}
         <br><br>
     {% endfor %}
 
+    {% if advertising_info.sidebar_ad1 %}
+        {{ advertising_info.sidebar_ad1|safe }}
+        <br><br>
+    {% endif %}
+
+
     {% if advertising_info.enable_google_ads %}
         {% include 'advertising/publisher/google_160x600.html' %}
         <br><br>
     {% endif %}
-        
-    {% if advertising_info.enable_ashley_madison_ads %}
-        <!-- ashley madison advertisements are enabled -->
-        {{ advertising_info.ashley_madison_sidebar_ad2|safe }}
+
+    {% if advertising_info.sidebar_ad2 %}
+        {{ advertising_info.sidebar_ad2|safe }}
         <br><br>
     {% endif %}
         

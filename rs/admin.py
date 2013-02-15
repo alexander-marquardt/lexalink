@@ -473,7 +473,7 @@ def batch_remove_all_users_with_given_ip_or_name(request, ip_to_remove = None, n
 
         if ip_to_remove:
             generated_html += run_query_to_remove_profiles(request, 'registration_ip_address', ip_to_remove, reason_for_removal)
-            generated_html += run_query_to_remove_profiles(request, 'login_ip_address', ip_to_remove, reason_for_removal)
+            generated_html += run_query_to_remove_profiles(request, 'last_login_ip_address', ip_to_remove, reason_for_removal)
         elif name_to_remove:
             generated_html += run_query_to_remove_profiles(request, 'username', name_to_remove.upper(), reason_for_removal)
             

@@ -284,46 +284,46 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 ###################################################
 ## START Advertising related constants
 # define the list of pages which we want to advertise
-pages_to_advertise = []
+ads_to_show = []
 append_more_advertising_info_dialog = False
 
 if settings.BUILD_NAME == 'Discrete':
     # Swinger, Gay, and Lesbian ads will be dynamically added depending on the search criteria.
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
     # relevant (ie. a woman seeking a woman will be shown an ad for LesbianHeart)
-    pages_to_advertise.append('Single')
-    pages_to_advertise.append('Client_Ad1')
-    pages_to_advertise.append('Client_Ad2')
-    pages_to_advertise.append('Client_Ad3')
-    pages_to_advertise.append('Client_Ad4')
+    ads_to_show.append('Single')
+    ads_to_show.append('Client_Ad1')
+    ads_to_show.append('Client_Ad2')
+    ads_to_show.append('Client_Ad3')
+    ads_to_show.append('Client_Ad4')
     append_more_advertising_info_dialog = True
 
 if settings.BUILD_NAME == 'Gay':
-    pages_to_advertise.append('Discrete')
-    pages_to_advertise.append('Swinger')
+    ads_to_show.append('Discrete')
+    ads_to_show.append('Swinger')
     
 if settings.BUILD_NAME == 'Single':
     # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
-    pages_to_advertise.append('Friend')
-    pages_to_advertise.append('Language')
+    ads_to_show.append('Friend')
+    ads_to_show.append('Language')
     
 if settings.BUILD_NAME == 'Lesbian':
-    pages_to_advertise == pages_to_advertise.append('Single')
-    pages_to_advertise.append('Friend')
-    pages_to_advertise.append('Language')
+    ads_to_show == ads_to_show.append('Single')
+    ads_to_show.append('Friend')
+    ads_to_show.append('Language')
     
 if settings.BUILD_NAME == "Swinger":
-    pages_to_advertise.append('Discrete')
-    pages_to_advertise.append('Gay')
-    pages_to_advertise.append('Lesbian')
+    ads_to_show.append('Discrete')
+    ads_to_show.append('Gay')
+    ads_to_show.append('Lesbian')
     
 if settings.BUILD_NAME == 'Friend':
-    pages_to_advertise == pages_to_advertise.append('Single')
-    pages_to_advertise.append('Language')
+    ads_to_show == ads_to_show.append('Single')
+    ads_to_show.append('Language')
     
 if settings.BUILD_NAME == 'Language':
-    pages_to_advertise == pages_to_advertise.append('Single')
-    pages_to_advertise.append('Friend')
+    ads_to_show == ads_to_show.append('Single')
+    ads_to_show.append('Friend')
 
 # set a flag that determines if google ads will be shown - we don't attempt to show ads
 # on the more edgy sites since this could cause problems / risk of removal from the adsense program
@@ -332,15 +332,20 @@ if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Language' \
     enable_google_ads = True
 else:
     enable_google_ads = False
+
+if settings.BUILD_NAME == 'Discrete':
+    enable_affiliate_united_ads = True
+else:
+    enable_affiliate_united_ads = False
     
 enable_internal_ads = True
 
 if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' :
-    MAX_NUM_PAGES_TO_ADVERTISE = 4
+    NUM_ADS_TO_SHOW = 4
 elif settings.BUILD_NAME == 'Discrete' :
-    MAX_NUM_PAGES_TO_ADVERTISE = 5
+    NUM_ADS_TO_SHOW = 2
 else:
-    MAX_NUM_PAGES_TO_ADVERTISE = 2
+    NUM_ADS_TO_SHOW = 2
     
 # set a flag that determines if ashley madison ads will be shown
 if settings.BUILD_NAME == 'Discrete':

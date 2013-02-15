@@ -37,8 +37,9 @@
     {% if advertising_info.enable_google_ads %}
         {% include 'advertising/publisher/google_728x90.html' %}
     {% endif %}
-    {% if advertising_info.enable_ashley_madison_ads %}
-        {{ advertising_info.ashley_madison_bottom_banner_ad|safe }}
+        
+    {% if advertising_info.bottom_banner_ad %}
+        {{ advertising_info.bottom_banner_ad|safe }}
     {% endif %}
 
     </div>

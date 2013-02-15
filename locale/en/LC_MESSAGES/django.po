@@ -2702,8 +2702,7 @@ msgid ""
 msgstr ""
 "Welcome! \n"
 "\n"
-"My name is Alex, and I am the creator of %(app_name)s. This web is free and "
-"survives from VIP memberships.\n"
+"My name is Alex, and I am the creator of %(app_name)s."
 "\n"
 "You can immediately start to look for other users by using the gray search "
 "box that is in the upper part of every page. Once you find a profile that "
@@ -4403,7 +4402,7 @@ msgstr ""
 
 #: rs/templates/login.html:296
 msgid "Over 50 percent of our members are single!"
-msgstr "Over 50% of our memmbers are single!"
+msgstr "Over 50% of our members are single!"
 
 #: rs/templates/login.html:301
 msgid "does not permit or contain explicit, pornograpic, or obscene content"

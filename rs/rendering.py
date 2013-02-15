@@ -53,15 +53,15 @@ def get_my_internal_advertisements(additional_ads_to_include = []):
     if constants.COMPANY_NAME == "Lexabit Inc.":
         
         # code to randomly select from a list of advertisements that are appropriate for the current website.
-        pages_to_advertise = constants.pages_to_advertise + additional_ads_to_include
-        num_pages_to_advertise = min(constants.MAX_NUM_PAGES_TO_ADVERTISE, len(pages_to_advertise))
+        ads_to_show = constants.ads_to_show + additional_ads_to_include
+        num_ads_to_show = min(constants.NUM_ADS_TO_SHOW, len(ads_to_show))
         
         # Randomly select pages from the list
         
-        while num_pages_to_advertise:
-            idx = random.randint(0, len(pages_to_advertise) -1 )
-            ad_list.append(pages_to_advertise.pop(idx))  
-            num_pages_to_advertise -= 1
+        while num_ads_to_show:
+            idx = random.randint(0, len(ads_to_show) -1 )
+            ad_list.append(ads_to_show.pop(idx))  
+            num_ads_to_show -= 1
     
     if constants.append_more_advertising_info_dialog:
         ad_list.append("more_advertising_info_dialog")
@@ -132,16 +132,17 @@ except:
     
 
 
-def get_ashley_madison_sidebar_ad(request):
+def get_sidebar_ad(request, ads_to_get):
     
-    banner_html = ''
-    # Temporarily disable Ashley Madison advertisments.
-    return banner_html
+    if ads_to_get == "ashley_madison_sidebar_ads":
+        banner_html = ''
+        # Temporarily disable Ashley Madison advertisments.
+        return banner_html
     
     if proprietary_ads_found:
-        if len(advertisements.ashley_madison_sidebar_ads[request.LANGUAGE_CODE]) >= 1:
-            idx = random.randint(0, len(advertisements.ashley_madison_sidebar_ads[request.LANGUAGE_CODE]) - 1)
-            banner_html = advertisements.ashley_madison_sidebar_ads[request.LANGUAGE_CODE][idx]
+        if len(getattr(advertisements, ads_to_get)[request.LANGUAGE_CODE]) >= 1:
+            idx = random.randint(0, len(getattr(advertisements, ads_to_get)[request.LANGUAGE_CODE]) - 1)
+            banner_html = getattr(advertisements, ads_to_get)[request.LANGUAGE_CODE][idx]
     
         
     return banner_html
@@ -326,14 +327,23 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         
         if enable_ads:
             if constants.enable_ashley_madison_ads:
-                advertising_info.ashley_madison_bottom_banner_ad = get_ashley_madison_bottom_banner_ad(request)
-                advertising_info.ashley_madison_sidebar_ad1 = get_ashley_madison_sidebar_ad(request)
-                advertising_info.ashley_madison_sidebar_ad2 = get_ashley_madison_sidebar_ad(request)
-            
+                advertising_info.bottom_banner_ad = get_ashley_madison_bottom_banner_ad(request)
+                advertising_info.sidebar_ad1 = get_sidebar_ad(request, "ashley_madison_sidebar_ads")
+                advertising_info.sidebar_ad2 = get_sidebar_ad(request, "ashley_madison_sidebar_ads")
+                
+            elif constants.enable_affiliate_united_ads:
+                advertising_info.bottom_banner_ad = None
+                advertising_info.sidebar_ad1 = get_sidebar_ad(request, "affiliates_united_sidebar_ads")
+                advertising_info.sidebar_ad2 = get_sidebar_ad(request, "affiliates_united_sidebar_ads")
+                
+            else:
+                advertising_info.bottom_banner_ad = None                
+                advertising_info.sidebar_ad1 =  None
+                advertising_info.sidebar_ad2 =  None
+                
            
         advertising_info.enable_ads = enable_ads
         advertising_info.enable_google_ads = constants.enable_google_ads
-        advertising_info.enable_ashley_madison_ads = constants.enable_ashley_madison_ads
                 
         if request.POST:
             # if anything is posted, then hide the language change links. This is necessary because
