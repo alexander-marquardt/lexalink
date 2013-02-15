@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-12 22:27+0100\n"
+"POT-Creation-Date: 2013-02-15 20:39+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:700 rs/display_contacts.py:341 rs/forms.py:1083
-#: rs/login_utils.py:259 rs/rendering.py:396 rs/store_data.py:1577
+#: rs/login_utils.py:259 rs/rendering.py:401 rs/store_data.py:1577
 #: rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -240,31 +240,7 @@ msgstr "sitio para parejas liberales"
 msgid "website to meet people, make friends, and to earn money"
 msgstr "sitio para conocer gente, hacer amigos, y ganar dinero"
 
-#: rs/constants.py:511
-msgid "confidential dating"
-msgstr "de contactos confidenciales"
-
-#: rs/constants.py:512
-msgid "dating"
-msgstr "para buscar pareja"
-
-#: rs/constants.py:513
-msgid "language exchange"
-msgstr "de intercambio de idiomas"
-
-#: rs/constants.py:514
-msgid "swingers"
-msgstr "para parejas liberales"
-
-#: rs/constants.py:515
-msgid "gay dating"
-msgstr "de contactos para gays"
-
-#: rs/constants.py:516
-msgid "lesbian dating"
-msgstr "de contactos para lesbianas."
-
-#: rs/constants.py:603
+#: rs/constants.py:592
 msgid ""
 "Username needs at least 3 characters and can only contain letters and "
 "numbers. Additionally, it may not contain any spaces."
@@ -273,11 +249,11 @@ msgstr ""
 "alfabéticos (ascii/inglés) y números. Además, el nick no puede tener ningún "
 "espacio"
 
-#: rs/constants.py:605
+#: rs/constants.py:594
 msgid "Password required"
 msgstr "La contraseña es obligatoria"
 
-#: rs/constants.py:606
+#: rs/constants.py:595
 msgid ""
 "Password may only contain letters and numbers, and cannot contain spaces."
 msgstr ""
@@ -285,24 +261,24 @@ msgstr ""
 "números. Además, la contraseña no puede tener ningún espacio dentro, "
 "enfrente o atras."
 
-#: rs/constants.py:607
+#: rs/constants.py:596
 msgid "The password and the verification must be the same."
 msgstr "La contraseña y su verificacion tienen que ser lo mismo."
 
-#: rs/constants.py:608
+#: rs/constants.py:597
 msgid "The username that you have selected is not available."
 msgstr "El \"Nick\" que has elegido no está disponible."
 
-#: rs/constants.py:609
+#: rs/constants.py:598
 msgid "Username/email + password is incorrect"
 msgstr ""
 "La combinación de nick o correo electrónico + contraseña es incorrecta."
 
-#: rs/constants.py:610
+#: rs/constants.py:599
 msgid "The email address is not valid"
 msgstr "El correo electrónico entrado no es válido."
 
-#: rs/constants.py:614
+#: rs/constants.py:603
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to another user in a single "
@@ -315,132 +291,132 @@ msgstr ""
 "Sin embargo, si el otro miembro es un \"amigo de chat\" tuyo, podrás "
 "enviarle %(chat_friend_num)s mensajes cada %(hours)s horas."
 
-#: rs/constants.py:628
+#: rs/constants.py:617
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:629 rs/mailbox.py:628 rs/text_fields.py:75
+#: rs/constants.py:618 rs/mailbox.py:628 rs/text_fields.py:75
 msgid "Sent"
 msgstr "Enviado"
 
-#: rs/constants.py:630 rs/mailbox.py:620 rs/mailbox.py:634
+#: rs/constants.py:619 rs/mailbox.py:620 rs/mailbox.py:634
 #: rs/text_fields.py:76
 msgid "Received"
 msgstr "Recibido"
 
-#: rs/constants.py:631
+#: rs/constants.py:620
 msgid "Saved"
 msgstr "Guardado"
 
-#: rs/constants.py:634
+#: rs/constants.py:623
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:635
+#: rs/constants.py:624
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:637
+#: rs/constants.py:626
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:638
+#: rs/constants.py:627
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:641
+#: rs/constants.py:630
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:643
+#: rs/constants.py:632
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:644
+#: rs/constants.py:633
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:645
+#: rs/constants.py:634
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:646
+#: rs/constants.py:635
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:650 rs/constants.py:651
+#: rs/constants.py:639 rs/constants.py:640
 msgid "Chat requests"
 msgstr ""
 
-#: rs/constants.py:652
+#: rs/constants.py:641
 msgid "Chat connections"
 msgstr ""
 
-#: rs/constants.py:656
+#: rs/constants.py:645
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:658
+#: rs/constants.py:647
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:659
+#: rs/constants.py:648
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:660
+#: rs/constants.py:649
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:661
+#: rs/constants.py:650
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automaticamente)"
 
-#: rs/constants.py:704
+#: rs/constants.py:693
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:705
+#: rs/constants.py:694
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:706
+#: rs/constants.py:695
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:707
+#: rs/constants.py:696
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:708
+#: rs/constants.py:697
 msgid "May"
 msgstr "mayo"
 
-#: rs/constants.py:709
+#: rs/constants.py:698
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:710
+#: rs/constants.py:699
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:711
+#: rs/constants.py:700
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:712
+#: rs/constants.py:701
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:713
+#: rs/constants.py:702
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:714
+#: rs/constants.py:703
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:715
+#: rs/constants.py:704
 msgid "December"
 msgstr "diciembre"
 
@@ -582,8 +558,8 @@ msgstr ""
 "Puedes cambiar tus opciones de notificaciones dentro de  %(link_to_build)s "
 "por modificar tu perfil directamente"
 
-#: rs/email_utils.py:419 rs/templates/login.html:265
-#: rs/templates/login.html.py:271
+#: rs/email_utils.py:419 rs/templates/login.html:236
+#: rs/templates/login.html.py:242
 msgid "Have you forgotten your password?"
 msgstr "¿Has olvidado tu contraseña?"
 
@@ -2290,7 +2266,7 @@ msgstr "Hemos eliminado el perfil de"
 msgid "We have enabled the profile of"
 msgstr "Hemos habilitado el perfil de"
 
-#: rs/login_utils.py:503 rs/login_utils.py:532 rs/views.py:889
+#: rs/login_utils.py:503 rs/login_utils.py:532 rs/views.py:884
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -2542,23 +2518,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/rendering.py:222 rs/views.py:159
-#, python-format
-msgid "Remember the following benefits of registering with %(app_name)s."
-msgstr "Recuerda las siguientes ventajas de registrarte en %(app_name)s.com:"
-
-#: rs/rendering.py:224 rs/views.py:161
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:146
-#, python-format
-msgid "List of benefits for registering with %(app_name)s."
-msgstr ""
-"<li>%(app_name)s.com es gratuito. <li>Para registrarte necesitas menos de 30 "
-"segundos.<li>Después de registrarte, ¡puedes enviar mensajes inmediatamente "
-"y contactar con cualquier usuario de %(app_name)s.com!<li>%(app_name)s.com "
-"respeta tu privacidad. Tu perfil tiene un área pública y un área privada. "
-"Sólo los socios que invites pueden ver tus fotos privadas."
-
-#: rs/rendering.py:237 rs/views.py:154
+#: rs/rendering.py:231 rs/views.py:154
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2712,7 +2672,7 @@ msgstr "Estado: %(relationship_status)s"
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "Para: %(relationship_status)s"
 
-#: rs/search_results.py:458
+#: rs/search_results.py:459
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
@@ -2817,8 +2777,7 @@ msgid ""
 msgstr ""
 "¡Bienvenido!\n"
 "\n"
-"Mi nombre es Alex, y soy el creador de %(app_name)s."
-"\n"
+"Mi nombre es Alex, y soy el creador de %(app_name)s.\n"
 "Puedes empezar a buscar otros usuarios inmediatamente usando la caja gris "
 "'el buscador' que está en la parte superior de esta página. Una vez "
 "encuentres una persona que te interese, puedes hacer directamente desde su "
@@ -4067,10 +4026,55 @@ msgstr ""
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
-#: rs/utils.py:1715
+#: rs/utils.py:1733
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr "el %(day)s de %(month)s de %(year)s"
+
+#: rs/utils.py:1754 rs/utils.py:1756
+msgid "is"
+msgstr "es"
+
+#: rs/utils.py:1754 rs/proprietary/search_engine_overrides.py:63
+#: rs/proprietary/search_engine_overrides.py:66
+#: rs/proprietary/search_engine_overrides.py:69
+#: rs/proprietary/search_engine_overrides.py:72
+#: rs/proprietary/search_engine_overrides.py:75
+#: rs/proprietary/search_engine_overrides.py:78
+#: rs/proprietary/search_engine_overrides.py:104
+#: rs/proprietary/search_engine_overrides.py:107
+#: rs/proprietary/search_engine_overrides.py:110
+#: rs/proprietary/search_engine_overrides.py:113
+#: rs/proprietary/search_engine_overrides.py:116 rs/templates/login.html:261
+msgid "100 percent free"
+msgstr "100% gratis"
+
+#: rs/utils.py:1754 rs/templates/login.html:292
+msgid "We never ask for your credit card or any other form of payment"
+msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
+
+#: rs/utils.py:1756
+msgid "free"
+msgstr "gratis"
+
+#: rs/utils.py:1756 rs/templates/login.html:290
+msgid "chat and messages included"
+msgstr "chatear y enviar mensajes incluido"
+
+#: rs/utils.py:1758
+#, python-format
+msgid "Remember the following benefits of registering with %(app_name)s."
+msgstr "Recuerda las siguientes ventajas de registrarte en %(app_name)s.com:"
+
+#: rs/utils.py:1761
+#, python-format
+msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
+msgstr ""
+"<li>%(is_free_text)s.<li>Para registrarte necesitas menos de 30 segundos."
+"<li>Después de registrarte, puedes enviar mensajes inmediatamente y "
+"contactar con cualquier usuario de %(app_name)s.com.<li>%(app_name)s.com "
+"respeta tu privacidad. Tu perfil tiene un área pública y un área privada. "
+"Sólo los socios que invites pueden ver tus fotos privadas."
 
 #: rs/utils_top_level.py:141
 msgid "Gay men"
@@ -4080,7 +4084,7 @@ msgstr "Hombres gays"
 msgid "Lesbians"
 msgstr "Lesbianas"
 
-#: rs/views.py:195
+#: rs/views.py:190
 #, python-format
 msgid ""
 "It is recommendable that you write a description of at \n"
@@ -4091,99 +4095,89 @@ msgstr ""
 "no responderán a tus mensajes. Ademas, los perfiles más completos saldrán "
 "más arriba en los resultados del buscador."
 
-#: rs/views.py:863
+#: rs/views.py:858
 msgid "terms.html"
 msgstr "proprietary/terminos.html"
 
 #: rs/proprietary/search_engine_overrides.py:60
+#: rs/proprietary/search_engine_overrides.py:101
 msgid "Free - chat, flirt, and hookup - confidential online dating"
 msgstr "Gratis - chatear, flirtear y ligar - contactos y citas confidenciales"
 
 #: rs/proprietary/search_engine_overrides.py:63
 msgid ""
-"Free - online dating for singles - meet people, chat with friends, search "
-"for a partner, and find love"
+"online dating for singles - meet people, chat with friends, search for a "
+"partner, and find love"
 msgstr ""
-"Gratis - contactos y citas para solteros - conocer gente, chatear con "
-"amigos, buscar una pareja y encontrar el amor"
+"contactos y citas para solteros - conocer gente, chatear con amigos, buscar "
+"una pareja y encontrar el amor"
 
 #: rs/proprietary/search_engine_overrides.py:66
 msgid ""
-"Free - language exchange - practice foreign languages - meet people from "
-"around the world - chat with international friends"
+"language exchange - practice foreign languages - meet people from around the "
+"world - chat with international friends"
 msgstr ""
-"Gratis - intercambio de idiomas - practicar idiomas extranjeras - conocer "
-"personas de todo el mundo - chatear con amigos internacionales"
+"intercambio de idiomas - practicar idiomas extranjeras - conocer personas de "
+"todo el mundo - chatear con amigos internacionales"
 
 #: rs/proprietary/search_engine_overrides.py:69
 msgid ""
-"Free - online dating for lesbians - lesbian chat - search for a lesbian "
-"partner and find lesbian love"
+"online dating for lesbians - lesbian chat - search for a lesbian partner and "
+"find lesbian love"
 msgstr ""
-"Gratis - contactos y citas para lesbianas - chat lésbico - buscar una pareja "
-"lesbiana y encontrar amor lésbico"
+"contactos y citas para lesbianas - chat lésbico - buscar una pareja lesbiana "
+"y encontrar amor lésbico"
 
 #: rs/proprietary/search_engine_overrides.py:72
-msgid ""
-"Free classy contacts for swingers. Swinging lifestyle. Partner swapping."
+msgid "classy contacts for swingers. Swinging lifestyle. Partner swapping."
 msgstr ""
-"Gratis - Contactos con clase para parejas liberales (swingers). Estilo de "
-"vida swinger. Intercambio de pareja."
+"contactos con clase para parejas liberales (swingers). Estilo de vida "
+"swinger. Intercambio de pareja."
 
-#: rs/proprietary/search_engine_overrides.py:75
-#: rs/proprietary/templates/proprietary_ads/Gay.html:9
-#: rs/templates/login.html:156
-msgid "Free gay dating"
-msgstr "Contactos gratis para gays"
+#: rs/proprietary/search_engine_overrides.py:75 rs/templates/login.html:273
+msgid "gay dating"
+msgstr "contactos para gays"
 
 #: rs/proprietary/search_engine_overrides.py:78
 msgid "meet people and have fun"
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:100
-msgid "Free - confidential dating and intimate encounters"
-msgstr "Gratis - contactos confidenciales y encuentros intimos"
+#: rs/proprietary/search_engine_overrides.py:104
+msgid "online dating, personals, chat, and friends - exclusively for singles"
+msgstr "buscar pareja, contactos, chat y amigos - exclusivamente para solteros"
 
-#: rs/proprietary/search_engine_overrides.py:103
+#: rs/proprietary/search_engine_overrides.py:107
+msgid "language exchange - chat with international friends"
+msgstr "intercambio de idiomas - chatear con amigos internacionales"
+
+#: rs/proprietary/search_engine_overrides.py:110
 msgid ""
-"Free - online dating, personals, chat, and friends - exclusively for singles"
+"online dating for lesbians, lesbian personals, lesbian chat, and lesbian "
+"friends"
 msgstr ""
-"Gratis - buscar pareja, contactos, chat y amigos - exclusivamente para "
-"solteros"
+"buscar pareja lesbiana, contactos lésbicos, chat lésbico y amigas lesbianas"
 
-#: rs/proprietary/search_engine_overrides.py:106
-msgid "Free - language exchange - chat with international friends"
-msgstr "Gratis - intercambio de idiomas - chatear con amigos internacionales"
-
-#: rs/proprietary/search_engine_overrides.py:109
+#: rs/proprietary/search_engine_overrides.py:113
 msgid ""
-"Free - online dating for lesbians, lesbian personals, lesbian chat, and "
-"lesbian friends"
+"swinging contacts - profiles, photos, personals and chat - made for classy "
+"swingers"
 msgstr ""
-"Gratis - buscar pareja lesbiana, contactos lésbicos, chat lésbico y amigas "
-"lesbianas"
+"intercambio de parejas - perfiles, fotos, contactos y chat - hecho para "
+"parejas liberales (swingers) con clase"
 
-#: rs/proprietary/search_engine_overrides.py:112
-msgid ""
-"Free - swinging contacts - profiles, photos, personals and chat - made for "
-"classy swingers"
-msgstr ""
-"Gratis - intercambio de parejas - perfiles, fotos, contactos y chat - hecho "
-"para parejas liberales (swingers) con clase"
+#: rs/proprietary/search_engine_overrides.py:116
+msgid "gay dating - profiles, photos, personals and chat"
+msgstr "citas y contactos gays - perfiles, fotos y chat"
 
-#: rs/proprietary/search_engine_overrides.py:115
-msgid "Free - gay dating - profiles, photos, personals and chat"
-msgstr "Gratis - citas y contactos gays - perfiles, fotos y chat"
-
-#: rs/proprietary/search_engine_overrides.py:256
+#: rs/proprietary/search_engine_overrides.py:257
 msgid "seeking"
 msgstr "buscando"
 
-#: rs/proprietary/search_engine_overrides.py:258
+#: rs/proprietary/search_engine_overrides.py:259
 msgid "in exchange for"
 msgstr "a cambio de"
 
-#: rs/proprietary/search_engine_overrides.py:298
+#: rs/proprietary/search_engine_overrides.py:299
 msgid "Refine your search results"
 msgstr "Filtrar los resultados de búsqueda"
 
@@ -4192,21 +4186,22 @@ msgid "Looking for romance? A lover? Love?"
 msgstr "¿Buscas romance<br>¿Un amante? ¿Amor?"
 
 #: rs/proprietary/templates/proprietary_ads/Friend.html:9
-#: rs/templates/login.html:168
 msgid "Be a friend and make money"
 msgstr "Buscar amigos y ganar dinero"
+
+#: rs/proprietary/templates/proprietary_ads/Gay.html:9
+msgid "Free gay dating"
+msgstr "Contactos gratis para gays"
 
 #: rs/proprietary/templates/proprietary_ads/Language.html:9
 msgid "Practice languages and meet people from all around the world for free"
 msgstr "Practicar idiomas y conocer gente de todo el mundo. Gratis "
 
 #: rs/proprietary/templates/proprietary_ads/Lesbian.html:9
-#: rs/templates/login.html:174
 msgid "Free lesbian dating"
 msgstr "Contactos gratis para lesbianas"
 
 #: rs/proprietary/templates/proprietary_ads/Single.html:9
-#: rs/templates/login.html:144
 msgid "Free dating for singles"
 msgstr "Contactos para solteros. Gratis"
 
@@ -4552,39 +4547,21 @@ msgid "Advantages of %(app_name)s.com versus other sites:"
 msgstr "Ventajas de %(app_name)s.com contra otros sitios:"
 
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:139
-#, python-format
 msgid ""
 "\n"
 "    %(app_name)s.com is a %(site_type)s, that is different than any\n"
-"    other websites that you may have seen. %(app_name)s.com has the "
-"following benefits:"
+"    other websites that you may have seen. "
 msgstr ""
 "\n"
 "%(app_name)s.com es un %(site_type)s, que es diferente de cualquier otro "
-"sitio que hayas visto. %(app_name)s.com tiene las siguientes ventajas:"
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:149
-#, python-format
-msgid ""
-"%(app_name)s.com is designed for anybody who wants to make\n"
-"            friends, find love, or to just have fun."
-msgstr ""
-"%(app_name)s.com está pensado para todo tipo de personas que quieren buscar "
-"amigos, amor o diversión."
+"sitio que hayas visto. "
 
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:152
-#, python-format
-msgid "%(app_name)s is here for all of your needs."
-msgstr ""
-"%(app_name)s.com existe para ayudarte a conseguir todos tus necesidades "
-"sociales!"
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:162
 #, python-format
 msgid "How can %(app_name)s be free?"
 msgstr "¿Por qué %(app_name)s es gratuito?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:163
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:153
 msgid ""
 "This website survives from VIP memberships - however, most of our members "
 "are perfectly happy with the totally free membership option."
@@ -4592,16 +4569,16 @@ msgstr ""
 "Este sitio sobrevive de los miembros VIP - sin embargo, la mayoría de "
 "nuestros miembros estan contentos usando la funcionalidad gratis."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:166
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:156
 msgid "VIP benefits"
 msgstr "Los beneficios VIP"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:170
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:161
 #, python-format
 msgid "Quality control in %(app_name)s.com"
 msgstr "La Política de Control de Calidad de %(app_name)s.com"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:171
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:162
 msgid ""
 "To help us control the quality of our website, each profile will have a "
 "reporting button that will\n"
@@ -4612,11 +4589,11 @@ msgstr ""
 "botón que permitirá a nuestros socios informarnos de perfiles que puedan ser "
 "considerados como no aceptables."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:174
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:165
 msgid "Would you like more information?"
 msgstr "¿Quieres más información?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:176
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:167
 msgid "Send us an email at:"
 msgstr "Envíanos un correo electrónico a:"
 
@@ -4624,67 +4601,71 @@ msgstr "Envíanos un correo electrónico a:"
 msgid "Free confidential dating"
 msgstr "Contactos confidenciales. Gratis"
 
+#: rs/templates/login.html:144
+msgid "100 percent free everything included"
+msgstr "100% gratis - todo incluido"
+
 #: rs/templates/login.html:150
-msgid "Free swinger contacts"
-msgstr "Contactos liberales - swingers"
-
-#: rs/templates/login.html:162
-msgid "Free language exchange"
-msgstr "Intercambio de idiomas gratis"
-
-#: rs/templates/login.html:176
 msgid "Are you already registered (female)? Enter here:"
 msgstr "¿Ya estás registrada? Entra aquí:"
 
-#: rs/templates/login.html:181
+#: rs/templates/login.html:152
 msgid "Are you already registered? Enter here:"
 msgstr "¿Ya estás registrado? Entra aquí:"
 
-#: rs/templates/login.html:186
+#: rs/templates/login.html:159
 msgid "username or email"
 msgstr "nick o correo electrónico"
 
-#: rs/templates/login.html:194
+#: rs/templates/login.html:167
 msgid "password"
 msgstr "contraseña"
 
-#: rs/templates/login.html:201
+#: rs/templates/login.html:174
 msgid "Enter"
 msgstr "Entrar"
 
-#: rs/templates/login.html:234
+#: rs/templates/login.html:206
 msgid "Do you want to look around before registering?"
 msgstr "¿Quieres mirar antes de registrarte?"
 
-#: rs/templates/login.html:237
+#: rs/templates/login.html:209
 msgid "Enter with a guest account"
 msgstr "Entra con una cuenta de invitado"
 
-#: rs/templates/login.html:289
+#: rs/templates/login.html:265
+msgid "online dating"
+msgstr "servicio de buscar pareja en linea"
+
+#: rs/templates/login.html:269
+msgid "swinger contacts"
+msgstr "contactos para swingers y parejas liberales"
+
+#: rs/templates/login.html:277
+msgid "language exchange"
+msgstr "intercambio de idiomas"
+
+#: rs/templates/login.html:281
+msgid "meet friends"
+msgstr "conocer amigos"
+
+#: rs/templates/login.html:285
+msgid "lesbian dating"
+msgstr "contactos para lesbianas"
+
+#: rs/templates/login.html:290
 msgid "Free"
 msgstr "Gratis"
 
-#: rs/templates/login.html:289 rs/templates/login.html.py:291
-msgid "Live chat and messages included"
-msgstr "Chatear y enviar mensajes incluido"
-
-#: rs/templates/login.html:291
-msgid "100 Percent Free"
-msgstr "100% Gratis"
-
-#: rs/templates/login.html:292
-msgid "We never ask for your credit card or any other form of payment"
-msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
-
 #: rs/templates/login.html:296
-msgid "Over 50 percent of our members are single!"
-msgstr "¡Más del 50% de nuestros socios son solter@s!"
+msgid "Over 50 percent of our members are single"
+msgstr "Más del 50% de nuestros socios son solter@s"
 
-#: rs/templates/login.html:301
+#: rs/templates/login.html:302
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr "no permite ni tiene contenido explícito, pornográfico u obsceno"
 
-#: rs/templates/login.html:310
+#: rs/templates/login.html:312
 #, python-format
 msgid ""
 "\n"
@@ -4915,11 +4896,11 @@ msgstr ""
 msgid "Administrative stuff (never displayed publicly)"
 msgstr "Cosas Administrativas (nunca visible a los otros socios)"
 
-#: rs/templates/user_main_helpers/main_body.html:358
+#: rs/templates/user_main_helpers/main_body.html:360
 msgid "VIP Status"
 msgstr "Estado VIP"
 
-#: rs/templates/user_main_helpers/main_body.html:365
+#: rs/templates/user_main_helpers/main_body.html:367
 #, python-format
 msgid ""
 "\n"
@@ -4928,35 +4909,35 @@ msgstr ""
 "\n"
 "Actualmente tienes estado de VIP que caducará el día %(expires)s."
 
-#: rs/templates/user_main_helpers/main_body.html:368
+#: rs/templates/user_main_helpers/main_body.html:370
 msgid "You currently do not have VIP status"
 msgstr "Actualmente no tienes estado VIP"
 
-#: rs/templates/user_main_helpers/main_body.html:390
+#: rs/templates/user_main_helpers/main_body.html:394
 msgid "See my profile:"
 msgstr "Ver mi perfil:"
 
-#: rs/templates/user_main_helpers/main_body.html:393
-#: rs/templates/user_main_helpers/main_body.html:417
-#: rs/templates/user_main_helpers/main_body.html:420
+#: rs/templates/user_main_helpers/main_body.html:397
+#: rs/templates/user_main_helpers/main_body.html:421
+#: rs/templates/user_main_helpers/main_body.html:424
 msgid "click here"
 msgstr "clic aquí"
 
-#: rs/templates/user_main_helpers/main_body.html:399
+#: rs/templates/user_main_helpers/main_body.html:403
 msgid "If you want to see how your profile will appear."
 msgstr ""
 "Si quieres ver como se muestra tu perfil desde la perspectiva de otros "
 "usuarios, haz click en el link en la izquierda."
 
-#: rs/templates/user_main_helpers/main_body.html:412
+#: rs/templates/user_main_helpers/main_body.html:416
 msgid "Eliminate your profile:"
 msgstr "Eliminar tu perfil:"
 
-#: rs/templates/user_main_helpers/main_body.html:416
+#: rs/templates/user_main_helpers/main_body.html:420
 msgid " Are you sure you want to eliminate your profile?"
 msgstr "¿Seguro que quieres eliminar tu perfil?"
 
-#: rs/templates/user_main_helpers/main_body.html:426
+#: rs/templates/user_main_helpers/main_body.html:430
 msgid "If you want to eliminate your profile/account."
 msgstr ""
 "Si quieres eliminar tu perfil/cuenta, haz click en el link en la izquierda "
@@ -5212,6 +5193,65 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid ""
+#~ "%(app_name)s.com is designed for anybody who wants to make\n"
+#~ "            friends, find love, or to just have fun."
+#~ msgstr ""
+#~ "%(app_name)s.com está pensado para todo tipo de personas que quieren "
+#~ "buscar amigos, amor o diversión."
+
+#~ msgid "%(app_name)s is here for all of your needs."
+#~ msgstr ""
+#~ "%(app_name)s.com existe para ayudarte a conseguir todos tus necesidades "
+#~ "sociales!"
+
+#~ msgid "List of benefits for registering with %(app_name)s."
+#~ msgstr ""
+#~ "<li>%(is_free_text)s.<li>Para registrarte necesitas menos de 30 segundos."
+#~ "<li>Después de registrarte, ¡puedes enviar mensajes inmediatamente y "
+#~ "contactar con cualquier usuario de %(app_name)s.com!<li>%(app_name)s.com "
+#~ "respeta tu privacidad. Tu perfil tiene un área pública y un área privada. "
+#~ "Sólo los socios que invites pueden ver tus fotos privadas."
+
+#~ msgid ""
+#~ "Remember the following benefits of registering with %(app_name)s. "
+#~ "%(is_free_text)s"
+#~ msgstr ""
+#~ "Recuerda las siguientes ventajas de registrarte en %(app_name)s.com:"
+
+#~ msgid "Free - confidential dating and intimate encounters"
+#~ msgstr "Gratis - contactos confidenciales y encuentros intimos"
+
+#~ msgid "confidential dating"
+#~ msgstr "contactos confidenciales"
+
+#~ msgid "dating"
+#~ msgstr "para buscar pareja"
+
+#~ msgid "swingers"
+#~ msgstr "para parejas liberales"
+
+#~ msgid "Gay dating"
+#~ msgstr "Contactos para gays"
+
+#~ msgid "Language exchange"
+#~ msgstr "Intercambio de idiomas"
+
+#~ msgid "Lesbian dating"
+#~ msgstr "Contactos para lesbianas"
+
+#~ msgid "Dating for singles"
+#~ msgstr "Contactos para solteros"
+
+#~ msgid "Live chat and messages included"
+#~ msgstr "Chatear y enviar mensajes incluido"
+
+#~ msgid "live chat and messages included"
+#~ msgstr "chatear y enviar mensajes incluido"
+
+#~ msgid "Free language exchange"
+#~ msgstr "Intercambio de idiomas gratis"
 
 #~ msgid ""
 #~ "A nice website that I thought you might be interested in having a look at"

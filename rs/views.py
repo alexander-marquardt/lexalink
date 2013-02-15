@@ -155,12 +155,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 'app_name' : settings.APP_NAME}
     
             unregistered_user_welcome_text = "%s <em>%s</em><br><br>" % (unregistered_user_welcome_text, text_fields.cookies_not_enabled_text)
-            # following text is replaced even in english
-            why_to_register = ugettext("Remember the following benefits of registering with %(app_name)s.") % {'app_name': settings.APP_NAME}
-            why_to_register += u"<br><br><ul>"
-            why_to_register += ugettext("List of benefits for registering with %(app_name)s.") % {'app_name': settings.APP_NAME}
-            why_to_register += u"</ul><br>"
-            
+
             
         # is_primary_user means that the logged in client is viewing their own profile.
         if is_primary_user:
@@ -828,9 +823,9 @@ def login(request, is_admin_login = False, referring_code = None):
 #############################################
 
 def welcome_html():
-    
+    why_to_register = utils.get_why_to_register()
     template = loader.select_template(["proprietary_html_content/welcome_message.html", "common_helpers/default_welcome_message.html"])
-    context = Context(constants.template_common_fields)
+    context = Context(dict({'why_to_register' : why_to_register}, **constants.template_common_fields))
     generated_html = template.render(context)    
     return generated_html
 

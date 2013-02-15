@@ -1746,3 +1746,21 @@ def get_date_or_time_in_current_language(datetime_date):
         time_str = return_time_difference_in_friendly_format(datetime_date, capitalize = False)
         
     return time_str
+
+
+def get_why_to_register():
+    # following text is replaced even in english
+    if constants.SITE_IS_TOTALLY_FREE:
+        is_free_text = "%s %s %s. %s" % (settings.APP_NAME, ugettext("is"), ugettext("100 percent free"), ugettext("We never ask for your credit card or any other form of payment"))
+    else:
+        is_free_text = '%s %s %s - %s' % (settings.APP_NAME, ugettext("is"), ugettext("free"),  ugettext("chat and messages included"))
+        
+    why_to_register = ugettext("Remember the following benefits of registering with %(app_name)s.") % {
+        'app_name': settings.APP_NAME, }
+    why_to_register += u"<ul>"
+    why_to_register += ugettext("List of benefits for registering with %(app_name)s.  %(is_free_text)s") % {
+        'app_name': settings.APP_NAME, 'is_free_text' : is_free_text,}
+    why_to_register += u"</ul>"
+        
+        
+    return why_to_register

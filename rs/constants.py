@@ -507,17 +507,6 @@ client_paid_status_credit_amounts = {
     }
 
 
-type_of_site_for_vip_invite = {
-    'Discrete' : ugettext_lazy('confidential dating'),
-    'Single' : ugettext_lazy('dating'),
-    'Language' : ugettext_lazy('language exchange'),
-    'Swinger': ugettext_lazy('swingers'),
-    'Gay': ugettext_lazy('gay dating'),
-    'Lesbian': ugettext_lazy('lesbian dating'),
-    'Friend': '',
-}
-
-
 NUMER_OF_DAYS_PROFILE_VIEWS_STORED = 30
 ## START VIP/Paid Client Related
 ###################################################

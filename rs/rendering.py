@@ -216,10 +216,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             owner_message_count = new_contact_count = 0
             num_profile_views_since_last_check = 0
             if not hide_why_to_register:
-                why_to_register = ugettext("Remember the following benefits of registering with %(app_name)s.") % {'app_name': settings.APP_NAME}
-                why_to_register += u"<br><br><ul>"
-                why_to_register += ugettext("List of benefits for registering with %(app_name)s.") % {'app_name': settings.APP_NAME}
-                why_to_register += u"</ul><br>"
+                why_to_register = utils.get_why_to_register()
             else:
                 why_to_register = ''
                 

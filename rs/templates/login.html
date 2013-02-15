@@ -139,47 +139,20 @@
                         </td>
                         {% endif %}
 
-                        {% if build_name == "Single" %}
+                        {% if SITE_IS_TOTALLY_FREE %}
                         <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {%trans "Free dating for singles" %}.
+                            {% trans "100 percent free everything included" %}.
                         </td>
                         {% endif %}
 
-                        {% if build_name == "Swinger" %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {%trans "Free swinger contacts" %}.
-                        </td>
-                        {% endif %}
-
-                        {% if build_name == "Gay" %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {%trans "Free gay dating" %}.
-                        </td>
-                        {% endif %}
-
-                        {% if build_name == "Language" %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {% trans "Free language exchange" %}.
-                        </td>
-                        {% endif %}
-
-                        {% if build_name == "Friend" %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {% trans "Be a friend and make money" %}.
-                        </td>
-                        {% endif %}
-
+                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
                         {% if build_name == "Lesbian" %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {%trans "Free lesbian dating" %}.
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
                             {% trans "Are you already registered (female)? Enter here:" %}&nbsp;</td>
-                        {% endif %}
-
-                        {% if build_name != "Lesbian" %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
+                        {% else %}
                             {% trans "Are you already registered? Enter here:" %}&nbsp;</td>
                         {% endif %}
+                        
+
                         <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
                             <input type="text"
                                    class="defaultText cl-default-input-text-prompt cl-nick-textinput-width-px"
@@ -283,15 +256,44 @@
             <div class="grid_6 alpha cl-center-text cl-text-large-format cl-login-text">
                 <br><br>
 
+
+                {% if SITE_IS_TOTALLY_FREE %}
+                    {% trans "100 percent free" %}
+                {% endif %}
+
+                {% if build_name == "Single" %}
+                    {%trans "online dating" %}.
+                {% endif %}
+
+                {% if build_name == "Swinger" %}
+                    {%trans "swinger contacts" %}.
+                {% endif %}
+
+                {% if build_name == "Gay" %}
+                    {%trans "gay dating" %}.
+                {% endif %}
+
+                {% if build_name == "Language" %}
+                     {% trans "language exchange" %}.
+                {% endif %}
+
+                {% if build_name == "Friend" %}
+                    - {% trans "meet friends" %}.
+                {% endif %}
+
+                {% if build_name == "Lesbian" %}
+                    {%trans "lesbian dating" %}.
+                {% endif %}
+
+
                 {% if not SITE_IS_TOTALLY_FREE %}
-                    {% trans "Free" %} - {% trans "Live chat and messages included" %}<br><br>
+                    {% trans "Free" %} - {% trans "chat and messages included" %}<br><br>
                 {% else %}
-                    {% trans "100 Percent Free" %} - {% trans "Live chat and messages included" %}<br><br>
                     {% trans "We never ask for your credit card or any other form of payment" %}<br><br>
                 {% endif %}
 
                 {% ifequal app_name "RomanceSecreto" %}
-                    {% trans "Over 50 percent of our members are single!" %}<br><br>
+                    {% trans "Over 50 percent of our members are single" %}<br><br>
                 {% endifequal %}
 
 
