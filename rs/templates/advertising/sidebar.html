@@ -38,7 +38,7 @@
 
 
     {% for ad in advertising_info.ad_template_list %}
-        {% include ad %}
+        {{ ad|safe }}
         <br><br>
     {% endfor %}
 

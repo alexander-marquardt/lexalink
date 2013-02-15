@@ -1627,6 +1627,15 @@ def render_paypal_button(request, username, owner_nid):
         return ''
     
     
+def render_internal_ad(ad_name):
+    
+    template = loader.get_template('proprietary_ads/%s.html/' % ad_name)  
+    context = Context (dict({
+        }, **constants.template_common_fields))      
+    http_response = template.render(context) 
+    return http_response
+    
+    
 def do_display_online_status(owner_uid):
     # Determines if this user should be shown information that is reserved for our VIP clients.
     # An example of this is showing the online status of all users in the page.

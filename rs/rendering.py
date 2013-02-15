@@ -303,8 +303,9 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         if  constants.enable_internal_ads :
             ad_list = get_my_internal_advertisements(additional_ads_to_append)
             ad_template_list = []
-            for val in ad_list:
-                ad_template_list.append('proprietary_ads/%s.html/' % val)
+            for ad_name in ad_list:
+                ad_template_list.append(utils.render_internal_ad(ad_name))
+                
             advertising_info.ad_template_list = ad_template_list    
 
         else:
