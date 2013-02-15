@@ -48,25 +48,30 @@ if settings.BUILD_NAME == "Friend":
 
 def get_my_internal_advertisements(additional_ads_to_include = []):
     
-    ad_list = []
+    try:
+        ad_list = []
+        
+        if constants.COMPANY_NAME == "Lexabit Inc.":
+            
+            # code to randomly select from a list of advertisements that are appropriate for the current website.
+            ads_to_show = constants.lexabit_ads_to_show + additional_ads_to_include
+            num_ads_to_show = min(constants.MAX_NUM_LEXABIT_ADS_TO_SHOW, len(ads_to_show))
+            
+            # Randomly select pages from the list
+            
+            while num_ads_to_show:
+                idx = random.randint(0, len(ads_to_show) -1 )
+                ad_list.append(ads_to_show.pop(idx))  
+                num_ads_to_show -= 1
+        
+        if constants.append_more_advertising_info_dialog:
+            ad_list.append("more_advertising_info_dialog")
+            
+        return (ad_list)
     
-    if constants.COMPANY_NAME == "Lexabit Inc.":
-        
-        # code to randomly select from a list of advertisements that are appropriate for the current website.
-        ads_to_show = constants.ads_to_show + additional_ads_to_include
-        num_ads_to_show = min(constants.NUM_ADS_TO_SHOW, len(ads_to_show))
-        
-        # Randomly select pages from the list
-        
-        while num_ads_to_show:
-            idx = random.randint(0, len(ads_to_show) -1 )
-            ad_list.append(ads_to_show.pop(idx))  
-            num_ads_to_show -= 1
-    
-    if constants.append_more_advertising_info_dialog:
-        ad_list.append("more_advertising_info_dialog")
-        
-    return (ad_list)
+    except:
+        error_reporting.log_exception(logging.critical)
+        return ad_list
         
 def get_additional_ads_to_append(request, userobject = None):
 
@@ -134,17 +139,22 @@ except:
 
 def get_ad(request, ads_to_select_from):
     
-    if ads_to_select_from == "ashley_madison_sidebar_ads" or ads_to_select_from == "ashley_madison_bottom_banner_ads":
+    try:
         banner_html = ''
-        # Temporarily disable Ashley Madison advertisments.
+        
+        if ads_to_select_from == "ashley_madison_sidebar_ads" or ads_to_select_from == "ashley_madison_bottom_banner_ads":
+            # Temporarily disable Ashley Madison advertisments.
+            return banner_html
+        
+        if proprietary_ads_found:
+            if len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) >= 1:
+                idx = random.randint(0, len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) - 1)
+                banner_html = getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE][idx]
+            
         return banner_html
     
-    if proprietary_ads_found:
-        if len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) >= 1:
-            idx = random.randint(0, len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) - 1)
-            banner_html = getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE][idx]
-        
-    return banner_html
+    except:
+        error_reporting.log_exception(logging.critical)
 
 
 def render_main_html(request, generated_html, userobject = None, link_to_hide = '', 
@@ -299,37 +309,38 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             
         meta_info['keywords_description'] =  meta_info['page_title']
 
-        advertising_info = constants.PassDataToTemplate()            
+        advertising_info = constants.PassDataToTemplate()     
+        side_ad_template_list = []
+        bottom_ad_template = None
         if  constants.enable_internal_ads :
             ad_list = get_my_internal_advertisements(additional_ads_to_append)
-            ad_template_list = []
-            for ad_name in ad_list:
-                ad_template_list.append(utils.render_internal_ad(ad_name))
-                
-            advertising_info.ad_template_list = ad_template_list    
-
-        else:
-            advertising_info.ad_template_list = []          
             
-        
+            for ad_name in ad_list:
+                side_ad_template_list.append(utils.render_internal_ad(ad_name))
+                
+            advertising_info.ad_template_list = side_ad_template_list    
+            
+            
         if enable_ads:
+            if constants.enable_google_ads:
+                side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
+                side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
+                bottom_ad_template = utils.render_google_ad('GOOGLE_AD_728x90')
+                
             if constants.enable_ashley_madison_ads:
-                advertising_info.bottom_banner_ad = get_ad(request, "ashley_madison_bottom_banner_ads")
-                advertising_info.sidebar_ad1 = get_ad(request, "ashley_madison_sidebar_ads")
-                advertising_info.sidebar_ad2 = get_ad(request, "ashley_madison_sidebar_ads")
+                bottom_ad_template = get_ad(request, "ashley_madison_bottom_banner_ads")
+                side_ad_template_list.append(get_ad(request, "ashley_madison_sidebar_ads"))
                 
             elif constants.enable_affiliate_united_ads:
-                advertising_info.bottom_banner_ad = None
-                advertising_info.sidebar_ad1 = get_ad(request, "affiliates_united_sidebar_ads")
-                advertising_info.sidebar_ad2 = get_ad(request, "affiliates_united_sidebar_ads")
+                side_ad_template_list.append(get_ad(request, "affiliates_united_sidebar_ads"))
                 
-            else:
-                advertising_info.bottom_banner_ad = None                
-                advertising_info.sidebar_ad1 =  None
-                advertising_info.sidebar_ad2 =  None
+            
+
                 
+        random.shuffle(side_ad_template_list) # randomize the order of the advertisements.
+        advertising_info.ad_template_list = side_ad_template_list    
+        advertising_info.bottom_ad_template = bottom_ad_template
         advertising_info.enable_ads = enable_ads
-        advertising_info.enable_google_ads = constants.enable_google_ads
         
                 
         if request.POST:

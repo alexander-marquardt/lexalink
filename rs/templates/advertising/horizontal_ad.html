@@ -34,12 +34,8 @@
 
     <div id="id-horizontal-ad" class="grid_custom cl-grid_760px alpha omega cl-center-text">
         
-    {% if advertising_info.enable_google_ads %}
-        {% include 'advertising/publisher/google_728x90.html' %}
-    {% endif %}
-        
-    {% if advertising_info.bottom_banner_ad %}
-        {{ advertising_info.bottom_banner_ad|safe }}
+    {% if advertising_info.bottom_ad_template %}
+        {{ advertising_info.bottom_ad_template|safe }}
     {% endif %}
 
     </div>

@@ -31,32 +31,11 @@
     <br>
    
     
-    {% if advertising_info.enable_google_ads %}
-        {% include 'advertising/publisher/google_160x600.html' %}
-        <br><br>
-    {% endif %}
-
-
     {% for ad in advertising_info.ad_template_list %}
         {{ ad|safe }}
         <br><br>
     {% endfor %}
 
-    {% if advertising_info.sidebar_ad1 %}
-        {{ advertising_info.sidebar_ad1|safe }}
-        <br><br>
-    {% endif %}
-
-
-    {% if advertising_info.enable_google_ads %}
-        {% include 'advertising/publisher/google_160x600.html' %}
-        <br><br>
-    {% endif %}
-
-    {% if advertising_info.sidebar_ad2 %}
-        {{ advertising_info.sidebar_ad2|safe }}
-        <br><br>
-    {% endif %}
         
     {% if refined_links_html %}
         <div class="cl-refine-search">

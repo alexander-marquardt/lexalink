@@ -1634,6 +1634,15 @@ def render_internal_ad(ad_name):
         }, **constants.template_common_fields))      
     http_response = template.render(context) 
     return http_response
+
+
+def render_google_ad(ad_format):
+    # ad_format currently is GOOGLE_AD_160x600 or GOOGLE_AD_728x90
+    if not site_configuration.DEBUG:
+        return getattr(constants, ad_format)
+    else:
+        return "Google Ads are not shown in the DEBUG build"
+        
     
     
 def do_display_online_status(owner_uid):

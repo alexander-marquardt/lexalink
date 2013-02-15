@@ -25,14 +25,14 @@
 # limitations under the License.
 ################################################################################
 
-import os, datetime
+import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-02-15-0146'
+VERSION_ID = '2013-02-15-1735'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -65,7 +65,7 @@ if BATCH_BUILD_NAME == '':
     
     BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
     #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
-    BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
+    #BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
     #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
@@ -118,23 +118,25 @@ else:
     
 IS_CYGWIN = False
 
-if ('SERVER_SOFTWARE' in os.environ and os.environ['SERVER_SOFTWARE'] == 'Development/1.0' or \
-    'LOGNAME' in os.environ and os.environ['LOGNAME'] == LOGNAME):
-    # we are running on the local/test server
-    LOCAL = True
-    DEBUG = True 
-elif 'HOSTNAME' in os.environ and os.environ['HOSTNAME'] == CYGWIN_HOSTNAME:
+if 'HOSTNAME' in os.environ and os.environ['HOSTNAME'] == CYGWIN_HOSTNAME:
     # cygwin/windows
+    logging.info("Running on Cygwin - DEBUG disabled")    
+    LOCAL = True
+    DEBUG = False 
+    IS_CYGWIN = True
+    
+elif (os.environ.get('SERVER_SOFTWARE','').startswith('Development')):
+    # we are running on the local/test server
+    logging.info("Running on Local - DEBUG enabled")
     LOCAL = True
     DEBUG = True 
-    IS_CYGWIN = True
+
 else:
     # probably running on production server - disable all debugging and LOCAL outputs etc.
+    logging.info("Running on production server")
     LOCAL = False
     DEBUG = False
     
 if DEBUG:
     TEMPLATE_DEBUG = True
     TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'
-
-

@@ -284,46 +284,43 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 ###################################################
 ## START Advertising related constants
 # define the list of pages which we want to advertise
-ads_to_show = []
+lexabit_ads_to_show = []
 append_more_advertising_info_dialog = False
 
 if settings.BUILD_NAME == 'Discrete':
     # Swinger, Gay, and Lesbian ads will be dynamically added depending on the search criteria.
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
     # relevant (ie. a woman seeking a woman will be shown an ad for LesbianHeart)
-    ads_to_show.append('Single')
-    ads_to_show.append('Client_Ad1')
-    ads_to_show.append('Client_Ad2')
-    ads_to_show.append('Client_Ad3')
-    ads_to_show.append('Client_Ad4')
+    lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Client_Ad1')
+    lexabit_ads_to_show.append('Client_Ad2')
+    lexabit_ads_to_show.append('Client_Ad3')
+    lexabit_ads_to_show.append('Client_Ad4')
     append_more_advertising_info_dialog = True
 
 if settings.BUILD_NAME == 'Gay':
-    ads_to_show.append('Discrete')
-    ads_to_show.append('Swinger')
+    lexabit_ads_to_show.append('Discrete')
+    lexabit_ads_to_show.append('Swinger')
     
 if settings.BUILD_NAME == 'Single':
     # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
-    ads_to_show.append('Friend')
-    ads_to_show.append('Language')
+    lexabit_ads_to_show.append('Language')
     
 if settings.BUILD_NAME == 'Lesbian':
-    ads_to_show == ads_to_show.append('Single')
-    ads_to_show.append('Friend')
-    ads_to_show.append('Language')
+    lexabit_ads_to_show == lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Language')
     
 if settings.BUILD_NAME == "Swinger":
-    ads_to_show.append('Discrete')
-    ads_to_show.append('Gay')
-    ads_to_show.append('Lesbian')
+    lexabit_ads_to_show.append('Discrete')
+    lexabit_ads_to_show.append('Gay')
+    lexabit_ads_to_show.append('Lesbian')
     
 if settings.BUILD_NAME == 'Friend':
-    ads_to_show == ads_to_show.append('Single')
-    ads_to_show.append('Language')
+    lexabit_ads_to_show == lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Language')
     
 if settings.BUILD_NAME == 'Language':
-    ads_to_show == ads_to_show.append('Single')
-    ads_to_show.append('Friend')
+    lexabit_ads_to_show == lexabit_ads_to_show.append('Single')
 
 # set a flag that determines if google ads will be shown - we don't attempt to show ads
 # on the more edgy sites since this could cause problems / risk of removal from the adsense program
@@ -333,19 +330,17 @@ if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Language' \
 else:
     enable_google_ads = False
 
-if settings.BUILD_NAME == 'Discrete':
-    enable_affiliate_united_ads = True
-else:
-    enable_affiliate_united_ads = False
+
     
 enable_internal_ads = True
 
-if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' :
-    NUM_ADS_TO_SHOW = 4
-elif settings.BUILD_NAME == 'Discrete' :
-    NUM_ADS_TO_SHOW = 2
+if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' or settings.BUILD_NAME == 'Discrete':
+    MAX_NUM_LEXABIT_ADS_TO_SHOW = 3
+    enable_affiliate_united_ads = True
 else:
-    NUM_ADS_TO_SHOW = 2
+    MAX_NUM_LEXABIT_ADS_TO_SHOW = 2
+    enable_affiliate_united_ads = False   
+    
     
 # set a flag that determines if ashley madison ads will be shown
 if settings.BUILD_NAME == 'Discrete':
