@@ -95,7 +95,8 @@ def close_chat_box(request):
     try:
         if not request.session.__contains__('userobject_str'):
             error_reporting.log_exception(logging.warning, error_message = "No session")
-            return http.HttpResponseBadRequest("Error - no session");
+            # This is not an error in the program, it is just that their session has expired, so return a normal HttpResponse
+            return http.HttpResponse("Error - no session");
             
         owner_uid = request.session['userobject_str']
         other_uid = request.POST.get('other_uid', '')
