@@ -289,7 +289,7 @@ class Session(object):
         if pdump is None:
             # memcache lost it, go to the datastore
             if self.no_datastore:
-                logging.info("can't find session data in memcache for sid=%s (using memcache only sessions)" % self.sid)
+                logging.warning("can't find session data in memcache for sid=%s (using memcache only sessions)" % self.sid)
                 self.terminate(False)  # we lost it; just kill the session
                 return
             session_model_instance = self.ndb_key.get()
@@ -299,7 +299,7 @@ class Session(object):
                 expiry_datetime = self.get_expiration_datetime()
                 # This can happen if the user has multiple windows open, and logs out in one of the windows but 
                 # the other windows continue to request information.
-                logging.warning("can't find session data in the datastore for sid=%s expiry: %s" % (self.sid, expiry_datetime))
+                logging.warning("can't find session data in the datastore for sid=%s ndb_key = %s expiry: %s" % (self.sid, self.ndb_key, expiry_datetime))
                 self.terminate(False)  # we lost it; just kill the session
                 return
         self.data = self.__decode_data(pdump)
@@ -348,6 +348,8 @@ class Session(object):
             
         # persist the session to the datastore            
         try:
+            # This isn't really a warning, but we bump up the level to make it easier to find in the logs
+            logging.warning("Writing session sid=%s to database" % self.sid)
             SessionModel(id=self.sid, pdump=pdump).put()
         except Exception, e:
             logging.error("unable to persist session to datastore for sid=%s (%s)" % (self.sid, e))
@@ -517,7 +519,7 @@ def delete_expired_sessions():
     now_str_datetime = datetime.datetime.fromtimestamp(time_time) 
     q = SessionModel.query(namespace='')
     key = ndb.Key(SessionModel, now_str + u'\ufffd', namespace='')
-    logging.info("Deleting sessions with key values less than %s [i.e. %s]" % (key, now_str_datetime))
+    logging.info("Deleting sessions with key values less than %s [%s]" % (key, now_str_datetime))
     q.filter(SessionModel._key < key)
     results = q.fetch(500, keys_only=True)
     len_results = len(results)
