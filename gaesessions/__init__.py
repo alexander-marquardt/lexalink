@@ -512,9 +512,12 @@ def delete_expired_sessions():
     """Deletes expired sessions from the datastore.
     If there are more than 500 expired sessions, only 500 will be removed.
     """
-    now_str = unicode(int(time.time()))
+    time_time = time.time()
+    now_str = unicode(int(time_time))
+    now_str_datetime = datetime.datetime.fromtimestamp(time_time) 
     q = SessionModel.query(namespace='')
     key = ndb.Key(SessionModel, now_str + u'\ufffd', namespace='')
+    logging.info("Deleting sessions with key values less than %s [i.e. %s]" % (key, now_str_datetime))
     q.filter(SessionModel._key < key)
     results = q.fetch(500, keys_only=True)
     len_results = len(results)
@@ -539,7 +542,7 @@ def cleanup_sessions(request):
         logging.info(msg)
         if num_cleaned_up >= 500:
             # re-schedule to cleanup remaining sessions immideately, since we didn't get them all in the previous cleanup
-            logging.warning("Re-launching session cleanup since we did not get all in the previous")
+            logging.info("Re-launching session cleanup since we did not get all in the previous")
             time.sleep(1.0) # just in case it takes a few milliseconds for the DB to get updated
             taskqueue.add(queue_name = 'cleanup-sessions-queue', url='/rs/admin/cleanup_sessions/')
             
