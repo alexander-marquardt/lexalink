@@ -328,8 +328,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 bottom_ad_template = get_ad(request, "ashley_madison_bottom_banner_ads")
                 side_ad_template_list.append(get_ad(request, "ashley_madison_sidebar_ads"))
                 
-            elif constants.enable_affiliate_united_ads:
-                side_ad_template_list.append(get_ad(request, "affiliates_united_sidebar_ads"))
+            #elif constants.enable_affiliate_united_ads:
+                #side_ad_template_list.append(get_ad(request, "affiliates_united_sidebar_ads"))
                 
             
 

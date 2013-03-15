@@ -336,10 +336,10 @@ enable_internal_ads = True
 
 if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' or settings.BUILD_NAME == 'Discrete':
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 3
-    enable_affiliate_united_ads = True
+    #enable_affiliate_united_ads = False
 else:
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 2
-    enable_affiliate_united_ads = False   
+    #enable_affiliate_united_ads = False   
     
     
 # set a flag that determines if ashley madison ads will be shown
