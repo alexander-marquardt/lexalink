@@ -1755,9 +1755,7 @@ def get_why_to_register():
     else:
         is_free_text = '%s %s %s - %s' % (settings.APP_NAME, ugettext("is"), ugettext("free"),  ugettext("chat and messages included"))
         
-    why_to_register = ugettext("Remember the following benefits of registering with %(app_name)s.") % {
-        'app_name': settings.APP_NAME, }
-    why_to_register += u"<ul>"
+    why_to_register = u"<ul>"
     why_to_register += ugettext("List of benefits for registering with %(app_name)s.  %(is_free_text)s") % {
         'app_name': settings.APP_NAME, 'is_free_text' : is_free_text,}
     why_to_register += u"</ul>"
