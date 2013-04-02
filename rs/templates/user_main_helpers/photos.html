@@ -141,8 +141,10 @@
 
         <strong>{% trans "Rules:" %}</strong>
         <ul>
-            <li>
-                {% trans "No nude photos." %}
+            {% if build_name != "Swinger" %}
+                <li>
+                    {% trans "No nude photos in public. Allowed in private." %}
+            {% endif %}
             <li>
                 {% trans "Only authorized people will have access to your private photos." %}
             <li>

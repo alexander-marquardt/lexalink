@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-02-15-1735'
+VERSION_ID = '2013-04-02-1356'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = False
@@ -63,8 +63,8 @@ if BATCH_BUILD_NAME == '':
     # we are interested in executing. Be sure to re-boot the development server each time you change
     # the build name.
     
-    BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
-    #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
+    #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
+    BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
     #BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com

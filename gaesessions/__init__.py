@@ -522,6 +522,10 @@ def delete_expired_sessions():
     logging.info("Deleting sessions with key values less than %s [%s]" % (key, now_str_datetime))
     q.filter(SessionModel._key < key)
     results = q.fetch(500, keys_only=True)
+    # This is for debugging purposes
+    for r_key in results:
+        logging.warning("Deleting key %s" % (r_key))
+        
     len_results = len(results)
     ndb.delete_multi(results)
     

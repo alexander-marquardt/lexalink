@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-15 20:39+0100\n"
+"POT-Creation-Date: 2013-04-02 15:02-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -169,11 +169,11 @@ msgstr ""
 msgid "See the bottom of the window for information on becoming a VIP member."
 msgstr ""
 
-#: rs/channel_support.py:543
+#: rs/channel_support.py:544
 msgid "Error - group creation limit exceeded"
 msgstr ""
 
-#: rs/channel_support.py:564
+#: rs/channel_support.py:565
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
@@ -3895,12 +3895,7 @@ msgstr ""
 msgid "chat and messages included"
 msgstr ""
 
-#: rs/utils.py:1758
-#, python-format
-msgid "Remember the following benefits of registering with %(app_name)s."
-msgstr ""
-
-#: rs/utils.py:1761
+#: rs/utils.py:1759
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -4408,8 +4403,8 @@ msgid "You must enable JavaScript to view this page"
 msgstr ""
 
 #: rs/templates/common_helpers/footer.html:39
-#: rs/templates/user_main_helpers/photos.html:150
-#: rs/templates/user_main_helpers/photos.html:166
+#: rs/templates/user_main_helpers/photos.html:152
+#: rs/templates/user_main_helpers/photos.html:168
 msgid "Terms and conditions"
 msgstr ""
 
@@ -4710,46 +4705,46 @@ msgid "Exit"
 msgstr ""
 
 #: rs/templates/user_main_helpers/photos.html:142
-#: rs/templates/user_main_helpers/photos.html:158
+#: rs/templates/user_main_helpers/photos.html:160
 msgid "Rules:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/photos.html:145
-msgid "No nude photos."
+#: rs/templates/user_main_helpers/photos.html:146
+msgid "No nude photos in public. Allowed in private."
 msgstr ""
 "Photos that contain nudity will not be approved as \"publicly\" viewable. "
 "Private photos may contain some nudity but may not be pornographic and must "
 "never be focused on the genital area."
 
-#: rs/templates/user_main_helpers/photos.html:147
-#: rs/templates/user_main_helpers/photos.html:163
+#: rs/templates/user_main_helpers/photos.html:149
+#: rs/templates/user_main_helpers/photos.html:165
 msgid "Only authorized people will have access to your private photos."
 msgstr ""
 "You can give access to your private photos by giving people your \"Key\". "
 "You will see a symbol of a key in each persons profile which you can click "
 "on."
 
-#: rs/templates/user_main_helpers/photos.html:149
-#: rs/templates/user_main_helpers/photos.html:165
+#: rs/templates/user_main_helpers/photos.html:151
+#: rs/templates/user_main_helpers/photos.html:167
 msgid "Read - command verb"
 msgstr "Read"
 
-#: rs/templates/user_main_helpers/photos.html:151
-#: rs/templates/user_main_helpers/photos.html:167
+#: rs/templates/user_main_helpers/photos.html:153
+#: rs/templates/user_main_helpers/photos.html:169
 msgid "for the rules of"
 msgstr ""
 
-#: rs/templates/user_main_helpers/photos.html:153
-#: rs/templates/user_main_helpers/photos.html:169
+#: rs/templates/user_main_helpers/photos.html:155
+#: rs/templates/user_main_helpers/photos.html:171
 msgid ""
 "Photos that do not follow the rules will be erased without notification."
 msgstr ""
 
-#: rs/templates/user_main_helpers/photos.html:161
+#: rs/templates/user_main_helpers/photos.html:163
 msgid "No pornographic or nude photos allowed."
 msgstr ""
 
-#: rs/templates/user_main_helpers/photos.html:196
+#: rs/templates/user_main_helpers/photos.html:198
 msgid "Save changes"
 msgstr ""
 

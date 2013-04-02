@@ -300,7 +300,6 @@ if settings.BUILD_NAME == 'Discrete':
 
 if settings.BUILD_NAME == 'Gay':
     lexabit_ads_to_show.append('Discrete')
-    lexabit_ads_to_show.append('Swinger')
     
 if settings.BUILD_NAME == 'Single':
     # Gay, and Lesbian ads will be dynamically added depending on the search criteria.

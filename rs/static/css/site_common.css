@@ -412,3 +412,6 @@ table.cl-float-right {
     font-size: 8pt;
 }
 
+li.cl-indent {
+    margin-left: 25px;
+}
