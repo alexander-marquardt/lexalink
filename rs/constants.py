@@ -121,7 +121,7 @@ SECONDS_PER_YEAR = 365 * SECONDS_PER_DAY
 ######################################################################
 ## START - Session and Malicious User Controls
 
-SESSION_EXPIRE_HOURS = 7 * 24
+SESSION_EXPIRE_HOURS = 90 * 24 # 90 days before sessions expire (if we need to manually kill all current sessions, change site_configuration.SECRET_KEY)
 
 MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we will store for a single profile in the UserTracker object.
 
