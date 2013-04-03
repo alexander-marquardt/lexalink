@@ -34,7 +34,6 @@ from google.appengine.api import memcache, users
 import hashlib, re
 import datetime, time, logging
 import string, random, sys, os
-import gaesessions
 import http_utils
 
 
@@ -1199,32 +1198,7 @@ def add_session_id_to_user_tracker(user_tracker_ref, session_id):
     except:
         error_reporting.log_exception(logging.critical)
         
-def kill_user_sessions(user_tracker_key):
-    # loops over the sessions identified in the user_tracker.list_of_session_ids list, and removes them from the database
-    # This has the effect of immediately logging out all of the sessions that we remove. This is necessary for 
-    # users that are behaving badly and that need to be immediately removed.
-    
-    try:
-        user_tracker = user_tracker_key.get()
-        for session_id in user_tracker.list_of_session_ids:
-            expiry_time = int(session_id[:-33])
-            if time.time() <= expiry_time:
-                # it has not yet expired (ie. is still valid) so we need to remove it from
-                # the database in order to force a logout. On the other hand, if it has expired we don't 
-                # need to remove it as it does not have an active session, and because it will be cleaned up
-                # by the cron jobs.
-                memcache.delete(session_id) 
-                nkey = ndb.Key(gaesessions.SessionModel, session_id)
-                if nkey:
-                    nkey.delete()    
-                    logging.info("deleting database session key %s\n" % session_id)
-                    
-        user_tracker.list_of_session_ids = []
-        user_tracker.list_of_session_ids_last_index = None
-        user_tracker.put()
-                    
-    except:
-        error_reporting.log_exception(logging.critical)   
+
         
 
 def get_for_sale_to_buy(for_sale_to_buy_current_selection, lang_idx):

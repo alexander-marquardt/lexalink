@@ -56,6 +56,7 @@ import models
 import localizations, user_profile_main_data, online_presence_support
 import rendering
 import http_utils
+import gaesessions
 
 #############################################
 
@@ -492,7 +493,7 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
     
         # Kill *ALL* sessions (remove from DB) that this user currently has open (on multiple machines)
         if delete_or_enable == "delete":
-            utils.kill_user_sessions(userobject.user_tracker)
+            gaesessions.kill_user_sessions(userobject.user_tracker)
         
         template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
         context = Context(dict({

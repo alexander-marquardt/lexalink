@@ -29,10 +29,10 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-04-02-1356'
+VERSION_ID = '2013-04-02-1923'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_TIME_STAMPED_STATIC_FILES = True
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -64,8 +64,8 @@ if BATCH_BUILD_NAME == '':
     # the build name.
     
     #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
-    BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
-    #BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
+    #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
+    BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
     #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
