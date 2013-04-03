@@ -28,15 +28,14 @@ def get_profile_url_description(lang_code, uid):
     # Do not change the following memcache key without also changing it in the put_userobject function.
     memcache_key_str = lang_code + constants.PROFILE_URL_DESCRIPTION_MEMCACHE_PREFIX + uid
     profile_url_description = memcache.get(memcache_key_str)
-    if profile_url_description is not None:
-        return profile_url_description
-    else:
+    if profile_url_description is None:
         profile_url_description = get_base_userobject_title(lang_code, uid)
-        profile_url_description = re.sub('[,;()/:]', ' ', profile_url_description)
-        profile_url_description = re.sub(r'\s+' , '-', profile_url_description)        
+        profile_url_description = re.sub('[,;()/:]', ' ', profile_url_description) # replace all non-letter with blanks
+        profile_url_description = re.sub(r'\s+' , '-', profile_url_description)    # replace all series of one or more blanks with a single dash
         profile_url_description = urllib.quote(profile_url_description.encode('utf8')) # escape unicode chars for URL    
         memcache.set(memcache_key_str, profile_url_description, constants.SECONDS_PER_MONTH)
-        return profile_url_description
+                
+    return profile_url_description
 
 
 def get_userprofile_href(lang_code, userobject, is_primary_user = False):
@@ -46,8 +45,16 @@ def get_userprofile_href(lang_code, userobject, is_primary_user = False):
     else:
         uid = userobject.key.urlsafe()
         profile_url_description = get_profile_url_description(lang_code, uid)
+        
+        if not profile_url_description:
+            # For some unknown reason the profile_url_description is either blank or None. This should never happen, but
+            # it has happenend in the past. It is not critical, but should be investigated and therefore we report as error as opposed to a warning.
+            profile_url_description = "Internal-Error-Has-Been-Logged-And-Will-Be-Investigated"
+            error_reporting.log_exception(logging.error, error_message = "user_profile_url not correctly generated for user %s" % userobject.key.integer_id())   
+            
         userobject_href =  reverse("user_profile_url", kwargs={'display_nid' :userobject.key.integer_id(),
-                                              'profile_url_description' : profile_url_description})    
+                                                         'profile_url_description' : profile_url_description})               
+            
     return userobject_href
 
 
