@@ -709,6 +709,7 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_
                 if value > 0:
                     # only update notification settings if the user has received a new
                     # contact (not one that is delted)
+                    
                     if hours_between_notifications != None:
                         new_contact_counter_obj.when_to_send_next_notification = \
                                                new_contact_counter_obj.date_of_last_notification + \

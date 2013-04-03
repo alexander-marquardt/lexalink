@@ -588,9 +588,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
 
             
         new_contact_counter_obj = userobject.new_contact_counter_ref.get()
-    
-        time_passed_since_last_initiate_contact_notification = datetime.datetime.now() - new_contact_counter_obj.date_of_last_notification
-                        
+                            
         new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_login 
         new_wink_count = new_contact_counter_obj.num_received_wink_since_last_login 
         new_key_count = new_contact_counter_obj.num_received_key_since_last_login 
