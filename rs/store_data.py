@@ -32,6 +32,7 @@ from google.appengine.api import images
 from google.appengine.ext import ndb 
 from google.appengine.api import taskqueue
 from google.appengine.api import memcache
+from google.appengine.api import users
 
 import re, logging, datetime, pickle, StringIO, os
 
@@ -335,7 +336,7 @@ def store_email_address(request, owner_uid):
         userobject = utils_top_level.get_userobject_from_request(request)
         
         # Only VIP clients can modify their email address. 
-        if userobject.client_paid_status:
+        if userobject.client_paid_status or users.is_current_user_admin():
             
             
             # remove blank spaces from the email address -- to make it more likely to be acceptable
@@ -346,7 +347,7 @@ def store_email_address(request, owner_uid):
             posted_email =posted_email.lower()
             email_is_valid = False
             
-            unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
+            unique_last_login_offset = userobject.unique_last_login_offset_ref.get()
     
             if posted_email:
                 email_is_valid = \
@@ -354,7 +355,7 @@ def store_email_address(request, owner_uid):
                 userobject.email_address_is_valid = email_is_valid
                 
                 if  email_is_valid:
-                    unique_last_login_offset_ref.has_email_address_offset = True
+                    unique_last_login_offset.has_email_address_offset = True
                     userobject.email_address = posted_email                
                     logging.info("User %s has modified their email address %s to %s" % (
                         userobject.username, userobject.email_address, posted_email))
@@ -369,9 +370,9 @@ def store_email_address(request, owner_uid):
                 userobject.email_address = "----" 
                 logging.warning("User %s erased their email address %s" % (userobject.username, userobject.email_address))
                 userobject.email_address_is_valid = False
-                unique_last_login_offset_ref.has_email_address_offset = False
+                unique_last_login_offset.has_email_address_offset = False
             
-            unique_last_login_offset_ref.put()
+            unique_last_login_offset.put()
             put_userobject(userobject)  
                 
             # in all cases if the email is cahnged we should updated the message queuing values - this is in case we go from
@@ -380,6 +381,7 @@ def store_email_address(request, owner_uid):
             return HttpResponse('Success')
     
         else:
+            error_reporting.log_exception(logging.error, error_message= "Unauthorized user attempting to modify email address")
             return HttpResponse("Error - You must be a VIP member to update your email address")
     except:
         error_reporting.log_exception(logging.critical, request = request)       

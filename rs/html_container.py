@@ -38,6 +38,7 @@ from forms import FormUtils
 from user_profile_details import UserProfileDetails
 import utils
 
+from google.appengine.api import users
 
 
 import settings, text_fields, error_reporting, logging
@@ -160,9 +161,11 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
             <p>
             <strong>%(section_label)s:</strong><br>"""% {
                                  "section_name": section_name, "section_label": section_label}
-            if is_primary_user and (input_type != "email_address" or userobject.client_paid_status):
-                # only show the "edit" link if the account is being viewed by the owner of the account.
-                # Email addresses can only be modified by VIP members.
+            if is_primary_user and (input_type != "email_address" or userobject.client_paid_status or users.is_current_user_admin()):
+                # Primary user can edit all fields except email_address.
+                # Normally email_address is not editable, unless the user is VIP or the admin is logged in. Other fields are editable,
+                # which accounts for the check to see that we are not editing email_address *unless* it is a VIP or admin trying to edit email
+                # address -- all other fields are freely editable. 
                 generated_html += """<a href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
                     "edit_text": ugettext("edit"), "section_name": section_name}
                 
