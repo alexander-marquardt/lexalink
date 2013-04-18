@@ -457,7 +457,7 @@ def run_query_to_remove_profiles(request, query_key, query_value, reason_for_rem
     return generated_html
         
         
-def batch_remove_all_users_with_given_ip_or_name(request, ip_to_remove = None, name_to_remove = None, reason_for_removal = 'terms'):
+def batch_remove_profiles(request, ip_to_remove = None, name_to_remove = None, email_to_remove = None, reason_for_removal = None):
 
     
     """ This function scans the database for profiles that need to be fixed
@@ -467,16 +467,15 @@ def batch_remove_all_users_with_given_ip_or_name(request, ip_to_remove = None, n
     try:
                     
         generated_html = 'Updating userobjects:<br><br>'
-                
-        if not (reason_for_removal == "scammer" or reason_for_removal == "terms" or reason_for_removal == "fake"):
-            return http.HttpResponse("Called with incorrect URL")
+            
 
         if ip_to_remove:
-            generated_html += run_query_to_remove_profiles(request, 'registration_ip_address', ip_to_remove, reason_for_removal)
-            generated_html += run_query_to_remove_profiles(request, 'last_login_ip_address', ip_to_remove, reason_for_removal)
+            generated_html += run_query_to_remove_profiles(request, 'registration_ip_address', ip_to_remove.replace(' ', ''), reason_for_removal)
+            generated_html += run_query_to_remove_profiles(request, 'last_login_ip_address', ip_to_remove.replace(' ', ''), reason_for_removal)
         elif name_to_remove:
-            generated_html += run_query_to_remove_profiles(request, 'username', name_to_remove.upper(), reason_for_removal)
-            
+            generated_html += run_query_to_remove_profiles(request, 'username', name_to_remove.upper().replace(' ', ''), reason_for_removal)
+        elif email_to_remove:
+            generated_html += run_query_to_remove_profiles(request, 'email_address', email_to_remove.lower().replace(' ', ''), reason_for_removal)            
         else:
             return http.HttpResponse("Called with incorrect URL")
             

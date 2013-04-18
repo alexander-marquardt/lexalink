@@ -288,10 +288,12 @@ urlpatterns = patterns('',
     
     
     
-    (r'^rs/admin/remove_ip/(?P<ip_to_remove>[\w|\.]+)/$', admin.batch_remove_all_users_with_given_ip_or_name),
-    (r'^rs/admin/remove_ip/(?P<ip_to_remove>[\w|\.]+)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_all_users_with_given_ip_or_name),
-    (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/$', admin.batch_remove_all_users_with_given_ip_or_name),
-    (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_all_users_with_given_ip_or_name),
+    (r'^rs/admin/remove_ip/(?P<ip_to_remove>[\w|\.]+)/$', admin.batch_remove_profiles),
+    (r'^rs/admin/remove_ip/(?P<ip_to_remove>[\w|\.]+)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles),
+    (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/$', admin.batch_remove_profiles),
+    (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles),
+    (r'^rs/admin/remove_email/(?P<email_to_remove>[^#?]+?)/$', admin.batch_remove_profiles),
+    (r'^rs/admin/remove_email/(?P<email_to_remove>[^#?]+?)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles),    
     (r'^rs/admin/enable_username/(?P<name_to_enable>[\w|\.]+)/$', admin.enable_username),
     
     
