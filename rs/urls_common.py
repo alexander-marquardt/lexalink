@@ -293,8 +293,9 @@ urlpatterns = patterns('',
     (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/$', admin.batch_remove_profiles),
     (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles),
     (r'^rs/admin/remove_email/(?P<email_to_remove>[^#?]+?)/$', admin.batch_remove_profiles),
-    (r'^rs/admin/remove_email/(?P<email_to_remove>[^#?]+?)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles),    
-    (r'^rs/admin/enable_username/(?P<name_to_enable>[\w|\.]+)/$', admin.enable_username),
+    (r'^rs/admin/remove_email/(?P<email_to_remove>[^#?]+?)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles), 
+    
+    (r'^rs/admin/enable_name/(?P<name_to_enable>[\w|\.]+)/$', admin.enable_username),
     
     
     (r'^rs/admin/cleanup_sessions/$', gaesessions.cleanup_sessions),
