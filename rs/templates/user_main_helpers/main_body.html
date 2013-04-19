@@ -89,12 +89,10 @@
     {% else %}
         <div class="grid_9 alpha omega cl-text-large-format">
             {% if not viewed_profile_data_fields.account_has_been_removed_message %}
-            {% trans "Profile of" %}
-            <strong>
-            {{ viewed_profile_data_fields.display_username }}
-            </strong>
-            {% else %}
-            {% trans "Eliminated" %}
+                {% trans "Profile of" %}
+                <strong>
+                {{ viewed_profile_data_fields.display_username }}
+                </strong>
             {% endif %}
 
             {% if viewed_profile_data_fields.show_online_status %}
@@ -118,9 +116,7 @@
 <div class="grid_9 alpha omega">&nbsp;</div> <!-- spacer -->
 
 <!-- the following only returns a value if it is the primary user. Will return html for editing the current_satus value -->
-{% if not viewed_profile_data_fields.account_has_been_removed_message %}
-    {{ html_for_main.current_status|safe }}
-{% endif %}
+{{ html_for_main.current_status|safe }}
 
 <!------------------------------------------------------------>
 {% if primary_user_profile_data_fields.is_primary_user %}
@@ -167,18 +163,16 @@
 
 <!-- only show photos section for non-eliminated profiles -->
 {% if not viewed_profile_data_fields.account_has_been_removed_message or primary_user_profile_data_fields.is_primary_user %}
-    {% if primary_user_profile_data_fields.is_primary_user %}
-        <div class="cl-clear"></div>
-        <div class="alpha omega grid_9 ">
-            <strong>{% trans "Photos" %}:</strong>
+    <div class="cl-clear"></div>
+    <div class="alpha omega grid_9 ">
+        <strong>{% trans "Photos" %}:</strong>
 
-            <div id="id-edit-photos-link">
-                <a href="{% url edit_profile_url display_nid=primary_user_profile_data_fields.owner_nid %}">
-                    ({% trans "edit" %}/{% trans "upload" %} {% trans "photos" %})
-                </a>
-            </div>
-        </div>    <!-- end grid_9 -->
-    {% endif %}
+        <div id="id-edit-photos-link">
+            <a href="{% url edit_profile_url display_nid=primary_user_profile_data_fields.owner_nid %}">
+                ({% trans "edit" %}/{% trans "upload" %} {% trans "photos" %})
+            </a>
+        </div>
+    </div>    <!-- end grid_9 -->
 
     {% if viewed_profile_data_fields.show_photos_section %}
         <div class="cl-clear"></div>
@@ -219,7 +213,7 @@
 
 <!------------------------------------------------------------>
 <!-- "about me" (text description) section -->
-{% if not viewed_profile_data_fields.account_has_been_removed_message %}
+{% if not viewed_profile_data_fields.account_has_been_removed_message or primary_user_profile_data_fields.is_primary_user %}
     {{ html_for_main.about_user|safe }}
 {% endif %}
 

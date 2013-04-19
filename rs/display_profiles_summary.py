@@ -80,18 +80,17 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
         
         
         status_string = ''
-        # Note, the "and userobject.current_status" should be eventually removed for efficiency .. but
-        # is needed temporarily because some of the users might have this value set to "" from a previous 
-        # code revision.
-        if display_userobject.current_status != "----" and display_userobject.current_status:
 
-            status_string = u"<em>%s</em>" % (display_userobject.current_status)
-            generated_html += u'<div class="grid_9 alpha omega ">%s<br><br></div>\n' % (status_string)
+        if not display_userobject.user_is_marked_for_elimination:
+            # Note, the "and userobject.current_status" should be eventually removed for efficiency .. but
+            # is needed temporarily because some of the users might have this value set to "" from a previous 
+            # code revision.            
+            if display_userobject.current_status != "----" and display_userobject.current_status:
+                status_string = u"<em>%s</em>" % (display_userobject.current_status)
+                generated_html += u'<div class="grid_9 alpha omega ">%s<br><br></div>\n' % (status_string)
         
-            
         photo_message = utils.get_photo_message(display_userobject)
             
-    
         # get userobject photo
         generated_html += '<div class="grid_2 alpha">\n'
         
@@ -109,18 +108,17 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
         generated_html += utils.generate_profile_summary_table(request, display_userobject)
 
 
+        if not display_userobject.user_is_marked_for_elimination:
+            # section for getting the text description of the user
+            about_user = display_userobject.about_user
+            if about_user != "----":
+                generated_html += u'<Strong>%s:&nbsp;</Strong>\n' % ugettext("About me")
         
-        # section for getting the text description of the user
-        about_user = display_userobject.about_user
-        if about_user != "----":
-            generated_html += u'<Strong>%s:&nbsp;</Strong>\n' % ugettext("About me")
-    
-            if len(about_user) > constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN: 
-                about_user = display_userobject.about_user[:constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN] + "  ..."
+                if len(about_user) > constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN: 
+                    about_user = display_userobject.about_user[:constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN] + "  ..."
 
-                    
-            generated_html += u'%s\n' % about_user
-            generated_html += u'<br><br>'
+                generated_html += u'%s\n' % about_user
+                generated_html += u'<br><br>'
             
         if site_configuration.BUILD_NAME != "Language" and site_configuration.BUILD_NAME != "Friend":
             # section for getting physical description of the user

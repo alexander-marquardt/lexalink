@@ -144,7 +144,7 @@ class MyHTMLCallbackGenerator():
     def current_status_value(self):
         # returns just the value stored in the "current_status" for the profile currently being viewed
         generated_html = ''
-        if self.display_userobject_ref.current_status != "----":
+        if not self.display_userobject_ref.user_is_marked_for_elimination and self.display_userobject_ref.current_status != "----":
             generated_html = self.display_userobject_ref.current_status
         return generated_html
     
