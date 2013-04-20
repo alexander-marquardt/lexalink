@@ -42,19 +42,17 @@ way to fit your requirements.
 {display:block; font-size:13px; height:18px; width:178px; line-height:18px; text-indent:5px; text-decoration:none; }
 
 
+
 /*
+#rs-nav li:hover li:hover ul,
 #rs-nav li:hover li:hover li:hover ul,
 #rs-nav li:hover li:hover li:hover li:hover ul,
 #rs-nav li:hover li:hover li:hover li:hover li:hover ul
-{left:180px; top:-4px; padding:3px; white-space:nowrap; width:180px; z-index:400; height:auto;}
 */
-
+#rs-nav li .cl-show_sub li:hover ul
+{left:180px; top:-4px; padding:3px; white-space:nowrap; width:180px; z-index:400; height:auto;}
 
 /* The following rule moves the sub-menus way off the screen (ie. hidden) so that they will not be seen until the parent is clicked.  */
-#rs-nav ul /*,
-#rs-nav li:hover ul ul,
-#rs-nav li:hover li:hover ul ul,
-#rs-nav li:hover li:hover li:hover ul ul,
-#rs-nav li:hover li:hover li:hover li:hover ul ul */
+#rs-nav ul
 {position:absolute; left:-9999px; top:-9999px; width:0; height:0; margin:0; padding:0; list-style:none;}
 
