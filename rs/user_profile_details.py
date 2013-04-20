@@ -374,9 +374,9 @@ class UserProfileDetails:
                     ('piercing',) + ugettext_tuple(ugettext('Piercing')),
                     ('tattoos',) + ugettext_tuple(ugettext('Tattoos')),
                     ('open_mind',) + ugettext_tuple(ugettext('Open mind')),
-                    ('high_sex_drive',) + ugettext_tuple(ugettext('High sex drive')),
-                    ('med_sex_drive',) + ugettext_tuple(ugettext('Normal sex drive')),
-                    ('low_sex_drive',) + ugettext_tuple(ugettext('Low sex drive')),
+                    ('high_sex_drive',) + ugettext_tuple(ugettext('Strong libido')),
+                    ('med_sex_drive',) + ugettext_tuple(ugettext('Normal libido')),
+                    ('low_sex_drive',) + ugettext_tuple(ugettext('Low libido')),
                     ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say')),
                  
                     ],
