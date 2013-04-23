@@ -249,6 +249,11 @@ $(document).ready(function() {
                 // we display the current sub-menu. (the generic handler will not be called since we stop
                 // propagation of this event - see below)
                 $this.parent().find('.cl-show_sub').removeClass('cl-show_sub');
+                $('.cl-highlight_element').removeClass('cl-highlight_element');
+                if ($this.children(":first").is('a.fly')) {
+
+                    $this.children(":first").addClass('cl-highlight_element');
+                }
 
                 $sub_list.addClass('cl-show_sub');
                 // prevent this event from propagating - if it is propagated, the cl-show_sub class will be removed
@@ -258,6 +263,7 @@ $(document).ready(function() {
             } else {
                 // the list that was clicked on was already displayed - hide it.
                 $sub_list.removeClass('cl-show_sub');
+
             }
 
             // prevent the click from following the link
