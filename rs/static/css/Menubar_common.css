@@ -49,7 +49,7 @@ way to fit your requirements.
 #rs-nav li:hover li:hover li:hover li:hover ul,
 #rs-nav li:hover li:hover li:hover li:hover li:hover ul
 */
-#rs-nav li .cl-show_sub li:hover ul
+#rs-nav li ul.cl-show_sub ul.cl-show_sub
 {left:180px; top:-4px; padding:3px; white-space:nowrap; width:180px; z-index:400; height:auto;}
 
 /* The following rule moves the sub-menus way off the screen (ie. hidden) so that they will not be seen until the parent is clicked.  */

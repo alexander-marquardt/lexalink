@@ -90,29 +90,58 @@
             <li class="top">
                 <a href="#"
                 class="top_link">
-                <span class="down">
-                TESTING
-                {% if primary_user_presentation_data_fields.owner_message_count %}
-                    [{{ primary_user_presentation_data_fields.owner_message_count }} {% trans "unread" %}]
-                {% endif %}
-                </span></a>
+                    <span class="down">{% trans "Contacts" %}
+                    {% if primary_user_presentation_data_fields.new_contact_count %}
+                        [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]
+                    {% endif %}
+                    </span>
+                </a>
                 <ul class="sub">
                     <li>
-                        <a href="#nogo29" class="fly">Sales</a>
-                        <ul>
-                            <li><a href="#">aaaaaa</a></li>
-                            <li><a href="#">bbbbbbbbbb</a></li>
+                        <a href="#nogo29" class="fly">Winks</a>
+                        <ul class="sub">
+                            <li><a href="#">Received</a></li>
+                            <li><a href="#">Sent</a></li>
 
                         </ul>
                     </li>
 
 			        <li>
-                        <a href="#" class="fly">sub2</a>
-                        <ul>
-                            <li><a href="#">aaaaaa</a></li>
-                            <li><a href="#">bbbbbbbbbb</a></li>
+                        <a href="#" class="fly">Kisses</a>
+                        <ul class="sub">
+                            <li><a href="#">Received</a></li>
+                            <li><a href="#">Sent</a></li>
                         </ul>
                     </li>
+
+                    <li>
+                        <a href="#" class="fly">Keys</a>
+                        <ul class="sub">
+                            <li><a href="#">Received</a></li>
+                            <li><a href="#">Sent</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="#" class="fly">Chat Friends</a>
+                        <ul class="sub">
+                            <li><a href="#">Requests Received</a></li>
+                            <li><a href="#">Requests Sent</a></li>
+                            <li><a href="#">Confirmed</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Favorite Profiles</a>
+                    </li>
+
+                    <li>
+                        <a href="#">Blocked Profiles</a>
+                    </li>
+
+
+
                 </ul>
             </li>
     
@@ -181,78 +210,66 @@ $(document).ready(function() {
     $('html').click(function() {
         // We have clicked somewhere in the browser outside of one of the dropdown menus. 
         // Hide any currently open dropdown menus.
+        // Note: this will not be executed if the click is done on a dropdown menu, since the dropdown menu
+        // stops propagation of the click before it gets to the "html" level.
          $('.cl-show_sub').removeClass('cl-show_sub');
     });
 
+
+
     $('#rs-nav > li').find("li > a").on('click', function(event) {
         // if one of the anchor elements in a dropdown is clicked, then do the default action (ie. follow the link).
-        // However, since the click handler on the parent #rs-nav>li element (see below)
-        // has a preventDefault() call, we need to stop propagation to that handler so that the click
-        // doesn't get cancelled by the parent.
 
         if ($(this).hasClass('cl-stay_on_current_page')) {
             // if the anchor element shows a popup instead of navigating to a different page, we want to
             // hide the dropdown menu.
             $('.cl-show_sub').removeClass('cl-show_sub');
         }
-        event.stopPropagation()
+
+        if ( ! $(this).is('a.fly')) {
+            // since the click handler on the parent #rs-nav>li element (see below)
+            // has a preventDefault() call, we need to stop propagation to that handler so that the click
+            // doesn't get cancelled by the parent.
+            //
+            // However, if this is a "fly" anchor, then we do not stop the propagation since the event is
+            // needed to trigger the display of the dropdown menu. 
+            event.stopPropagation()
+        }
     });
 
-    $('#rs-nav > li').on('click', function(event) {
-        var is_a_dropdown = ($(this).children('ul.sub').length>0);
+
+    function show_dropdown($this, event) {
+
+        var is_a_dropdown = ($this.children('ul.sub').length>0);
         if (is_a_dropdown) {
-            var $sub_list = $(this).find('ul.sub');
+            var $sub_list = $this.children('ul.sub');
             if (!$sub_list.hasClass('cl-show_sub')) {
 
-                // remove cl-show_sub from *all* sub-lists to ensure that other sub-menus are closed before
+                // remove cl-show_sub from sub-lists to ensure that other sub-menus are closed before
                 // we display the current sub-menu. (the generic handler will not be called since we stop
                 // propagation of this event - see below)
-                $('.cl-show_sub').removeClass('cl-show_sub');
+                $this.parent().find('.cl-show_sub').removeClass('cl-show_sub');
 
                 $sub_list.addClass('cl-show_sub');
                 // prevent this event from propagating - if it is propagated, the cl-show_sub class will be removed
                 // by the generic click detector that we use for hiding the dropdown menus when a click occurs
-                // anywhere outside of the menut. 
+                // anywhere outside of the menut.
                 event.stopPropagation();
             } else {
-                // the list that was clicked on was already displayed - hide it. 
+                // the list that was clicked on was already displayed - hide it.
                 $sub_list.removeClass('cl-show_sub');
             }
 
             // prevent the click from following the link
             event.preventDefault();
         }
+    }
 
-    })
+    $('#rs-nav li').on('click', function(event) {
+        show_dropdown($(this), event);
+        event.stopPropagation()
+    });
+
 });
     
 </script>
-
-
-<!-- example of how to multi-level nest :
-
-	            <li class="top"><a href="#nogo27" id="contacts" class="top_link"><span class="down">Contacts</span></a>
-                <ul class="sub">
-                    <li><a href="#nogo29" class="fly">Sales</a>
-                        <ul>
-                            <li><a href="#nogo32">South American</a></li>
-                            <li><a href="#nogo33" class="fly">European</a>
-                                <ul>
-                                    <li><a href="#nogo34" class="fly">British Foobar</a>
-                                        <ul>
-                                            <li><a href="#nogo38" class="fly">Bristol</a>
-                                                <ul>
-                                                    <li><a href="#nogo39">Redland</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-
-                        </ul>
-                    </li>
-                </ul>
-             </li>
--->
-        
