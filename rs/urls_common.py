@@ -27,7 +27,7 @@
 
 from django.conf.urls.defaults import *
 
-from rs import views, ajax, store_data, search_results, mailbox, display_contacts, \
+from rs import views, ajax, store_data, search_results, mailbox, contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, lang_settings, channel_support, vip_status_support, \
      videochat, rendering, sitemaps, mail_handlers, track_viewers
@@ -81,6 +81,7 @@ urlpatterns = patterns('',
     url(r'^rs/generate_search_results/$', search_results.permanent_search_query_redirect, name="generate_search_results"),
     
     url(r'^show_profile_views/$', track_viewers.generate_html_for_profile_views, name = 'show_profile_views'),
+    url(r'^show_contacts/(?P<contact_type>\w+)/(?P<sent_or_received>\w+)/$', contacts.show_contacts, name = 'show_contacts'),
     
     url(r'^rs/auth/generate_mailbox/(?P<mailbox_name>[\w|-]+)/(?P<owner_uid>[\w|-]+)/$', 
         mailbox.generate_mailbox, name = "generate_mailbox"),
@@ -89,7 +90,7 @@ urlpatterns = patterns('',
     url(r'^rs/auth/mail_message_display/(?P<owner_uid>[\w|-]+)/(?P<other_uid>[\w|-]+)/$', 
         mailbox.mail_message_display, name='mail_message_display'),
     url(r'^rs/auth/contacts/(?P<owner_uid>[\w|-]+)/$', 
-     display_contacts.generate_contacts_display, name="generate_contacts_display"),
+     contacts.generate_contacts_display, name="generate_contacts_display"),
     
     url(r'^rs/reset_password/$', reset_password.reset_password, name="reset_password"),    
     url(r'^rs/reset_password/(?P<email_address>.+)/$', reset_password.reset_password, name="reset_password.username"),    

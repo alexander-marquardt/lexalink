@@ -42,16 +42,14 @@
         {% else %}
 
             <li class="top">
-                <a href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}"
-                class="top_link">
+                <a href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}" class="top_link">
                     <span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span>
                 </a>
             </li>
 
 
             <li class="top">
-                <a href="#"
-                class="top_link">
+                <a href="#" class="top_link">
                 <span class="down">
                 {% trans "Messages" %}
                 {% if primary_user_presentation_data_fields.owner_message_count %}
@@ -88,8 +86,7 @@
             </li>
 
             <li class="top">
-                <a href="#"
-                class="top_link">
+                <a href="#" class="top_link">
                     <span class="down">{% trans "Contacts" %}
                     {% if primary_user_presentation_data_fields.new_contact_count %}
                         [{{ primary_user_presentation_data_fields.new_contact_count }} {% trans "new" %}]
@@ -100,8 +97,8 @@
                     <li>
                         <a href="#nogo29" class="fly">Winks</a>
                         <ul class="sub">
-                            <li><a href="#">Received</a></li>
-                            <li><a href="#">Sent</a></li>
+                            <li><a href="{% url show_contacts contact_type='wink' sent_or_received='received' %}">Received</a></li>
+                            <li><a href="{% url show_contacts contact_type='wink' sent_or_received='sent' %}">Sent</a></li>
 
                         </ul>
                     </li>
@@ -128,7 +125,7 @@
                         <ul class="sub">
                             <li><a href="#">Requests Received</a></li>
                             <li><a href="#">Requests Sent</a></li>
-                            <li><a href="#">Confirmed</a></li>
+                            <li><a href="#">Confirmed Friends</a></li>
 
                         </ul>
                     </li>
@@ -146,8 +143,7 @@
             </li>
     
             <li class="top">
-                <a href="{% url show_profile_views %}"
-                class="top_link">
+                <a href="{% url show_profile_views %}" class="top_link">
                     <span>{% trans "Profile views" %}
                     {% if primary_user_presentation_data_fields.num_profile_views_since_last_check %}
                         [{{ primary_user_presentation_data_fields.num_profile_views_since_last_check }} {% trans "new" %}]
