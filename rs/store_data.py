@@ -1027,12 +1027,12 @@ def store_initiate_contact(request, to_uid):
                     # will never be displayed or available to the "viewed" user.
                     if action != "favorite" and action != 'blocked':
                         if action != "chat_friend":
-                            action_for_contact_count = "num_received_" + action + "_since_last_login"
+                            action_for_contact_count = "num_received_" + action + "_since_last_reset"
                         else: 
                             #action == "chat_friend"
                             #
                             # Note chat_request_action_on_receiver should be either friend_request or friend_confirmation
-                            action_for_contact_count = "num_received_" + chat_request_action_on_receiver + "_since_last_login" 
+                            action_for_contact_count = "num_received_" + chat_request_action_on_receiver + "_since_last_reset" 
                             # update the chat_request status on the passive object. 
                             update_bool = modify_passive_initiate_contact_object(chat_request_action_on_receiver, counter_modify, userobject_key, other_userobject_key)
                             if not update_bool:

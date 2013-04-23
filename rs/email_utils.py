@@ -589,11 +589,11 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             
         new_contact_counter_obj = userobject.new_contact_counter_ref.get()
                             
-        new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_login 
-        new_wink_count = new_contact_counter_obj.num_received_wink_since_last_login 
-        new_key_count = new_contact_counter_obj.num_received_key_since_last_login 
-        new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_login
-        new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_login 
+        new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_reset
+        new_wink_count = new_contact_counter_obj.num_received_wink_since_last_reset
+        new_key_count = new_contact_counter_obj.num_received_key_since_last_reset
+        new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_reset
+        new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_reset
         
         new_initiate_contact_bool = (new_kiss_count or new_wink_count or new_key_count or \
                                      new_friend_request_count or new_friend_confirmation_count)    

@@ -408,22 +408,12 @@ def get_new_contact_count_sum(new_contact_counter):
     # This also adds in the values since the current login, so that the value will reflect the total count since 
     # previous last login, up to the current minute.
     sum = 0
-    
-    sum += new_contact_counter.num_received_kiss_since_last_login
-    sum += new_contact_counter.previous_num_received_kiss
 
-    sum += new_contact_counter.num_received_wink_since_last_login
-    sum += new_contact_counter.previous_num_received_wink
-
-    sum += new_contact_counter.num_received_key_since_last_login
-    sum += new_contact_counter.previous_num_received_key
-    
-    sum += new_contact_counter.num_received_friend_request_since_last_login
-    sum += new_contact_counter.previous_num_received_friend_request    
-    
-    sum += new_contact_counter.num_received_friend_confirmation_since_last_login
-    sum += new_contact_counter.previous_num_received_friend_confirmation 
-    
+    sum += new_contact_counter.num_received_kiss_since_last_reset
+    sum += new_contact_counter.num_received_wink_since_last_reset
+    sum += new_contact_counter.num_received_key_since_last_reset
+    sum += new_contact_counter.num_received_friend_request_since_last_reset
+    sum += new_contact_counter.num_received_friend_confirmation_since_last_reset
     
     return sum
 

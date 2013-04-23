@@ -35,7 +35,7 @@ from django.utils.translation import ugettext
 
 import settings
 from forms import MyHTMLSearchBarGenerator
-from constants import ContactIconText, MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY
+from constants import ContactIconText
 from utils import requires_login
 from utils import return_time_difference_in_friendly_format, get_new_contact_count_sum
 from rs import profile_utils
@@ -116,19 +116,15 @@ def generate_new_contacts_html(userobject):
     
     generated_html = ''
     
+    assert(0) # need to re-write this before going live. 
     
     new_contact_counter_obj = userobject.new_contact_counter_ref.get()
     
-    new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_login + \
-             new_contact_counter_obj.previous_num_received_kiss
-    new_wink_count = new_contact_counter_obj.num_received_wink_since_last_login + \
-             new_contact_counter_obj.previous_num_received_wink
-    new_key_count = new_contact_counter_obj.num_received_key_since_last_login + \
-               new_contact_counter_obj.previous_num_received_key
-    new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_login + \
-                              new_contact_counter_obj.previous_num_received_friend_request
-    new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_login + \
-                                   new_contact_counter_obj.previous_num_received_friend_confirmation
+    new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_reset
+    new_wink_count = new_contact_counter_obj.num_received_wink_since_last_reset
+    new_key_count = new_contact_counter_obj.num_received_key_since_last_reset
+    new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_reset
+    new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_reset
     
     if new_wink_count or new_kiss_count or new_key_count or new_friend_request_count or new_friend_confirmation_count:
         
@@ -245,7 +241,7 @@ def generate_contacts_html(userobject, lang_code):
                     if sent_or_received_label:            
                         generated_html += u'<div class="grid_9 alpha omega"><strong>%s</strong><br>(%s %d)</div>' % (
                             sent_or_received_label, 
-                            ContactIconText.the_last, MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY)
+                            ContactIconText.the_last, constants.MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY)
                         generated_html += u'<div class="grid_9 alpha omega"><br></div>\n'
                     continue
         
@@ -277,7 +273,7 @@ def generate_contacts_html(userobject, lang_code):
                     
                 contact_query_results = queries.query_initiate_contact_by_type_of_contact(userobject.key, contact_type, 
                                                                                           sent_or_received,
-                                                                                          MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY,
+                                                                                          constants.MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY,
                                                                                           query_value_to_match)
                 if not contact_query_results:
                     there_are_none_text = ugettext("You don't have any yet")
@@ -398,7 +394,7 @@ def show_contacts(request, contact_type, sent_or_received):
             generated_html_top_next_button = ''
             generated_html_bottom_next_button = ''  
             
-            post_action = "/%s/show_contacts/" % (request.LANGUAGE_CODE)
+            post_action = "/%s/show_contacts/%s/%s/" % (request.LANGUAGE_CODE, contact_type, sent_or_received)
             generated_html_top = display_profiles_summary.generate_summary_html_top(header_html)
             
             generated_html_open_form = display_profiles_summary.generate_summary_html_open_form(post_action)        
@@ -407,18 +403,19 @@ def show_contacts(request, contact_type, sent_or_received):
             cursor_str = request.GET.get('show_contacts_cursor',None)
             paging_cursor = Cursor(urlsafe = cursor_str)
 
-            (contact_query_results, new_cursor, more_results) = queries.query_with_cursor_initiate_contact_by_type_of_contact(owner_key, contact_type, 
-                                                                                      sent_or_received,
-                                                                                      query_value_to_match,
-                                                                                      paging_cursor)
+            (contact_query_results, new_cursor, more_results) = queries.query_with_cursor_initiate_contact_by_type_of_contact(
+                owner_key, contact_type, 
+                sent_or_received,
+                query_value_to_match,
+                paging_cursor)
+            
             # convert the contact_query_results into a list of profile keys so that we can use the common code for
             # displaying a series of profile summaries. 
-            profile_keys_list = (x.displayed_profile for x in contact_query_results)
+            profile_keys_list = (x.viewer_profile for x in contact_query_results)
 
             generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, profile_keys_list, 
                                                                                               display_online_status)            
-    
-                                                                                            
+                                                                 
             if more_results:
                 generated_html_hidden_variables = \
                                     u'<input type=hidden id="id-show_contacts_cursor" name="show_contacts_cursor" \
@@ -431,7 +428,10 @@ def show_contacts(request, contact_type, sent_or_received):
                                    generated_html_body + generated_html_bottom_next_button + generated_html_close_form
                             
             # reset the counter that tells the user how many new contacts (of the current type) they have received.
-            # TODO - write this code
+            current_property_name = 'num_' + sent_or_received + '_' + contact_type + '_since_last_reset' 
+            new_contact_counter_obj = userobject.new_contact_counter_ref.get()
+            setattr(new_contact_counter_obj, current_property_name, 0)
+            utils.put_object(new_contact_counter_obj)
             
         
         return rendering.render_main_html(request, generated_html, userobject, page_title = generated_title, 

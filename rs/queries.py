@@ -89,9 +89,9 @@ def query_with_cursor_initiate_contact_by_type_of_contact(userobject_key, contac
 
     if paging_cursor: 
         
-        (query_results, new_cursor, more_results) = q.fetch_page(constants.MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY, start_cursor = paging_cursor)
+        (query_results, new_cursor, more_results) = q.fetch_page(constants.NUM_INITIATE_CONTACT_OBJECTS_PER_PAGE, start_cursor = paging_cursor)
     else: 
-        (query_results, new_cursor, more_results) = q.fetch_page(constants.MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY)
+        (query_results, new_cursor, more_results) = q.fetch_page(constants.NUM_INITIATE_CONTACT_OBJECTS_PER_PAGE)
         
     return (query_results, new_cursor, more_results)
 

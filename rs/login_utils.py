@@ -364,39 +364,7 @@ def create_search_preferences2_object(userobject, lang_code):
     except: 
         error_reporting.log_exception(logging.critical)      
     
-#############################################
-
-def set_new_contact_counter_on_login(new_contact_counter_ref):
-    # responsible for resetting the tracking of kisses, winks, keys, etc.. that have been received since
-    # the last time the user logged in. Notice however, that we still keep the old value so that we can 
-    # display it to the user (ie. we will show them the number of contact items received since the previous
-    # time that they logged into the system)
-    #
-    # Could consider running this in a transaction -- but is not really necessary, since it gets reset periodically...
-
-    new_contact_counter_obj = new_contact_counter_ref.get()
-    
-    new_contact_counter_obj.previous_num_received_kiss = new_contact_counter_obj.num_received_kiss_since_last_login
-    new_contact_counter_obj.num_received_kiss_since_last_login = 0
-
-    
-    new_contact_counter_obj.previous_num_received_wink = new_contact_counter_obj.num_received_wink_since_last_login
-    new_contact_counter_obj.num_received_wink_since_last_login = 0
-
-    new_contact_counter_obj.previous_num_received_key = new_contact_counter_obj.num_received_key_since_last_login
-    new_contact_counter_obj.num_received_key_since_last_login = 0
-    
-    new_contact_counter_obj.previous_num_received_friend_request_since_last_login = new_contact_counter_obj.num_received_friend_request_since_last_login
-    new_contact_counter_obj.num_received_friend_request_since_last_login = 0
-    
-    new_contact_counter_obj.previous_num_received_friend_confirmation_since_last_login = new_contact_counter_obj.num_received_friend_confirmation_since_last_login
-    new_contact_counter_obj.num_received_friend_confirmation_since_last_login = 0
-   
-    new_contact_counter_obj.put()
-    
-
-    
-
+#############################################   
     
 def store_crawler_session(request):
     # stores a session for google crawler and for superuser access. 

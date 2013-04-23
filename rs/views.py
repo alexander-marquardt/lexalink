@@ -644,9 +644,7 @@ def login(request, is_admin_login = False, referring_code = None):
                             
                             # remove chat boxes from previous sessions.
                             channel_support.close_all_chatboxes_internal(owner_uid)
-    
-                            login_utils.set_new_contact_counter_on_login(userobject.new_contact_counter_ref)
-                         
+                             
                             # reset the new_messages_since_last_notification data strutures since the user 
                             # is logging in, and is obviously aware of new messages etc. 
                             store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref)

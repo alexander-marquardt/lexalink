@@ -552,6 +552,7 @@ ABOUT_USER_MAX_ROWS = 15
 MAX_CHARS_PER_WORD = 50 # this is used for breaking long (probably fake) words, to ensure that they don't overrrun div boundaries
 
 MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY = 40
+NUM_INITIATE_CONTACT_OBJECTS_PER_PAGE = 1
 
 MAX_TEXT_INPUT_LEN = 100 # default value for text inputs if not defined.
 MAX_USERNAME_LEN = 16 # max number of chars allowed in a username

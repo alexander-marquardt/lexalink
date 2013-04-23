@@ -196,20 +196,20 @@ class CountInitiateContact(ndb.Model):
     # rolling set of "new" contact requests, that reflect what the user has received since his last (previous)
     # login.
 
-    num_received_kiss_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
-    previous_num_received_kiss = ndb.IntegerProperty(default = 0, indexed = False) 
-
-    num_received_wink_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
-    previous_num_received_wink = ndb.IntegerProperty(default = 0, indexed = False) 
-
-    num_received_key_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
-    previous_num_received_key = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_received_kiss_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    date_kiss_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
-    num_received_friend_request_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
-    previous_num_received_friend_request = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_received_wink_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False)
+    date_wink_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
-    num_received_friend_confirmation_since_last_login = ndb.IntegerProperty(default = 0, indexed = False) 
-    previous_num_received_friend_confirmation = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_received_key_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    date_key_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
+    
+    num_received_friend_request_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    date_friend_request_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
+    
+    num_received_friend_confirmation_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    date_friend_confirmation_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     # date of last notification indicates when we previously sent this user an email about new 
     # initiate-contact requests (eg. kiss, wink, key)
