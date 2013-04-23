@@ -655,12 +655,6 @@ class ContactIconText():
         
     icon_images = {'favorite': 'star.png', 'wink':wink_icon, 'kiss':'kiss.png', 'key':'key.png', 'chat_friend' : 'chat_bubble.png', 'blocked' : 'stop.png'}
 
-    
-class PassDataToTemplate():
-    # Dummy (empty) class that we can fill in with whatever we want
-    pass
-
-
 template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'app_name' : site_configuration.APP_NAME,
                           'domain_name' : site_configuration.DOMAIN_NAME,

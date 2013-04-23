@@ -306,7 +306,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             
         meta_info['keywords_description'] =  meta_info['page_title']
 
-        advertising_info = constants.PassDataToTemplate()     
+        advertising_info = {}  
         side_ad_template_list = []
         bottom_ad_template = None
         if  constants.enable_internal_ads :
@@ -315,7 +315,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             for ad_name in ad_list:
                 side_ad_template_list.append(utils.render_internal_ad(ad_name))
                 
-            advertising_info.ad_template_list = side_ad_template_list    
+            advertising_info['ad_template_list'] = side_ad_template_list    
             
             
         if enable_ads:
@@ -335,9 +335,9 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
 
                 
         random.shuffle(side_ad_template_list) # randomize the order of the advertisements.
-        advertising_info.ad_template_list = side_ad_template_list    
-        advertising_info.bottom_ad_template = bottom_ad_template
-        advertising_info.enable_ads = enable_ads
+        advertising_info['ad_template_list'] = side_ad_template_list    
+        advertising_info['bottom_ad_template'] = bottom_ad_template
+        advertising_info['enable_ads'] = enable_ads
         
                 
         if request.POST:

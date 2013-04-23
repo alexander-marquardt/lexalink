@@ -280,54 +280,54 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         
         # The following data fields are shown to the logged in user when they are viewing their own profile -- mostly
         # suggestions on what they need to do to make their profile complete.
-        primary_user_profile_data_fields = constants.PassDataToTemplate()
-        primary_user_profile_data_fields.is_primary_user = is_primary_user
+        primary_user_profile_data_fields = {}
+        primary_user_profile_data_fields['is_primary_user'] = is_primary_user
         
         if is_primary_user:
-            primary_user_profile_data_fields.display_welcome_section = display_welcome_section
-            primary_user_profile_data_fields.email_is_not_entered_text = email_is_not_entered_text
-            primary_user_profile_data_fields.new_user_welcome_text = new_user_welcome_text
-            primary_user_profile_data_fields.user_has_no_photo_text = user_has_no_photo_text
-            primary_user_profile_data_fields.no_about_user_section_warning = no_about_user_section_warning
-            primary_user_profile_data_fields.max_checkbox_values_in_combined_ix_list = constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST
-            primary_user_profile_data_fields.owner_uid = owner_uid
-            primary_user_profile_data_fields.owner_nid = owner_nid
+            primary_user_profile_data_fields['display_welcome_section'] = display_welcome_section
+            primary_user_profile_data_fields['email_is_not_entered_text'] = email_is_not_entered_text
+            primary_user_profile_data_fields['new_user_welcome_text'] = new_user_welcome_text
+            primary_user_profile_data_fields['user_has_no_photo_text'] = user_has_no_photo_text
+            primary_user_profile_data_fields['no_about_user_section_warning'] = no_about_user_section_warning
+            primary_user_profile_data_fields['max_checkbox_values_in_combined_ix_list'] = constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST
+            primary_user_profile_data_fields['owner_uid'] = owner_uid
+            primary_user_profile_data_fields['owner_nid'] = owner_nid
             
             
             
             if vip_status:
                 # Let the user know when their VIP status will expire
                 datetime_to_display = display_userobject.client_paid_status_expiry
-                primary_user_profile_data_fields.vip_status_expiry_friendly_text = \
+                primary_user_profile_data_fields['vip_status_expiry_friendly_text'] = \
                     utils.return_time_difference_in_friendly_format(datetime_to_display, capitalize = False, data_precision = 3, time_is_in_past = False)
             else:
-                primary_user_profile_data_fields.vip_status_expiry_friendly_text = None            
+                primary_user_profile_data_fields['vip_status_expiry_friendly_text'] = None            
 
                                 
         # The following data fields are shown in the profile being viewed (including if it is the profile of the logged in user)
-        viewed_profile_data_fields = constants.PassDataToTemplate()
+        viewed_profile_data_fields = {}
     
-        viewed_profile_data_fields.last_entrance = last_entrance    
-        viewed_profile_data_fields.display_username = display_username
-        viewed_profile_data_fields.display_uid = display_uid
-        viewed_profile_data_fields.display_nid = display_nid
-        viewed_profile_data_fields.profile_url_description = profile_utils.get_profile_url_description(lang_code, display_uid)
-        viewed_profile_data_fields.current_entrance = current_entrance
-        viewed_profile_data_fields.html_for_mail_history_summary = html_for_mail_history_summary
-        viewed_profile_data_fields.account_has_been_removed_message = account_has_been_removed_message
-        viewed_profile_data_fields.debugging_html = debugging_html
-        viewed_profile_data_fields.profile_information_for_admin = utils.generate_profile_information_for_administrator(owner_userobject, display_userobject)
+        viewed_profile_data_fields['last_entrance'] = last_entrance    
+        viewed_profile_data_fields['display_username'] = display_username
+        viewed_profile_data_fields['display_uid'] = display_uid
+        viewed_profile_data_fields['display_nid'] = display_nid
+        viewed_profile_data_fields['profile_url_description'] = profile_utils.get_profile_url_description(lang_code, display_uid)
+        viewed_profile_data_fields['current_entrance'] = current_entrance
+        viewed_profile_data_fields['html_for_mail_history_summary'] = html_for_mail_history_summary
+        viewed_profile_data_fields['account_has_been_removed_message'] = account_has_been_removed_message
+        viewed_profile_data_fields['debugging_html'] = debugging_html
+        viewed_profile_data_fields['profile_information_for_admin'] = utils.generate_profile_information_for_administrator(owner_userobject, display_userobject)
 
         
         
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 
         # photo boxes -- allows us to hide the photo section if no photos are present
         unique_last_login_offset = display_userobject.unique_last_login_offset_ref.get()
-        viewed_profile_data_fields.show_photos_section = is_primary_user or unique_last_login_offset.has_public_photo_offset \
+        viewed_profile_data_fields['show_photos_section'] = is_primary_user or unique_last_login_offset.has_public_photo_offset \
                                   or unique_last_login_offset.has_private_photo_offset
         
         if show_vip_info:
-            viewed_profile_data_fields.show_online_status = utils.get_vip_online_status_string(display_uid)
+            viewed_profile_data_fields['show_online_status'] = utils.get_vip_online_status_string(display_uid)
         
         
         template = loader.get_template("user_main_helpers/main_body.html")
@@ -766,14 +766,14 @@ def login(request, is_admin_login = False, referring_code = None):
         if error_list:
             error_reporting.log_exception(logging.info, error_message=repr(error_list))
             
-        meta_info = constants.PassDataToTemplate()
+        meta_info = {}
         if settings.SEO_OVERRIDES_ENABLED:
-            meta_info.page_title = search_engine_overrides.get_main_page_title()
+            meta_info['page_title'] = search_engine_overrides.get_main_page_title()
         else:
-            meta_info.page_title = ''
+            meta_info['page_title'] = ''
             
-        meta_info.content_description =  meta_info.page_title
-        meta_info.keywords_description =  meta_info.page_title
+        meta_info['content_description'] =  meta_info['page_title']
+        meta_info['keywords_description'] =  meta_info['page_title']
         
         template = loader.get_template('login.html')
         context = Context (dict({   
