@@ -163,16 +163,18 @@
 
 <!-- only show photos section for non-eliminated profiles -->
 {% if not viewed_profile_data_fields.account_has_been_removed_message or primary_user_profile_data_fields.is_primary_user %}
-    <div class="cl-clear"></div>
-    <div class="alpha omega grid_9 ">
-        <strong>{% trans "Photos" %}:</strong>
+    {% if primary_user_profile_data_fields.is_primary_user %}
+        <div class="cl-clear"></div>
+        <div class="alpha omega grid_9 ">
+            <strong>{% trans "Photos" %}:</strong>
 
-        <div id="id-edit-photos-link">
-            <a href="{% url edit_profile_url display_nid=primary_user_profile_data_fields.owner_nid %}">
-                ({% trans "edit" %}/{% trans "upload" %} {% trans "photos" %})
-            </a>
-        </div>
-    </div>    <!-- end grid_9 -->
+            <div id="id-edit-photos-link">
+                <a href="{% url edit_profile_url display_nid=primary_user_profile_data_fields.owner_nid %}">
+                    ({% trans "edit" %}/{% trans "upload" %} {% trans "photos" %})
+                </a>
+            </div>
+        </div>    <!-- end grid_9 -->
+    {% endif %}
 
     {% if viewed_profile_data_fields.show_photos_section %}
         <div class="cl-clear"></div>
