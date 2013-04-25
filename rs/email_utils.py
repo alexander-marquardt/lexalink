@@ -602,13 +602,10 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             
             # Check if the first part of the message contains a notification about unread messages.
             if user_has_unread_messages:
-                start_of_next_paragraph = u"<p>%s " % ugettext("Additionally, since")
+                start_of_next_paragraph = u"<p>%s <strong>" % ugettext("Additionally, you have received")
             else:
-                start_of_next_paragraph = u"<p>%s " % ugettext("Since")     
+                start_of_next_paragraph = u"<p>%s <strong>" % ugettext("You have received")     
                 
-            last_login_in_time_friendly_format = return_time_difference_in_friendly_format(userobject.last_login, capitalize = False)
-            start_of_next_paragraph += u"%s <strong>" % ugettext('your last entrance %(last_entrance)s, you have received') % {
-                'last_entrance' : last_login_in_time_friendly_format}            
             # we set this value up just in case email_should_be_sent is set to true (based on new messages OR
             # new initiate_contact items)
             message_text += start_of_next_paragraph
@@ -633,9 +630,17 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             
             
         # Prepare the message 
-        message = mail.EmailMessage(sender=constants.sender_address,
-                                subject=ugettext("Emails and/or new contacts"))
-    
+        if user_has_unread_messages and new_initiate_contact_bool:
+            message = mail.EmailMessage(sender=constants.sender_address,
+                                    subject=ugettext("New messages and new contacts"))
+        elif user_has_unread_messages:
+            message = mail.EmailMessage(sender=constants.sender_address,
+                                    subject=ugettext("New messages"))            
+        elif new_initiate_contact_bool:
+            message = mail.EmailMessage(sender=constants.sender_address,
+                                subject=ugettext("New contacts"))    
+        else:
+            raise Exception("Unknown state in send_new_message_notification_email")
         
         message.html = u"<p>%s," % ugettext("Hello %(username)s") % {'username': userobject.username}
         message.html += "%(message_text)s<br>%(cheers)s<br>" % {'message_text' : message_text, 'cheers' : ugettext("Cheers")}

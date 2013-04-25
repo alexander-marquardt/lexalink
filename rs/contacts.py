@@ -37,7 +37,7 @@ import datetime
 
 import settings
 from forms import MyHTMLSearchBarGenerator
-from constants import ContactIconText
+import constants
 from utils import requires_login
 from utils import return_time_difference_in_friendly_format, get_new_contact_count_sum
 from rs import profile_utils
@@ -45,123 +45,6 @@ import queries, rendering, localizations, error_reporting, logging
 import utils, utils_top_level, display_profiles_summary
 import http_utils
 
-sent_received_list = ['received', 'sent', ]
-custom_config = []
-
-if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-    for idx, sent_received in enumerate(sent_received_list):
-        custom_config.append([
-            
-            {
-                'contact_type': None,
-                'display_divider' : True, 
-                'sent_or_received': sent_received},     
-            {
-                'contact_type': 'key',
-                'sent_or_received':  sent_received,}, 
-            {
-                'contact_type': 'chat_friend',
-                'sent_or_received':  sent_received,}, 
-            {            
-                'contact_type': 'wink',
-                'sent_or_received':  sent_received,}, 
-            {
-                'contact_type': 'kiss',
-                'sent_or_received':  sent_received,}, 
-            ])
-else: # set up Language with greeting instead of wink, and *no* kisses
-    for idx, sent_received in enumerate(sent_received_list):
-        custom_config.append([
-            
-            {
-                'contact_type': None,
-                'display_divider' : True, 
-                'sent_or_received': sent_received,},    
-            {
-                'contact_type': 'key',
-                'sent_or_received':  sent_received,}, 
-            {
-                'contact_type': 'chat_friend',
-                'sent_or_received':  sent_received,}, 
-            {
-                'contact_type': 'wink',
-                'sent_or_received':  sent_received,}, 
-            ])    
-    
-favorite_config = [
-    {
-        'contact_type': None,
-        'display_divider' : True,
-        'sent_or_received':  'saved',},         
-    {
-        'contact_type': 'favorite',
-        'sent_or_received':  'sent',}, 
-    {
-        'contact_type': 'chat_friend',
-        'sent_or_received':  'connected',}, 
-    {
-        'contact_type': 'blocked',
-        'sent_or_received':  'sent',}, # 'sent' because this user initiated it
-    {
-        'contact_type': None,
-        'display_divider' : True,
-        'sent_or_received':  '',}, 
-]
-
-# custom_config has two indexes, first for 'sent', second for 'received' - constructed in the for loop above
-display_contact_config = custom_config[0] + custom_config[1] + favorite_config
-
-
-def generate_new_contacts_html(userobject):
-    # Generates the HTML that corresponds to the newest contact the user has received. 
-    # Ie. "you have 3 new winks, 1 new kiss"...
-    
-    generated_html = ''
-    
-    assert(0) # need to re-write this before going live. 
-    
-    new_contact_counter_obj = userobject.new_contact_counter_ref.get()
-    
-    new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_reset
-    new_wink_count = new_contact_counter_obj.num_received_wink_since_last_reset
-    new_key_count = new_contact_counter_obj.num_received_key_since_last_reset
-    new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_reset
-    new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_reset
-    
-    if new_wink_count or new_kiss_count or new_key_count or new_friend_request_count or new_friend_confirmation_count:
-        
-        previous_last_login_in_friendly_format = return_time_difference_in_friendly_format(userobject.previous_last_login)
-        text_since_last_login = \
-            ugettext(u"Since the last time you entered in %(app_name)s.com, %(previous_login)s, you have received")\
-            % {'app_name': settings.APP_NAME, 'previous_login' : previous_last_login_in_friendly_format}
-
-        generated_html += u"""
-        <div class="cl-clear"></div> 
-        <div class="grid_9 alpha omega"> &nbsp;<br><br></div>
-    
-        <div class="grid_9 alpha omega cl-center-text"> 
-        %(text_since_last_login)s:<br><strong>
-        """ % {'text_since_last_login' : text_since_last_login}
-
-        if new_kiss_count:
-            generated_html += u" %d %s<br>" %  (new_kiss_count, ContactIconText.plural_icon_name['kiss'], )
-        
-        if new_wink_count:
-            generated_html += u" %d %s<br>" %  (new_wink_count, ContactIconText.plural_icon_name['wink'], )
-        
-        if new_key_count:
-            generated_html += u" %d %s<br>" %  (new_key_count, ContactIconText.plural_icon_name['key'], )
-            
-        if new_friend_request_count:
-            generated_html += u" %d %s<br>" %  (new_friend_request_count, ContactIconText.chat_friend_plural_text['request_received'], )
-        
-        if new_friend_confirmation_count:
-            generated_html += u" %d %s<br>" %  (new_friend_confirmation_count, ContactIconText.chat_friend_plural_text['connected'], )
-            
-        generated_html += u'</strong></div>\n     <div class="cl-clear"></div>'
-        
-        
-    return generated_html
 
 @requires_login
 def show_contacts(request, contact_type, sent_or_received):
@@ -180,7 +63,8 @@ def show_contacts(request, contact_type, sent_or_received):
             display_online_status = utils.do_display_online_status(owner_uid)
             show_online_status = utils.show_online_status(owner_uid)
             
-            generated_title = header_html = "%s %s" % (contact_type, sent_or_received)
+            generated_title = header_html = u"%s %s" % (constants.ContactIconText.plural_icon_name[contact_type], 
+                                                        constants.ContactIconText.contacts_actions_text[sent_or_received])
             generated_html_before_form = ''
             display_online_status = utils.do_display_online_status(owner_uid)           
             

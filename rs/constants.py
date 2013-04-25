@@ -552,7 +552,7 @@ ABOUT_USER_MAX_ROWS = 15
 MAX_CHARS_PER_WORD = 50 # this is used for breaking long (probably fake) words, to ensure that they don't overrrun div boundaries
 
 MAX_NUM_INITIATE_CONTACT_OBJECTS_TO_DISPLAY = 40
-NUM_INITIATE_CONTACT_OBJECTS_PER_PAGE = 1
+NUM_INITIATE_CONTACT_OBJECTS_PER_PAGE = 6
 
 MAX_TEXT_INPUT_LEN = 100 # default value for text inputs if not defined.
 MAX_USERNAME_LEN = 16 # max number of chars allowed in a username
@@ -615,9 +615,11 @@ and numbers. Additionally, it may not contain any spaces.")
     
 class ContactIconText():
     the_last = ugettext_lazy("only the last")
-    sent = ugettext_lazy("Sent")
-    received = ugettext_lazy("Received")
-    saved = ugettext_lazy("Saved")
+    contacts_actions_text = {
+        'sent' : ugettext_lazy("Sent"),
+        'received' : ugettext_lazy("Received"),
+        'saved' : ugettext_lazy("Saved")
+    }
     
     if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
         plural_winks = ugettext_lazy('Greetings')
