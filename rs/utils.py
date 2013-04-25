@@ -403,12 +403,12 @@ def passhash(raw_password):
     pwhash.update(raw_password)
     return pwhash.hexdigest()
 
-def get_new_contact_count_sum(new_contact_counter, counter_postfix):
+def get_new_contact_count_sum(new_contact_counter):
     # simply counts up the total number of contact items received since the previous last time the user has logged in
     # This also adds in the values since the current login, so that the value will reflect the total count since 
     # previous last login, up to the current minute.
-    # counter_postfix: either "_since_last_reset" or "_removed_since_last_reset"
     
+    counter_postfix = "_since_last_reset"
     sum = 0
 
     sum += getattr(new_contact_counter, 'num_received_kiss' + counter_postfix)

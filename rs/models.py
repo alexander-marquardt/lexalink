@@ -197,23 +197,18 @@ class CountInitiateContact(ndb.Model):
     # login.
 
     num_received_kiss_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
-    num_received_kiss_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_kiss_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_wink_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False)
-    num_received_wink_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False)
     date_wink_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_key_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
-    num_received_key_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_key_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_friend_request_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
-    num_received_friend_request_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_friend_request_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_friend_confirmation_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
-    num_received_friend_confirmation_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_friend_confirmation_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     # date of last notification indicates when we previously sent this user an email about new 
@@ -831,20 +826,20 @@ class InitiateContactModel(ndb.Model):
        
         
     favorite_stored = ndb.BooleanProperty(default = False)
-    favorite_stored_date =  ndb.DateTimeProperty()
+    favorite_stored_date =  ndb.DateTimeProperty(default = None)
     
     wink_stored = ndb.BooleanProperty(default = False)
-    wink_stored_date = ndb.DateTimeProperty()
+    wink_stored_date = ndb.DateTimeProperty(default = None)
     
     kiss_stored = ndb.BooleanProperty(default = False)
-    kiss_stored_date = ndb.DateTimeProperty()
+    kiss_stored_date = ndb.DateTimeProperty(default = None)
     
     key_stored = ndb.BooleanProperty(default = False)
-    key_stored_date = ndb.DateTimeProperty()
+    key_stored_date = ndb.DateTimeProperty(default = None)
     
     # allow the user to block other people from sending them messages.
     blocked_stored = ndb.BooleanProperty(default = False)
-    blocked_stored_date = ndb.DateTimeProperty()
+    blocked_stored_date = ndb.DateTimeProperty(default = None)
     
     # chat_friend_stored will contain a string that indicates the following possible conditions:
     #    None: Neither the viewer or displayed profile have made any request to add to each others chat list
@@ -852,7 +847,7 @@ class InitiateContactModel(ndb.Model):
     #    "request_received": the viewer profile has been sent a chat request from the users whose profile is being viewed
     #    "connected": the viewer and displayed profile have agreed to add each other to their chat contacts.
     chat_friend_stored = ndb.StringProperty(default = None)
-    chat_friend_stored_date = ndb.DateTimeProperty()
+    chat_friend_stored_date = ndb.DateTimeProperty(default = None)
 
 class EmailAutorizationModel(ndb.Model):
     # model that will store login/registration information while we are waiting for the user to verify their

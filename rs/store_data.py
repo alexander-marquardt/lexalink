@@ -690,52 +690,96 @@ def  reset_new_contact_or_mail_counter_notification_settings(object_ref_key):
     
 ###########################################################################
 
-def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_count, value,
-                                hours_between_notifications, update_notification_times):
+def  modify_new_contact_counter(new_contact_counter_ref_key, action_type, action_prefix,
+                                value,
+                                hours_between_notifications, update_notification_times, 
+                                invalidated_action_previously_stored_date):
     # updates the new_contact_counter_obj value based on the value passed in. Must
     # be run in a transaction to ensure that only a single update can take place at a time.
-    # This value is used for tracking number of kisses, winks, keys, received by a user since their
-    # last login. 
+    # This value is used for tracking number of kisses, winks, keys, received by a user since 
+    # the last time they viewed their contacts.
+    
     try:
                 
-        def txn(new_contact_counter_ref_key, action_for_contact_count, value):
+        def txn(new_contact_counter_ref_key, action_type, action_prefix, value):
     
-            new_contact_counter_obj = new_contact_counter_ref_key.get()
-            current_count = getattr(new_contact_counter_obj, action_for_contact_count)
-            current_count += value
-            setattr(new_contact_counter_obj, action_for_contact_count, current_count)
+            action_field_for_contact_count = action_prefix + action_type + "_since_last_reset"
+            date_field_for_last_reset = "date_" + action_type + "_count_reset"
             
-            if update_notification_times:
-                new_contact_counter_obj.num_new_since_last_notification += value
-    
-                if value > 0:
-                    # only update notification settings if the user has received a new
-                    # contact (not one that is delted)
-                    
-                    if hours_between_notifications != None:
-                        new_contact_counter_obj.when_to_send_next_notification = \
-                                               new_contact_counter_obj.date_of_last_notification + \
-                                               datetime.timedelta(hours = hours_between_notifications)
+            new_contact_counter_obj = new_contact_counter_ref_key.get()
+            current_count = getattr(new_contact_counter_obj, action_field_for_contact_count)
+            date_of_last_reset = getattr(new_contact_counter_obj, date_field_for_last_reset)
+                        
+            if (invalidated_action_previously_stored_date):
+                # The user that we are counting for has previously had contact (of the current "action_type") with the other user. 
+                # Ie. the user has previously recieved a kiss from the other user, and the other user has just removed the kiss
+                if (invalidated_action_previously_stored_date <  date_of_last_reset):
+                    # The logic is that we want to count how many new  "action_types" the user has recieved since the last time
+                    # they checked. If they recieve a kiss, and then view their kisses (which would have reset the counter
+                    # to zero), and then that kiss is removed, we do not want to show a negative number. 
+                    # However, if the
+                    # kiss is recieved and then removed before the user has a chance to view it, then we want to subtract
+                    # that kiss from the counter. 
+                    if value > 0:
+                        # If this is an addition of a new "action_type" (kiss, wink, etc.) then we count this as a "new contact"                          
+                        do_count = True
                     else:
+                        # If this is the removal of an "action_type" (ie. someone has removed a kiss), but this has happened
+                        # after the user has already viewed all of their received kisses, then do not reduce the counter.
+                        do_count = False
+                else:
+                    # (invalidated_action_previously_stored_date >=  date_of_last_reset)
+                    if value < 0:
+                        # we are subracting a new "action_type" that was added after the last time the user viewed
+                        # the page showing this "action_type"
+                        do_count = True
+                    else: 
+                        # We are adding a new "action_type" that was removed and then added back since the last time
+                        # the user viewed the page showing this "action_type".. We count this (for now) as a "new" contact
+                        # but may wish to reconsider this in the future. 
+                        do_count = True
+            else:
+                # This is a new contact
+                do_count = True
+                        
+            if do_count:
+                current_count += value
+                setattr(new_contact_counter_obj, action_field_for_contact_count, current_count)
+            
+                if update_notification_times:
+                    new_contact_counter_obj.num_new_since_last_notification += value
+        
+                    if value > 0:
+                        # only update notification settings if the user has received a new
+                        # contact (not one that is delted)
+                        
+                        if hours_between_notifications != None:
+                            new_contact_counter_obj.when_to_send_next_notification = \
+                                                   new_contact_counter_obj.date_of_last_notification + \
+                                                   datetime.timedelta(hours = hours_between_notifications)
+                        else:
+                            new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
+                                        
+                    if new_contact_counter_obj.num_new_since_last_notification <= 0:
+
+                        # This number may go negative if someone gives a kiss, and then takes it away. 
+                        # Or if a notification is sent out about a new contact, and then that contact is removed
+                        # before the user has checked their contacts. 
+                        # Not an exception,
+                        # but it is good to keep it non-negative so that if new contacts are received after old contacts
+                        # are taken away, this number will still be positive.
+                        new_contact_counter_obj.num_new_since_last_notification = 0
+                        
+                        # don't send a notification if there are no new contacts
                         new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
-                                    
-                if new_contact_counter_obj.num_new_since_last_notification <= 0:
-                    # This number can go negative if someone gives a kiss, and then takes it away. 
-                    # Not an exception,
-                    # but it is good to keep it non-negative so that if new contacts are received after old contacts
-                    # are taken away, this number will still be positive.
-                    new_contact_counter_obj.num_new_since_last_notification = 0
                     
-                    # don't send a notification if there are no new contacts
-                    new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
+                    new_contact_counter_obj.when_to_send_next_notification_string = str(new_contact_counter_obj.when_to_send_next_notification)  
+                    
+                new_contact_counter_obj.put()
                 
-                new_contact_counter_obj.when_to_send_next_notification_string = str(new_contact_counter_obj.when_to_send_next_notification)  
-                
-            new_contact_counter_obj.put()
             return new_contact_counter_obj
         
-        
-        new_contact_counter_obj = ndb.transaction(lambda: txn(new_contact_counter_ref_key, action_for_contact_count, value))
+        new_contact_counter_obj = ndb.transaction(lambda: txn(new_contact_counter_ref_key, action_type, action_prefix, value))
         return new_contact_counter_obj
 
     except:
@@ -915,6 +959,7 @@ def modify_active_initiate_contact_object(action, initiate_contact_object, usero
             # since the last update.
             time_since_stored = datetime.datetime.max - datetime.datetime.now()
         
+        invalidated_action_previously_stored_date = action_stored_date
         counter_modify = 0
         chat_request_action_on_receiver = None
         if time_since_stored > datetime.timedelta(seconds = 1) or override_minimum_delay: # only process if X seconds have passed
@@ -931,7 +976,8 @@ def modify_active_initiate_contact_object(action, initiate_contact_object, usero
             # we do not write the initiate_contact_object since not enough time has passed since the last click
             pass
             
-        return (initiate_contact_object, initiate_contact_object_modified, counter_modify, chat_request_action_on_receiver)
+        return (initiate_contact_object, initiate_contact_object_modified, counter_modify, 
+                chat_request_action_on_receiver, invalidated_action_previously_stored_date)
     except:
         error_reporting.log_exception(logging.critical)
             
@@ -958,7 +1004,8 @@ def store_initiate_contact(request, to_uid):
             if action in possible_actions:
                 
                 initiate_contact_object = utils.get_initiate_contact_object(userobject_key, other_userobject_key, create_if_does_not_exist=True)
-                (initiate_contact_object, initiate_contact_object_modified, counter_modify, chat_request_action_on_receiver) =\
+                (initiate_contact_object, initiate_contact_object_modified, counter_modify, chat_request_action_on_receiver,
+                 invalidated_action_previously_stored_date) =\
                  modify_active_initiate_contact_object(action, initiate_contact_object, userobject_key, other_userobject_key)
                 
                 if initiate_contact_object_modified:  
@@ -1018,7 +1065,8 @@ def store_initiate_contact(request, to_uid):
                         if request_denied:
                             # un-do the request (toggle it) by calling the same function again, Note that we override the 
                             # minimum delay between clicks. 
-                            (initiate_contact_object, initiate_contact_object_modified, counter_modify, chat_request_action_on_receiver) =\
+                            (initiate_contact_object, initiate_contact_object_modified, counter_modify, chat_request_action_on_receiver,
+                             invalidated_action_previously_stored_date) =\
                              modify_active_initiate_contact_object(action, initiate_contact_object, userobject_key, other_userobject_key, override_minimum_delay = True)
                             return HttpResponse(response_text)
                                     
@@ -1028,18 +1076,15 @@ def store_initiate_contact(request, to_uid):
                     # will never be displayed or available to the "viewed" user.
                     if action != "favorite" and action != 'blocked':
                         if counter_modify != 0:
-                            if counter_modify > 0:
-                                counter_to_modify_postfix = "_since_last_reset"
-                            elif counter_modify < 0:
-                                counter_to_modify_postfix = "_removed_since_last_reset"
                                 
                             if action != "chat_friend":
-                                action_for_contact_count = "num_received_" + action + counter_to_modify_postfix
+                                action_type = action
+                                
                             else: 
                                 #action == "chat_friend"
                                 #
                                 # Note chat_request_action_on_receiver should be either friend_request or friend_confirmation
-                                action_for_contact_count = "num_received_" + chat_request_action_on_receiver + counter_to_modify_postfix 
+                                action_type = chat_request_action_on_receiver
                                 # update the chat_request status on the passive object. 
                                 update_bool = modify_passive_initiate_contact_object(chat_request_action_on_receiver, counter_modify, userobject_key, other_userobject_key)
                                 if not update_bool:
@@ -1055,11 +1100,13 @@ def store_initiate_contact(request, to_uid):
                                 hours_between_notifications = "NA" # should not be required/accessed
                             
                             # update the *receiver's* counters for kisses, winks, etc.
+                            action_prefix = "num_received_" 
                             receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
-                                                       action_for_contact_count, counter_modify, hours_between_notifications, 
-                                                       update_notification_times = True)
+                                                       action_type, action_prefix, counter_modify, hours_between_notifications, 
+                                                       update_notification_times = True,
+                                                       invalidated_action_previously_stored_date = invalidated_action_previously_stored_date)
                             
-                            info_message = "Modifying %s on %s by %s" %(action_for_contact_count, other_userobject.username, counter_modify)
+                            info_message = "Modifying %s on %s by %s" %(action_type, other_userobject.username, counter_modify)
                             logging.info(info_message)
                                                        
                             # if notification for sending the user notification is past due, send it now.
@@ -1084,10 +1131,12 @@ def store_initiate_contact(request, to_uid):
                                 # Update the counters on *owners* "new_contact_counter_ref" object to reflect how many
                                 # friend requests or how many keys they have sent. 
                                 # For now we only track keys and friend requests
-                                sent_action_for_contact_count = "num_sent_" + action
+                                action_type = action
+                                action_prefix = "num_sent_"
                                 modify_new_contact_counter(userobject.new_contact_counter_ref, \
-                                                       sent_action_for_contact_count, counter_modify, 
-                                                       hours_between_notifications = None, update_notification_times = False)
+                                                       action_type, action_prefix, counter_modify, 
+                                                       hours_between_notifications = None, update_notification_times = False,
+                                                       invalidated_action_previously_stored_date = None)
     
 
                     elif action == 'favorite':

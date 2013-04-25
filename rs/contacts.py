@@ -33,6 +33,8 @@ from django.core.urlresolvers import reverse
 from django.utils.encoding import smart_unicode
 from django.utils.translation import ugettext
 
+import datetime
+
 import settings
 from forms import MyHTMLSearchBarGenerator
 from constants import ContactIconText
@@ -253,9 +255,12 @@ def show_contacts(request, contact_type, sent_or_received):
                                    generated_html_body + generated_html_bottom_next_button + generated_html_close_form
                             
             # reset the counter that tells the user how many new contacts (of the current type) they have received.
-            current_property_name = 'num_' + sent_or_received + '_' + contact_type + '_since_last_reset' 
+            current_property_counter_name = 'num_' + sent_or_received + '_' + contact_type + '_since_last_reset' 
+            current_property_date_reset_name = "date_" + contact_type + "_count_reset"
+            
             new_contact_counter_obj = userobject.new_contact_counter_ref.get()
-            setattr(new_contact_counter_obj, current_property_name, 0)
+            setattr(new_contact_counter_obj, current_property_counter_name, 0)
+            setattr(new_contact_counter_obj, current_property_date_reset_name, datetime.datetime.now())
             utils.put_object(new_contact_counter_obj)
             
         

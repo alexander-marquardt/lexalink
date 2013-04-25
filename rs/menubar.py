@@ -18,10 +18,9 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
             
         html_list.append("<li>")
         num_received_contact_type_since_last_reset = getattr(new_contact_counter_obj, 'num_received_' + fixed_contact_type + "_since_last_reset")
-        num_removed_contact_type_since_last_reset = getattr(new_contact_counter_obj, 'num_received_' + fixed_contact_type + "_removed_since_last_reset")
-        if num_received_contact_type_since_last_reset or num_removed_contact_type_since_last_reset:
-            num_received_html = '[%s %s, %s %s]' % (num_received_contact_type_since_last_reset, ugettext("new"), 
-                                                    num_removed_contact_type_since_last_reset, ugettext("removed"))
+
+        if num_received_contact_type_since_last_reset: 
+            num_received_html = '[%s %s]' % (num_received_contact_type_since_last_reset, ugettext("new"))
         else: num_received_html = ''
         
         
@@ -31,7 +30,7 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
         </a>
         <ul class="sub">
         <li><a href="%(received_url)s">%(received_txt)s
-        
+        %(num_received_html)s
         </a></li>
         <li><a href="%(sent_url)s">%(sent_txt)s
         
@@ -61,25 +60,20 @@ def generate_contacts_dropdown_html(new_contact_counter_obj):
         html_list = []
         html_list.append('<li class="top">')
         
-        new_contact_count_sum = utils.get_new_contact_count_sum(new_contact_counter_obj, "_since_last_reset")
-        removed_contact_count_sum = utils.get_new_contact_count_sum(new_contact_counter_obj, "_removed_since_last_reset")
+        new_contact_count_sum = utils.get_new_contact_count_sum(new_contact_counter_obj)
         if new_contact_count_sum:
             new_contact_count_html = "[%s %s]" % (new_contact_count_sum, ugettext("new"))
         else: new_contact_count_html = ''
-        if removed_contact_count_sum:
-            removed_contact_count_html = "[%s %s]" % (removed_contact_count_sum, ugettext("removed"))
-        else: removed_contact_count_html = ''
+
         
         html_list.append(u"""
             <a href="#" class="top_link">
                 <span class="down">%(contacts)s
                     %(new_contact_count_html)s
-                    %(removed_contact_count_html)s
                 </span>
             </a>    
         """ % {'contacts' : ugettext("Contacts"),
                 'new_contact_count_html' : new_contact_count_html,
-                'removed_contact_count_html' : removed_contact_count_html, 
                 })
         
         html_list.append('<ul class="sub">')

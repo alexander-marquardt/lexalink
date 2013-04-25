@@ -218,6 +218,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             owner_nid = ''
             owner_message_count = new_contact_count_sum = removed_contact_count_sum = 0
             num_profile_views_since_last_check = 0
+            contacts_dropdown_html = ''
             if not hide_why_to_register:
                 why_to_register = utils.get_why_to_register()
             else:
