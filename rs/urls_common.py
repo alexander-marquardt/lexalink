@@ -89,8 +89,7 @@ urlpatterns = patterns('',
         mailbox.generate_mailbox, name = "generate_mailbox_with_bookmark"),
     url(r'^rs/auth/mail_message_display/(?P<owner_uid>[\w|-]+)/(?P<other_uid>[\w|-]+)/$', 
         mailbox.mail_message_display, name='mail_message_display'),
-    url(r'^rs/auth/contacts/(?P<owner_uid>[\w|-]+)/$', 
-     contacts.generate_contacts_display, name="generate_contacts_display"),
+
     
     url(r'^rs/reset_password/$', reset_password.reset_password, name="reset_password"),    
     url(r'^rs/reset_password/(?P<email_address>.+)/$', reset_password.reset_password, name="reset_password.username"),    

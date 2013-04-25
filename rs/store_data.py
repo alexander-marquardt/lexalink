@@ -720,7 +720,8 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_for_contact_
                         new_contact_counter_obj.when_to_send_next_notification = datetime.datetime.max
                                     
                 if new_contact_counter_obj.num_new_since_last_notification <= 0:
-                    # this number can go negative if someone gives a kiss, and then takes it away. Not an exception,
+                    # This number can go negative if someone gives a kiss, and then takes it away. 
+                    # Not an exception,
                     # but it is good to keep it non-negative so that if new contacts are received after old contacts
                     # are taken away, this number will still be positive.
                     new_contact_counter_obj.num_new_since_last_notification = 0
@@ -1026,62 +1027,68 @@ def store_initiate_contact(request, to_uid):
                     # update the counter for the receiver, except for favorites and blocked since these fields 
                     # will never be displayed or available to the "viewed" user.
                     if action != "favorite" and action != 'blocked':
-                        if action != "chat_friend":
-                            action_for_contact_count = "num_received_" + action + "_since_last_reset"
-                        else: 
-                            #action == "chat_friend"
-                            #
-                            # Note chat_request_action_on_receiver should be either friend_request or friend_confirmation
-                            action_for_contact_count = "num_received_" + chat_request_action_on_receiver + "_since_last_reset" 
-                            # update the chat_request status on the passive object. 
-                            update_bool = modify_passive_initiate_contact_object(chat_request_action_on_receiver, counter_modify, userobject_key, other_userobject_key)
-                            if not update_bool:
-                                error_reporting.log_exception(logging.critical, 
-                                                              error_message = "passive initiate_contact_object failed to update between %s and %s" %
-                                                              (userobject.username, other_userobject.username))
-                            
-                            
-                        if counter_modify > 0:
-                            hours_between_notifications = utils.get_hours_between_notifications(other_userobject, 
-                                                        constants.hours_between_new_contacts_notifications)
-                        else: 
-                            hours_between_notifications = "NA" # should not be required/accessed
-                        
-                        # update the *receiver's* counters for kisses, winks, etc.
-                        receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
-                                                   action_for_contact_count, counter_modify, hours_between_notifications, 
-                                                   update_notification_times = True)
-                        
-                        info_message = "Modifying %s on %s by %s" %(action_for_contact_count, other_userobject.username, counter_modify)
-                        logging.info(info_message)
-                                                   
-                        # if notification for sending the user notification is past due, send it now.
-                        if receiver_new_contact_counter_obj.when_to_send_next_notification <= datetime.datetime.now():
-                            
-                            try:
-                                # by construction, this should never execute unless the email address is valid - if email address is not
-                                # valid, then the date of when_to_send_next_notification should be set to max. 
-                                assert(other_userobject.email_address_is_valid)
-                                # add a one minute delay before sending the message notification - this means that if the user sends a wink (or whatever)
-                                # and quickly changes their mind, the error checking code in the notification function will catch that the 
-                                # when_to_send_next_notification time is no longer valid, and the email will be cancelled. 
-                                countdown_time = 60
-
-                                taskqueue.add(queue_name = 'fast-queue', countdown = countdown_time, \
-                                              url='/rs/admin/send_new_message_notification_email/', params = {
-                                                  'uid': other_userobject.key.urlsafe()})
-                            except:
-                                error_reporting.log_exception(logging.critical)
+                        if counter_modify != 0:
+                            if counter_modify > 0:
+                                counter_to_modify_postfix = "_since_last_reset"
+                            elif counter_modify < 0:
+                                counter_to_modify_postfix = "_removed_since_last_reset"
                                 
-                        if action == "chat_friend" or action == "key":
-                            # Update the counters on *owners* "new_contact_counter_ref" object to reflect how many
-                            # friend requests or how many keys they have sent. 
-                            # For now we only track keys and friend requests
-                            sent_action_for_contact_count = "num_sent_" + action
-                            modify_new_contact_counter(userobject.new_contact_counter_ref, \
-                                                   sent_action_for_contact_count, counter_modify, 
-                                                   hours_between_notifications = None, update_notification_times = False)
-
+                            if action != "chat_friend":
+                                action_for_contact_count = "num_received_" + action + counter_to_modify_postfix
+                            else: 
+                                #action == "chat_friend"
+                                #
+                                # Note chat_request_action_on_receiver should be either friend_request or friend_confirmation
+                                action_for_contact_count = "num_received_" + chat_request_action_on_receiver + counter_to_modify_postfix 
+                                # update the chat_request status on the passive object. 
+                                update_bool = modify_passive_initiate_contact_object(chat_request_action_on_receiver, counter_modify, userobject_key, other_userobject_key)
+                                if not update_bool:
+                                    error_reporting.log_exception(logging.critical, 
+                                                                  error_message = "passive initiate_contact_object failed to update between %s and %s" %
+                                                                  (userobject.username, other_userobject.username))
+                                
+                                
+                            if counter_modify > 0:
+                                hours_between_notifications = utils.get_hours_between_notifications(other_userobject, 
+                                                            constants.hours_between_new_contacts_notifications)
+                            else: 
+                                hours_between_notifications = "NA" # should not be required/accessed
+                            
+                            # update the *receiver's* counters for kisses, winks, etc.
+                            receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
+                                                       action_for_contact_count, counter_modify, hours_between_notifications, 
+                                                       update_notification_times = True)
+                            
+                            info_message = "Modifying %s on %s by %s" %(action_for_contact_count, other_userobject.username, counter_modify)
+                            logging.info(info_message)
+                                                       
+                            # if notification for sending the user notification is past due, send it now.
+                            if receiver_new_contact_counter_obj.when_to_send_next_notification <= datetime.datetime.now():
+                                
+                                try:
+                                    # by construction, this should never execute unless the email address is valid - if email address is not
+                                    # valid, then the date of when_to_send_next_notification should be set to max. 
+                                    assert(other_userobject.email_address_is_valid)
+                                    # add a one minute delay before sending the message notification - this means that if the user sends a wink (or whatever)
+                                    # and quickly changes their mind, the error checking code in the notification function will catch that the 
+                                    # when_to_send_next_notification time is no longer valid, and the email will be cancelled. 
+                                    countdown_time = 60
+    
+                                    taskqueue.add(queue_name = 'fast-queue', countdown = countdown_time, \
+                                                  url='/rs/admin/send_new_message_notification_email/', params = {
+                                                      'uid': other_userobject.key.urlsafe()})
+                                except:
+                                    error_reporting.log_exception(logging.critical)
+                                    
+                            if action == "chat_friend" or action == "key":
+                                # Update the counters on *owners* "new_contact_counter_ref" object to reflect how many
+                                # friend requests or how many keys they have sent. 
+                                # For now we only track keys and friend requests
+                                sent_action_for_contact_count = "num_sent_" + action
+                                modify_new_contact_counter(userobject.new_contact_counter_ref, \
+                                                       sent_action_for_contact_count, counter_modify, 
+                                                       hours_between_notifications = None, update_notification_times = False)
+    
 
                     elif action == 'favorite':
                         # we must check if the users have sent messages between them, and if so

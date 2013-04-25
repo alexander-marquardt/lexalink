@@ -39,7 +39,7 @@ import forms, admin, utils, error_reporting, logging
 from models import UserModel
 from forms import FormUtils
 import constants, text_fields, time, chat_support, localizations, http_utils, common_data_structs, channel_support, online_presence_support
-import online_presence_support
+import online_presence_support, menubar
 from rs.import_search_engine_overrides import *
 
 
@@ -157,6 +157,8 @@ def get_ad(request, ads_to_select_from):
         error_reporting.log_exception(logging.critical)
 
 
+
+
 def render_main_html(request, generated_html, userobject = None, link_to_hide = '', 
                      page_title = '', refined_links_html = '', show_social_buttons = False, page_meta_description = '',
                      show_search_box = True, text_override_for_navigation_bar = '', hide_page_from_webcrawler = False,
@@ -191,8 +193,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             owner_uid = userobject.key.urlsafe()
             owner_nid = userobject.key.integer_id()
             owner_message_count = userobject.unread_mail_count_ref.get().unread_contact_count
-            new_contact_counter_obj = userobject.new_contact_counter_ref.get()
-            new_contact_count_sum = utils.get_new_contact_count_sum(new_contact_counter_obj)
+            new_contact_counter_obj = userobject.new_contact_counter_ref.get()            
+            contacts_dropdown_html = menubar.generate_contacts_dropdown_html(new_contact_counter_obj)
             registered_user_bool = True
             why_to_register = ''
             # Check if the user has disabled their chat - this will propagate through to all of the users open windows
@@ -214,7 +216,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             display_uid = ''
             owner_uid = ''
             owner_nid = ''
-            owner_message_count = new_contact_count_sum = 0
+            owner_message_count = new_contact_count_sum = removed_contact_count_sum = 0
             num_profile_views_since_last_check = 0
             if not hide_why_to_register:
                 why_to_register = utils.get_why_to_register()
@@ -256,8 +258,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields['owner_uid'] = owner_uid
         primary_user_presentation_data_fields['owner_nid'] = owner_nid
         primary_user_presentation_data_fields['owner_message_count'] = owner_message_count
-        primary_user_presentation_data_fields['new_contact_count_sum'] = new_contact_count_sum
-        primary_user_presentation_data_fields['new_contact_counter_obj'] = new_contact_counter_obj
+        primary_user_presentation_data_fields['contacts_dropdown_html'] = contacts_dropdown_html
         primary_user_presentation_data_fields['user_presence_delay_constants'] = constants.OnlinePresenceConstants
         primary_user_presentation_data_fields['chat_is_disabled'] = chat_is_disabled
         primary_user_presentation_data_fields['do_not_try_to_dynamically_load_search_values'] = do_not_try_to_dynamically_load_search_values

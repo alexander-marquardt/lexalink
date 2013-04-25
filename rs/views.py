@@ -244,21 +244,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
       
         html_for_main = MyHTMLCallbackGenerator(request, display_userobject, is_primary_user, owner_userobject, have_sent_messages_object)
                
-        
         search_bar = MyHTMLSearchBarGenerator(lang_idx)
-        
-        if owner_userobject:
-            # this is the logged-in client
-            owner_username = owner_userobject.username
-            unread_mail_count_object = owner_userobject.unread_mail_count_ref.get()
-            owner_message_count = unread_mail_count_object.unread_contact_count
-            new_contact_counter_object = owner_userobject.new_contact_counter_ref.get()
-            new_contact_count = get_new_contact_count_sum(new_contact_counter_object)
-        else:
-            # this is a guest that is not logged-in
-            owner_username = ''
-            owner_message_count = new_contact_count = 0
-            
+           
         if display_userobject.user_is_marked_for_elimination:
             account_has_been_removed_message =  utils.get_removed_user_reason_html(display_userobject)
             

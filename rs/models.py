@@ -197,18 +197,23 @@ class CountInitiateContact(ndb.Model):
     # login.
 
     num_received_kiss_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_received_kiss_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_kiss_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_wink_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False)
+    num_received_wink_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False)
     date_wink_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_key_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_received_key_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_key_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_friend_request_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_received_friend_request_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_friend_request_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     num_received_friend_confirmation_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_received_friend_confirmation_removed_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_friend_confirmation_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     # date of last notification indicates when we previously sent this user an email about new 
@@ -216,7 +221,6 @@ class CountInitiateContact(ndb.Model):
     # auto_now_add means that this will be assigned the current time, the first time that this object
     # is written to the database. 
     date_of_last_notification = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
-    
     
     # count number of new initiate_contact requests since the last time a notification was sent out. This is a summation
     # of kisses, winks, and keys received.
