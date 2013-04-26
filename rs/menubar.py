@@ -18,14 +18,17 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
         html_list = []
                     
         html_list.append("<li>")
-        num_received_contact_type_since_last_reset = getattr(new_contact_counter_obj, 'num_received_' + contact_type + "_since_last_reset")
-        num_received_html = generate_num_received_html(num_received_contact_type_since_last_reset)
         
+        num_received_contact_type_since_last_reset = getattr(new_contact_counter_obj, 'num_received_' + contact_type + "_since_last_reset") 
         
         if contact_type == "chat_friend":
             # we need to add in extra html to show the "connected" friends
-            num_received_friend_connected_since_last_reset = getattr(new_contact_counter_obj, "num_connected_chat_friend_since_last_reset")
-            num_confirmed_friends_html = generate_num_received_html(num_received_friend_connected_since_last_reset)
+            num_friend_connected_since_last_reset = getattr(new_contact_counter_obj, "num_connected_chat_friend_since_last_reset")
+            combined_num_friends_since_last_reset =  num_friend_connected_since_last_reset +\
+                num_received_contact_type_since_last_reset     
+            combined_num_html = generate_num_received_html(combined_num_friends_since_last_reset)   
+            
+            num_confirmed_friends_html = generate_num_received_html(num_friend_connected_since_last_reset)
             
             additional_li_and_anchor_html = """
             <li><a href="%(connected_url)s">%(connected_txt)s %(num_confirmed_friends_html)s
@@ -35,14 +38,15 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
                    'connected_txt': ugettext("Confirmed"),
                    'num_confirmed_friends_html' : num_confirmed_friends_html,
                    }
-            
         else:
             additional_li_and_anchor_html = ''
+            combined_num_html = generate_num_received_html(num_received_contact_type_since_last_reset)  
             
+        num_received_html = generate_num_received_html(num_received_contact_type_since_last_reset)            
             
         html_list.append(u"""
         <a href="#" class="fly">%(plural_contact_type)s
-        %(num_received_html)s
+        %(combined_num_html)s
         </a>
         <ul class="sub">
         <li><a href="%(received_url)s">%(received_txt)s
@@ -54,6 +58,7 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
                 
         </ul>
         """ % {'plural_contact_type' : constants.ContactIconText.plural_icon_name[contact_type],
+               'combined_num_html' : combined_num_html,
                 'num_received_html' : num_received_html, 
                 'received_url' : reverse("show_contacts", kwargs={'contact_type': contact_type,  
                                                                   'sent_or_received' : 'received'}),

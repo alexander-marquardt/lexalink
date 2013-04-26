@@ -140,7 +140,7 @@ def show_contacts(request, contact_type, sent_or_received):
             
             # convert the contact_query_results into a list of profile keys so that we can use the common code for
             # displaying a series of profile summaries. 
-            profile_keys_list = (x.viewer_profile for x in contact_query_results)
+            profile_keys_list = [getattr(x, profile_to_show) for x in contact_query_results]
 
             generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, profile_keys_list, 
                                                                                               display_online_status)            
