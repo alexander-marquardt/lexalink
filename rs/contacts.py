@@ -45,6 +45,7 @@ import queries, rendering, localizations, error_reporting, logging
 import utils, utils_top_level, display_profiles_summary
 import http_utils
 
+supress_sent_received_list = ['favorite', 'blocked']
 
 @requires_login
 def show_contacts(request, contact_type, sent_or_received):
@@ -58,17 +59,25 @@ def show_contacts(request, contact_type, sent_or_received):
             generated_title = ''
             
         else:
+      
+            
+            
             owner_key = userobject.key
             owner_uid = owner_key.urlsafe()
             display_online_status = utils.do_display_online_status(owner_uid)
             show_online_status = utils.show_online_status(owner_uid)
-            
-            generated_title = header_html = u"%s %s" % (constants.ContactIconText.plural_icon_name[contact_type], 
-                                                        constants.ContactIconText.contacts_actions_text[sent_or_received])
+                       
             generated_html_before_form = ''
             display_online_status = utils.do_display_online_status(owner_uid)           
             
             if contact_type != "chat_friend":
+                
+                if contact_type not in supress_sent_received_list:
+                    generated_title = header_html = u"%s %s" % (constants.ContactIconText.plural_icon_name[contact_type], 
+                                                                constants.ContactIconText.contacts_actions_text[sent_or_received])
+                else:
+                    generated_title = header_html = u"%s" % (constants.ContactIconText.plural_icon_name[contact_type])                
+                
                 query_value_to_match = True
                 if sent_or_received == 'sent':
                     # if we are displaying kisses that were sent by the current user, then we are intersted
@@ -87,6 +96,7 @@ def show_contacts(request, contact_type, sent_or_received):
                 # Note: due to the fact that information about the chat status between two users is always
                 #       encoded on the viewer object, we just query the viewer_object, and therefore 
                 #       the profile_to_show is always "displayed_profile"
+                
                 profile_to_show = 'displayed_profile'
                 if sent_or_received == 'sent':
                     query_value_to_match = 'request_sent'
@@ -96,6 +106,14 @@ def show_contacts(request, contact_type, sent_or_received):
                     query_value_to_match = 'connected'
                 else:
                     assert(False)
+                    
+                generated_title = header_html = u"%s" % (constants.ContactIconText.chat_friend_plural_text[query_value_to_match])                     
+                 
+                                
+            image_name = constants.ContactIconText.icon_images[contact_type]
+            image_html = """
+            <img src="/%s/img/%s/%s" align="left" style = "vertical-align=middle" alt="">  
+            """ % (settings.LIVE_STATIC_DIR, settings.BUILD_NAME, image_name)  
                                 
             generated_html_before_form += u'<div class="cl-clear"></div>\n'
             generated_html_before_form += '<ul>\n'                                
@@ -106,7 +124,7 @@ def show_contacts(request, contact_type, sent_or_received):
             generated_html_bottom_next_button = ''  
             
             post_action = "/%s/show_contacts/%s/%s/" % (request.LANGUAGE_CODE, contact_type, sent_or_received)
-            generated_html_top = display_profiles_summary.generate_summary_html_top(header_html)
+            generated_html_top = display_profiles_summary.generate_summary_html_top(header_html, image_html)
             
             generated_html_open_form = display_profiles_summary.generate_summary_html_open_form(post_action)        
             generated_html_close_form = display_profiles_summary.generate_summary_html_close_form()
@@ -141,7 +159,7 @@ def show_contacts(request, contact_type, sent_or_received):
             # reset the counter that tells the user how many new contacts (of the current type) they have received.
             current_property_counter_name = 'num_' + sent_or_received + '_' + contact_type + '_since_last_reset' 
             current_property_date_reset_name = "date_" + contact_type + "_count_reset"
-            
+
             new_contact_counter_obj = userobject.new_contact_counter_ref.get()
             setattr(new_contact_counter_obj, current_property_counter_name, 0)
             setattr(new_contact_counter_obj, current_property_date_reset_name, datetime.datetime.now())

@@ -616,9 +616,9 @@ and numbers. Additionally, it may not contain any spaces.")
 class ContactIconText():
     the_last = ugettext_lazy("only the last")
     contacts_actions_text = {
-        'sent' : ugettext_lazy("Sent"),
-        'received' : ugettext_lazy("Received"),
-        'saved' : ugettext_lazy("Saved")
+        'sent' : ugettext_lazy("sent"),
+        'received' : ugettext_lazy("received"),
+        'saved' : ugettext_lazy("saved")
     }
     
     if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
@@ -638,9 +638,9 @@ class ContactIconText():
     }
 
     chat_friend_plural_text = {
-        'request_sent' : ugettext_lazy('Chat requests'),
-        'request_received': ugettext_lazy('Chat requests'),
-        'connected': ugettext_lazy('Chat connections'),
+        'request_sent' : ugettext_lazy('Chat requests sent'),
+        'request_received': ugettext_lazy('Chat requests received'),
+        'connected': ugettext_lazy('Chat connections confirmed'),
     }
         
     icon_message = {

@@ -414,8 +414,8 @@ def get_new_contact_count_sum(new_contact_counter):
     sum += getattr(new_contact_counter, 'num_received_kiss' + counter_postfix)
     sum += getattr(new_contact_counter, 'num_received_wink' + counter_postfix)
     sum += getattr(new_contact_counter, 'num_received_key' + counter_postfix)
-    sum += getattr(new_contact_counter, 'num_received_friend_request' + counter_postfix)
-    sum += getattr(new_contact_counter, 'num_received_friend_confirmation' + counter_postfix)
+    sum += getattr(new_contact_counter, 'num_received_chat_friend' + counter_postfix)
+    sum += getattr(new_contact_counter, 'num_connected_chat_friend' + counter_postfix)
     
     return sum
 

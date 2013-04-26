@@ -205,11 +205,11 @@ class CountInitiateContact(ndb.Model):
     num_received_key_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
     date_key_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
-    num_received_friend_request_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
-    date_friend_request_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
+    num_received_chat_friend_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    date_chat_friend_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
-    num_received_friend_confirmation_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
-    date_friend_confirmation_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
+    num_connected_chat_friend_since_last_reset = ndb.IntegerProperty(default = 0, indexed = False) 
+    date_connected_chat_friend_count_reset  = ndb.DateTimeProperty(auto_now_add = True, indexed = False) 
     
     # date of last notification indicates when we previously sent this user an email about new 
     # initiate-contact requests (eg. kiss, wink, key)

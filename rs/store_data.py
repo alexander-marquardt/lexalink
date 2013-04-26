@@ -691,7 +691,7 @@ def  reset_new_contact_or_mail_counter_notification_settings(object_ref_key):
 ###########################################################################
 
 def  modify_new_contact_counter(new_contact_counter_ref_key, action_type, action_prefix,
-                                value,
+                                action_postfix, value,
                                 hours_between_notifications, update_notification_times, 
                                 invalidated_action_previously_stored_date):
     # updates the new_contact_counter_obj value based on the value passed in. Must
@@ -701,16 +701,18 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_type, action
     
     try:
                 
-        def txn(new_contact_counter_ref_key, action_type, action_prefix, value):
+        def txn(new_contact_counter_ref_key, action_type, action_prefix, action_postfix, value):
     
-            action_field_for_contact_count = action_prefix + action_type + "_since_last_reset"
-            date_field_for_last_reset = "date_" + action_type + "_count_reset"
+            action_field_for_contact_count = action_prefix + action_type + action_postfix
             
             new_contact_counter_obj = new_contact_counter_ref_key.get()
             current_count = getattr(new_contact_counter_obj, action_field_for_contact_count)
-            date_of_last_reset = getattr(new_contact_counter_obj, date_field_for_last_reset)
                         
             if (invalidated_action_previously_stored_date):
+                
+                date_field_for_last_reset = "date_" + action_type + "_count_reset"
+                date_of_last_reset = getattr(new_contact_counter_obj, date_field_for_last_reset)
+                
                 # The user that we are counting for has previously had contact (of the current "action_type") with the other user. 
                 # Ie. the user has previously recieved a kiss from the other user, and the other user has just removed the kiss
                 if (invalidated_action_previously_stored_date <  date_of_last_reset):
@@ -779,7 +781,7 @@ def  modify_new_contact_counter(new_contact_counter_ref_key, action_type, action
                 
             return new_contact_counter_obj
         
-        new_contact_counter_obj = ndb.transaction(lambda: txn(new_contact_counter_ref_key, action_type, action_prefix, value))
+        new_contact_counter_obj = ndb.transaction(lambda: txn(new_contact_counter_ref_key, action_type, action_prefix, action_postfix, value))
         return new_contact_counter_obj
 
     except:
@@ -830,13 +832,13 @@ def toggle_chat_friend_status(initiate_contact_object):
         elif initiate_contact_object.chat_friend_stored == "request_received":
             # user is responding to a request to "connect" for chat and therefore a click will make them connected
             initiate_contact_object.chat_friend_stored = "connected"
-            chat_request_action_on_receiver = "friend_confirmation"
+            chat_request_action_on_receiver = "friend_connected"
             counter_modify = 1
             
         elif initiate_contact_object.chat_friend_stored == "connected":
             # the user has decided to disconnect from the other user -- however the other users request still remains
             initiate_contact_object.chat_friend_stored = "request_received"
-            chat_request_action_on_receiver = "friend_confirmation"
+            chat_request_action_on_receiver = "friend_connected"
             counter_modify = -1
         else:
             assert(False)
@@ -849,7 +851,7 @@ def toggle_chat_friend_status(initiate_contact_object):
 
 ###########################################################################
 def modify_passive_initiate_contact_object(chat_request_action_on_receiver, add_or_remove, userobject_key, other_userobject_key):
-    # chat-request_action_on_receiver is either "friend_request" or "friend_confirmation", 
+    # chat-request_action_on_receiver is either "friend_request" or "friend_connected", 
     # and add_or_remove is either +1 or -1 respectively
     #
     # "passive" initiate contact object means the initiate contact object referring to "other_userobject" kisses,keys,etc.
@@ -864,7 +866,7 @@ def modify_passive_initiate_contact_object(chat_request_action_on_receiver, add_
             if add_or_remove == -1:
                 initiate_contact_object.chat_friend_stored = None
                 
-        if chat_request_action_on_receiver == "friend_confirmation":
+        if chat_request_action_on_receiver == "friend_connected":
             if add_or_remove == +1:
                 initiate_contact_object.chat_friend_stored = "connected"
             if add_or_remove == -1:
@@ -876,7 +878,7 @@ def modify_passive_initiate_contact_object(chat_request_action_on_receiver, add_
         utils.put_initiate_contact_object(initiate_contact_object, other_userobject_key, userobject_key)  
     
     # currently this function should only be called for chat_friend requests.
-    assert(chat_request_action_on_receiver == "friend_request" or chat_request_action_on_receiver == "friend_confirmation")   
+    assert(chat_request_action_on_receiver == "friend_request" or chat_request_action_on_receiver == "friend_connected")   
     assert(add_or_remove == +1 or add_or_remove == -1)
     # NOTE: reversed userobjects in the following call to get the "passive" object (the user receiving 
     # the chat request)
@@ -1074,17 +1076,21 @@ def store_initiate_contact(request, to_uid):
                
                     # update the counter for the receiver, except for favorites and blocked since these fields 
                     # will never be displayed or available to the "viewed" user.
+                    action_postfix = "_since_last_reset"
                     if action != "favorite" and action != 'blocked':
                         if counter_modify != 0:
-                                
                             if action != "chat_friend":
-                                action_type = action
-                                
+                                action_prefix = "num_received_" 
                             else: 
                                 #action == "chat_friend"
                                 #
-                                # Note chat_request_action_on_receiver should be either friend_request or friend_confirmation
-                                action_type = chat_request_action_on_receiver
+                                # Note chat_request_action_on_receiver should be either friend_request or friend_connected
+                                
+                                if chat_request_action_on_receiver == 'friend_connected':
+                                    action_prefix = "num_connected_"
+                                else:
+                                    action_prefix = "num_received_"
+                                    
                                 # update the chat_request status on the passive object. 
                                 update_bool = modify_passive_initiate_contact_object(chat_request_action_on_receiver, counter_modify, userobject_key, other_userobject_key)
                                 if not update_bool:
@@ -1100,13 +1106,13 @@ def store_initiate_contact(request, to_uid):
                                 hours_between_notifications = "NA" # should not be required/accessed
                             
                             # update the *receiver's* counters for kisses, winks, etc.
-                            action_prefix = "num_received_" 
+                           
                             receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
-                                                       action_type, action_prefix, counter_modify, hours_between_notifications, 
+                                                       action, action_prefix, action_postfix, counter_modify, hours_between_notifications, 
                                                        update_notification_times = True,
                                                        invalidated_action_previously_stored_date = invalidated_action_previously_stored_date)
                             
-                            info_message = "Modifying %s on %s by %s" %(action_type, other_userobject.username, counter_modify)
+                            info_message = "Modifying %s on %s by %s" %(action, other_userobject.username, counter_modify)
                             logging.info(info_message)
                                                        
                             # if notification for sending the user notification is past due, send it now.
@@ -1131,10 +1137,10 @@ def store_initiate_contact(request, to_uid):
                                 # Update the counters on *owners* "new_contact_counter_ref" object to reflect how many
                                 # friend requests or how many keys they have sent. 
                                 # For now we only track keys and friend requests
-                                action_type = action
                                 action_prefix = "num_sent_"
+                                action_postfix = ''
                                 modify_new_contact_counter(userobject.new_contact_counter_ref, \
-                                                       action_type, action_prefix, counter_modify, 
+                                                       action, action_prefix, action_postfix, counter_modify, 
                                                        hours_between_notifications = None, update_notification_times = False,
                                                        invalidated_action_previously_stored_date = None)
     

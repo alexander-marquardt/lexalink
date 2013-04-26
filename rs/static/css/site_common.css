@@ -176,6 +176,10 @@ select {
 .cl-text-10pt-format {font-size: 10px;}
 .cl-text-8pt-format {font-size: 8px;}
 
+.cl-vertical-align-middle {
+    vertical-align: middle;
+}
+
 .cl-header-format {
 font-size: 18px;
 font-weight: bold;

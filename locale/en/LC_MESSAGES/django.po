@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-25 17:32-0400\n"
+"POT-Creation-Date: 2013-04-25 18:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,128 +265,133 @@ msgstr ""
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:618 rs/mailbox.py:628 rs/menubar.py:45 rs/text_fields.py:75
-msgid "Sent"
-msgstr ""
-
-#: rs/constants.py:619 rs/mailbox.py:620 rs/mailbox.py:634 rs/menubar.py:44
-#: rs/text_fields.py:76
-msgid "Received"
+#: rs/constants.py:619 rs/store_data.py:1485
+msgid "sent"
 msgstr ""
 
 #: rs/constants.py:620
-msgid "Saved"
+#, fuzzy
+msgid "received"
+msgstr "You have currently selected"
+
+#: rs/constants.py:621
+msgid "saved"
 msgstr ""
 
-#: rs/constants.py:623
+#: rs/constants.py:625
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:624
+#: rs/constants.py:626
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:626
+#: rs/constants.py:628
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:627
+#: rs/constants.py:629
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:630
+#: rs/constants.py:632
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:632
+#: rs/constants.py:634
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:633
+#: rs/constants.py:635
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:634
+#: rs/constants.py:636
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:635
+#: rs/constants.py:637
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:639 rs/constants.py:640
-msgid "Chat requests"
-msgstr ""
-
 #: rs/constants.py:641
-msgid "Chat connections"
+msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:645
-msgid "Add them to your list of favorites"
+#: rs/constants.py:642
+#, fuzzy
+msgid "Chat requests received"
+msgstr "You have currently selected"
+
+#: rs/constants.py:643
+msgid "Chat connections confirmed"
 msgstr ""
 
 #: rs/constants.py:647
-msgid "Send them a kiss"
-msgstr ""
-
-#: rs/constants.py:648
-msgid "Give them access to your private photos"
+msgid "Add them to your list of favorites"
 msgstr ""
 
 #: rs/constants.py:649
-msgid "Invite them to chat with you"
+msgid "Send them a kiss"
 msgstr ""
 
 #: rs/constants.py:650
+msgid "Give them access to your private photos"
+msgstr ""
+
+#: rs/constants.py:651
+msgid "Invite them to chat with you"
+msgstr ""
+
+#: rs/constants.py:652
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:687
+#: rs/constants.py:689
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:688
+#: rs/constants.py:690
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:689
+#: rs/constants.py:691
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:692
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:691
+#: rs/constants.py:693
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:692
+#: rs/constants.py:694
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:693
+#: rs/constants.py:695
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:694
+#: rs/constants.py:696
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:695
+#: rs/constants.py:697
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:696
+#: rs/constants.py:698
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:697
+#: rs/constants.py:699
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:698
+#: rs/constants.py:700
 msgid "December"
 msgstr ""
 
@@ -597,7 +602,7 @@ msgstr ""
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr ""
 
-#: rs/email_utils.py:629 rs/menubar.py:75 rs/profile_utils.py:100
+#: rs/email_utils.py:629 rs/menubar.py:92 rs/profile_utils.py:100
 msgid "Contacts"
 msgstr ""
 
@@ -2300,6 +2305,10 @@ msgstr ""
 msgid "Deleted (mail)"
 msgstr "Deleted"
 
+#: rs/mailbox.py:620 rs/mailbox.py:634 rs/menubar.py:60 rs/text_fields.py:76
+msgid "Received"
+msgstr ""
+
 #: rs/mailbox.py:623
 msgid "Spam"
 msgstr ""
@@ -2307,6 +2316,10 @@ msgstr ""
 #: rs/mailbox.py:624
 msgid "Received (mail)"
 msgstr "Received"
+
+#: rs/mailbox.py:628 rs/menubar.py:61 rs/text_fields.py:75
+msgid "Sent"
+msgstr ""
 
 #: rs/mailbox.py:633
 msgid "Read (mail)"
@@ -2386,10 +2399,23 @@ msgid ""
 "without responding."
 msgstr ""
 
-#: rs/menubar.py:23 rs/menubar.py:65
+#: rs/menubar.py:23 rs/menubar.py:82
 #: rs/templates/user_main_helpers/menubar.html:94
 msgid "new"
 msgstr ""
+
+#: rs/menubar.py:34
+msgid "Confirmed"
+msgstr ""
+
+#: rs/menubar.py:117
+msgid "Favorite profiles"
+msgstr ""
+
+#: rs/menubar.py:118
+#, fuzzy
+msgid "Blocked profiles"
+msgstr "Blocked"
 
 #: rs/profile_utils.py:108
 #, python-format
@@ -2608,10 +2634,6 @@ msgstr ""
 
 #: rs/store_data.py:1484
 msgid "of"
-msgstr ""
-
-#: rs/store_data.py:1485
-msgid "sent"
 msgstr ""
 
 #: rs/store_data.py:1486

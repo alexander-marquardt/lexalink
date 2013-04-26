@@ -592,11 +592,11 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
         new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_reset
         new_wink_count = new_contact_counter_obj.num_received_wink_since_last_reset
         new_key_count = new_contact_counter_obj.num_received_key_since_last_reset
-        new_friend_request_count = new_contact_counter_obj.num_received_friend_request_since_last_reset
-        new_friend_confirmation_count = new_contact_counter_obj.num_received_friend_confirmation_since_last_reset
+        new_friend_request_count = new_contact_counter_obj.num_received_chat_friend_request_since_last_reset
+        new_friend_connected_count = new_contact_counter_obj.num_connected_chat_friend_since_last_reset
         
         new_initiate_contact_bool = (new_kiss_count or new_wink_count or new_key_count or \
-                                     new_friend_request_count or new_friend_confirmation_count)    
+                                     new_friend_request_count or new_friend_connected_count)    
         
         if new_initiate_contact_bool:
             
@@ -617,7 +617,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
                 initiate_contact_list.append(u" %d %s" %  (new_kiss_count, constants.ContactIconText.plural_icon_name['kiss']))
             initiate_contact_list.append(u" %d %s" %  ( new_key_count, constants.ContactIconText.plural_icon_name['key']))
             initiate_contact_list.append(u" %d %s" %  ( new_friend_request_count, constants.ContactIconText.chat_friend_plural_text['request_received']))
-            initiate_contact_list.append(u" %s %d %s" %  (ugettext("and"), new_friend_confirmation_count, constants.ContactIconText.chat_friend_plural_text['connected']))
+            initiate_contact_list.append(u" %s %d %s" %  (ugettext("and"), new_friend_connected_count, constants.ContactIconText.chat_friend_plural_text['connected']))
             
             
             message_text += u",".join(initiate_contact_list)

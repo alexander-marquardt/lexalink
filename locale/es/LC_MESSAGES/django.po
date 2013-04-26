@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-25 17:32-0400\n"
+"POT-Creation-Date: 2013-04-25 18:54-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -294,128 +294,131 @@ msgstr ""
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:618 rs/mailbox.py:628 rs/menubar.py:45 rs/text_fields.py:75
-msgid "Sent"
-msgstr "Enviado"
-
-#: rs/constants.py:619 rs/mailbox.py:620 rs/mailbox.py:634 rs/menubar.py:44
-#: rs/text_fields.py:76
-msgid "Received"
-msgstr "Recibido"
+#: rs/constants.py:619 rs/store_data.py:1485
+msgid "sent"
+msgstr "enviados"
 
 #: rs/constants.py:620
-msgid "Saved"
-msgstr "Guardado"
+msgid "received"
+msgstr "recibidos"
 
-#: rs/constants.py:623
+#: rs/constants.py:621
+msgid "saved"
+msgstr "guardados"
+
+#: rs/constants.py:625
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:624
+#: rs/constants.py:626
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:626
+#: rs/constants.py:628
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:627
+#: rs/constants.py:629
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:630
+#: rs/constants.py:632
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:632
+#: rs/constants.py:634
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:633
+#: rs/constants.py:635
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:634
+#: rs/constants.py:636
 msgid "Chat friends"
-msgstr ""
+msgstr "Amigos de chat"
 
-#: rs/constants.py:635
+#: rs/constants.py:637
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:639 rs/constants.py:640
-msgid "Chat requests"
-msgstr ""
-
 #: rs/constants.py:641
-msgid "Chat connections"
-msgstr ""
+msgid "Chat requests sent"
+msgstr "Chat amigos pedidos"
 
-#: rs/constants.py:645
+#: rs/constants.py:642
+msgid "Chat requests received"
+msgstr "Chat amigos recibidos"
+
+#: rs/constants.py:643
+msgid "Chat connections confirmed"
+msgstr "Chat amigos confirmados"
+
+#: rs/constants.py:647
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:647
+#: rs/constants.py:649
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:648
+#: rs/constants.py:650
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:649
+#: rs/constants.py:651
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:650
+#: rs/constants.py:652
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automaticamente)"
 
-#: rs/constants.py:687
+#: rs/constants.py:689
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:688
+#: rs/constants.py:690
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:689
+#: rs/constants.py:691
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:690
+#: rs/constants.py:692
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:691
+#: rs/constants.py:693
 msgid "May"
 msgstr "mayo"
 
-#: rs/constants.py:692
+#: rs/constants.py:694
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:693
+#: rs/constants.py:695
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:694
+#: rs/constants.py:696
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:695
+#: rs/constants.py:697
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:696
+#: rs/constants.py:698
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:697
+#: rs/constants.py:699
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:698
+#: rs/constants.py:700
 msgid "December"
 msgstr "diciembre"
 
@@ -645,7 +648,7 @@ msgstr "y"
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr "Puedes ver quien te ha contactado en %(link_to_build)s"
 
-#: rs/email_utils.py:629 rs/menubar.py:75 rs/profile_utils.py:100
+#: rs/email_utils.py:629 rs/menubar.py:92 rs/profile_utils.py:100
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -2375,6 +2378,10 @@ msgstr "A"
 msgid "Deleted (mail)"
 msgstr "Eliminado"
 
+#: rs/mailbox.py:620 rs/mailbox.py:634 rs/menubar.py:60 rs/text_fields.py:76
+msgid "Received"
+msgstr "Recibido"
+
 #: rs/mailbox.py:623
 msgid "Spam"
 msgstr "Spam"
@@ -2382,6 +2389,10 @@ msgstr "Spam"
 #: rs/mailbox.py:624
 msgid "Received (mail)"
 msgstr "Recibido"
+
+#: rs/mailbox.py:628 rs/menubar.py:61 rs/text_fields.py:75
+msgid "Sent"
+msgstr "Enviado"
 
 #: rs/mailbox.py:633
 msgid "Read (mail)"
@@ -2467,10 +2478,22 @@ msgstr ""
 "Si el mensaje que te han enviado no es cortés y relacionado con lo que has "
 "especificado en tu descripción, márcalo como spam sin responder."
 
-#: rs/menubar.py:23 rs/menubar.py:65
+#: rs/menubar.py:23 rs/menubar.py:82
 #: rs/templates/user_main_helpers/menubar.html:94
 msgid "new"
 msgstr "nuevos"
+
+#: rs/menubar.py:34
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#: rs/menubar.py:117
+msgid "Favorite profiles"
+msgstr "Perfiles favoritos"
+
+#: rs/menubar.py:118
+msgid "Blocked profiles"
+msgstr "Perfiles bloqueados"
 
 #: rs/profile_utils.py:108
 #, python-format
@@ -2719,10 +2742,6 @@ msgstr "Estadisticas de spam enviado desde tu cuenta:"
 #: rs/store_data.py:1484
 msgid "of"
 msgstr "de"
-
-#: rs/store_data.py:1485
-msgid "sent"
-msgstr "enviado"
 
 #: rs/store_data.py:1486
 msgid ""
@@ -5349,6 +5368,3 @@ msgstr ""
 #~ "Para proteger tu privacidad, si eliges pagar con tarjeta de crédito, se "
 #~ "te cobrará con un nombre discreto que sería difícil de vincular a "
 #~ "%(app_name)s."
-
-#~ msgid "Confirm"
-#~ msgstr "Confirmar"
