@@ -1067,30 +1067,9 @@ def store_initiate_contact(request, to_uid):
                                 hours_between_notifications = "NA" # should not be required/accessed
                             
                             # update the *receiver's* counters for kisses, winks, chat_friends, etc.
-
-                            if chat_request_action_on_receiver == 'connected' and active_previous_chat_friend_stored_value == "request_sent"  \
-                               or chat_request_action_on_receiver == 'request_sent' and active_previous_chat_friend_stored_value == "connected":
-                                # We have just sent a friend request, and updated the receivers counter, however we still need 
-                                # to modify the receiver counter, since he has just removed a friend request and converted it into a connection. 
-                                action_prefix = "num_received_"
-                                action_postfix = "_since_last_reset"
-                                modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
-                                                           action, action_prefix, action_postfix, (-counter_modify), hours_between_notifications, 
-                                                           update_notification_times = False,)  
-                                
-                                # We have just removed a connected friend, and updated the receivers counter, however we still need 
-                                # to modify the receiver counter, since he has just removed a connected friend converted it into a 
-                                # friend_request.                                               
-                                action_prefix = "num_connected_"
-                                action_postfix = "_since_last_reset"
-                                receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
-                                                           action, action_prefix, action_postfix, counter_modify, hours_between_notifications, 
-                                                           update_notification_times = True,)    
-                                
-                            else:                                   
-                                receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
-                                                           action, action_prefix, action_postfix, counter_modify, hours_between_notifications, 
-                                                           update_notification_times = True,)                                                                                     
+                            receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
+                                                         action, action_prefix, action_postfix, counter_modify, hours_between_notifications, 
+                                                         update_notification_times = True,)                                                                                     
 
                             info_message = "Modifying %s on %s by %s" %(action, other_userobject.username, counter_modify)
                             logging.info(info_message)
@@ -1121,18 +1100,7 @@ def store_initiate_contact(request, to_uid):
                                 action_postfix = ''
                                 modify_new_contact_counter(userobject.new_contact_counter_ref, \
                                                        action, action_prefix, action_postfix, counter_modify, 
-                                                       hours_between_notifications = None, update_notification_times = False,)             
-                                
-                                if chat_request_action_on_receiver == 'connected' and active_previous_chat_friend_stored_value == "request_received":
-                                    # We have just accepted a friend request, and updated the receivers counter, however we still need 
-                                    # to modify the sender (owner) counter, since he has just removed a friend request and converted it into a connection. 
-                                    action_prefix = "num_received_"
-                                    action_postfix = "_since_last_reset"
-                                    modify_new_contact_counter(userobject.new_contact_counter_ref, \
-                                                               action, action_prefix, action_postfix, (-counter_modify), hours_between_notifications, 
-                                                               update_notification_times = False,)    
-                                    
-                                                                 
+                                                       hours_between_notifications = None, update_notification_times = False,)                                             
 
                     elif action == 'favorite':
                         # we must check if the users have sent messages between them, and if so
