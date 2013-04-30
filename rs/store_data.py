@@ -1067,6 +1067,11 @@ def store_initiate_contact(request, to_uid):
                                 hours_between_notifications = "NA" # should not be required/accessed
                             
                             # update the *receiver's* counters for kisses, winks, chat_friends, etc.
+                            # Note: the behaviour of these counters for chat_friends is not 100% ideal, but it would require large 
+                            # changes to correct. Eg. if a user recieves a friend request that they accept , the received request still 
+                            # is counted as "1 new". However we can't reduce that counter by one, because we don't know if the user
+                            # has already viewed the "friend requests" page, which would have already reset it to zero (and so subtracting
+                            # one would make it go negative ..) .. 
                             receiver_new_contact_counter_obj = modify_new_contact_counter(other_userobject.new_contact_counter_ref, \
                                                          action, action_prefix, action_postfix, counter_modify, hours_between_notifications, 
                                                          update_notification_times = True,)                                                                                     
