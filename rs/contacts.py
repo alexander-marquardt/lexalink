@@ -55,7 +55,7 @@ def get_date_contact_received_html(contact_type, sent_or_received, date_contact_
     
     extra_info_html_dict = {}
     
-    if contact_type == 'blocked' or contact_type == 'favorite':
+    if contact_type in supress_sent_received_list:
         # override the value of sent_or_received for blocked and favorite since we have stored it as "sent", but
         # gramatically it should really be 'saved'.
         sent_or_received = ''
@@ -166,10 +166,13 @@ def show_contacts(request, contact_type, sent_or_received):
             extra_info_html_dict = get_date_contact_received_html(contact_type, sent_or_received, 
                                                                   date_contact_received_list, profile_keys_list)
             
-
-            generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, profile_keys_list, 
+            if profile_keys_list:
+                generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, profile_keys_list, 
                                                                                               display_online_status, extra_info_html_dict)            
-                                                                 
+            else:
+                generated_html_body = "%s<br><br><br><br>" % (ugettext("You do not have any \"%(title)s\" yet") % {
+                    'title' : generated_title})
+                
             if more_results:
                 generated_html_hidden_variables = \
                                     u'<input type=hidden id="id-show_contacts_cursor" name="show_contacts_cursor" \
