@@ -349,9 +349,9 @@ def create_search_preferences2_object(userobject, lang_code):
                                                              sub_region = '----', # intentionally leave this loose.
                                                              age='----', 
                                                              for_sale = "----", 
-                                                             to_buy = "----",
                                                              for_sale_sub_menu = "----",
-                                                             to_buy_sub_menu = "----",
+                                                             friend_price = "----",
+                                                             friend_currency = "----",
                                                              user_has_done_a_search = False,
                                                              query_order="unique_last_login",
                                                              lang_code = lang_code,

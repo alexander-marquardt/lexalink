@@ -41,7 +41,7 @@ from user_profile_details import *
 from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
 from constants import MAX_NUM_PHOTOS, PHOTOS_PER_ROW
-from constants import field_formats , MAIL_TEXTAREA_ROWS
+from constants import field_formats , MAIL_TEXTAREA_ROWS, list_of_contact_icons
 from localizations import input_field_lang_idx
 import queries
 import captcha
@@ -71,13 +71,6 @@ class FormUtils():
         
         generated_html = ''
         
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-            list_of_contact_icons = [ 'favorite', 'wink', 'kiss',  'key', 'chat_friend','blocked']
-        else:
-            # Notes: 1) we remove "kisses" completely. 2) we overload "wink" to mean greeting (but the code refers to it as a wink)
-            list_of_contact_icons = [ 'favorite', 'wink', 'key', 'chat_friend', 'blocked']
-
-
         generated_html += """<script type="text/javascript" language="javascript">
         $(document).ready(function(){
             handle_click_on_contact_icon("favorite", "%(display_uid)s");

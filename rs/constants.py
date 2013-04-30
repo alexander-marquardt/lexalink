@@ -610,7 +610,13 @@ and numbers. Additionally, it may not contain any spaces.")
 
 
 ############################################
-
+if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+    list_of_contact_icons = [ 'favorite', 'wink', 'kiss',  'key', 'chat_friend','blocked']
+    menu_items_list = ['wink', 'kiss', 'key', 'chat_friend']
+else:
+    # Notes: 1) we remove "kisses" completely. 2) we overload "wink" to mean greeting (but the code refers to it as a wink)
+    list_of_contact_icons = [ 'favorite', 'wink', 'key', 'chat_friend', 'blocked']
+    menu_items_list = ['wink', 'key', 'chat_friend']
 
     
 class ContactIconText():

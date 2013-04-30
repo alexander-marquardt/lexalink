@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-04-29-1916'
+VERSION_ID = '2013-04-30-0024'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = False
@@ -69,7 +69,7 @@ if BATCH_BUILD_NAME == '':
     #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
     #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
     #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
-    #BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
+    BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
 
 else:
     BUILD_NAME = BATCH_BUILD_NAME

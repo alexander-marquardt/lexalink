@@ -102,8 +102,7 @@ def generate_contacts_dropdown_html(new_contact_counter_obj):
         
         html_list.append('<ul class="sub">')
         
-        menu_items_list = ['wink', 'kiss', 'key', 'chat_friend']
-        for contact_type in menu_items_list:
+        for contact_type in constants.menu_items_list:
             html_list.append(generate_menu_item(contact_type, new_contact_counter_obj))
                              
         
