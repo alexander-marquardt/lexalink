@@ -592,7 +592,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
         new_kiss_count = new_contact_counter_obj.num_received_kiss_since_last_reset
         new_wink_count = new_contact_counter_obj.num_received_wink_since_last_reset
         new_key_count = new_contact_counter_obj.num_received_key_since_last_reset
-        new_friend_request_count = new_contact_counter_obj.num_received_chat_friend_request_since_last_reset
+        new_friend_request_count = new_contact_counter_obj.num_received_chat_friend_since_last_reset
         new_friend_connected_count = new_contact_counter_obj.num_connected_chat_friend_since_last_reset
         
         new_initiate_contact_bool = (new_kiss_count or new_wink_count or new_key_count or \
@@ -640,6 +640,10 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             message = mail.EmailMessage(sender=constants.sender_address,
                                 subject=ugettext("New contacts"))    
         else:
+            # there are *no* new unread messages or contacts - this is an error, and we should not be trying to send a notification
+            # reset the notification settings so that this is not re-queued in the future.
+            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref)        
+            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.new_contact_counter_ref)            
             raise Exception("Unknown state in send_new_message_notification_email")
         
         message.html = u"<p>%s," % ugettext("Hello %(username)s") % {'username': userobject.username}
