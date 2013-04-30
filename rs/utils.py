@@ -176,10 +176,7 @@ def generate_profile_summary_table(request, profile):
                     % user_profile_main_data.UserSpec.signup_fields_options_dict['native_language'][lang_idx][profile.native_language]
                 #language_to_learn_def = "%s"\
                  #   % user_profile_main_data.UserSpec.signup_fields_options_dict['language_to_learn'][lang_idx][profile.language_to_learn]
-            if settings.BUILD_NAME == "Friend":
-                price_def = "%s" % user_profile_main_data.UserSpec.signup_fields_options_dict['friend_price'][lang_idx][profile.friend_price]
-                currency_def = "%s" % user_profile_main_data.UserSpec.signup_fields_options_dict['friend_currency'][lang_idx][profile.friend_currency]
-        
+
         sex_def = u"%s" % user_profile_main_data.UserSpec.signup_fields_options_dict['sex'][lang_idx][profile.sex]
         
         country = profile.country
@@ -219,7 +216,6 @@ def generate_profile_summary_table(request, profile):
         looking_for_text = u"%s:" % ugettext("Looking for")
         age_text = u"%s:" % ugettext("My age")
         price_text = u"%s:" % ugettext("My price")
-        currency_text = u"%s:" % ugettext("Currency")
 
         if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
             location_text = u"%s:" % ugettext("In location") # override this for english (and obviously for others as well)
@@ -260,14 +256,7 @@ def generate_profile_summary_table(request, profile):
             second_row_html += '<td class = "cl-summary-info">%s</td>' % sex_def
                         
             first_row_html += '<td class = "cl-left-align-user-summary-text-narrower"><strong>%s</strong></td>' % age_text
-            second_row_html += '<td class = "cl-summary-info">%s</td>' % age_def
-    
-            if settings.BUILD_NAME == "Friend":
-                first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % price_text
-                second_row_html += '<td class = "cl-summary-info">%s</td>' % price_def 
-                
-                first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % currency_text
-                second_row_html += '<td class = "cl-summary-info">%s</td>' % currency_def                
+            second_row_html += '<td class = "cl-summary-info">%s</td>' % age_def           
             
             first_row_html += '<td class = "cl-left-align-user-summary-text-170px"><strong>%s</strong></td>' % location_text
             second_row_html += '<td class = "cl-summary-info">%s</td>' % location_def
@@ -1049,8 +1038,6 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
         return_dict.update({# following is only for Friend
                             'for_sale' : '----',
                             'for_sale_sub_menu' : '----',
-                            'friend_price' : '----',
-                            'friend_currency' : '----',
                             })
         #return_dict.update(user_profile_details.UserSpec.activity_categories_unset_dict)
     else:

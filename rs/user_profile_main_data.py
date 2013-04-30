@@ -64,9 +64,10 @@ class UserSpec():
             principal_user_data = ['native_language', 'language_to_learn',  'age', 'sex', 'country',  'username',]
             simple_search_fields = [ 'language_to_learn',   'country', 'age', 'language_to_teach', 'region', 'query_order',  'sex', 'sub_region',   ]  
         elif settings.BUILD_NAME == 'Friend':
-            principal_user_data = [ 'username', 'age',  'sex',  'country', 'friend_price', 'friend_currency' ]
-            simple_search_fields = ['for_sale', 'country', 'friend_price', 'for_sale_sub_menu', 'region', 'friend_currency', 'sex', 'sub_region', 
-                                    'query_order', 'age']  
+            principal_user_data = [ 'username', 'age',  'sex',  'country', ]
+            simple_search_fields = ['for_sale',          'country',    'age',
+                                    'for_sale_sub_menu', 'region',     'query_order',
+                                    'sex',               'sub_region',]  
         else:
             assert(0)
             
@@ -347,9 +348,8 @@ class UserSpec():
     elif settings.BUILD_NAME == 'Language' :
         signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))
         signup_native_language_label_tuple = ugettext_tuple(ugettext('My Native Language'))
-    elif settings.BUILD_NAME == 'Friend':
-        signup_friend_price_tuple = ugettext_tuple(ugettext('My Price/Hour'))
-        signup_friend_currency_tuple = ugettext_tuple(ugettext('Currency'))
+    elif settings.BUILD_NAME == "Friend":
+        pass
     else:
         assert(False)
         
@@ -479,31 +479,6 @@ class UserSpec():
             }    
         elif settings.BUILD_NAME == 'Friend':
             custom_signup_fields = {
-                'friend_price': 
-                {'label' : signup_friend_price_tuple,
-                 'choices' : friend_bazaar_specific_code.friend_prices_list,
-                 'options' : [],
-                 'input_type' : u'select'},
-                
-                'important_currencies_list':
-                # This is a dummy data structure that allows us to generate the sorted options for the "important" part
-                # of the currency list.                
-                {'label' : "This should never appear to the user - it is for internal use only",
-                 'choices' : friend_bazaar_specific_code.important_currencies_list,
-                 'start_sorting_index' : 0,
-                 'options' : [],
-                 'input_type' : u'select',
-                 'is_currency_field' : True, # require special-case sorting for currency fields
-                 },
-
-                
-                'friend_currency':
-                {'label' : signup_friend_currency_tuple,
-                'choices' : friend_bazaar_specific_code.currencies_list,
-                'start_sorting_index' : 0,
-                'options' : [],
-                'input_type' : u'select',
-                'is_currency_field' : True},
             }
     
         else:
@@ -541,12 +516,7 @@ class UserSpec():
             signup_fields['native_language']['options'][lang_idx] = signup_fields['important_languages_list']['options'][lang_idx] + \
                          [u'<option value="----">----\n', ] + \
                          signup_fields['native_language']['options'][lang_idx]    
-    
-    if settings.BUILD_NAME == "Friend":
-        for lang_idx, language_tuple in enumerate(settings.LANGUAGES):
-            signup_fields['friend_currency']['options'][lang_idx] = signup_fields['important_currencies_list']['options'][lang_idx] + \
-                         [u'<option value="----">----\n', ] + \
-                         signup_fields['friend_currency']['options'][lang_idx]            
+           
             
     #### START SEARCH FIELDS DECLARATION HERE #############         
     
@@ -603,20 +573,16 @@ class UserSpec():
             
             # Note: the other Friend labels are defined directly in friend_bazaar_specific_code.py 
             #       (I wanted to define them here, but this would require importing this file into friend_bazaar_specific_code
-            #        which would create a circular dependency since we also have imported friend_bazaar_specific_code into this module)
-            search_friend_price_tuple = ugettext_tuple(ugettext('Price/Hour'))
-            signup_friend_currency_tuple = ugettext_tuple(ugettext('Currency'))            
-
+            #        which would create a circular dependency since we also have imported friend_bazaar_specific_code into this module)     
+            
             #label_nums['for_sale'] = "1a."  # see friend_bazaar_specific_code.py for definition
             #label_nums['for_sale_sub_menu']  = "1b."  # see friend_bazaar_specific_code.py for definition
             search_sex_label_num = "2."           
-            search_age_label_num = "3."
-            search_country_label_num = "4a."
-            search_region_label_num = "4b."
-            search_sub_region_label_num = "4c."
-            search_friend_price_label_num = "5."
-            search_friend_currency_label_num = "6."
-            search_query_order_label_num = "7."
+            search_country_label_num = "3a."
+            search_region_label_num = "3b."
+            search_sub_region_label_num = "3c."
+            search_age_label_num = "4."
+            search_query_order_label_num = "5."
         
     common_search_fields = {
         # note "preference" refers to the sex of the current user, because this would be the prefernce that
@@ -763,42 +729,8 @@ class UserSpec():
             }
         
         if settings.BUILD_NAME == "Friend":
-            
-            friend_prices_categories =  [('----', ) + \
-                ugettext_tuple(ugettext("Any Price")),] + friend_bazaar_specific_code.friend_prices_list
-            currencies_search_categories = [('----', '') + ugettext_tuple(ugettext("Any Currency")),] + \
-                friend_bazaar_specific_code.currencies_list 
-            important_currencies_search_categories = [('----', '') + ugettext_tuple(ugettext("Any Currency")),] + \
-                friend_bazaar_specific_code.important_currencies_list     
 
             search_fields = {
-                'friend_price': 
-                {'label' : search_friend_price_tuple,
-                 'label_num' : search_friend_price_label_num,
-                 'choices' : friend_prices_categories,
-                 'options' : [],
-                 'input_type' : u'select'},
-                
-                'important_currencies_list':
-                # This is a dummy data structure that allows us to generate the sorted options for the "important" part
-                # of the currency list.                
-                {'label' : "This should never appear to the user - it is for internal use only",
-                 'choices' : important_currencies_search_categories,
-                 'start_sorting_index' : 1, # first value is for all currencies
-                 'options' : [],
-                 'input_type' : u'select',
-                 'is_currency_field' : True, # require special-case sorting for currency fields
-                 },
-
-                
-                'friend_currency':
-                {'label' : signup_friend_currency_tuple,
-                 'label_num' : search_friend_currency_label_num,
-                'choices' : currencies_search_categories,
-                'start_sorting_index' : 1, # first value is for all currencies
-                'options' : [],
-                'input_type' : u'select',
-                'is_currency_field' : True},
             }            
             friend_bazaar_specific_code.update_friend_bazaar_data_fields_dict(search_fields)
         
@@ -830,10 +762,4 @@ class UserSpec():
             search_fields['language_to_teach']['options'][lang_idx] = search_fields['important_languages_list']['options'][lang_idx] + \
                          [u'<option value="----">----\n', ] + \
                          search_fields['language_to_teach']['options'][lang_idx]
-        
-    if settings.BUILD_NAME == "Friend":
-        # copy the "important" languages to the top of the lists (these dropdowns are only available in Language)
-        for lang_idx, language_tuple in enumerate(settings.LANGUAGES):
-            search_fields['friend_currency']['options'][lang_idx] = search_fields['important_currencies_list']['options'][lang_idx] + \
-                         [u'<option value="----">----\n', ] + \
-                         search_fields['friend_currency']['options'][lang_idx]
+

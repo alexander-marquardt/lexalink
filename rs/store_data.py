@@ -562,8 +562,8 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
                     # of their setting for the current field.
                     post_val = [u"----",] + post_val
                     
-            if field == 'country' or field == 'native_language' or field == 'friend_currency':
-                # do not allow them to set their country, native_language, or currency to undefined value
+            if field == 'country' or field == 'native_language':
+                # do not allow them to set their country or native_language, to undefined value
                 # These are the fields that have a ---- seperating the "important" values from the rest. 
                 if post_val == '----':
                     # by setting to '', it will not be written to the userobject.

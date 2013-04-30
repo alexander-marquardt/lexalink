@@ -40,13 +40,9 @@
 
         check_if_javascript_version_id_has_changed("{{ javascript_version_id }}");
 
-        // the following is only relevant for FriendBazaar - but doesn't really harm the other builds
-        update_currency_on_country_change("#id-signup_fields", "{{ live_static_dir }}");
-
 
         var input_fields = ['username_email', 'username', 'sex', 'relationship_status',
-        'preference', 'age', 'password', 'password_verify', 'country', 'password_hashed', 'native_language', 'language_to_learn',
-        'friend_price', 'friend_currency'];
+        'preference', 'age', 'password', 'password_verify', 'country', 'password_hashed', 'native_language', 'language_to_learn'];
         var stored_input_fields = {};
 
         for (ix in input_fields) {

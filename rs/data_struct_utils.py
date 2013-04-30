@@ -29,7 +29,7 @@
 from django.utils.encoding import smart_unicode
 import settings, error_reporting, logging, utils_top_level, constants
 
-def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False, is_currency_field = False):
+def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False):
     
     # accepts a list that contains tuples consisting of a key (in position 0) followed by the translation
     # of the key in the languages that are currently suppored, (in positions 1 through N). 
@@ -40,15 +40,9 @@ def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False, is_curr
     
     tmp_key_list = []
     tmp_value_list = []
-    tmp_currency_symbol_list = [] # should only be used if is_currenct_field is true
     
-    if not is_currency_field:
-        lang_idx_offset = 1
-    else:
-        # currency field tuples have a currency symbol inserted right after the key, and so we need to account for
-        # the additional offset when looking up currency names
-        currency_field_idx = 1
-        lang_idx_offset  = 2
+    lang_idx_offset = 1
+
 
     for curr_tuple in tuple_list:
         tuple_key = curr_tuple[0]
@@ -56,14 +50,8 @@ def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False, is_curr
         tmp_key_list.append(tuple_key)
         tmp_value_list.append(tuple_value_in_current_language)
         
-        if is_currency_field:
-            currency_symbol = curr_tuple[currency_field_idx]
-            tmp_currency_symbol_list.append(currency_symbol)
             
-    if not is_currency_field:
-        list_of_tuples_in_current_language = zip(tmp_key_list, tmp_value_list)
-    else:
-        list_of_tuples_in_current_language = zip(tmp_key_list, tmp_value_list, tmp_currency_symbol_list)
+    list_of_tuples_in_current_language = zip(tmp_key_list, tmp_value_list)
         
     # sort the list of tuples so that it is alphabetical in the current language
     # always sort on location 1, which contains the word in the current language, as opposed to 
@@ -71,14 +59,9 @@ def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False, is_curr
     if do_sort:
         list_of_tuples_in_current_language.sort(key=lambda x: x[1])
     
-    if is_currency_field:
-        # we need to now move the currency symbol to in front of the currency name and convert the 3-tuple into a 2-tuple
-        for idx, curr_tuple in enumerate(list_of_tuples_in_current_language):
-            list_of_tuples_in_current_language[idx] = (curr_tuple[0], u"%s %s" % (curr_tuple[2], curr_tuple[1]),)
-    
+
     del tmp_key_list
     del tmp_value_list
-    del tmp_currency_symbol_list
     
     return (list_of_tuples_in_current_language)
     
@@ -175,10 +158,6 @@ def generate_option_line_based_on_data_struct(fields_data_struct, options_dict):
             choices_tuple_list = field_dict['choices']
             input_type = field_dict['input_type']    
             
-            if 'is_currency_field' in field_dict:
-                is_currency_field = field_dict['is_currency_field'] # should be boolean
-            else:
-                is_currency_field = False
             
             for lang_idx, language_tuple in enumerate(settings.LANGUAGES):
 
@@ -192,7 +171,7 @@ def generate_option_line_based_on_data_struct(fields_data_struct, options_dict):
                         # some part of this list should be sorted, starting after the "start_sorting_index" location in the list
                         where_to_start_sort = field_dict['start_sorting_index']
                         first_unsorted_part = \
-                                      get_pairs_in_current_langauge(choices_tuple_list[:where_to_start_sort], lang_idx, do_sort = False, is_currency_field = is_currency_field)
+                                      get_pairs_in_current_langauge(choices_tuple_list[:where_to_start_sort], lang_idx, do_sort = False)
                         
                         if 'stop_sorting_index' in field_dict:
                             # Leave some part of this list un-sorted
@@ -205,12 +184,12 @@ def generate_option_line_based_on_data_struct(fields_data_struct, options_dict):
                         last_part_to_leave_unsorted = choices_tuple_list[where_to_stop_sort:]
                             
                         sorted_part = \
-                                    get_pairs_in_current_langauge(part_to_sort, lang_idx, do_sort = True, is_currency_field = is_currency_field)
+                                    get_pairs_in_current_langauge(part_to_sort, lang_idx, do_sort = True)
                         last_unsorted_part = \
-                                    get_pairs_in_current_langauge(last_part_to_leave_unsorted, lang_idx, do_sort = False, is_currency_field = is_currency_field)       
+                                    get_pairs_in_current_langauge(last_part_to_leave_unsorted, lang_idx, do_sort = False)       
                         list_of_sorted_pairs = first_unsorted_part + sorted_part + last_unsorted_part
                     else:
-                        list_of_sorted_pairs = get_pairs_in_current_langauge(choices_tuple_list, lang_idx, do_sort = False, is_currency_field = is_currency_field)
+                        list_of_sorted_pairs = get_pairs_in_current_langauge(choices_tuple_list, lang_idx, do_sort = False)
                         
                         
                     #if input_type == u'checkbox':

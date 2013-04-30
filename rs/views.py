@@ -433,11 +433,6 @@ def login(request, is_admin_login = False, referring_code = None):
                         html_for_posted_values += '<input type="hidden" id= "%s" name="%s" value="%s" />\n' % (
                                     "id-hidden_region", "hidden_region", region_encoded)                           
             
-                    if settings.BUILD_NAME == "Friend":
-                        # we need to set the appropriate currency for the current country
-                        friend_currency = friend_bazaar_specific_code.country_to_currency_map[country_encoded]
-                        html_for_posted_values += '<input type="hidden" id= "%s" name="%s" value="%s" />\n' % (
-                                "id-hidden_friend_currency", "friend_currency", friend_currency) 
                 
             ##### existing user is logging in ##################################
             if (login_type == 'left_side_fields'):

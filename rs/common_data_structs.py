@@ -35,12 +35,3 @@ wrapper_data_fields['debugging_enabled'] = settings.DEBUG
 # Temporarily disable jquery_address for *ALL* sites.
 wrapper_data_fields['disable_jquery_address'] = True
 
-
-if settings.BUILD_NAME == "Friend":
-    wrapper_data_fields['country_to_currency_map'] = u"%s" % (friend_bazaar_specific_code.country_to_currency_map)
-    
-    # Disable ajax loading of pages for Friend, and any other pages that show google advertisements. 
-    # Currently, ajax loading of pages is not allowed under the AdSense terms of service.
-    wrapper_data_fields['disable_jquery_address'] = True
-else:
-    wrapper_data_fields['country_to_currency_map'] = {}       

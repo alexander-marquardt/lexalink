@@ -297,27 +297,6 @@ function load_for_sale_to_buy_on_change(id_prefix, default_text, live_static_dir
 }
 
 
-function update_currency_on_country_change(id_prefix, live_static_dir) {
-
-    try {
-        var country_menu_id = id_prefix + "-country";
-        var currency_menu_id = id_prefix + "-friend_currency";
-        $(country_menu_id).change(function() {
-            var new_country_val = $(country_menu_id).val();
-            if (new_country_val != "----") {
-                // set currency to the country-specific currency
-                var new_currency_val = country_to_currency_map[new_country_val];
-                rs_set_selector_to_value(currency_menu_id, new_currency_val);
-            } else {
-                // set the curreny to "Any currency"
-                rs_set_selector_to_value(currency_menu_id, "----");
-
-            }
-        });
-    } catch (err) {
-        report_try_catch_error( err, "load_currency_on_country_change");
-    }
-}
 
 
 function load_location_settings_on_change(id_prefix, default_text, hide_field_if_not_defined, live_static_dir) {

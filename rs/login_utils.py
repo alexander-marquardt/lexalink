@@ -247,11 +247,7 @@ def error_check_signup_parameters(login_dict, lang_idx):
         else:
             if settings.BUILD_NAME == "Language":
                 try_remaining_signup_fields("native_language")
-                try_remaining_signup_fields("language_to_learn")
-            if settings.BUILD_NAME == "Friend":
-                try_remaining_signup_fields("friend_price")
-                try_remaining_signup_fields("friend_currency")                
-                pass
+                try_remaining_signup_fields("language_to_learn")         
             
         return(error_list)
     
@@ -350,8 +346,6 @@ def create_search_preferences2_object(userobject, lang_code):
                                                              age='----', 
                                                              for_sale = "----", 
                                                              for_sale_sub_menu = "----",
-                                                             friend_price = "----",
-                                                             friend_currency = "----",
                                                              user_has_done_a_search = False,
                                                              query_order="unique_last_login",
                                                              lang_code = lang_code,

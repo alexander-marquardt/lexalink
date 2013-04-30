@@ -57,18 +57,3 @@ def ugettext_tuple(original_text):
         return_array.append(translate_text(lang_code, original_text))
     
     return tuple(return_array)
-
-def ugettext_currency_tuple(currency_symbol, country_symbol):
-    # returns a tuple containing (currency_symbol, [currency_name lang0], [currency_name lang1]... ) 
-    # This must later be sorted by currency name (in the current language), but displayed with the currency 
-    # symbol before the name. Therefore, we use a special case tuple for currency, and
-    # later on (after sorting) we combine the currency symbol and currency name into a single field in order to
-    # use common code for dealing with currency in later parts of the code.
-    
-    return_array = []
-    return_array.append(u"%s" % currency_symbol)
-    for language_array in settings.LANGUAGES:
-        lang_code = language_array[0]
-        return_array.append(u"%s" % translate_text(lang_code, country_symbol))
-    
-    return tuple(return_array)

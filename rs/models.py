@@ -134,8 +134,6 @@ class UserSearchPreferences2(ndb.Model):
     if settings.BUILD_NAME == "Friend":
         for_sale = ndb.StringProperty(required=True,  indexed = False)
         for_sale_sub_menu = ndb.StringProperty(required=True, indexed = False)
-        friend_price = ndb.StringProperty(required=True, indexed = False)
-        friend_currency = ndb.StringProperty(required=True,  indexed = False)
 
         
     # Note: the following value is not a search-vale -- but, it did not make sense to create a new structure 
@@ -532,10 +530,6 @@ class UserModel(ndb.Model):
     
     if settings.BUILD_NAME == "Friend":
         for_sale_ix_list = ndb.StringProperty(repeated = True)
-        friend_price = ndb.StringProperty(default="----")
-        friend_price_ix_list = ndb.StringProperty(repeated = True)
-        friend_currency = ndb.StringProperty(default="----")
-        friend_currency_ix_list = ndb.StringProperty(repeated = True)
         
 
     # Status (what am I thinking) allows the user to enter in their thought for the day

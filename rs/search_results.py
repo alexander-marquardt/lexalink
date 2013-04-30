@@ -135,11 +135,6 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
             
         elif settings.BUILD_NAME == "Friend": # Setup Friend
             
-            q = q.filter(UserModel.friend_price_ix_list == search_vals_dict['friend_price'])
-            
-            # we do not yet pass in the currency as a search value - therefore default it to "----"
-            q = q.filter(UserModel.friend_currency_ix_list == "----")
-
             #for menu_name in ['for_sale', 'to_buy']:
             menu_name = "for_sale"
             if search_vals_dict['%s_sub_menu' % menu_name] != "----":
@@ -238,17 +233,7 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
                     interested_in_title = u" %s." % ugettext("interested in %(for_sale)s") % {'for_sale' : curr_lang_dict['for_sale']}
                 else:
                     interested_in_title = '.'
-                
-                if curr_lang_dict['friend_price']  != "----":
-                    if curr_lang_dict['friend_currency']  != "----":
-                        available_for_price_title = u" %s." % ugettext("Price: %(friend_price)s. Currency: %(friend_currency)s") % {
-                            'friend_price' : curr_lang_dict['friend_price'],
-                            'friend_currency' : curr_lang_dict['friend_currency']}
-                    else:
-                        available_for_price_title = u" %s." % ugettext("Price: %(friend_price)s") % {
-                            'friend_price' : curr_lang_dict['friend_price']}    
-                else:
-                    available_for_price_title = ''
+            
                     
                 start_title = u"%s%s%s " % (sex_title, interested_in_title, available_for_price_title)
             else:
@@ -342,10 +327,7 @@ def loosen_search_criteria(search_vals_dict):
             break_out_of_loop = True
         
     elif settings.BUILD_NAME == "Friend":
-        if search_vals_dict['friend_price'] != '----' or search_vals_dict['friend_currency'] != '----':
-            search_vals_dict['friend_price'] = '----'                        
-            search_vals_dict['friend_currency'] = '----'  
-        elif search_vals_dict['age'] != '----' or search_vals_dict['sex'] != '----':
+        if search_vals_dict['age'] != '----' or search_vals_dict['sex'] != '----':
             search_vals_dict['sex'] = '----'                        
             search_vals_dict['age'] = '----'    
         elif search_vals_dict['for_sale_sub_menu'] != '----' or search_vals_dict['for_sale'] != '----':
