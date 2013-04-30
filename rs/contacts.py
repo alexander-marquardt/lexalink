@@ -47,6 +47,29 @@ import http_utils
 
 supress_sent_received_list = ['favorite', 'blocked']
 
+def get_date_contact_received_html(contact_type, sent_or_received, date_contact_received_list, profile_keys_list):
+    
+    # Generate a dictionary for each profile that shows when they received a contact (kiss, wink, etc.) from
+    # another user. This will then be passed into the functions that generate the list of profile summaries 
+    # for inclusion in the display. 
+    
+    extra_info_html_dict = {}
+    
+    if contact_type == 'blocked' or contact_type == 'favorite':
+        # override the value of sent_or_received for blocked and favorite since we have stored it as "sent", but
+        # gramatically it should really be 'saved'.
+        sent_or_received = ''
+    
+    for profile_key, date in zip(profile_keys_list, date_contact_received_list):
+        extra_info_html_dict[profile_key] = u"<strong>%s %s:</strong> %s" % (
+            constants.ContactIconText.singular_icon_name[contact_type], 
+            constants.ContactIconText.singular_contacts_actions_text[sent_or_received], 
+            return_time_difference_in_friendly_format(date, capitalize = False))
+            
+    return extra_info_html_dict
+
+
+
 @requires_login
 def show_contacts(request, contact_type, sent_or_received):
     
@@ -60,8 +83,6 @@ def show_contacts(request, contact_type, sent_or_received):
             
         else:
       
-            
-            
             owner_key = userobject.key
             owner_uid = owner_key.urlsafe()
             display_online_status = utils.do_display_online_status(owner_uid)
@@ -74,7 +95,7 @@ def show_contacts(request, contact_type, sent_or_received):
                 
                 if contact_type not in supress_sent_received_list:
                     generated_title = header_html = u"%s %s" % (constants.ContactIconText.plural_icon_name[contact_type], 
-                                                                constants.ContactIconText.contacts_actions_text[sent_or_received])
+                                                                constants.ContactIconText.plural_contacts_actions_text[sent_or_received])
                 else:
                     generated_title = header_html = u"%s" % (constants.ContactIconText.plural_icon_name[contact_type])                
                 
@@ -141,9 +162,13 @@ def show_contacts(request, contact_type, sent_or_received):
             # convert the contact_query_results into a list of profile keys so that we can use the common code for
             # displaying a series of profile summaries. 
             profile_keys_list = [getattr(x, profile_to_show) for x in contact_query_results]
+            date_contact_received_list = [getattr(x,  contact_type + "_stored_date") for x in contact_query_results]
+            extra_info_html_dict = get_date_contact_received_html(contact_type, sent_or_received, 
+                                                                  date_contact_received_list, profile_keys_list)
+            
 
             generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, profile_keys_list, 
-                                                                                              display_online_status)            
+                                                                                              display_online_status, extra_info_html_dict)            
                                                                  
             if more_results:
                 generated_html_hidden_variables = \

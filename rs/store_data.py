@@ -1450,7 +1450,7 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
             %(if_you_send_spam)s<br><br></div>"""% {
                 'spam_stats_string' : ugettext("Statistics of spam sent from your account:"),    
                 'of_string' : ugettext("of"), 
-                'sent_string' : ugettext("sent"),
+                'sent_string' : ugettext("sent (plural)"),
                 'if_you_send_spam' : ugettext('If you send spam, you will have to write "captchas" before being allowed \
     to send more messages. Additionally, if you send a lot of spam, your messages will be sent directly to the spam mailbox.'),
                 

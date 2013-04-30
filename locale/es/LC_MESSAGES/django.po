@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-25 18:54-0400\n"
+"POT-Creation-Date: 2013-04-30 00:02-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:700 rs/forms.py:1083 rs/login_utils.py:260 rs/rendering.py:405
-#: rs/store_data.py:1636 rs/utils.py:1501
+#: rs/store_data.py:1604 rs/utils.py:1501
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -117,7 +117,7 @@ msgstr "Mis datos"
 msgid "More details about me"
 msgstr "Más datos sobre mí"
 
-#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:145
+#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:149
 #: rs/user_profile_details.py:204
 msgid "Languages I speak"
 msgstr "Idiomas que hablo"
@@ -294,156 +294,204 @@ msgstr ""
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:619 rs/store_data.py:1485
-msgid "sent"
-msgstr "enviados"
+#: rs/constants.py:619
+msgid "sent (singular)"
+msgstr "enviado"
 
 #: rs/constants.py:620
-msgid "received"
-msgstr "recibidos"
+msgid "received (singluar)"
+msgstr "recibido"
 
 #: rs/constants.py:621
-msgid "saved"
+msgid "saved (singular)"
+msgstr "guardado"
+
+#: rs/constants.py:622
+msgid "confirmed (singular)"
+msgstr "confirmado"
+
+#: rs/constants.py:626 rs/store_data.py:1453
+msgid "sent (plural)"
+msgstr "enviados"
+
+#: rs/constants.py:627
+msgid "received (plural)"
+msgstr "recibidos"
+
+#: rs/constants.py:628
+msgid "saved (plural)"
 msgstr "guardados"
 
-#: rs/constants.py:625
+#: rs/constants.py:629
+msgid "confirmed (plural)"
+msgstr "confirmados"
+
+#: rs/constants.py:633
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:626
+#: rs/constants.py:634
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:628
+#: rs/constants.py:635
+msgid "Greeting"
+msgstr "Saludo"
+
+#: rs/constants.py:637
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:629
+#: rs/constants.py:638
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:632
+#: rs/constants.py:639
+msgid "Wink"
+msgstr "Guiño"
+
+#: rs/constants.py:642
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:634
+#: rs/constants.py:644
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:635
+#: rs/constants.py:645
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:636
+#: rs/constants.py:646
 msgid "Chat friends"
 msgstr "Amigos de chat"
 
-#: rs/constants.py:637
+#: rs/constants.py:647
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:641
+#: rs/constants.py:652
+msgid "My favorite"
+msgstr "Mi Favorito"
+
+#: rs/constants.py:654
+msgid "Kiss"
+msgstr "Beso"
+
+#: rs/constants.py:655
+msgid "Key"
+msgstr "Llave"
+
+#: rs/constants.py:656
+msgid "Chat friend"
+msgstr "Amigo de chat"
+
+#: rs/constants.py:657
+msgid "Blocked (singular)"
+msgstr "Bloqueado"
+
+#: rs/constants.py:661
 msgid "Chat requests sent"
 msgstr "Chat amigos pedidos"
 
-#: rs/constants.py:642
+#: rs/constants.py:662
 msgid "Chat requests received"
 msgstr "Chat amigos recibidos"
 
-#: rs/constants.py:643
+#: rs/constants.py:663
 msgid "Chat connections confirmed"
 msgstr "Chat amigos confirmados"
 
-#: rs/constants.py:647
+#: rs/constants.py:667
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:649
+#: rs/constants.py:669
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:650
+#: rs/constants.py:670
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:651
+#: rs/constants.py:671
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:652
+#: rs/constants.py:672
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automaticamente)"
 
-#: rs/constants.py:689
+#: rs/constants.py:709
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:690
+#: rs/constants.py:710
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:691
+#: rs/constants.py:711
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:692
+#: rs/constants.py:712
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:693
+#: rs/constants.py:713
 msgid "May"
 msgstr "mayo"
 
-#: rs/constants.py:694
+#: rs/constants.py:714
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:695
+#: rs/constants.py:715
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:696
+#: rs/constants.py:716
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:697
+#: rs/constants.py:717
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:698
+#: rs/constants.py:718
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:699
+#: rs/constants.py:719
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:700
+#: rs/constants.py:720
 msgid "December"
 msgstr "diciembre"
 
-#: rs/display_profiles_summary.py:67 rs/forms.py:298
+#: rs/display_profiles_summary.py:68 rs/forms.py:298
 msgid "See profile of:"
 msgstr "Ver perfil y contactar con:"
 
-#: rs/display_profiles_summary.py:115
+#: rs/display_profiles_summary.py:119
 msgid "About me"
 msgstr "Sobre mi"
 
-#: rs/display_profiles_summary.py:153
+#: rs/display_profiles_summary.py:157
 msgid "Native language"
 msgstr "Idioma materno"
 
-#: rs/display_profiles_summary.py:221
+#: rs/display_profiles_summary.py:225
 msgid "Last entrance"
 msgstr "Última entrada"
 
-#: rs/display_profiles_summary.py:308 rs/display_profiles_summary.py:320
+#: rs/display_profiles_summary.py:317 rs/display_profiles_summary.py:329
 #: rs/mailbox.py:981
 msgid "Next"
 msgstr "Siguiente"
 
-#: rs/email_utils.py:64 rs/email_utils.py:646
+#: rs/email_utils.py:64 rs/email_utils.py:650
 msgid "Cheers"
 msgstr "Un Saludo"
 
@@ -462,7 +510,7 @@ msgid "Confirmation of your email address"
 msgstr "Confirmación de tu dirección de correo electrónico"
 
 #: rs/email_utils.py:186 rs/email_utils.py:230 rs/email_utils.py:290
-#: rs/email_utils.py:368 rs/email_utils.py:645 rs/login_utils.py:647
+#: rs/email_utils.py:368 rs/email_utils.py:649 rs/login_utils.py:647
 #: rs/login_utils.py:670
 #, python-format
 msgid "Hello %(username)s"
@@ -648,7 +696,7 @@ msgstr "y"
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr "Puedes ver quien te ha contactado en %(link_to_build)s"
 
-#: rs/email_utils.py:629 rs/menubar.py:92 rs/profile_utils.py:100
+#: rs/email_utils.py:629 rs/menubar.py:99 rs/profile_utils.py:100
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -2378,7 +2426,7 @@ msgstr "A"
 msgid "Deleted (mail)"
 msgstr "Eliminado"
 
-#: rs/mailbox.py:620 rs/mailbox.py:634 rs/menubar.py:60 rs/text_fields.py:76
+#: rs/mailbox.py:620 rs/mailbox.py:634 rs/menubar.py:67 rs/text_fields.py:76
 msgid "Received"
 msgstr "Recibido"
 
@@ -2390,7 +2438,7 @@ msgstr "Spam"
 msgid "Received (mail)"
 msgstr "Recibido"
 
-#: rs/mailbox.py:628 rs/menubar.py:61 rs/text_fields.py:75
+#: rs/mailbox.py:628 rs/menubar.py:68 rs/text_fields.py:75
 msgid "Sent"
 msgstr "Enviado"
 
@@ -2478,20 +2526,20 @@ msgstr ""
 "Si el mensaje que te han enviado no es cortés y relacionado con lo que has "
 "especificado en tu descripción, márcalo como spam sin responder."
 
-#: rs/menubar.py:23 rs/menubar.py:82
+#: rs/menubar.py:10 rs/menubar.py:89
 #: rs/templates/user_main_helpers/menubar.html:94
 msgid "new"
 msgstr "nuevos"
 
-#: rs/menubar.py:34
+#: rs/menubar.py:38
 msgid "Confirmed"
 msgstr "Confirmado"
 
-#: rs/menubar.py:117
+#: rs/menubar.py:124
 msgid "Favorite profiles"
 msgstr "Perfiles favoritos"
 
-#: rs/menubar.py:118
+#: rs/menubar.py:125
 msgid "Blocked profiles"
 msgstr "Perfiles bloqueados"
 
@@ -2689,7 +2737,7 @@ msgstr "Para: %(relationship_status)s"
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
-#: rs/store_data.py:1020
+#: rs/store_data.py:983
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2701,7 +2749,7 @@ msgstr ""
 "enviar. Antes de enviar las llaves adicionales, debes recuperar las llaves "
 "que has dado a otros usuarios."
 
-#: rs/store_data.py:1026
+#: rs/store_data.py:989
 #, python-format
 msgid ""
 "\n"
@@ -2717,7 +2765,7 @@ msgstr ""
 "se te permite solicitar. Antes de solicitar amigos adicionales de chat, "
 "debes quitar algunos de tus amigos actuales de chat."
 
-#: rs/store_data.py:1054
+#: rs/store_data.py:1017
 #, python-format
 msgid ""
 "\n"
@@ -2730,20 +2778,20 @@ msgstr ""
 "Si quieres aumentar este limite a %(max_requests)s, podrías hacerte miembro "
 "VIP."
 
-#: rs/store_data.py:1062
+#: rs/store_data.py:1025
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr "Ver beneficios VIP"
 
-#: rs/store_data.py:1483
+#: rs/store_data.py:1451
 msgid "Statistics of spam sent from your account:"
 msgstr "Estadisticas de spam enviado desde tu cuenta:"
 
-#: rs/store_data.py:1484
+#: rs/store_data.py:1452
 msgid "of"
 msgstr "de"
 
-#: rs/store_data.py:1486
+#: rs/store_data.py:1454
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages. Additionally, if you send a lot of spam, "
@@ -2753,32 +2801,32 @@ msgstr ""
 "más mensajes. Si envías mucho spam tus mensajes se entregarán directamente "
 "al buzon de spam."
 
-#: rs/store_data.py:1555
+#: rs/store_data.py:1523
 msgid "Captcha is incorrect, try again"
 msgstr "Captcha incorrecta, intentalo de nuevo"
 
-#: rs/store_data.py:1584
+#: rs/store_data.py:1552
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
 
-#: rs/store_data.py:1778
+#: rs/store_data.py:1746
 msgid "\"wink\" or a \"kiss\""
 msgstr "\"guiño\" o un \"beso\""
 
-#: rs/store_data.py:1779
+#: rs/store_data.py:1747
 msgid "winks, kisses,"
 msgstr "guiños, besos"
 
-#: rs/store_data.py:1781
+#: rs/store_data.py:1749
 msgid "\"greeting\""
 msgstr "\"saludo\""
 
-#: rs/store_data.py:1782
+#: rs/store_data.py:1750
 msgid "greetings"
 msgstr "saludos"
 
-#: rs/store_data.py:1785
+#: rs/store_data.py:1753
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2815,7 +2863,7 @@ msgstr ""
 "\n"
 "¡Bienvenido a %(app_name)s, y mucha suerte en tu búsqueda!  "
 
-#: rs/store_data.py:1806
+#: rs/store_data.py:1774
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr "Felicidades, ya eres un miembro VIP hasta %(date)s."
@@ -5193,6 +5241,22 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "received"
+#~ msgstr "recibidos"
+
+#~ msgid "saved"
+#~ msgstr "guardados"
+
+#~ msgid "confirmed"
+#~ msgstr "confirmado"
+
+#~ msgid "accepted"
+#~ msgstr "aceptado"
+
+#, fuzzy
+#~ msgid "sent"
+#~ msgstr "Guiño enviado"
 
 #~ msgid ""
 #~ "Since the last time you entered in %(app_name)s.com, %(previous_login)s, "

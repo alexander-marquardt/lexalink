@@ -615,18 +615,30 @@ and numbers. Additionally, it may not contain any spaces.")
     
 class ContactIconText():
     the_last = ugettext_lazy("only the last")
-    contacts_actions_text = {
-        'sent' : ugettext_lazy("sent"),
-        'received' : ugettext_lazy("received"),
-        'saved' : ugettext_lazy("saved")
+    singular_contacts_actions_text = {
+        'sent' : ugettext_lazy("sent (singular)"),
+        'received' : ugettext_lazy("received (singluar)"),
+        'saved' : ugettext_lazy("saved (singular)"),
+        'connected' : ugettext_lazy("confirmed (singular)"),
+        '': '',
     }
+    
+    plural_contacts_actions_text = {
+        'sent' : ugettext_lazy("sent (plural)"),
+        'received' : ugettext_lazy("received (plural)"),
+        'saved' : ugettext_lazy("saved (plural)"),
+        'connected' : ugettext_lazy("confirmed (plural)"),
+        '': '',
+    }    
     
     if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
         plural_winks = ugettext_lazy('Greetings')
         wink_text = ugettext_lazy("Send them a greeting")
+        singular_wink = ugettext_lazy('Greeting')
     else:
         plural_winks = ugettext_lazy('Winks')
         wink_text = ugettext_lazy("Send them a wink")    
+        singular_wink = ugettext_lazy('Wink')
     
     plural_icon_name = {
         'favorite': ugettext_lazy('My favorites'),
@@ -635,6 +647,16 @@ class ContactIconText():
         'key': ugettext_lazy('Keys'),
         'chat_friend' : ugettext_lazy('Chat friends'),
         'blocked' : ugettext_lazy('Blocked (plural)'),
+    }
+
+    
+    singular_icon_name = {
+        'favorite': ugettext_lazy('My favorite'),
+        'wink': singular_wink,
+        'kiss': ugettext_lazy('Kiss'),
+        'key': ugettext_lazy('Key'),
+        'chat_friend' : ugettext_lazy('Chat friend'),
+        'blocked' : ugettext_lazy('Blocked (singular)'),
     }
 
     chat_friend_plural_text = {

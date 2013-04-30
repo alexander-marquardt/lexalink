@@ -37,7 +37,7 @@ if site_configuration.BUILD_NAME == "Friend":
 
 MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
-def display_userobject_first_half_summary(request, display_userobject, display_online_status):
+def display_userobject_first_half_summary(request, display_userobject, display_online_status, extra_info_html = None):
     # returns a summary of a single users userobject. 
     #
     
@@ -63,7 +63,8 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
         generated_html += u'<div class="grid_9 alpha omega"> &nbsp;</div>\n'
     
         userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
-    
+
+            
         heading_text = ugettext("See profile of:")
         generated_html += u'<div class="grid_9 alpha omega cl-text-14pt-format">\
         <a href="%s" rel="address:%s"><strong>%s</strong> %s </a>' % (
@@ -77,6 +78,9 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
         
         generated_html += "<br><br></div>\n"
         
+        
+        if extra_info_html:
+            generated_html += "<br>%s<br><br>" % extra_info_html        
         
         
         status_string = ''
@@ -233,7 +237,7 @@ def display_userobject_second_half_summary(viewer_userobject, display_userobject
         return ""        
         
         
-def get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status):
+def get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status, extra_info_html = None):
     
     """
     This is a wrapper function for display_userobject_summary that computes the summary only if it is not in
@@ -247,14 +251,16 @@ def get_userobject_summary(request, viewer_userobject, display_userobject_key, d
     display_uid = display_userobject_key.urlsafe()
     display_userobject = utils_top_level.get_object_from_string(display_uid)  
 
-    summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, display_online_status)              
+    summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, display_online_status, 
+                                                                    extra_info_html)              
     summary_second_half_html = display_userobject_second_half_summary(viewer_userobject, display_userobject)
         
     return summary_first_half_html + summary_second_half_html
     
 
 
-def generate_html_for_list_of_profiles(request, viewer_userobject, query_results_keys, display_online_status):
+def generate_html_for_list_of_profiles(request, viewer_userobject, query_results_keys, display_online_status,
+                                     extra_info_html_dict = None):
     # Accepts results from a query, which is an array of user profiles that matched the previous query.
     # Goes through each profile, and generates a snippett of text + profile photo, which give a 
     # basic introduction to the user.
@@ -268,7 +274,9 @@ def generate_html_for_list_of_profiles(request, viewer_userobject, query_results
 
     
     for display_userobject_key in query_results_keys:
-        generated_html += get_userobject_summary(request, viewer_userobject, display_userobject_key, display_online_status)
+        extra_info_html = extra_info_html_dict[display_userobject_key] if extra_info_html_dict else None
+        generated_html += get_userobject_summary(request, viewer_userobject, display_userobject_key, 
+                                                 display_online_status, extra_info_html)
         
     return generated_html
 
