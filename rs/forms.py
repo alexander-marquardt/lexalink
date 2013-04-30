@@ -1216,11 +1216,7 @@ class MyHTMLSearchBarGenerator():
                                         MyHTMLSearchBarGenerator.search_tbl_first_col); 
                         column_count = 1 # start at 1 because we just added in the first column on the new row
                     
-                            
-                if settings.BUILD_NAME == "Friend":
-                    extra_cols_before_search_button = "<td></td><td></td><td></td>"
-                else:
-                    extra_cols_before_search_button = "<td></td>"
+                extra_cols_before_search_button = "<td></td>"
                     
                 # Loop ended, now add in the "search button"
                 generated_html += u"""
