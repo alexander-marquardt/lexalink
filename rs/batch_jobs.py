@@ -210,6 +210,9 @@ def batch_send_email(request):
 import login_utils
 from google.appengine.datastore.datastore_query import Cursor
 
+
+
+
 def fix_items_sub_batch (request):
     
     if request.method == 'POST':
@@ -219,31 +222,22 @@ def fix_items_sub_batch (request):
     
     for userobject_key_str in userobject_batch_keys_strs:  
         userobject = ndb.Key(urlsafe = userobject_key_str).get()
-        try:
-            info_message = ''
-            info_message += "**Checking %s userobject<br>\n" % userobject.username
-            
-            if not userobject.viewed_profile_counter_ref:
-                userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
-                userobject.put()
-                info_message += "**Wrote %s userobject<br>\n" % userobject.username
-        except:
-            error_reporting.log_exception(logging.critical)  
             
         try:
             search_preferences_key = userobject.search_preferences2
             if not search_preferences_key:
                 userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, 'es') 
                 userobject.put()
-                info_message += "**Updated search_preferences2 on %s's object<br>\n" % userobject.username
-                
-            logging.info(info_message)   
+                info_message = "**Updated search_preferences2 on %s's object<br>\n" % userobject.username
+                logging.info(info_message)   
         except:
             error_reporting.log_exception(logging.critical)  
             
     return http.HttpResponse('OK')
+              
+                   
                 
-def batch_fix_viewed_profile_counter(request):
+def batch_fix_object(request):
 
     
     """ This function scans the database for profiles that need to be fixed

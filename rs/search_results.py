@@ -235,7 +235,7 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
                     interested_in_title = '.'
             
                     
-                start_title = u"%s%s%s " % (sex_title, interested_in_title, available_for_price_title)
+                start_title = u"%s%s " % (sex_title, interested_in_title)
             else:
                 assert(0)
                 

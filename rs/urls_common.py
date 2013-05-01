@@ -308,8 +308,10 @@ urlpatterns = patterns('',
     #(r'^rs/admin/test_store_payment_and_update_structures/(?P<username>[\w]+)/(?P<txn_id>[\w]+)/$', vip_status_support.test_store_payment_and_update_structures),
     #(r'^rs/admin/approve_public_photos_bookmark/(?P<bookmark>[\w|-]+)/$',admin.mark_photos_as_approved),
     #(r'^rs/admin/approve_public_photos/$',admin.mark_photos_as_approved),
+
+    #(r'^rs/admin/batch_fix_viewed_profile_counter/$', batch_jobs.batch_fix_viewed_profile_counter), 
+    (r'^rs/admin/batch_fix_object/$', batch_jobs.batch_fix_object), 
     
-    (r'^rs/admin/batch_fix_viewed_profile_counter/$', batch_jobs.batch_fix_viewed_profile_counter), 
     (r'^rs/admin/fix_items_sub_batch/$', batch_jobs.fix_items_sub_batch),
     
     

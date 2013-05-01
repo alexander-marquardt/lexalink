@@ -837,7 +837,7 @@ msgstr "Especifica el nombre del usuario que te gustaría ver"
 
 #: rs/friend_bazaar_specific_code.py:47
 msgid "Interested in"
-msgstr "Interesado en:"
+msgstr "Interesado en"
 
 #: rs/friend_bazaar_specific_code.py:48
 msgid "Subcategory"
@@ -4823,8 +4823,8 @@ msgstr "Última entrada:"
 
 #: rs/templates/user_main_helpers/main_body.html:280
 msgid ""
-"Activities that I am interested in and/or that I would \"sell\" my time for"
-msgstr ""
+"Activities that I am interested in"
+msgstr "Actividades que me interesan"
 
 #: rs/templates/user_main_helpers/main_body.html:282
 #, python-format

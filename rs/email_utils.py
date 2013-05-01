@@ -778,11 +778,14 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
                         search_preferences = userobject.search_preferences2.get()
                         lang_code = search_preferences.lang_code
                     except exceptions.AttributeError:
-                        error_reporting.log_exception(logging.warning)
-                        search_preferences.lang_code = 'es'
-                        search_preferences.put()
+                        if search_preferences:
+                            error_reporting.log_exception(logging.warning)
+                            search_preferences.lang_code = 'es'
+                            search_preferences.put()
+                        else: 
+                            error_reporting.log_exception(logging.critical, error_message = "search_preferences object not found")
+                            
                         lang_code = "es"
-                        
                         
                     taskqueue.add(queue_name = 'mail-queue', url='/rs/admin/send_new_message_notification_email/', params = {
                         'uid': userobject.key.urlsafe(), 'lang_code': lang_code})
