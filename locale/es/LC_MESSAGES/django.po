@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-30 03:23-0400\n"
+"POT-Creation-Date: 2013-05-01 00:38-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -815,7 +815,7 @@ msgstr "Enviar mensaje"
 msgid "Verify"
 msgstr "Verificar"
 
-#: rs/forms.py:1182 rs/forms.py:1267
+#: rs/forms.py:1182 rs/forms.py:1263
 msgid "Search Box"
 msgstr "El Buscador"
 
@@ -823,15 +823,15 @@ msgstr "El Buscador"
 msgid "Specify the profiles that you would like to see"
 msgstr "Especifica los perfiles que te gustaría ver"
 
-#: rs/forms.py:1232 rs/forms.py:1264
+#: rs/forms.py:1228 rs/forms.py:1260
 msgid "Search"
 msgstr "Buscar"
 
-#: rs/forms.py:1259
+#: rs/forms.py:1255
 msgid "Username to search for"
 msgstr "Nombre de usuario a buscar"
 
-#: rs/forms.py:1268
+#: rs/forms.py:1264
 msgid "Specify the username that you would like to see"
 msgstr "Especifica el nombre del usuario que te gustaría ver"
 
@@ -3992,7 +3992,9 @@ msgstr "es"
 #: rs/proprietary/search_engine_overrides.py:107
 #: rs/proprietary/search_engine_overrides.py:110
 #: rs/proprietary/search_engine_overrides.py:113
-#: rs/proprietary/search_engine_overrides.py:116 rs/templates/login.html:257
+#: rs/proprietary/search_engine_overrides.py:116
+#: rs/proprietary/templates/proprietary_ads/Friend.html:30
+#: rs/templates/login.html:257
 msgid "100 percent free"
 msgstr "100% gratis"
 
@@ -4125,31 +4127,35 @@ msgstr "Filtrar los resultados de búsqueda"
 
 #: rs/proprietary/templates/proprietary_ads/Discrete.html:9
 msgid "Looking for romance? A lover? Love?"
-msgstr "¿Buscas romance<br>¿Un amante? ¿Amor?"
+msgstr "¿Quieres romance? ¿Un amante? ¿Amor?"
 
-#: rs/proprietary/templates/proprietary_ads/Friend.html:9
-msgid "Be a friend and make money"
-msgstr "Buscar amigos y ganar dinero"
+#: rs/proprietary/templates/proprietary_ads/Friend.html:15
+msgid "Meet new friends"
+msgstr "Conocer amigos nuevos"
 
-#: rs/proprietary/templates/proprietary_ads/Gay.html:9
-msgid "Free gay dating"
-msgstr "Contactos gratis para gays"
+#: rs/proprietary/templates/proprietary_ads/Gay.html:16
+msgid "100 percent free gay dating"
+msgstr "100% gratis - contactos para gays"
 
-#: rs/proprietary/templates/proprietary_ads/Language.html:9
-msgid "Practice languages and meet people from all around the world for free"
-msgstr "Practicar idiomas y conocer gente de todo el mundo. Gratis "
+#: rs/proprietary/templates/proprietary_ads/Language.html:15
+msgid "Practice languages and meet people from all around the world"
+msgstr "Practicar idiomas y conocer gente de todo el mundo "
+
+#: rs/proprietary/templates/proprietary_ads/Language.html:23
+msgid "100 percent free language exchange"
+msgstr "100% gratis - intercambio de idiomas"
 
 #: rs/proprietary/templates/proprietary_ads/Lesbian.html:9
-msgid "Free lesbian dating"
-msgstr "Contactos gratis para lesbianas"
+msgid "100 percent free lesbian dating"
+msgstr "100% gratis - contactos y buscar pareja para lesbianas"
 
 #: rs/proprietary/templates/proprietary_ads/Single.html:9
-msgid "Free dating for singles"
-msgstr "Contactos para solteros. Gratis"
+msgid "100 percent free dating for singles"
+msgstr "100% gratis - contactos para solteros"
 
 #: rs/proprietary/templates/proprietary_ads/Swinger.html:9
-msgid "Free classy contacts for swingers and open-minded people"
-msgstr "Contactos con clase. Para parejas liberales y personas liberales."
+msgid "100 percent free contacts for swingers"
+msgstr "100% gratis - contactos para swingers y parejas liberales"
 
 #: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:5
 msgid "Place your advertisement here"
@@ -4323,69 +4329,11 @@ msgstr "Encontrar a un amigo para ir a bailar salsa"
 msgid "And many more friendly activities - it is up to you!"
 msgstr "Y muchas más actividades de amigos- todo depende de ti!"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:54
-msgid ""
-"\n"
-"    How much do members charge for their services?\n"
-"    "
-msgstr ""
-"\n"
-"¿Cuanto cobran los miembros para sus servicios?\n"
-"    "
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:60
-#, python-format
-msgid ""
-"\n"
-"    %(app_name)s is a marketplace\n"
-"    for finding new friends, and many of our members offer their friendship/"
-"activities for a price, while many others offer their\n"
-"    friendship/activities for free. When you view peoples profiles you will "
-"see the price they have indicated.\n"
-"    "
-msgstr ""
-"\n"
-"%(app_name)s es un mercado para encontrar nuevos amigos, y muchos de "
-"nuestros miembros ofrecen su amistad / actividades por un cierto precio, "
-"mientras que muchos otros ofrecen su amistad / actividades de forma "
-"gratuita. Al ver los perfiles de las personas, verás el precio que han "
-"indicado. "
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:68
-#, python-format
-msgid ""
-"\n"
-"    Normally, fees are negotiable\n"
-"    and if you are interested in hiring someone for an activity, in many "
-"cases you can offer them one of your activities in return\n"
-"    -- or pay their entrance to a movie, or buy dinner, or give them a "
-"ticket to a sporting event --\n"
-"    thereby eliminating the exchange of money.\n"
-"    It all depends on each member, and how you wish to use %(app_name)s."
-"com!\n"
-"    "
-msgstr ""
-"\n"
-"Normalmente, las tarifas son negociables y si estás interesado en contratar "
-"a alguien para una actividad, en muchos casos, les puedes ofrecer una de tus "
-"actividades a cambio - o pagar su entrada al cine, la cena, o darles una "
-"entrada para un evento deportivo - eliminando así el intercambio de dinero. "
-"Todo depende de cada miembro, y de cómo cada uno desea utilizar %(app_name)s."
-"com!"
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:78
-msgid ""
-"You should be paid/pay upon arrival unless other payment terms have been "
-"agreed upon before meeting."
-msgstr ""
-"Deben pagarte o debes pagar a la llegada a menos de que se hayan acordado "
-"antes del encuentro otras condiciones de pago."
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:84
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:57
 msgid "How can I contact people?"
 msgstr "¿Como puedo contactar con la gente?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:88
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:61
 #, python-format
 msgid ""
 "\n"
@@ -4410,7 +4358,7 @@ msgstr ""
 "chat entre dos personas, así como unirte a cualquiera de los muchos grupos "
 "de chat diferentes que están disponibles."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:98
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:71
 #, python-format
 msgid ""
 "\n"
@@ -4427,7 +4375,7 @@ msgstr ""
 "perfil, más probable será que recibas respuestas de los demás miembros de "
 "%(app_name)s."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:106
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:79
 #, python-format
 msgid ""
 "\n"
@@ -4440,11 +4388,11 @@ msgstr ""
 "bloqueará en %(app_name)s.\n"
 "    "
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:114
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:87
 msgid "You are in control:"
 msgstr "Tú controlas lo que sucede aquí:"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:116
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:89
 msgid ""
 "\n"
 "    Please be open and honest with the other members about what kind of "
@@ -4462,7 +4410,7 @@ msgstr ""
 "todos los detalles antes de encontraros, para estas seguros de como pasareis "
 "vuestro tiempo juntos."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:122
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:95
 #, python-format
 msgid ""
 "\n"
@@ -4479,12 +4427,12 @@ msgstr ""
 "actividades de amistad. Los miembros que violen el espíritu de FriendBazaar "
 "serán eliminados y bloqueados."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:132
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:105
 #, python-format
 msgid "Advantages of %(app_name)s.com versus other sites:"
 msgstr "Ventajas de %(app_name)s.com contra otros sitios:"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:138
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:111
 #, python-format
 msgid ""
 "\n"
@@ -4495,12 +4443,12 @@ msgstr ""
 "%(app_name)s.com es un %(site_type)s, que es diferente de cualquier otro "
 "sitio que hayas visto. "
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:151
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:124
 #, python-format
 msgid "How can %(app_name)s be free?"
 msgstr "¿Por qué %(app_name)s es gratuito?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:152
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:125
 msgid ""
 "This website survives from VIP memberships - however, most of our members "
 "are perfectly happy with the totally free membership option."
@@ -4508,16 +4456,16 @@ msgstr ""
 "Este sitio sobrevive de los miembros VIP - sin embargo, la mayoría de "
 "nuestros miembros estan contentos usando la funcionalidad gratis."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:155
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:128
 msgid "VIP benefits"
 msgstr "Los beneficios VIP"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:160
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:133
 #, python-format
 msgid "Quality control in %(app_name)s.com"
 msgstr "La Política de Control de Calidad de %(app_name)s.com"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:161
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:134
 msgid ""
 "To help us control the quality of our website, each profile will have a "
 "reporting button that will\n"
@@ -4528,11 +4476,11 @@ msgstr ""
 "botón que permitirá a nuestros socios informarnos de perfiles que puedan ser "
 "considerados como no aceptables."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:164
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:137
 msgid "Would you like more information?"
 msgstr "¿Quieres más información?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:166
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:139
 msgid "Send us an email at:"
 msgstr "Envíanos un correo electrónico a:"
 
@@ -4822,8 +4770,7 @@ msgid "Last entrance:"
 msgstr "Última entrada:"
 
 #: rs/templates/user_main_helpers/main_body.html:280
-msgid ""
-"Activities that I am interested in"
+msgid "Activities that I am interested in"
 msgstr "Actividades que me interesan"
 
 #: rs/templates/user_main_helpers/main_body.html:282
@@ -5128,6 +5075,70 @@ msgstr ""
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
 
+#~ msgid "Free gay dating"
+#~ msgstr "Contactos gratis para gays"
+
+#~ msgid "Free contacts for swingers"
+#~ msgstr "Contactos para solteros. Gratis"
+
+#~ msgid "Be a friend and make money"
+#~ msgstr "Buscar amigos y ganar dinero"
+
+#~ msgid "Free classy contacts for swingers and open-minded people"
+#~ msgstr "Contactos con clase. Para parejas liberales y personas liberales."
+
+#~ msgid ""
+#~ "\n"
+#~ "    How much do members charge for their services?\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "¿Cuanto cobran los miembros para sus servicios?\n"
+#~ "    "
+
+#~ msgid ""
+#~ "\n"
+#~ "    %(app_name)s is a marketplace\n"
+#~ "    for finding new friends, and many of our members offer their "
+#~ "friendship/activities for a price, while many others offer their\n"
+#~ "    friendship/activities for free. When you view peoples profiles you "
+#~ "will see the price they have indicated.\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "%(app_name)s es un mercado para encontrar nuevos amigos, y muchos de "
+#~ "nuestros miembros ofrecen su amistad / actividades por un cierto precio, "
+#~ "mientras que muchos otros ofrecen su amistad / actividades de forma "
+#~ "gratuita. Al ver los perfiles de las personas, verás el precio que han "
+#~ "indicado. "
+
+#~ msgid ""
+#~ "\n"
+#~ "    Normally, fees are negotiable\n"
+#~ "    and if you are interested in hiring someone for an activity, in many "
+#~ "cases you can offer them one of your activities in return\n"
+#~ "    -- or pay their entrance to a movie, or buy dinner, or give them a "
+#~ "ticket to a sporting event --\n"
+#~ "    thereby eliminating the exchange of money.\n"
+#~ "    It all depends on each member, and how you wish to use %(app_name)s."
+#~ "com!\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "Normalmente, las tarifas son negociables y si estás interesado en "
+#~ "contratar a alguien para una actividad, en muchos casos, les puedes "
+#~ "ofrecer una de tus actividades a cambio - o pagar su entrada al cine, la "
+#~ "cena, o darles una entrada para un evento deportivo - eliminando así el "
+#~ "intercambio de dinero. Todo depende de cada miembro, y de cómo cada uno "
+#~ "desea utilizar %(app_name)s.com!"
+
+#~ msgid ""
+#~ "You should be paid/pay upon arrival unless other payment terms have been "
+#~ "agreed upon before meeting."
+#~ msgstr ""
+#~ "Deben pagarte o debes pagar a la llegada a menos de que se hayan acordado "
+#~ "antes del encuentro otras condiciones de pago."
+
 #~ msgid "0 (Free)"
 #~ msgstr "0 (Gratis)"
 
@@ -5164,9 +5175,8 @@ msgstr ""
 #~ msgid "accepted"
 #~ msgstr "aceptado"
 
-#, fuzzy
 #~ msgid "sent"
-#~ msgstr "Guiño enviado"
+#~ msgstr "enviado"
 
 #~ msgid ""
 #~ "Since the last time you entered in %(app_name)s.com, %(previous_login)s, "

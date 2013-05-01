@@ -293,33 +293,33 @@ if settings.BUILD_NAME == 'Discrete':
     # relevant (ie. a woman seeking a woman will be shown an ad for LesbianHeart)
     lexabit_ads_to_show.append('Single')
     lexabit_ads_to_show.append('Client_Ad1')
-    lexabit_ads_to_show.append('Client_Ad2')
-    lexabit_ads_to_show.append('Client_Ad3')
-    lexabit_ads_to_show.append('Client_Ad4')
+    lexabit_ads_to_show.append('Friend')
     append_more_advertising_info_dialog = True
 
 if settings.BUILD_NAME == 'Gay':
     lexabit_ads_to_show.append('Discrete')
+    lexabit_ads_to_show.append('Friend')
     
 if settings.BUILD_NAME == 'Single':
     # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
     lexabit_ads_to_show.append('Language')
+    lexabit_ads_to_show.append('Friend')
     
 if settings.BUILD_NAME == 'Lesbian':
-    lexabit_ads_to_show == lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Single')
     lexabit_ads_to_show.append('Language')
+    lexabit_ads_to_show.append('Friend')
     
 if settings.BUILD_NAME == "Swinger":
     lexabit_ads_to_show.append('Discrete')
     lexabit_ads_to_show.append('Gay')
-    lexabit_ads_to_show.append('Lesbian')
     
 if settings.BUILD_NAME == 'Friend':
-    lexabit_ads_to_show == lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Single')
     lexabit_ads_to_show.append('Language')
     
 if settings.BUILD_NAME == 'Language':
-    lexabit_ads_to_show == lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Single')
 
 # set a flag that determines if google ads will be shown - we don't attempt to show ads
 # on the more edgy sites since this could cause problems / risk of removal from the adsense program
@@ -334,7 +334,7 @@ else:
 enable_internal_ads = True
 
 if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' or settings.BUILD_NAME == 'Discrete':
-    MAX_NUM_LEXABIT_ADS_TO_SHOW = 3
+    MAX_NUM_LEXABIT_ADS_TO_SHOW = 4
     #enable_affiliate_united_ads = False
 else:
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 2
