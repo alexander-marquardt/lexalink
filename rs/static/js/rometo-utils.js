@@ -919,6 +919,9 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
             data: (mydata),
             timeout: 15000, // 15 second timeout
             success: function (html_response) {
+                // success means that the server has responded with a valid response - does not necessarily mean that
+                // the message was successfully sent. The value in the html_response lets us know the sent status. 
+                //
                 // put the load inside the callback, since we must ensure that the data has been
                 // loaded
                 //
@@ -947,7 +950,12 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                $(submit_button_id).after('<div id="id-submit_send_mail-status" class="cl-color-text"><br>' + error_status_string + '!<br></div>');
+                if (jqXHR.responseText != undefined) {
+                    error_string = jqXHR.responseText;
+                } else {
+                    error_string = error_status_string;
+                }
+                $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + error_string + '!<br></div>');
                 reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
                 report_ajax_error(textStatus, errorThrown, "submit_send_mail");
             }

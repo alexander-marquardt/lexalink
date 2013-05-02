@@ -334,6 +334,13 @@ def  mark_new_have_sent_messages_object(userobject, other_userobject):
 def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_messages_object, show_captcha = False, spam_statistics_string = ''):
     
     
+    """
+    Generates the html that describes the textbox and buttons for sending a message to another member.
+    
+    textarea_section_name: "send_mail" - send mail from within the mailbox
+                           "send_mail_from_profile_checkbox_no" - send mail directly while viewing the profile
+    """
+    
     generated_html = ''
     try:
         

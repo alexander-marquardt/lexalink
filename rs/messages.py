@@ -37,10 +37,10 @@ from django.utils import html
 from google.appengine.ext import ndb 
 
 # Standard python imports
-import logging, datetime
+import logging, datetime, os
 
 # Lexalink imports
-import models, utils, utils_top_level, constants
+import settings, models, utils, utils_top_level, constants
 import captcha, error_reporting, mailbox
 
 
@@ -53,7 +53,7 @@ def initialize_and_store_spam_tracker(current_spam_tracker):
 
         if current_spam_tracker == None:
     
-            spam_tracker = SpamMailStructures()
+            spam_tracker = models.SpamMailStructures()
     
             spam_tracker.datetime_first_mail_sent_today  = datetime.datetime.now()
             
@@ -366,7 +366,7 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
                 'of_string' : ugettext("of"), 
                 'sent_string' : ugettext("sent (plural)"),
                 'if_you_send_spam' : ugettext('If you send spam, you will have to write "captchas" before being allowed \
-    to send more messages. Additionally, if you send a lot of spam, your messages will be sent directly to the spam mailbox.'),
+    to send more messages.'),
                 
                 'num_times_reported' : spam_tracker.num_times_reported_as_spammer_total, 
                 'num_mails_sent' : spam_tracker.num_mails_sent_total,
@@ -385,7 +385,7 @@ def check_captcha(request):
     
     challenge = request.POST.get('recaptcha_challenge_field')
     response  = request.POST.get('recaptcha_response_field')
-    remoteip  = environ['REMOTE_ADDR']
+    remoteip  = os.environ['REMOTE_ADDR']
     
     cResponse = captcha.submit(
                    challenge,
@@ -422,9 +422,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
         else:
             
             if has_captcha:
-                response_is_valid = check_captcha(request)
-                # CAPTCHA STUFF
-    
+                response_is_valid = check_captcha(request)    
             else:
                 response_is_valid = True
           
