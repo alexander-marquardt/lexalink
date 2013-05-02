@@ -30,7 +30,7 @@ import urllib
 import urllib2
 import logging
 import error_reporting, email_utils
-import settings, constants, models, login_utils, utils_top_level, utils, store_data
+import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages
 import datetime, re
 from models import UserModel
 import views, http_utils
@@ -254,7 +254,7 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
            'status' : userobject.client_paid_status}
     
     email_utils.send_admin_alert_email(message_content, subject="%s VIP Awarded" % settings.APP_NAME)
-    store_data.send_vip_congratulations_message(userobject)
+    messages.send_vip_congratulations_message(userobject)
     
   except:
     # This is a very serious error - someone has been awarded VIP status, but it was not stored correctly. 

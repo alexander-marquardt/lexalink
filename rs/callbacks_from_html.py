@@ -36,7 +36,7 @@ from html_container import UserMainHTML
 from constants import GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
 from utils import get_photo_message, compute_captcha_bypass_string
 
-import utils, localizations, error_reporting, logging, text_fields, settings, constants, store_data, mailbox
+import utils, localizations, error_reporting, logging, text_fields, settings, constants, store_data, mailbox, messages
 
 ###############################
 class MyHTMLCallbackGenerator():
@@ -238,7 +238,7 @@ class MyHTMLCallbackGenerator():
             # people they have already had contact with.
             
             if num_messages_sent_today < num_emails_per_day or self.have_sent_messages_object or restart_spam_counter:
-                (show_captcha, spam_statistics_string) = store_data.determine_if_captcha_is_shown(userobject, self.have_sent_messages_object)
+                (show_captcha, spam_statistics_string) = messages.determine_if_captcha_is_shown(userobject, self.have_sent_messages_object)
                 generated_html += mailbox.generate_mail_textarea(u"send_mail_from_profile_checkbox_no", owner_uid, self.display_uid, 
                                                                  self.have_sent_messages_object, show_captcha, spam_statistics_string)
                 

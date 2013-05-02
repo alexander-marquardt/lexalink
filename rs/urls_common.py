@@ -30,7 +30,7 @@ from django.conf.urls.defaults import *
 from rs import views, ajax, store_data, search_results, mailbox, contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, lang_settings, channel_support, vip_status_support, \
-     videochat, rendering, sitemaps, mail_handlers, track_viewers
+     videochat, rendering, sitemaps, mail_handlers, track_viewers, messages
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
 import gaesessions
@@ -107,7 +107,7 @@ urlpatterns = patterns('',
     (r'^rs/store_email_address/(?P<owner_uid>[\w|-]+)/$', store_data.store_email_address),
     (r'^rs/store_email_options/(?P<owner_uid>[\w|-]+)/$', store_data.store_email_options),
     (r'^rs/store_change_password_fields/(?P<owner_uid>[\w|-]+)/$', store_data.store_change_password_fields),
-    (r'^rs/store_send_mail/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', store_data.store_send_mail, {
+    (r'^rs/store_send_mail/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', messages.store_send_mail, {
         'text_post_identifier_string': 'send_mail'}),  
     (r'^rs/store_report_unacceptable_profile/(?P<display_uid>[\w|-]+)/', store_data.store_report_unacceptable_profile),
     #(r'^rs/store_new_user_after_verify_email_code/dummy/$', store_data.store_new_user_after_verify_email_code),
@@ -116,9 +116,9 @@ urlpatterns = patterns('',
     (r'^rs/authenticate/(?P<username>[\w|-]+)/(?P<secret_verification_code>[\w|-]+)/$',
      store_data.store_new_user_after_verify_email_url),
     (r'^rs/store_send_mail_from_profile_checkbox_no/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', 
-     store_data.store_send_mail, {'text_post_identifier_string': 'send_mail_from_profile_checkbox_no'}),    
+     messages.store_send_mail, {'text_post_identifier_string': 'send_mail_from_profile_checkbox_no'}),    
     (r'^rs/store_send_mail_from_profile_checkbox_yes/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', 
-     store_data.store_send_mail, {'text_post_identifier_string': 'send_mail_from_profile_checkbox_yes'}),
+     messages.store_send_mail, {'text_post_identifier_string': 'send_mail_from_profile_checkbox_yes'}),
     (r'^rs/store_initiate_contact/(?P<to_uid>[\w|-]+)/$', store_data.store_initiate_contact),
     (r'^rs/store_create_new_group/$', channel_support.store_create_new_group),
     # the following will store the checkbox fields such as languages, athletics, entertainmnet, turn_ons, etc.
