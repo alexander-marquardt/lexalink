@@ -287,47 +287,57 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 lexabit_ads_to_show = []
 append_more_advertising_info_dialog = False
 
+# Pages with Google Ads (ie. family friendly) first.
+# Note: these lists may not represent the final advertisements that are shown to the user. We post-process this information
+# to include criteria such as users search parameters and profile information - ie. if a man is looking for a man, we may
+# show them gay advertisements in addition to what is listed below. 
+
+if settings.BUILD_NAME == 'Friend':
+    enable_google_ads = True
+    lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Language')
+    
+if settings.BUILD_NAME == 'Language':
+    enable_google_ads = True
+    lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Friend')
+    
+if settings.BUILD_NAME == 'Single':
+    # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
+    enable_google_ads = True
+    lexabit_ads_to_show.append('Language')
+    lexabit_ads_to_show.append('Friend')
+    
+if settings.BUILD_NAME == 'Lesbian':
+    enable_google_ads = True
+    lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('Language')
+    lexabit_ads_to_show.append('Friend')
+
+# Pages that are more adult oriented.
 if settings.BUILD_NAME == 'Discrete':
     # Swinger, Gay, and Lesbian ads will be dynamically added depending on the search criteria.
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
     # relevant (ie. a woman seeking a woman will be shown an ad for LesbianHeart)
+    enable_google_ads = False
     lexabit_ads_to_show.append('Single')
     lexabit_ads_to_show.append('Client_Ad1')
     lexabit_ads_to_show.append('Friend')
     append_more_advertising_info_dialog = True
 
 if settings.BUILD_NAME == 'Gay':
+    enable_google_ads = False
     lexabit_ads_to_show.append('Discrete')
-    lexabit_ads_to_show.append('Friend')
-    
-if settings.BUILD_NAME == 'Single':
-    # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
-    lexabit_ads_to_show.append('Language')
-    lexabit_ads_to_show.append('Friend')
-    
-if settings.BUILD_NAME == 'Lesbian':
     lexabit_ads_to_show.append('Single')
-    lexabit_ads_to_show.append('Language')
     lexabit_ads_to_show.append('Friend')
     
 if settings.BUILD_NAME == "Swinger":
-    lexabit_ads_to_show.append('Discrete')
-    lexabit_ads_to_show.append('Gay')
-    
-if settings.BUILD_NAME == 'Friend':
-    lexabit_ads_to_show.append('Single')
-    lexabit_ads_to_show.append('Language')
-    
-if settings.BUILD_NAME == 'Language':
-    lexabit_ads_to_show.append('Single')
-
-# set a flag that determines if google ads will be shown - we don't attempt to show ads
-# on the more edgy sites since this could cause problems / risk of removal from the adsense program
-if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Language' \
-   or settings.BUILD_NAME == 'Friend' or settings.BUILD_NAME == 'Lesbian':
-    enable_google_ads = True
-else:
     enable_google_ads = False
+    lexabit_ads_to_show.append('Discrete')
+    lexabit_ads_to_show.append('Friend')
+    lexabit_ads_to_show.append('Lesbian')
+    lexabit_ads_to_show.append('Single')
+    
 
 
     
@@ -337,7 +347,7 @@ if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' or settings.
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 4
     #enable_affiliate_united_ads = False
 else:
-    MAX_NUM_LEXABIT_ADS_TO_SHOW = 2
+    MAX_NUM_LEXABIT_ADS_TO_SHOW = 1
     #enable_affiliate_united_ads = False   
     
     
@@ -408,11 +418,11 @@ if settings.BUILD_NAME == "Discrete":
     # Special case for the "discrete" site, because we don't want to explicitly say the name of the site in the address field
     sender_address = u"RS - Customer Support <support@%s>" % domain_name_dict[settings.BUILD_NAME]
     sender_address_html = u"RS - Customer Support &lt;support@%s&gt;" % domain_name_dict[settings.BUILD_NAME]
-    admin_address = u"Admin <admin@%s>" % domain_name_dict[settings.BUILD_NAME]
+    admin_address = u"Admin <support@%s>" % domain_name_dict[settings.BUILD_NAME]
 else:
     sender_address = u"%s - Customer Support <support@%s>" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
     sender_address_html = u"%s - Customer Support &lt;support@%s&gt;" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
-    admin_address = u"Admin <admin@%s>" % domain_name_dict[settings.BUILD_NAME]
+    admin_address = u"Admin <support@%s>" % domain_name_dict[settings.BUILD_NAME]
     
 ## END Administrator/Site Email Addresses
 ###################################################
