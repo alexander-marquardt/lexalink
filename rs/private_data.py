@@ -142,3 +142,6 @@ except:
         "Swinger"  : 'UA-YOUR-IDX-X',
         "Gay"      : 'UA-YOUR-IDX-X',
     }    
+    
+    
+    REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET = set([])

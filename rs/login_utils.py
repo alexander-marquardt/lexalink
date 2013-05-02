@@ -634,7 +634,7 @@ def email_address_already_has_account_registered(email_address):
     
 def send_verification_email(username, email_address, secret_verification_code, lang_code):
     
-    if not email_address_already_has_account_registered(email_address):
+    if not email_address_already_has_account_registered(email_address) or email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
 
         subject = ugettext("Verification of your email and registration")  
 
@@ -699,7 +699,8 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
         # Now, check the database to ensure that we are not receiving thousands of requests from the same email address
         # We will put a hard limit on the number of registraton requests from a single email address in a single day.
         email_address_authorization_info_count = check_authorization_info_for_email_registrations_today(creation_day, email_address)
-        if email_address_authorization_info_count >= constants.MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW:
+        if email_address_authorization_info_count >= constants.MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW and \
+           email_address not in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
             # This user has already exceeded the number of allowed attempted registrations for this email address in the past day
             # do not allow additional registration. 
             # This prevents someone from spamming an email address with multiple registration requests. 
