@@ -906,7 +906,10 @@ function edit_about_user_dialog_popup() {
         modal: true,
         title: "title",
         show: 'clip',
-        hide: 'clip'
+        hide: 'clip',
+        width: 800,
+        height: 400,
+        position: 'center'
     });
 }
 

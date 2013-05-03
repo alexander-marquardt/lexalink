@@ -208,7 +208,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
             elif input_type == "change_password":
                 generated_html += u"<p>%s</p>" % text_fields.change_password_text
                 
-            elif input_type == "about_user":
+            elif input_type == "about_user" or input_type == "about_user_dialog_popup":
                 generated_html += cls.get_text_about_user(userobject, is_primary_user)
                 
              
