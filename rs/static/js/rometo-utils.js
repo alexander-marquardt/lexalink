@@ -898,6 +898,18 @@ function reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_
     }
 }
 
+
+
+function edit_about_user_dialog_popup() {
+    
+    $("#id-about_user_is_empty_popup").dialog({
+        modal: true,
+        title: "title",
+        show: 'clip',
+        hide: 'clip'
+    });
+}
+
 function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid, captcha_bypass_string, have_sent_messages_string,
                           success_status_string, error_status_string) {
 
@@ -942,6 +954,13 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                     }
 
                     $(ajax_spinner_id).hide();
+                } else if (html_response == "user_is_missing_profile_description") {
+                    // we must get the user to fill in more information in their profile before they will be permitted to send a message.
+                    // pop-up a dialog box that allows them to enter in the appropriate information into their profile, at which point they
+                    // should be able to re-submit their message.
+                    edit_about_user_dialog_popup();
+                    reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);                    
+
                 } else {
                     $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + html_response + '<br></div>');
                     reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);

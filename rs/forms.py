@@ -1025,7 +1025,6 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
                              "error_status_string": ugettext("Not sent, try again")}
     
     
-    
             # The "edit" section will be shown when the appropriate link is clicked. 
             generated_html += u"""
             <div id="id-edit-%(section_name)s-section" class="grid_7 alpha omega">

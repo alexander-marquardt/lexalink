@@ -220,6 +220,13 @@
 {% endif %}
 
 
+<!-- create a div that will be used to hang the dialog box off. This will only be shown when the user trys to send a message
+     to someone without having already entered sufficient information about themselves.-->
+<div id="id-about_user_is_empty_popup" style="display:none;">
+    {{ viewed_profile_data_fields.about_user_dialog_popup|safe }}
+</div>
+
+
 <div class="grid_9 alpha omega">
     <!-- this is just a dummy spacer -->
     &nbsp;

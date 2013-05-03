@@ -56,7 +56,7 @@ import email_utils, backup_data, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, lang_settings
 from rs import profile_utils, online_presence_support, online_presence_support, track_viewers
 from django import http
-import http_utils, common_data_structs
+import http_utils, common_data_structs, html_container
 
 if settings.BUILD_NAME == "Friend":
     import friend_bazaar_specific_code
@@ -141,6 +141,13 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             link_to_hide = 'login'
             show_vip_info = utils.do_display_online_status(owner_uid)
             
+            if not owner_userobject.has_about_user:
+                section_label = ugettext("You must enter a description about yourself before you can send a message")
+                about_user_dialog_popup =  html_container.UserMainHTML.define_html_for_main_body_input_section(lang_idx,
+                               owner_userobject, "about_user_dialog_popup", section_label, None, owner_uid, "about_user_dialog_popup", is_primary_user = True)   
+            else:
+                about_user_dialog_popup = ''
+                
         else:
             owner_userobject = None
             owner_uid = ''
@@ -243,6 +250,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         (page_title, meta_description) = FormUtils.generate_title_and_meta_description_for_current_profile(lang_code, display_uid)
       
         html_for_main = MyHTMLCallbackGenerator(request, display_userobject, is_primary_user, owner_userobject, have_sent_messages_object)
+        
+   
                
         search_bar = MyHTMLSearchBarGenerator(lang_idx)
            
@@ -304,7 +313,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         viewed_profile_data_fields['account_has_been_removed_message'] = account_has_been_removed_message
         viewed_profile_data_fields['debugging_html'] = debugging_html
         viewed_profile_data_fields['profile_information_for_admin'] = utils.generate_profile_information_for_administrator(owner_userobject, display_userobject)
-
+        viewed_profile_data_fields['about_user_dialog_popup'] = about_user_dialog_popup
         
         
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 

@@ -548,6 +548,7 @@ class UserModel(ndb.Model):
     password_attempted_change_date = ndb.DateTimeProperty(auto_now_add=True) # initially gets set to when the user profile is created
         
     about_user = ndb.TextProperty(default = '----')
+    about_user_dialog_popup = about_user
     
     # this variable is used as an indicator that the user has put enough characters of 
     # description in their profile ... otherwise, they are given a warning.
