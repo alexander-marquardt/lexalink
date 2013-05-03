@@ -189,7 +189,7 @@ urlpatterns = patterns('',
      ajax.load_send_mail_from_profile, {
          'show_checkbox_beside_summary': True}),  
     (r'^rs/ajax/load_about_user[_dialog_popup]*/[\w|-]+/$', ajax.load_about_user),       
-    (r'^rs/ajax/load_about_user[_dialog_popup]*_for_edit/$', ajax.load_about_user_for_edit),       
+    (r'^rs/ajax/load_about_user(?P<for_dialog_popup_string>[_dialog_popup]*)_for_edit/$', ajax.load_about_user_for_edit),       
     (r'^rs/ajax/load_mail_history/(?P<bookmark_key_str>[\w|-]+)/(?P<other_uid>[\w|-]+)/$', ajax.load_mail_history),
     (r'^rs/ajax/favorite_message/(?P<have_sent_messages_id>[\w|-]+)/$', ajax.favorite_message),  
     (r'^rs/ajax/read_message/(?P<have_sent_messages_id>[\w|-]+)/$', ajax.move_message, {'mailbox_to_move_message_to' : 'inbox'}),  

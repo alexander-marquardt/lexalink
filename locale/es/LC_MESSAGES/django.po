@@ -1370,13 +1370,12 @@ msgstr ""
 #: rs/html_container.py:126
 msgid "Friend specific text"
 msgstr ""
-
 "- La experiencias que has tenido conociendo amigos en el internet.\n"
 "- Detalles sobre las actividades para las que estás disponible (ampliar lo "
 "que has especificado en las casillas de verificación de tu perfil).\n"
 "- Cuando estás libre para reunirte con la gente, y cuáles son tus "
 "expectativas\n"
-"- Actividades que te gustaría probar\n"
+"- Actividades que te gustaría probar"
 
 #: rs/html_container.py:127
 #, python-format

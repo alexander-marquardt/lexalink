@@ -1322,7 +1322,7 @@ msgstr ""
 "- Details about the activities are you available for (expand on what you "
 "have specified in your profile checkboxes)\n"
 "- When are you free to meet with people, and what are your expectations\n"
-"- What activities you would like to try\n"
+"- What activities you would like to try"
 
 #: rs/html_container.py:127
 #, python-format

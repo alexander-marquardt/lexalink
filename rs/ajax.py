@@ -481,11 +481,11 @@ def load_mail_textarea(request, other_uid, section_name):
         return HttpResponse('Fail')
 
 @ajax_call_requires_login
-def load_about_user_for_edit(request):
+def load_about_user_for_edit(request, for_dialog_popup_string = ''):
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
         assert(userobject)        
-        generated_html = FormUtils.get_standard_textarea_html("about_user", constants.ABOUT_USER_MAX_ROWS, add_edit_to_id=True)
+        generated_html = FormUtils.get_standard_textarea_html("about_user" + for_dialog_popup_string, constants.ABOUT_USER_MAX_ROWS, add_edit_to_id=True)
         return HttpResponse(generated_html)
     except:
         error_reporting.log_exception(logging.error, error_message = 'load_mail_textarea error')

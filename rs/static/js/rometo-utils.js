@@ -389,7 +389,8 @@ function getJSON_handler(action, id_prefix, field_type) {
             // dropdown menus to reflect the correct value
             function(data) {
                 var id_name;
-                if (field_type != "email_address" && field_type != "textarea" && field_type != "current_status" && field_type != "about_user") {
+                if (field_type != "email_address" && field_type != "textarea" && field_type != "current_status"
+                        && field_type != "about_user" && field_type != "about_user_dialog_popup") {
                     for (var field in data) {
 
                         // hasOwnProperty just makes sure that the field is not an inherited property, ie. it ensures
