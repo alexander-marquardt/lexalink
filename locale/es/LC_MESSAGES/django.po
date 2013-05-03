@@ -1370,17 +1370,13 @@ msgstr ""
 #: rs/html_container.py:126
 msgid "Friend specific text"
 msgstr ""
-"- Si estás interesado en que te contraten como un amigo y así poder ganar un "
-"dinero extra, interesado en contratar/buscar a un amigo, o bien ambas "
-"cosas.\n"
-"- La experiencia que has tenido siendo un amigo de alquiler.\n"
+
+"- La experiencias que has tenido conociendo amigos en el internet.\n"
 "- Detalles sobre las actividades para las que estás disponible (ampliar lo "
 "que has especificado en las casillas de verificación de tu perfil).\n"
 "- Cuando estás libre para reunirte con la gente, y cuáles son tus "
 "expectativas\n"
-"- Si te interesa dar tu amistad de forma gratuita a alguien que ofrece "
-"actividades que te gustaría probar (es decir, un intercambio de amistad, en "
-"lugar de un alquiler de un amigo)"
+"- Actividades que te gustaría probar\n"
 
 #: rs/html_container.py:127
 #, python-format

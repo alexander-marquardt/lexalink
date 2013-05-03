@@ -1318,15 +1318,11 @@ msgstr ""
 #: rs/html_container.py:126
 msgid "Friend specific text"
 msgstr ""
-"- If you are interested in being hired as a friend and making some extra "
-"money, or interested in hiring/finding a friend, or both\n"
-"- Experience that you have as being a hired friend.\n"
+"- Experience that you have in meeting friends on the internet.\n"
 "- Details about the activities are you available for (expand on what you "
 "have specified in your profile checkboxes)\n"
 "- When are you free to meet with people, and what are your expectations\n"
-"- If you would consider giving your friendship for free to someone that "
-"offers activities that you would like to try (i.e. a friendship exchange "
-"instead of a friend hire)"
+"- What activities you would like to try\n"
 
 #: rs/html_container.py:127
 #, python-format
