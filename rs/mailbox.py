@@ -274,10 +274,8 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
             generated_html += u'<div class= "grid_7 alpha omega"><br>\n' #message text container
             date_sent =  return_time_difference_in_friendly_format(message.m_date)
             generated_html += u'<strong>%s</strong><br>\n' % (date_sent)
-            
-            message_text = message.m_text.replace('\n', '<br>') 
                 
-            generated_html += u'<span style="color:%s;">%s</span>\n' % (text_color, message_text)
+            generated_html += u'<span class="cl-literally-display-user-text" style="color:%s;">%s</span>\n' % (text_color, message.m_text)
             generated_html += u'</div>' # message text container
             
             generated_html += u'</div> <!-- end cl-mailbox_results -->\n'
@@ -769,8 +767,8 @@ def display_conversation_summary(request, have_sent_messages_object,
                 message_text = message.m_text                
                 
                 
-            generated_html += u'<span class = "%s">%s %s %s: %s%s</span><br>\n' % (
-                text_color_class, add_emphasis_open, ugettext("From"), sender_name, message_text, add_emphasis_close)    
+            generated_html += u'<span class = "%s %s">%s %s %s: %s%s</span><br>\n' % (
+               "cl-literally-display-user-text", text_color_class, add_emphasis_open, ugettext("From"), sender_name, message_text, add_emphasis_close)    
             
         generated_html += u'</a>'
         

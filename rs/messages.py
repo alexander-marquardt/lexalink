@@ -288,8 +288,6 @@ def actually_store_send_mail(sender_userobject, to_uid, text):
         
         # do not allow extremely huge messages to be sent (to prevent attacks on our storage space)
         text = text[:constants.MAIL_TEXTAREA_CUTOFF_CHARS]
-        # make sure that the user hasn't entered a word that is longer than the line width
-        text = utils.break_long_words(text, constants.MAX_CHARS_PER_WORD)
         
         store_mail_message(sender_userobject_key, receiver_userobject_key, parent_key, text)
 

@@ -237,16 +237,14 @@ def store_about_user(request, owner_uid, section_name):
         
         # make sure that the user isnt trying to do an html/javascript injection
         text = strip_tags(text)
-
+        
         if len(text) > ABOUT_USER_MIN_DESCRIPTION_LEN:
             userobject.has_about_user = True
         else:
             userobject.has_about_user = False
        
         if text:
-            userobject.about_user = text[:ABOUT_USER_MAX_DESCRIPTION_LEN]
-            # break long words into smaller words
-            userobject.about_user = utils.break_long_words(userobject.about_user, constants.MAX_CHARS_PER_WORD)            
+            userobject.about_user = text[:ABOUT_USER_MAX_DESCRIPTION_LEN]         
         else:
             userobject.about_user = "----"
             
@@ -397,7 +395,6 @@ def store_current_status(request, owner_uid):
         
         # make sure that they don't try to store a value that is larger than the field size
         current_status= current_status[:field_formats['status_field_length']]
-        current_status = strip_tags(utils.break_long_words(current_status, constants.MAX_CHARS_PER_WORD))
         userobject.current_status_update_time = datetime.datetime.now()
         if current_status == "":
             current_status = "----" 

@@ -252,16 +252,20 @@ def get_email_address_settings(request, uid):
 
 
 
+
 @ajax_call_requires_login
 def get_about_user_settings(request, uid, section_name):
     
     try:
+        logging.info("Entering into get_about_user_settings with section_name=%s" % section_name)
+        
         userobject = utils_top_level.get_userobject_from_request(request)
         assert(uid == userobject.key.urlsafe())
         
         # is_primary_user is true, since this function can only be called after the user has edited his about_user value
         is_primary_user = True
-        about_user = UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name, for_edit = True)
+        for_edit = True
+        about_user =  UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name, for_edit)
         json_response = simplejson.dumps(about_user) 
     
     except:
@@ -489,7 +493,7 @@ def load_about_user_for_edit(request, for_dialog_popup_string = ''):
         generated_html = FormUtils.get_standard_textarea_html("about_user" + for_dialog_popup_string, constants.ABOUT_USER_MAX_ROWS, add_edit_to_id=True)
         return HttpResponse(generated_html)
     except:
-        error_reporting.log_exception(logging.error, error_message = 'load_mail_textarea error')
+        error_reporting.log_exception(logging.error, error_message = 'load_about_user_for_edit error')
         return HttpResponse('Fail')        
 
 @ajax_call_requires_login
@@ -497,10 +501,10 @@ def load_about_user(request, section_name):
     try:
         userobject = utils_top_level.get_userobject_from_request(request)      
         is_primary_user = True
-        generated_html = UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name)
+        generated_html = """<span class="cl-literally-display-user-text">%s</span>""" % UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name)
         return HttpResponse(generated_html)
     except:
-        error_reporting.log_exception(logging.error, error_message = 'load_mail_textarea error')
+        error_reporting.log_exception(logging.error, error_message = 'load_about_user error')
         return HttpResponse('Fail')     
 
 @ajax_call_requires_login
@@ -534,7 +538,7 @@ def load_current_status(request):
         userobject = utils_top_level.get_userobject_from_request(request)
         
         if userobject.current_status != "----":
-            generated_html = u'<div>%s</div>' % userobject.current_status
+            generated_html = u'<div><span class="cl-literally-display-user-text">%s</span></div>' % userobject.current_status
         else:
             generated_html = u"%s" % text_fields.share_thinking
             

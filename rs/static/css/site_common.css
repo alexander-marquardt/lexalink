@@ -419,3 +419,8 @@ table.cl-float-right {
 li.cl-indent {
     margin-left: 25px;
 }
+
+.cl-literally-display-user-text {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}

@@ -93,9 +93,12 @@ class UserMainHTML():
     
     
     @classmethod
-    def get_text_about_user(cls, userobject, is_primary_user, section_name, for_edit = False, ):
+    def get_text_about_user(cls, userobject, is_primary_user, section_name, for_edit = False):
         # the "about me" section that is stored in the database will be displayed if available, and
         # if not available, an html template with instructions for the user will be displayed.
+        logging.info("entering get_text_about_user with is_primary_user = %s section_name = %s for_edit = %s" % (
+            is_primary_user, section_name, for_edit))
+                     
         if userobject.about_user != '----' :
             # If the user has information stored (even if it is not considered long enough to be "valid")
             # Display stored value, except when value stored is the default "----" value.
@@ -146,13 +149,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                 # viewing another users profile, and they do not have a description written
                 text_about_user = u"%s\n" % ugettext("Has not written a description")
         
-        # replace newlines with <br> so that html will be displayed as the user intended.
-        #
-        # THIS IS IN-EFFICIENT - should be re-written with the <br> already stored in a parallel 
-        # data structure so that we don't have to do this operation on every single profile that is 
-        # viewed.
-        text_about_user = text_about_user.replace('\n', '<br>') 
-        
+        # wrap it in a style that makes the characters appear literally
         return text_about_user
         
     @classmethod
@@ -211,7 +208,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                     
             elif input_type == "current_status":
                 if userobject.current_status != "----":
-                    generated_html += userobject.current_status
+                    generated_html += """<span class="cl-literally-display-user-text">%s</span>""" % userobject.current_status
                 else:
                     # Note, lazy translated object below need to be converted into string before copying
                     generated_html += u"%s" % text_fields.share_thinking                    
@@ -220,7 +217,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                 generated_html += u"<p>%s</p>" % text_fields.change_password_text
                 
             elif input_type == "about_user" or input_type == "about_user_dialog_popup":
-                generated_html += cls.get_text_about_user(userobject, is_primary_user, section_name)
+                generated_html += """<span class="cl-literally-display-user-text">%s</span>""" % cls.get_text_about_user(userobject, is_primary_user, section_name)
                 
              
             generated_html += """
