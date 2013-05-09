@@ -49,7 +49,7 @@ class UserMainHTML():
     @classmethod
     def javascript_for_buttons_and_link_click(cls, section_name, uid, input_type):
         
-        if input_type == "about_user":
+        if input_type == "about_user" or input_type == "about_user_dialog_popup":
             disable_submit_on_enter = ", true";
         else:
             disable_submit_on_enter = '';
