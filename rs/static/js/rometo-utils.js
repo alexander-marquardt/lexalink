@@ -649,7 +649,7 @@ function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
 
         $("#id-edit-" + section_name + "-section").hide(); // keep menus hidden until user clicks on edit
 
-        $("#id-edit-" + section_name + "-link a").click(function() {
+        $(".cl-edit-" + section_name + "-anchor").click(function() {
             $("#id-edit-" + section_name + "-place-holder").load("/rs/ajax/load_" + section_name + "_for_edit/", function() {
                 $("#id-display-" + section_name + "-section").hide();
                 $("#id-edit-" + section_name + "-section").show();
@@ -909,7 +909,7 @@ function edit_about_user_dialog_popup() {
         show: 'clip',
         hide: 'clip',
         width: 800,
-        height: 400,
+        height: 500,
         position: 'center'
     });
 }

@@ -253,14 +253,15 @@ def get_email_address_settings(request, uid):
 
 
 @ajax_call_requires_login
-def get_about_user_settings(request, uid):
+def get_about_user_settings(request, uid, section_name):
     
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
         assert(uid == userobject.key.urlsafe())
         
         # is_primary_user is true, since this function can only be called after the user has edited his about_user value
-        about_user = UserMainHTML.get_text_about_user(userobject, is_primary_user = True, for_edit = True)
+        is_primary_user = True
+        about_user = UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name, for_edit = True)
         json_response = simplejson.dumps(about_user) 
     
     except:
@@ -492,10 +493,11 @@ def load_about_user_for_edit(request, for_dialog_popup_string = ''):
         return HttpResponse('Fail')        
 
 @ajax_call_requires_login
-def load_about_user(request):
+def load_about_user(request, section_name):
     try:
-        userobject = utils_top_level.get_userobject_from_request(request)        
-        generated_html = UserMainHTML.get_text_about_user(userobject, is_primary_user = True)
+        userobject = utils_top_level.get_userobject_from_request(request)      
+        is_primary_user = True
+        generated_html = UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name)
         return HttpResponse(generated_html)
     except:
         error_reporting.log_exception(logging.error, error_message = 'load_mail_textarea error')

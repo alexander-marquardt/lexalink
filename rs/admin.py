@@ -348,6 +348,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
     return HttpResponse(html_to_render)
 
 
+
 def generate_code_for_maintenance_warning():
     # code for printing out warnings if google is doing database maintenance and we are shut
     # down.

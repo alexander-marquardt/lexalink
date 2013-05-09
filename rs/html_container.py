@@ -41,7 +41,7 @@ import utils
 from google.appengine.api import users
 
 
-import settings, text_fields, error_reporting, logging
+import settings, constants, text_fields, error_reporting, logging
 
 class UserMainHTML():
     
@@ -93,7 +93,7 @@ class UserMainHTML():
     
     
     @classmethod
-    def get_text_about_user(cls, userobject, is_primary_user, for_edit = False):
+    def get_text_about_user(cls, userobject, is_primary_user, section_name, for_edit = False, ):
         # the "about me" section that is stored in the database will be displayed if available, and
         # if not available, an html template with instructions for the user will be displayed.
         if userobject.about_user != '----' :
@@ -108,26 +108,37 @@ class UserMainHTML():
             # we are only displaying the user profile (to the owner of the profile)
             # fall-through case -- tell the user what to write about.
             if is_primary_user: 
+
+                how_much_to_write = ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
+                                                                   'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}
+                
+                embedded_edit_anchor = """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
+                    "edit_text": ugettext("edit"), "section_name": section_name}
                 
                 if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                    what_to_write_about = ugettext("""Write a description about yourself and what you are looking for %(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s.""") % \
+                    what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(how_much_to_write)s %(embedded_edit_anchor)s""") % \
                         {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
                          'customized_text' : ugettext("Dating specific text"),
-                         'no_sex_no_dating' :''}
+                         'no_sex_no_dating' :'',
+                         'how_much_to_write' : how_much_to_write,
+                         'embedded_edit_anchor' : embedded_edit_anchor}
                 else:
                     if settings.BUILD_NAME == "Language":
-                        what_to_write_about = ugettext("""Write a description about yourself and what you are looking for %(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s.""") % \
+                        what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(how_much_to_write)s %(embedded_edit_anchor)s""") % \
                             {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
                              'customized_text': ugettext("Language-exchange specific text"),
-                             'no_sex_no_dating' :'',}
+                             'no_sex_no_dating' :'',
+                             'how_much_to_write' : how_much_to_write,
+                             'embedded_edit_anchor' : embedded_edit_anchor}
                     if settings.BUILD_NAME == "Friend":
-                        what_to_write_about = ugettext("""Write a description about yourself and what you are looking for %(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s.""") % \
+                        what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(how_much_to_write)s %(embedded_edit_anchor)s""") % \
                             {'no_publicity_text': '',
                              'customized_text': ugettext("Friend specific text"),
                              'no_sex_no_dating' : "%s\n\n" % ugettext("Please keep in mind that %(app_name)s is *not* a dating \
 site and is *not* an escort agency, and all meetings are for friendly activities only. Members that violate the spirit \
-of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAME}
-                             }
+of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAME},
+                             'how_much_to_write' : how_much_to_write,
+                             'embedded_edit_anchor' : embedded_edit_anchor}
                              
                 
                 text_about_user = u"%s\n\n\n\n" % what_to_write_about        
@@ -166,7 +177,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                 # Normally email_address is not editable, unless the user is VIP or the admin is logged in. Other fields are editable,
                 # which accounts for the check to see that we are not editing email_address *unless* it is a VIP or admin trying to edit email
                 # address -- all other fields are freely editable. 
-                generated_html += """<a href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
+                generated_html += """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
                     "edit_text": ugettext("edit"), "section_name": section_name}
                 
             generated_html += """</p>
@@ -209,7 +220,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                 generated_html += u"<p>%s</p>" % text_fields.change_password_text
                 
             elif input_type == "about_user" or input_type == "about_user_dialog_popup":
-                generated_html += cls.get_text_about_user(userobject, is_primary_user)
+                generated_html += cls.get_text_about_user(userobject, is_primary_user, section_name)
                 
              
             generated_html += """

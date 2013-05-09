@@ -226,14 +226,14 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
     
 #############################################
 @requires_login
-def store_about_user(request, owner_uid):
+def store_about_user(request, owner_uid, section_name):
     # recieves to POST from the "edit_about_user" call, and stores to the appropriate data structure.
     # then re-direct back to the user profile.
     try:
         assert(owner_uid == request.session['userobject_str'])
         userobject = utils_top_level.get_userobject_from_request(request)
 
-        text = request.POST.get('about_user', '')
+        text = request.POST.get(section_name, '')
         
         # make sure that the user isnt trying to do an html/javascript injection
         text = strip_tags(text)

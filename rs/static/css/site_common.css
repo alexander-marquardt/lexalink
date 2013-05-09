@@ -56,9 +56,9 @@ input { /* used for defining the characteristics of input text boxes and anythin
 	font-family: Arial, Verdana, SunSans-Regular, Sans-Serif;
 }
 
-/* set the color for the text links. Note that anchors inside ui-widget must be delared so that the default
+/* set the color for the text links. Note that anchors inside ui-widget must be declared so that the default
    ui-widget coloring is over-ridden */
-a {text-decoration: none; color:#B857AB ; outline: none; } /* #B857AB close to purple */
+a,  a.cl-override-widget-css  {text-decoration: none; color:#B857AB ; outline: none; } /* #B857AB close to purple */
 a:hover {text-decoration: underline; color:#EB485D ; outline: none; } /* #EB485D soft RED */
 
 .cl-same-color-as-default-anchor {
