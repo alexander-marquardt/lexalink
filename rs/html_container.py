@@ -96,8 +96,6 @@ class UserMainHTML():
     def get_text_about_user(cls, userobject, is_primary_user, section_name, for_edit = False):
         # the "about me" section that is stored in the database will be displayed if available, and
         # if not available, an html template with instructions for the user will be displayed.
-        logging.info("entering get_text_about_user with is_primary_user = %s section_name = %s for_edit = %s" % (
-            is_primary_user, section_name, for_edit))
                      
         if userobject.about_user != '----' :
             # If the user has information stored (even if it is not considered long enough to be "valid")
@@ -112,35 +110,30 @@ class UserMainHTML():
             # fall-through case -- tell the user what to write about.
             if is_primary_user: 
 
-                how_much_to_write = ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
-                                                                   'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}
                 
                 embedded_edit_anchor = """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
                     "edit_text": ugettext("edit"), "section_name": section_name}
                 
                 if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                    what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(how_much_to_write)s %(embedded_edit_anchor)s""") % \
+                    what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
                         {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
                          'customized_text' : ugettext("Dating specific text"),
                          'no_sex_no_dating' :'',
-                         'how_much_to_write' : how_much_to_write,
                          'embedded_edit_anchor' : embedded_edit_anchor}
                 else:
                     if settings.BUILD_NAME == "Language":
-                        what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(how_much_to_write)s %(embedded_edit_anchor)s""") % \
+                        what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
                             {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
                              'customized_text': ugettext("Language-exchange specific text"),
                              'no_sex_no_dating' :'',
-                             'how_much_to_write' : how_much_to_write,
                              'embedded_edit_anchor' : embedded_edit_anchor}
                     if settings.BUILD_NAME == "Friend":
-                        what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(how_much_to_write)s %(embedded_edit_anchor)s""") % \
+                        what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
                             {'no_publicity_text': '',
                              'customized_text': ugettext("Friend specific text"),
                              'no_sex_no_dating' : "%s\n\n" % ugettext("Please keep in mind that %(app_name)s is *not* a dating \
 site and is *not* an escort agency, and all meetings are for friendly activities only. Members that violate the spirit \
 of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAME},
-                             'how_much_to_write' : how_much_to_write,
                              'embedded_edit_anchor' : embedded_edit_anchor}
                              
                 
@@ -181,7 +174,15 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
             </div> <!-- end id-edit-%(section_name)s-link -->
             </div> <!-- end grid_2 -->
             
-            <div class="grid_7 omega" >
+            <div class="grid_7 omega" > """ % {"section_name": section_name}
+            
+            
+            if is_primary_user and (input_type == "about_user" or input_type == "about_user_dialog_popup"):
+                # The following text will be shown during "edit" and "viewing" of the primary users profile.
+                generated_html += '<span class="cl-literally-display-user-text">%s\n\n</span>' % ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
+                                                                               'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}            
+            
+            generated_html += """
             <div id="id-display-%(section_name)s-section">
             <a name = "display-%(section_name)s-section"></a>
             """ % {"section_name": section_name}
