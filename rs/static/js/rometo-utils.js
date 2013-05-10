@@ -649,7 +649,7 @@ function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
 
         $("#id-edit-" + section_name + "-section").hide(); // keep menus hidden until user clicks on edit
 
-        $(".cl-edit-" + section_name + "-anchor").click(function() {
+        $(document).on('click', ".cl-edit-" + section_name + "-anchor", function() {
             $("#id-edit-" + section_name + "-place-holder").load("/rs/ajax/load_" + section_name + "_for_edit/", function() {
                 $("#id-display-" + section_name + "-section").hide();
                 $("#id-edit-" + section_name + "-section").show();
