@@ -711,7 +711,7 @@ function handle_submit_button(section_name, uid, disable_submit_on_enter) {
         var submit_button_obj = $(submit_button_id);
         var edit_section_obj = $(edit_section_id);
 
-        submit_button_obj.on("click.handle_submit_button", function() {
+        submit_button_obj.off("click.handle_submit_button").on("click.handle_submit_button", function() {
             submit_post(section_name, uid);
         });
 
@@ -906,13 +906,14 @@ function edit_about_user_dialog_popup() {
     
     $("#id-about_user_is_empty_popup").dialog({
         modal: true,
-        title: "title",
+        title: "",
         show: 'clip',
         hide: 'clip',
         width: 800,
         height: 500,
         position: 'center'
     });
+
 }
 
 function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid, captcha_bypass_string, have_sent_messages_string,

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 21:03-0400\n"
+"POT-Creation-Date: 2013-05-13 18:39-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,15 @@ msgid ""
 "for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
 msgstr ""
 
-#: rs/ajax.py:523
+#: rs/ajax.py:505 rs/html_container.py:247
+msgid "Your description"
+msgstr ""
+
+#: rs/ajax.py:515
+msgid "Close"
+msgstr ""
+
+#: rs/ajax.py:550
 #, python-format
 msgid ""
 "\n"
@@ -47,45 +55,45 @@ msgid ""
 "    that your email address has been correctly stored."
 msgstr ""
 
-#: rs/ajax.py:650
+#: rs/ajax.py:677
 msgid "Greeting sent"
 msgstr ""
 
-#: rs/ajax.py:652
+#: rs/ajax.py:679
 msgid "Wink sent"
 msgstr ""
 
-#: rs/ajax.py:657
+#: rs/ajax.py:684
 msgid "Is favorite"
 msgstr ""
 
-#: rs/ajax.py:658
+#: rs/ajax.py:685
 msgid "Kiss sent"
 msgstr ""
 
-#: rs/ajax.py:659
+#: rs/ajax.py:686
 msgid "Has accsess to your private profile"
 msgstr ""
 
-#: rs/ajax.py:660
+#: rs/ajax.py:687
 msgid "Is blocked (new messages automatically deleted)"
 msgstr ""
 
-#: rs/ajax.py:664
+#: rs/ajax.py:691
 msgid "You are waiting for a confirmation of your chat request"
 msgstr ""
 
-#: rs/ajax.py:665
+#: rs/ajax.py:692
 msgid "You have received a chat request"
 msgstr ""
 
-#: rs/ajax.py:666
+#: rs/ajax.py:693
 msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
 msgstr ""
 
-#: rs/ajax.py:706 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:520
+#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:520
 #: rs/rendering.py:405 rs/utils.py:1488
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -119,7 +127,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: rs/callbacks_from_html.py:128 rs/views.py:145
+#: rs/callbacks_from_html.py:128 rs/views.py:144
 msgid "About myself and what I am looking for"
 msgstr ""
 
@@ -1269,13 +1277,33 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: rs/html_container.py:115 rs/html_container.py:171
+#: rs/html_container.py:100 rs/html_container.py:135 rs/html_container.py:195
 #: rs/templates/user_main_helpers/main_body.html:173
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr ""
 
-#: rs/html_container.py:118 rs/html_container.py:125 rs/html_container.py:131
+#: rs/html_container.py:103
+msgid "You have only written"
+msgstr ""
+
+#: rs/html_container.py:103 rs/html_container.py:104
+msgid "characters"
+msgstr ""
+
+#: rs/html_container.py:104
+msgid "You must write at least"
+msgstr ""
+
+#: rs/html_container.py:105
+msgid "Please click on"
+msgstr ""
+
+#: rs/html_container.py:105
+msgid "to improve your description"
+msgstr ""
+
+#: rs/html_container.py:138 rs/html_container.py:145 rs/html_container.py:151
 #, python-format
 msgid ""
 "%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s "
@@ -1296,14 +1324,14 @@ msgstr ""
 "\n"
 "*** Your description must not contain explicit or obscene language. ***"
 
-#: rs/html_container.py:119 rs/html_container.py:126
+#: rs/html_container.py:139 rs/html_container.py:146
 msgid "No publicity text"
 msgstr ""
 "It is not permitted to put publicity for services or telephone numbers in "
 "your description. On the other hand, you can send and receive private "
 "messages (for free) to any members that you would like to contact."
 
-#: rs/html_container.py:120
+#: rs/html_container.py:140
 msgid "Dating specific text"
 msgstr ""
 "- A description of what kind of person you would like to meet, and a "
@@ -1312,7 +1340,7 @@ msgstr ""
 "to talk or meet with people, and what kind of a relationship would you like "
 "to have."
 
-#: rs/html_container.py:127
+#: rs/html_container.py:147
 msgid "Language-exchange specific text"
 msgstr ""
 "- A description of your abilities in the language that you would like to "
@@ -1321,7 +1349,7 @@ msgstr ""
 "- Any experiences you have had with foreign cultures such as travelling or "
 "meeting people from other countries"
 
-#: rs/html_container.py:133
+#: rs/html_container.py:153
 msgid "Friend specific text"
 msgstr ""
 "- Experience that you have in meeting friends on the internet.\n"
@@ -1330,7 +1358,7 @@ msgstr ""
 "- When are you free to meet with people, and what are your expectations\n"
 "- What activities you would like to try"
 
-#: rs/html_container.py:134
+#: rs/html_container.py:154
 #, python-format
 msgid ""
 "Please keep in mind that %(app_name)s is *not* a dating site and is *not* an "
@@ -1338,17 +1366,20 @@ msgid ""
 "that violate the spirit of %(app_name)s will be eliminated and banned."
 msgstr ""
 
-#: rs/html_container.py:143
+#: rs/html_container.py:168
 msgid "Has not written a description"
 msgstr ""
 
-#: rs/html_container.py:182 rs/views.py:197
+#: rs/html_container.py:207 rs/views.py:196
 #, python-format
 msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
 msgstr ""
-" <strong>You must write a description of at least %(num_chars)s characters "
-"(about %(num_lines)s lines)</strong> about yourself before you will be "
-"allowed to send messages to other users."
+"Your profile is not complete. <strong>You must write a description of at "
+"least %(num_chars)s characters (about %(num_lines)s lines) before you "
+"cansend messages to other users.</strong>  Your description must be "
+"original, and should describe yourself and what you are looking for. "
+"Descriptions that do not follow these guidelines may result in the removal "
+"of your profile without prior notification."
 
 #: rs/localizations.py:53 rs/localizations.py:67
 msgid "Arabic"
@@ -2170,7 +2201,7 @@ msgstr ""
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:873
+#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:872
 msgid "You have exited"
 msgstr ""
 
@@ -2500,7 +2531,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:235 rs/views.py:161
+#: rs/rendering.py:235 rs/views.py:160
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2635,7 +2666,7 @@ msgstr "For: %(relationship_status)s"
 msgid "Showing results for"
 msgstr ""
 
-#: rs/store_data.py:979
+#: rs/store_data.py:975
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2644,7 +2675,7 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:985
+#: rs/store_data.py:981
 #, python-format
 msgid ""
 "\n"
@@ -2656,7 +2687,7 @@ msgid ""
 "chat friends."
 msgstr ""
 
-#: rs/store_data.py:1013
+#: rs/store_data.py:1009
 #, python-format
 msgid ""
 "\n"
@@ -2666,7 +2697,7 @@ msgid ""
 "member."
 msgstr ""
 
-#: rs/store_data.py:1021
+#: rs/store_data.py:1017
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr ""
@@ -3867,7 +3898,7 @@ msgstr ""
 msgid "Lesbians"
 msgstr ""
 
-#: rs/views.py:847
+#: rs/views.py:846
 msgid "terms.html"
 msgstr ""
 

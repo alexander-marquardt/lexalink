@@ -91,59 +91,83 @@ class UserMainHTML():
         
         return generated_html
     
+    @classmethod
+    def about_user_description_too_short_html(cls, length_of_about_user, section_name):
+        
+        generated_html = ''
+        if length_of_about_user != None and length_of_about_user < constants.ABOUT_USER_MIN_DESCRIPTION_LEN:
+            embedded_edit_anchor = """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
+                "edit_text": ugettext("edit"), "section_name": section_name}            
+
+            generated_html = """<br><br><span class="cl-warning-text">%s %s %s.</span> %s %s %s. %s %s %s.""" % (
+                ugettext("You have only written"), length_of_about_user, ugettext("characters"),
+                ugettext("You must write at least"), constants.ABOUT_USER_MIN_DESCRIPTION_LEN, ugettext("characters"),
+                ugettext("Please click on"), embedded_edit_anchor, ugettext("to improve your description"))
+
+        return generated_html
     
     @classmethod
     def get_text_about_user(cls, userobject, is_primary_user, section_name, for_edit = False):
         # the "about me" section that is stored in the database will be displayed if available, and
         # if not available, an html template with instructions for the user will be displayed.
                      
-        if userobject.about_user != '----' :
-            # If the user has information stored (even if it is not considered long enough to be "valid")
-            # Display stored value, except when value stored is the default "----" value.
-            text_about_user = userobject.about_user
-        elif for_edit:
-            # The user has clicked on the "edit" button for their own "about me" section, and they have not yet
-            # entered any text - therefore we show an empty box.
-            text_about_user = ''
-        else: # the default "----" value is still stored
-            # we are only displaying the user profile (to the owner of the profile)
-            # fall-through case -- tell the user what to write about.
-            if is_primary_user: 
+        length_of_about_user = None
+       
+        if is_primary_user: 
+            # we are displaying the user profile (to the owner of the profile)
+            if for_edit and  userobject.about_user == '----' :
+                # The user has clicked on the "edit" button for their own "about me" section, and they have not yet
+                # entered any text - therefore we show an empty box.
+                text_about_user = ''
+                
+            else:             
+                
+                if userobject.about_user != '----' :
+                    # If the user has information stored (even if it is not considered long enough to be "valid")
+                    # Display stored value, except when value stored is the default "----" value.
+                    length_of_about_user = len(userobject.about_user)
+                    text_about_user = userobject.about_user
 
-                
-                embedded_edit_anchor = """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
-                    "edit_text": ugettext("edit"), "section_name": section_name}
-                
-                if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
-                    what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
-                        {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
-                         'customized_text' : ugettext("Dating specific text"),
-                         'no_sex_no_dating' :'',
-                         'embedded_edit_anchor' : embedded_edit_anchor}
                 else:
-                    if settings.BUILD_NAME == "Language":
+                    # tell the user what to write about.
+                    
+                    embedded_edit_anchor = """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
+                        "edit_text": ugettext("edit"), "section_name": section_name}
+                    
+                    if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
                         what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
                             {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
-                             'customized_text': ugettext("Language-exchange specific text"),
+                             'customized_text' : ugettext("Dating specific text"),
                              'no_sex_no_dating' :'',
                              'embedded_edit_anchor' : embedded_edit_anchor}
-                    if settings.BUILD_NAME == "Friend":
-                        what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
-                            {'no_publicity_text': '',
-                             'customized_text': ugettext("Friend specific text"),
-                             'no_sex_no_dating' : "%s\n\n" % ugettext("Please keep in mind that %(app_name)s is *not* a dating \
+                    else:
+                        if settings.BUILD_NAME == "Language":
+                            what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
+                                {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
+                                 'customized_text': ugettext("Language-exchange specific text"),
+                                 'no_sex_no_dating' :'',
+                                 'embedded_edit_anchor' : embedded_edit_anchor}
+                        if settings.BUILD_NAME == "Friend":
+                            what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
+                                {'no_publicity_text': '',
+                                 'customized_text': ugettext("Friend specific text"),
+                                 'no_sex_no_dating' : "%s\n\n" % ugettext("Please keep in mind that %(app_name)s is *not* a dating \
 site and is *not* an escort agency, and all meetings are for friendly activities only. Members that violate the spirit \
 of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAME},
-                             'embedded_edit_anchor' : embedded_edit_anchor}
-                             
+                                 'embedded_edit_anchor' : embedded_edit_anchor}
+                                 
+                    
+                        text_about_user = u"%s\n\n\n\n" % what_to_write_about     
                 
-                text_about_user = u"%s\n\n\n\n" % what_to_write_about        
+        else: # not is_primary_user
+            if userobject.about_user != '----':
+                # show other users description
+                text_about_user = userobject.about_user;
             else:
-                # viewing another users profile, and they do not have a description written
+                # viewing another users profile, and they do not have a description written                
                 text_about_user = u"%s\n" % ugettext("Has not written a description")
         
-        # wrap it in a style that makes the characters appear literally
-        return text_about_user
+        return (text_about_user, length_of_about_user)
         
     @classmethod
     def define_html_for_main_body_input_section(
@@ -179,7 +203,8 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
             
             if is_primary_user and (input_type == "about_user" or input_type == "about_user_dialog_popup"):
                 # The following text will be shown during "edit" and "viewing" of the primary users profile.
-                generated_html += '<span class="cl-literally-display-user-text">%s\n\n</span>' % ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
+                if len(userobject.about_user) < constants.ABOUT_USER_MIN_DESCRIPTION_LEN:
+                    generated_html += '<span class="cl-literally-display-user-text">%s\n\n</span>' % ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
                                                                                'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}            
             
             generated_html += """
@@ -218,8 +243,13 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                 generated_html += u"<p>%s</p>" % text_fields.change_password_text
                 
             elif input_type == "about_user" or input_type == "about_user_dialog_popup":
-                generated_html += """<span class="cl-literally-display-user-text">%s</span>""" % cls.get_text_about_user(userobject, is_primary_user, section_name)
+                if is_primary_user:
+                    generated_html += "<strong>%s:</strong> " % (ugettext("Your description"))
+                (text_about_user, length_of_about_user) = cls.get_text_about_user(userobject, is_primary_user, section_name)
+                generated_html += """<span class="cl-literally-display-user-text">%s</span>""" % text_about_user
+                generated_html += cls.about_user_description_too_short_html(length_of_about_user, section_name)
                 
+
              
             generated_html += """
                   </div> <!-- end id="id-display-%(section_name)s-section" -->""" % {

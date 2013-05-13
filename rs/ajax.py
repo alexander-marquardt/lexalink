@@ -265,7 +265,8 @@ def get_about_user_settings(request, uid, section_name):
         # is_primary_user is true, since this function can only be called after the user has edited his about_user value
         is_primary_user = True
         for_edit = True
-        about_user =  UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name, for_edit)
+        (text_about_user, length_of_about_user) = UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name, for_edit)
+        about_user =  text_about_user
         json_response = simplejson.dumps(about_user) 
     
     except:
@@ -501,7 +502,33 @@ def load_about_user(request, section_name):
     try:
         userobject = utils_top_level.get_userobject_from_request(request)      
         is_primary_user = True
-        generated_html = """<span class="cl-literally-display-user-text">%s</span>""" % UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name)
+        generated_html = "<strong>%s:</strong> " % (ugettext("Your description"))   
+        (text_about_user, length_of_about_user) = UserMainHTML.get_text_about_user(userobject, is_primary_user, section_name)        
+        generated_html += """<span class="cl-literally-display-user-text">%s</span>""" % text_about_user
+        generated_html += UserMainHTML.about_user_description_too_short_html(length_of_about_user, section_name)
+        
+        if section_name == "about_user_dialog_popup": 
+            if len(userobject.about_user) >= constants.ABOUT_USER_MIN_DESCRIPTION_LEN:
+                # add an extra button that allows the user to close the dialog box (without having to 
+                # push the X in the top right
+                generated_html += """<br><br><input type="button" class="cl-submit" id="id-about_user_is_empty-close" alt="" value="%s">
+                """ % (ugettext("Close"))   
+                
+                # The following javascript just styles the "close" button, and catches clicks on the button so that the
+                # dialog window will be closed when clicked.
+                generated_html += """
+                <script type="text/javascript" language="javascript">
+                $('#id-about_user_is_empty_popup').ready(function(){    
+                    $('#id-about_user_is_empty-close').button();
+                    $('#id-about_user_is_empty-close').on('click', function() {
+                       $("#id-about_user_is_empty_popup").dialog("close"); 
+                    });                    
+                });
+
+                </script>
+                """
+                
+        
         return HttpResponse(generated_html)
     except:
         error_reporting.log_exception(logging.error, error_message = 'load_about_user error')

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 21:03-0400\n"
+"POT-Creation-Date: 2013-05-13 18:39-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -38,7 +38,16 @@ msgstr ""
 "Hemos cerrado %(app_name)s.com por aproximadamente %(shutdown_time)s minutos "
 "para el mantenimiento. Esperamos abrir en %(minutes_remaining)s minutos."
 
-#: rs/ajax.py:523
+#: rs/ajax.py:505 rs/html_container.py:247
+msgid "Your description"
+msgstr "Tu descripción"
+
+#: rs/ajax.py:515
+#, fuzzy
+msgid "Close"
+msgstr "Cerrar chat"
+
+#: rs/ajax.py:550
 #, python-format
 msgid ""
 "\n"
@@ -51,39 +60,39 @@ msgstr ""
 "%(sender_email)s</em> que te confirma que tu email ha sido guardado "
 "correctamente."
 
-#: rs/ajax.py:650
+#: rs/ajax.py:677
 msgid "Greeting sent"
 msgstr "Saludo enviado"
 
-#: rs/ajax.py:652
+#: rs/ajax.py:679
 msgid "Wink sent"
 msgstr "Guiño enviado"
 
-#: rs/ajax.py:657
+#: rs/ajax.py:684
 msgid "Is favorite"
 msgstr "Es favorito"
 
-#: rs/ajax.py:658
+#: rs/ajax.py:685
 msgid "Kiss sent"
 msgstr "Beso enviado"
 
-#: rs/ajax.py:659
+#: rs/ajax.py:686
 msgid "Has accsess to your private profile"
 msgstr "Tiene acceso a tu perfil privado"
 
-#: rs/ajax.py:660
+#: rs/ajax.py:687
 msgid "Is blocked (new messages automatically deleted)"
 msgstr "Bloqueado (mensajes nuevos automaticamente eliminados)"
 
-#: rs/ajax.py:664
+#: rs/ajax.py:691
 msgid "You are waiting for a confirmation of your chat request"
 msgstr "Estás esperando confirmacion de tu solicitud de \"Chat amigo\""
 
-#: rs/ajax.py:665
+#: rs/ajax.py:692
 msgid "You have received a chat request"
 msgstr "Has recibido una solicitud de \"Chat amigo\""
 
-#: rs/ajax.py:666
+#: rs/ajax.py:693
 msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
@@ -91,7 +100,7 @@ msgstr ""
 "Ya sois \"Chat amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:706 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:520
+#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:520
 #: rs/rendering.py:405 rs/utils.py:1488
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -126,7 +135,7 @@ msgstr "Idiomas que hablo"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: rs/callbacks_from_html.py:128 rs/views.py:145
+#: rs/callbacks_from_html.py:128 rs/views.py:144
 msgid "About myself and what I am looking for"
 msgstr "Descripción sobre mí y lo que estoy buscando"
 
@@ -1323,13 +1332,34 @@ msgstr "Guardar"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: rs/html_container.py:115 rs/html_container.py:171
+#: rs/html_container.py:100 rs/html_container.py:135 rs/html_container.py:195
 #: rs/templates/user_main_helpers/main_body.html:173
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr "editar"
 
-#: rs/html_container.py:118 rs/html_container.py:125 rs/html_container.py:131
+#: rs/html_container.py:103
+msgid "You have only written"
+msgstr "Solo has escrito"
+
+#: rs/html_container.py:103 rs/html_container.py:104
+msgid "characters"
+msgstr "caracteres"
+
+#: rs/html_container.py:104
+msgid "You must write at least"
+msgstr "Debes escribir por lo menos"
+
+#: rs/html_container.py:105
+msgid "Please click on"
+msgstr "Haz clic en"
+
+#: rs/html_container.py:105
+msgid "to improve your description"
+msgstr "para mejorar tu descripción"
+
+#: rs/html_container.py:138 rs/html_container.py:145 rs/html_container.py:151
+#, python-format
 msgid ""
 "%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s "
 "%(embedded_edit_anchor)s"
@@ -1349,14 +1379,14 @@ msgstr ""
 "\n"
 "*** Tu descripción no puede contener lenguaje explícito u obsceno. ***"
 
-#: rs/html_container.py:119 rs/html_container.py:126
+#: rs/html_container.py:139 rs/html_container.py:146
 msgid "No publicity text"
 msgstr ""
 "No está permitido poner publicidad de servicios ni números de teléfono en tu "
 "descripción. Por contra, puedes enviar y recibir mensajes privados a "
 "cualquier socio para compartir información privada."
 
-#: rs/html_container.py:120
+#: rs/html_container.py:140
 msgid "Dating specific text"
 msgstr ""
 "- Una descripción de que tipo de persona te gustaría conocer, y una "
@@ -1364,7 +1394,7 @@ msgstr ""
 "- Una descripción de tu situación actual. Cuando estás libre para quedar con "
 "otras personas, que tipo de relación te gustaría tener."
 
-#: rs/html_container.py:127
+#: rs/html_container.py:147
 msgid "Language-exchange specific text"
 msgstr ""
 "- Que nivel tienes en el idioma que te gustaria practicar.\n"
@@ -1372,7 +1402,7 @@ msgstr ""
 "- Experiencias que has tenido con culturas extranjeras o personas de otros "
 "países."
 
-#: rs/html_container.py:133
+#: rs/html_container.py:153
 msgid "Friend specific text"
 msgstr ""
 "- La experiencias que has tenido conociendo amigos en el internet.\n"
@@ -1382,7 +1412,7 @@ msgstr ""
 "expectativas\n"
 "- Actividades que te gustaría probar"
 
-#: rs/html_container.py:134
+#: rs/html_container.py:154
 #, python-format
 msgid ""
 "Please keep in mind that %(app_name)s is *not* a dating site and is *not* an "
@@ -1394,17 +1424,20 @@ msgstr ""
 "solamente para actividades puramente de amistad. Los miembros que violen el "
 "espíritu de FriendBazaar serán eliminados y bloqueados."
 
-#: rs/html_container.py:143
+#: rs/html_container.py:168
 msgid "Has not written a description"
 msgstr "No tiene una descripción"
 
-#: rs/html_container.py:182 rs/views.py:197
+#: rs/html_container.py:207 rs/views.py:196
 #, python-format
 msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
 msgstr ""
-"<strong>Debes escribir una descripción sobre ti de más de %(num_chars)s "
-"carácteres (aproximadamente %(num_lines)s líneas)</strong> antes de se te "
-"permite enviar mensjaes a los otros miembros."
+"Tu perfil no es completo. <strong>Debes escribir una descripción de más de "
+"%(num_chars)s carácteres (aproximadamente %(num_lines)s líneas) antes de que "
+"puedes enviar mensajes a los otros miembros.</strong>Tu descripción debe ser "
+"original, y debe describirte a tí mismo y lo que estás buscando. "
+"Descripciones que no sigan estas directrices pueden resultar en la "
+"eliminación de tu perfil sin aviso previo."
 
 #: rs/localizations.py:53 rs/localizations.py:67
 msgid "Arabic"
@@ -2226,7 +2259,7 @@ msgstr "Hemos eliminado el perfil de"
 msgid "We have enabled the profile of"
 msgstr "Hemos habilitado el perfil de"
 
-#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:873
+#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:872
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -2586,7 +2619,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/rendering.py:235 rs/views.py:161
+#: rs/rendering.py:235 rs/views.py:160
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -2734,7 +2767,7 @@ msgstr "Para: %(relationship_status)s"
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
-#: rs/store_data.py:979
+#: rs/store_data.py:975
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2746,7 +2779,7 @@ msgstr ""
 "enviar. Antes de enviar las llaves adicionales, debes recuperar las llaves "
 "que has dado a otros usuarios."
 
-#: rs/store_data.py:985
+#: rs/store_data.py:981
 #, python-format
 msgid ""
 "\n"
@@ -2762,7 +2795,7 @@ msgstr ""
 "se te permite solicitar. Antes de solicitar amigos adicionales de chat, "
 "debes quitar algunos de tus amigos actuales de chat."
 
-#: rs/store_data.py:1013
+#: rs/store_data.py:1009
 #, python-format
 msgid ""
 "\n"
@@ -2775,7 +2808,7 @@ msgstr ""
 "Si quieres aumentar este limite a %(max_requests)s, podrías hacerte miembro "
 "VIP."
 
-#: rs/store_data.py:1021
+#: rs/store_data.py:1017
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr "Ver beneficios VIP"
@@ -4029,7 +4062,7 @@ msgstr "Hombres gays"
 msgid "Lesbians"
 msgstr "Lesbianas"
 
-#: rs/views.py:847
+#: rs/views.py:846
 msgid "terms.html"
 msgstr "terminos.html"
 

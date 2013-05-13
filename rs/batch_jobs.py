@@ -46,7 +46,7 @@ from django.template import loader, Context
 from models import UserModel
 import models
 import email_utils
-from constants import offset_values, ABOUT_USER_MIN_DESCRIPTION_LEN
+from constants import offset_values
 import store_data, login_utils, utils_top_level
 
 
