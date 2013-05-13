@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-09 16:25-0400\n"
+"POT-Creation-Date: 2013-05-09 21:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,21 +24,21 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:369
+#: rs/admin.py:370
 #, python-format
 msgid ""
 "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
 "approximately %(shutdown_time)s minutes for maintenance"
 msgstr ""
 
-#: rs/admin.py:386
+#: rs/admin.py:387
 #, python-format
 msgid ""
 "We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
 "for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
 msgstr ""
 
-#: rs/ajax.py:518
+#: rs/ajax.py:523
 #, python-format
 msgid ""
 "\n"
@@ -47,45 +47,45 @@ msgid ""
 "    that your email address has been correctly stored."
 msgstr ""
 
-#: rs/ajax.py:645
+#: rs/ajax.py:650
 msgid "Greeting sent"
 msgstr ""
 
-#: rs/ajax.py:647
+#: rs/ajax.py:652
 msgid "Wink sent"
 msgstr ""
 
-#: rs/ajax.py:652
+#: rs/ajax.py:657
 msgid "Is favorite"
 msgstr ""
 
-#: rs/ajax.py:653
+#: rs/ajax.py:658
 msgid "Kiss sent"
 msgstr ""
 
-#: rs/ajax.py:654
+#: rs/ajax.py:659
 msgid "Has accsess to your private profile"
 msgstr ""
 
-#: rs/ajax.py:655
+#: rs/ajax.py:660
 msgid "Is blocked (new messages automatically deleted)"
 msgstr ""
 
-#: rs/ajax.py:659
+#: rs/ajax.py:664
 msgid "You are waiting for a confirmation of your chat request"
 msgstr ""
 
-#: rs/ajax.py:660
+#: rs/ajax.py:665
 msgid "You have received a chat request"
 msgstr ""
 
-#: rs/ajax.py:661
+#: rs/ajax.py:666
 msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
 msgstr ""
 
-#: rs/ajax.py:701 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:522
+#: rs/ajax.py:706 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:520
 #: rs/rendering.py:405 rs/utils.py:1488
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -220,38 +220,38 @@ msgstr ""
 msgid "website to meet people, make friends, and to earn money"
 msgstr ""
 
-#: rs/constants.py:605
+#: rs/constants.py:603
 msgid ""
 "Username needs at least 3 characters and can only contain letters and "
 "numbers. Additionally, it may not contain any spaces."
 msgstr ""
 
-#: rs/constants.py:607
+#: rs/constants.py:605
 msgid "Password required"
 msgstr ""
 
-#: rs/constants.py:608
+#: rs/constants.py:606
 msgid ""
 "Password may only contain letters and numbers, and cannot contain spaces."
 msgstr ""
 
-#: rs/constants.py:609
+#: rs/constants.py:607
 msgid "The password and the verification must be the same."
 msgstr ""
 
-#: rs/constants.py:610
+#: rs/constants.py:608
 msgid "The username that you have selected is not available."
 msgstr ""
 
-#: rs/constants.py:611
+#: rs/constants.py:609
 msgid "Username/email + password is incorrect"
 msgstr ""
 
-#: rs/constants.py:612
+#: rs/constants.py:610
 msgid "The email address is not valid"
 msgstr ""
 
-#: rs/constants.py:616
+#: rs/constants.py:614
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to another user in a single "
@@ -261,183 +261,183 @@ msgid ""
 "        %(hours)s-hour period. "
 msgstr ""
 
-#: rs/constants.py:636
+#: rs/constants.py:634
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:638
+#: rs/constants.py:636
 msgid "sent (singular)"
 msgstr "sent"
 
-#: rs/constants.py:639
+#: rs/constants.py:637
 msgid "received (singluar)"
 msgstr "received"
 
-#: rs/constants.py:640
+#: rs/constants.py:638
 msgid "saved (singular)"
 msgstr "saved"
 
-#: rs/constants.py:641
+#: rs/constants.py:639
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:646 rs/messages.py:367
+#: rs/constants.py:644 rs/messages.py:365
 msgid "sent (plural)"
 msgstr "sent"
 
-#: rs/constants.py:647
+#: rs/constants.py:645
 msgid "received (plural)"
 msgstr "received"
 
-#: rs/constants.py:648
+#: rs/constants.py:646
 msgid "saved (plural)"
 msgstr "saved"
 
-#: rs/constants.py:649
+#: rs/constants.py:647
 msgid "confirmed (plural)"
 msgstr "confirmed"
 
-#: rs/constants.py:654
+#: rs/constants.py:652
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:655
+#: rs/constants.py:653
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:656
+#: rs/constants.py:654
 msgid "Greeting"
 msgstr ""
 
-#: rs/constants.py:658
+#: rs/constants.py:656
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:659
+#: rs/constants.py:657
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:660
+#: rs/constants.py:658
 msgid "Wink"
 msgstr ""
 
-#: rs/constants.py:663
+#: rs/constants.py:661
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:665
+#: rs/constants.py:663
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:666
+#: rs/constants.py:664
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:667
+#: rs/constants.py:665
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:668
+#: rs/constants.py:666
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:673
+#: rs/constants.py:671
 msgid "My favorite"
 msgstr ""
 
-#: rs/constants.py:675
+#: rs/constants.py:673
 msgid "Kiss"
 msgstr ""
 
-#: rs/constants.py:676
+#: rs/constants.py:674
 msgid "Key"
 msgstr ""
 
-#: rs/constants.py:677
+#: rs/constants.py:675
 msgid "Chat friend"
 msgstr "Chat friends"
 
-#: rs/constants.py:678
+#: rs/constants.py:676
 msgid "Blocked (singular)"
 msgstr "Blocked"
 
-#: rs/constants.py:682
+#: rs/constants.py:680
 msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:683
+#: rs/constants.py:681
 msgid "Chat requests received"
 msgstr ""
 
-#: rs/constants.py:684
+#: rs/constants.py:682
 msgid "Chat connections confirmed"
 msgstr ""
 
-#: rs/constants.py:688
+#: rs/constants.py:686
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:688
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:691
+#: rs/constants.py:689
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:692
+#: rs/constants.py:690
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:693
+#: rs/constants.py:691
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:730
+#: rs/constants.py:728
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:731
+#: rs/constants.py:729
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:732
+#: rs/constants.py:730
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:733
+#: rs/constants.py:731
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:734
+#: rs/constants.py:732
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:735
+#: rs/constants.py:733
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:736
+#: rs/constants.py:734
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:737
+#: rs/constants.py:735
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:738
+#: rs/constants.py:736
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:739
+#: rs/constants.py:737
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:740
+#: rs/constants.py:738
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:741
+#: rs/constants.py:739
 msgid "December"
 msgstr ""
 
@@ -463,7 +463,7 @@ msgid "Last entrance"
 msgstr ""
 
 #: rs/display_profiles_summary.py:317 rs/display_profiles_summary.py:329
-#: rs/mailbox.py:988
+#: rs/mailbox.py:986
 msgid "Next"
 msgstr ""
 
@@ -1269,29 +1269,20 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: rs/html_container.py:112 rs/views.py:197
-#, python-format
-msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
-msgstr ""
-" <strong>You must write a description of at least %(num_chars)s characters "
-"(about %(num_lines)s lines)</strong> about yourself before you will be "
-"allowed to send messages to other users."
-
-#: rs/html_container.py:116 rs/html_container.py:181
+#: rs/html_container.py:115 rs/html_container.py:171
 #: rs/templates/user_main_helpers/main_body.html:173
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr ""
 
-#: rs/html_container.py:119 rs/html_container.py:127 rs/html_container.py:134
+#: rs/html_container.py:118 rs/html_container.py:125 rs/html_container.py:131
+#, python-format
 msgid ""
 "%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s "
-"%(how_much_to_write)s %(embedded_edit_anchor)s"
+"%(embedded_edit_anchor)s"
 msgstr ""
-"%(how_much_to_write)s\n"
-"\n"
-"Click on %(embedded_edit_anchor)s to to write a description about yourself and what "
-"you hope to find.\n"
+"Click on %(embedded_edit_anchor)s to to write a description about yourself "
+"and what you hope to find.\n"
 "\n"
 "%(no_sex_no_dating)s %(no_publicity_text)s If you don't know what to write "
 "about, you could consider writing about the following:\n"
@@ -1305,14 +1296,14 @@ msgstr ""
 "\n"
 "*** Your description must not contain explicit or obscene language. ***"
 
-#: rs/html_container.py:120 rs/html_container.py:128
+#: rs/html_container.py:119 rs/html_container.py:126
 msgid "No publicity text"
 msgstr ""
 "It is not permitted to put publicity for services or telephone numbers in "
 "your description. On the other hand, you can send and receive private "
 "messages (for free) to any members that you would like to contact."
 
-#: rs/html_container.py:121
+#: rs/html_container.py:120
 msgid "Dating specific text"
 msgstr ""
 "- A description of what kind of person you would like to meet, and a "
@@ -1321,7 +1312,7 @@ msgstr ""
 "to talk or meet with people, and what kind of a relationship would you like "
 "to have."
 
-#: rs/html_container.py:129
+#: rs/html_container.py:127
 msgid "Language-exchange specific text"
 msgstr ""
 "- A description of your abilities in the language that you would like to "
@@ -1330,7 +1321,7 @@ msgstr ""
 "- Any experiences you have had with foreign cultures such as travelling or "
 "meeting people from other countries"
 
-#: rs/html_container.py:136
+#: rs/html_container.py:133
 msgid "Friend specific text"
 msgstr ""
 "- Experience that you have in meeting friends on the internet.\n"
@@ -1339,7 +1330,7 @@ msgstr ""
 "- When are you free to meet with people, and what are your expectations\n"
 "- What activities you would like to try"
 
-#: rs/html_container.py:137
+#: rs/html_container.py:134
 #, python-format
 msgid ""
 "Please keep in mind that %(app_name)s is *not* a dating site and is *not* an "
@@ -1347,9 +1338,17 @@ msgid ""
 "that violate the spirit of %(app_name)s will be eliminated and banned."
 msgstr ""
 
-#: rs/html_container.py:147
+#: rs/html_container.py:143
 msgid "Has not written a description"
 msgstr ""
+
+#: rs/html_container.py:182 rs/views.py:197
+#, python-format
+msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
+msgstr ""
+" <strong>You must write a description of at least %(num_chars)s characters "
+"(about %(num_lines)s lines)</strong> about yourself before you will be "
+"allowed to send messages to other users."
 
 #: rs/localizations.py:53 rs/localizations.py:67
 msgid "Arabic"
@@ -2265,106 +2264,106 @@ msgstr ""
 msgid "Change email address"
 msgstr ""
 
-#: rs/mailbox.py:268 rs/mailbox.py:773
+#: rs/mailbox.py:268 rs/mailbox.py:771
 msgid "From"
 msgstr ""
 
-#: rs/mailbox.py:422
+#: rs/mailbox.py:420
 msgid "To"
 msgstr ""
 
-#: rs/mailbox.py:626
+#: rs/mailbox.py:624
 msgid "Deleted (mail)"
 msgstr "Deleted"
 
-#: rs/mailbox.py:627 rs/mailbox.py:641 rs/menubar.py:67 rs/text_fields.py:76
+#: rs/mailbox.py:625 rs/mailbox.py:639 rs/menubar.py:67 rs/text_fields.py:76
 msgid "Received"
 msgstr ""
 
-#: rs/mailbox.py:630
+#: rs/mailbox.py:628
 msgid "Spam"
 msgstr ""
 
-#: rs/mailbox.py:631
+#: rs/mailbox.py:629
 msgid "Received (mail)"
 msgstr "Received"
 
-#: rs/mailbox.py:635 rs/menubar.py:68 rs/text_fields.py:75
+#: rs/mailbox.py:633 rs/menubar.py:68 rs/text_fields.py:75
 msgid "Sent"
 msgstr ""
 
-#: rs/mailbox.py:640
+#: rs/mailbox.py:638
 msgid "Read (mail)"
 msgstr "Read"
 
-#: rs/mailbox.py:644
+#: rs/mailbox.py:642
 msgid "New (mail)"
 msgstr "New"
 
-#: rs/mailbox.py:711
+#: rs/mailbox.py:709
 msgid ""
 "Message history (click on the message text to see more detailed history)"
 msgstr ""
 
-#: rs/mailbox.py:778
+#: rs/mailbox.py:776
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:804 rs/mailbox.py:972
+#: rs/mailbox.py:802 rs/mailbox.py:970
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:810 rs/mailbox.py:970
+#: rs/mailbox.py:808 rs/mailbox.py:968
 msgid "Delete"
 msgstr ""
 
-#: rs/mailbox.py:814
+#: rs/mailbox.py:812
 msgid "Move to sent mailbox"
 msgstr ""
 
-#: rs/mailbox.py:817
+#: rs/mailbox.py:815
 msgid "Move to received mailbox"
 msgstr ""
 
-#: rs/mailbox.py:823
+#: rs/mailbox.py:821
 msgid "Mark as spam"
 msgstr ""
 
-#: rs/mailbox.py:836
+#: rs/mailbox.py:834
 msgid "Favorite"
 msgstr ""
 
-#: rs/mailbox.py:839
+#: rs/mailbox.py:837
 msgid "Add to your favorites"
 msgstr ""
 
-#: rs/mailbox.py:902
+#: rs/mailbox.py:900
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:965
+#: rs/mailbox.py:963
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:965 rs/templates/user_main_helpers/menubar.html:62
+#: rs/mailbox.py:963 rs/templates/user_main_helpers/menubar.html:62
 msgid "All (messages - override)"
 msgstr "All"
 
-#: rs/mailbox.py:965
+#: rs/mailbox.py:963
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:1004
+#: rs/mailbox.py:1002
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:1006
+#: rs/mailbox.py:1004
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:1007
+#: rs/mailbox.py:1005
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2388,46 +2387,46 @@ msgstr ""
 msgid "Blocked profiles"
 msgstr ""
 
-#: rs/messages.py:365
+#: rs/messages.py:363
 msgid "Statistics of spam sent from your account:"
 msgstr ""
 
-#: rs/messages.py:366
+#: rs/messages.py:364
 msgid "of"
 msgstr ""
 
-#: rs/messages.py:368
+#: rs/messages.py:366
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages."
 msgstr ""
 
-#: rs/messages.py:440
+#: rs/messages.py:438
 msgid "Captcha is incorrect, try again"
 msgstr ""
 
-#: rs/messages.py:469
+#: rs/messages.py:467
 msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr ""
 
-#: rs/messages.py:552
+#: rs/messages.py:550
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/messages.py:553
+#: rs/messages.py:551
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/messages.py:555
+#: rs/messages.py:553
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/messages.py:556
+#: rs/messages.py:554
 msgid "greetings"
 msgstr ""
 
-#: rs/messages.py:559
+#: rs/messages.py:557
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2466,7 +2465,7 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/messages.py:580
+#: rs/messages.py:578
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
@@ -2636,7 +2635,7 @@ msgstr "For: %(relationship_status)s"
 msgid "Showing results for"
 msgstr ""
 
-#: rs/store_data.py:982
+#: rs/store_data.py:979
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2645,7 +2644,7 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:988
+#: rs/store_data.py:985
 #, python-format
 msgid ""
 "\n"
@@ -2657,7 +2656,7 @@ msgid ""
 "chat friends."
 msgstr ""
 
-#: rs/store_data.py:1016
+#: rs/store_data.py:1013
 #, python-format
 msgid ""
 "\n"
@@ -2667,7 +2666,7 @@ msgid ""
 "member."
 msgstr ""
 
-#: rs/store_data.py:1024
+#: rs/store_data.py:1021
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr ""

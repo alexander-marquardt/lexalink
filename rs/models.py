@@ -550,10 +550,6 @@ class UserModel(ndb.Model):
     about_user = ndb.TextProperty(default = '----')
     about_user_dialog_popup = about_user # an alias to about_user
     
-    # this variable is used as an indicator that the user has put enough characters of 
-    # description in their profile ... otherwise, they are given a warning.
-    has_about_user = ndb.BooleanProperty(default = False)
-
     height = ndb.StringProperty(default = '----')
     body_type = ndb.StringProperty(default = '----')
     hair_color = ndb.StringProperty(default = '----')

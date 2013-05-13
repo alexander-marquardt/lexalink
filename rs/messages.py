@@ -419,7 +419,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
             return http.HttpResponseBadRequest()
         else:
             
-            if not sender_userobject.has_about_user:
+            if not (len(sender_userobject.about_user) > constants.ABOUT_USER_MIN_DESCRIPTION_LEN):
                 # if the user has not written enough of a description in their profile, we obligate them to fill it in before
                 # they can send a message.
                 return http.HttpResponse('user_is_missing_profile_description') 

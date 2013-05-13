@@ -628,8 +628,8 @@ function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
 
     // for this function to work, the corresponding css/html divs must follow exactly
     // the naming conventions specified here. this is necessary to allow us to programmatically
-    // send data from the server, and to allow us to re-use this code. .. also it doesn't hurt
-    // to be consistent in the naming conventions.
+    // send data from the server, and to allow us to re-use this code. .. also it keeps the code
+    // consistent in the naming conventions.
 
 
     try{
@@ -649,7 +649,8 @@ function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
 
         $("#id-edit-" + section_name + "-section").hide(); // keep menus hidden until user clicks on edit
 
-        $(document).on('click', ".cl-edit-" + section_name + "-anchor", function() {
+        // for some (unknown) reason we need to unbind the click handler before binding it , or it will fire twice for a single click.
+        $(document).off('click', ".cl-edit-" + section_name + "-anchor").on('click', ".cl-edit-" + section_name + "-anchor", function() {
             $("#id-edit-" + section_name + "-place-holder").load("/rs/ajax/load_" + section_name + "_for_edit/", function() {
                 $("#id-display-" + section_name + "-section").hide();
                 $("#id-edit-" + section_name + "-section").show();

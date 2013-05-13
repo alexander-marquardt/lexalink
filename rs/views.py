@@ -141,7 +141,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             link_to_hide = 'login'
             show_vip_info = utils.do_display_online_status(owner_uid)
             
-            if not owner_userobject.has_about_user:
+            if not (len(owner_userobject.about_user) > constants.ABOUT_USER_MIN_DESCRIPTION_LEN):
                 section_label = ugettext("About myself and what I am looking for")
                 about_user_dialog_popup =  html_container.UserMainHTML.define_html_for_main_body_input_section(lang_idx,
                                owner_userobject, "about_user_dialog_popup", section_label, None, owner_uid, "about_user_dialog_popup", is_primary_user = True)   
@@ -192,7 +192,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 # Note: we use the has_about_user boolean instead of just checking against the default value of "----"
                 # because this allows us to continue to show the warning message until they have entered the minimum
                 # number of characters in their description.
-                if not owner_userobject.has_about_user:
+                if not (len(owner_userobject.about_user) > constants.ABOUT_USER_MIN_DESCRIPTION_LEN):
                     # this value is over-written for all languages (including english) to give more descriptive text.
                     no_about_user_section_warning = "%s" % ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
                                                                    'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}

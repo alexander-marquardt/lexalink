@@ -238,10 +238,6 @@ def store_about_user(request, owner_uid, section_name):
         # make sure that the user isnt trying to do an html/javascript injection
         text = strip_tags(text)
         
-        if len(text) > ABOUT_USER_MIN_DESCRIPTION_LEN:
-            userobject.has_about_user = True
-        else:
-            userobject.has_about_user = False
        
         if text:
             userobject.about_user = text[:ABOUT_USER_MAX_DESCRIPTION_LEN]         
