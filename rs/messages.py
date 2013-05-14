@@ -35,6 +35,7 @@ from django.utils import html
 
 # Appengine imports
 from google.appengine.ext import ndb 
+from google.appengine.api import taskqueue
 
 # Standard python imports
 import logging, datetime, os
