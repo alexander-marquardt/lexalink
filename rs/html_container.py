@@ -95,14 +95,17 @@ class UserMainHTML():
     def about_user_description_too_short_html(cls, length_of_about_user, section_name):
         
         generated_html = ''
-        if length_of_about_user != None and length_of_about_user < constants.ABOUT_USER_MIN_DESCRIPTION_LEN:
-            embedded_edit_anchor = """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
-                "edit_text": ugettext("edit"), "section_name": section_name}            
-
-            generated_html = """<br><br><span class="cl-warning-text">%s %s %s.</span> %s %s %s. %s %s %s.""" % (
-                ugettext("You have only written"), length_of_about_user, ugettext("characters"),
-                ugettext("You must write at least"), constants.ABOUT_USER_MIN_DESCRIPTION_LEN, ugettext("characters"),
-                ugettext("Please click on"), embedded_edit_anchor, ugettext("to improve your description"))
+        if length_of_about_user != None: 
+            if length_of_about_user < constants.ABOUT_USER_MIN_DESCRIPTION_LEN:
+                embedded_edit_anchor = """<a class="cl-edit-%(section_name)s-anchor cl-override-widget-css" href = "#display-%(section_name)s-section">(%(edit_text)s)</a>""" % {
+                    "edit_text": ugettext("edit"), "section_name": section_name}            
+    
+                generated_html = """<br><br><span class="cl-warning-text">%s %s %s.</span> %s %s %s. %s %s %s.""" % (
+                    ugettext("You have only written"), length_of_about_user, ugettext("characters"),
+                    ugettext("You must write at least"), constants.ABOUT_USER_MIN_DESCRIPTION_LEN, ugettext("characters"),
+                    ugettext("Please click on"), embedded_edit_anchor, ugettext("to improve your description"))
+            else:
+                generated_html = """<br><br><strong>%s: </strong>%s %s.""" % (ugettext("You have written"), length_of_about_user, ugettext("characters"))
 
         return generated_html
     
