@@ -644,10 +644,7 @@ class UserModel(ndb.Model):
     # this data field.
     client_paid_status = ndb.StringProperty(default = None)
     client_paid_status_expiry = ndb.DateTimeProperty(auto_now_add = True)
-    
-    # if client has paid money for their status, we exempt them from captchas (for the duration of their status)
-    client_is_exempt_from_spam_captchas = ndb.BooleanProperty(default=False)
-    
+        
     # This is a forward reference to "ViewedProfileCounter" model (defined below)
     viewed_profile_counter_ref = ndb.KeyProperty(default = None)
     

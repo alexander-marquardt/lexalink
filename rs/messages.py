@@ -329,7 +329,7 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
     
     try:
 
-        if userobject.client_is_exempt_from_spam_captchas:
+        if userobject.client_paid_status:
             # if this user is paid member, they do not have to see messages about spam, or to solve captchas
             # in the case that someone has indicated that they sent spam. 
             return (show_captcha, spam_statistics_string)

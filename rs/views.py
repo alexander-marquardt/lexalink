@@ -617,7 +617,6 @@ def login(request, is_admin_login = False, referring_code = None):
                                 # client has lost their VIP status - clear from both the userobject and and the 
                                 # unique_last_login_offset structures.
                                 userobject.client_paid_status = None
-                                userobject.client_is_exempt_from_spam_captchas = False
                                 
                                 # this user up until now has not had to solve any captchas since he was a VIP member - therefore, it is possible
                                 # that his spam_tracker has accumulated a number of times being reported as spammer. We don't want to punish people

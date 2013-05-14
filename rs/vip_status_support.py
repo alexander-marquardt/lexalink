@@ -231,7 +231,6 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
     
   try:
     
-    userobject.client_is_exempt_from_spam_captchas = True
 
     (userobject.client_paid_status, userobject.client_paid_status_expiry) = \
       get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_credits_to_apply)

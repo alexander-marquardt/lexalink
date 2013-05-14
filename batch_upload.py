@@ -28,10 +28,10 @@
 import datetime, codecs, re
 import subprocess, sys, shutil, pexpect, time, getpass
     
-# Note: we add in the '' build name so that
+# Note: we add in the '' build name to the end of the list so that
 # the site_configuration.py will default back to the previously selected build name (see site_configuration.py to understand
 # why a '' value will cause the previously selected build name to be used). Additionally, this
-# causes an additional version to be generated and written to site_configuration.py, which ensures that we 
+# causes an new/unique version identifier to be generated and written to site_configuration.py, which ensures that we 
 # will not accidentally upload over top of a previous version number. 
 BUILD_NAMES_LIST = ['Discrete', 'Single' , 'Language', 'Lesbian', 'Gay', 'Swinger', 'Friend', '']
 
