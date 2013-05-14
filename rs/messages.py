@@ -396,7 +396,7 @@ def check_captcha(request):
     
 @utils.ajax_call_requires_login
 def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass_string, have_sent_messages_string):
-    # Preforms authentication on the message, and if everything is OK, it 
+    # Preforms authentication on the message, and if everything is OK,  
     # stores the sent mail message into the database 
        
     try:
@@ -404,41 +404,41 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
         sender_userobject =  utils_top_level.get_userobject_from_request(request)
         from_uid =  request.session['userobject_str']
         
-        response_is_valid = False
-            
-        # check if the correct code for bypassing the captcha has been passed in.. otherwise, verify that
-        # the captcha has been solved before storing anything.
-        if captcha_bypass_string == "no_bypass": # I break this portion of the if out for efficiency
-            has_captcha = True
-        elif captcha_bypass_string != utils.compute_captcha_bypass_string(from_uid, to_uid):
-            has_captcha = True
-        else: has_captcha = False
-        
         if request.method != 'POST':
             # Must be a post for it to work -- this should never actually execute.
             return http.HttpResponseBadRequest()
         else:
+            text = request.POST.get(text_post_identifier_string, '')
+
+            # don't allow blank emails to be sent
+            if not text:
+                return http.HttpResponse("empty_send_message")
+            else:
+                # make sure that the user isnt trying to do an html/javascript injection
+                text = html.strip_tags(text)                     
             
             if not (len(sender_userobject.about_user) >= constants.ABOUT_USER_MIN_DESCRIPTION_LEN):
                 # if the user has not written enough of a description in their profile, we obligate them to fill it in before
                 # they can send a message.
                 return http.HttpResponse('user_is_missing_profile_description') 
             
+            # check if the correct code for bypassing the captcha has been passed in.. otherwise, verify that
+            # the captcha has been solved before storing anything.
+            if captcha_bypass_string == "no_bypass": # I break this portion of the if out for efficiency
+                has_captcha = True
+            elif captcha_bypass_string != utils.compute_captcha_bypass_string(from_uid, to_uid):
+                has_captcha = True
+            else: has_captcha = False            
+            
             if has_captcha:
                 response_is_valid = check_captcha(request)    
             else:
                 response_is_valid = True
           
-            if response_is_valid:
-                text = request.POST.get(text_post_identifier_string, '')
-                # make sure that the user isnt trying to do an html/javascript injection
-                text = html.strip_tags(text)
-            else:
-                # error = cResponse.error_code
-                return http.HttpResponse(ugettext("Captcha is incorrect, try again"))
+            if not response_is_valid:
+                return http.HttpResponse(ugettext("captcha_is_incorrect"))
             
             spam_tracker = sender_userobject.spam_tracker.get()
-            
             
             # If they are trying to send too many messages in a single day, block the extra messages. This is required to prevent
             # "disk-usages attacks" on the database (ie. prevent two users that have previously had contact from sending a million
@@ -459,13 +459,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window()
                 error_reporting.log_exception(logging.warning, error_message=error_message)  
                 return http.HttpResponse(error_message)                    
-        
-        
-    
-            # don't allow blank emails to be sent
-            if not text:
-                return http.HttpResponse(ugettext("You have not written a message. You must write something before sending it."))
-             
+              
             spam_tracker_modified = False
             # don't count messages that are sent to previous contacts in the spam statistics
             if have_sent_messages_string == "have_not_had_contact":

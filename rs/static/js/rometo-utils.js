@@ -885,6 +885,11 @@ function handle_click_on_contact_icon(section_name, uid) {
     }
 }
 
+function hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id) {
+    $(submit_button_id).show();
+    $(ajax_spinner_id).hide();
+    $(captcha_div_id).show();
+}
 
 function reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string) {
 
@@ -892,9 +897,7 @@ function reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_
         if (captcha_bypass_string == "no_bypass") {
             Recaptcha.reload();
         }
-        $(submit_button_id).show();
-        $(ajax_spinner_id).hide();
-        $(captcha_div_id).show();
+        hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
     } catch(err) {
         report_try_catch_error( err, "reload_submit_and_recaptcha");
     }
@@ -965,12 +968,23 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                     // pop-up a dialog box that allows them to enter in the appropriate information into their profile, at which point they
                     // should be able to re-submit their message.
                     edit_about_user_dialog_popup();
-                    reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);                    
+                    hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
 
-                } else {
-                    $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + html_response + '<br></div>');
+                } else if (html_response == "captcha_is_incorrect") {
+                    var bad_captcha_message = $('#id-common_translations-incorrect_captcha').text();
+                    $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + bad_captcha_message + '<br></div>');
                     reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
 
+                } else if (html_response == "empty_send_message") {
+                    var empty_message_message = $('#id-common_translations-empty_send_message').text();
+                    $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + empty_message_message + '<br></div>');                    
+                    hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
+
+                } else {
+                    // unknown status returned.
+                    $(submit_button_id).before('<div id="id-submit_send_mail-status"><br>' + "unkonwn error. html_response: " + html_response + '<br></div>');
+                    reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
+                    report_ajax_error(textStatus, errorThrown, "submit_send_mail - unknown html response: " + html_response);
                 }
 
             },
