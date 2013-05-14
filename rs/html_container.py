@@ -160,7 +160,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                                  'embedded_edit_anchor' : embedded_edit_anchor}
                                  
                     
-                        text_about_user = u"%s\n\n\n\n" % what_to_write_about     
+                    text_about_user = u"%s\n\n\n\n" % what_to_write_about     
                 
         else: # not is_primary_user
             if userobject.about_user != '----':
