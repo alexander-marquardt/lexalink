@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 18:39-0400\n"
+"POT-Creation-Date: 2013-05-14 15:19-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -38,14 +38,13 @@ msgstr ""
 "Hemos cerrado %(app_name)s.com por aproximadamente %(shutdown_time)s minutos "
 "para el mantenimiento. Esperamos abrir en %(minutes_remaining)s minutos."
 
-#: rs/ajax.py:505 rs/html_container.py:247
+#: rs/ajax.py:505 rs/html_container.py:250
 msgid "Your description"
 msgstr "Tu descripción"
 
 #: rs/ajax.py:515
-#, fuzzy
 msgid "Close"
-msgstr "Cerrar chat"
+msgstr "Cerrar"
 
 #: rs/ajax.py:550
 #, python-format
@@ -100,7 +99,7 @@ msgstr ""
 "Ya sois \"Chat amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:520
+#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:515
 #: rs/rendering.py:405 rs/utils.py:1488
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -319,7 +318,7 @@ msgstr "guardado"
 msgid "confirmed (singular)"
 msgstr "confirmado"
 
-#: rs/constants.py:644 rs/messages.py:365
+#: rs/constants.py:644 rs/messages.py:366
 msgid "sent (plural)"
 msgstr "enviados"
 
@@ -1332,33 +1331,37 @@ msgstr "Guardar"
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: rs/html_container.py:100 rs/html_container.py:135 rs/html_container.py:195
+#: rs/html_container.py:101 rs/html_container.py:138 rs/html_container.py:198
 #: rs/templates/user_main_helpers/main_body.html:173
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr "editar"
 
-#: rs/html_container.py:103
+#: rs/html_container.py:104
 msgid "You have only written"
 msgstr "Solo has escrito"
 
-#: rs/html_container.py:103 rs/html_container.py:104
+#: rs/html_container.py:104 rs/html_container.py:105 rs/html_container.py:108
 msgid "characters"
 msgstr "caracteres"
 
-#: rs/html_container.py:104
+#: rs/html_container.py:105
 msgid "You must write at least"
 msgstr "Debes escribir por lo menos"
 
-#: rs/html_container.py:105
+#: rs/html_container.py:106
 msgid "Please click on"
 msgstr "Haz clic en"
 
-#: rs/html_container.py:105
+#: rs/html_container.py:106
 msgid "to improve your description"
 msgstr "para mejorar tu descripción"
 
-#: rs/html_container.py:138 rs/html_container.py:145 rs/html_container.py:151
+#: rs/html_container.py:108
+msgid "You have written"
+msgstr "Has escrito"
+
+#: rs/html_container.py:141 rs/html_container.py:148 rs/html_container.py:154
 #, python-format
 msgid ""
 "%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s "
@@ -1379,14 +1382,14 @@ msgstr ""
 "\n"
 "*** Tu descripción no puede contener lenguaje explícito u obsceno. ***"
 
-#: rs/html_container.py:139 rs/html_container.py:146
+#: rs/html_container.py:142 rs/html_container.py:149
 msgid "No publicity text"
 msgstr ""
 "No está permitido poner publicidad de servicios ni números de teléfono en tu "
 "descripción. Por contra, puedes enviar y recibir mensajes privados a "
 "cualquier socio para compartir información privada."
 
-#: rs/html_container.py:140
+#: rs/html_container.py:143
 msgid "Dating specific text"
 msgstr ""
 "- Una descripción de que tipo de persona te gustaría conocer, y una "
@@ -1394,7 +1397,7 @@ msgstr ""
 "- Una descripción de tu situación actual. Cuando estás libre para quedar con "
 "otras personas, que tipo de relación te gustaría tener."
 
-#: rs/html_container.py:147
+#: rs/html_container.py:150
 msgid "Language-exchange specific text"
 msgstr ""
 "- Que nivel tienes en el idioma que te gustaria practicar.\n"
@@ -1402,7 +1405,7 @@ msgstr ""
 "- Experiencias que has tenido con culturas extranjeras o personas de otros "
 "países."
 
-#: rs/html_container.py:153
+#: rs/html_container.py:156
 msgid "Friend specific text"
 msgstr ""
 "- La experiencias que has tenido conociendo amigos en el internet.\n"
@@ -1412,7 +1415,7 @@ msgstr ""
 "expectativas\n"
 "- Actividades que te gustaría probar"
 
-#: rs/html_container.py:154
+#: rs/html_container.py:157
 #, python-format
 msgid ""
 "Please keep in mind that %(app_name)s is *not* a dating site and is *not* an "
@@ -1424,11 +1427,11 @@ msgstr ""
 "solamente para actividades puramente de amistad. Los miembros que violen el "
 "espíritu de FriendBazaar serán eliminados y bloqueados."
 
-#: rs/html_container.py:168
+#: rs/html_container.py:171
 msgid "Has not written a description"
 msgstr "No tiene una descripción"
 
-#: rs/html_container.py:207 rs/views.py:196
+#: rs/html_container.py:210 rs/views.py:195
 #, python-format
 msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
 msgstr ""
@@ -2259,7 +2262,7 @@ msgstr "Hemos eliminado el perfil de"
 msgid "We have enabled the profile of"
 msgstr "Hemos habilitado el perfil de"
 
-#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:872
+#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:871
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -2500,15 +2503,15 @@ msgstr "Perfiles favoritos"
 msgid "Blocked profiles"
 msgstr "Perfiles bloqueados"
 
-#: rs/messages.py:363
+#: rs/messages.py:364
 msgid "Statistics of spam sent from your account:"
 msgstr "Estadisticas de spam enviado desde tu cuenta:"
 
-#: rs/messages.py:364
+#: rs/messages.py:365
 msgid "of"
 msgstr "de"
 
-#: rs/messages.py:366
+#: rs/messages.py:367
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages."
@@ -2516,32 +2519,28 @@ msgstr ""
 "Si envías spam, tendrás que escribir una \"captcha\" antes de poder enviar "
 "más mensajes."
 
-#: rs/messages.py:438
-msgid "Captcha is incorrect, try again"
+#: rs/messages.py:440
+#, fuzzy
+msgid "captcha_is_incorrect"
 msgstr "Captcha incorrecta, intentalo de nuevo"
 
-#: rs/messages.py:467
-msgid ""
-"You have not written a message. You must write something before sending it."
-msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
-
-#: rs/messages.py:550
+#: rs/messages.py:545
 msgid "\"wink\" or a \"kiss\""
 msgstr "\"guiño\" o un \"beso\""
 
-#: rs/messages.py:551
+#: rs/messages.py:546
 msgid "winks, kisses,"
 msgstr "guiños, besos"
 
-#: rs/messages.py:553
+#: rs/messages.py:548
 msgid "\"greeting\""
 msgstr "\"saludo\""
 
-#: rs/messages.py:554
+#: rs/messages.py:549
 msgid "greetings"
 msgstr "saludos"
 
-#: rs/messages.py:557
+#: rs/messages.py:552
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2578,7 +2577,7 @@ msgstr ""
 "\n"
 "¡Bienvenido a %(app_name)s, y mucha suerte en tu búsqueda!  "
 
-#: rs/messages.py:578
+#: rs/messages.py:573
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr "Felicidades, ya eres un miembro VIP hasta %(date)s."
@@ -2619,7 +2618,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/rendering.py:235 rs/views.py:160
+#: rs/rendering.py:235 rs/views.py:159
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -4062,7 +4061,7 @@ msgstr "Hombres gays"
 msgid "Lesbians"
 msgstr "Lesbianas"
 
-#: rs/views.py:846
+#: rs/views.py:845
 msgid "terms.html"
 msgstr "terminos.html"
 
@@ -4589,6 +4588,15 @@ msgstr ""
 #: rs/templates/main_container.html:78
 msgid "You must enable JavaScript to view this page"
 msgstr "Tienes que habilitar JavaScript para usar esta pagina"
+
+#: rs/templates/common_helpers/common_translations.html:4
+msgid "Captcha is incorrect, try again"
+msgstr "Captcha incorrecta, intentalo de nuevo"
+
+#: rs/templates/common_helpers/common_translations.html:8
+msgid ""
+"You have not written a message. You must write something before sending it."
+msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
 
 #: rs/templates/common_helpers/footer.html:39
 #: rs/templates/user_main_helpers/photos.html:152

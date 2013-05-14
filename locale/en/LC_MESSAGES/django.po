@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-13 18:39-0400\n"
+"POT-Creation-Date: 2013-05-14 15:19-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgid ""
 "for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
 msgstr ""
 
-#: rs/ajax.py:505 rs/html_container.py:247
+#: rs/ajax.py:505 rs/html_container.py:250
 msgid "Your description"
 msgstr ""
 
@@ -93,7 +93,7 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:520
+#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:515
 #: rs/rendering.py:405 rs/utils.py:1488
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -289,7 +289,7 @@ msgstr "saved"
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:644 rs/messages.py:365
+#: rs/constants.py:644 rs/messages.py:366
 msgid "sent (plural)"
 msgstr "sent"
 
@@ -1277,33 +1277,37 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: rs/html_container.py:100 rs/html_container.py:135 rs/html_container.py:195
+#: rs/html_container.py:101 rs/html_container.py:138 rs/html_container.py:198
 #: rs/templates/user_main_helpers/main_body.html:173
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr ""
 
-#: rs/html_container.py:103
+#: rs/html_container.py:104
 msgid "You have only written"
 msgstr ""
 
-#: rs/html_container.py:103 rs/html_container.py:104
+#: rs/html_container.py:104 rs/html_container.py:105 rs/html_container.py:108
 msgid "characters"
 msgstr ""
 
-#: rs/html_container.py:104
+#: rs/html_container.py:105
 msgid "You must write at least"
 msgstr ""
 
-#: rs/html_container.py:105
+#: rs/html_container.py:106
 msgid "Please click on"
 msgstr ""
 
-#: rs/html_container.py:105
+#: rs/html_container.py:106
 msgid "to improve your description"
 msgstr ""
 
-#: rs/html_container.py:138 rs/html_container.py:145 rs/html_container.py:151
+#: rs/html_container.py:108
+msgid "You have written"
+msgstr ""
+
+#: rs/html_container.py:141 rs/html_container.py:148 rs/html_container.py:154
 #, python-format
 msgid ""
 "%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s "
@@ -1324,14 +1328,14 @@ msgstr ""
 "\n"
 "*** Your description must not contain explicit or obscene language. ***"
 
-#: rs/html_container.py:139 rs/html_container.py:146
+#: rs/html_container.py:142 rs/html_container.py:149
 msgid "No publicity text"
 msgstr ""
 "It is not permitted to put publicity for services or telephone numbers in "
 "your description. On the other hand, you can send and receive private "
 "messages (for free) to any members that you would like to contact."
 
-#: rs/html_container.py:140
+#: rs/html_container.py:143
 msgid "Dating specific text"
 msgstr ""
 "- A description of what kind of person you would like to meet, and a "
@@ -1340,7 +1344,7 @@ msgstr ""
 "to talk or meet with people, and what kind of a relationship would you like "
 "to have."
 
-#: rs/html_container.py:147
+#: rs/html_container.py:150
 msgid "Language-exchange specific text"
 msgstr ""
 "- A description of your abilities in the language that you would like to "
@@ -1349,7 +1353,7 @@ msgstr ""
 "- Any experiences you have had with foreign cultures such as travelling or "
 "meeting people from other countries"
 
-#: rs/html_container.py:153
+#: rs/html_container.py:156
 msgid "Friend specific text"
 msgstr ""
 "- Experience that you have in meeting friends on the internet.\n"
@@ -1358,7 +1362,7 @@ msgstr ""
 "- When are you free to meet with people, and what are your expectations\n"
 "- What activities you would like to try"
 
-#: rs/html_container.py:154
+#: rs/html_container.py:157
 #, python-format
 msgid ""
 "Please keep in mind that %(app_name)s is *not* a dating site and is *not* an "
@@ -1366,11 +1370,11 @@ msgid ""
 "that violate the spirit of %(app_name)s will be eliminated and banned."
 msgstr ""
 
-#: rs/html_container.py:168
+#: rs/html_container.py:171
 msgid "Has not written a description"
 msgstr ""
 
-#: rs/html_container.py:207 rs/views.py:196
+#: rs/html_container.py:210 rs/views.py:195
 #, python-format
 msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
 msgstr ""
@@ -2201,7 +2205,7 @@ msgstr ""
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:872
+#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:871
 msgid "You have exited"
 msgstr ""
 
@@ -2418,46 +2422,41 @@ msgstr ""
 msgid "Blocked profiles"
 msgstr ""
 
-#: rs/messages.py:363
+#: rs/messages.py:364
 msgid "Statistics of spam sent from your account:"
 msgstr ""
 
-#: rs/messages.py:364
+#: rs/messages.py:365
 msgid "of"
 msgstr ""
 
-#: rs/messages.py:366
+#: rs/messages.py:367
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages."
 msgstr ""
 
-#: rs/messages.py:438
-msgid "Captcha is incorrect, try again"
+#: rs/messages.py:440
+msgid "captcha_is_incorrect"
 msgstr ""
 
-#: rs/messages.py:467
-msgid ""
-"You have not written a message. You must write something before sending it."
-msgstr ""
-
-#: rs/messages.py:550
+#: rs/messages.py:545
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/messages.py:551
+#: rs/messages.py:546
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/messages.py:553
+#: rs/messages.py:548
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/messages.py:554
+#: rs/messages.py:549
 msgid "greetings"
 msgstr ""
 
-#: rs/messages.py:557
+#: rs/messages.py:552
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2496,7 +2495,7 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/messages.py:578
+#: rs/messages.py:573
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
@@ -2531,7 +2530,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:235 rs/views.py:160
+#: rs/rendering.py:235 rs/views.py:159
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -3898,7 +3897,7 @@ msgstr ""
 msgid "Lesbians"
 msgstr ""
 
-#: rs/views.py:846
+#: rs/views.py:845
 msgid "terms.html"
 msgstr ""
 
@@ -4335,6 +4334,15 @@ msgstr ""
 
 #: rs/templates/main_container.html:78
 msgid "You must enable JavaScript to view this page"
+msgstr ""
+
+#: rs/templates/common_helpers/common_translations.html:4
+msgid "Captcha is incorrect, try again"
+msgstr ""
+
+#: rs/templates/common_helpers/common_translations.html:8
+msgid ""
+"You have not written a message. You must write something before sending it."
 msgstr ""
 
 #: rs/templates/common_helpers/footer.html:39
