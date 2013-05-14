@@ -129,6 +129,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         why_to_register = ''
         link_to_hide = ''
         page_title = ''
+        about_user_dialog_popup = ''
     
         # owner userobject refers to the client that is currently logged in
         owner_userobject = utils_top_level.get_userobject_from_request(request)
