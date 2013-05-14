@@ -1399,14 +1399,22 @@ def check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
         return True
     
         
-def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
+def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object, vip_status):
     # checks if the current user has exceeded the number of messages that he is allowed to send to the other
     # user in the current "time window"
+    # returns True if allowed to send messages, False if not 
     if not have_sent_messages_object :
         return True
+    
     elif have_sent_messages_object and have_sent_messages_object.num_messages_to_other_sent_today < \
          constants.STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
         return True
+    
+    elif vip_status and have_sent_messages_object.num_messages_to_other_sent_today < \
+         constants.CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
+        # VIP members can send more messages to other users
+        return True
+    
     elif have_sent_messages_object and \
          initiate_contact_object and \
          initiate_contact_object.chat_friend_stored == "connected" and \
@@ -1414,6 +1422,7 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
          constants.CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
         # These users are "chat friends" so they have a higher limit.
         return True
+    
     else:
         return False
     

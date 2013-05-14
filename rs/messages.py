@@ -437,7 +437,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 response_is_valid = True
           
             if not response_is_valid:
-                return http.HttpResponse(ugettext("captcha_is_incorrect"))
+                return http.HttpResponse("captcha_is_incorrect")
             
             spam_tracker = sender_userobject.spam_tracker.get()
             
@@ -456,7 +456,8 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 have_sent_messages_object.put()
                 
             initiate_contact_object = utils.get_initiate_contact_object(from_key, to_key)            
-            if not utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object):
+            if not utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object, 
+                                                                              sender_userobject.client_paid_status):
                 error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window()
                 error_reporting.log_exception(logging.warning, error_message=error_message)  
                 return http.HttpResponse(error_message)                    

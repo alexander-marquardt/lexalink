@@ -240,7 +240,8 @@ class MyHTMLCallbackGenerator():
             if num_messages_sent_today < num_emails_per_day or self.have_sent_messages_object or restart_spam_counter:
                 (show_captcha, spam_statistics_string) = messages.determine_if_captcha_is_shown(userobject, self.have_sent_messages_object)
                 generated_html += mailbox.generate_mail_textarea(u"send_mail_from_profile_checkbox_no", owner_uid, self.display_uid, 
-                                                                 self.have_sent_messages_object, show_captcha, spam_statistics_string)
+                                                                 self.have_sent_messages_object, show_captcha, spam_statistics_string,
+                                                                 vip_status = userobject.client_paid_status)
                 
             generated_html += "<!-- messages sent today: %s sent int total %s -->" % (num_messages_sent_today, num_messages_sent_in_total)
             return generated_html
