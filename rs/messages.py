@@ -32,6 +32,7 @@ This module contains functions that are involved in sending messages between use
 from django import http
 from django.utils.translation import ugettext
 from django.utils import html
+from django.utils import translation
 
 # Appengine imports
 from google.appengine.ext import ndb 
