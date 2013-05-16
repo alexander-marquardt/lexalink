@@ -124,10 +124,15 @@ def get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_
     # UserModel objects keys. 
     
     viewer_profile_keys_list = []
+    extra_info_html_dict = {}
     for viewer_tracker_object in viewer_tracker_object_list:
         viewer_profile_keys_list.append(viewer_tracker_object.viewer_profile)
         
-    return viewer_profile_keys_list
+        extra_info_html_dict[viewer_tracker_object.viewer_profile] = u"<strong>%s:</strong> %s" % (ugettext("Profile viewed"), 
+                    utils.return_time_difference_in_friendly_format(viewer_tracker_object.view_time, capitalize = False))        
+        
+        
+    return viewer_profile_keys_list, extra_info_html_dict
         
 def get_list_of_profile_views(profile_key, show_online_status, paging_cursor):
     
@@ -154,9 +159,9 @@ def get_list_of_profile_views(profile_key, show_online_status, paging_cursor):
         new_cursor = None
         more_results = False
     
-    viewer_profile_keys_list = get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_list)
+    (viewer_profile_keys_list, extra_info_html_dict) = get_profile_keys_list_from_viewer_tracker_object_list(viewer_tracker_object_list)
     
-    return (viewer_profile_keys_list, new_cursor, more_results)
+    return (viewer_profile_keys_list, extra_info_html_dict, new_cursor, more_results)
 
 
 def generate_html_for_profile_views(request):
@@ -233,10 +238,11 @@ def generate_html_for_profile_views(request):
             cursor_str = request.GET.get('profile_views_cursor',None)
             paging_cursor = Cursor(urlsafe = cursor_str)
             
-            (viewer_profile_keys_list, new_cursor, more_results) = get_list_of_profile_views(userobject.key, show_online_status, paging_cursor)            
+            (viewer_profile_keys_list, extra_info_html_dict, new_cursor, more_results) = get_list_of_profile_views(userobject.key, show_online_status, paging_cursor)            
             
+                        
             generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, viewer_profile_keys_list, 
-                                                                                              display_online_status)
+                                                                                              display_online_status, extra_info_html_dict)
             
     
                                                                                             

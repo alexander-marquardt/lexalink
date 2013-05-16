@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-14 18:24-0400\n"
+"POT-Creation-Date: 2013-05-16 12:30-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2820,11 +2820,15 @@ msgstr ""
 msgid "You have un-reported this profile"
 msgstr ""
 
-#: rs/track_viewers.py:179
+#: rs/track_viewers.py:131
+msgid "Profile viewed"
+msgstr ""
+
+#: rs/track_viewers.py:184
 msgid "Members that have viewed your profile (most recent are shown first)"
 msgstr ""
 
-#: rs/track_viewers.py:195
+#: rs/track_viewers.py:200
 #, python-format
 msgid ""
 "Your profile has been viewed by %(num_views_since_last_check)s members since "
@@ -2832,7 +2836,7 @@ msgid ""
 "                "
 msgstr ""
 
-#: rs/track_viewers.py:200
+#: rs/track_viewers.py:205
 #, python-format
 msgid ""
 "\n"
@@ -2841,18 +2845,18 @@ msgid ""
 "            "
 msgstr ""
 
-#: rs/track_viewers.py:209
+#: rs/track_viewers.py:214
 #, python-format
 msgid ""
 "As a free (non-VIP) member of %(app_name)s you can only see the last person "
 "that viewed your profile"
 msgstr ""
 
-#: rs/track_viewers.py:212
+#: rs/track_viewers.py:217
 msgid "Upgrade to VIP"
 msgstr ""
 
-#: rs/track_viewers.py:215
+#: rs/track_viewers.py:220
 #, python-format
 msgid ""
 "%(vip_status_link)s to see all %(count_num_unique_views)s members that have "
