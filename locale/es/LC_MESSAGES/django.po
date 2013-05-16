@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 13:23-0400\n"
+"POT-Creation-Date: 2013-05-16 14:34-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -146,42 +146,55 @@ msgstr "Encabezado"
 msgid "Modify my password"
 msgstr "Cambiar mi contraseña"
 
-#: rs/callbacks_from_html.py:211
+#: rs/callbacks_from_html.py:211 rs/callbacks_from_html.py:225
 #, python-format
-msgid "You have sent %(num)s new messages."
-msgstr "Ya has enviado %(num)s mensajes nuevos."
+msgid "%(num)s new person"
+msgid_plural "%(num)s new people"
+msgstr[0] "%(num)s persona nueva"
+msgstr[1] "%(num)s personas nuevas"
 
-#: rs/callbacks_from_html.py:221
+#: rs/callbacks_from_html.py:215
+#, python-format
+msgid "You have sent messages to %(num_new_people_txt)s"
+msgstr "Ya has enviado mensajes a %(num_new_people_txt)s"
+
+#: rs/callbacks_from_html.py:230
+#, python-format
+msgid "are allowed to contact %(num_new_people_txt)s every %(hr)s hours"
+msgstr "enviar mensajes a %(num_new_people_txt)s cada %(hr)s hours"
+
+#: rs/callbacks_from_html.py:233
+msgid ""
+"People that you have already exchanged messages with in the past do not "
+"count in this limit"
+msgstr ""
+"Las personas con quien ya te has enviado o recibido algún mensaje en el "
+"pasado no cuentan en este límite"
+
+#: rs/callbacks_from_html.py:236
 #, python-format
 msgid ""
 "\n"
-"                    As a VIP Member, <strong>you are allowed to contact "
-"%(num)s new people every %(hr)s hours</strong>\n"
-"                    People that you have already exchanged messages with in "
-"the past do not count in this limit. %(sent)s<br><br>\n"
+"                    As a VIP Member, you %(are_allowed_to_contact)s.\n"
+"                    %(people_in_the_past)s. %(sent)s\n"
 "                    "
 msgstr ""
 "\n"
-"Como Miembro VIP, <strong>puedes enviar mensajes a %(num)s personas nuevas "
-"cada %(hr)s hours</strong>.Las personas con quien ya has enviado o recibido "
-"algún mensaje no cuentan en este límite. %(sent)s<br><br>"
+"Como Miembro VIP, puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. "
+"%(sent)s"
 
-#: rs/callbacks_from_html.py:226
+#: rs/callbacks_from_html.py:243
 #, python-format
 msgid ""
 "\n"
-"                    To prevent Spam, <strong>you are only allowed to contact "
-"%(num)s new people every %(hr)s hours</strong>\n"
-"                    People that you have already exchanged messages with in "
-"the past do not count in this limit. %(sent)s<br><br>\n"
+"                    You %(are_allowed_to_contact)s.\n"
+"                    %(people_in_the_past)s. %(sent)s\n"
 "                    "
 msgstr ""
 "\n"
-" Para prevenir Spam, <strong>sólo puedes enviar mensajes a %(num)s personas "
-"nuevas cada %(hr)s hours</strong>.Las personas con quien ya te has enviado o "
-"recibido algún mensaje no cuentan en este límite. %(sent)s<br><br>"
+"Puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. %(sent)s"
 
-#: rs/callbacks_from_html.py:232
+#: rs/callbacks_from_html.py:251
 #, python-format
 msgid ""
 "If you wish to increase this limit, please consider becoming a %(vip_member)s"
@@ -240,6 +253,11 @@ msgstr "sitio para parejas liberales"
 msgid "website to meet people, make friends, and to earn money"
 msgstr "sitio para conocer gente, hacer amigos, y ganar dinero"
 
+#: rs/constants.py:597
+#, python-format
+msgid "<a class=\"cl-see_all_vip_benefits\" href=\"#\">%(vip_member)s</a>"
+msgstr ""
+
 #: rs/constants.py:598
 msgid "VIP member"
 msgstr "miembro VIP"
@@ -283,6 +301,7 @@ msgid "The email address is not valid"
 msgstr "El correo electrónico entrado no es válido."
 
 #: rs/constants.py:618
+#, python-format
 msgid " or if you are a %(vip_member)s"
 msgstr " o si eres %(vip_member)s"
 

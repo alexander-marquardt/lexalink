@@ -84,7 +84,7 @@ else:
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 4
     
 # If the users are "chat friends" then they can send more messages between them in time window period. 
-CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
+VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
     
 RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
     
@@ -594,8 +594,10 @@ field_formats = {'right_align_login' :         'cl-td-right-align-login',
 
 ## END Formatting Options
 ###################################################
-vip_member_anchor = ugettext_lazy("""<a class="cl-see_all_vip_benefits" href="#">%(vip_member)s</a>""") % {
-    'vip_member' : ugettext_lazy("VIP member")}
+# This is a bit confusing, but because of the lazy translation of the VIP member text, we cannot include it 
+# into the vip_member_anchor until it is requied and has the language correctly defined for the current user.
+vip_member_anchor = u"""<a class="cl-see_all_vip_benefits" href="#">%s</a>"""
+vip_member_txt = ugettext_lazy("VIP member") 
 
 ############################################
 class ErrorMessages():
@@ -615,7 +617,7 @@ and numbers. Additionally, it may not contain any spaces.")
     def num_messages_to_other_in_time_window(cls):
         
         if SHOW_VIP_UPGRADE_OPTION:
-            vip_member_txt = ugettext_lazy(" or if you are a %(vip_member)s") % {'vip_member' : vip_member_anchor}
+            vip_member_txt = ugettext_lazy(" or if you are a %(vip_member)s") % {'vip_member' : vip_member_anchor % vip_member_txt}
         else:
             vip_member_txt = ''
             
@@ -623,7 +625,7 @@ and numbers. Additionally, it may not contain any spaces.")
         However, if the other user is a "chat friend" of yours%(vip_member_txt)s, then you can send them %(chat_friend_num)s messages in a single 
         %(hours)s-hour period. """) % \
                {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
-                'chat_friend_num' : CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
+                'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
                 'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
                 'vip_member_txt' : vip_member_txt,
                 }
@@ -719,7 +721,7 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'guest_num_new_people_messages_allowed_in_window': GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
                           'vip_num_new_people_messages_allowed_in_window' : VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
                           'STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
-                          'CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW' : CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                          'CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                           'NUMER_OF_DAYS_PROFILE_VIEWS_STORED' : NUMER_OF_DAYS_PROFILE_VIEWS_STORED,
                           'num_chat_friends_for_free_clients' :  GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED,
                           'num_chat_friends_for_vip_clients' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED,  

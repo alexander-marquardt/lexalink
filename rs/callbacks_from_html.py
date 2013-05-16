@@ -27,7 +27,7 @@
 
 import datetime
 
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext, ungettext
 
 from forms import FormUtils
 from user_profile_main_data import UserSpec
@@ -200,15 +200,20 @@ class MyHTMLCallbackGenerator():
             sent_so_far = ""
             
             if not userobject.client_paid_status:
-                num_emails_per_day = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                num_new_people_messaged_per_day = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
             else:
                 # VIP member has extra messages allocated
-                num_emails_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                num_new_people_messaged_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                                 
             
             if spam_tracker.datetime_first_mail_sent_today + \
                datetime.timedelta(hours = constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES - constants.RESET_MAIL_LEEWAY) >  datetime.datetime.now():
-                sent_so_far = ugettext("You have sent %(num)s new messages.") % {'num': num_messages_sent_today}
+                num_new_people_txt = ungettext("%(num)s new person",
+                                               "%(num)s new people",num_messages_sent_today) % {
+                                                   'num': num_messages_sent_today}
+                                               
+                sent_so_far = u"%s." % ugettext("You have sent messages to %(num_new_people_txt)s",
+                                                ) % {'num_new_people_txt': num_new_people_txt}
                 restart_spam_counter = False
             else:
                 # Reset the spam counter since the time limit (since the first message of the day was sent) has passed. 
@@ -217,27 +222,41 @@ class MyHTMLCallbackGenerator():
             if not self.have_sent_messages_object:
                 generated_html = """<div id="id-num_messages_sent_feedback_and_count">"""
                 
+                num_new_people_txt = ungettext("%(num)s new person",
+                                               "%(num)s new people",num_new_people_messaged_per_day) % {
+                                                   'num': num_new_people_messaged_per_day}                
+                
+                are_allowed_to_contact = u"%s" % ugettext(
+                    "are allowed to contact %(num_new_people_txt)s every %(hr)s hours") % {
+                    'num_new_people_txt' : num_new_people_txt, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, }
+                
+                people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit")
+                
                 if  userobject.client_paid_status:
-                    generated_html += u"%s" %  ugettext("""
-                    As a VIP Member, <strong>you are allowed to contact %(num)s new people every %(hr)s hours</strong>
-                    People that you have already exchanged messages with in the past do not count in this limit. %(sent)s<br><br>
-                    """) % {'num' : num_emails_per_day, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, 'sent' : sent_so_far }
+                    generated_html += u"%s<br><br>" %  ugettext("""
+                    As a VIP Member, you %(are_allowed_to_contact)s.
+                    %(people_in_the_past)s. %(sent)s
+                    """) % {'are_allowed_to_contact': are_allowed_to_contact, 
+                            'people_in_the_past' : people_in_the_past,
+                            'sent' : sent_so_far }
                 else:
-                    generated_html += u"%s" % ugettext("""
-                    To prevent Spam, <strong>you are only allowed to contact %(num)s new people every %(hr)s hours</strong>
-                    People that you have already exchanged messages with in the past do not count in this limit. %(sent)s<br><br>
-                    """) % {'num' : num_emails_per_day, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, 'sent' : sent_so_far }
+                    generated_html += u"%s<br><br>" % ugettext("""
+                    You %(are_allowed_to_contact)s.
+                    %(people_in_the_past)s. %(sent)s
+                    """) % {'are_allowed_to_contact' : are_allowed_to_contact, 
+                            'people_in_the_past':people_in_the_past,  
+                            'sent' : sent_so_far }
 
                     if constants.SHOW_VIP_UPGRADE_OPTION:
-                        generated_html += u" %s." % ugettext("""If you wish to increase this limit, please consider becoming a %(vip_member)s""") % {
-                            'vip_member' : constants.vip_member_anchor}
+                        generated_html += u" %s.<br><br>" % ugettext("""If you wish to increase this limit, please consider becoming a %(vip_member)s""") % {
+                            'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
                 
                 generated_html += "</div>"
             
             # if they have already sent num_emails_per_day, they cannot send to any new clients, only
             # people they have already had contact with.
             
-            if num_messages_sent_today < num_emails_per_day or self.have_sent_messages_object or restart_spam_counter:
+            if num_messages_sent_today < num_new_people_messaged_per_day or self.have_sent_messages_object or restart_spam_counter:
                 (show_captcha, spam_statistics_string) = messages.determine_if_captcha_is_shown(userobject, self.have_sent_messages_object)
                 generated_html += mailbox.generate_mail_textarea(u"send_mail_from_profile_checkbox_no", owner_uid, self.display_uid, 
                                                                  self.have_sent_messages_object, show_captcha, spam_statistics_string,
