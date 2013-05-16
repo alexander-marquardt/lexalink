@@ -1411,7 +1411,7 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
         return True
     
     elif vip_status and have_sent_messages_object.num_messages_to_other_sent_today < \
-         constants.CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
+         constants.VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
         # VIP members can send more messages to other users
         return True
     
@@ -1419,7 +1419,7 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
          initiate_contact_object and \
          initiate_contact_object.chat_friend_stored == "connected" and \
          have_sent_messages_object.num_messages_to_other_sent_today < \
-         constants.CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
+         constants.VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
         # These users are "chat friends" so they have a higher limit.
         return True
     

@@ -68,9 +68,9 @@ else:
 WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
 if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
-    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 2 # after this number of messages, sending messages is blocked for non-paying members.
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
 else:
-    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 4
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 5
     
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
