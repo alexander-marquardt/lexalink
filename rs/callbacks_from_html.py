@@ -220,7 +220,8 @@ class MyHTMLCallbackGenerator():
                 restart_spam_counter = True
                 
             if not self.have_sent_messages_object:
-                if num_messages_sent_today >= num_new_people_messaged_per_day:
+                if num_messages_sent_today >= num_new_people_messaged_per_day and not restart_spam_counter:
+                
                     generated_html = """<div id="id-num_messages_sent_feedback_and_count">"""
                     
                     num_new_people_txt = ungettext("%(num)s new person",
