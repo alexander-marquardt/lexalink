@@ -117,7 +117,6 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         
         # Do not remove these initializations unless you are 100% sure that the variable has been set in ALL branches.
         new_user_welcome_text = ""
-        no_about_user_section_warning = ''
         email_is_not_entered_text = ""
         previous_contact_query_key_str = ''
         user_has_no_photo_text = ''
@@ -188,14 +187,6 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 if not owner_userobject.email_address_is_valid:
                     email_is_not_entered_text = u"%s<br><br>" % text_fields.email_is_not_entered_text
                                  
-                # Note: we use the has_about_user boolean instead of just checking against the default value of "----"
-                # because this allows us to continue to show the warning message until they have entered the minimum
-                # number of characters in their description.
-                if not (len(owner_userobject.about_user) >= constants.ABOUT_USER_MIN_DESCRIPTION_LEN):
-                    # this value is over-written for all languages (including english) to give more descriptive text.
-                    no_about_user_section_warning = "%s" % ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
-                                                                   'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}
-                    no_about_user_section_warning += u"<br><br>"
                 
                 unique_last_login_offset_object = owner_userobject.unique_last_login_offset_ref.get()
                 if not (unique_last_login_offset_object.has_public_photo_offset or \
@@ -265,7 +256,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         
                 
         # Display the welcome section
-        if new_user_welcome_text or user_has_no_photo_text or no_about_user_section_warning or\
+        if new_user_welcome_text or user_has_no_photo_text or\
            email_is_not_entered_text:
             display_welcome_section = True
         else:
@@ -283,7 +274,6 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             primary_user_profile_data_fields['email_is_not_entered_text'] = email_is_not_entered_text
             primary_user_profile_data_fields['new_user_welcome_text'] = new_user_welcome_text
             primary_user_profile_data_fields['user_has_no_photo_text'] = user_has_no_photo_text
-            primary_user_profile_data_fields['no_about_user_section_warning'] = no_about_user_section_warning
             primary_user_profile_data_fields['max_checkbox_values_in_combined_ix_list'] = constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST
             primary_user_profile_data_fields['owner_uid'] = owner_uid
             primary_user_profile_data_fields['owner_nid'] = owner_nid
