@@ -594,6 +594,8 @@ field_formats = {'right_align_login' :         'cl-td-right-align-login',
 
 ## END Formatting Options
 ###################################################
+vip_member_anchor = ugettext_lazy("""<a class="cl-see_all_vip_benefits" href="#">%(vip_member)s</a>""") % {
+    'vip_member' : ugettext_lazy("VIP member")}
 
 ############################################
 class ErrorMessages():
@@ -613,8 +615,7 @@ and numbers. Additionally, it may not contain any spaces.")
     def num_messages_to_other_in_time_window(cls):
         
         if SHOW_VIP_UPGRADE_OPTION:
-            vip_member_anchor = u"%s" % """<a class="cl-see_all_vip_benefits" href="#">%s</a>""" % ugettext_lazy("VIP member")
-            vip_member_txt = ugettext_lazy(" or if you are a %(vip_member_anchor)s") % {'vip_member_anchor' : vip_member_anchor}
+            vip_member_txt = ugettext_lazy(" or if you are a %(vip_member)s") % {'vip_member' : vip_member_anchor}
         else:
             vip_member_txt = ''
             

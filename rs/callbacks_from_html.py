@@ -229,8 +229,8 @@ class MyHTMLCallbackGenerator():
                     """) % {'num' : num_emails_per_day, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, 'sent' : sent_so_far }
 
                     if constants.SHOW_VIP_UPGRADE_OPTION:
-                        generated_html += u" %s" % ugettext("""If you wish to increase this limit, <strong>please consider becoming a VIP Member</strong>.""")
-                        generated_html += u" %s<br>" % ugettext("See the bottom of the window for information on becoming a VIP member.")
+                        generated_html += u" %s." % ugettext("""If you wish to increase this limit, please consider becoming a %(vip_member)s""") % {
+                            'vip_member' : constants.vip_member_anchor}
                 
                 generated_html += "</div>"
             
