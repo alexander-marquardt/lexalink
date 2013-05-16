@@ -179,7 +179,7 @@ MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exce
 
 # this is the limit on the number of chat_friends for non-registered users
 if SHOW_VIP_UPGRADE_OPTION:
-    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 1 
+    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 2 
 else:
     GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 50 
 
