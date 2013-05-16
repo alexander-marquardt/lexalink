@@ -350,8 +350,8 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
             show_captcha = True  
           
     
-        # only show spam statistics for profiles that the user has not already had contact with
-        if not have_sent_messages_bool:
+        # only show spam statistics for users that have to solve a captcha
+        if show_captcha:
             
             if spam_tracker.num_mails_sent_total > 0:
                 percent_total_spam = float(spam_tracker.num_times_reported_as_spammer_total)/spam_tracker.num_mails_sent_total
@@ -370,8 +370,6 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
                 'num_times_reported' : spam_tracker.num_times_reported_as_spammer_total, 
                 'num_mails_sent' : spam_tracker.num_mails_sent_total,
                 'percent': 100*percent_total_spam}
-    
-        
     
     except:
         error_reporting.log_exception(logging.critical)  

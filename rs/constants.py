@@ -617,17 +617,17 @@ and numbers. Additionally, it may not contain any spaces.")
     def num_messages_to_other_in_time_window(cls):
         
         if SHOW_VIP_UPGRADE_OPTION:
-            vip_member_txt = ugettext_lazy(" or if you are a %(vip_member)s") % {'vip_member' : vip_member_anchor % vip_member_txt}
+            or_if_vip_member_txt = ugettext_lazy(" or if you are a %(vip_member)s") % {'vip_member' : vip_member_anchor % vip_member_txt}
         else:
-            vip_member_txt = ''
+            or_if_vip_member_txt = ''
             
-        return ugettext_lazy("""You can only send %(guest_num)s messages to another user in a single %(hours)s-hour period. 
-        However, if the other user is a "chat friend" of yours%(vip_member_txt)s, then you can send them %(chat_friend_num)s messages in a single 
+        return ugettext_lazy("""You can only send %(guest_num)s messages to each member in a single %(hours)s-hour period. 
+        However, if the other user is a "chat friend" of yours%(or_if_vip_member_txt)s, then you can send them %(chat_friend_num)s messages in a single 
         %(hours)s-hour period. """) % \
                {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                 'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
                 'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
-                'vip_member_txt' : vip_member_txt,
+                'or_if_vip_member_txt' : or_if_vip_member_txt,
                 }
     
 

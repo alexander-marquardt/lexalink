@@ -220,40 +220,41 @@ class MyHTMLCallbackGenerator():
                 restart_spam_counter = True
                 
             if not self.have_sent_messages_object:
-                generated_html = """<div id="id-num_messages_sent_feedback_and_count">"""
-                
-                num_new_people_txt = ungettext("%(num)s new person",
-                                               "%(num)s new people",num_new_people_messaged_per_day) % {
-                                                   'num': num_new_people_messaged_per_day}                
-                
-                are_allowed_to_contact = u"%s" % ugettext(
-                    "are allowed to contact %(num_new_people_txt)s every %(hr)s hours") % {
-                    'num_new_people_txt' : num_new_people_txt, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, }
-                
-                people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit")
-                
-                if  userobject.client_paid_status:
-                    generated_html += u"%s<br><br>" %  ugettext("""
-                    As a VIP Member, you %(are_allowed_to_contact)s.
-                    %(people_in_the_past)s. %(sent)s
-                    """) % {'are_allowed_to_contact': are_allowed_to_contact, 
-                            'people_in_the_past' : people_in_the_past,
-                            'sent' : sent_so_far }
-                else:
-                    generated_html += u"%s<br><br>" % ugettext("""
-                    You %(are_allowed_to_contact)s.
-                    %(people_in_the_past)s. %(sent)s
-                    """) % {'are_allowed_to_contact' : are_allowed_to_contact, 
-                            'people_in_the_past':people_in_the_past,  
-                            'sent' : sent_so_far }
-
-                    if constants.SHOW_VIP_UPGRADE_OPTION:
-                        generated_html += u" %s.<br><br>" % ugettext("""If you wish to increase this limit, please consider becoming a %(vip_member)s""") % {
-                            'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
-                
-                generated_html += "</div>"
+                if num_messages_sent_today >= num_new_people_messaged_per_day:
+                    generated_html = """<div id="id-num_messages_sent_feedback_and_count">"""
+                    
+                    num_new_people_txt = ungettext("%(num)s new person",
+                                                   "%(num)s new people",num_new_people_messaged_per_day) % {
+                                                       'num': num_new_people_messaged_per_day}                
+                    
+                    are_allowed_to_contact = u"%s" % ugettext(
+                        "are allowed to contact %(num_new_people_txt)s every %(hr)s hours") % {
+                        'num_new_people_txt' : num_new_people_txt, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, }
+                    
+                    people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit")
+                    
+                    if  userobject.client_paid_status:
+                        generated_html += u"%s<br><br>" %  ugettext("""
+                        As a VIP Member, you %(are_allowed_to_contact)s.
+                        %(people_in_the_past)s. %(sent)s
+                        """) % {'are_allowed_to_contact': are_allowed_to_contact, 
+                                'people_in_the_past' : people_in_the_past,
+                                'sent' : sent_so_far }
+                    else:
+                        generated_html += u"%s<br><br>" % ugettext("""
+                        You %(are_allowed_to_contact)s.
+                        %(people_in_the_past)s. %(sent)s
+                        """) % {'are_allowed_to_contact' : are_allowed_to_contact, 
+                                'people_in_the_past':people_in_the_past,  
+                                'sent' : sent_so_far }
+    
+                        if constants.SHOW_VIP_UPGRADE_OPTION:
+                            generated_html += u" %s.<br><br>" % ugettext("""If you wish to increase this limit, please consider becoming a %(vip_member)s""") % {
+                                'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
+                    
+                    generated_html += "</div>"
             
-            # if they have already sent num_emails_per_day, they cannot send to any new clients, only
+            # if they have already sent num_new_people_messaged_per_day, they cannot send to any new clients, only
             # people they have already had contact with.
             
             if num_messages_sent_today < num_new_people_messaged_per_day or self.have_sent_messages_object or restart_spam_counter:
