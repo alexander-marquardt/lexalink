@@ -96,7 +96,7 @@ msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
 msgstr ""
-"Ya sois \"Chat amigos\" y verás a este contacto en tu lista de chat cuando "
+"Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
 #: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:515
@@ -391,7 +391,7 @@ msgstr "Llaves"
 
 #: rs/constants.py:677
 msgid "Chat friends"
-msgstr "Chat amigos"
+msgstr "Chats amigos"
 
 #: rs/constants.py:678
 msgid "Blocked (plural)"
@@ -419,15 +419,15 @@ msgstr "Bloqueado"
 
 #: rs/constants.py:692
 msgid "Chat requests sent"
-msgstr "Chat amigos pedidos"
+msgstr "Chats amigos pedidos"
 
 #: rs/constants.py:693
 msgid "Chat requests received"
-msgstr "Chat amigos recibidos"
+msgstr "Chats amigos recibidos"
 
 #: rs/constants.py:694
 msgid "Chat connections confirmed"
-msgstr "Chat amigos confirmados"
+msgstr "Chats amigos confirmados"
 
 #: rs/constants.py:698
 msgid "Add them to your list of favorites"
@@ -4742,7 +4742,7 @@ msgstr "No hay grupos de chat disponibles. ¿Por que no creas uno?"
 
 #: rs/templates/user_main_helpers/chat.html:66
 msgid "Online chat friends"
-msgstr "Chat amigos"
+msgstr "Chats amigos"
 
 #: rs/templates/user_main_helpers/chat.html:92
 msgid "Your chat is currently closed. You must open it to see your contacts."
@@ -4896,7 +4896,7 @@ msgstr "no leídos"
 
 #: rs/templates/user_main_helpers/menubar.html:67
 msgid "Unread (plural - override)"
-msgstr "No leidos"
+msgstr "No leídos"
 
 #: rs/templates/user_main_helpers/menubar.html:72
 msgid "Favorites"
@@ -5111,7 +5111,7 @@ msgid ""
 "                vip_chat_friends %(vip)s %(free)s"
 msgstr ""
 "\n"
-"Incremento hasta %(vip)s \"chat amigos\" (contra %(free)s para socios no-"
+"Incremento hasta %(vip)s \"chats amigos\" (contra %(free)s para socios no-"
 "VIP). Con cada \"chat amigo\" puedes enviar mensajes del chat sin "
 "limitaciones."
 

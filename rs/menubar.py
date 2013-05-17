@@ -35,7 +35,7 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
             </a></li>            
             """ % {'connected_url': reverse("show_contacts", kwargs={'contact_type': contact_type,  
                                                                   'sent_or_received' : 'connected'}),
-                   'connected_txt': ugettext("Confirmed"),
+                   'connected_txt': ugettext("Confirmed (plural - override)"),
                    'num_confirmed_friends_html' : num_confirmed_friends_html,
                    }
         else:
@@ -64,8 +64,8 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
                                                                   'sent_or_received' : 'received'}),
                 'sent_url' : reverse("show_contacts", kwargs={'contact_type': contact_type,  
                                                               'sent_or_received' : 'sent'}),
-                'received_txt' : ugettext("Received"),
-                'sent_txt' : ugettext("Sent"),
+                'received_txt' : ugettext("Received (plural - override)"),
+                'sent_txt' : ugettext("Sent (plural - override)"),
                 'additional_li_and_anchor_html' : additional_li_and_anchor_html,
                 })
         
