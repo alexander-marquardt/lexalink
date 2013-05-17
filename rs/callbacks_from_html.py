@@ -232,7 +232,7 @@ class MyHTMLCallbackGenerator():
                         "are allowed to contact %(num_new_people_txt)s every %(hr)s hours") % {
                         'num_new_people_txt' : num_new_people_txt, 'hr':constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES, }
                     
-                    people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit")
+                    people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit -- you can always respond to messages without using your quota")
                     
                     if  userobject.client_paid_status:
                         generated_html += u"%s<br><br>" %  ugettext("""

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 17:23-0400\n"
+"POT-Creation-Date: 2013-05-17 01:42-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -99,7 +99,7 @@ msgstr ""
 "Ya sois \"Chat amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:514
+#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:515
 #: rs/rendering.py:405 rs/utils.py:1497
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -146,7 +146,7 @@ msgstr "Encabezado"
 msgid "Modify my password"
 msgstr "Cambiar mi contraseña"
 
-#: rs/callbacks_from_html.py:211 rs/callbacks_from_html.py:226
+#: rs/callbacks_from_html.py:211 rs/callbacks_from_html.py:227
 #, python-format
 msgid "%(num)s new person"
 msgid_plural "%(num)s new people"
@@ -158,20 +158,22 @@ msgstr[1] "%(num)s personas nuevas"
 msgid "You have sent messages to %(num_new_people_txt)s"
 msgstr "Ya has enviado mensajes a %(num_new_people_txt)s"
 
-#: rs/callbacks_from_html.py:231
+#: rs/callbacks_from_html.py:232
 #, python-format
 msgid "are allowed to contact %(num_new_people_txt)s every %(hr)s hours"
 msgstr "enviar mensajes a %(num_new_people_txt)s cada %(hr)s hours"
 
-#: rs/callbacks_from_html.py:234
+#: rs/callbacks_from_html.py:235
 msgid ""
 "People that you have already exchanged messages with in the past do not "
-"count in this limit"
+"count in this limit -- you can always respond to messages without using your "
+"quota"
 msgstr ""
 "Las personas con quien ya te has enviado o recibido algún mensaje en el "
-"pasado no cuentan en este límite"
+"pasado no cuentan en este límite -- siempre puedes responder a mensajes sin "
+"usar tu cuota"
 
-#: rs/callbacks_from_html.py:237
+#: rs/callbacks_from_html.py:238
 #, python-format
 msgid ""
 "\n"
@@ -183,7 +185,7 @@ msgstr ""
 "Como Miembro VIP, puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. "
 "%(sent)s"
 
-#: rs/callbacks_from_html.py:244
+#: rs/callbacks_from_html.py:245
 #, python-format
 msgid ""
 "\n"
@@ -194,7 +196,7 @@ msgstr ""
 "\n"
 "Puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. %(sent)s"
 
-#: rs/callbacks_from_html.py:252
+#: rs/callbacks_from_html.py:253
 #, python-format
 msgid ""
 "If you wish to increase this limit, please consider becoming a %(vip_member)s"
@@ -301,6 +303,7 @@ msgid " or if you are a %(vip_member)s"
 msgstr " o si eres %(vip_member)s"
 
 #: rs/constants.py:624
+#, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member in a single "
 "%(hours)s-hour period. \n"
@@ -334,7 +337,7 @@ msgstr "guardado"
 msgid "confirmed (singular)"
 msgstr "confirmado"
 
-#: rs/constants.py:656 rs/messages.py:366
+#: rs/constants.py:656 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "enviados"
 
@@ -2519,15 +2522,15 @@ msgstr "Perfiles favoritos"
 msgid "Blocked profiles"
 msgstr "Perfiles bloqueados"
 
-#: rs/messages.py:364
+#: rs/messages.py:365
 msgid "Statistics of spam sent from your account:"
 msgstr "Estadisticas de spam enviado desde tu cuenta:"
 
-#: rs/messages.py:365
+#: rs/messages.py:366
 msgid "of"
 msgstr "de"
 
-#: rs/messages.py:367
+#: rs/messages.py:368
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages."
@@ -2535,23 +2538,23 @@ msgstr ""
 "Si envías spam, tendrás que escribir una \"captcha\" antes de poder enviar "
 "más mensajes."
 
-#: rs/messages.py:544
+#: rs/messages.py:545
 msgid "\"wink\" or a \"kiss\""
 msgstr "\"guiño\" o un \"beso\""
 
-#: rs/messages.py:545
+#: rs/messages.py:546
 msgid "winks, kisses,"
 msgstr "guiños, besos"
 
-#: rs/messages.py:547
+#: rs/messages.py:548
 msgid "\"greeting\""
 msgstr "\"saludo\""
 
-#: rs/messages.py:548
+#: rs/messages.py:549
 msgid "greetings"
 msgstr "saludos"
 
-#: rs/messages.py:551
+#: rs/messages.py:552
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2588,7 +2591,7 @@ msgstr ""
 "\n"
 "¡Bienvenido a %(app_name)s, y mucha suerte en tu búsqueda!  "
 
-#: rs/messages.py:572
+#: rs/messages.py:573
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr "Felicidades, ya eres un miembro VIP hasta %(date)s."
