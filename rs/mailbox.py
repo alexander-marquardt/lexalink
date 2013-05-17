@@ -264,7 +264,7 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
             # get profile photo
             generated_html += '<div class="grid_2 alpha "><br>\n'
             # divider line
-            generated_html += u'<strong>%s: <a href="%s" rel="address:%s">%s</a></strong>\n' % (
+            generated_html += u'<strong>%s: <a class="cl-user_name_link" href="%s" rel="address:%s">%s</a></strong>\n' % (
                 ugettext("From"), profile_href, profile_href, profile.username)     
             generated_html += FormUtils.generate_profile_photo_html(lang_code, profile, text_fields.no_photo, profile_href, "small")
             generated_html += u'</div> <!-- end grid2 -->\n'
@@ -418,7 +418,7 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
         generated_html += u'<div class="grid_2 alpha ">\n'
         generated_html += u'<div id="id-edit-%s-link">&nbsp;' % textarea_section_name
         
-        generated_html += u'<strong>%s: <a href="%s" rel="address:%s" >%s</a> </strong> ' % (
+        generated_html += u'<strong>%s: <a class="cl-user_name_link" href="%s" rel="address:%s" >%s</a> </strong> ' % (
             ugettext("To"), other_profile_href, other_profile_href, other_profile.username)
                 
         
