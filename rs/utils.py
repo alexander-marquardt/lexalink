@@ -454,7 +454,13 @@ def get_photo_message(userobject):
 
             
     return photo_message
-            
+           
+def break_time_difference_into_sub_units(time_difference):
+    
+    weeks, days = divmod(time_difference.days, 7)
+    minutes, seconds = divmod(time_difference.seconds, 60)
+    hours, minutes = divmod(minutes, 60)    
+    return (weeks, days, hours, minutes, seconds)
 
 def return_time_difference_in_friendly_format(time_to_display, capitalize = True, data_precision = 2, time_is_in_past = True, show_in_or_ago = True):
     
@@ -472,9 +478,7 @@ def return_time_difference_in_friendly_format(time_to_display, capitalize = True
     else:
         time_difference = time_to_display - newer_time
     
-    weeks, days = divmod(time_difference.days, 7)
-    minutes, seconds = divmod(time_difference.seconds, 60)
-    hours, minutes = divmod(minutes, 60)
+    (weeks, days, hours, minutes, seconds) = break_time_difference_into_sub_units(time_difference)
     
     precision_count = 0
 

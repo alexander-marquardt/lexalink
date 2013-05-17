@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 01:42-0400\n"
+"POT-Creation-Date: 2013-05-17 15:39-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -100,7 +100,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:515
-#: rs/rendering.py:405 rs/utils.py:1497
+#: rs/rendering.py:405 rs/utils.py:1501
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -146,24 +146,29 @@ msgstr "Encabezado"
 msgid "Modify my password"
 msgstr "Cambiar mi contraseña"
 
-#: rs/callbacks_from_html.py:211 rs/callbacks_from_html.py:227
+#: rs/callbacks_from_html.py:226 rs/callbacks_from_html.py:236
 #, python-format
 msgid "%(num)s new person"
 msgid_plural "%(num)s new people"
 msgstr[0] "%(num)s persona nueva"
 msgstr[1] "%(num)s personas nuevas"
 
-#: rs/callbacks_from_html.py:215
+#: rs/callbacks_from_html.py:230
 #, python-format
 msgid "You have sent messages to %(num_new_people_txt)s"
 msgstr "Ya has enviado mensajes a %(num_new_people_txt)s"
 
 #: rs/callbacks_from_html.py:232
 #, python-format
+msgid "and your cuota will be reset %s"
+msgstr "y tu cuota se restablecerá %s"
+
+#: rs/callbacks_from_html.py:241
+#, python-format
 msgid "are allowed to contact %(num_new_people_txt)s every %(hr)s hours"
 msgstr "enviar mensajes a %(num_new_people_txt)s cada %(hr)s hours"
 
-#: rs/callbacks_from_html.py:235
+#: rs/callbacks_from_html.py:244
 msgid ""
 "People that you have already exchanged messages with in the past do not "
 "count in this limit -- you can always respond to messages without using your "
@@ -173,30 +178,28 @@ msgstr ""
 "pasado no cuentan en este límite -- siempre puedes responder a mensajes sin "
 "usar tu cuota"
 
-#: rs/callbacks_from_html.py:238
-#, python-format
+#: rs/callbacks_from_html.py:247
 msgid ""
 "\n"
 "                        As a VIP Member, you %(are_allowed_to_contact)s.\n"
-"                        %(people_in_the_past)s. %(sent)s\n"
+"                        %(people_in_the_past)s. %(sent)s.\n"
 "                        "
 msgstr ""
 "\n"
 "Como Miembro VIP, puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. "
-"%(sent)s"
+"%(sent)s."
 
-#: rs/callbacks_from_html.py:245
-#, python-format
+#: rs/callbacks_from_html.py:254
 msgid ""
 "\n"
 "                        You %(are_allowed_to_contact)s.\n"
-"                        %(people_in_the_past)s. %(sent)s\n"
+"                        %(people_in_the_past)s. %(sent)s.\n"
 "                        "
 msgstr ""
 "\n"
-"Puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. %(sent)s"
+"Puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. %(sent)s."
 
-#: rs/callbacks_from_html.py:253
+#: rs/callbacks_from_html.py:262
 #, python-format
 msgid ""
 "If you wish to increase this limit, please consider becoming a %(vip_member)s"
@@ -2405,7 +2408,7 @@ msgstr "A"
 msgid "Deleted (mail)"
 msgstr "Eliminado"
 
-#: rs/mailbox.py:628 rs/mailbox.py:642 rs/menubar.py:67 rs/text_fields.py:76
+#: rs/mailbox.py:628 rs/mailbox.py:642 rs/text_fields.py:76
 msgid "Received"
 msgstr "Recibido"
 
@@ -2417,7 +2420,7 @@ msgstr "Spam"
 msgid "Received (mail)"
 msgstr "Recibido"
 
-#: rs/mailbox.py:636 rs/menubar.py:68 rs/text_fields.py:75
+#: rs/mailbox.py:636 rs/text_fields.py:75
 msgid "Sent"
 msgstr "Enviado"
 
@@ -2511,8 +2514,16 @@ msgid "new"
 msgstr "nuevos"
 
 #: rs/menubar.py:38
-msgid "Confirmed"
-msgstr "Confirmado"
+msgid "Confirmed (plural - override)"
+msgstr "Confirmados"
+
+#: rs/menubar.py:67 rs/templates/user_main_helpers/menubar.html:77
+msgid "Received (plural - override)"
+msgstr "Recibidos"
+
+#: rs/menubar.py:68 rs/templates/user_main_helpers/menubar.html:82
+msgid "Sent (plural - override)"
+msgstr "Enviados"
 
 #: rs/menubar.py:123
 msgid "Favorite profiles"
@@ -3925,64 +3936,64 @@ msgstr "En"
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:493
+#: rs/utils.py:497
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] "%(days)s día"
 msgstr[1] "%(days)s días"
 
-#: rs/utils.py:506
+#: rs/utils.py:510
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] "%(hours)s hora"
 msgstr[1] "%(hours)s horas"
 
-#: rs/utils.py:521
+#: rs/utils.py:525
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] "%(minutes)s minuto"
 msgstr[1] "%(minutes)s minutos"
 
-#: rs/utils.py:536
+#: rs/utils.py:540
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] "%(seconds)s segundo"
 msgstr[1] "%(seconds)s segundos"
 
-#: rs/utils.py:553
+#: rs/utils.py:557
 msgid "ago (capitalize if first word)"
 msgstr "Hace"
 
-#: rs/utils.py:555
+#: rs/utils.py:559
 msgid "ago"
 msgstr "hace"
 
-#: rs/utils.py:559
+#: rs/utils.py:563
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr "%(ago_text)s %(joined_time)s"
 
-#: rs/utils.py:564
+#: rs/utils.py:568
 msgid "In"
-msgstr ""
+msgstr "En"
 
-#: rs/utils.py:566
+#: rs/utils.py:570
 msgid "in"
-msgstr ""
+msgstr "en"
 
-#: rs/utils.py:995
+#: rs/utils.py:999
 msgid "Interested in:"
 msgstr "Interesado en:"
 
-#: rs/utils.py:998
+#: rs/utils.py:1002
 msgid ", and"
 msgstr ", y"
 
-#: rs/utils.py:1438
+#: rs/utils.py:1442
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to support@"
@@ -3991,7 +4002,7 @@ msgstr ""
 "Si ves algun otro perfil como este, por favor envíanos un mensaje a support@"
 "%(app_name)s para notificarnos del nick / nombre de usuario."
 
-#: rs/utils.py:1443
+#: rs/utils.py:1447
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
@@ -3999,7 +4010,7 @@ msgstr ""
 "Este usuario ha sido eliminado por el administrado por no seguir los "
 "términos y condiciones de servicio."
 
-#: rs/utils.py:1448
+#: rs/utils.py:1452
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
@@ -4009,7 +4020,7 @@ msgstr ""
 "Por favor no le contactes o envíes correos electrónicos a este usuario "
 "debido a que su objetivo final será pedirte dinero."
 
-#: rs/utils.py:1455
+#: rs/utils.py:1459
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
@@ -4020,20 +4031,20 @@ msgstr ""
 "debido a que su objetivo es convencerte para registrarte a un servicio de "
 "pago."
 
-#: rs/utils.py:1462
+#: rs/utils.py:1466
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
-#: rs/utils.py:1695
+#: rs/utils.py:1699
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr "el %(day)s de %(month)s de %(year)s"
 
-#: rs/utils.py:1716 rs/utils.py:1718
+#: rs/utils.py:1720 rs/utils.py:1722
 msgid "is"
 msgstr "es"
 
-#: rs/utils.py:1716 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1720 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -4049,19 +4060,19 @@ msgstr "es"
 msgid "100 percent free"
 msgstr "100% gratis"
 
-#: rs/utils.py:1716 rs/templates/login.html:288
+#: rs/utils.py:1720 rs/templates/login.html:288
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
-#: rs/utils.py:1718
+#: rs/utils.py:1722
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1718 rs/templates/login.html:286
+#: rs/utils.py:1722 rs/templates/login.html:286
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
-#: rs/utils.py:1721
+#: rs/utils.py:1725
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -4902,14 +4913,6 @@ msgstr "No leídos"
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: rs/templates/user_main_helpers/menubar.html:77
-msgid "Received (plural - override)"
-msgstr "Recibidos"
-
-#: rs/templates/user_main_helpers/menubar.html:82
-msgid "Sent (plural - override)"
-msgstr "Enviados"
-
 #: rs/templates/user_main_helpers/menubar.html:92
 msgid "Profile views"
 msgstr "Visitas a tu perfil"
@@ -5133,6 +5136,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "Confirmed"
+#~ msgstr "Confirmado"
 
 #~ msgid ""
 #~ "See the bottom of the window for information on becoming a VIP member."

@@ -49,8 +49,7 @@ class SpamMailStructures(ndb.Model):
     
     """ This following variables are used for keeping track of how many messages a user 
     has sent in a single day. If the number is high, we will make them enter a captcha for every
-    new message beyond the limit. Note: we only count messages sent to new contacts, meaning that
-    the message
+    new message beyond the limit. Note: we only count messages sent to new contacts.
     """
     
     datetime_first_mail_sent_today  = ndb.DateTimeProperty(indexed = False) 

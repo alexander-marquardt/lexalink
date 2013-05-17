@@ -200,33 +200,43 @@ class MyHTMLCallbackGenerator():
             sent_so_far = ""
             
             if not userobject.client_paid_status:
-                num_new_people_messaged_per_day = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                max_num_new_people_messaged_per_day = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
             else:
                 # VIP member has extra messages allocated
-                num_new_people_messaged_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                max_num_new_people_messaged_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                                 
             
-            if spam_tracker.datetime_first_mail_sent_today + \
-               datetime.timedelta(hours = constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES - constants.RESET_MAIL_LEEWAY) >  datetime.datetime.now():
-                num_new_people_txt = ungettext("%(num)s new person",
-                                               "%(num)s new people",num_messages_sent_today) % {
-                                                   'num': num_messages_sent_today}
-                                               
-                sent_so_far = u"%s." % ugettext("You have sent messages to %(num_new_people_txt)s",
-                                                ) % {'num_new_people_txt': num_new_people_txt}
+            when_to_reset_new_people_contacted_counter = spam_tracker.datetime_first_mail_sent_today + \
+               datetime.timedelta(hours = constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES) 
+            time_left_to_reset_new_people_contacted_counter = when_to_reset_new_people_contacted_counter -  datetime.datetime.now()
+
+            
+            if time_left_to_reset_new_people_contacted_counter - datetime.timedelta(hours = constants.RESET_MAIL_LEEWAY) >\
+               datetime.timedelta(seconds = 0):
                 restart_spam_counter = False
             else:
                 # Reset the spam counter since the time limit (since the first message of the day was sent) has passed. 
                 restart_spam_counter = True
                 
             if not self.have_sent_messages_object:
-                if num_messages_sent_today >= num_new_people_messaged_per_day and not restart_spam_counter:
+                if num_messages_sent_today >= max_num_new_people_messaged_per_day and not restart_spam_counter:
+                
+                    time_to_reset_txt = utils.return_time_difference_in_friendly_format(when_to_reset_new_people_contacted_counter, capitalize = False, 
+                                                          data_precision = 2, time_is_in_past = False, show_in_or_ago = True)                
+                    
+                    num_new_people_txt = ungettext("%(num)s new person",
+                                                   "%(num)s new people",num_messages_sent_today) % {
+                                                       'num': num_messages_sent_today}
+                                                   
+                    sent_so_far = u"%s, %s" % (ugettext("You have sent messages to %(num_new_people_txt)s",
+                                                    ) % {'num_new_people_txt': num_new_people_txt}, 
+                                             ugettext("and your cuota will be reset %s") % time_to_reset_txt)
                 
                     generated_html = """<div id="id-num_messages_sent_feedback_and_count">"""
                     
                     num_new_people_txt = ungettext("%(num)s new person",
-                                                   "%(num)s new people",num_new_people_messaged_per_day) % {
-                                                       'num': num_new_people_messaged_per_day}                
+                                                   "%(num)s new people",max_num_new_people_messaged_per_day) % {
+                                                       'num': max_num_new_people_messaged_per_day}                
                     
                     are_allowed_to_contact = u"%s" % ugettext(
                         "are allowed to contact %(num_new_people_txt)s every %(hr)s hours") % {
@@ -237,17 +247,17 @@ class MyHTMLCallbackGenerator():
                     if  userobject.client_paid_status:
                         generated_html += u"%s<br><br>" %  ugettext("""
                         As a VIP Member, you %(are_allowed_to_contact)s.
-                        %(people_in_the_past)s. %(sent)s
+                        %(people_in_the_past)s. %(sent)s.
                         """) % {'are_allowed_to_contact': are_allowed_to_contact, 
                                 'people_in_the_past' : people_in_the_past,
                                 'sent' : sent_so_far }
                     else:
                         generated_html += u"%s<br><br>" % ugettext("""
                         You %(are_allowed_to_contact)s.
-                        %(people_in_the_past)s. %(sent)s
+                        %(people_in_the_past)s. %(sent)s.
                         """) % {'are_allowed_to_contact' : are_allowed_to_contact, 
                                 'people_in_the_past':people_in_the_past,  
-                                'sent' : sent_so_far }
+                                'sent' : sent_so_far,}
     
                         if constants.SHOW_VIP_UPGRADE_OPTION:
                             generated_html += u" %s.<br><br>" % ugettext("""If you wish to increase this limit, please consider becoming a %(vip_member)s""") % {
@@ -258,7 +268,7 @@ class MyHTMLCallbackGenerator():
             # if they have already sent num_new_people_messaged_per_day, they cannot send to any new clients, only
             # people they have already had contact with.
             
-            if num_messages_sent_today < num_new_people_messaged_per_day or self.have_sent_messages_object or restart_spam_counter:
+            if num_messages_sent_today < max_num_new_people_messaged_per_day or self.have_sent_messages_object or restart_spam_counter:
                 (show_captcha, spam_statistics_string) = messages.determine_if_captcha_is_shown(userobject, self.have_sent_messages_object)
                 generated_html += mailbox.generate_mail_textarea(u"send_mail_from_profile_checkbox_no", owner_uid, self.display_uid, 
                                                                  self.have_sent_messages_object, show_captcha, spam_statistics_string,
