@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 15:39-0400\n"
+"POT-Creation-Date: 2013-05-17 17:01-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,8 +93,8 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:515
-#: rs/rendering.py:405 rs/utils.py:1501
+#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:518
+#: rs/rendering.py:405 rs/utils.py:1508
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -139,36 +139,36 @@ msgstr ""
 msgid "Modify my password"
 msgstr ""
 
-#: rs/callbacks_from_html.py:226 rs/callbacks_from_html.py:236
+#: rs/callbacks_from_html.py:227 rs/callbacks_from_html.py:237
 #, python-format
 msgid "%(num)s new person"
 msgid_plural "%(num)s new people"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/callbacks_from_html.py:230
+#: rs/callbacks_from_html.py:231
 #, python-format
 msgid "You have sent messages to %(num_new_people_txt)s"
 msgstr ""
 
-#: rs/callbacks_from_html.py:232
+#: rs/callbacks_from_html.py:233
 #, python-format
-msgid "and your cuota will be reset %s"
+msgid "and your quota will be reset %s"
 msgstr ""
 
-#: rs/callbacks_from_html.py:241
+#: rs/callbacks_from_html.py:242
 #, python-format
 msgid "are allowed to contact %(num_new_people_txt)s every %(hr)s hours"
 msgstr ""
 
-#: rs/callbacks_from_html.py:244
+#: rs/callbacks_from_html.py:245
 msgid ""
 "People that you have already exchanged messages with in the past do not "
 "count in this limit -- you can always respond to messages without using your "
 "quota"
 msgstr ""
 
-#: rs/callbacks_from_html.py:247
+#: rs/callbacks_from_html.py:248
 #, python-format
 msgid ""
 "\n"
@@ -177,7 +177,7 @@ msgid ""
 "                        "
 msgstr ""
 
-#: rs/callbacks_from_html.py:254
+#: rs/callbacks_from_html.py:255
 #, python-format
 msgid ""
 "\n"
@@ -186,7 +186,7 @@ msgid ""
 "                        "
 msgstr ""
 
-#: rs/callbacks_from_html.py:262
+#: rs/callbacks_from_html.py:263
 #, python-format
 msgid ""
 "If you wish to increase this limit, please consider becoming a %(vip_member)s"
@@ -292,186 +292,190 @@ msgid ""
 "        However, if the other user is a \"chat friend\" of yours"
 "%(or_if_vip_member_txt)s, then you can send them %(chat_friend_num)s "
 "messages in a single \n"
-"        %(hours)s-hour period. "
+"        %(hours)s-hour period. <br><br>You can send more messages to this "
+"member %(txt_for_when_quota_resets)s, and since you have now\n"
+"        had contact with this member, future messages to this member will "
+"not be counted\n"
+"        against your quota for contacting other members."
 msgstr ""
 
-#: rs/constants.py:646
+#: rs/constants.py:649
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:648
+#: rs/constants.py:651
 msgid "sent (singular)"
 msgstr "sent"
 
-#: rs/constants.py:649
+#: rs/constants.py:652
 msgid "received (singluar)"
 msgstr "received"
 
-#: rs/constants.py:650
+#: rs/constants.py:653
 msgid "saved (singular)"
 msgstr "saved"
 
-#: rs/constants.py:651
+#: rs/constants.py:654
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:656 rs/messages.py:367
+#: rs/constants.py:659 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "sent"
 
-#: rs/constants.py:657
+#: rs/constants.py:660
 msgid "received (plural)"
 msgstr "received"
 
-#: rs/constants.py:658
+#: rs/constants.py:661
 msgid "saved (plural)"
 msgstr "saved"
 
-#: rs/constants.py:659
+#: rs/constants.py:662
 msgid "confirmed (plural)"
 msgstr "confirmed"
 
-#: rs/constants.py:664
+#: rs/constants.py:667
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:665
+#: rs/constants.py:668
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:666
+#: rs/constants.py:669
 msgid "Greeting"
 msgstr ""
 
-#: rs/constants.py:668
+#: rs/constants.py:671
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:669
+#: rs/constants.py:672
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:670
+#: rs/constants.py:673
 msgid "Wink"
 msgstr ""
 
-#: rs/constants.py:673
+#: rs/constants.py:676
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:675
+#: rs/constants.py:678
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:676
+#: rs/constants.py:679
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:677
+#: rs/constants.py:680
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:678
+#: rs/constants.py:681
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:683
+#: rs/constants.py:686
 msgid "My favorite"
 msgstr ""
 
-#: rs/constants.py:685
+#: rs/constants.py:688
 msgid "Kiss"
 msgstr ""
 
-#: rs/constants.py:686
+#: rs/constants.py:689
 msgid "Key"
 msgstr ""
 
-#: rs/constants.py:687
+#: rs/constants.py:690
 msgid "Chat friend"
 msgstr "Chat friends"
 
-#: rs/constants.py:688
+#: rs/constants.py:691
 msgid "Blocked (singular)"
 msgstr "Blocked"
 
-#: rs/constants.py:692
+#: rs/constants.py:695
 msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:693
+#: rs/constants.py:696
 msgid "Chat requests received"
 msgstr ""
 
-#: rs/constants.py:694
+#: rs/constants.py:697
 msgid "Chat connections confirmed"
 msgstr ""
 
-#: rs/constants.py:698
+#: rs/constants.py:701
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:700
+#: rs/constants.py:703
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:701
+#: rs/constants.py:704
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:702
+#: rs/constants.py:705
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:703
+#: rs/constants.py:706
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:740
+#: rs/constants.py:743
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:741
+#: rs/constants.py:744
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:742
+#: rs/constants.py:745
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:743
+#: rs/constants.py:746
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:744
+#: rs/constants.py:747
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:745
+#: rs/constants.py:748
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:746
+#: rs/constants.py:749
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:747
+#: rs/constants.py:750
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:748
+#: rs/constants.py:751
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:749
+#: rs/constants.py:752
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:750
+#: rs/constants.py:753
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:751
+#: rs/constants.py:754
 msgid "December"
 msgstr ""
 
@@ -2470,23 +2474,23 @@ msgid ""
 "allowed     to send more messages."
 msgstr ""
 
-#: rs/messages.py:545
+#: rs/messages.py:548
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/messages.py:546
+#: rs/messages.py:549
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/messages.py:548
+#: rs/messages.py:551
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/messages.py:549
+#: rs/messages.py:552
 msgid "greetings"
 msgstr ""
 
-#: rs/messages.py:552
+#: rs/messages.py:555
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2525,7 +2529,7 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/messages.py:573
+#: rs/messages.py:576
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
@@ -3845,47 +3849,47 @@ msgstr ""
 msgid ", and"
 msgstr ""
 
-#: rs/utils.py:1442
+#: rs/utils.py:1449
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to support@"
 "%(app_name)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1447
+#: rs/utils.py:1454
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1452
+#: rs/utils.py:1459
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1459
+#: rs/utils.py:1466
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1466
+#: rs/utils.py:1473
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils.py:1699
+#: rs/utils.py:1706
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr ""
 
-#: rs/utils.py:1720 rs/utils.py:1722
+#: rs/utils.py:1727 rs/utils.py:1729
 msgid "is"
 msgstr ""
 
-#: rs/utils.py:1720 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1727 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -3901,19 +3905,19 @@ msgstr ""
 msgid "100 percent free"
 msgstr "100% free"
 
-#: rs/utils.py:1720 rs/templates/login.html:288
+#: rs/utils.py:1727 rs/templates/login.html:288
 msgid "We never ask for your credit card or any other form of payment"
 msgstr ""
 
-#: rs/utils.py:1722
+#: rs/utils.py:1729
 msgid "free"
 msgstr ""
 
-#: rs/utils.py:1722 rs/templates/login.html:286
+#: rs/utils.py:1729 rs/templates/login.html:286
 msgid "chat and messages included"
 msgstr ""
 
-#: rs/utils.py:1725
+#: rs/utils.py:1732
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""

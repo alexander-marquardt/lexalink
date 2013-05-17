@@ -454,10 +454,13 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 have_sent_messages_object.num_messages_to_other_sent_today = 0
                 have_sent_messages_object.put()
                 
-            initiate_contact_object = utils.get_initiate_contact_object(from_key, to_key)            
-            if not utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object, 
-                                                                              sender_userobject.client_paid_status):
-                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window()
+            initiate_contact_object = utils.get_initiate_contact_object(from_key, to_key)   
+            
+            (is_allowed, txt_for_when_quota_resets) = utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object, 
+                                                                              sender_userobject.client_paid_status)
+            if not is_allowed:
+                
+                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets)
                 error_reporting.log_exception(logging.warning, error_message=error_message)  
                 return http.HttpResponse(error_message)                    
               

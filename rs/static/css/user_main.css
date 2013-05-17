@@ -252,7 +252,7 @@ td.cl-profile-photo-td-img
 .cl-search_results a { text-decoration: none; color: black; }
 .cl-search_results a:hover {	text-decoration: underline; color: red; }
 
-.cl-mailbox_results a.cl-user_name_link { text-decoration: none; color: #666666;}
+.cl-mailbox_results a.cl-mailbox_anchor_format { text-decoration: none; color: #666666;}
 .cl-mailbox_results a:hover {	text-decoration: none; color: red;}
 .cl-mailbox_results a:hover span {	text-decoration: none; color: red;}
 

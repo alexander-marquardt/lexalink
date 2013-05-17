@@ -1407,17 +1407,19 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
     # checks if the current user has exceeded the number of messages that he is allowed to send to the other
     # user in the current "time window"
     # returns True if allowed to send messages, False if not 
+     
+    txt_for_when_quota_resets = ''
     if not have_sent_messages_object :
-        return True
+        is_allowed = True
     
     elif have_sent_messages_object and have_sent_messages_object.num_messages_to_other_sent_today < \
          constants.STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
-        return True
+        is_allowed = True
     
     elif vip_status and have_sent_messages_object.num_messages_to_other_sent_today < \
          constants.VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
         # VIP members can send more messages to other users
-        return True
+        is_allowed = True
     
     elif have_sent_messages_object and \
          initiate_contact_object and \
@@ -1425,12 +1427,17 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
          have_sent_messages_object.num_messages_to_other_sent_today < \
          constants.VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
         # These users are "chat friends" so they have a higher limit.
-        return True
+        is_allowed = True
     
     else:
-        return False
+        time_when_it_will_reset = have_sent_messages_object.datetime_first_message_to_other_today + datetime.timedelta(
+                   hours = constants.NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER)      
+        txt_for_when_quota_resets = return_time_difference_in_friendly_format(time_when_it_will_reset, capitalize = False, 
+                                                          data_precision = 1, time_is_in_past = False, show_in_or_ago = True)     
+        is_allowed = False
     
-    
+    return (is_allowed, txt_for_when_quota_resets)
+
 def get_removed_user_reason_html(removed_userobject):
     
     # Generates text that explains why a given userobject was eliminated. 

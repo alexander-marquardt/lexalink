@@ -230,7 +230,7 @@ class MyHTMLCallbackGenerator():
                                                    
                     sent_so_far = u"%s, %s" % (ugettext("You have sent messages to %(num_new_people_txt)s",
                                                     ) % {'num_new_people_txt': num_new_people_txt}, 
-                                             ugettext("and your cuota will be reset %s") % time_to_reset_txt)
+                                             ugettext("and your quota will be reset %s") % time_to_reset_txt)
                 
                     generated_html = """<div id="id-num_messages_sent_feedback_and_count">"""
                     

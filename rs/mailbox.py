@@ -264,7 +264,7 @@ def generate_messages_html(query_for_message, is_first_message, userobject, othe
             # get profile photo
             generated_html += '<div class="grid_2 alpha "><br>\n'
             # divider line
-            generated_html += u'<strong>%s: <a class="cl-user_name_link" href="%s" rel="address:%s">%s</a></strong>\n' % (
+            generated_html += u'<strong>%s: <a class="cl-mailbox_anchor_format" href="%s" rel="address:%s">%s</a></strong>\n' % (
                 ugettext("From"), profile_href, profile_href, profile.username)     
             generated_html += FormUtils.generate_profile_photo_html(lang_code, profile, text_fields.no_photo, profile_href, "small")
             generated_html += u'</div> <!-- end grid2 -->\n'
@@ -344,9 +344,9 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
     try:
         
         initiate_contact_object = utils.get_initiate_contact_object(ndb.Key(urlsafe = from_uid), ndb.Key(urlsafe = to_uid))
-        if utils.check_if_allowed_to_send_more_messages_to_other_user(
-            have_sent_messages_object, initiate_contact_object, vip_status) or \
-           utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
+        (is_allowed, txt_for_when_quota_resets) =  utils.check_if_allowed_to_send_more_messages_to_other_user(
+            have_sent_messages_object, initiate_contact_object, vip_status)
+        if  is_allowed or utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
             
             if show_captcha:
                 captcha_bypass_string = "no_bypass"
@@ -357,7 +357,7 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
                 textarea_section_name, to_uid, captcha_bypass_string, have_sent_messages_object,
                 spam_statistics_string)
         else:
-            generated_html += u"<div>%s</div>" % constants.ErrorMessages.num_messages_to_other_in_time_window()
+            generated_html += u"<div>%s</div>" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets)
     except:
         error_reporting.log_exception(logging.critical)
     
@@ -418,7 +418,7 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
         generated_html += u'<div class="grid_2 alpha ">\n'
         generated_html += u'<div id="id-edit-%s-link">&nbsp;' % textarea_section_name
         
-        generated_html += u'<strong>%s: <a class="cl-user_name_link" href="%s" rel="address:%s" >%s</a> </strong> ' % (
+        generated_html += u'<strong>%s: <a class="cl-mailbox_anchor_format" href="%s" rel="address:%s" >%s</a> </strong> ' % (
             ugettext("To"), other_profile_href, other_profile_href, other_profile.username)
                 
         
@@ -677,7 +677,7 @@ def display_conversation_summary(request, have_sent_messages_object,
 
             
             generated_html += '<div class="cl-grid_160px  grid_custom alpha omega">\n'
-            generated_html += u'<a href="%s" rel="address:%s"><span><strong>%s</strong></span></a>\n' % (
+            generated_html += u'<a href="%s" class="cl-mailbox_anchor_format" rel="address:%s"><span><strong>%s</strong></span></a>\n' % (
                 other_userobject_href, other_userobject_href, other_userobject.username)
             
             if show_vip_info:
@@ -736,7 +736,7 @@ def display_conversation_summary(request, have_sent_messages_object,
         # As of writing only 2 messages are displayed in the summary.
         href =  reverse('mail_message_display', kwargs={'owner_uid' : have_sent_messages_object.owner_ref.urlsafe(), 
                         'other_uid' : have_sent_messages_object.other_ref.urlsafe()})        
-        href_open = u'<a href = "%(href)s" rel="address:%(href)s">' % {'href' : href}
+        href_open = u'<a href = "%(href)s" class="cl-mailbox_anchor_format" rel="address:%(href)s">' % {'href' : href}
         
         generated_html += href_open
         
@@ -792,7 +792,7 @@ def display_conversation_summary(request, have_sent_messages_object,
         def mailbox_magage_html(action, have_sent_messages_key_str, img_html, status, new_row_html):
             return """
             <td class="cl-mail-icon-td">
-            <a id="id-%(action)s-have_sent_messages-%(have_sent_messages_key_str)s" href="#">
+            <a class="cl-mailbox_anchor_format" id="id-%(action)s-have_sent_messages-%(have_sent_messages_key_str)s" href="#">
             %(img_html)s
             %(status)s
             </a></td>%(new_row_html)s""" \
@@ -939,8 +939,8 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
             message_controls_html += smart_unicode("""
             <div class="grid_9 alpha omega cl-manage_messages-links">
             %(select)s: 
-            <a id="id-mark_all_mesages" href = "#mark_all_mesages">%(all)s&nbsp;</a>,
-            <a id="id-unmark_all_mesages" href = "#unmark_all_mesages">%(none)s&nbsp;</a><br><br>
+            <a class="cl-mailbox_anchor_format" id="id-mark_all_mesages" href = "#mark_all_mesages">%(all)s&nbsp;</a>,
+            <a class="cl-mailbox_anchor_format" id="id-unmark_all_mesages" href = "#unmark_all_mesages">%(none)s&nbsp;</a><br><br>
             </div>
             
             <script type="text/javascript">
@@ -986,7 +986,7 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
         if len(contact_query_results) == CONTACTS_PAGESIZE + 1:
             next_page_bookmark = contact_query_results[-1].key.urlsafe()
             next_href = reverse('generate_mailbox_with_bookmark', kwargs = {'bookmark' : next_page_bookmark, 'mailbox_name': mailbox_name, 'owner_uid' : owner_uid})
-            next_button = u'<a href="%s" rel="address:%s">%s >></a>\n' % (next_href, next_href, ugettext("Next"))
+            next_button = u'<a class="cl-mailbox_anchor_format" href="%s" rel="address:%s">%s >></a>\n' % (next_href, next_href, ugettext("Next"))
             message_controls_html += next_button
             bottom_next_link_html = u'<div class="grid_7 alpha">&nbsp;</div><div class="grid_2 omega">%s</div>' % next_button
     
