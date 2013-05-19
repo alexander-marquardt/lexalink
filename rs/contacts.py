@@ -94,8 +94,9 @@ def show_contacts(request, contact_type, sent_or_received):
             if contact_type != "chat_friend":
                 
                 if contact_type not in supress_sent_received_list:
+                    contact_type_gender = constants.ContactIconText.contacts_action_gender[contact_type]
                     generated_title = header_html = u"%s %s" % (constants.ContactIconText.plural_icon_name[contact_type], 
-                                                                constants.ContactIconText.plural_contacts_actions_text[sent_or_received])
+                                                                constants.ContactIconText.plural_contacts_actions_text[contact_type_gender][sent_or_received]['no_capitalize'])
                 else:
                     generated_title = header_html = u"%s" % (constants.ContactIconText.plural_icon_name[contact_type])                
                 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 17:01-0400\n"
+"POT-Creation-Date: 2013-05-19 11:49-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -299,187 +299,235 @@ msgid ""
 "        against your quota for contacting other members."
 msgstr ""
 
-#: rs/constants.py:649
+#: rs/constants.py:659
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:651
+#: rs/constants.py:661
 msgid "sent (singular)"
 msgstr "sent"
 
-#: rs/constants.py:652
+#: rs/constants.py:662
 msgid "received (singluar)"
 msgstr "received"
 
-#: rs/constants.py:653
+#: rs/constants.py:663
 msgid "saved (singular)"
 msgstr "saved"
 
-#: rs/constants.py:654
+#: rs/constants.py:664
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:659 rs/messages.py:367
+#: rs/constants.py:670 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "sent"
 
-#: rs/constants.py:660
+#: rs/constants.py:670
+msgid "Sent (plural)"
+msgstr "Sent"
+
+#: rs/constants.py:671
 msgid "received (plural)"
 msgstr "received"
 
-#: rs/constants.py:661
+#: rs/constants.py:671
+msgid "Received (plural)"
+msgstr "Received"
+
+#: rs/constants.py:672
 msgid "saved (plural)"
 msgstr "saved"
 
-#: rs/constants.py:662
+#: rs/constants.py:672
+msgid "Saved (plural)"
+msgstr "Saved"
+
+#: rs/constants.py:673
 msgid "confirmed (plural)"
 msgstr "confirmed"
 
-#: rs/constants.py:667
+#: rs/constants.py:673
+msgid "Confirmed (plural)"
+msgstr "Confirmed"
+
+#: rs/constants.py:678
+msgid "sent (plural feminine)"
+msgstr "sent"
+
+#: rs/constants.py:678
+msgid "Sent (plural feminine)"
+msgstr "Sent"
+
+#: rs/constants.py:679
+msgid "received (plural feminine)"
+msgstr "received"
+
+#: rs/constants.py:679
+msgid "Received (plural feminine)"
+msgstr "Received"
+
+#: rs/constants.py:680
+msgid "saved (plural feminine)"
+msgstr "saved"
+
+#: rs/constants.py:680
+msgid "Saved (plural feminine)"
+msgstr "Saved"
+
+#: rs/constants.py:681
+msgid "confirmed (plural feminine)"
+msgstr "confirmed"
+
+#: rs/constants.py:681
+msgid "Confirmed (plural feminine)"
+msgstr "Confirmed"
+
+#: rs/constants.py:686
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:668
+#: rs/constants.py:687
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:669
+#: rs/constants.py:688
 msgid "Greeting"
 msgstr ""
 
-#: rs/constants.py:671
+#: rs/constants.py:690
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:672
+#: rs/constants.py:691
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:673
+#: rs/constants.py:692
 msgid "Wink"
 msgstr ""
 
-#: rs/constants.py:676
+#: rs/constants.py:695
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:678
+#: rs/constants.py:697
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:679
+#: rs/constants.py:698
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:680
+#: rs/constants.py:699
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:681
+#: rs/constants.py:700
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:686
+#: rs/constants.py:705
 msgid "My favorite"
 msgstr ""
 
-#: rs/constants.py:688
+#: rs/constants.py:707
 msgid "Kiss"
 msgstr ""
 
-#: rs/constants.py:689
+#: rs/constants.py:708
 msgid "Key"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:709
 msgid "Chat friend"
 msgstr "Chat friends"
 
-#: rs/constants.py:691
+#: rs/constants.py:710
 msgid "Blocked (singular)"
 msgstr "Blocked"
 
-#: rs/constants.py:695
+#: rs/constants.py:714
 msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:696
+#: rs/constants.py:715
 msgid "Chat requests received"
 msgstr ""
 
-#: rs/constants.py:697
+#: rs/constants.py:716
 msgid "Chat connections confirmed"
 msgstr ""
 
-#: rs/constants.py:701
+#: rs/constants.py:720
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:703
+#: rs/constants.py:722
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:704
+#: rs/constants.py:723
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:705
+#: rs/constants.py:724
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:706
+#: rs/constants.py:725
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:743
+#: rs/constants.py:762
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:744
+#: rs/constants.py:763
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:745
+#: rs/constants.py:764
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:746
+#: rs/constants.py:765
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:747
+#: rs/constants.py:766
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:748
+#: rs/constants.py:767
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:749
+#: rs/constants.py:768
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:750
+#: rs/constants.py:769
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:751
+#: rs/constants.py:770
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:752
+#: rs/constants.py:771
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:753
+#: rs/constants.py:772
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:754
+#: rs/constants.py:773
 msgid "December"
 msgstr ""
 
-#: rs/contacts.py:173
+#: rs/contacts.py:174
 #, python-format
 msgid "You do not have any \"%(title)s\" yet"
 msgstr ""
@@ -690,7 +738,7 @@ msgstr ""
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr ""
 
-#: rs/email_utils.py:629 rs/menubar.py:99 rs/profile_utils.py:100
+#: rs/email_utils.py:629 rs/menubar.py:102 rs/profile_utils.py:100
 msgid "Contacts"
 msgstr ""
 
@@ -2435,7 +2483,7 @@ msgid ""
 "without responding."
 msgstr ""
 
-#: rs/menubar.py:10 rs/menubar.py:89
+#: rs/menubar.py:10 rs/menubar.py:92
 #: rs/templates/user_main_helpers/menubar.html:94
 msgid "new"
 msgstr ""
@@ -2444,19 +2492,11 @@ msgstr ""
 msgid "Confirmed (plural - override)"
 msgstr "Confirmed"
 
-#: rs/menubar.py:67 rs/templates/user_main_helpers/menubar.html:77
-msgid "Received (plural - override)"
-msgstr "Received"
-
-#: rs/menubar.py:68 rs/templates/user_main_helpers/menubar.html:82
-msgid "Sent (plural - override)"
-msgstr "Sent"
-
-#: rs/menubar.py:123
+#: rs/menubar.py:126
 msgid "Favorite profiles"
 msgstr ""
 
-#: rs/menubar.py:124
+#: rs/menubar.py:127
 msgid "Blocked profiles"
 msgstr ""
 
@@ -4654,6 +4694,14 @@ msgstr "Unread"
 #: rs/templates/user_main_helpers/menubar.html:72
 msgid "Favorites"
 msgstr ""
+
+#: rs/templates/user_main_helpers/menubar.html:77
+msgid "Received (plural - override)"
+msgstr "Received"
+
+#: rs/templates/user_main_helpers/menubar.html:82
+msgid "Sent (plural - override)"
+msgstr "Sent"
 
 #: rs/templates/user_main_helpers/menubar.html:92
 msgid "Profile views"

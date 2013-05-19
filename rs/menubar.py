@@ -44,6 +44,9 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
             
         num_received_html = generate_num_received_html(num_received_contact_type_since_last_reset)            
             
+        contact_type_gender = constants.ContactIconText.contacts_action_gender[contact_type]
+        
+        
         html_list.append(u"""
         <a href="#" class="fly">%(plural_contact_type)s
         %(combined_num_html)s
@@ -64,8 +67,8 @@ def generate_menu_item(contact_type, new_contact_counter_obj):
                                                                   'sent_or_received' : 'received'}),
                 'sent_url' : reverse("show_contacts", kwargs={'contact_type': contact_type,  
                                                               'sent_or_received' : 'sent'}),
-                'received_txt' : ugettext("Received (plural - override)"),
-                'sent_txt' : ugettext("Sent (plural - override)"),
+                'received_txt' : constants.ContactIconText.plural_contacts_actions_text[contact_type_gender]['received']['capitalize'],
+                'sent_txt' : constants.ContactIconText.plural_contacts_actions_text[contact_type_gender]['sent']['capitalize'],
                 'additional_li_and_anchor_html' : additional_li_and_anchor_html,
                 })
         

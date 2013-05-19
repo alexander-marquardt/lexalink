@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-17 17:01-0400\n"
+"POT-Creation-Date: 2013-05-19 11:49-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -159,6 +159,7 @@ msgid "You have sent messages to %(num_new_people_txt)s"
 msgstr "Ya has enviado mensajes a %(num_new_people_txt)s"
 
 #: rs/callbacks_from_html.py:233
+#, python-format
 msgid "and your quota will be reset %s"
 msgstr "y tu cuota se restablecerá %s"
 
@@ -307,6 +308,7 @@ msgid " or if you are a %(vip_member)s"
 msgstr " o si eres %(vip_member)s"
 
 #: rs/constants.py:624
+#, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member in a single "
 "%(hours)s-hour period. \n"
@@ -327,187 +329,235 @@ msgstr ""
 "socio, los mensajes futuros a este socio no se contará contra la cuota para "
 "contactar otros socios."
 
-#: rs/constants.py:649
+#: rs/constants.py:659
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:651
+#: rs/constants.py:661
 msgid "sent (singular)"
 msgstr "enviado"
 
-#: rs/constants.py:652
+#: rs/constants.py:662
 msgid "received (singluar)"
 msgstr "recibido"
 
-#: rs/constants.py:653
+#: rs/constants.py:663
 msgid "saved (singular)"
 msgstr "guardado"
 
-#: rs/constants.py:654
+#: rs/constants.py:664
 msgid "confirmed (singular)"
 msgstr "confirmado"
 
-#: rs/constants.py:659 rs/messages.py:367
+#: rs/constants.py:670 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "enviados"
 
-#: rs/constants.py:660
+#: rs/constants.py:670
+msgid "Sent (plural)"
+msgstr "Enviados"
+
+#: rs/constants.py:671
 msgid "received (plural)"
 msgstr "recibidos"
 
-#: rs/constants.py:661
+#: rs/constants.py:671
+msgid "Received (plural)"
+msgstr "Recibidos"
+
+#: rs/constants.py:672
 msgid "saved (plural)"
 msgstr "guardados"
 
-#: rs/constants.py:662
+#: rs/constants.py:672
+msgid "Saved (plural)"
+msgstr "Guardados"
+
+#: rs/constants.py:673
 msgid "confirmed (plural)"
 msgstr "confirmados"
 
-#: rs/constants.py:667
+#: rs/constants.py:673
+msgid "Confirmed (plural)"
+msgstr "Confirmados"
+
+#: rs/constants.py:678
+msgid "sent (plural feminine)"
+msgstr "Enviadas"
+
+#: rs/constants.py:678
+msgid "Sent (plural feminine)"
+msgstr "Enviadas"
+
+#: rs/constants.py:679
+msgid "received (plural feminine)"
+msgstr "recibidas"
+
+#: rs/constants.py:679
+msgid "Received (plural feminine)"
+msgstr "Recibidas"
+
+#: rs/constants.py:680
+msgid "saved (plural feminine)"
+msgstr "guardadas"
+
+#: rs/constants.py:680
+msgid "Saved (plural feminine)"
+msgstr "Guardadas"
+
+#: rs/constants.py:681
+msgid "confirmed (plural feminine)"
+msgstr "confirmadas"
+
+#: rs/constants.py:681
+msgid "Confirmed (plural feminine)"
+msgstr "Confirmadas"
+
+#: rs/constants.py:686
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:668
+#: rs/constants.py:687
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:669
+#: rs/constants.py:688
 msgid "Greeting"
 msgstr "Saludo"
 
-#: rs/constants.py:671
+#: rs/constants.py:690
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:672
+#: rs/constants.py:691
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:673
+#: rs/constants.py:692
 msgid "Wink"
 msgstr "Guiño"
 
-#: rs/constants.py:676
+#: rs/constants.py:695
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:678
+#: rs/constants.py:697
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:679
+#: rs/constants.py:698
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:680
+#: rs/constants.py:699
 msgid "Chat friends"
 msgstr "Chats amigos"
 
-#: rs/constants.py:681
+#: rs/constants.py:700
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:686
+#: rs/constants.py:705
 msgid "My favorite"
 msgstr "Mi Favorito"
 
-#: rs/constants.py:688
+#: rs/constants.py:707
 msgid "Kiss"
 msgstr "Beso"
 
-#: rs/constants.py:689
+#: rs/constants.py:708
 msgid "Key"
 msgstr "Llave"
 
-#: rs/constants.py:690
+#: rs/constants.py:709
 msgid "Chat friend"
 msgstr "Amigo de chat"
 
-#: rs/constants.py:691
+#: rs/constants.py:710
 msgid "Blocked (singular)"
 msgstr "Bloqueado"
 
-#: rs/constants.py:695
+#: rs/constants.py:714
 msgid "Chat requests sent"
 msgstr "Chats amigos pedidos"
 
-#: rs/constants.py:696
+#: rs/constants.py:715
 msgid "Chat requests received"
 msgstr "Chats amigos recibidos"
 
-#: rs/constants.py:697
+#: rs/constants.py:716
 msgid "Chat connections confirmed"
 msgstr "Chats amigos confirmados"
 
-#: rs/constants.py:701
+#: rs/constants.py:720
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:703
+#: rs/constants.py:722
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:704
+#: rs/constants.py:723
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:705
+#: rs/constants.py:724
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:706
+#: rs/constants.py:725
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automaticamente)"
 
-#: rs/constants.py:743
+#: rs/constants.py:762
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:744
+#: rs/constants.py:763
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:745
+#: rs/constants.py:764
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:746
+#: rs/constants.py:765
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:747
+#: rs/constants.py:766
 msgid "May"
 msgstr "mayo"
 
-#: rs/constants.py:748
+#: rs/constants.py:767
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:749
+#: rs/constants.py:768
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:750
+#: rs/constants.py:769
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:751
+#: rs/constants.py:770
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:752
+#: rs/constants.py:771
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:753
+#: rs/constants.py:772
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:754
+#: rs/constants.py:773
 msgid "December"
 msgstr "diciembre"
 
-#: rs/contacts.py:173
+#: rs/contacts.py:174
 #, python-format
 msgid "You do not have any \"%(title)s\" yet"
 msgstr "Todavía no tienes \"%(title)s\""
@@ -738,7 +788,7 @@ msgstr "y"
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr "Puedes ver quien te ha contactado en %(link_to_build)s"
 
-#: rs/email_utils.py:629 rs/menubar.py:99 rs/profile_utils.py:100
+#: rs/email_utils.py:629 rs/menubar.py:102 rs/profile_utils.py:100
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -2515,7 +2565,7 @@ msgstr ""
 "Si el mensaje que te han enviado no es cortés y relacionado con lo que has "
 "especificado en tu descripción, márcalo como spam sin responder."
 
-#: rs/menubar.py:10 rs/menubar.py:89
+#: rs/menubar.py:10 rs/menubar.py:92
 #: rs/templates/user_main_helpers/menubar.html:94
 msgid "new"
 msgstr "nuevos"
@@ -2524,19 +2574,11 @@ msgstr "nuevos"
 msgid "Confirmed (plural - override)"
 msgstr "Confirmados"
 
-#: rs/menubar.py:67 rs/templates/user_main_helpers/menubar.html:77
-msgid "Received (plural - override)"
-msgstr "Recibidos"
-
-#: rs/menubar.py:68 rs/templates/user_main_helpers/menubar.html:82
-msgid "Sent (plural - override)"
-msgstr "Enviados"
-
-#: rs/menubar.py:123
+#: rs/menubar.py:126
 msgid "Favorite profiles"
 msgstr "Perfiles favoritos"
 
-#: rs/menubar.py:124
+#: rs/menubar.py:127
 msgid "Blocked profiles"
 msgstr "Perfiles bloqueados"
 
@@ -3237,7 +3279,7 @@ msgstr "Notificarme inmediatamente si he recibido un mensaje nuevo."
 
 #: rs/user_profile_details.py:183
 msgid "Daily notification of new messages."
-msgstr "Notificarme cada dia si he recibido mensajes nuevos."
+msgstr "Notificarme cada día si he recibido mensajes nuevos."
 
 #: rs/user_profile_details.py:184
 msgid "Weekly notification of new messages."
@@ -3267,7 +3309,7 @@ msgstr ""
 msgid ""
 "Daily notification of new messages or contacts (kisses, winks, or keys)."
 msgstr ""
-"Notificarme cada dia si he recibido mensajes o contactos  (besos, guiños o "
+"Notificarme cada día si he recibido mensajes o contactos  (besos, guiños o "
 "llaves) nuevos."
 
 #: rs/user_profile_details.py:191
@@ -3294,7 +3336,7 @@ msgstr ""
 #: rs/user_profile_details.py:196
 msgid "Daily notification of new messages or contacts (greetings or keys)."
 msgstr ""
-"Notificarme una vez cada dia si he recibido mensajes o contactos (saludos o "
+"Notificarme una vez cada día si he recibido mensajes o contactos (saludos o "
 "llaves) nuevos."
 
 #: rs/user_profile_details.py:197
@@ -3405,7 +3447,7 @@ msgstr "Pregunte k quiero"
 
 #: rs/user_profile_details.py:368
 msgid "Says what they like"
-msgstr "Saber que quiere"
+msgstr "Saber qué quiere"
 
 #: rs/user_profile_details.py:369
 msgid "Gentle"
@@ -3441,7 +3483,7 @@ msgstr "Mente Abierta"
 
 #: rs/user_profile_details.py:377
 msgid "Strong libido"
-msgstr "Líbido alto"
+msgstr "Líbido alta"
 
 #: rs/user_profile_details.py:378
 msgid "Normal libido"
@@ -3449,7 +3491,7 @@ msgstr "Líbido normal"
 
 #: rs/user_profile_details.py:379
 msgid "Low libido"
-msgstr "Líbido bajo"
+msgstr "Líbido baja"
 
 #: rs/user_profile_details.py:396
 msgid "Erotic encounters I am open to"
@@ -4239,8 +4281,8 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"    <p>Cada mes, tu publicidad se mostrará en más de medio millión de "
-"páginas únicas a más que 100.000 visitantes únicos.\n"
+"    <p>Cada mes, tu publicidad se mostrará en más de medio millón de "
+"páginas únicas a más de 100.000 visitantes únicos.\n"
 "    <p>Para obtener más información, contacta con: <b>support@%(app_name)s."
 "com</b>.\n"
 "    "
@@ -4879,7 +4921,7 @@ msgstr "clic aquí"
 #: rs/templates/user_main_helpers/main_body.html:403
 msgid "If you want to see how your profile will appear."
 msgstr ""
-"Si quieres ver como se muestra tu perfil desde la perspectiva de otros "
+"Si quieres ver cómo se muestra tu perfil desde la perspectiva de otros "
 "usuarios, haz click en el link en la izquierda."
 
 #: rs/templates/user_main_helpers/main_body.html:416
@@ -4919,6 +4961,14 @@ msgstr "No leídos"
 #: rs/templates/user_main_helpers/menubar.html:72
 msgid "Favorites"
 msgstr "Favoritos"
+
+#: rs/templates/user_main_helpers/menubar.html:77
+msgid "Received (plural - override)"
+msgstr "Recibidos"
+
+#: rs/templates/user_main_helpers/menubar.html:82
+msgid "Sent (plural - override)"
+msgstr "Enviados"
 
 #: rs/templates/user_main_helpers/menubar.html:92
 msgid "Profile views"
@@ -5060,7 +5110,7 @@ msgid ""
 "You are VIP member, therefore you are always shown the online status of "
 "other members"
 msgstr ""
-"Eres un miembro VIP y por esto siempre puedes ver el estado de conexión de "
+"Eres un miembro VIP y por ello siempre puedes ver el estado de conexión de "
 "los otros miembros."
 
 #: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:50
@@ -5093,7 +5143,7 @@ msgid ""
 msgstr ""
 "\n"
 "Incremento de tu cuota de mensajes que te permite contactar con %(vip)s "
-"personas nuevas cada dia (contra %(free)s para socios no-VIP)."
+"personas nuevas cada día (contra %(free)s para socios no-VIP)."
 
 #: rs/templates/user_main_helpers/vip_benefits.html:8
 #, python-format
@@ -5133,7 +5183,7 @@ msgid ""
 "%(std_num_messages)s"
 msgstr ""
 "\n"
-"Podrás enviar %(cf_num_messages)s mensajes por dia a cada persona con quien "
+"Podrás enviar %(cf_num_messages)s mensajes por día a cada persona con quien "
 "ya has tenido contacto (contra %(std_num_messages)s mensajes por día para "
 "los socios no VIP)."
 

@@ -646,6 +646,16 @@ else:
 
     
 class ContactIconText():
+    
+    contacts_action_gender = {
+        'favorite': 'masculine',
+        'wink': 'masculine',
+        'kiss': 'masculine',
+        'key': 'feminine',
+        'chat_friend' : 'masculine',
+        'blocked' : 'masculine',
+    }
+    
     the_last = ugettext_lazy("only the last")
     singular_contacts_actions_text = {
         'sent' : ugettext_lazy("sent (singular)"),
@@ -655,13 +665,22 @@ class ContactIconText():
         '': '',
     }
     
-    plural_contacts_actions_text = {
-        'sent' : ugettext_lazy("sent (plural)"),
-        'received' : ugettext_lazy("received (plural)"),
-        'saved' : ugettext_lazy("saved (plural)"),
-        'connected' : ugettext_lazy("confirmed (plural)"),
-        '': '',
+    plural_contacts_actions_text = {}
+    plural_contacts_actions_text['masculine'] = {
+        'sent' : {'no_capitalize' : ugettext_lazy("sent (plural)"), 'capitalize' : ugettext_lazy("Sent (plural)")},
+        'received' : {'no_capitalize' : ugettext_lazy("received (plural)"), 'capitalize' : ugettext_lazy("Received (plural)")},
+        'saved' : {'no_capitalize' : ugettext_lazy("saved (plural)"),'capitalize' : ugettext_lazy("Saved (plural)")}, 
+        'connected' : {'no_capitalize' : ugettext_lazy("confirmed (plural)"), 'capitalize' :  ugettext_lazy("Confirmed (plural)")},
+        #'': '',
     }    
+    
+    plural_contacts_actions_text['feminine'] = {
+        'sent' : {'no_capitalize' : ugettext_lazy("sent (plural feminine)"), 'capitalize' : ugettext_lazy("Sent (plural feminine)")},
+        'received' : {'no_capitalize' : ugettext_lazy("received (plural feminine)"), 'capitalize' : ugettext_lazy("Received (plural feminine)")}, 
+        'saved' : {'no_capitalize' : ugettext_lazy("saved (plural feminine)"), 'capitalize' : ugettext_lazy("Saved (plural feminine)")},
+        'connected' : {'no_capitalize' : ugettext_lazy("confirmed (plural feminine)"), 'capitalize' : ugettext_lazy("Confirmed (plural feminine)")}, 
+        #'': '',
+    }       
     
     if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
         plural_winks = ugettext_lazy('Greetings')
