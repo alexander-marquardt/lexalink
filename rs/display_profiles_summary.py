@@ -121,7 +121,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
                 if len(about_user) > constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN: 
                     about_user = display_userobject.about_user[:constants.ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN] + "  ..."
 
-                generated_html += u'%s\n' % about_user
+                generated_html += u'<span class="cl-literally-display-user-text">%s</span>\n' % about_user
                 generated_html += u'<br><br>'
             
         if site_configuration.BUILD_NAME != "Language" and site_configuration.BUILD_NAME != "Friend":
