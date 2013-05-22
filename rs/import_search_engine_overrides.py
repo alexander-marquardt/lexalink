@@ -1,12 +1,15 @@
 from rs import error_reporting
-import logging
+import logging, os
+
 
 
 try:
-    from rs.proprietary import search_engine_overrides
-except NameError:
-    # if it doesn't exist (NameError) don't print an error - but just let us know that it doesn't exist
-    logging.info("Unable to import search_engine_overrides\n")
+    if os.path.isdir('rs/proprietary'):
+        from rs.proprietary import search_engine_overrides
+    else:
+        raise Exception("Proprietary directory is not defined")
+        
 except:
-    # Notify of all other errors
-    error_reporting.log_exception(logging.critical)
+    # if it doesn't exist (NameError) don't print an error - but just let us know that it doesn't exist
+    logging.warning("Unable to import search_engine_overrides\n")
+    

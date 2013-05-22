@@ -97,8 +97,9 @@ table#id-horiz-bar-table
 
 .cl-background-image {
 	background: url(../img/Default/default_graphic.png) bottom center no-repeat;
-	height: 720px;
+	height: 400px;
 }
+
 
 
 #table-right-login td
@@ -143,4 +144,11 @@ td.cl-registration-big-prompt-td {
 td.cl-registration-small-prompt-td
 {
 	font-size: 12pt;
+}
+
+
+
+.cl-over-image {
+    height: 320px;
+    display: block;
 }

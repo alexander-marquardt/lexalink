@@ -32,7 +32,7 @@ from rs.private_data import *
 VERSION_ID = '2013-05-19-1245'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -58,22 +58,25 @@ FLASH_FILES_DIR = "bin-release" # Generally the flash bin-debug version is the m
 # If this is set to a value, then this value will indicate the current site. 
 BATCH_BUILD_NAME = ''
 
-if BATCH_BUILD_NAME == '':
-    # Since we are currently running 7 sites using the same code base, we just un-comment whichever build 
-    # we are interested in executing. Be sure to re-boot the development server each time you change
-    # the build name.
+if os.path.isdir('rs/proprietary'):
+    if BATCH_BUILD_NAME == '':
+        # Since we are currently running 7 sites using the same code base, we just un-comment whichever build 
+        # we are interested in executing. Be sure to re-boot the development server each time you change
+        # the build name.
+        
+        BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
+        #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
+        #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
+        #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
+        #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
+        #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
+        #BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
     
-    BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
-    #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
-    #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
-    #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
-    #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
-    #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
-    #BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
-
+    else:
+        BUILD_NAME = BATCH_BUILD_NAME
 else:
-    BUILD_NAME = BATCH_BUILD_NAME
-
+    # We have not defined any of the proprietary builds, so just default to the standard "single" dating platform configuration
+    BUILD_NAME = 'Single'
 
 APP_NAME = app_name_dict[BUILD_NAME]
 DOMAIN_NAME = domain_name_dict[BUILD_NAME]
