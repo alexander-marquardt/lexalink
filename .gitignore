@@ -5,7 +5,6 @@
 index.yaml
 rs/static/auto-generated*
 *.pyc
-*.mo
 
 # Environment for the WingIDE environment that I use
 Wing_project.wpr
