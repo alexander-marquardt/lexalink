@@ -138,7 +138,8 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
         else:
             # in order to run the jar file in cygwin, it must have the path specified in a special manner
             pargs = ['java', '-jar', r'Z:\bin\yuicompressor-2.4.6\build\yuicompressor-2.4.6.jar', combined_static_file_name, '-o', combined_min_static_file_name]
-
+        
+        logging.info("Minifying with the following arguments: %s" % pargs)
         subprocess.Popen(pargs)
         
     if static_file_type == "js":

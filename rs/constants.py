@@ -414,15 +414,22 @@ hours_between_new_contacts_notifications = {
 ###################################################
 ## START Administrator/Site Email Addresses
 
+domain_name = domain_name_dict[settings.BUILD_NAME]
+appspot_match = re.match(r'(.*).appspot.com', domain_name)
+if appspot_match:
+    domain_name = "%s.appspotmail.com" % appspot_match.group(1)
+    logging.info("Changing mailing doman name to %s" % domain_name)
+
 if settings.BUILD_NAME == "Discrete":
     # Special case for the "discrete" site, because we don't want to explicitly say the name of the site in the address field
-    sender_address = u"RS - Customer Support <support@%s>" % domain_name_dict[settings.BUILD_NAME]
-    sender_address_html = u"RS - Customer Support &lt;support@%s&gt;" % domain_name_dict[settings.BUILD_NAME]
-    admin_address = u"Admin <support@%s>" % domain_name_dict[settings.BUILD_NAME]
+    sender_address = u"RS - Customer Support <support@%s>" % domain_name
+    sender_address_html = u"RS - Customer Support &lt;support@%s&gt;" % domain_name
+    admin_address = u"Admin <support@%s>" % domain_name
 else:
-    sender_address = u"%s - Customer Support <support@%s>" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
-    sender_address_html = u"%s - Customer Support &lt;support@%s&gt;" % (app_name_dict[settings.BUILD_NAME], domain_name_dict[settings.BUILD_NAME])
-    admin_address = u"Admin <support@%s>" % domain_name_dict[settings.BUILD_NAME]
+    sender_address = u"%s - Customer Support <support@%s>" % (app_name_dict[settings.BUILD_NAME], domain_name)
+    sender_address_html = u"%s - Customer Support &lt;support@%s&gt;" % (app_name_dict[settings.BUILD_NAME], domain_name)
+    admin_address = u"Admin <support@%s>" % domain_name
+    
     
 ## END Administrator/Site Email Addresses
 ###################################################

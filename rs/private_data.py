@@ -41,14 +41,14 @@ except:
     # If my_private_data.py doesn't exist, then the following default values will be used. 
     
     LOGNAME = 'Enter your LOGNAME here' # compared against os.environ['LOGNAME'] to detect if you are running on a local machine 
-    CYGWIN_HOSTNAME = 'Enter your Cygwin Hostname here' # compared against os.environ['HOSTNAME'] to detect if you are running on cygwin
+    CYGWIN_HOSTNAME = 'ALEXANDERMA431D' # compared against os.environ['HOSTNAME'] to detect if you are running on cygwin
     SECRET_KEY = 'enter your secret cookie key here' # used to encode and decode session cookies (see gaesessions)
     
     app_name_dict = {
         # Edit the following values to reflect the names that you have chosen for each of your sites.
         'Discrete' : 'Your-Site-Name-Here', #ie. "RomanceSecreto"
         'Language':  'Your-Site-Name-Here', 
-        'Single' :   'Your-Site-Name-Here',
+        'Single' :   'lexalink-demo.appspot',
         'Lesbian':   'Your-Site-Name-Here',
         'Gay':       'Your-Site-Name-Here',
         'Swinger':   'Your-Site-Name-Here',
@@ -61,7 +61,7 @@ except:
         # but lower case, and followed by the appropriate top level domain qualifier.
         'Discrete' : 'your-site-name-here.com', #ie "romancesecreto.com"
         'Language':  'your-site-name-here.com', 
-        'Single' :   'your-site-name-here.com',
+        'Single' :   'lexalink-demo.appspot.com',
         'Lesbian':   'your-site-name-here.com',
         'Gay':       'your-site-name-here.com',
         'Swinger':   'your-site-name-here.com',
@@ -73,7 +73,7 @@ except:
         # applications on the AppEngine.
         'Discrete' : 'yourappid1', 
         'Language':  'yourappid2', 
-        'Single' :   'yourappid3',
+        'Single' :   'lexalink-demo',
         'Lesbian':   'yourappid4',
         'Gay':       'yourappid5',
         'Swinger':   'yourappid6',
