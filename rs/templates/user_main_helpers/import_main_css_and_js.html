@@ -38,7 +38,13 @@
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/user_main.css">
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/menubar_common.css">
 
-    {% if proprietary_static_dir_exists %}
+    {% if not proprietary_static_dir_exists %}
+        
+        <link rel="stylesheet" href="/{{ live_static_dir }}/css/Default_Common.css">
+        <link rel="stylesheet" href="/{{ live_static_dir }}/css/Default_Menubar.css">
+
+    {% else %}
+        
         <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/proprietary_common.css">
 
         {% if build_name == 'Discrete' or build_name == 'Lesbian' or build_name == 'Swinger' or build_name == 'Single' %}
@@ -48,10 +54,6 @@
         {% endif %}
         <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/{{ build_name }}_common.css">
 
-
-    {% else %}
-        <link rel="stylesheet" href="/{{ live_static_dir }}/css/default_common.css">
-        <link rel="stylesheet" href="/{{ live_static_dir }}/css/default_menubar.css">
     {% endif %}
 
     <link rel="stylesheet" href="/{{ live_static_dir }}/css/jquery.fancybox-1.3.4.css">

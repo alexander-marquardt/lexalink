@@ -52,7 +52,8 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
     static_file_pattern =  re.compile(r'.*/{{ live_static_dir }}/%s/(.*).%s' % (static_file_type, static_file_type))
     proprietary_static_file_pattern =  re.compile(r'.*/{{ live_proprietary_static_dir }}/%s/(.*).%s' % (static_file_type, static_file_type))
     build_name_pattern = re.compile(r'(.*)({{ build_name }})(.*)')
-    default_common_pattern = re.compile(r'.*default_common\.css.*')
+    default_common_pattern = re.compile(r'.*Default_Common\.css.*')
+    default_menubar_pattern = re.compile(r'.*Default_Menubar\.css.*')
     menubar_pattern = re.compile(r'.*/{{ live_proprietary_static_dir }}/css/(.*)(_Menubar).css')
     
     for line in input_html_src_file:
@@ -61,6 +62,7 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
         match_proprietary_static_file_pattern = proprietary_static_file_pattern.match(line)
         match_default_common_pattern = default_common_pattern.match(line)
         match_menubar_pattern = menubar_pattern.match(line)
+        match_default_menubar_pattern = default_menubar_pattern.match(line)
         
         if match_static_file_pattern:
             matched_file_name = match_static_file_pattern.group(1)
@@ -68,8 +70,13 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
             if match_default_common_pattern and site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
                 # exclude the "default_common.css" file from the combined css file, since we are using
                 # customized css for each build.
-                logging.info("ignoring default_common.css")
+                logging.info("ignoring Default_Common.css")
                 continue
+            
+            elif match_default_menubar_pattern and site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
+                # exclude Default_Menubar from all builds except for "Default"
+                logging.info("ignoring Default_Menubar.css")
+                continue         
             
         elif site_configuration.PROPRIETARY_STATIC_DIR_EXISTS and match_proprietary_static_file_pattern:
             matched_file_name = match_proprietary_static_file_pattern.group(1)
@@ -91,6 +98,8 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
                 # the {{ build_name }}_Menubar should only be included in Gay, Language, and Friend. 
                 # Remove from all other builds.
                 matched_file_name = None
+                
+
                 
             
         if matched_file_name and matched_file_name != output_file_name + ".min" and matched_file_name != output_file_name:
