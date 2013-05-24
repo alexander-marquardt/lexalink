@@ -568,7 +568,7 @@ msgstr "Ver perfil y contactar con:"
 
 #: rs/display_profiles_summary.py:119
 msgid "About me"
-msgstr "Sobre mi"
+msgstr "Sobre mí"
 
 #: rs/display_profiles_summary.py:157
 msgid "Native language"
@@ -4316,7 +4316,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Si te gusta %(app_name)s, haz clic aqui:\n"
+"Si te gusta %(app_name)s, haz clic aquí:\n"
 "            "
 
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:6
@@ -4688,7 +4688,7 @@ msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
 #: rs/templates/user_main_helpers/photos.html:152
 #: rs/templates/user_main_helpers/photos.html:168
 msgid "Terms and conditions"
-msgstr "Terminos y condiciones de uso"
+msgstr "Términos y condiciones de uso"
 
 #: rs/templates/common_helpers/logo_banner.html:68
 msgid "About"
@@ -4806,7 +4806,7 @@ msgstr "Ninguno de tus contactos están conectados al chat en este momento"
 
 #: rs/templates/user_main_helpers/chat.html:61
 msgid "There are no chat groups currently available. Why don't you create one?"
-msgstr "No hay grupos de chat disponibles. ¿Por que no creas uno?"
+msgstr "No hay grupos de chat disponibles. ¿Por qué no creas uno?"
 
 #: rs/templates/user_main_helpers/chat.html:66
 msgid "Online chat friends"
