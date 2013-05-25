@@ -29,7 +29,7 @@
 from django.utils.translation import ugettext_lazy
 
 import re
-import datetime, logging
+import datetime, logging, math
 
 from rs.private_data import *
 import settings, site_configuration
@@ -578,9 +578,9 @@ rematch_non_alpha = re.compile(r'\W+') #match one or more non-alphanumeric chara
 # entered enough data.
 ABOUT_USER_MIN_DESCRIPTION_LEN = 300
 ABOUT_USER_MAX_DESCRIPTION_LEN = 10000
-TYPICAL_NUM_CHARS_PER_LINE = 80 # used for computing how many lines of a description they must write
+TYPICAL_NUM_CHARS_PER_LINE = 90 # used for computing how many lines of a description they must write
 ABOUT_USER_MIN_NUM_LINES_FLOAT = ABOUT_USER_MIN_DESCRIPTION_LEN / float(TYPICAL_NUM_CHARS_PER_LINE)
-ABOUT_USER_MIN_NUM_LINES_INT = int(round(ABOUT_USER_MIN_NUM_LINES_FLOAT, 0)) # round to nearest integer
+ABOUT_USER_MIN_NUM_LINES_INT = int(math.ceil(ABOUT_USER_MIN_NUM_LINES_FLOAT)) # round up to nearest integer
 ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN = 1000
 
 # we just take a piece of the hash of the creation date for including in URLs that should be 
