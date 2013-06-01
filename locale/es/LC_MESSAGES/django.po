@@ -2530,7 +2530,7 @@ msgstr "Marcar como favorito"
 
 #: rs/mailbox.py:903
 msgid "You don't have any messages in this mailbox"
-msgstr "No tienes mensajes en este buzon"
+msgstr "No tienes mensajes en este buzón"
 
 #: rs/mailbox.py:966
 msgid "Select"
@@ -2635,7 +2635,7 @@ msgstr ""
 "- Añadirla a tus \"favoritos\".\n"
 "- Darle acceso a tus fotos \"privadas\".\n"
 "\n"
-"Ademas, para poder rastrear con quien has mantenido ya algún tipo de "
+"Ademas, para poder rastrear con quién has mantenido ya algún tipo de "
 "contacto, puedes hacer clic en la pestaña de \"Contactos\" en la parte "
 "superior de la página. Allí podrás ver los %(replacement2)s y accesos "
 "privados que has enviado y/o recibido. También podrás ver los perfiles que "
