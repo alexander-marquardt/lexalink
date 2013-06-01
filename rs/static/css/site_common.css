@@ -424,3 +424,9 @@ li.cl-indent {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
+
+
+.cl-compressed-display-user-text {
+    white-space: pre-line;
+    word-wrap: break-word;
+}
