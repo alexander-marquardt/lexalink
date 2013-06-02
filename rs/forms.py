@@ -142,18 +142,16 @@ class FormUtils():
         # - right_col_td_format: the class that is applied to td cells in the right column
         
         try:
-            cache_key = "%s_%s_%s_%s" % (label, name, intype, login_type)
-            if not cls.cache_generated_text_input_table_row.has_key(cache_key):
-                generated_html = ''
-                generated_html += u'<tr>\n'
-                generated_html += u'<td class="%s" > %s </td>\n' % (left_col_td_format, label)
-                text_field_html = cls.generate_input_text_field(intype,  login_type, name, myinputmaxlength, 'cl-standard-textinput-width-px')
-                generated_html += u'<td class="%s" > %s </td>\n' % (
-                    right_col_td_format, text_field_html)
-                generated_html += u'</tr>\n'
-                cls.cache_generated_text_input_table_row[cache_key] = generated_html
+
+            generated_html = ''
+            generated_html += u'<tr>\n'
+            generated_html += u'<td class="%s" > %s&nbsp;</td>\n' % (left_col_td_format, label)
+            text_field_html = cls.generate_input_text_field(intype,  login_type, name, myinputmaxlength, 'cl-standard-textinput-width-px')
+            generated_html += u'<td class="%s" > %s </td>\n' % (
+                right_col_td_format, text_field_html)
+            generated_html += u'</tr>\n'
         
-            return cls.cache_generated_text_input_table_row[cache_key]
+            return generated_html
         except:
             error_reporting.log_exception(logging.critical)
             return ""   

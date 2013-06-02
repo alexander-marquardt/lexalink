@@ -459,20 +459,18 @@ td.cl-login-td-left-side-stub { /* defines the height of the login tables and wi
 td.cl-login-td-right-side-stub { width: 10px; }/* defines the width of the right "padding" cell for each table */
 
 
-td.cl-td-right-align-login
+td.cl-td-right-align
 {
 	text-align: right;
 	vertical-align: text-top;
 	width: 200px;
-	font-size: 11pt;
 }
 
-td.cl-td-left-align-login
+td.cl-td-left-align
 {
 	text-align: left;
 	vertical-align: text-top;
 	width: 200px;
-	font-size: 11pt;
 }
 
 

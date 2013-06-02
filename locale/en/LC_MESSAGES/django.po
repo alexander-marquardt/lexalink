@@ -3460,7 +3460,7 @@ msgstr ""
 
 #: rs/user_profile_details.py:457
 msgid "My current password"
-msgstr "My current password&nbsp;"
+msgstr ""
 
 #: rs/user_profile_details.py:463
 msgid "My new password"
@@ -3468,7 +3468,7 @@ msgstr ""
 
 #: rs/user_profile_details.py:469
 msgid "Verify new password"
-msgstr "Verify new password&nbsp;"
+msgstr ""
 
 #: rs/user_profile_main_data.py:78
 msgid "Not Important"

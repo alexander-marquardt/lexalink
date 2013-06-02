@@ -592,8 +592,8 @@ EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE = 15
 
 #following are just formatting options for use in drop-down menus, and other
 # form settings.
-field_formats = {'right_align_login' :         'cl-td-right-align-login',
-                 'left_align_login' :          'cl-td-left-align-login',
+field_formats = {'right_align_login' :         'cl-td-right-align',
+                 'left_align_login' :          'cl-td-left-align',
                  'right_align_user_main':      'cl-td-right-align-user_main',
                  'left_align_user_main':       'cl-td-left-align-user_main',
                  'text_field_length' :   50,
