@@ -160,6 +160,7 @@ if settings.BUILD_NAME != "Language":
         # These countries will appear twice in the country/location list. Once at the beginning
         # and again in the entire list.
         ("AR",) +  ugettext_tuple(ugettext("AR")), # Argentina
+        ("AU",) +  ugettext_tuple(ugettext("AU")), # Australia        
         ("CA",) +  ugettext_tuple(ugettext("CA")), # Canada        
         ("CL",) +  ugettext_tuple(ugettext("CL")), # Chile
         ("CO",) +  ugettext_tuple(ugettext("CO")), # Colombia
@@ -176,7 +177,8 @@ else:
     important_countries_list = [
         # These countries will appear twice in the country/location list. Once at the beginning
         # and again in the entire list.
-        ("BR",) +  ugettext_tuple(ugettext("BR")), # Brazil
+        ("AU",) +  ugettext_tuple(ugettext("AU")), # Australia
+        ("CA",) +  ugettext_tuple(ugettext("CA")), # Canada                
         ("CN",) +  ugettext_tuple(ugettext("CN")), # China
         ("FR",) +  ugettext_tuple(ugettext("FR")), # France
         ("DE",) +  ugettext_tuple(ugettext("DE")), # Germany
