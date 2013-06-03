@@ -288,6 +288,7 @@ def setup_my_local_environment():
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Lesbian/*", site_configuration.LIVE_STATIC_DIR + "/img/Lesbian/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Single/*", site_configuration.LIVE_STATIC_DIR + "/img/Single/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/img/Swinger/*", site_configuration.LIVE_STATIC_DIR + "/img/Swinger/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Mature/*", site_configuration.LIVE_STATIC_DIR + "/img/Mature/")
             shutil.copytree(pwd + "/rs/proprietary/static/img/Discrete_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Discrete_Menubar/")
             shutil.copytree(pwd + "/rs/proprietary/static/img/Friend_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Friend_Menubar/")
             shutil.copytree(pwd + "/rs/proprietary/static/img/Language_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Language_Menubar/")
