@@ -167,7 +167,7 @@ class UserSpec():
             ('prefer_no_say',) + ugettext_tuple(ugettext("Secret")),]
 
     # LOCUS LOFT CONFIGURATION
-    elif settings.BUILD_NAME == 'Single': 
+    elif settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Mature': 
         gender_categories = [
             ('female',)     + ugettext_tuple(ugettext('Female')), 
             ('male',)       + ugettext_tuple(ugettext('Male')),
@@ -253,7 +253,7 @@ class UserSpec():
     # if we decide to increase the number of choices in the future, the keys do not need to be
     # modified (just add new ones between the existing ones).
     
-    if settings.BUILD_NAME != "Language":
+    if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Mature":
         age_categories = [
             ('18',) + ugettext_tuple('18-21'),
             ('22',) + ugettext_tuple('22-25'),
@@ -270,7 +270,7 @@ class UserSpec():
             ('66',) + ugettext_tuple('66-69'),
             ('70',) + ugettext_tuple('70+'),
         ]
-    else:
+    elif settings.BUILD_NAME == "Language":
         age_categories = [
             ('14',) + ugettext_tuple('14-17'), 
             ('18',) + ugettext_tuple('18-25'),
@@ -284,6 +284,20 @@ class UserSpec():
             ('82',) + ugettext_tuple('82-89'),
             ('90',) + ugettext_tuple('90+'),
         ]
+        
+    elif settings.BUILD_NAME == "Mature":
+        age_categories = [
+            ('50',) + ugettext_tuple('50-57'),
+            ('58',) + ugettext_tuple('58-65'),          
+            ('66',) + ugettext_tuple('66-73'),
+            ('74',) + ugettext_tuple('74-81'),
+            ('82',) + ugettext_tuple('82-89'),
+            ('90',) + ugettext_tuple('90+'),   
+        ]
+        
+    else:
+        assert(0)
+        
         
     if settings.BUILD_NAME == "Friend":
         assert(constants.minimum_registration_age == 16)
@@ -343,7 +357,7 @@ class UserSpec():
         signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My Relationship Status')) # this is the clients status
     elif settings.BUILD_NAME == 'Swinger':
         signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My / Our Relationship Status')) 
-    elif settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Lesbian':
+    elif settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Lesbian' or settings.BUILD_NAME == 'Mature':
         signup_relationship_status_label_tuple = ugettext_tuple(ugettext('Type Of Relationship')) # this is the clients status
     elif settings.BUILD_NAME == 'Language' :
         signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))

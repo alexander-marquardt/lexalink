@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-05-31-1140'
+VERSION_ID = '2013-06-02-2048'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = False
@@ -67,10 +67,11 @@ if os.path.isdir('rs/proprietary'):
         BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
         #BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
         #BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
-        #BUILD_NAME = 'Swinger'   # originally used for SwingerPlex.com
+        #BUILD_NAME = 'Swinger'   # originally used for SwingerSetup.com
         #BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
         #BUILD_NAME = 'Gay'       # originally used for GaySetup.com
         #BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
+        BUILD_NAME = 'Mature' # originallly used for MellowDating.com
     
     else:
         BUILD_NAME = BATCH_BUILD_NAME

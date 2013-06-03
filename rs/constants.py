@@ -302,7 +302,7 @@ if settings.BUILD_NAME == 'Language':
     lexabit_ads_to_show.append('Single')
     lexabit_ads_to_show.append('Friend')
     
-if settings.BUILD_NAME == 'Single':
+if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Mature':
     # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
     enable_google_ads = True
     lexabit_ads_to_show.append('Language')
@@ -464,7 +464,10 @@ elif settings.BUILD_NAME == "Swinger":
     ADULT_ORIENTED_SITE = True
 
 elif settings.BUILD_NAME == "Friend":
-    SITE_TYPE = ugettext_lazy('website to meet people, make friends, and to earn money')
+    SITE_TYPE = ugettext_lazy('website to meet people and make friends')
+    
+elif settings.BUILD_NAME == "Mature":
+    SITE_TYPE = ugettext_lazy('dating website to meet mature adults over 50 years old')
     
 else:
     raise Exception("Unknown settings.BUILD_NAME")

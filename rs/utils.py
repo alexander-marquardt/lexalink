@@ -233,7 +233,7 @@ def generate_profile_summary_table(request, profile):
 
             if settings.BUILD_NAME == 'Discrete' or settings.BUILD_NAME == 'Swinger' or settings.BUILD_NAME == 'Gay':
                 first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % relationship_status_text
-            elif settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Lesbian': 
+            elif settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Lesbian' or settings.BUILD_NAME == "Mature": 
                 first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % looking_for_text
             else: assert(0)
             second_row_html += '<td class = "cl-summary-info">%s</td>' % relationship_status_def

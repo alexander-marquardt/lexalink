@@ -53,6 +53,7 @@ except:
         'Gay':       'Your-Site-Name-Here',
         'Swinger':   'Your-Site-Name-Here',
         'Friend':    'Your-Site-Name-Here',
+        'Mature':    'Your-Site-Name-Here',
     }
     
     domain_name_dict = {
@@ -66,6 +67,7 @@ except:
         'Gay':       'your-site-name-here.com',
         'Swinger':   'your-site-name-here.com',
         'Friend':    'your-site-name-here.com',    
+        'Mature':    'your-site-name-here.com',    
     }
     
     app_id_dict = {
@@ -78,6 +80,7 @@ except:
         'Gay':       'yourappid5',
         'Swinger':   'yourappid6',
         'Friend':    'yourappid7',
+        'Mature':    'yourappid8',
     }
     
     # you may wish to have an additional application id that you upload your code to for extra "in-the-cloud" testing.
@@ -141,6 +144,7 @@ except:
         "Lesbian"  : 'UA-YOUR-IDX-X',
         "Swinger"  : 'UA-YOUR-IDX-X',
         "Gay"      : 'UA-YOUR-IDX-X',
+        "Mature"   : 'UA-YOUR-IDX-X',
     }    
     
     
