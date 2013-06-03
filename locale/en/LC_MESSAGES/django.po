@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-24 15:45-0400\n"
+"POT-Creation-Date: 2013-06-02 20:33-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:733 rs/forms.py:1075 rs/login_utils.py:256 rs/messages.py:518
+#: rs/ajax.py:733 rs/forms.py:1073 rs/login_utils.py:256 rs/messages.py:518
 #: rs/rendering.py:405 rs/utils.py:1508
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -532,7 +532,7 @@ msgstr ""
 msgid "You do not have any \"%(title)s\" yet"
 msgstr ""
 
-#: rs/display_profiles_summary.py:68 rs/forms.py:291
+#: rs/display_profiles_summary.py:68 rs/forms.py:289
 msgid "See profile of:"
 msgstr "See profile and get in contact with:"
 
@@ -758,112 +758,112 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: rs/forms.py:306
+#: rs/forms.py:304
 msgid "Eliminated"
 msgstr ""
 
-#: rs/forms.py:308 rs/forms.py:469
+#: rs/forms.py:306 rs/forms.py:467
 msgid "Approving (within 24 hours)"
 msgstr ""
 
-#: rs/forms.py:390
+#: rs/forms.py:388
 msgid "Erase photo"
 msgstr ""
 
-#: rs/forms.py:391
+#: rs/forms.py:389
 msgid "Photo is private"
 msgstr ""
 
-#: rs/forms.py:392
+#: rs/forms.py:390
 msgid "Principal photo (public)"
 msgstr "Principal&nbsp;photo&nbsp;(public)"
 
-#: rs/forms.py:442
+#: rs/forms.py:440
 msgid "Public (feminine)"
 msgstr "Public"
 
-#: rs/forms.py:451
+#: rs/forms.py:449
 msgid "Approving photo for public (within 24 hours)"
 msgstr ""
 
-#: rs/forms.py:460
+#: rs/forms.py:458
 msgid "Private photo"
 msgstr "Private!<br>You need<br>their key!"
 
-#: rs/forms.py:465
+#: rs/forms.py:463
 msgid "They need your key"
 msgstr "Private (they&nbsp;need your&nbsp;key)"
 
-#: rs/forms.py:497
+#: rs/forms.py:495
 msgid "Photo"
 msgstr ""
 
-#: rs/forms.py:552
+#: rs/forms.py:550
 msgid "No primary photo"
 msgstr ""
 
-#: rs/forms.py:866
+#: rs/forms.py:864
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
 msgstr ""
 
-#: rs/forms.py:867
+#: rs/forms.py:865
 msgid "inside the \"captcha\""
 msgstr ""
 
-#: rs/forms.py:923
+#: rs/forms.py:921
 msgid "Remove report"
 msgstr ""
 
-#: rs/forms.py:925
+#: rs/forms.py:923
 msgid "Report this profile"
 msgstr ""
 
-#: rs/forms.py:1024
+#: rs/forms.py:1022
 msgid "Sent correctly"
 msgstr ""
 
-#: rs/forms.py:1025
+#: rs/forms.py:1023
 msgid "Not sent, try again"
 msgstr ""
 
-#: rs/forms.py:1042
+#: rs/forms.py:1040
 msgid "Before sending it!"
 msgstr ""
 
-#: rs/forms.py:1043
+#: rs/forms.py:1041
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 
-#: rs/forms.py:1057
+#: rs/forms.py:1055
 msgid "Send message"
 msgstr ""
 
-#: rs/forms.py:1120
+#: rs/forms.py:1118
 msgid "Verify"
 msgstr ""
 
-#: rs/forms.py:1181 rs/forms.py:1262
+#: rs/forms.py:1179 rs/forms.py:1260
 msgid "Search Box"
 msgstr ""
 
-#: rs/forms.py:1182
+#: rs/forms.py:1180
 msgid "Specify the profiles that you would like to see"
 msgstr ""
 
-#: rs/forms.py:1227 rs/forms.py:1259
+#: rs/forms.py:1225 rs/forms.py:1257
 msgid "Search"
 msgstr ""
 
-#: rs/forms.py:1254
+#: rs/forms.py:1252
 msgid "Username to search for"
 msgstr ""
 
-#: rs/forms.py:1263
+#: rs/forms.py:1261
 msgid "Specify the username that you would like to see"
 msgstr ""
 
@@ -1457,11 +1457,11 @@ msgstr ""
 msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
 msgstr ""
 "Your profile is not complete. <strong>You must write a description of at "
-"least %(num_chars)s characters (about %(num_lines)s lines) before you "
-"can send messages to other users.</strong>  Your description must be "
-"original, and should describe yourself and what you are looking for. "
-"Descriptions that do not follow these guidelines may result in the removal "
-"of your profile without prior notification."
+"least %(num_chars)s characters (about %(num_lines)s lines) before you can "
+"send messages to other users.</strong>  Your description must be original, "
+"and should describe yourself and what you are looking for. Descriptions that "
+"do not follow these guidelines may result in the removal of your profile "
+"without prior notification."
 
 #: rs/localizations.py:53 rs/localizations.py:67
 msgid "Arabic"
@@ -1731,543 +1731,543 @@ msgstr ""
 msgid "Yoruba"
 msgstr ""
 
-#: rs/localizations.py:162 rs/localizations.py:217
+#: rs/localizations.py:162 rs/localizations.py:219
 msgid "AR"
 msgstr "Argentina"
 
-#: rs/localizations.py:163 rs/localizations.py:245
-msgid "CA"
-msgstr "Canada"
-
-#: rs/localizations.py:164 rs/localizations.py:250
-msgid "CL"
-msgstr "Chile"
-
-#: rs/localizations.py:165 rs/localizations.py:254
-msgid "CO"
-msgstr "Colombia"
-
-#: rs/localizations.py:166 rs/localizations.py:186 rs/localizations.py:347
-msgid "MX"
-msgstr "Mexico"
-
-#: rs/localizations.py:167 rs/localizations.py:378
-msgid "PE"
-msgstr "Peru"
-
-#: rs/localizations.py:168 rs/localizations.py:188 rs/localizations.py:411
-msgid "ES"
-msgstr "Spain"
-
-#: rs/localizations.py:169 rs/localizations.py:190 rs/localizations.py:439
-msgid "US"
-msgstr "United States of America"
-
-#: rs/localizations.py:170 rs/localizations.py:189 rs/localizations.py:437
-msgid "GB"
-msgstr "United Kingdom"
-
-#: rs/localizations.py:171 rs/localizations.py:444
-msgid "VE"
-msgstr "Venezuela"
-
-#: rs/localizations.py:179 rs/localizations.py:237
-msgid "BR"
-msgstr "Brazil"
-
-#: rs/localizations.py:180 rs/localizations.py:251
-msgid "CN"
-msgstr "China"
-
-#: rs/localizations.py:181 rs/localizations.py:280
-msgid "FR"
-msgstr "France"
-
-#: rs/localizations.py:182 rs/localizations.py:287
-msgid "DE"
-msgstr "Germany"
-
-#: rs/localizations.py:183 rs/localizations.py:313
-msgid "IT"
-msgstr "Italy"
-
-#: rs/localizations.py:184 rs/localizations.py:315
-msgid "JP"
-msgstr "Japan"
-
-#: rs/localizations.py:185 rs/localizations.py:322
-msgid "KR"
-msgstr "Korea (South)"
-
-#: rs/localizations.py:187 rs/localizations.py:387
-msgid "RU"
-msgstr "Russian Federation"
-
-#: rs/localizations.py:209
-msgid "AL"
-msgstr "Albania"
-
-#: rs/localizations.py:210
-msgid "DZ"
-msgstr "Algeria"
-
-#: rs/localizations.py:212
-msgid "AD"
-msgstr "Andorra"
-
-#: rs/localizations.py:213
-msgid "AO"
-msgstr "Angola"
-
-#: rs/localizations.py:215
-msgid "AQ"
-msgstr "Antarctica"
-
-#: rs/localizations.py:218
-msgid "AM"
-msgstr "Armenia"
-
-#: rs/localizations.py:220
+#: rs/localizations.py:163 rs/localizations.py:180 rs/localizations.py:222
 msgid "AU"
 msgstr "Australia"
 
-#: rs/localizations.py:221
+#: rs/localizations.py:164 rs/localizations.py:181 rs/localizations.py:247
+msgid "CA"
+msgstr "Canada"
+
+#: rs/localizations.py:165 rs/localizations.py:252
+msgid "CL"
+msgstr "Chile"
+
+#: rs/localizations.py:166 rs/localizations.py:256
+msgid "CO"
+msgstr "Colombia"
+
+#: rs/localizations.py:167 rs/localizations.py:188 rs/localizations.py:349
+msgid "MX"
+msgstr "Mexico"
+
+#: rs/localizations.py:168 rs/localizations.py:380
+msgid "PE"
+msgstr "Peru"
+
+#: rs/localizations.py:169 rs/localizations.py:190 rs/localizations.py:413
+msgid "ES"
+msgstr "Spain"
+
+#: rs/localizations.py:170 rs/localizations.py:192 rs/localizations.py:441
+msgid "US"
+msgstr "United States of America"
+
+#: rs/localizations.py:171 rs/localizations.py:191 rs/localizations.py:439
+msgid "GB"
+msgstr "United Kingdom"
+
+#: rs/localizations.py:172 rs/localizations.py:446
+msgid "VE"
+msgstr "Venezuela"
+
+#: rs/localizations.py:182 rs/localizations.py:253
+msgid "CN"
+msgstr "China"
+
+#: rs/localizations.py:183 rs/localizations.py:282
+msgid "FR"
+msgstr "France"
+
+#: rs/localizations.py:184 rs/localizations.py:289
+msgid "DE"
+msgstr "Germany"
+
+#: rs/localizations.py:185 rs/localizations.py:315
+msgid "IT"
+msgstr "Italy"
+
+#: rs/localizations.py:186 rs/localizations.py:317
+msgid "JP"
+msgstr "Japan"
+
+#: rs/localizations.py:187 rs/localizations.py:324
+msgid "KR"
+msgstr "Korea (South)"
+
+#: rs/localizations.py:189 rs/localizations.py:389
+msgid "RU"
+msgstr "Russian Federation"
+
+#: rs/localizations.py:211
+msgid "AL"
+msgstr "Albania"
+
+#: rs/localizations.py:212
+msgid "DZ"
+msgstr "Algeria"
+
+#: rs/localizations.py:214
+msgid "AD"
+msgstr "Andorra"
+
+#: rs/localizations.py:215
+msgid "AO"
+msgstr "Angola"
+
+#: rs/localizations.py:217
+msgid "AQ"
+msgstr "Antarctica"
+
+#: rs/localizations.py:220
+msgid "AM"
+msgstr "Armenia"
+
+#: rs/localizations.py:223
 msgid "AT"
 msgstr "Austria"
 
-#: rs/localizations.py:222
+#: rs/localizations.py:224
 msgid "AZ"
 msgstr "Azerbaijan"
 
-#: rs/localizations.py:223
+#: rs/localizations.py:225
 msgid "BS"
 msgstr "Bahamas"
 
-#: rs/localizations.py:224
+#: rs/localizations.py:226
 msgid "BH"
 msgstr "Bahrain"
 
-#: rs/localizations.py:225
+#: rs/localizations.py:227
 msgid "BD"
 msgstr "Bangladesh"
 
-#: rs/localizations.py:226
+#: rs/localizations.py:228
 msgid "BB"
 msgstr "Barbados"
 
-#: rs/localizations.py:227
+#: rs/localizations.py:229
 msgid "BY"
 msgstr "Belarus"
 
-#: rs/localizations.py:228
+#: rs/localizations.py:230
 msgid "BE"
 msgstr "Belgium"
 
-#: rs/localizations.py:229
+#: rs/localizations.py:231
 msgid "BZ"
 msgstr "Belize"
 
-#: rs/localizations.py:231
+#: rs/localizations.py:233
 msgid "BM"
 msgstr "Bermuda"
 
-#: rs/localizations.py:232
+#: rs/localizations.py:234
 msgid "BT"
 msgstr "Bhutan"
 
-#: rs/localizations.py:233
+#: rs/localizations.py:235
 msgid "BO"
 msgstr "Bolivia"
 
-#: rs/localizations.py:234
+#: rs/localizations.py:236
 msgid "BA"
 msgstr "Bosnia and Herzegovina"
 
 #: rs/localizations.py:239
+msgid "BR"
+msgstr "Brazil"
+
+#: rs/localizations.py:241
 msgid "BN"
 msgstr "Brunei Darussalam"
 
-#: rs/localizations.py:240
+#: rs/localizations.py:242
 msgid "BG"
 msgstr "Bulgaria"
 
-#: rs/localizations.py:243
+#: rs/localizations.py:245
 msgid "KH"
 msgstr "Cambodia"
 
-#: rs/localizations.py:247
+#: rs/localizations.py:249
 msgid "KY"
 msgstr "Cayman Islands"
 
-#: rs/localizations.py:259
+#: rs/localizations.py:261
 msgid "CR"
 msgstr "Costa Rica"
 
-#: rs/localizations.py:261
+#: rs/localizations.py:263
 msgid "HR"
 msgstr "Croatia"
 
-#: rs/localizations.py:262
+#: rs/localizations.py:264
 msgid "CU"
 msgstr "Cuba"
 
-#: rs/localizations.py:263
+#: rs/localizations.py:265
 msgid "CY"
 msgstr "Cyprus"
 
-#: rs/localizations.py:264
+#: rs/localizations.py:266
 msgid "CZ"
 msgstr "Czech Republic"
 
-#: rs/localizations.py:265
+#: rs/localizations.py:267
 msgid "DK"
 msgstr "Denmark"
 
-#: rs/localizations.py:268
+#: rs/localizations.py:270
 msgid "DO"
 msgstr "Dominican Republic"
 
-#: rs/localizations.py:269
+#: rs/localizations.py:271
 msgid "EC"
 msgstr "Ecuador"
 
-#: rs/localizations.py:270
+#: rs/localizations.py:272
 msgid "EG"
 msgstr "Egypt"
 
-#: rs/localizations.py:271
+#: rs/localizations.py:273
 msgid "SV"
 msgstr "El Salvador"
 
-#: rs/localizations.py:274
+#: rs/localizations.py:276
 msgid "EE"
 msgstr "Estonia"
 
-#: rs/localizations.py:278
+#: rs/localizations.py:280
 msgid "FJ"
 msgstr "Fiji"
 
-#: rs/localizations.py:279
+#: rs/localizations.py:281
 msgid "FI"
 msgstr "Finland"
 
-#: rs/localizations.py:281
+#: rs/localizations.py:283
 msgid "GF"
 msgstr "French Guiana"
 
-#: rs/localizations.py:282
+#: rs/localizations.py:284
 msgid "PF"
 msgstr "French Polynesia"
 
-#: rs/localizations.py:286
+#: rs/localizations.py:288
 msgid "GE"
 msgstr "Georgia"
 
-#: rs/localizations.py:289
+#: rs/localizations.py:291
 msgid "GI"
 msgstr "Gibraltar"
 
-#: rs/localizations.py:290
+#: rs/localizations.py:292
 msgid "GR"
 msgstr "Greece"
 
-#: rs/localizations.py:291
+#: rs/localizations.py:293
 msgid "GL"
 msgstr "Greenland"
 
-#: rs/localizations.py:295
+#: rs/localizations.py:297
 msgid "GT"
 msgstr "Guatemala"
 
-#: rs/localizations.py:299
+#: rs/localizations.py:301
 msgid "GY"
 msgstr "Guyana"
 
-#: rs/localizations.py:302
+#: rs/localizations.py:304
 msgid "HN"
 msgstr "Honduras"
 
-#: rs/localizations.py:303
+#: rs/localizations.py:305
 msgid "HK"
 msgstr "Hong Kong"
 
-#: rs/localizations.py:304
+#: rs/localizations.py:306
 msgid "HU"
 msgstr "Hungary"
 
-#: rs/localizations.py:305
+#: rs/localizations.py:307
 msgid "IS"
 msgstr "Iceland"
 
-#: rs/localizations.py:306
+#: rs/localizations.py:308
 msgid "IN"
 msgstr "India"
 
-#: rs/localizations.py:307
+#: rs/localizations.py:309
 msgid "ID"
 msgstr "Indonesia"
 
-#: rs/localizations.py:308
+#: rs/localizations.py:310
 msgid "IR"
 msgstr "Iran"
 
-#: rs/localizations.py:309
+#: rs/localizations.py:311
 msgid "IQ"
 msgstr "Iraq"
 
-#: rs/localizations.py:310
+#: rs/localizations.py:312
 msgid "IE"
 msgstr "Ireland"
 
-#: rs/localizations.py:312
+#: rs/localizations.py:314
 msgid "IL"
 msgstr "Israel"
 
-#: rs/localizations.py:314
+#: rs/localizations.py:316
 msgid "JM"
 msgstr "Jamaica"
 
-#: rs/localizations.py:317
+#: rs/localizations.py:319
 msgid "JO"
 msgstr "Jordan"
 
-#: rs/localizations.py:318
+#: rs/localizations.py:320
 msgid "KZ"
 msgstr "Kazakhstan"
 
-#: rs/localizations.py:323
+#: rs/localizations.py:325
 msgid "KW"
 msgstr "Kuwait"
 
-#: rs/localizations.py:324
+#: rs/localizations.py:326
 msgid "KG"
 msgstr "Kyrgyzstan"
 
-#: rs/localizations.py:325
+#: rs/localizations.py:327
 msgid "LA"
 msgstr "Laos"
 
-#: rs/localizations.py:326
+#: rs/localizations.py:328
 msgid "LV"
 msgstr "Latvia"
 
-#: rs/localizations.py:327
+#: rs/localizations.py:329
 msgid "LB"
 msgstr "Lebanon"
 
-#: rs/localizations.py:330
+#: rs/localizations.py:332
 msgid "LY"
 msgstr "Libya"
 
-#: rs/localizations.py:331
+#: rs/localizations.py:333
 msgid "LI"
 msgstr "Liechtenstein"
 
-#: rs/localizations.py:332
+#: rs/localizations.py:334
 msgid "LT"
 msgstr "Lithuania"
 
-#: rs/localizations.py:333
+#: rs/localizations.py:335
 msgid "LU"
 msgstr "Luxembourg"
 
-#: rs/localizations.py:334
+#: rs/localizations.py:336
 msgid "MO"
 msgstr "Macau"
 
-#: rs/localizations.py:335
+#: rs/localizations.py:337
 msgid "MK"
 msgstr "Macedonia"
 
-#: rs/localizations.py:338
+#: rs/localizations.py:340
 msgid "MY"
 msgstr "Malaysia"
 
-#: rs/localizations.py:339
+#: rs/localizations.py:341
 msgid "MV"
 msgstr "Maldives"
 
-#: rs/localizations.py:341
+#: rs/localizations.py:343
 msgid "MT"
 msgstr "Malta"
 
-#: rs/localizations.py:349
+#: rs/localizations.py:351
 msgid "MD"
 msgstr "Moldova"
 
-#: rs/localizations.py:350
+#: rs/localizations.py:352
 msgid "MC"
 msgstr "Monaco"
 
-#: rs/localizations.py:351
+#: rs/localizations.py:353
 msgid "MN"
 msgstr "Mongolia"
 
-#: rs/localizations.py:354
+#: rs/localizations.py:356
 msgid "MA"
 msgstr "Morocco"
 
-#: rs/localizations.py:360
+#: rs/localizations.py:362
 msgid "NL"
 msgstr "Netherlands"
 
-#: rs/localizations.py:363
+#: rs/localizations.py:365
 msgid "NZ"
 msgstr "New Zealand"
 
-#: rs/localizations.py:364
+#: rs/localizations.py:366
 msgid "NI"
 msgstr "Nicaragua"
 
-#: rs/localizations.py:370
+#: rs/localizations.py:372
 msgid "NO"
 msgstr "Norway"
 
-#: rs/localizations.py:371
+#: rs/localizations.py:373
 msgid "OM"
 msgstr "Oman"
 
-#: rs/localizations.py:372
+#: rs/localizations.py:374
 msgid "PK"
 msgstr "Pakistan"
 
-#: rs/localizations.py:375
+#: rs/localizations.py:377
 msgid "PA"
 msgstr "Panama"
 
-#: rs/localizations.py:376
+#: rs/localizations.py:378
 msgid "PG"
 msgstr "Papua New Guinea"
 
-#: rs/localizations.py:377
+#: rs/localizations.py:379
 msgid "PY"
 msgstr "Paraguay"
 
-#: rs/localizations.py:379
+#: rs/localizations.py:381
 msgid "PH"
 msgstr "Philippines"
 
-#: rs/localizations.py:381
+#: rs/localizations.py:383
 msgid "PL"
 msgstr "Poland"
 
-#: rs/localizations.py:382
+#: rs/localizations.py:384
 msgid "PT"
 msgstr "Portugal"
 
-#: rs/localizations.py:383
+#: rs/localizations.py:385
 msgid "PR"
 msgstr "Puerto Rico"
 
-#: rs/localizations.py:384
+#: rs/localizations.py:386
 msgid "QA"
 msgstr "Qatar"
 
-#: rs/localizations.py:386
+#: rs/localizations.py:388
 msgid "RO"
 msgstr "Romania"
 
-#: rs/localizations.py:399
+#: rs/localizations.py:401
 msgid "SA"
 msgstr "Saudi Arabia"
 
-#: rs/localizations.py:401
+#: rs/localizations.py:403
 msgid "RS"
 msgstr "Serbia"
 
-#: rs/localizations.py:404
+#: rs/localizations.py:406
 msgid "SG"
 msgstr "Singapore"
 
-#: rs/localizations.py:405
+#: rs/localizations.py:407
 msgid "SK"
 msgstr "Slovakia"
 
-#: rs/localizations.py:406
+#: rs/localizations.py:408
 msgid "SI"
 msgstr "Slovenia"
 
-#: rs/localizations.py:409
+#: rs/localizations.py:411
 msgid "ZA"
 msgstr "South Africa"
 
-#: rs/localizations.py:412
+#: rs/localizations.py:414
 msgid "LK"
 msgstr "Sri Lanka"
 
-#: rs/localizations.py:414
+#: rs/localizations.py:416
 msgid "SR"
 msgstr "Suriname"
 
-#: rs/localizations.py:417
+#: rs/localizations.py:419
 msgid "SE"
 msgstr "Sweden"
 
-#: rs/localizations.py:418
+#: rs/localizations.py:420
 msgid "CH"
 msgstr "Switzerland"
 
-#: rs/localizations.py:419
+#: rs/localizations.py:421
 msgid "SY"
 msgstr "Syria"
 
-#: rs/localizations.py:420
+#: rs/localizations.py:422
 msgid "TW"
 msgstr "Taiwan"
 
-#: rs/localizations.py:423
+#: rs/localizations.py:425
 msgid "TH"
 msgstr "Thailand"
 
-#: rs/localizations.py:424
+#: rs/localizations.py:426
 msgid "TL"
 msgstr "Timor-Leste"
 
-#: rs/localizations.py:428
+#: rs/localizations.py:430
 msgid "TT"
 msgstr "Trinidad and Tobago"
 
-#: rs/localizations.py:429
+#: rs/localizations.py:431
 msgid "TN"
 msgstr "Tunisia"
 
-#: rs/localizations.py:430
+#: rs/localizations.py:432
 msgid "TR"
 msgstr "Turkey"
 
-#: rs/localizations.py:431
+#: rs/localizations.py:433
 msgid "TM"
 msgstr "Turkmenistan"
 
-#: rs/localizations.py:435
+#: rs/localizations.py:437
 msgid "UA"
 msgstr "Ukraine"
 
-#: rs/localizations.py:436
+#: rs/localizations.py:438
 msgid "AE"
 msgstr "United Arab Emirates"
 
-#: rs/localizations.py:440
+#: rs/localizations.py:442
 msgid "UY"
 msgstr "Uruguay"
 
-#: rs/localizations.py:441
+#: rs/localizations.py:443
 msgid "UZ"
 msgstr "Uzbekistan"
 
-#: rs/localizations.py:445
+#: rs/localizations.py:447
 msgid "VN"
 msgstr "Vietnam"
 
-#: rs/localizations.py:449
+#: rs/localizations.py:451
 msgid "EH"
 msgstr "Western Sahara"
 
-#: rs/localizations.py:450
+#: rs/localizations.py:452
 msgid "YE"
 msgstr "Yemen"
 
-#: rs/localizations.py:673 rs/localizations.py:685
+#: rs/localizations.py:675 rs/localizations.py:687
 msgid "All Countries"
 msgstr ""
 
@@ -2899,7 +2899,7 @@ msgid "Profile viewed"
 msgstr ""
 
 #: rs/track_viewers.py:184
-msgid "Members that have viewed your profile (most recent are shown first)"
+msgid "Members that have viewed your profile recently"
 msgstr ""
 
 #: rs/track_viewers.py:200
