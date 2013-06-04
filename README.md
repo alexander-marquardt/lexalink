@@ -25,4 +25,5 @@ LexaLink was originally developed for the following websites, which currently (O
 * [FriendBazaar](http://www.friendbazaar.com)
 * [GaySetup](http://www.gaysetup.com)
 * [SwingerPlex](http://www.swingerplex.com)
+* [MellowDating](http://www.mellowdating.com)
 
