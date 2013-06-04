@@ -125,7 +125,7 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
         # multiple values.
 
             
-        if settings.BUILD_NAME == "Language": # setup language_build
+        if settings.BUILD_NAME == "language_build": # setup language_build
             # Note: the language_to_teach and language_to_learn are reversed. Eg. I want to learn
             # spanish (my language_to_learn = Spanish) therefore, I want to see people whose 
             # languages list contains at least Spanish.             
@@ -133,7 +133,7 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
             q = q.filter(UserModel.languages == search_vals_dict['language_to_learn'])
             q = q.filter(UserModel.languages_to_learn == search_vals_dict['language_to_teach'])
             
-        elif settings.BUILD_NAME == "Friend": # Setup friend_build
+        elif settings.BUILD_NAME == "friend_build": # Setup friend_build
             
             #for menu_name in ['for_sale', 'to_buy']:
             menu_name = "for_sale"

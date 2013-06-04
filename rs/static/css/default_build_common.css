@@ -54,7 +54,7 @@ a {text-decoration: none; color:#950808;}
 {
 	color: white;
 	height: 22px;
-        background: url(../img/default_build/Navbar-background.png) left repeat-x;
+        background: url(../img/default_build/navbar_background.png) left repeat-x;
 
 }
 
@@ -69,7 +69,7 @@ a {text-decoration: none; color:#950808;}
 
 table#id-horiz-bar-table
 {
-    background: url(../img/default_build/Navbar-background.png) left repeat-x;
+    background: url(../img/default_build/navbar_background.png) left repeat-x;
 	width: 940px;
 	/*height: 30px;*/
 
@@ -101,7 +101,7 @@ table#id-horiz-bar-table
 }
 
 .cl-login-fields-background {
-	background: url(../img/default_build/Registration_background.png) top center no-repeat;
+	background: url(../img/default_build/registration_background.png) top center no-repeat;
 }
 
 .cl-login-fields-background td

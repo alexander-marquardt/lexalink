@@ -176,7 +176,7 @@ class UserSpec():
         
         # relationship_categories specifies what status people are allowed to declare. 
         relationship_categories = [
-            ('friendship',)    + ugettext_tuple(ugettext('friend_buildship')), 
+            ('friendship',)    + ugettext_tuple(ugettext('Friendship')), 
             ('dating',)        + ugettext_tuple(ugettext('Dating')),
             ('relationship',)   + ugettext_tuple(ugettext('Long Term Relationship')),
         ]
@@ -224,7 +224,7 @@ class UserSpec():
         
         # relationship_categories specifies what status people are allowed to declare. 
         relationship_categories = [
-            ('friendship',)    + ugettext_tuple(ugettext('friend_buildship')), 
+            ('friendship',)    + ugettext_tuple(ugettext('Friendship')), 
             ('dating',)        + ugettext_tuple(ugettext('Dating')),
             ('relationship',)   + ugettext_tuple(ugettext('Long Term Relationship')),
             ('sexual_relationship',)   + ugettext_tuple(ugettext('Physical Relationship')),
