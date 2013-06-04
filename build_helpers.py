@@ -92,14 +92,15 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
                 # Remove for all other builds
                 matched_file_name = None
                 
+            elif menubar_build_file_name == 'language_build' and not \
+                 (site_configuration.BUILD_NAME == 'language_build' or site_configuration.BUILD_NAME == 'mature_build'):
+                matched_file_name = None
+                
             elif menubar_build_file_name == "{{ build_name }}" and not\
-                 (site_configuration.BUILD_NAME == 'gay_build' or site_configuration.BUILD_NAME == 'language_build' \
-                  or site_configuration.BUILD_NAME == 'friend_build'):
+                 (site_configuration.BUILD_NAME == 'gay_build' or site_configuration.BUILD_NAME == 'friend_build'):
                 # the {{ build_name }}_menubar should only be included in gay_build, language_build, and friend_build. 
                 # Remove from all other builds.
                 matched_file_name = None
-                
-
                 
             
         if matched_file_name and matched_file_name != output_file_name + ".min" and matched_file_name != output_file_name:
