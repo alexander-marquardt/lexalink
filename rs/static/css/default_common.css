@@ -100,19 +100,14 @@ table#id-horiz-bar-table
 	height: 400px;
 }
 
-
-
-#table-right-login td
-{
-	padding: 5px;
-	color: white;
-}
-
-
-#table-right-login {
+.cl-login-fields-background {
 	background: url(../img/Default/Registration_background.png) top center no-repeat;
 }
 
+.cl-login-fields-background td
+{
+	color: white;
+}
 
 td#id-td-horizontal-bar-first-cell
 {
@@ -130,22 +125,6 @@ td#id-td-horizontal-bar-second-cell
 	font-size: 16px;
 	vertical-align: middle;
 }
-
-
-td.cl-registration-big-prompt-td, td.cl-registration-small-prompt-td {
-	text-align: center;
-}
-
-td.cl-registration-big-prompt-td {
-	font-size: 18pt;
-	font-weight: bold;
-}
-
-td.cl-registration-small-prompt-td
-{
-	font-size: 12pt;
-}
-
 
 
 .cl-over-image {

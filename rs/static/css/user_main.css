@@ -455,6 +455,13 @@ td.cl-login-td-left-side-stub { /* defines the height of the login tables and wi
 	width: 20px;
 }
 
+.cl-login-fields-background {
+    height: 550px;
+}
+
+.cl-padding-login-fields {
+    padding: 20px;
+}
 
 td.cl-login-td-right-side-stub { width: 10px; }/* defines the width of the right "padding" cell for each table */
 
@@ -463,14 +470,13 @@ td.cl-td-right-align
 {
 	text-align: right;
 	vertical-align: text-top;
-	width: 200px;
+	/*width: 200px;*/
 }
 
 td.cl-td-left-align
 {
 	text-align: left;
 	vertical-align: text-top;
-	width: 200px;
 }
 
 
@@ -481,6 +487,17 @@ td.cl-td-horizontal-bar {
 	height: 28px;
 	padding: 0px;
     color: white;
+}
+
+.cl-login-fields-background td
+{
+	padding: 5px;
+    font-size: 14px;
+}
+
+table.center {
+    margin-left:auto;
+    margin-right:auto;
 }
 
 td#id-td-horizontal-bar-first-cell

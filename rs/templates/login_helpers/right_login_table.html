@@ -79,46 +79,33 @@
 
         <input type=hidden name=login_type value=signup_fields>
         <input type=hidden id="id-signup_fields-password_hashed" name=password_hashed value="replace_this">
-        <table id="table-right-login">
 
-            <!-- This table is written with a dummy first colum which is used
-         to ensure the height of the table. Therefore, all a second table is
-         actually contained inside the second colum of the main table. -->
-            <tr>
-                <td class="cl-login-td-left-side-stub">&nbsp;</td>
-                <!-- dummy cell -->
-                <td> <!-- this cell actually contains the rest of the table -->
-                    <table> <!-- inner table -->
-                        <tr>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
-                        </tr>
-                        <tr>
-                            <td class="cl-registration-small-prompt-td">({% trans "it only takes 30 seconds" %})
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                        </tr>
-                        {{ html_for_signup|safe }}
-                        <tr>
-                            <td></td>
-                            <td><input type="submit" value='{% trans " Register me" %}!'>
-                            </td>
-                        </tr>
-                        <!-- force space below the login options -->
-                        <!--<tr><td class="cl-login-td-right-side-stub">&nbsp;</td></tr> --><!-- dummy cell -->
-                    </table>
-                    <!-- end the inner table -->
-                </td>
-                <!-- end inner table container data cell -->
-                <td class="cl-login-td-right-side-stub">&nbsp;</td>
-                <!-- dummy cell -->
-            </tr>
-            <!-- end container data row -->
-        </table>
+        <div class="grid_6 alpha omega cl-login-fields-background">
+        <div class="cl-padding-login-fields">
+
+            <table class="center" > <!-- inner table -->
+
+                <tr>
+                    <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
+                </tr>
+                <tr>
+                    <td class="cl-registration-small-prompt-td">({% trans "it only takes 30 seconds" %})
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                {{ html_for_signup|safe }}
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value='{% trans " Register me" %}!'>
+                    </td>
+                </tr>
+                <!-- force space below the login options -->
+                <!--<tr><td class="cl-login-td-right-side-stub">&nbsp;</td></tr> --><!-- dummy cell -->
+            </table>
+        </div>
+        </div>
         <!-- end outer table -->
     </form>
 
