@@ -215,8 +215,8 @@ class FormUtils():
           
             if field_name == 'country':
                 # The following two selects are place-holders that will be replaced by the javascrip once country has been selected.
-                generated_html += '\n<select name="region" id="id-signup_fields-region" class="cl-standard-dropdown-width-px"></select>\n'
-                generated_html += '<select name="sub_region" id="id-signup_fields-sub_region" class="cl-standard-dropdown-width-px"></select>\n'
+                generated_html += '<br>\n<select name="region" id="id-signup_fields-region" class="cl-standard-dropdown-width-px"></select>\n'
+                generated_html += '<br><select name="sub_region" id="id-signup_fields-sub_region" class="cl-standard-dropdown-width-px"></select>\n'
                 
                 
             generated_html += u'</td></tr>'
