@@ -82,7 +82,7 @@ class UserSpec():
     if settings.BUILD_NAME != "lesbian_build":
         gender_dont_care_tuple = ('----',) +  ugettext_tuple(ugettext("All People"))
     else:
-        gender_dont_care_tuple = ('----',) +  ugettext_tuple(ugettext("All lesbian_build Types"))
+        gender_dont_care_tuple = ('----',) +  ugettext_tuple(ugettext("All Lesbian Types"))
 
 
     # define the genders that will be used for registering and searching the database. Will be populated
@@ -93,7 +93,7 @@ class UserSpec():
         gender_categories = [
             ('female',)        + ugettext_tuple(ugettext('Female')), 
             ('male',)          + ugettext_tuple(ugettext('Male')), 
-            ('couple',)        + ugettext_tuple(ugettext('swinger_build (Couple)')),
+            ('couple',)        + ugettext_tuple(ugettext('Swinger (Couple)')),
             ('tstvtg',)        + ugettext_tuple(ugettext('Transvestite / Transgendered'))]    
         
         # Note, we define two seperate fields below because gender_*search*_categories will have don't care added, while
@@ -101,15 +101,13 @@ class UserSpec():
         gender_preference_categories =  [
             ('female',)        + ugettext_tuple(ugettext('Females')), 
             ('male',)          + ugettext_tuple(ugettext('Males')), 
-            ('couple',)        + ugettext_tuple(ugettext('swinger_builds (Couples)')),
+            ('couple',)        + ugettext_tuple(ugettext('Swingers (Couples)')),
             ('tstvtg',)        + ugettext_tuple(ugettext('Transvestites / Transgendered'))] 
         
  
     if settings.BUILD_NAME =='swinger_build':
         gender_categories = [
-            ('couple',)            + ugettext_tuple(ugettext('swinger_build (Couple)')),
-            #('gay_couple',)        + ugettext_tuple(ugettext('swinger_builds (Male+Male)  - singular')),
-            #('lesbian_couple',)    + ugettext_tuple(ugettext('swinger_builds (Female+Female) - singular')),
+            ('couple',)            + ugettext_tuple(ugettext('Swinger (Couple)')),
             ('female',)            + ugettext_tuple(ugettext('Female')), 
             ('male',)              + ugettext_tuple(ugettext('Male')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestite / Transgendered')),
@@ -119,9 +117,7 @@ class UserSpec():
         # Note, we define two seperate fields below because gender_search_categories will have don't care added, while
         # gender_categories should not be modified.
         gender_preference_categories =  [
-            ('couple',)            + ugettext_tuple(ugettext('swinger_builds (Couples)')),
-            #('gay_couple',)        + ugettext_tuple(ugettext('swinger_builds (Male+Male) - plural')),
-            #('lesbian_couple',)    + ugettext_tuple(ugettext('swinger_builds (Female+Female) - plural')),
+            ('couple',)            + ugettext_tuple(ugettext('Swingers (Couples)')),
             ('female',)            + ugettext_tuple(ugettext('Females')), 
             ('male',)              + ugettext_tuple(ugettext('Males')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestites / Transgendered')),
@@ -130,9 +126,9 @@ class UserSpec():
         
     if settings.BUILD_NAME =='gay_build':
         gender_categories = [
-            ('active',)            + ugettext_tuple(ugettext('Active gay_build')),
-            ('passive',)        + ugettext_tuple(ugettext('Passive gay_build')),
-            ('versatile',)    + ugettext_tuple(ugettext('Versatile gay_build')),
+            ('active',)            + ugettext_tuple(ugettext('Active Gay')),
+            ('passive',)        + ugettext_tuple(ugettext('Passive Gay')),
+            ('versatile',)    + ugettext_tuple(ugettext('Versatile Gay')),
             ('bisexual',)            + ugettext_tuple(ugettext('Bisexual')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestite / Transgendered')),
             ('other',)             + ugettext_tuple(ugettext('Other (Details In Profile)')),
@@ -140,9 +136,9 @@ class UserSpec():
         
         
         gender_preference_categories = [
-            ('active',)            + ugettext_tuple(ugettext('Active gay_builds')),
-            ('passive',)        + ugettext_tuple(ugettext('Passive gay_builds')),
-            ('versatile',)    + ugettext_tuple(ugettext('Versatile gay_builds')),
+            ('active',)            + ugettext_tuple(ugettext('Active Gays')),
+            ('passive',)        + ugettext_tuple(ugettext('Passive Gays')),
+            ('versatile',)    + ugettext_tuple(ugettext('Versatile Gays')),
             ('bisexual',)            + ugettext_tuple(ugettext('Bisexuals')), 
             ('tstvtg',)            + ugettext_tuple(ugettext('Transvestites / Transgendered')),
             ('other',)             + ugettext_tuple(ugettext('Others (Details In Profile)')),
@@ -213,17 +209,17 @@ class UserSpec():
 
     elif settings.BUILD_NAME == 'lesbian_build': 
         gender_categories = [
-            ('femme',)       + ugettext_tuple(ugettext('Femme (Feminine lesbian_build)')),
-            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual lesbian_build')),
-            ('butch',)     + ugettext_tuple(ugettext('Butch (Masculine lesbian_build)')), 
-            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled lesbian_build")),
+            ('femme',)       + ugettext_tuple(ugettext('Femme (Feminine Lesbian)')),
+            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual Lesbian')),
+            ('butch',)     + ugettext_tuple(ugettext('Butch (Masculine Lesbian)')), 
+            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled Lesbian")),
         ]   
         # Note: this is different than gender categories since it is pluralized.
         gender_preference_categories =  [
-            ('femme',)       + ugettext_tuple(ugettext('Femmes (Feminine lesbian_builds)')),
-            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual lesbian_builds')),
-            ('butch',)     + ugettext_tuple(ugettext('Butches (Masculine lesbian_builds)')), 
-            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled lesbian_builds")),
+            ('femme',)       + ugettext_tuple(ugettext('Femmes (Feminine Lesbians)')),
+            ('bisexual',)       + ugettext_tuple(ugettext('Bisexual Lesbians')),
+            ('butch',)     + ugettext_tuple(ugettext('Butches (Masculine Lesbians)')), 
+            ('prefer_no_say',)       + ugettext_tuple(ugettext("Unlabeled Lesbians")),
         ]    
         
         # relationship_categories specifies what status people are allowed to declare. 
@@ -360,8 +356,8 @@ class UserSpec():
     elif settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'lesbian_build' or settings.BUILD_NAME == 'mature_build':
         signup_relationship_status_label_tuple = ugettext_tuple(ugettext('Type Of Relationship')) # this is the clients status
     elif settings.BUILD_NAME == 'language_build' :
-        signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('language_build That I Want To Practice'))
-        signup_native_language_label_tuple = ugettext_tuple(ugettext('My Native language_build'))
+        signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))
+        signup_native_language_label_tuple = ugettext_tuple(ugettext('My Native Language'))
     elif settings.BUILD_NAME == "friend_build":
         pass
     else:
@@ -567,7 +563,7 @@ class UserSpec():
             
     else: 
         if settings.BUILD_NAME == "language_build":
-            search_language_to_learn_label_tuple = ugettext_tuple(ugettext('language_build That I Want To Practice'))
+            search_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))
             search_language_to_teach_label_tuple = ugettext_tuple(ugettext('In Exchange For (I Speak)'))
             search_sex_label_tuple = ugettext_tuple(ugettext('With People That Are'))
             search_age_label_tuple = ugettext_tuple(ugettext('Age')) # this is the age that the client is searching for
@@ -701,8 +697,8 @@ class UserSpec():
         
         if settings.BUILD_NAME == 'language_build':
             important_language_search_categories =  [('----',) + \
-                            ugettext_tuple(ugettext("Any language_build")),] + localizations.important_languages_list 
-            language_search_categories = [('----',) + ugettext_tuple(ugettext("Any language_build")),] + localizations.languages_list            
+                            ugettext_tuple(ugettext("Any Language")),] + localizations.important_languages_list 
+            language_search_categories = [('----',) + ugettext_tuple(ugettext("Any Language")),] + localizations.languages_list            
 
             search_fields = {       
                 

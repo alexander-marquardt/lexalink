@@ -201,13 +201,13 @@ class UserProfileDetails:
         languages_list = localizations.languages_list + [    
             ('others',) +  ugettext_tuple(ugettext('Other languages')),
             ('prefer_no_say',) +  ugettext_tuple(ugettext('Prefer not to say')),]
-        languages_label =  ugettext_tuple(ugettext('language_builds I speak'))
+        languages_label =  ugettext_tuple(ugettext('Languages I speak'))
         languages_end_sorting_index_offset = 2 #intentionally positive because this is defined as an offset from the end
 
     else:
         # don't allow people to leave an unspecified language in language_build
         languages_list = localizations.languages_list
-        languages_label =  ugettext_tuple(ugettext('language_builds I speak fluently (well enough to help someone else learn)'))
+        languages_label =  ugettext_tuple(ugettext('Languages I speak fluently (well enough to help someone else learn)'))
         languages_end_sorting_index_offset = 0
 
         
@@ -436,7 +436,7 @@ class UserProfileDetails:
     if settings.BUILD_NAME == "language_build":
         languages_to_learn_checkbox_fields = {
             'languages_to_learn' : {
-                'label': ugettext_tuple(ugettext('language_builds I would like to practice')),
+                'label': ugettext_tuple(ugettext('Languages I would like to practice')),
                 'choices': languages_list,
                 'start_sorting_index' : 0,
                 'options' : [],
