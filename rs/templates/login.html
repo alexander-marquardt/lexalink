@@ -129,7 +129,7 @@
 
                 <table id="id-horiz-bar-table"> <!-- outer table -->
                     <tr> <!-- container row -->
-                        {% if build_name == "Discrete" %}
+                        {% if build_name == "discrete_build" %}
                         <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
                             {% trans "Free confidential dating" %}.
                         </td>
@@ -142,7 +142,7 @@
                         {% endif %}
 
                         <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
-                        {% if build_name == "Lesbian" %}
+                        {% if build_name == "lesbian_build" %}
                             {% trans "Are you already registered (female)? Enter here:" %}&nbsp;</td>
                         {% else %}
                             {% trans "Are you already registered? Enter here:" %}&nbsp;</td>
@@ -257,31 +257,31 @@
                     {% trans "100 percent free" %}
                 {% endif %}
 
-                {% if build_name == "Single" %}
+                {% if build_name == "single_build" %}
                     {%trans "online dating" %}.
                 {% endif %}
 
-                {% if build_name == "Swinger" %}
+                {% if build_name == "swinger_build" %}
                     {%trans "swinger contacts" %}.
                 {% endif %}
 
-                {% if build_name == "Gay" %}
+                {% if build_name == "gay_build" %}
                     {%trans "gay dating" %}.
                 {% endif %}
 
-                {% if build_name == "Language" %}
+                {% if build_name == "language_build" %}
                      {% trans "language exchange" %}.
                 {% endif %}
 
-                {% if build_name == "Friend" %}
+                {% if build_name == "friend_build" %}
                     - {% trans "meet friends" %}.
                 {% endif %}
 
-                {% if build_name == "Lesbian" %}
+                {% if build_name == "lesbian_build" %}
                     {%trans "lesbian dating" %}.
                 {% endif %}
 
-                {% if build_name == "Mature" %}
+                {% if build_name == "mature_build" %}
                     {%trans "dating website to meet mature adults over 50 years old" %}.
                 {% endif %}
 
@@ -298,7 +298,7 @@
 
 
                 {% if ADULT_ORIENTED_SITE %}
-                    {% if build_name != "Swinger" %}
+                    {% if build_name != "swinger_build" %}
                         {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
                     {% endif %}
                 {% endif %}
@@ -320,7 +320,7 @@
             
         </div>
 
-        {% if build_name == "Friend" %}
+        {% if build_name == "friend_build" %}
             <div class="grid_10 cl-prefix_10px alpha omega" id="id-main-content-div">
             {{ welcome_html }}
             </div>

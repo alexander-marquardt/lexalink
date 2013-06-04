@@ -240,12 +240,12 @@ def error_check_signup_parameters(login_dict, lang_idx):
         try_remaining_signup_fields("sex")       
         try_remaining_signup_fields("age")
         
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":   
+        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":   
             try_remaining_signup_fields("preference")
             try_remaining_signup_fields("relationship_status")
         
         else:
-            if settings.BUILD_NAME == "Language":
+            if settings.BUILD_NAME == "language_build":
                 try_remaining_signup_fields("native_language")
                 try_remaining_signup_fields("language_to_learn")         
             
@@ -313,7 +313,7 @@ def create_search_preferences2_object(userobject, lang_code):
     # Search location and age are set to the same as the client.
     
     try:
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
             search_preferences2 = UserSearchPreferences2(sex=userobject.preference,
                                                        relationship_status='----',
                                                        country= "----",
@@ -326,7 +326,7 @@ def create_search_preferences2_object(userobject, lang_code):
                                                        lang_code=lang_code,
                                                        )
         else:
-            if settings.BUILD_NAME == "Language":
+            if settings.BUILD_NAME == "language_build":
                 search_preferences2 = UserSearchPreferences2(sex='----',
                                                              country='----',
                                                              region = '----',
@@ -338,7 +338,7 @@ def create_search_preferences2_object(userobject, lang_code):
                                                              language_to_learn = userobject.language_to_learn,
                                                              lang_code = lang_code,
                                                              )
-            if settings.BUILD_NAME == "Friend":
+            if settings.BUILD_NAME == "friend_build":
                 search_preferences2 = UserSearchPreferences2(sex='----',
                                                              country='----',
                                                              region = '----',

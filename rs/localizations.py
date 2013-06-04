@@ -98,7 +98,7 @@ languages_list =  [
     ('ukrainian',) +    ugettext_tuple(ugettext('Ukrainian')),
 ]
     
-if settings.BUILD_NAME == 'Language' or settings.BUILD_NAME == "Friend":
+if settings.BUILD_NAME == 'language_build' or settings.BUILD_NAME == "friend_build":
     languages_list +=  [    
         # Additional languages, but not for the dating websites
         
@@ -154,7 +154,7 @@ language_code_transaltion = {'en' : 'english', 'es' : 'spanish'}
 # codes in the database so that they have a consistent access mechanism across all languages. 
 
 
-if settings.BUILD_NAME != "Language":
+if settings.BUILD_NAME != "language_build":
     
     important_countries_list = [       
         # These countries will appear twice in the country/location list. Once at the beginning

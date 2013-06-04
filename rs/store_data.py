@@ -420,7 +420,7 @@ def copy_principal_user_data_fields_into_ix_lists(userobject):
 
         
 def re_compute_for_sale_to_buy_ix_list(userobject, parent_ix_list_name): 
-    # Used in Friend, for computing ix_lists that are necessary for search queries    
+    # Used in friend_build, for computing ix_lists that are necessary for search queries    
     # Returns True if the lists are stored correctly (ie. they are not longer than the cutoff value)
     # and returns False if the lists have violated a constraint.
     
@@ -473,12 +473,12 @@ def store_generic_checkbox_option_list(request, option_name, owner_uid):
     parent_ix_list_name = None
     
     try:
-        if settings.BUILD_NAME == "Language":
+        if settings.BUILD_NAME == "language_build":
             # This is necessary for ensuring that the languages and languages_to_learn contain "----" which is necessary for
             # ensuring that all profiles show up in "dont_care" searches.
             prepend_dont_care_to_list = True
             
-        if settings.BUILD_NAME == "Friend":
+        if settings.BUILD_NAME == "friend_build":
             # we must copy the list into the appropriate for_sale_ix_list, or to_buy_ix_list (depending on if this is a for_sale or to_buy sub-list)
             if for_sale_pattern.match(option_name):
                 parent_ix_list_name = "for_sale"
@@ -539,8 +539,8 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
                 if len(post_val) == 0:
                     # if the post is an empty list, then set the value of the list to 'prefer_no_say'. This ensures that
                     # an empty list will over-ride the currenly stored list.
-                    if  (settings.BUILD_NAME == "Language" and (field == 'languages' or field=='languages_to_learn')):
-                        # if build is Language and the field is languages or languages_to_learn, then don't set the value here
+                    if  (settings.BUILD_NAME == "language_build" and (field == 'languages' or field=='languages_to_learn')):
+                        # if build is language_build and the field is languages or languages_to_learn, then don't set the value here
                         # since 'prefer_no_say' is invalid for these fields.
                         pass
                     else:
@@ -561,7 +561,7 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
                     # by setting to '', it will not be written to the userobject.
                     post_val = ''
                 
-            if settings.BUILD_NAME == "Language":
+            if settings.BUILD_NAME == "language_build":
                 if field == "native_language":
                     # Ensure that their new native language is added into the list of languages.
                     if post_val not in userobject.languages:
@@ -1246,7 +1246,7 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
     """ set sensible initial defaults for the profile details. 
         Also, sets other defaults that need to be configured upon login.
         lang_code: the langage that the user is viewing the website in.
-        native_language: (if set -- currenly only in Language) refers to the native language that the user speaks.
+        native_language: (if set -- currenly only in language_build) refers to the native language that the user speaks.
         Note, the user could be viewing the website in English, but be a native speaker of German .. 
         therefore we would mark him initally as speaking both English and German. 
     """
@@ -1261,7 +1261,7 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
         for field_name in UserProfileDetails.enabled_checkbox_fields_list:
             setattr(userobject, field_name, ['prefer_no_say' ])
                 
-        if settings.BUILD_NAME == "Language":
+        if settings.BUILD_NAME == "language_build":
             
             # set language fields to ['----', *language* ], since we know that the user has already specified 
             # a language (only for LikeLangage)
@@ -1273,9 +1273,9 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
         else:
             try:
                 # set the languages field to include the language that the user is currently viewing this website in.
-                # Note: we don't do this for Language, because viewing/reading in a language is not enough information 
+                # Note: we don't do this for language_build, because viewing/reading in a language is not enough information 
                 # for us to determine if the user is tryingto learn the language, or if they speak well enough to teach
-                # someone else. Additionally, in Language, we have the user language. Here we are inferring it.
+                # someone else. Additionally, in language_build, we have the user language. Here we are inferring it.
                 userobject.languages = []
                 userobject.languages.append(localizations.language_code_transaltion[lang_code])
             except:

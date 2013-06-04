@@ -55,22 +55,22 @@ watermark_y = int(LARGE_IMAGE_Y/1.5)
 main_watermark_opacity = 0.4
 secondary_watermark_opacity = 0.4
 
-if settings.BUILD_NAME == "Discrete":
+if settings.BUILD_NAME == "discrete_build":
     watermark_x = int(LARGE_IMAGE_X/1.1)
     watermark_y = int(LARGE_IMAGE_Y/1.1)
     main_watermark_opacity = 0.25
     secondary_watermark_opacity = 0.25
 
-if settings.BUILD_NAME == "Language" or settings.BATCH_BUILD_NAME == "Friend":
+if settings.BUILD_NAME == "language_build" or settings.BATCH_BUILD_NAME == "friend_build":
     watermark_x = int(LARGE_IMAGE_X/1.1)
     watermark_y = int(LARGE_IMAGE_Y/1.1)
     
-if settings.BUILD_NAME == "Gay":
+if settings.BUILD_NAME == "gay_build":
     watermark_x = int(LARGE_IMAGE_X/1.5)
     watermark_y = int(LARGE_IMAGE_Y/1.5)
 
     
-if settings.BUILD_NAME == "Swinger":
+if settings.BUILD_NAME == "swinger_build":
     watermark_x = int(LARGE_IMAGE_X/1.5)
     watermark_y = int(LARGE_IMAGE_Y/1.5)
 

@@ -84,17 +84,17 @@ def send_new_feature_email(userobject, return_message_html = False):
             
         logging.info("Preparing to send new feature email to %s" % username)
         
-        subject = ugettext("FriendBazaar.com - from the creators of %(app_name)s") % {'app_name' : settings.APP_NAME}
+        subject = ugettext("friend_buildBazaar.com - from the creators of %(app_name)s") % {'app_name' : settings.APP_NAME}
                            
         message = mail.EmailMessage(sender=constants.sender_address,
                                     subject=subject)
         
         message.to = u"%s <%s>" % (username, email_address)
                 
-        message.html = ugettext("Friend welcome %(username)s %(app_name)s") % {
+        message.html = ugettext("friend_build welcome %(username)s %(app_name)s") % {
             'username': username, 'app_name' : settings.APP_NAME}
         
-        # Now, get a description of what Friend is:
+        # Now, get a description of what friend_build is:
         template = loader.get_template("common_helpers/welcome_message.html")
         context = Context(constants.template_common_fields)
                 

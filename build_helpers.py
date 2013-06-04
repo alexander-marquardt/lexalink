@@ -52,30 +52,30 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
     static_file_pattern =  re.compile(r'.*/{{ live_static_dir }}/%s/(.*).%s' % (static_file_type, static_file_type))
     proprietary_static_file_pattern =  re.compile(r'.*/{{ live_proprietary_static_dir }}/%s/(.*).%s' % (static_file_type, static_file_type))
     build_name_pattern = re.compile(r'(.*)({{ build_name }})(.*)')
-    default_common_pattern = re.compile(r'.*Default_Common\.css.*')
-    default_menubar_pattern = re.compile(r'.*Default_Menubar\.css.*')
-    menubar_pattern = re.compile(r'.*/{{ live_proprietary_static_dir }}/css/(.*)(_Menubar).css')
+    default_build_common_pattern = re.compile(r'.*default_build_common\.css.*')
+    default_build_menubar_pattern = re.compile(r'.*default_build_menubar\.css.*')
+    menubar_pattern = re.compile(r'.*/{{ live_proprietary_static_dir }}/css/(.*)(_menubar).css')
     
     for line in input_html_src_file:
         matched_file_name = None
         match_static_file_pattern = static_file_pattern.match(line)
         match_proprietary_static_file_pattern = proprietary_static_file_pattern.match(line)
-        match_default_common_pattern = default_common_pattern.match(line)
+        match_default_build_common_pattern = default_build_common_pattern.match(line)
         match_menubar_pattern = menubar_pattern.match(line)
-        match_default_menubar_pattern = default_menubar_pattern.match(line)
+        match_default_build_menubar_pattern = default_build_menubar_pattern.match(line)
         
         if match_static_file_pattern:
             matched_file_name = match_static_file_pattern.group(1)
             
-            if match_default_common_pattern and site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
-                # exclude the "default_common.css" file from the combined css file, since we are using
+            if match_default_build_common_pattern and site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
+                # exclude the "default_build_common.css" file from the combined css file, since we are using
                 # customized css for each build.
-                logging.info("ignoring Default_Common.css")
+                logging.info("ignoring default_build_common.css")
                 continue
             
-            elif match_default_menubar_pattern and site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
-                # exclude Default_Menubar from all builds except for "Default"
-                logging.info("ignoring Default_Menubar.css")
+            elif match_default_build_menubar_pattern and site_configuration.PROPRIETARY_STATIC_DIR_EXISTS:
+                # exclude default_build_menubar from all builds except for "default_build"
+                logging.info("ignoring default_build_menubar.css")
                 continue         
             
         elif site_configuration.PROPRIETARY_STATIC_DIR_EXISTS and match_proprietary_static_file_pattern:
@@ -85,17 +85,17 @@ def create_combined_static_file(html_source, output_file_name,  static_file_type
             menubar_build_file_name = match_menubar_pattern.group(1)
             menubar_css_file = menubar_build_file_name + match_menubar_pattern.group(2)                            
             
-            if menubar_build_file_name == 'Discrete' and not \
-               (site_configuration.BUILD_NAME == 'Discrete' or site_configuration.BUILD_NAME == 'Lesbian' or\
-                site_configuration.BUILD_NAME == 'Swinger' or site_configuration.BUILD_NAME == 'Single'):
-                # The Discrete_Menubar.css should only be included in Discrete, Lesbian, Swinger, or Single builds
+            if menubar_build_file_name == 'discrete_build' and not \
+               (site_configuration.BUILD_NAME == 'discrete_build' or site_configuration.BUILD_NAME == 'lesbian_build' or\
+                site_configuration.BUILD_NAME == 'swinger_build' or site_configuration.BUILD_NAME == 'single_build'):
+                # The discrete_build_menubar.css should only be included in discrete_build, lesbian_build, swinger_build, or single_build builds
                 # Remove for all other builds
                 matched_file_name = None
                 
             elif menubar_build_file_name == "{{ build_name }}" and not\
-                 (site_configuration.BUILD_NAME == 'Gay' or site_configuration.BUILD_NAME == 'Language' \
-                  or site_configuration.BUILD_NAME == 'Friend'):
-                # the {{ build_name }}_Menubar should only be included in Gay, Language, and Friend. 
+                 (site_configuration.BUILD_NAME == 'gay_build' or site_configuration.BUILD_NAME == 'language_build' \
+                  or site_configuration.BUILD_NAME == 'friend_build'):
+                # the {{ build_name }}_menubar should only be included in gay_build, language_build, and friend_build. 
                 # Remove from all other builds.
                 matched_file_name = None
                 
@@ -186,7 +186,7 @@ def generate_index_files():
 
 def setup_my_local_environment():
     # THE FOLLOWING FUNCTIONALITY IS REQUIRED BECAUSE I AM 
-    # BUILDING MULTIPLE SITES FROM A SINGLE CODE BASE
+    # BUILDING MULTIPLE SITES FROM A single_build CODE BASE
     # in order to support different database models, we copy the index.yaml file for the correct build. 
     # Additionally, we customize the app.yaml file so that it uploads to the correct application id, and so
     # that the favicon icons are correctly defined.
@@ -281,18 +281,18 @@ def setup_my_local_environment():
             # This method of copying/tracking proprietary files should be re-thought at some point in the future.  
             logging.info("Copying proprietary static files into the live static directory\n")
             copy_file_to_folder(pwd + "/rs/proprietary/static/css/*",  site_configuration.LIVE_STATIC_DIR + "/css/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Discrete/*", site_configuration.LIVE_STATIC_DIR + "/img/Discrete/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Friend/*", site_configuration.LIVE_STATIC_DIR + "/img/Friend/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Gay/*", site_configuration.LIVE_STATIC_DIR + "/img/Gay/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Language/*", site_configuration.LIVE_STATIC_DIR + "/img/Language/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Lesbian/*", site_configuration.LIVE_STATIC_DIR + "/img/Lesbian/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Single/*", site_configuration.LIVE_STATIC_DIR + "/img/Single/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Swinger/*", site_configuration.LIVE_STATIC_DIR + "/img/Swinger/")
-            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Mature/*", site_configuration.LIVE_STATIC_DIR + "/img/Mature/")
-            shutil.copytree(pwd + "/rs/proprietary/static/img/Discrete_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Discrete_Menubar/")
-            shutil.copytree(pwd + "/rs/proprietary/static/img/Friend_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Friend_Menubar/")
-            shutil.copytree(pwd + "/rs/proprietary/static/img/Language_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Language_Menubar/")
-            shutil.copytree(pwd + "/rs/proprietary/static/img/Gay_Menubar/", site_configuration.LIVE_STATIC_DIR + "/img/Gay_Menubar/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/discrete_build/*", site_configuration.LIVE_STATIC_DIR + "/img/discrete_build/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/friend_build/*", site_configuration.LIVE_STATIC_DIR + "/img/friend_build/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/gay_build/*", site_configuration.LIVE_STATIC_DIR + "/img/gay_build/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/language_build/*", site_configuration.LIVE_STATIC_DIR + "/img/language_build/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/lesbian_build/*", site_configuration.LIVE_STATIC_DIR + "/img/lesbian_build/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/single_build/*", site_configuration.LIVE_STATIC_DIR + "/img/single_build/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/swinger_build/*", site_configuration.LIVE_STATIC_DIR + "/img/swinger_build/")
+            copy_file_to_folder(pwd + "/rs/proprietary/static/img/Mature/*", site_configuration.LIVE_STATIC_DIR + "/img/mature_build/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/discrete_build_menubar/", site_configuration.LIVE_STATIC_DIR + "/img/discrete_build_menubar/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/friend_build_menubar/", site_configuration.LIVE_STATIC_DIR + "/img/friend_build_menubar/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/language_build_menubar/", site_configuration.LIVE_STATIC_DIR + "/img/language_build_menubar/")
+            shutil.copytree(pwd + "/rs/proprietary/static/img/gay_build_menubar/", site_configuration.LIVE_STATIC_DIR + "/img/gay_build_menubar/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/js/*", site_configuration.LIVE_STATIC_DIR + "/js/")
         
         # Modify the jquery.fancybox file so that AlphaImageLoader files use the correct path to the

@@ -544,7 +544,7 @@ def welcome_new_user(request):
         # make sure we don't send messages from a backup userobject!
         try:
             to_uid = userobject.key.urlsafe()
-            if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+            if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
                 replacement1 = ugettext('"wink" or a "kiss"')
                 replacement2 = ugettext('winks, kisses,')
             else:

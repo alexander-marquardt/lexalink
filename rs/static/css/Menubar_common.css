@@ -12,7 +12,7 @@ way to fit your requirements.
 /* Contains the common menubar related CSS code. For the buld-specific css see {{ build_name }}_common.css */
 
 
-/* We use the "Single Image Sliding Doors" technique to allow us to use a single button image when the mouse is hovered hover a menu item. 
+/* We use the "single_build Image Sliding Doors" technique to allow us to use a single button image when the mouse is hovered hover a menu item. 
  * I haven't fully investigated this technique - the span item overlays the right side of the image, over the default 
  * background which contains the left side of the image.
  */

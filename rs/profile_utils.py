@@ -10,11 +10,11 @@ from rs.user_profile_main_data import UserSpec
 fields_for_title_generation   = []
 
 # define which fields can be used in generating titles for profiles and search results. 
-if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
     fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region']
-elif settings.BUILD_NAME == "Language":
+elif settings.BUILD_NAME == "language_build":
     fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region', 'languages', 'languages_to_learn']    
-elif settings.BUILD_NAME == "Friend":
+elif settings.BUILD_NAME == "friend_build":
     fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region',]
 else:
     assert(0)
@@ -91,17 +91,17 @@ def get_base_userobject_title(lang_code, uid):
                                  
             vals_in_curr_language_dict = utils.get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = False, search_or_profile_fields = "profile")
                              
-            if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
+            if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
                 # check if this profile is gay (male seeking male) or lesbian .. if so, add the appropriate
                 # word to the profile description.
                 extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], field_vals_dict['preference'], pluralize = False)
                 
                 relationship_status = replace_value('prefer_no_say', field_vals_dict['relationship_status'], "%s " % vals_in_curr_language_dict['relationship_status'], '')
                 preference = replace_value('other', field_vals_dict['preference'], vals_in_curr_language_dict['preference'], ugettext("Contacts"))
-                if settings.BUILD_NAME == "Gay":
-                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], "Gay")
-                elif settings.BUILD_NAME == "Swinger":
-                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], "Swinger")                    
+                if settings.BUILD_NAME == "gay_build":
+                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], "gay_build")
+                elif settings.BUILD_NAME == "swinger_build":
+                    sex = replace_value('other', field_vals_dict['sex'], vals_in_curr_language_dict['sex'], "swinger_build")                    
                 else:
                     sex = vals_in_curr_language_dict['sex']
 
@@ -112,9 +112,9 @@ def get_base_userobject_title(lang_code, uid):
                     'preference' : " %s " % preference,
                     'extra_detail' :  extra_detail})
                 
-            elif settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian" or settings.BUILD_NAME == "Mature":
-                sex = replace_value('prefer_no_say', field_vals_dict['sex'], "%s " % vals_in_curr_language_dict['sex'], "%s " % ugettext("Lesbian"))
-                preference = replace_value('prefer_no_say', field_vals_dict['preference'], " %s " % vals_in_curr_language_dict['preference'], " %s " % ugettext("Lesbian"))
+            elif settings.BUILD_NAME == "single_build" or settings.BUILD_NAME == "lesbian_build" or settings.BUILD_NAME == "mature_build":
+                sex = replace_value('prefer_no_say', field_vals_dict['sex'], "%s " % vals_in_curr_language_dict['sex'], "%s " % ugettext("lesbian_build"))
+                preference = replace_value('prefer_no_say', field_vals_dict['preference'], " %s " % vals_in_curr_language_dict['preference'], " %s " % ugettext("lesbian_build"))
 
                     
                 extra_detail = utils_top_level.get_additional_description_from_sex_and_preference(field_vals_dict['sex'], \
@@ -126,12 +126,12 @@ def get_base_userobject_title(lang_code, uid):
                     'extra_detail' : extra_detail,
                     'preference' : preference})
                 
-            elif settings.BUILD_NAME == "Language":
+            elif settings.BUILD_NAME == "language_build":
                 base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
                 'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
                 'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
                 
-            elif settings.BUILD_NAME == 'Friend':
+            elif settings.BUILD_NAME == 'friend_build':
                 activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
                 base_title = u"%s" % (ugettext("%(sex)s In %(location)s") % {
                     'sex': vals_in_curr_language_dict['sex'],

@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-06-03-1828'
+VERSION_ID = '2013-06-04-1241'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = False
@@ -64,20 +64,20 @@ if os.path.isdir('rs/proprietary'):
         # we are interested in executing. Be sure to re-boot the development server each time you change
         # the build name.
         
-        BUILD_NAME = 'Discrete'     # originally used for RomanceSecreto.com
-        BUILD_NAME = 'Single'   # originally used for SingletonSearch.com
-        BUILD_NAME = 'Language'  # originally used for LikeLanguage.com
-        BUILD_NAME = 'Swinger'   # originally used for SwingerSetup.com
-        BUILD_NAME = 'Lesbian'   # originally used for LesbianHeart.com
-        BUILD_NAME = 'Gay'       # originally used for GaySetup.com
-        BUILD_NAME = 'Friend'    # originally used for FriendBazaar.com
-        BUILD_NAME = 'Mature' # originallly used for MellowDating.com
+        BUILD_NAME = 'discrete_build'     # originally used for RomanceSecreto.com
+        #BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
+        #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
+        #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
+        #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
+        #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
+        #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
+        #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     
     else:
         BUILD_NAME = BATCH_BUILD_NAME
 else:
     # We have not defined any of the proprietary builds, so just default to the standard "single" dating platform configuration
-    BUILD_NAME = 'Single'
+    BUILD_NAME = 'single_build'
 
 APP_NAME = app_name_dict[BUILD_NAME]
 DOMAIN_NAME = domain_name_dict[BUILD_NAME]
@@ -101,9 +101,9 @@ else:
     LIVE_PROPRIETARY_STATIC_DIR = "rs/proprietary/static"
 
 if BUILD_STAGING:
-    # we are uploading the code for the "Discrete" website to a staging appid - this is used for debugging the code
+    # we are uploading the code for the "discrete_build" website to a staging appid - this is used for debugging the code
     # in the actual AppEngine (in-the-cloud) environment without uploading it to the live server. 
-    app_id_dict['Discrete'] = staging_appid, 
+    app_id_dict['discrete_build'] = staging_appid, 
     
 if TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp'
@@ -111,7 +111,7 @@ if TESTING_PAYPAL_SANDBOX:
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
 shutdown_time = datetime.datetime(2012, 06, 05, 8, 30) 
-if BUILD_NAME == 'Friend':
+if BUILD_NAME == 'friend_build':
     SHUTDOWN_DURATION = 0 # minutes
 else:
     SHUTDOWN_DURATION = 0

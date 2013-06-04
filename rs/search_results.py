@@ -56,7 +56,7 @@ from rs.import_search_engine_overrides import *
 from django.utils.translation import ugettext
 
 
-if settings.BUILD_NAME == "Friend":
+if settings.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code
 
 PAGESIZE = 6
@@ -125,7 +125,7 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
         # multiple values.
 
             
-        if settings.BUILD_NAME == "Language": # setup Language
+        if settings.BUILD_NAME == "Language": # setup language_build
             # Note: the language_to_teach and language_to_learn are reversed. Eg. I want to learn
             # spanish (my language_to_learn = Spanish) therefore, I want to see people whose 
             # languages list contains at least Spanish.             
@@ -133,7 +133,7 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
             q = q.filter(UserModel.languages == search_vals_dict['language_to_learn'])
             q = q.filter(UserModel.languages_to_learn == search_vals_dict['language_to_teach'])
             
-        elif settings.BUILD_NAME == "Friend": # Setup Friend
+        elif settings.BUILD_NAME == "Friend": # Setup friend_build
             
             #for menu_name in ['for_sale', 'to_buy']:
             menu_name = "for_sale"
@@ -184,11 +184,11 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
         
         (curr_lang_dict) = utils.get_fields_in_current_language(search_vals_dict, lang_idx, pluralize_sex = True, search_or_profile_fields = "search")
         
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != 'Friend':
+        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != 'friend_build':
             if curr_lang_dict['sex'] != "----":
                 sex_title = u"%s" % ugettext("generated_search_title %(sex)s") % {'sex': curr_lang_dict['sex']}
             else:
-                if settings.BUILD_NAME != "Lesbian":
+                if settings.BUILD_NAME != "lesbian_build":
                     sex_title = u"%s" % ugettext("All people (feminine)")
                 else:
                     sex_title = u"%s" % ugettext("All lesbian types")
@@ -202,7 +202,7 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
                 
             start_title = u"%s%s%s. " % (sex_title, preference_title, get_additional_description)
         else: 
-            if settings.BUILD_NAME == "Language":
+            if settings.BUILD_NAME == "language_build":
                 if curr_lang_dict['language_to_learn'] != "----":
                     languages_to_learn_title = u"%s" % ugettext("generated_search_title %(language_to_learn)s") % {
                         'language_to_learn': curr_lang_dict['language_to_learn']}
@@ -220,7 +220,7 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
                 else:
                     sex_title = u''
                     
-            elif settings.BUILD_NAME == 'Friend':
+            elif settings.BUILD_NAME == 'friend_build':
                 if curr_lang_dict['sex'] != "----":
                     sex_title = u"%s" % ugettext("generated_search_title %(sex)s") % {'sex': curr_lang_dict['sex']}
                 else:
@@ -254,21 +254,21 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
             query_order_txt = user_profile_main_data.UserSpec.search_fields_options_dict["query_order"][lang_idx][search_vals_dict['query_order']]
             query_order_title = u"%s: %s. " % (ugettext("Ordered by"), query_order_txt)
 
-        if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay"  or settings.BUILD_NAME == "Swinger":
+        if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build"  or settings.BUILD_NAME == "swinger_build":
             if curr_lang_dict['relationship_status'] != "----":
                 relationship_status_title += u"%s. " % ugettext("Status generated_search_title %(relationship_status)s") % {
                     'relationship_status': curr_lang_dict['relationship_status']}
-        if settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Lesbian":
+        if settings.BUILD_NAME == "single_build" or settings.BUILD_NAME == "lesbian_build":
             if curr_lang_dict['relationship_status'] != "----":
                 relationship_status_title += u"%s. " % ugettext("For generated_search_title %(relationship_status)s") % {
                     'relationship_status': curr_lang_dict['relationship_status']}
             
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
             generated_title = u"%s%s%s%s%s" % (start_title, location_title, relationship_status_title, age_title, query_order_title)
         else:
-            if settings.BUILD_NAME == "Language":
+            if settings.BUILD_NAME == "language_build":
                 generated_title = u"%s%s%s%s%s%s" % (start_title, location_title, relationship_status_title, sex_title, age_title, query_order_title)
-            elif settings.BUILD_NAME == "Friend":
+            elif settings.BUILD_NAME == "friend_build":
                 generated_title = "%s%s%s%s" % (start_title, age_title, location_title, query_order_title)
     
     except:
@@ -283,7 +283,7 @@ def loosen_search_criteria(search_vals_dict):
     break_out_of_loop = False
     
     
-    if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
         if search_vals_dict['relationship_status'] != '----' or search_vals_dict['age'] != '----' or \
            search_vals_dict['sub_region'] != '----' or search_vals_dict['preference'] != '----':
             # Temporarly change a group of search parameters -- this should be acceptable since
@@ -306,7 +306,7 @@ def loosen_search_criteria(search_vals_dict):
         else:    
             # we have already loosened all search criteria -- nothing left to show
             break_out_of_loop = True
-    elif settings.BUILD_NAME == "Language":
+    elif settings.BUILD_NAME == "language_build":
         if search_vals_dict['age'] != '----' or search_vals_dict['sub_region'] != '----' \
            or search_vals_dict['region'] != '----' or search_vals_dict['country'] != '----':
             # Temporarly change a group of search parameters -- this should be acceptable since
@@ -326,7 +326,7 @@ def loosen_search_criteria(search_vals_dict):
             # we have already loosened all search criteria -- nothing left to show
             break_out_of_loop = True
         
-    elif settings.BUILD_NAME == "Friend":
+    elif settings.BUILD_NAME == "friend_build":
         if search_vals_dict['age'] != '----' or search_vals_dict['sex'] != '----':
             search_vals_dict['sex'] = '----'                        
             search_vals_dict['age'] = '----'    
@@ -387,7 +387,7 @@ def generate_search_results(request, type_of_search = "normal"):
                 if search_vals_dict[search_field] == "dont_care":
                     return permanent_search_query_redirect(request)
                 
-                if settings.BUILD_NAME == "Swinger":
+                if settings.BUILD_NAME == "swinger_build":
                     if search_vals_dict[search_field] == "gay_couple" or search_vals_dict[search_field] == "lesbian_couple":
                         return permanent_search_query_redirect(request)               
                     

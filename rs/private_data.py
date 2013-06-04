@@ -46,41 +46,41 @@ except:
     
     app_name_dict = {
         # Edit the following values to reflect the names that you have chosen for each of your sites.
-        'Discrete' : 'Your-Site-Name-Here', #ie. "RomanceSecreto"
-        'Language':  'Your-Site-Name-Here', 
-        'Single' :   'lexalink-demo.appspot',
-        'Lesbian':   'Your-Site-Name-Here',
-        'Gay':       'Your-Site-Name-Here',
-        'Swinger':   'Your-Site-Name-Here',
-        'Friend':    'Your-Site-Name-Here',
-        'Mature':    'Your-Site-Name-Here',
+        'discrete_build' : 'Your-Site-Name-Here', #ie. "RomanceSecreto"
+        'language_build':  'Your-Site-Name-Here', 
+        'single_build' :   'lexalink-demo.appspot',
+        'lesbian_build':   'Your-Site-Name-Here',
+        'gay_build':       'Your-Site-Name-Here',
+        'swinger_build':   'Your-Site-Name-Here',
+        'friend_build':    'Your-Site-Name-Here',
+        'mature_build':    'Your-Site-Name-Here',
     }
     
     domain_name_dict = {
         # Update the following values to reflect the domain of each of your sites (do *not* put www in front, since 
         # this is also used in the email addresses). Generally, this should be the same as the value in the app_name_dict
         # but lower case, and followed by the appropriate top level domain qualifier.
-        'Discrete' : 'your-site-name-here.com', #ie "romancesecreto.com"
-        'Language':  'your-site-name-here.com', 
-        'Single' :   'lexalink-demo.appspot.com',
-        'Lesbian':   'your-site-name-here.com',
-        'Gay':       'your-site-name-here.com',
-        'Swinger':   'your-site-name-here.com',
-        'Friend':    'your-site-name-here.com',    
-        'Mature':    'your-site-name-here.com',    
+        'discrete_build' : 'your-site-name-here.com', #ie "romancesecreto.com"
+        'language_build':  'your-site-name-here.com', 
+        'single_build' :   'lexalink-demo.appspot.com',
+        'lesbian_build':   'your-site-name-here.com',
+        'gay_build':       'your-site-name-here.com',
+        'swinger_build':   'your-site-name-here.com',
+        'friend_build':    'your-site-name-here.com',    
+        'mature_build':    'your-site-name-here.com',    
     }
     
     app_id_dict = {
         # update the following values to reflect the application ids that you have registered for each of your
         # applications on the AppEngine.
-        'Discrete' : 'yourappid1', 
-        'Language':  'yourappid2', 
-        'Single' :   'lexalink-demo',
-        'Lesbian':   'yourappid4',
-        'Gay':       'yourappid5',
-        'Swinger':   'yourappid6',
-        'Friend':    'yourappid7',
-        'Mature':    'yourappid8',
+        'discrete_build' : 'yourappid1', 
+        'language_build':  'yourappid2', 
+        'single_build' :   'lexalink-demo',
+        'lesbian_build':   'yourappid4',
+        'gay_build':       'yourappid5',
+        'swinger_build':   'yourappid6',
+        'friend_build':    'yourappid7',
+        'mature_build':    'yourappid8',
     }
     
     # you may wish to have an additional application id that you upload your code to for extra "in-the-cloud" testing.
@@ -137,14 +137,14 @@ except:
     # If you want to use google analytics to track your page statistics, you will need an 
     # identifier for each page. 
     analytics_id_dict = {
-        "Friend"   : 'UA-YOUR-IDX-X',
-        "Discrete" : 'UA-YOUR-IDX-X',
-        "Language" : 'UA-YOUR-IDX-X',
-        "Single"   : 'UA-YOUR-IDX-X',
-        "Lesbian"  : 'UA-YOUR-IDX-X',
-        "Swinger"  : 'UA-YOUR-IDX-X',
-        "Gay"      : 'UA-YOUR-IDX-X',
-        "Mature"   : 'UA-YOUR-IDX-X',
+        "friend_build"   : 'UA-YOUR-IDX-X',
+        "discrete_build" : 'UA-YOUR-IDX-X',
+        "language_build" : 'UA-YOUR-IDX-X',
+        "single_build"   : 'UA-YOUR-IDX-X',
+        "lesbian_build"  : 'UA-YOUR-IDX-X',
+        "swinger_build"  : 'UA-YOUR-IDX-X',
+        "gay_build"      : 'UA-YOUR-IDX-X',
+        "mature_build"   : 'UA-YOUR-IDX-X',
     }    
     
     

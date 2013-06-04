@@ -48,7 +48,7 @@ def get_polling_response_time_from_current_status(user_presence_status):
         return constants.OnlinePresence.MAX_AWAY_POLLING_RESPONSE_TIME_FROM_CLIENT
     else:
         # for example, if user status is "enabled" this will trigger an error, since "enabled" status should
-        # never be stored in the database (see description of ChatFriendTracker in models.py for more information)
+        # never be stored in the database (see description of Chatfriend_buildTracker in models.py for more information)
         error_reporting.log_exception(logging.critical, error_message = "Error: user_presence_status = %s" % user_presence_status)
         return 0
     

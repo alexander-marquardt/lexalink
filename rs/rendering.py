@@ -43,7 +43,7 @@ import online_presence_support, menubar
 from rs.import_search_engine_overrides import *
 
 
-if settings.BUILD_NAME == "Friend":
+if settings.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code
 
 def get_my_internal_advertisements(additional_ads_to_include = []):
@@ -78,7 +78,7 @@ def get_additional_ads_to_append(request, userobject = None):
     additional_ads_to_append = []
     
     try:
-        if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
+        if settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
             # we don't currently append any additional advertisements. 
             return additional_ads_to_append
         
@@ -105,23 +105,23 @@ def get_additional_ads_to_append(request, userobject = None):
             userobject_preference = None
             userobject_relationship_status = None
     
-        if settings.BUILD_NAME == "Single" or settings.BUILD_NAME == "Discrete":
+        if settings.BUILD_NAME == "single_build" or settings.BUILD_NAME == "discrete_build":
             # let the lesbians and gays know about our other websites
             if (userobject_sex == 'male' and userobject_preference == 'male') or \
                ( search_sex == 'male' and search_preference == 'male'):
-                additional_ads_to_append.append("Gay")
+                additional_ads_to_append.append("gay_build")
             if (userobject_sex == 'female' and userobject_preference == 'female') or \
                (search_sex == 'female' and search_preference == 'female'):
-                additional_ads_to_append.append("Lesbian")
+                additional_ads_to_append.append("lesbian_build")
                 
-        if settings.BUILD_NAME == "Discrete":
-            # Let the swingers know about Swinger
+        if settings.BUILD_NAME == "discrete_build":
+            # Let the swingers know about swinger_build
             if (userobject_sex == 'couple' or userobject_preference == 'couple') or \
                (search_sex == 'couple' or search_preference == 'couple'):
-                additional_ads_to_append.append("Swinger")
+                additional_ads_to_append.append("swinger_build")
                 
             if (userobject_relationship_status == 'single' or search_relationship_status == 'single'):
-                additional_ads_to_append.append("Single")
+                additional_ads_to_append.append("single_build")
                 
 
     except:
@@ -242,14 +242,14 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         region_options_html = location_response_dict['region_options_html']
         sub_region_options_html = location_response_dict['sub_region_options_html']
         
-        if settings.BUILD_NAME == "Friend":
+        if settings.BUILD_NAME == "friend_build":
             for_sale = request.GET.get('for_sale', '----')
             to_buy = request.GET.get('to_buy', '----')
             for_sale_sub_menu_options_html = utils.get_child_dropdown_options_and_details(for_sale, localizations.input_field_lang_idx[request.LANGUAGE_CODE])
             to_buy_sub_menu_options_html = utils.get_child_dropdown_options_and_details(to_buy, localizations.input_field_lang_idx[request.LANGUAGE_CODE])
         else:
-            for_sale_sub_menu_options_html = "Not used - only for Friend"
-            to_buy_sub_menu_options_html = "Not used - only for Friend"
+            for_sale_sub_menu_options_html = "Not used - only for friend_build"
+            to_buy_sub_menu_options_html = "Not used - only for friend_build"
                         
         
         # Information for users that are signed in with an account

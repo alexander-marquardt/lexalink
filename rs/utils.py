@@ -131,7 +131,7 @@ def generic_html_generator_for_list(lang_idx, field_name, list_of_field_vals, ma
             if idx >= max_num_entries - 1:
                     # we are breaking out early .. should indicate that there are more values
                 if field_val != list_of_field_vals[-1]:
-                    if settings.BUILD_NAME == 'Language':
+                    if settings.BUILD_NAME == 'language_build':
                         generated_html += u"%s" % ugettext('and other (languages)...')
                     else:
                         assert(0)
@@ -161,13 +161,13 @@ def generate_profile_summary_table(request, profile):
     generated_html = ''
     
     try:
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":        
+        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":        
             relationship_status_def = "%s"\
                 % user_profile_main_data.UserSpec.signup_fields_options_dict['relationship_status'][lang_idx][profile.relationship_status]
             preference_def =  u"%s" % user_profile_main_data.UserSpec.signup_fields_options_dict['preference'][lang_idx][profile.preference]
 
         else:
-            if settings.BUILD_NAME == "Language":
+            if settings.BUILD_NAME == "language_build":
             
                 languages_spoken_list = generic_html_generator_for_list(lang_idx, 'languages', profile.languages, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
                 languages_to_learn_list = generic_html_generator_for_list(lang_idx, 'languages_to_learn', profile.languages_to_learn, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
@@ -217,23 +217,23 @@ def generate_profile_summary_table(request, profile):
         age_text = u"%s:" % ugettext("My age")
         price_text = u"%s:" % ugettext("My price")
 
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
             location_text = u"%s:" % ugettext("In location") # override this for english (and obviously for others as well)
         else:
             location_text = u"%s:" % ugettext("I am currently in")
         
 
         first_row_html = second_row_html = ''
-        if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
             first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % sex_text
             second_row_html += '<td class = "cl-summary-info">%s</td>' % sex_def
             
             first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong>' % preference_text
             second_row_html += '<td class = "cl-summary-info">%s</td>' % preference_def
 
-            if settings.BUILD_NAME == 'Discrete' or settings.BUILD_NAME == 'Swinger' or settings.BUILD_NAME == 'Gay':
+            if settings.BUILD_NAME == 'discrete_build' or settings.BUILD_NAME == 'swinger_build' or settings.BUILD_NAME == 'gay_build':
                 first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % relationship_status_text
-            elif settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Lesbian' or settings.BUILD_NAME == "Mature": 
+            elif settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'lesbian_build' or settings.BUILD_NAME == "mature_build": 
                 first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % looking_for_text
             else: assert(0)
             second_row_html += '<td class = "cl-summary-info">%s</td>' % relationship_status_def
@@ -245,7 +245,7 @@ def generate_profile_summary_table(request, profile):
             second_row_html += '<td class = "cl-summary-info">%s</td>' % location_def
             
         else:
-            if settings.BUILD_NAME == "Language":
+            if settings.BUILD_NAME == "language_build":
                 first_row_html += '<td class = "cl-left-align-user-summary-text-for-languages"><strong>%s</strong></td>' % languages_spoken_text
                 second_row_html += '<td class = "cl-summary-info">%s</td>' % languages_spoken_list
     
@@ -1029,17 +1029,17 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
         'location': '----',
     }
     
-    if settings.BUILD_NAME == "Language":
+    if settings.BUILD_NAME == "language_build":
         
-        return_dict.update({# the following entries are only used in Language
+        return_dict.update({# the following entries are only used in language_build
                             'languages': '----', # list of languages spoken
                             'languages_to_learn': '----', # list of languages to learn
                             'language_to_teach': '----',
                             'language_to_learn': '----',        
                             })
         
-    elif settings.BUILD_NAME == "Friend":
-        return_dict.update({# following is only for Friend
+    elif settings.BUILD_NAME == "friend_build":
+        return_dict.update({# following is only for friend_build
                             'for_sale' : '----',
                             'for_sale_sub_menu' : '----',
                             })
@@ -1075,10 +1075,10 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                     if field_val and field_val != "----" and field_name != 'username' and field_name != 'bookmark':
                         return_dict[field_name] = field_dictionary_by_field_name[lookup_field_name][lang_idx][field_val]
                         
-                        if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
+                        if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
                             if field_name == "relationship_status" and lang_idx == localizations.input_field_lang_idx['es']:
-                                if settings.BUILD_NAME == "Gay":
-                                    # all profiles in Gay site are male - give Spanish masculine ending "o"
+                                if settings.BUILD_NAME == "gay_build":
+                                    # all profiles in gay_build site are male - give Spanish masculine ending "o"
                                     return_dict[field_name] = re.sub('@', 'o', return_dict[field_name])                                    
                                 elif field_vals_dict['sex'] == 'male' or field_vals_dict['sex'] == 'other' or field_vals_dict['sex'] == 'tstvtg':
                                     return_dict[field_name] = re.sub('@', 'o', return_dict[field_name])
@@ -1100,7 +1100,7 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
         try:
             if pluralize_sex:
     
-                if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+                if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
                     # if pluralized, lookup the field name in the "preference" setting (since it is pluralized),
                     # otherwise use the "sex" setting.
                     if field_vals_dict['preference'] != "----":
@@ -1108,11 +1108,11 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                     if field_vals_dict['sex'] != "----":
                         return_dict["sex"] = field_dictionary_by_field_name["preference"][lang_idx][field_vals_dict['sex']]
                 else:
-                    # preference fields do not exist for Language or Friend, so lookup in the "sex" field
+                    # preference fields do not exist for language_build or friend_build, so lookup in the "sex" field
                     if field_vals_dict['sex'] != "----":
                         return_dict["sex"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['sex']]
             else:
-                if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+                if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
                     if field_vals_dict['preference'] != "----":
                         return_dict["preference"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['preference'] ]
                 if field_vals_dict['sex'] != "----":
@@ -1130,7 +1130,7 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                     lang_code = localizations.lang_code_by_idx[lang_idx]
                     return_dict["sex"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["sex"])
                     
-                    if settings.BUILD_NAME != "Friend" and settings.BUILD_NAME != "Language":
+                    if settings.BUILD_NAME != "friend_build" and settings.BUILD_NAME != "language_build":
                         return_dict["preference"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["preference"])
                 
             if field_vals_dict['sub_region'] and field_vals_dict['sub_region'] != "----":

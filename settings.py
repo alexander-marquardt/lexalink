@@ -42,9 +42,9 @@ AUTOLOAD_SITECONF = 'indexes'
 
 TIME_ZONE = 'UTC'
 
-# Language code for this installation. All choices can be found here:
+# language_build code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-if BUILD_NAME == "Language":
+if BUILD_NAME == "language_build":
     LANGUAGE_CODE = 'en'
 else:
     # dating sites are primarily focussed on Spanish speaking market - we therefore want
@@ -57,7 +57,7 @@ LANGUAGES = (
     ('es', u'Español'),
 )
 
-LANGUAGE_COOKIE_NAME = 'Language'
+LANGUAGE_COOKIE_NAME = 'language_build'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.

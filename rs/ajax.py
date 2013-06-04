@@ -129,7 +129,7 @@ def get_settings(request, list_of_fields, data_structure_to_extract_values):
 default_response_dict = {'query_order': 'unique_last_login',  'region_options_html': '', 'sub_region_options_html': ''}
 for field in UserSpec.simple_search_fields:   
     default_response_dict[field] = "----"
-if settings.BUILD_NAME == "Friend":
+if settings.BUILD_NAME == "friend_build":
     default_response_dict["for_sale_sub_menu_options_html"] = ''
     default_response_dict["to_buy_sub_menu_options_html"] = ''
 
@@ -158,7 +158,7 @@ def get_simple_search_settings(request):
         # Now we generate the dynamically allocated sub-menus, depending on the currently selected values.
         response_dict.update(utils.get_location_dropdown_options_and_details(response_dict['country'], response_dict['region']))
         
-        if settings.BUILD_NAME == "Friend":
+        if settings.BUILD_NAME == "friend_build":
             response_dict['for_sale_sub_menu_options_html'] = utils.get_child_dropdown_options_and_details(response_dict['for_sale'], 
                                 localizations.input_field_lang_idx[request.LANGUAGE_CODE])
             
@@ -673,7 +673,7 @@ def get_initiate_contact_settings(request, display_uid):
 
     try:
 
-        if settings.BUILD_NAME == "Language":
+        if settings.BUILD_NAME == "language_build":
             wink_action = ugettext("Greeting sent")
         else:
             wink_action = ugettext("Wink sent")

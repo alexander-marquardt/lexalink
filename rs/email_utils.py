@@ -510,12 +510,12 @@ def send_new_message_notification_email(request):
     try:
         translation.activate(lang_code) # set to the language for the user that we are now mailing
         
-        if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Single" or \
-           settings.BUILD_NAME == "Lesbian" or settings.BUILD_NAME == "Swinger":
+        if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "single_build" or \
+           settings.BUILD_NAME == "lesbian_build" or settings.BUILD_NAME == "swinger_build":
             bar_color = ugettext("violet")
-        elif  settings.BUILD_NAME == "Gay":
+        elif  settings.BUILD_NAME == "gay_build":
             bar_color = ugettext("gray")
-        elif settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
+        elif settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
             bar_color = ugettext("green")
         else:
             raise Exception("Unknown build")        
@@ -613,7 +613,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             initiate_contact_list = []
 
             initiate_contact_list.append(u" %d %s" %  (new_wink_count, constants.ContactIconText.plural_icon_name['wink']))
-            if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+            if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
                 initiate_contact_list.append(u" %d %s" %  (new_kiss_count, constants.ContactIconText.plural_icon_name['kiss']))
             initiate_contact_list.append(u" %d %s" %  ( new_key_count, constants.ContactIconText.plural_icon_name['key']))
             initiate_contact_list.append(u" %d %s" %  ( new_friend_request_count, constants.ContactIconText.chat_friend_plural_text['request_received']))

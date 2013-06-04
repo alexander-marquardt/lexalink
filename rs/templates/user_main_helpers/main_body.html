@@ -147,8 +147,8 @@
 
 <!------------------------------------------------------------>
 <!-- "languages" section - generates current language options, and calls checkboxes to edit
-     if the user wishes - only for LikeLanguage will the come before the use description-->
-{% ifequal build_name "Language" %}
+     if the user wishes - only for Likelanguage_build will the come before the use description-->
+{% ifequal build_name "language_build" %}
 {{ html_for_main.languages|safe }}
 {{ html_for_main.languages_to_learn|safe }}
 {% endifequal %}
@@ -234,7 +234,7 @@
 <!------------------------------------------------------------>
 <!-- "details" section - allow user to specify additional information, like hieght, body-type, etc.
      -->
-{% ifnotequal build_name "Language" %}
+{% ifnotequal build_name "language_build" %}
 {{ html_for_main.details_fields|safe }}
 {% endifnotequal %}
 
@@ -246,9 +246,9 @@
 
 
 
-{% if build_name != "Friend" %}
+{% if build_name != "friend_build" %}
         
-    {% if build_name != "Language" %}
+    {% if build_name != "language_build" %}
         {{ html_for_main.languages|safe }}
     {% endif %}
 
@@ -305,17 +305,17 @@
         
 <!------------------------------------------------------------>
 <!-- "turn_ons" section -->
-{% if build_name == "Discrete" or build_name == "Lesbian" or build_name == "Gay" or build_name == "Swinger" %}
+{% if build_name == "discrete_build" or build_name == "lesbian_build" or build_name == "gay_build" or build_name == "swinger_build" %}
 {{ html_for_main.turn_ons|safe }}
 {% endif %}
 <!------------------------------------------------------------>
 
-{% if build_name == "Discrete" or build_name == "Gay" or build_name == "Swinger" %}
+{% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "swinger_build" %}
 {{ html_for_main.erotic_encounters|safe }}
 {% endif %}
 
 
-{% if build_name != "Friend" %}
+{% if build_name != "friend_build" %}
 <div class="cl-clear"></div>
 <div class="grid_2 alpha">
     <strong>{% trans "Last entrance:" %}</strong>

@@ -58,7 +58,7 @@ from rs import profile_utils, online_presence_support, online_presence_support, 
 from django import http
 import http_utils, common_data_structs, html_container
 
-if settings.BUILD_NAME == "Friend":
+if settings.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code
     
 try:

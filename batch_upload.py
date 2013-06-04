@@ -33,7 +33,7 @@ import subprocess, sys, shutil, pexpect, time, getpass
 # why a '' value will cause the previously selected build name to be used). Additionally, this
 # causes an new/unique version identifier to be generated and written to site_configuration.py, which ensures that we 
 # will not accidentally upload over top of a previous version number. 
-BUILD_NAMES_LIST = ['Discrete', 'Single' , 'Language', 'Lesbian', 'Gay', 'Swinger', 'Friend', '']
+BUILD_NAMES_LIST = ['discrete_build', 'single_build' , 'language_build', 'lesbian_build', 'mature_build', 'gay_build', 'swinger_build', 'friend_build', '']
 
 def get_version_identifier():
     # use datetime as a version identifier/timestamp - but need to remove spaces and colons    

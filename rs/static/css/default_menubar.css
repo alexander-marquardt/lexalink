@@ -10,26 +10,26 @@ way to fit your requirements.
 =================================================================== */
 
 
-/* Contains the build-specific menubar related CSS code. For the general menubar code, see Menubar_common.css */
+/* Contains the build-specific menubar related CSS code. For the general menubar code, see menubar_common.css */
 
-.dropdown_preload1 {background: url(../img/Default_Menubar/Menu-Hover.png);}
-.dropdown_preload2 {background: url(../img/Default_Menubar/Menu-Hover-Down.png);}
+.dropdown_preload1 {background: url(../img/default_build_menubar/menu_hover.png);}
+.dropdown_preload2 {background: url(../img/default_build_menubar/menu_hover_down.png);}
 
-/* We use the "Single Image Sliding Doors" technique to allow us to use a single button image when the mouse is hovered hover a menu item. 
+/* We use the "single_build Image Sliding Doors" technique to allow us to use a single button image when the mouse is hovered hover a menu item. 
  * I haven't fully investigated this technique, but it seems that the span item overlays the right side of the image, over the default 
  * background which contains the left side of the image.
  */
 
 
-#rs-nav {background:#fff url(../img/Default_Menubar/Menu-Base.png) repeat-x; }
+#rs-nav {background:#fff url(../img/default_build_menubar/menu_base.png) repeat-x; }
 #rs-nav li span.no_link {color:#EEE;}
-#rs-nav li a.top_link {color:#DDD; background: url(../img/Default_Menubar/Menu-Base.png);}
-#rs-nav li a.top_link span {background: url(../img/Default_Menubar/Menu-Base.png) right top no-repeat;}
-#rs-nav li a.top_link span.down {background: url(../img/Default_Menubar/Menu-Base-Down.png) no-repeat right top;}
+#rs-nav li a.top_link {color:#DDD; background: url(../img/default_build_menubar/menu_base.png);}
+#rs-nav li a.top_link span {background: url(../img/default_build_menubar/menu_base.png) right top no-repeat;}
+#rs-nav li a.top_link span.down {background: url(../img/default_build_menubar/menu_base_down.png) no-repeat right top;}
 
-#rs-nav li:hover a.top_link {color:#fff; background: url(../img/Default_Menubar/Menu-Hover.png) no-repeat;}
-#rs-nav li:hover a.top_link span {background:url(../img/Default_Menubar/Menu-Hover.png) no-repeat right top;}
-#rs-nav li:hover a.top_link span.down {background:url(../img/Default_Menubar/Menu-Hover-Down.png) no-repeat right top;}
+#rs-nav li:hover a.top_link {color:#fff; background: url(../img/default_build_menubar/menu_hover.png) no-repeat;}
+#rs-nav li:hover a.top_link span {background:url(../img/default_build_menubar/menu_hover.png) no-repeat right top;}
+#rs-nav li:hover a.top_link span.down {background:url(../img/default_build_menubar/menu_hover_down.png) no-repeat right top;}
 
 /* Default list styling */
 
@@ -46,10 +46,10 @@ way to fit your requirements.
 {background: #555555; color:#fff; border-color:#FFF;}
 
 #rs-nav li ul.sub li a.fly
-{background:#EEE url(../img/Default_Menubar/arrow.gif) 170px 6px no-repeat;}
+{background:#EEE url(../img/default_build_menubar/arrow.gif) 170px 6px no-repeat;}
 
 #rs-nav li:hover ul.sub li a.fly:hover, #rs-nav li ul.sub li a.cl-highlight_element
-{background:#555555 url(../img/Default_Menubar/arrow_over.gif) 170px 6px no-repeat; color:#FFF;}
+{background:#555555 url(../img/default_build_menubar/arrow_over.gif) 170px 6px no-repeat; color:#FFF;}
 
 #rs-nav li ul.cl-show_sub ul.cl-show_sub
 {color: #555555; background: #EEE; border:2px solid #555;}

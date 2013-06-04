@@ -68,7 +68,7 @@ categories_label_dict = {
     
     'hobbies': {'for_sale' : ugettext_tuple(ugettext('Hobbies/Crafts'))},
     
-    'languages': {'for_sale' : ugettext_tuple(ugettext('Languages'))}, 
+    'languages': {'for_sale' : ugettext_tuple(ugettext('language_builds'))}, 
     
     'music': {'for_sale' : ugettext_tuple(ugettext('Music - teaching/performing'))},
     
@@ -160,8 +160,8 @@ category_definitions_dict['games'] = [ # Juegos
 
 category_definitions_dict['hanging_out'] = [ #pasar el tiempo
     ('talking_listening',) + ugettext_tuple(ugettext('Talking/Listening')),
-    ('friends_with_disabled',) + ugettext_tuple(ugettext('Friends w/ disabled')),
-    ('friends_with_seniors',) + ugettext_tuple(ugettext('Friends w/ seniors')),
+    ('friends_with_disabled',) + ugettext_tuple(ugettext('friend_builds w/ disabled')),
+    ('friends_with_seniors',) + ugettext_tuple(ugettext('friend_builds w/ seniors')),
     ('teaching_culture',) + ugettext_tuple(ugettext('Teaching culture')),
     ('watching_tv',) + ugettext_tuple(ugettext('Watching TV')),
     ('discuss_news',) + ugettext_tuple(ugettext('Discussing the news')),

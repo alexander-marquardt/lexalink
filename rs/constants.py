@@ -48,17 +48,17 @@ else:
 # The following "SHOW_VIP_UPGRADE_OPTION" is at the top because it is used in some of the other 
 # constant declarations. If we don't allow the users to purchase a VIP option for a particular build,
 # then we treat all the users of that build as VIP (to some degree). 
-if site_configuration.BUILD_NAME == 'Discrete':
+if site_configuration.BUILD_NAME == 'discrete_build':
     SHOW_VIP_UPGRADE_OPTION = True
 else:
-    # currently, only Discrete build allows users to upgrade to VIP. 
+    # currently, only discrete_build build allows users to upgrade to VIP. 
     # Other sites are supported by advertising.
     SHOW_VIP_UPGRADE_OPTION = False
 
     
-if settings.BUILD_NAME == "Language" : 
+if settings.BUILD_NAME == "language_build" : 
     minimum_registration_age = 14
-elif settings.BUILD_NAME == "Friend":
+elif settings.BUILD_NAME == "friend_build":
     minimum_registration_age = 16
 else:
     minimum_registration_age = 18
@@ -89,7 +89,7 @@ VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10
 RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
     
 # the number of activities  that the user can select in the various affictions/activities/etc. checkboxes. This is currently only used
-# in Friend. This limit is required to prevent index explosion
+# in friend_build. This limit is required to prevent index explosion
 MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST = 40
     
 SMALL_IMAGE_X = SMALL_IMAGE_Y = 65
@@ -292,58 +292,58 @@ append_more_advertising_info_dialog = False
 # to include criteria such as users search parameters and profile information - ie. if a man is looking for a man, we may
 # show them gay advertisements in addition to what is listed below. 
 
-if settings.BUILD_NAME == 'Friend':
+if settings.BUILD_NAME == 'friend_build':
     enable_google_ads = True
-    lexabit_ads_to_show.append('Single')
-    lexabit_ads_to_show.append('Language')
+    lexabit_ads_to_show.append('single_build')
+    lexabit_ads_to_show.append('language_build')
     
-if settings.BUILD_NAME == 'Language':
+if settings.BUILD_NAME == 'language_build':
     enable_google_ads = True
-    lexabit_ads_to_show.append('Single')
-    lexabit_ads_to_show.append('Friend')
+    lexabit_ads_to_show.append('single_build')
+    lexabit_ads_to_show.append('friend_build')
     
-if settings.BUILD_NAME == 'Single' or settings.BUILD_NAME == 'Mature':
-    # Gay, and Lesbian ads will be dynamically added depending on the search criteria.
+if settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'mature_build':
+    # gay_build, and lesbian_build ads will be dynamically added depending on the search criteria.
     enable_google_ads = True
-    lexabit_ads_to_show.append('Language')
-    lexabit_ads_to_show.append('Friend')
+    lexabit_ads_to_show.append('language_build')
+    lexabit_ads_to_show.append('friend_build')
     
-if settings.BUILD_NAME == 'Lesbian':
+if settings.BUILD_NAME == 'lesbian_build':
     enable_google_ads = True
-    lexabit_ads_to_show.append('Single')
-    lexabit_ads_to_show.append('Language')
-    lexabit_ads_to_show.append('Friend')
+    lexabit_ads_to_show.append('single_build')
+    lexabit_ads_to_show.append('language_build')
+    lexabit_ads_to_show.append('friend_build')
 
 # Pages that are more adult oriented.
-if settings.BUILD_NAME == 'Discrete':
-    # Swinger, Gay, and Lesbian ads will be dynamically added depending on the search criteria.
+if settings.BUILD_NAME == 'discrete_build':
+    # swinger_build, gay_build, and lesbian_build ads will be dynamically added depending on the search criteria.
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
-    # relevant (ie. a woman seeking a woman will be shown an ad for LesbianHeart)
+    # relevant (ie. a woman seeking a woman will be shown an ad for lesbian_buildHeart)
     enable_google_ads = False
-    lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('single_build')
     lexabit_ads_to_show.append('Client_Ad1')
-    lexabit_ads_to_show.append('Friend')
+    lexabit_ads_to_show.append('friend_build')
     append_more_advertising_info_dialog = True
 
-if settings.BUILD_NAME == 'Gay':
+if settings.BUILD_NAME == 'gay_build':
     enable_google_ads = False
-    lexabit_ads_to_show.append('Discrete')
-    lexabit_ads_to_show.append('Single')
-    lexabit_ads_to_show.append('Friend')
+    lexabit_ads_to_show.append('discrete_build')
+    lexabit_ads_to_show.append('single_build')
+    lexabit_ads_to_show.append('friend_build')
     
-if settings.BUILD_NAME == "Swinger":
+if settings.BUILD_NAME == "swinger_build":
     enable_google_ads = False
-    lexabit_ads_to_show.append('Discrete')
-    lexabit_ads_to_show.append('Friend')
-    lexabit_ads_to_show.append('Lesbian')
-    lexabit_ads_to_show.append('Single')
+    lexabit_ads_to_show.append('discrete_build')
+    lexabit_ads_to_show.append('friend_build')
+    lexabit_ads_to_show.append('lesbian_build')
+    lexabit_ads_to_show.append('single_build')
     
 
 
     
 enable_internal_ads = True
 
-if settings.BUILD_NAME == 'Gay' or settings.BUILD_NAME == 'Swinger' or settings.BUILD_NAME == 'Discrete':
+if settings.BUILD_NAME == 'gay_build' or settings.BUILD_NAME == 'swinger_build' or settings.BUILD_NAME == 'discrete_build':
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 4
     #enable_affiliate_united_ads = False
 else:
@@ -352,7 +352,7 @@ else:
     
     
 # set a flag that determines if ashley madison ads will be shown
-if settings.BUILD_NAME == 'Discrete':
+if settings.BUILD_NAME == 'discrete_build':
     enable_ashley_madison_ads = False # disabled since they don't respond to enquiries about payments.
 else:
     enable_ashley_madison_ads = False
@@ -420,7 +420,7 @@ if appspot_match:
     domain_name = "%s.appspotmail.com" % appspot_match.group(1)
     logging.info("Changing mailing doman name to %s" % domain_name)
 
-if settings.BUILD_NAME == "Discrete":
+if settings.BUILD_NAME == "discrete_build":
     # Special case for the "discrete" site, because we don't want to explicitly say the name of the site in the address field
     sender_address = u"RS - Customer Support <support@%s>" % domain_name
     sender_address_html = u"RS - Customer Support &lt;support@%s&gt;" % domain_name
@@ -440,33 +440,33 @@ else:
 ADULT_ORIENTED_SITE = False # used in determining what sort of behavior (ie. photo uploads) is allowed, and instructions that will be shown
 SITE_IS_TOTALLY_FREE = True    
 
-if settings.BUILD_NAME == "Discrete":
+if settings.BUILD_NAME == "discrete_build":
     SITE_TYPE = ugettext_lazy('confidential dating website')
     ADULT_ORIENTED_SITE = True    
     SITE_IS_TOTALLY_FREE = False
     
-elif settings.BUILD_NAME == "Single":
+elif settings.BUILD_NAME == "single_build":
     SITE_TYPE = ugettext_lazy('serious dating website')
     
-elif settings.BUILD_NAME == "Language":
+elif settings.BUILD_NAME == "language_build":
     SITE_TYPE = ugettext_lazy('website to learn languages and meet people')
 
-elif settings.BUILD_NAME == "Lesbian": 
+elif settings.BUILD_NAME == "lesbian_build": 
     SITE_TYPE = ugettext_lazy('lesbian dating website')
     ADULT_ORIENTED_SITE = True
     
-elif settings.BUILD_NAME == "Gay":
+elif settings.BUILD_NAME == "gay_build":
     SITE_TYPE = ugettext_lazy('gay dating website')    
     ADULT_ORIENTED_SITE = True
       
-elif settings.BUILD_NAME == "Swinger":
+elif settings.BUILD_NAME == "swinger_build":
     SITE_TYPE = ugettext_lazy('swingers website')
     ADULT_ORIENTED_SITE = True
 
-elif settings.BUILD_NAME == "Friend":
+elif settings.BUILD_NAME == "friend_build":
     SITE_TYPE = ugettext_lazy('website to meet people and make friends')
     
-elif settings.BUILD_NAME == "Mature":
+elif settings.BUILD_NAME == "mature_build":
     SITE_TYPE = ugettext_lazy('dating website to meet mature adults over 50 years old')
     
 else:
@@ -559,7 +559,7 @@ offset_values = {'has_profile_photo_offset':24,
 ###################################################
 ## START Formatting Options
 
-NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for Language - number of languages to show
+NUM_LANGUAGES_IN_PROFILE_SUMMARY = 8 # only for language_build - number of languages to show
 
 MAIL_TEXTAREA_ROWS = 8
 MAIL_TEXTAREA_CUTOFF_CHARS = 10000
@@ -646,7 +646,7 @@ and numbers. Additionally, it may not contain any spaces.")
 
 
 ############################################
-if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
     list_of_contact_icons = [ 'favorite', 'wink', 'kiss',  'key', 'chat_friend','blocked']
     menu_items_list = ['wink', 'kiss', 'key', 'chat_friend']
 else:
@@ -692,7 +692,7 @@ class ContactIconText():
         #'': '',
     }       
     
-    if settings.BUILD_NAME == "Language" or settings.BUILD_NAME == "Friend":
+    if settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
         plural_winks = ugettext_lazy('Greetings')
         wink_text = ugettext_lazy("Send them a greeting")
         singular_wink = ugettext_lazy('Greeting')
@@ -734,7 +734,7 @@ class ContactIconText():
         'chat_friend': ugettext_lazy("Invite them to chat with you"),
         'blocked' : ugettext_lazy("Block this user (delete new messages automatically)"),
     }
-    if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
         wink_icon = "wink.png"
     else:
         wink_icon = "greeting.png"

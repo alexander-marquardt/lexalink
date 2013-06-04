@@ -675,7 +675,7 @@ class FormUtils():
                     model_signup_fields = getattr(model_class, section_name)
                     field_name_in_current_language = model_signup_fields[field_name]['label'][lang_idx]
                     
-                    if settings.BUILD_NAME == "Language":
+                    if settings.BUILD_NAME == "language_build":
                         # do not print the langage_to_learn, since this is already incorporated into
                         # the checkbox fields for language_to_learn, and can be out-of-date, since 
                         # it was only updated on registration.
@@ -1292,7 +1292,7 @@ def print_current_search_settings(search_vals_dict, lang_idx):
                     printed_value = UserSpec.dont_care_tuple[lang_idx + 1] 
                     printed_value_already_computed = True
                     
-                elif settings.BUILD_NAME == "Friend":
+                elif settings.BUILD_NAME == "friend_build":
                     if field_name == "for_sale" or field_name == "to_buy":
                         printed_value = friend_bazaar_specific_code.all_activities_tuple[lang_idx + 1] 
                         printed_value_already_computed = True

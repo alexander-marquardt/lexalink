@@ -31,7 +31,7 @@ import settings
 import translation_helpers, localizations
 from data_struct_utils import *
 from translation_helpers import ugettext_tuple
-if settings.BUILD_NAME == "Friend":
+if settings.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code
 
 
@@ -185,29 +185,29 @@ class UserProfileDetails:
     monthly_notification_of_message = ugettext('Monthly notification of new messages.')    
     password_recovery_only = ugettext('I do not want to receive notificatoins of new messages or new contacts. My email is primarily to be used to recover my password.')
 
-    if settings.BUILD_NAME != "Language" and settings.BUILD_NAME != "Friend":
+    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
         immediate_notification_of_message_or_contacts = ugettext('Immediate notification of new messages or contacts (a kiss, a wink, or a key).')
         daily_notification_of_message_or_contacts = ugettext('Daily notification of new messages or contacts (kisses, winks, or keys).')
         weekly_notification_of_message_or_contacts = ugettext('Weekly notification of new messages or contacts (kisses, winks, or keys).')
         monthly_notification_of_message_or_contacts = ugettext('Monthly notification of new messages or contacts (kisses, winks, or keys).')
         
-    else: # Language/Friend -- no kisses or winks
+    else: # language_build/friend_build -- no kisses or winks
         immediate_notification_of_message_or_contacts = ugettext('Immediate notification of new messages or contacts (a greeting or a key).')       
         daily_notification_of_message_or_contacts = ugettext('Daily notification of new messages or contacts (greetings or keys).')        
         weekly_notification_of_message_or_contacts = ugettext('Weekly notification of new messages or contacts (greetings or keys).')        
         monthly_notification_of_message_or_contacts = ugettext('Monthly notification of new messages or contacts (greetings or keys).')
         
-    if settings.BUILD_NAME != "Language":
+    if settings.BUILD_NAME != "language_build":
         languages_list = localizations.languages_list + [    
             ('others',) +  ugettext_tuple(ugettext('Other languages')),
             ('prefer_no_say',) +  ugettext_tuple(ugettext('Prefer not to say')),]
-        languages_label =  ugettext_tuple(ugettext('Languages I speak'))
+        languages_label =  ugettext_tuple(ugettext('language_builds I speak'))
         languages_end_sorting_index_offset = 2 #intentionally positive because this is defined as an offset from the end
 
     else:
-        # don't allow people to leave an unspecified language in Language
+        # don't allow people to leave an unspecified language in language_build
         languages_list = localizations.languages_list
-        languages_label =  ugettext_tuple(ugettext('Languages I speak fluently (well enough to help someone else learn)'))
+        languages_label =  ugettext_tuple(ugettext('language_builds I speak fluently (well enough to help someone else learn)'))
         languages_end_sorting_index_offset = 0
 
         
@@ -240,7 +240,7 @@ class UserProfileDetails:
     }
     checkbox_fields.update(email_options_checkbox_fields)    
     
-    if settings.BUILD_NAME != "Friend":
+    if settings.BUILD_NAME != "friend_build":
         languages_checkbox_fields = {
             'languages' : {
                 'label': languages_label,
@@ -349,12 +349,12 @@ class UserProfileDetails:
 
         enabled_checkbox_fields_list.append("entertainment")
         enabled_checkbox_fields_list.append("athletics")
-    else:  # Friend   
+    else:  # friend_build   
         friend_bazaar_specific_code.friend_bazaar_specific_choices(checkbox_fields, enabled_checkbox_fields_list)
 
     
-    if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger" \
-       or settings.BUILD_NAME == "Lesbian":
+    if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build" \
+       or settings.BUILD_NAME == "lesbian_build":
         turn_ons_checkbox_fields = {
             'turn_ons' : {
                 'label' :  ugettext_tuple(ugettext('Turn ons')),
@@ -390,7 +390,7 @@ class UserProfileDetails:
         enabled_checkbox_fields_list.append("turn_ons")
         
             
-    if settings.BUILD_NAME == "Discrete" or settings.BUILD_NAME == "Gay" or settings.BUILD_NAME == "Swinger":
+    if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
         adult_checkbox_fields = {
             'erotic_encounters' : {
                 'label': ugettext_tuple(ugettext('Erotic encounters I am open to')),
@@ -433,10 +433,10 @@ class UserProfileDetails:
         checkbox_fields.update(adult_checkbox_fields)
         enabled_checkbox_fields_list.append("erotic_encounters")
     
-    if settings.BUILD_NAME == "Language":
+    if settings.BUILD_NAME == "language_build":
         languages_to_learn_checkbox_fields = {
             'languages_to_learn' : {
-                'label': ugettext_tuple(ugettext('Languages I would like to practice')),
+                'label': ugettext_tuple(ugettext('language_builds I would like to practice')),
                 'choices': languages_list,
                 'start_sorting_index' : 0,
                 'options' : [],
