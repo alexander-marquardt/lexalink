@@ -84,7 +84,7 @@ def send_new_feature_email(userobject, return_message_html = False):
             
         logging.info("Preparing to send new feature email to %s" % username)
         
-        subject = ugettext("friend_buildBazaar.com - from the creators of %(app_name)s") % {'app_name' : settings.APP_NAME}
+        subject = ugettext("FriendBazaar.com - from the creators of %(app_name)s") % {'app_name' : settings.APP_NAME}
                            
         message = mail.EmailMessage(sender=constants.sender_address,
                                     subject=subject)
