@@ -47,11 +47,11 @@
         
         <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/proprietary_common.css">
 
-        {% if build_name == 'Discrete' or build_name == 'Lesbian' or build_name == 'Swinger' or build_name == 'Single' %}
+        {% if build_name == 'discrete_build' or build_name == 'lesbian_build' or build_name == 'swinger_build' or build_name == 'single_build' %}
             <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/discrete_build_menubar.css">
 
         {% else %}
-            {% if build_name == "Language" or build_name == "Mature" %}
+            {% if build_name == "language_build" or build_name == "mature_build" %}
                 <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/language_build_menubar.css">
             {% else %}
                 <link rel="stylesheet" href="/{{ live_proprietary_static_dir }}/css/{{ build_name }}_menubar.css">

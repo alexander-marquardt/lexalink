@@ -124,9 +124,7 @@ class FormUtils():
             max_field_length)
         return generated_html
 
-    # We cache some of the generated HTML into local "static" variables (tied to the class)
-    # to save CPU resources. 
-    cache_generated_text_input_table_row = {}
+
     @classmethod
     def generate_text_input_table_row(cls, label, name, intype, login_type, left_col_td_format, right_col_td_format, 
                                       myinputmaxlength = constants.MAX_TEXT_INPUT_LEN):
@@ -156,7 +154,6 @@ class FormUtils():
             error_reporting.log_exception(logging.critical)
             return ""   
     #############################################
-    cache_generate_select_and_options = {}
     @classmethod
     def generate_select_and_options(cls, lang_idx, field_name, class_name, css_id, options_list, add_dashes_option=False):
         # this is a code snippet that just loops over the values passed in options_list
@@ -167,34 +164,29 @@ class FormUtils():
         # cache the generated value, since it is likely to be the same many times
         
         try:
-            cache_key = u"%s_%s_%s_%s_%s" % (field_name, class_name, css_id, id(options_list), lang_idx)
-            if not cls.cache_generate_select_and_options.has_key(cache_key):
-    
-                generated_html = u''
-                generated_html += u'<select id="%s" name="%s" class="%s">\n' % (css_id, field_name, class_name)
-                # This data structure must be populated, or we cannot loop over it
-                assert(options_list != None)
-                
-                # this is an option that is specially set for login verification (but can be used for other
-                # purposes if necessary). The value returned is '' unless an option is selected, which 
-                # allows us to verify that the user has entered in a valid value.
-                if add_dashes_option:
-                    generated_html += u'<option value="">----\n'
-                if options_list: # make sure it is not empty
-                    for opt in options_list[lang_idx]:
-                        generated_html += opt
-  
-                generated_html += u'</select>\n'
-                cls.cache_generate_select_and_options[cache_key] = generated_html
-                
-            return cls.cache_generate_select_and_options[cache_key]
+
+            generated_html = u''
+            generated_html += u'<select id="%s" name="%s" class="%s">\n' % (css_id, field_name, class_name)
+            # This data structure must be populated, or we cannot loop over it
+            assert(options_list != None)
             
+            # this is an option that is specially set for login verification (but can be used for other
+            # purposes if necessary). The value returned is '' unless an option is selected, which 
+            # allows us to verify that the user has entered in a valid value.
+            if add_dashes_option:
+                generated_html += u'<option value="">----\n'
+            if options_list: # make sure it is not empty
+                for opt in options_list[lang_idx]:
+                    generated_html += opt
+
+            generated_html += u'</select>\n'
+            return generated_html
+                
         except:
             error_reporting.log_exception(logging.critical)
             return ""        
         
     #############################################
-    cache_generate_dd_input_table_row = {}
     @classmethod
     def generate_dd_input_table_row(cls, lang_idx, label, field_name, options, login_type):
         
@@ -203,37 +195,34 @@ class FormUtils():
         # The following use of id might be incorrect -- "id" can be re-issued to another object after 
         # the current object is de-allocated - look into this. TODO
         try:
-            cache_key = "%s_%s_%s_%s_%s" % (label, field_name, id(options), login_type, lang_idx)
-            if not cls.cache_generate_dd_input_table_row.has_key(cache_key):
-                generated_html = ''
-                generated_html += u'<tr>\n'
-                generated_html += u'<td class="%s" > %s </td>\n' % (field_formats['right_align_login'], label)
+            generated_html = ''
+            generated_html += u'<tr>\n'
+            generated_html += u'<td class="%s" > %s </td>\n' % (field_formats['right_align_login'], label)
+            
+            td_id = "%s_%s" % (field_name, login_type)
+            generated_html += u'<td class="%s" id="%s" >' % (field_formats['left_align_login'], td_id)
+            
+            
+            css_id = "id-%s-%s" % (login_type, field_name)
+            generated_html += FormUtils.generate_select_and_options(
+                lang_idx,
+                field_name = field_name,
+                class_name = 'cl-standard-dropdown-width-px',
+                css_id = css_id,
+                options_list = options,
+                add_dashes_option = True)
+            
+          
+            if field_name == 'country':
+                # The following two selects are place-holders that will be replaced by the javascrip once country has been selected.
+                generated_html += '\n<select name="region" id="id-signup_fields-region" class="cl-standard-dropdown-width-px"></select>\n'
+                generated_html += '<select name="sub_region" id="id-signup_fields-sub_region" class="cl-standard-dropdown-width-px"></select>\n'
                 
-                td_id = "%s_%s" % (field_name, login_type)
-                generated_html += u'<td class="%s" id="%s" >' % (field_formats['left_align_login'], td_id)
                 
+            generated_html += u'</td></tr>'
+            
+            return generated_html
                 
-                css_id = "id-%s-%s" % (login_type, field_name)
-                generated_html += FormUtils.generate_select_and_options(
-                    lang_idx,
-                    field_name = field_name,
-                    class_name = 'cl-standard-dropdown-width-px',
-                    css_id = css_id,
-                    options_list = options,
-                    add_dashes_option = True)
-                
-              
-                if field_name == 'country':
-                    # The following two selects are place-holders that will be replaced by the javascrip once country has been selected.
-                    generated_html += '\n<select name="region" id="id-signup_fields-region" class="cl-standard-dropdown-width-px"></select>\n'
-                    generated_html += '<select name="sub_region" id="id-signup_fields-sub_region" class="cl-standard-dropdown-width-px"></select>\n'
-                    
-                    
-                generated_html += u'</td></tr>'
-                
-                cls.cache_generate_dd_input_table_row[cache_key] = generated_html
-                
-            return cls.cache_generate_dd_input_table_row[cache_key] 
         except:
             error_reporting.log_exception(logging.critical)
             return ""   
@@ -563,7 +552,6 @@ class FormUtils():
     
 
     ####
-    cache_generic_html_generator_for_checkboxes = {}
     @classmethod
     def generic_html_generator_for_checkboxes(cls, checkbox_options_list, fields_per_row):
         # Generates the HTML code for displaying the checkbox options available for different
@@ -572,50 +560,40 @@ class FormUtils():
         #       various options available in the checkboxes. 
         
         try:
-            cache_key = "%s" % (id(checkbox_options_list))
-            if not cls.cache_generic_html_generator_for_checkboxes.has_key(cache_key):
+
+            generated_html = '<table>'
+            field_count = fields_per_row
+            
+            for option in checkbox_options_list:
                 
-                generated_html = '<table>'
-                
-                field_count = fields_per_row
-                
-                for option in checkbox_options_list:
+                if field_count == fields_per_row:
+                    field_count = 0
+                    generated_html += '<tr>\n'
                     
-                    if field_count == fields_per_row:
-                        field_count = 0
-                        generated_html += '<tr>\n'
-                        
-                    field_count += 1
-                                            
-                    if fields_per_row == 1:
-                        # if we only have 1 field per row, then we don't want to compress the td widths -- eliminate the class
-                        generated_html += u'<td class="%s" >\n' % ""
-                    else:
-                        generated_html += u'<td class="%s" >\n' % (field_formats['left_align_user_main'])
-                    generated_html += option
-                    generated_html += u'</td>'
-                    
-                    if field_count == fields_per_row:
-                        generated_html += u'</tr>\n'
-             
-                # if the for loop exists, and a closing /tr was not printed, print it now
-                if field_count != fields_per_row:
+                field_count += 1
+                                        
+                if fields_per_row == 1:
+                    # if we only have 1 field per row, then we don't want to compress the td widths -- eliminate the class
+                    generated_html += u'<td class="%s" >\n' % ""
+                else:
+                    generated_html += u'<td class="%s" >\n' % (field_formats['left_align_user_main'])
+                generated_html += option
+                generated_html += u'</td>'
+                
+                if field_count == fields_per_row:
                     generated_html += u'</tr>\n'
-                    
-                generated_html += '</table>'
+         
+            # if the for loop exists, and a closing /tr was not printed, print it now
+            if field_count != fields_per_row:
+                generated_html += u'</tr>\n'
                 
-                cls.cache_generic_html_generator_for_checkboxes[cache_key] = generated_html
+            generated_html += '</table>'
+            
+            return generated_html
                     
-            return cls.cache_generic_html_generator_for_checkboxes[cache_key]
         except:
             error_reporting.log_exception(logging.critical)       
             return ''       
-
-
-        
-    ####
-
-
     
     ####
     @classmethod

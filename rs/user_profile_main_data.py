@@ -154,14 +154,14 @@ class UserSpec():
                
         # relationship_categories specifies what status people are allowed to declare. 
         relationship_categories = [
-            ('single',)        + ugettext_tuple(ugettext('single_build')), 
+            ('single',)        + ugettext_tuple(ugettext('Single')), 
             ('in_relation',)   + ugettext_tuple(ugettext('Attached')),
             ('married',)       + ugettext_tuple(ugettext('Married')),
             ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer Not To Say'))
         ]
         # relationship_search_categories specifies what status people are allowed to search_for. 
         relationship_search_categories = [dont_care_tuple,
-            ('single',)        + ugettext_tuple(ugettext('single_build')), 
+            ('single',)        + ugettext_tuple(ugettext('Single')), 
             ('in_relation',)   + ugettext_tuple(ugettext('Attached')),
             ('married',)       + ugettext_tuple(ugettext('Married')),
             ('prefer_no_say',) + ugettext_tuple(ugettext("Secret")),]

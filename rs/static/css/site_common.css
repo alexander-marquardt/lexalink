@@ -431,14 +431,3 @@ li.cl-indent {
     word-wrap: break-word;
 }
 
-.cl-login-fields-background td.cl-registration-big-prompt-td {
-	font-size: 18pt;
-	font-weight: bold;
-    text-align: center;
-}
-
-.cl-login-fields-background td.cl-registration-small-prompt-td
-{
-	font-size: 12pt;
-    text-align: center;
-}

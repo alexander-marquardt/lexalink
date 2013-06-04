@@ -450,6 +450,24 @@ div#id-show_spinner_while_loading
 
 /* **** The following section is used for customizing the login scree *** */
 
+.cl-login-fields-background td.cl-registration-big-prompt-td {
+	font-size: 18pt;
+	font-weight: bold;
+    text-align: center;
+}
+
+.cl-login-fields-background td.cl-registration-small-prompt-td
+{
+	font-size: 12pt;
+    text-align: center;
+}
+
+.cl-login-fields-background td
+{
+	padding: 5px;
+    font-size: 14px;
+}
+
 td.cl-login-td-left-side-stub { /* defines the height of the login tables and widht of left "padding" cell for each table*/
 	height: 520px;
 	width: 20px;
@@ -480,7 +498,6 @@ td.cl-td-left-align
 }
 
 
-
 td.cl-td-horizontal-bar {
 	font-size: 100%;
 	vertical-align: middle;
@@ -490,11 +507,7 @@ td.cl-td-horizontal-bar {
     color: white;
 }
 
-.cl-login-fields-background td
-{
-	padding: 5px;
-    font-size: 14px;
-}
+
 
 table.center {
     margin-left:auto;
