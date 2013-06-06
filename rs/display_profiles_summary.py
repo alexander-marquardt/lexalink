@@ -146,7 +146,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
         # section for getting all other information about the user
         if site_configuration.BUILD_NAME != "language_build" and site_configuration.BUILD_NAME != "friend_build":
             if display_userobject.languages[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % ugettext("language_builds I speak")
+                mylist = u'<strong>%s:</strong> ' % ugettext("Languages I speak")
                 mylist += utils.generic_html_generator_for_list(lang_idx, 'languages' , display_userobject.languages )
                 if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
                     generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")

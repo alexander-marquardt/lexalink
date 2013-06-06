@@ -95,7 +95,7 @@ class MyHTMLCallbackGenerator():
                 if not self.is_primary_user:
                     # Override the label for people that are viewing the profile -- it doesn't need to be so 
                     # informative.
-                    section_label = ugettext('language_builds I speak')
+                    section_label = ugettext('Languages I speak')
                     
             generated_html =  UserMainHTML.\
                            define_html_for_main_body_input_section(self.lang_idx,
