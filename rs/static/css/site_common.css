@@ -427,7 +427,7 @@ li.cl-indent {
 
 
 .cl-compressed-display-user-text {
-    white-space: pre-line;
+    white-space: normal;
     word-wrap: break-word;
 }
 

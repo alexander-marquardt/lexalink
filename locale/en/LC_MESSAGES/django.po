@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-03 16:41-0400\n"
+"POT-Creation-Date: 2013-06-06 15:07-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:733 rs/forms.py:1073 rs/login_utils.py:256 rs/messages.py:518
+#: rs/ajax.py:733 rs/forms.py:1051 rs/login_utils.py:256 rs/messages.py:518
 #: rs/rendering.py:405 rs/utils.py:1508
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -107,7 +107,7 @@ msgstr ""
 
 #: rs/batch_jobs.py:94
 #, python-format
-msgid "Friend welcome %(username)s %(app_name)s"
+msgid "friend_build welcome %(username)s %(app_name)s"
 msgstr ""
 
 #: rs/callbacks_from_html.py:78
@@ -245,6 +245,7 @@ msgid "website to meet people and make friends"
 msgstr ""
 
 #: rs/constants.py:470 rs/proprietary/search_engine_overrides.py:81
+#: rs/templates/login.html:285
 msgid "dating website to meet mature adults over 50 years old"
 msgstr ""
 
@@ -536,7 +537,7 @@ msgstr ""
 msgid "You do not have any \"%(title)s\" yet"
 msgstr ""
 
-#: rs/display_profiles_summary.py:68 rs/forms.py:289
+#: rs/display_profiles_summary.py:68 rs/forms.py:278
 msgid "See profile of:"
 msgstr "See profile and get in contact with:"
 
@@ -762,112 +763,112 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: rs/forms.py:304
+#: rs/forms.py:293
 msgid "Eliminated"
 msgstr ""
 
-#: rs/forms.py:306 rs/forms.py:467
+#: rs/forms.py:295 rs/forms.py:456
 msgid "Approving (within 24 hours)"
 msgstr ""
 
-#: rs/forms.py:388
+#: rs/forms.py:377
 msgid "Erase photo"
 msgstr ""
 
-#: rs/forms.py:389
+#: rs/forms.py:378
 msgid "Photo is private"
 msgstr ""
 
-#: rs/forms.py:390
+#: rs/forms.py:379
 msgid "Principal photo (public)"
 msgstr "Principal&nbsp;photo&nbsp;(public)"
 
-#: rs/forms.py:440
+#: rs/forms.py:429
 msgid "Public (feminine)"
 msgstr "Public"
 
-#: rs/forms.py:449
+#: rs/forms.py:438
 msgid "Approving photo for public (within 24 hours)"
 msgstr ""
 
-#: rs/forms.py:458
+#: rs/forms.py:447
 msgid "Private photo"
 msgstr "Private!<br>You need<br>their key!"
 
-#: rs/forms.py:463
+#: rs/forms.py:452
 msgid "They need your key"
 msgstr "Private (they&nbsp;need your&nbsp;key)"
 
-#: rs/forms.py:495
+#: rs/forms.py:484
 msgid "Photo"
 msgstr ""
 
-#: rs/forms.py:550
+#: rs/forms.py:539
 msgid "No primary photo"
 msgstr ""
 
-#: rs/forms.py:864
+#: rs/forms.py:842
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
 msgstr ""
 
-#: rs/forms.py:865
+#: rs/forms.py:843
 msgid "inside the \"captcha\""
 msgstr ""
 
-#: rs/forms.py:921
+#: rs/forms.py:899
 msgid "Remove report"
 msgstr ""
 
-#: rs/forms.py:923
+#: rs/forms.py:901
 msgid "Report this profile"
 msgstr ""
 
-#: rs/forms.py:1022
+#: rs/forms.py:1000
 msgid "Sent correctly"
 msgstr ""
 
-#: rs/forms.py:1023
+#: rs/forms.py:1001
 msgid "Not sent, try again"
 msgstr ""
 
-#: rs/forms.py:1040
+#: rs/forms.py:1018
 msgid "Before sending it!"
 msgstr ""
 
-#: rs/forms.py:1041
+#: rs/forms.py:1019
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 
-#: rs/forms.py:1055
+#: rs/forms.py:1033
 msgid "Send message"
 msgstr ""
 
-#: rs/forms.py:1118
+#: rs/forms.py:1096
 msgid "Verify"
 msgstr ""
 
-#: rs/forms.py:1179 rs/forms.py:1260
+#: rs/forms.py:1157 rs/forms.py:1238
 msgid "Search Box"
 msgstr ""
 
-#: rs/forms.py:1180
+#: rs/forms.py:1158
 msgid "Specify the profiles that you would like to see"
 msgstr ""
 
-#: rs/forms.py:1225 rs/forms.py:1257
+#: rs/forms.py:1203 rs/forms.py:1235
 msgid "Search"
 msgstr ""
 
-#: rs/forms.py:1252
+#: rs/forms.py:1230
 msgid "Username to search for"
 msgstr ""
 
-#: rs/forms.py:1261
+#: rs/forms.py:1239
 msgid "Specify the username that you would like to see"
 msgstr ""
 
@@ -1427,7 +1428,8 @@ msgstr ""
 "to have."
 
 #: rs/html_container.py:150
-msgid "Language-exchange specific text"
+#, fuzzy
+msgid "language_build-exchange specific text"
 msgstr ""
 "- A description of your abilities in the language that you would like to "
 "practice.\n"
@@ -1436,7 +1438,8 @@ msgstr ""
 "meeting people from other countries"
 
 #: rs/html_container.py:156
-msgid "Friend specific text"
+#, fuzzy
+msgid "friend_build specific text"
 msgstr ""
 "- Experience that you have in meeting friends on the internet.\n"
 "- Details about the activities are you available for (expand on what you "
@@ -2592,7 +2595,7 @@ msgid ""
 msgstr ""
 
 #: rs/profile_utils.py:116 rs/profile_utils.py:117 rs/utils_top_level.py:149
-msgid "Lesbian"
+msgid "lesbian_build"
 msgstr ""
 
 #: rs/profile_utils.py:122
@@ -3496,15 +3499,15 @@ msgstr ""
 msgid "All Lesbian Types"
 msgstr ""
 
-#: rs/user_profile_main_data.py:94 rs/user_profile_main_data.py:113
-#: rs/user_profile_main_data.py:172 rs/user_profile_main_data.py:193
-#: rs/user_profile_main_data.py:206
+#: rs/user_profile_main_data.py:94 rs/user_profile_main_data.py:111
+#: rs/user_profile_main_data.py:168 rs/user_profile_main_data.py:189
+#: rs/user_profile_main_data.py:202
 msgid "Female"
 msgstr ""
 
-#: rs/user_profile_main_data.py:95 rs/user_profile_main_data.py:114
-#: rs/user_profile_main_data.py:173 rs/user_profile_main_data.py:194
-#: rs/user_profile_main_data.py:207
+#: rs/user_profile_main_data.py:95 rs/user_profile_main_data.py:112
+#: rs/user_profile_main_data.py:169 rs/user_profile_main_data.py:190
+#: rs/user_profile_main_data.py:203
 msgid "Male"
 msgstr ""
 
@@ -3512,289 +3515,289 @@ msgstr ""
 msgid "Swinger (Couple)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:97 rs/user_profile_main_data.py:115
-#: rs/user_profile_main_data.py:137
+#: rs/user_profile_main_data.py:97 rs/user_profile_main_data.py:113
+#: rs/user_profile_main_data.py:133
 msgid "Transvestite / Transgendered"
 msgstr ""
 
-#: rs/user_profile_main_data.py:102 rs/user_profile_main_data.py:125
-#: rs/user_profile_main_data.py:177 rs/user_profile_main_data.py:198
-#: rs/user_profile_main_data.py:210
+#: rs/user_profile_main_data.py:102 rs/user_profile_main_data.py:121
+#: rs/user_profile_main_data.py:173 rs/user_profile_main_data.py:194
+#: rs/user_profile_main_data.py:206
 msgid "Females"
 msgstr ""
 
-#: rs/user_profile_main_data.py:103 rs/user_profile_main_data.py:126
-#: rs/user_profile_main_data.py:178 rs/user_profile_main_data.py:199
-#: rs/user_profile_main_data.py:211
+#: rs/user_profile_main_data.py:103 rs/user_profile_main_data.py:122
+#: rs/user_profile_main_data.py:174 rs/user_profile_main_data.py:195
+#: rs/user_profile_main_data.py:207
 msgid "Males"
 msgstr ""
 
-#: rs/user_profile_main_data.py:104 rs/user_profile_main_data.py:122
+#: rs/user_profile_main_data.py:104 rs/user_profile_main_data.py:120
 msgid "Swingers (Couples)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:105 rs/user_profile_main_data.py:127
-#: rs/user_profile_main_data.py:147
+#: rs/user_profile_main_data.py:105 rs/user_profile_main_data.py:123
+#: rs/user_profile_main_data.py:143
 msgid "Transvestites / Transgendered"
 msgstr ""
 
-#: rs/user_profile_main_data.py:116 rs/user_profile_main_data.py:138
+#: rs/user_profile_main_data.py:114 rs/user_profile_main_data.py:134
 msgid "Other (Details In Profile)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:128 rs/user_profile_main_data.py:148
+#: rs/user_profile_main_data.py:124 rs/user_profile_main_data.py:144
 msgid "Others (Details In Profile)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:133
+#: rs/user_profile_main_data.py:129
 msgid "Active Gay"
 msgstr ""
 
-#: rs/user_profile_main_data.py:134
+#: rs/user_profile_main_data.py:130
 msgid "Passive Gay"
 msgstr ""
 
-#: rs/user_profile_main_data.py:135
+#: rs/user_profile_main_data.py:131
 msgid "Versatile Gay"
 msgstr ""
 
-#: rs/user_profile_main_data.py:136
+#: rs/user_profile_main_data.py:132
 msgid "Bisexual"
 msgstr ""
 
-#: rs/user_profile_main_data.py:143
+#: rs/user_profile_main_data.py:139
 msgid "Active Gays"
 msgstr ""
 
-#: rs/user_profile_main_data.py:144
+#: rs/user_profile_main_data.py:140
 msgid "Passive Gays"
 msgstr ""
 
-#: rs/user_profile_main_data.py:145
+#: rs/user_profile_main_data.py:141
 msgid "Versatile Gays"
 msgstr ""
 
-#: rs/user_profile_main_data.py:146
+#: rs/user_profile_main_data.py:142
 msgid "Bisexuals"
 msgstr ""
 
-#: rs/user_profile_main_data.py:157 rs/user_profile_main_data.py:164
+#: rs/user_profile_main_data.py:153 rs/user_profile_main_data.py:160
 msgid "Single"
 msgstr ""
 
-#: rs/user_profile_main_data.py:158 rs/user_profile_main_data.py:165
+#: rs/user_profile_main_data.py:154 rs/user_profile_main_data.py:161
 msgid "Attached"
 msgstr ""
 
-#: rs/user_profile_main_data.py:159 rs/user_profile_main_data.py:166
+#: rs/user_profile_main_data.py:155 rs/user_profile_main_data.py:162
 msgid "Married"
 msgstr ""
 
-#: rs/user_profile_main_data.py:160 rs/user_profile_main_data.py:195
+#: rs/user_profile_main_data.py:156 rs/user_profile_main_data.py:191
 msgid "Prefer Not To Say"
 msgstr ""
 
-#: rs/user_profile_main_data.py:167
+#: rs/user_profile_main_data.py:163
 msgid "Secret"
 msgstr ""
 
-#: rs/user_profile_main_data.py:183 rs/user_profile_main_data.py:231
+#: rs/user_profile_main_data.py:179 rs/user_profile_main_data.py:227
 msgid "Friendship"
 msgstr ""
 
-#: rs/user_profile_main_data.py:184 rs/user_profile_main_data.py:232
+#: rs/user_profile_main_data.py:180 rs/user_profile_main_data.py:228
 msgid "Dating"
 msgstr ""
 
-#: rs/user_profile_main_data.py:185 rs/user_profile_main_data.py:233
+#: rs/user_profile_main_data.py:181 rs/user_profile_main_data.py:229
 msgid "Long Term Relationship"
 msgstr ""
 
-#: rs/user_profile_main_data.py:200
+#: rs/user_profile_main_data.py:196
 msgid "People Who Don't Specify"
 msgstr ""
 
-#: rs/user_profile_main_data.py:216
+#: rs/user_profile_main_data.py:212
 msgid "Femme (Feminine Lesbian)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:217
+#: rs/user_profile_main_data.py:213
 msgid "Bisexual Lesbian"
 msgstr ""
 
-#: rs/user_profile_main_data.py:218
+#: rs/user_profile_main_data.py:214
 msgid "Butch (Masculine Lesbian)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:219
+#: rs/user_profile_main_data.py:215
 msgid "Unlabeled Lesbian"
 msgstr ""
 
-#: rs/user_profile_main_data.py:223
+#: rs/user_profile_main_data.py:219
 msgid "Femmes (Feminine Lesbians)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:224
+#: rs/user_profile_main_data.py:220
 msgid "Bisexual Lesbians"
 msgstr ""
 
-#: rs/user_profile_main_data.py:225
+#: rs/user_profile_main_data.py:221
 msgid "Butches (Masculine Lesbians)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:226
+#: rs/user_profile_main_data.py:222
 msgid "Unlabeled Lesbians"
 msgstr ""
 
-#: rs/user_profile_main_data.py:234
+#: rs/user_profile_main_data.py:230
 msgid "Physical Relationship"
 msgstr ""
 
-#: rs/user_profile_main_data.py:312
+#: rs/user_profile_main_data.py:308
 msgid "Completed Profiles First"
 msgstr ""
 
-#: rs/user_profile_main_data.py:313
+#: rs/user_profile_main_data.py:309
 msgid "Recent Logins First"
 msgstr ""
 
-#: rs/user_profile_main_data.py:323
+#: rs/user_profile_main_data.py:319
 msgid "I Am Currently In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:325
+#: rs/user_profile_main_data.py:321
 msgid "I / We Live In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:327
+#: rs/user_profile_main_data.py:323
 msgid "I Live In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:332
+#: rs/user_profile_main_data.py:328
 msgid "I Prefer"
 msgstr ""
 
-#: rs/user_profile_main_data.py:334
+#: rs/user_profile_main_data.py:330
 msgid "I / We Would Like To Meet"
 msgstr "I&nbsp;/We&nbsp;Would&nbsp;Like&nbsp;To&nbsp;Meet"
 
-#: rs/user_profile_main_data.py:336
+#: rs/user_profile_main_data.py:332
 msgid "I Would Like To Meet"
 msgstr ""
 
-#: rs/user_profile_main_data.py:340
+#: rs/user_profile_main_data.py:336
 msgid "Email Address (Confidential)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:341
+#: rs/user_profile_main_data.py:337
 msgid "Verify Password"
 msgstr ""
 
-#: rs/user_profile_main_data.py:342
+#: rs/user_profile_main_data.py:338
 msgid "Password"
 msgstr ""
 
-#: rs/user_profile_main_data.py:343
+#: rs/user_profile_main_data.py:339
 msgid "Username (Visible To Others)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:346
+#: rs/user_profile_main_data.py:342
 msgid "I Am"
 msgstr ""
 
-#: rs/user_profile_main_data.py:347
+#: rs/user_profile_main_data.py:343
 msgid "My Age"
 msgstr ""
 
-#: rs/user_profile_main_data.py:349
+#: rs/user_profile_main_data.py:345
 msgid "I Am / We Are"
 msgstr ""
 
-#: rs/user_profile_main_data.py:350
+#: rs/user_profile_main_data.py:346
 msgid "My / Our Age (Average)"
 msgstr "My&nbsp;/&nbsp;Our&nbsp;Age&nbsp;(Average)"
 
-#: rs/user_profile_main_data.py:353
+#: rs/user_profile_main_data.py:349
 msgid "Sub Region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:354 rs/user_profile_main_data.py:540
+#: rs/user_profile_main_data.py:350 rs/user_profile_main_data.py:536
 msgid "Region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:357
+#: rs/user_profile_main_data.py:353
 msgid "My Relationship Status"
 msgstr "My&nbsp;Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:359
+#: rs/user_profile_main_data.py:355
 msgid "My / Our Relationship Status"
 msgstr "My&nbsp;/&nbsp;Our&nbsp;Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:361
+#: rs/user_profile_main_data.py:357
 msgid "Type Of Relationship"
 msgstr "Type&nbsp;Of&nbsp;Relationship"
 
-#: rs/user_profile_main_data.py:363 rs/user_profile_main_data.py:570
+#: rs/user_profile_main_data.py:359 rs/user_profile_main_data.py:566
 msgid "Language That I Want To Practice"
 msgstr ""
 
-#: rs/user_profile_main_data.py:364
+#: rs/user_profile_main_data.py:360
 msgid "My Native Language"
 msgstr "My&nbsp;Native&nbsp;Language"
 
-#: rs/user_profile_main_data.py:539
+#: rs/user_profile_main_data.py:535
 msgid "Country"
 msgstr "Country"
 
-#: rs/user_profile_main_data.py:541
+#: rs/user_profile_main_data.py:537
 msgid "Sub region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:542
+#: rs/user_profile_main_data.py:538
 msgid "Sex"
 msgstr ""
 
-#: rs/user_profile_main_data.py:543 rs/user_profile_main_data.py:573
+#: rs/user_profile_main_data.py:539 rs/user_profile_main_data.py:569
 msgid "Age"
 msgstr ""
 
-#: rs/user_profile_main_data.py:544 rs/user_profile_main_data.py:574
+#: rs/user_profile_main_data.py:540 rs/user_profile_main_data.py:570
 msgid "Order"
 msgstr ""
 
-#: rs/user_profile_main_data.py:547
+#: rs/user_profile_main_data.py:543
 msgid "I Would Like To See"
 msgstr "I&nbsp;Would&nbsp;Like&nbsp;To&nbsp;See"
 
-#: rs/user_profile_main_data.py:549
+#: rs/user_profile_main_data.py:545
 msgid "That Are Interested In"
 msgstr "That&nbsp;Are&nbsp;Interested&nbsp;In"
 
-#: rs/user_profile_main_data.py:551
+#: rs/user_profile_main_data.py:547
 msgid "That Prefer"
 msgstr "That&nbsp;Prefer"
 
-#: rs/user_profile_main_data.py:552
+#: rs/user_profile_main_data.py:548
 msgid "Their Age"
 msgstr "Their&nbsp;Age"
 
-#: rs/user_profile_main_data.py:554
+#: rs/user_profile_main_data.py:550
 msgid "Relationship Status"
 msgstr "Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:556
+#: rs/user_profile_main_data.py:552
 msgid "Looking For"
 msgstr "Looking&nbsp;For"
 
-#: rs/user_profile_main_data.py:571
+#: rs/user_profile_main_data.py:567
 msgid "In Exchange For (I Speak)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:572
+#: rs/user_profile_main_data.py:568
 msgid "With People That Are"
 msgstr ""
 
-#: rs/user_profile_main_data.py:704 rs/user_profile_main_data.py:705
+#: rs/user_profile_main_data.py:700 rs/user_profile_main_data.py:701
 msgid "Any Language"
 msgstr ""
 
@@ -3952,7 +3955,7 @@ msgstr ""
 #: rs/proprietary/search_engine_overrides.py:115
 #: rs/proprietary/search_engine_overrides.py:118
 #: rs/proprietary/search_engine_overrides.py:124
-#: rs/proprietary/templates/proprietary_ads/Friend.html:30
+#: rs/proprietary/templates/proprietary_ads/friend_build.html:30
 #: rs/templates/login.html:257
 msgid "100 percent free"
 msgstr "100% free"
@@ -3980,11 +3983,11 @@ msgstr ""
 "who you authorize will have access to your private photos."
 
 #: rs/utils_top_level.py:141
-msgid "Gay men"
+msgid "gay_build men"
 msgstr ""
 
 #: rs/utils_top_level.py:147
-msgid "Lesbians"
+msgid "lesbian_builds"
 msgstr ""
 
 #: rs/views.py:835
@@ -4068,38 +4071,6 @@ msgstr ""
 msgid "Refine your search results"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_ads/Discrete.html:9
-msgid "Looking for romance? A lover? Love?"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/Friend.html:15
-msgid "Meet new friends"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/Gay.html:16
-msgid "100 percent free gay dating"
-msgstr "100% free gay dating"
-
-#: rs/proprietary/templates/proprietary_ads/Language.html:15
-msgid "Practice languages and meet people from all around the world"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/Language.html:23
-msgid "100 percent free language exchange"
-msgstr "100% free language exchange"
-
-#: rs/proprietary/templates/proprietary_ads/Lesbian.html:9
-msgid "100 percent free lesbian dating"
-msgstr "100% free lesbian dating"
-
-#: rs/proprietary/templates/proprietary_ads/Single.html:9
-msgid "100 percent free dating for singles"
-msgstr "100% free dating for singles"
-
-#: rs/proprietary/templates/proprietary_ads/Swinger.html:9
-msgid "100 percent free contacts for swingers"
-msgstr "100% free contacts for swingers"
-
 #: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:5
 msgid "Place your advertisement here"
 msgstr ""
@@ -4111,6 +4082,30 @@ msgstr ""
 #: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:10
 msgid "More information"
 msgstr ""
+
+#: rs/proprietary/templates/proprietary_ads/discrete_build.html:9
+msgid "Looking for romance? A lover? Love?"
+msgstr ""
+
+#: rs/proprietary/templates/proprietary_ads/friend_build.html:15
+msgid "Meet new friends"
+msgstr ""
+
+#: rs/proprietary/templates/proprietary_ads/gay_build.html:16
+msgid "100 percent free gay dating"
+msgstr "100% free gay dating"
+
+#: rs/proprietary/templates/proprietary_ads/language_build.html:15
+msgid "Practice languages and meet people from all around the world"
+msgstr ""
+
+#: rs/proprietary/templates/proprietary_ads/language_build.html:23
+msgid "100 percent free language exchange"
+msgstr "100% free language exchange"
+
+#: rs/proprietary/templates/proprietary_ads/lesbian_build.html:9
+msgid "100 percent free lesbian dating"
+msgstr "100% free lesbian dating"
 
 #: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:6
 #, python-format
@@ -4130,6 +4125,14 @@ msgid "Advertise on %(app_name)s"
 msgstr ""
 "You will see the online status (Active, Idle, Away, or Offline) of all "
 "%(app_name)s members."
+
+#: rs/proprietary/templates/proprietary_ads/single_build.html:9
+msgid "100 percent free dating for singles"
+msgstr "100% free dating for singles"
+
+#: rs/proprietary/templates/proprietary_ads/swinger_build.html:9
+msgid "100 percent free contacts for swingers"
+msgstr "100% free contacts for swingers"
 
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:10
 #, fuzzy
@@ -4412,10 +4415,6 @@ msgstr ""
 msgid "lesbian dating"
 msgstr ""
 
-#: rs/templates/login.html:285
-msgid "Mature adult (over 50 years old) dating"
-msgstr ""
-
 #: rs/templates/login.html:290
 msgid "Free"
 msgstr ""
@@ -4491,15 +4490,15 @@ msgid ""
 "terms and conditions for using %(app_name)s "
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:96
+#: rs/templates/login_helpers/right_login_table.html:89
 msgid "Register here"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:99
+#: rs/templates/login_helpers/right_login_table.html:92
 msgid "it only takes 30 seconds"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:108
+#: rs/templates/login_helpers/right_login_table.html:101
 msgid " Register me"
 msgstr ""
 
