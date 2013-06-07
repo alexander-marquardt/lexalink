@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-06 15:07-0400\n"
+"POT-Creation-Date: 2013-06-07 14:49-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2290,7 +2290,7 @@ msgstr ""
 msgid "We have enabled the profile of"
 msgstr ""
 
-#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:861
+#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:866
 msgid "You have exited"
 msgstr ""
 
@@ -3653,151 +3653,151 @@ msgstr ""
 msgid "Physical Relationship"
 msgstr ""
 
-#: rs/user_profile_main_data.py:308
+#: rs/user_profile_main_data.py:309
 msgid "Completed Profiles First"
 msgstr ""
 
-#: rs/user_profile_main_data.py:309
+#: rs/user_profile_main_data.py:310
 msgid "Recent Logins First"
 msgstr ""
 
-#: rs/user_profile_main_data.py:319
+#: rs/user_profile_main_data.py:320
 msgid "I Am Currently In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:321
+#: rs/user_profile_main_data.py:322
 msgid "I / We Live In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:323
+#: rs/user_profile_main_data.py:324
 msgid "I Live In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:328
+#: rs/user_profile_main_data.py:329
 msgid "I Prefer"
 msgstr ""
 
-#: rs/user_profile_main_data.py:330
+#: rs/user_profile_main_data.py:331
 msgid "I / We Would Like To Meet"
 msgstr "I&nbsp;/We&nbsp;Would&nbsp;Like&nbsp;To&nbsp;Meet"
 
-#: rs/user_profile_main_data.py:332
+#: rs/user_profile_main_data.py:333
 msgid "I Would Like To Meet"
 msgstr ""
 
-#: rs/user_profile_main_data.py:336
+#: rs/user_profile_main_data.py:337
 msgid "Email Address (Confidential)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:337
+#: rs/user_profile_main_data.py:338
 msgid "Verify Password"
 msgstr ""
 
-#: rs/user_profile_main_data.py:338
+#: rs/user_profile_main_data.py:339
 msgid "Password"
 msgstr ""
 
-#: rs/user_profile_main_data.py:339
+#: rs/user_profile_main_data.py:340
 msgid "Username (Visible To Others)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:342
+#: rs/user_profile_main_data.py:343
 msgid "I Am"
 msgstr ""
 
-#: rs/user_profile_main_data.py:343
+#: rs/user_profile_main_data.py:344
 msgid "My Age"
 msgstr ""
 
-#: rs/user_profile_main_data.py:345
+#: rs/user_profile_main_data.py:346
 msgid "I Am / We Are"
 msgstr ""
 
-#: rs/user_profile_main_data.py:346
+#: rs/user_profile_main_data.py:347
 msgid "My / Our Age (Average)"
 msgstr "My&nbsp;/&nbsp;Our&nbsp;Age&nbsp;(Average)"
 
-#: rs/user_profile_main_data.py:349
+#: rs/user_profile_main_data.py:350
 msgid "Sub Region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:350 rs/user_profile_main_data.py:536
+#: rs/user_profile_main_data.py:351 rs/user_profile_main_data.py:537
 msgid "Region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:353
+#: rs/user_profile_main_data.py:354
 msgid "My Relationship Status"
 msgstr "My&nbsp;Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:355
+#: rs/user_profile_main_data.py:356
 msgid "My / Our Relationship Status"
 msgstr "My&nbsp;/&nbsp;Our&nbsp;Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:357
+#: rs/user_profile_main_data.py:358
 msgid "Type Of Relationship"
 msgstr "Type&nbsp;Of&nbsp;Relationship"
 
-#: rs/user_profile_main_data.py:359 rs/user_profile_main_data.py:566
+#: rs/user_profile_main_data.py:360 rs/user_profile_main_data.py:567
 msgid "Language That I Want To Practice"
 msgstr ""
 
-#: rs/user_profile_main_data.py:360
+#: rs/user_profile_main_data.py:361
 msgid "My Native Language"
 msgstr "My&nbsp;Native&nbsp;Language"
 
-#: rs/user_profile_main_data.py:535
+#: rs/user_profile_main_data.py:536
 msgid "Country"
 msgstr "Country"
 
-#: rs/user_profile_main_data.py:537
+#: rs/user_profile_main_data.py:538
 msgid "Sub region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:538
+#: rs/user_profile_main_data.py:539
 msgid "Sex"
 msgstr ""
 
-#: rs/user_profile_main_data.py:539 rs/user_profile_main_data.py:569
+#: rs/user_profile_main_data.py:540 rs/user_profile_main_data.py:570
 msgid "Age"
 msgstr ""
 
-#: rs/user_profile_main_data.py:540 rs/user_profile_main_data.py:570
+#: rs/user_profile_main_data.py:541 rs/user_profile_main_data.py:571
 msgid "Order"
 msgstr ""
 
-#: rs/user_profile_main_data.py:543
+#: rs/user_profile_main_data.py:544
 msgid "I Would Like To See"
 msgstr "I&nbsp;Would&nbsp;Like&nbsp;To&nbsp;See"
 
-#: rs/user_profile_main_data.py:545
+#: rs/user_profile_main_data.py:546
 msgid "That Are Interested In"
 msgstr "That&nbsp;Are&nbsp;Interested&nbsp;In"
 
-#: rs/user_profile_main_data.py:547
+#: rs/user_profile_main_data.py:548
 msgid "That Prefer"
 msgstr "That&nbsp;Prefer"
 
-#: rs/user_profile_main_data.py:548
+#: rs/user_profile_main_data.py:549
 msgid "Their Age"
 msgstr "Their&nbsp;Age"
 
-#: rs/user_profile_main_data.py:550
+#: rs/user_profile_main_data.py:551
 msgid "Relationship Status"
 msgstr "Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:552
+#: rs/user_profile_main_data.py:553
 msgid "Looking For"
 msgstr "Looking&nbsp;For"
 
-#: rs/user_profile_main_data.py:567
+#: rs/user_profile_main_data.py:568
 msgid "In Exchange For (I Speak)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:568
+#: rs/user_profile_main_data.py:569
 msgid "With People That Are"
 msgstr ""
 
-#: rs/user_profile_main_data.py:700 rs/user_profile_main_data.py:701
+#: rs/user_profile_main_data.py:701 rs/user_profile_main_data.py:702
 msgid "Any Language"
 msgstr ""
 
@@ -3990,7 +3990,12 @@ msgstr ""
 msgid "lesbian_builds"
 msgstr ""
 
-#: rs/views.py:835
+#: rs/views.py:546
+#, python-format
+msgid "The profile for %(username)s has been eliminated"
+msgstr ""
+
+#: rs/views.py:840
 msgid "terms.html"
 msgstr ""
 

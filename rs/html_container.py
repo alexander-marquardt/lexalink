@@ -147,13 +147,13 @@ class UserMainHTML():
                         if settings.BUILD_NAME == "language_build":
                             what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
                                 {'no_publicity_text': "%s\n\n" % ugettext("No publicity text"),
-                                 'customized_text': ugettext("language_build-exchange specific text"),
+                                 'customized_text': ugettext("Language-exchange specific text"),
                                  'no_sex_no_dating' :'',
                                  'embedded_edit_anchor' : embedded_edit_anchor}
                         if settings.BUILD_NAME == "friend_build":
                             what_to_write_about = ugettext("""%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s %(embedded_edit_anchor)s""") % \
                                 {'no_publicity_text': '',
-                                 'customized_text': ugettext("friend_build specific text"),
+                                 'customized_text': ugettext("Friend specific text"),
                                  'no_sex_no_dating' : "%s\n\n" % ugettext("Please keep in mind that %(app_name)s is *not* a dating \
 site and is *not* an escort agency, and all meetings are for friendly activities only. Members that violate the spirit \
 of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAME},

@@ -283,6 +283,7 @@ class UserSpec():
         
     elif settings.BUILD_NAME == "mature_build":
         age_categories = [
+            ('42',) + ugettext_tuple('42-49'),            
             ('50',) + ugettext_tuple('50-57'),
             ('58',) + ugettext_tuple('58-65'),          
             ('66',) + ugettext_tuple('66-73'),
