@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-07 14:55-0400\n"
+"POT-Creation-Date: 2013-06-07 15:25-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -2346,7 +2346,7 @@ msgstr "Hemos eliminado el perfil de"
 msgid "We have enabled the profile of"
 msgstr "Hemos habilitado el perfil de"
 
-#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:866
+#: rs/login_utils.py:466 rs/login_utils.py:495 rs/views.py:869
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -4154,12 +4154,19 @@ msgstr "Hombres gays"
 msgid "Lesbians"
 msgstr "Lesbianas"
 
-#: rs/views.py:546
+#: rs/views.py:448
 #, python-format
-msgid "The profile for %(username)s has been eliminated"
-msgstr "El perfil de %(username)s ha sido eliminado"
+msgid ""
+"\n"
+"                    The account for %(username)s has been correctlly "
+"registered. You can enter using your \"Nick\" %(username)s\n"
+"                    and password"
+msgstr ""
+"\n"
+"La cuenta de %(username)s ha sido registrada correctamente."
+"Puedes entrar directamente con tu \"Nick\" %(username)s y contraseña"
 
-#: rs/views.py:840
+#: rs/views.py:843
 msgid "terms.html"
 msgstr "terminos.html"
 
@@ -5149,7 +5156,7 @@ msgid ""
 "page:"
 msgstr ""
 "\n"
-"Envia a %(viewed_profile_name)s un mensaje sin salir de esta página:"
+"Envía a %(viewed_profile_name)s un mensaje sin salir de esta página:"
 
 #: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:69
 #, python-format
@@ -5221,6 +5228,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "The profile for %(username)s has been eliminated"
+#~ msgstr "El perfil de %(username)s ha sido eliminado"
 
 #, fuzzy
 #~ msgid "Mature adult (over 50 years old) dating"
