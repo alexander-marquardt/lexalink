@@ -884,6 +884,7 @@ var chan_utils = new function () {
 
                     // clear the string of the queued messages, since we are now processing the most
                     // up-to-date submission, which should contain all values from this string
+                    chan_utils_self.string_of_messages_in_queue = '';
 
 
                     var json_post_dict = {'to_uid' : box_id, 'message': msg,
@@ -913,21 +914,23 @@ var chan_utils = new function () {
                             $("#" + box_id).chatbox("option", "boxManager").setChatboxInputBox(msg);
                         },
                         complete: function () {
-                            // reset the message polling delay - we use the "in_focus" delay, since we know that the user is in the chatbox
-                            chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_in_focus_polling_delay);
+                            
                             chan_utils_self.sending_message_is_locked_mutex = false;
 
                             // finally, send messages that have been queued while waiting for the server to respond
                             if ( chan_utils_self.string_of_messages_in_queue !== '') {
                                 chan_utils_self.send_message(box_id, chan_utils_self.string_of_messages_in_queue);
-                                chan_utils_self.string_of_messages_in_queue = '';
+
                             }
+
+                            // reset the message polling delay - we use the "in_focus" delay, since we know that the user is in the chatbox
+                            chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_in_focus_polling_delay);
                         }
                     });
                 } else {
                     // if the user is attempting to send too many messages at once (which would overload the server) -
                     // we queue these messages and will send them (as a single string) when the current ajax call enters into the "complete" branch.
-                    chan_utils_self.string_of_messages_in_queue += msg + "<br>";
+                    chan_utils_self.string_of_messages_in_queue += msg + "\n";
 
                 }
                 if (! error_sending_message) {
