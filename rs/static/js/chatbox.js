@@ -74,7 +74,7 @@ var initJqueryUiChatbox = function($){
                             var box = self.elem.uiChatboxLog;
                             var e = document.createElement('div');
                             $(e).html("<b>" + sender_name +":</b> " + msg)
-                            .addClass("ui-chatbox-msg ui-chatbox-highlight-link");
+                            .addClass("ui-chatbox-msg ui-chatbox-highlight-link cl-literally-display-user-text");
                             box.append(e);
                             self._scrollToBottom();
 
