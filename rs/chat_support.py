@@ -419,7 +419,24 @@ def query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, ty
                 # as soon as we start seeing messages that are older than the required "last_update_time_string", we break out
                 break
         else:
-            error_reporting.log_exception(logging.warning, error_message = "Memcache miss in query_recent_chat_messages")
+            # Report in the logs on this error
+            sender_userobject = utils_top_level.get_object_from_string(owner_uid)
+            sender_username = sender_userobject.username
+            
+            if type_of_conversation == "group":
+                group_object = utils_top_level.get_object_from_string(other_uid)
+                other_name = group_object.group_name
+            elif type_of_conversation == "one_on_one":
+                other_userobject = utils_top_level.get_object_from_string(other_uid)
+                other_name = other_userobject.username
+                
+            error_message = """Memcache miss in query_recent_chat_messages
+            sender_username: %s
+            type_of_conversation: %s 
+            other_name: %s
+            last_update_time_string: %s
+            """ % (sender_username, type_of_conversation, other_name, last_update_time_string)
+            error_reporting.log_exception(logging.warning, error_message = error_message)
             
     return list_of_chat_messages
 
