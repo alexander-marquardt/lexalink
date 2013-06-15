@@ -296,23 +296,35 @@ if settings.BUILD_NAME == 'friend_build':
     enable_google_ads = True
     lexabit_ads_to_show.append('single_build')
     lexabit_ads_to_show.append('language_build')
+    lexabit_ads_to_show.append('mature_build')
     
 if settings.BUILD_NAME == 'language_build':
     enable_google_ads = True
     lexabit_ads_to_show.append('single_build')
     lexabit_ads_to_show.append('friend_build')
+    lexabit_ads_to_show.append('mature_build')
     
-if settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'mature_build':
+if settings.BUILD_NAME == 'mature_build':
     # gay_build, and lesbian_build ads will be dynamically added depending on the search criteria.
     enable_google_ads = True
+    lexabit_ads_to_show.append('single_build')    
     lexabit_ads_to_show.append('language_build')
     lexabit_ads_to_show.append('friend_build')
+    
+if settings.BUILD_NAME == 'single_build':
+    enable_google_ads = True
+    lexabit_ads_to_show.append('language_build')
+    lexabit_ads_to_show.append('friend_build')    
+    lexabit_ads_to_show.append('mature_build')
+    
     
 if settings.BUILD_NAME == 'lesbian_build':
     enable_google_ads = True
     lexabit_ads_to_show.append('single_build')
     lexabit_ads_to_show.append('language_build')
     lexabit_ads_to_show.append('friend_build')
+    lexabit_ads_to_show.append('mature_build')
+    
 
 # Pages that are more adult oriented.
 if settings.BUILD_NAME == 'discrete_build':
@@ -321,15 +333,19 @@ if settings.BUILD_NAME == 'discrete_build':
     # relevant (ie. a woman seeking a woman will be shown an ad for lesbian_buildHeart)
     enable_google_ads = False
     lexabit_ads_to_show.append('single_build')
+    lexabit_ads_to_show.append('mature_build')    
     lexabit_ads_to_show.append('Client_Ad1')
     lexabit_ads_to_show.append('friend_build')
     append_more_advertising_info_dialog = True
+    
 
 if settings.BUILD_NAME == 'gay_build':
     enable_google_ads = False
     lexabit_ads_to_show.append('discrete_build')
     lexabit_ads_to_show.append('single_build')
     lexabit_ads_to_show.append('friend_build')
+    lexabit_ads_to_show.append('mature_build')
+    
     
 if settings.BUILD_NAME == "swinger_build":
     enable_google_ads = False
@@ -337,9 +353,9 @@ if settings.BUILD_NAME == "swinger_build":
     lexabit_ads_to_show.append('friend_build')
     lexabit_ads_to_show.append('lesbian_build')
     lexabit_ads_to_show.append('single_build')
+    lexabit_ads_to_show.append('mature_build')
     
-
-
+    
     
 enable_internal_ads = True
 
