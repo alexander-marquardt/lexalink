@@ -211,7 +211,57 @@ import login_utils
 from google.appengine.datastore.datastore_query import Cursor
 
 
+def create_and_update_photo_tracker(userobject):
 
+    try:
+        
+        user_photos_tracker_key = userobject.user_photos_tracker_key 
+        if not user_photos_tracker_key:     
+            # This userobject doesn't have a photo tracker setup yet. Create one now. 
+            user_photos_tracker = models.UserPhotosTracker()
+        
+            profile_photo_key = None
+            public_photos_keys_list = []
+            private_photos_keys_list = []
+             
+            # Loop over all photos, and mark them appropriately based on the inputs. 
+            all_user_photo_keys = models.PhotoModel.query().filter(models.PhotoModel.parent_object == userobject.key).fetch(constants.MAX_NUM_PHOTOS, keys_only = True)  
+            for photo_key in all_user_photo_keys:
+                photo_key_str = photo_key.urlsafe()
+                photo_object = photo_key.get()
+
+                if photo_object:
+                    if photo_object.is_private:
+                        private_photos_keys_list.append(photo_key)
+                    else:
+                        # photo is public
+                        public_photos_keys_list.append(photo_key)
+                    if photo_object.is_profile:
+                        assert(not photo_object.is_private)
+                        profile_photo_key = photo_key
+            
+            user_photos_tracker.profile_photo_key = profile_photo_key
+            user_photos_tracker.public_photos_keys = list(public_photos_keys_list)
+            user_photos_tracker.private_photos_keys = list(private_photos_keys_list)
+            user_photos_tracker.put() 
+            
+            userobject.user_photos_tracker_key = user_photos_tracker.key
+            userobject.put()            
+            
+            info_message = "**Updated user_photos_tracker on %s's object<br>\n" % userobject.username
+        else:
+            info_message = "No update to user_photos_tracker on %s - already up-to-date\n" % userobject.username
+            
+        logging.info(info_message)   
+        
+
+    
+    except:
+        error_reporting.log_exception(logging.critical)       
+           
+    return        
+         
+         
 
 def fix_items_sub_batch (request):
     
@@ -224,25 +274,20 @@ def fix_items_sub_batch (request):
         userobject = ndb.Key(urlsafe = userobject_key_str).get()
             
         try:
-            search_preferences_key = userobject.search_preferences2
-            if not search_preferences_key:
-                userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, 'es') 
-                userobject.put()
-                info_message = "**Updated search_preferences2 on %s's object<br>\n" % userobject.username
-                logging.info(info_message)   
+            create_and_update_photo_tracker(userobject)
+            
         except:
             error_reporting.log_exception(logging.critical)  
             
     return http.HttpResponse('OK')
-              
-                   
+
                 
 def batch_fix_object(request):
 
     
     """ This function scans the database for profiles that need to be fixed
     """
-    PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
+    PAGESIZE = 30 # don't make this much more than 100 or we start overusing memory and get errors
     
     # Note: to use cursors, filter parameters must be the same for all queries. 
     # This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
