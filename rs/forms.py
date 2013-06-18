@@ -232,8 +232,15 @@ class FormUtils():
         
         try:
             
-            photo_object_key = \
-                PhotoModel.query().filter(PhotoModel.is_profile == True).filter(PhotoModel.parent_object == userobject.key).get(keys_only = True)
+            user_photos_tracker_key = userobject.user_photos_tracker_key            
+            if user_photos_tracker_key:     
+                user_photos_tracker = user_photos_tracker_key.get()
+                photo_object_key = user_photos_tracker.profile_photo_key
+                
+            else:
+                photo_object_key = \
+                    PhotoModel.query().filter(PhotoModel.is_profile == True).filter(PhotoModel.parent_object == userobject.key).get(keys_only = True)
+            
             if photo_object_key:
                 photo_object_key_str = photo_object_key.urlsafe()
             else:
@@ -317,7 +324,14 @@ class FormUtils():
         
         try:
             #photo_objects = display_userobject.photomodel_set.order('creation_date').fetch(MAX_NUM_PHOTOS)
-            photo_objects_keys = PhotoModel.query().filter(PhotoModel.parent_object == display_userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)
+            user_photos_tracker_key = display_userobject.user_photos_tracker_key            
+            if user_photos_tracker_key:     
+                user_photos_tracker = user_photos_tracker_key.get()
+                photo_objects_keys = user_photos_tracker.public_photos_keys + user_photos_tracker.private_photos_keys
+                
+            else:
+                photo_objects_keys = PhotoModel.query().filter(PhotoModel.parent_object == display_userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)
+                
             num_photos = len(photo_objects_keys)
             displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, display_userobject.key.urlsafe())
             img_alt_text = "%s: %s" % (display_userobject.username, displayed_profile_title)

@@ -203,6 +203,15 @@ def resize_and_put_photos(userobject, blob_info):
             unique_last_login_offset_obj.has_public_photo_offset = True
             unique_last_login_offset_obj.has_profile_photo_offset = True
             unique_last_login_offset_obj.put()
+            
+            user_photos_tracker_key = userobject.user_photos_tracker_key            
+            if user_photos_tracker_key:     
+                logging.warning("Remove check on user_photos_tracker once all userobjects have been updated to have one defined") 
+                user_photos_tracker = user_photos_tracker_key.get()
+                if photo.is_profile:
+                    user_photos_tracker.profile_photo_key = photo.key
+                user_photos_tracker.public_photos_keys.append(photo.key)
+                user_photos_tracker.put()                      
 
     else:
         # silently fail if they try to upload more photos -- they will easily see that the photo
