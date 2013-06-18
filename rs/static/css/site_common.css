@@ -29,13 +29,19 @@
 
 
 body {
-	font-family: Arial, Verdana, SunSans-Regular, Sans-Serif;
+	font-family:  Arial, Verdana, SunSans-Regular, Sans-Serif;
 	border-top: 0px;
 	/* color: #333333; /* almost-white/light gray */
 	font-size: 12px;
 	padding: 0px 0px;
     color: #333333; /* the text color */
-	}
+    line-height: 125%; /* adds spacing between the lines of text */
+}
+
+input { /* used for defining the characteristics of input text boxes and anything else with "input" tag. */
+	font-family: Arial, Verdana, SunSans-Regular, Sans-Serif;
+}
+
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight:bold;
@@ -52,9 +58,34 @@ h3 {
     font-size: 10pt;
 }
 
-input { /* used for defining the characteristics of input text boxes and anything else with "input" tag. */
-	font-family: Arial, Verdana, SunSans-Regular, Sans-Serif;
+
+ol {
+	list-style: decimal;
 }
+
+ul {
+	list-style: disc;
+}
+
+
+p,
+dl,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+ul,
+pre,
+table,
+address,
+fieldset {
+	margin-bottom: 20px;
+}
+
 
 /* set the color for the text links. Note that anchors inside ui-widget must be declared so that the default
    ui-widget coloring is over-ridden */
