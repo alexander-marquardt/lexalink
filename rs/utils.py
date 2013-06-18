@@ -822,6 +822,12 @@ def create_and_return_usertracker():
     user_tracker.put()
 
     return user_tracker.key
+
+def create_and_return_user_photos_tracker():
+    # creates a user_photo_tracker object
+    user_photos_tracker = models.UserPhotosTracker()
+    user_photos_tracker.put()
+    return user_photos_tracker.key
             
 
 def update_ip_address_on_user_tracker(user_tracker_ref):

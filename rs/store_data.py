@@ -154,8 +154,13 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
             if review_action_dict.has_key('delete'):
                 delete_photo_list_of_keys.append(review_action_dict['delete'])
                         
-        # Loop over all photos, and mark them appropriately based on the inputs. 
 
+        profile_photo_key = None
+        public_photos_keys_list = []
+        private_photos_keys_list = []
+         
+
+        # Loop over all photos, and mark them appropriately based on the inputs. 
         all_user_photo_keys = PhotoModel.query().filter(PhotoModel.parent_object == userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)  
         for photo_key in all_user_photo_keys:
             photo_key_str = photo_key.urlsafe()
@@ -163,6 +168,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
             
             if photo_key_str in delete_photo_list_of_keys:
                 photo_key.delete()
+                photo_object = None
             else:
                 if photo_key_str in is_private_list_of_keys:
                     if not photo_object.is_private:
@@ -174,36 +180,51 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                         # if this is a photo review, we should never be marking photos as profile or as normal .. 
                         # but additionally, this code is invalid for admin reviews, since it assumes that all user photos
                         # that is not in the list of private photos are public photos - but this list only contains
-                        # a single element when we call this function from the reviewers page.
-                        if photo_key_str in is_profile_key:
+                        # a single element when we call this function from the admin reviewers page.
+                        if photo_key_str == is_profile_key:
+                            
+                            # if it is already marked as "is_profile" then don't bother writing it again (to save a database write)
                             if not photo_object.is_profile:
                                 photo_object.is_profile = True
                                 photo_object.is_private = False
                                 utils.put_object(photo_object)
 
-                        else: # it is just a normal photo
+                        else: # it is just a normal photo (not profile and not private)
+                            
+                            # if it is marked as private or as profile, then clear these flags and write the object... otherwise
+                            # leave it as is without a write, since it is already correctly set.
                             if photo_object.is_private or photo_object.is_profile:
                                 photo_object.is_private = False
                                 photo_object.is_profile = False
                                 utils.put_object(photo_object)
-                
-                
-        # Do *not* try to combine this loop with the previous for loop - it is necessary that all photo_objects
-        # are updated before we start to check if they are private, public, etc.
-        has_private_photos = has_public_photos = has_profile_photo = False
-        for photo_key in all_user_photo_keys:
-            photo_key_str = photo_key.urlsafe()
-            photo_object = photo_key.get()
-            if photo_object: # make sure not deleted
+            
+            if photo_object:
+                if photo_object.is_private:
+                    private_photos_keys_list.append(photo_key)
+                else:
+                    # photo is public
+                    public_photos_keys_list.append(photo_key)
                 if photo_object.is_profile:
-                    has_profile_photo = True
-                    has_public_photos = True
-                elif photo_object.is_private:
-                    has_private_photos = True
-                else: 
-                    has_public_photos = True
+                    assert(not photo_object.is_private)
+                    profile_photo_key = photo_key
+        
+        
+        # The following block takes care of setting up the user_photos_tracker, which will allow efficient access to the 
+        # photos associated with each profile.
+        user_photos_tracker_key = userobject.user_photos_tracker_key            
+        if user_photos_tracker_key:     
+            user_photos_tracker = user_photos_tracker_key.get()
+            logging.warning("Remove check on user_photos_tracker once all userobjects have been updated to have one defined") 
+            user_photos_tracker.profile_photo_key = profile_photo_key
+            user_photos_tracker.public_photos_keys = list(public_photos_keys_list)
+            user_photos_tracker.private_photos_keys = list(private_photos_keys_list)
+            user_photos_tracker.put()          
                 
 
+        has_profile_photo = True if profile_photo_key else False
+        has_public_photos = True if public_photos_keys_list else False
+        has_private_photos = True if private_photos_keys_list else False
+               
         # update the offsets for displaying the user with higher (or lower) priority in the search results.
         unique_last_login_offset_object = userobject.unique_last_login_offset_ref.get()
         unique_last_login_offset_object.has_profile_photo_offset = has_profile_photo
@@ -1299,6 +1320,8 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
         userobject.spam_tracker = messages.initialize_and_store_spam_tracker(userobject.spam_tracker) 
         
         userobject.user_tracker = utils.create_and_return_usertracker()
+        
+        userobject.user_photos_tracker_key = utils.create_and_return_user_photos_tracker()
             
         sharding.increment("number_of_new_users_shard_counter")
     

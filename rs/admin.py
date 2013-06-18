@@ -171,8 +171,6 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         # since we use this function for both deleting/approving, as well as displaying the photos -- we need a "final" pass
         # to process prviously marked photos -- this is indicated by the "final_pass" bookmark.
         
-        
-        
         if bookmark != 'final_pass':
             if bookmark :
                 bookmark_key = ndb.Key(urlsafe = bookmark)

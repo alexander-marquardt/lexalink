@@ -432,8 +432,15 @@ class ChatGroupTracker(ndb.Model):
     group_creator_uid_string = ndb.StringProperty(default = None, indexed = False) 
     
 
-    
-    
+class UserPhotosTracker(ndb.Model):
+    """ 
+    This class is used for keeping track of the photos that each user has in their profile. There should be a one-to-one
+    mapping from UserModel to UserPhotos (ie. each UserModel should contain a single UserPhotos object). 
+    """
+    profile_photo_key = ndb.KeyProperty(kind='PhotoModel')
+    public_photos_keys = ndb.KeyProperty(kind='PhotoModel', repeated = True)
+    private_photos_keys = ndb.KeyProperty(kind='PhotoModel', repeated = True)
+
 ############################################
 class UserModel(ndb.Model):
     # Defines the User Model (ie. the data-structure that contains all relevant information about a 
@@ -463,6 +470,9 @@ class UserModel(ndb.Model):
     # of the userobject versus the "real" copy -- in the case of a backup, this value will be set to False.
     is_real_user = ndb.BooleanProperty(default=False)
     
+    # The following allows us to quickly access photos associated with this users profile, without having
+    # to query the database. This is here mainly for efficiency. 
+    user_photos_tracker_key = ndb.KeyProperty(kind=UserPhotosTracker, default=None)
     
     # The backup tracker provides us with a single node that is in common with a particular user object
     # and it's backups. The primary userobject as well as the backups all contain pointers to the same 
@@ -688,7 +698,7 @@ class PhotoModel(ndb.Model):
        
     # The following two photos will only be stored temporarily. These are used for verifying that
     # the original image does not have a watermark. Once verified, the watermarked small, medium, and large images
-    # will be the only ones permanently stored and these original images can be erased.
+    # will be the only ones permanently stored and these original images will be erased.
     medium_before_watermark = ndb.BlobProperty(required = False)
     large_before_watermark = ndb.BlobProperty(required = False)
 
