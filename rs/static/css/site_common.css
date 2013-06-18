@@ -198,14 +198,29 @@ select {
 }
 
 
-.cl-text-24pt-format {font-size: 24px;}
-.cl-text-big-format {font-size: 20px;}
-.cl-text-large-format {font-size: 18px;}
-.cl-text-medium-format {font-size: 16px;}
-.cl-text-14pt-format {font-size: 14px;}
-.cl-text-12pt-format {font-size: 12px;}
-.cl-text-10pt-format {font-size: 10px;}
-.cl-text-8pt-format {font-size: 8px;}
+.cl-text-24pt-format {
+    font-size: 24pt;
+    line-height: 125%;
+}
+.cl-text-big-format {
+    font-size: 180%;}
+.cl-text-large-format {font-size: 160%;
+    line-height: 125%; /* adds spacing between the lines of text */
+}
+.cl-text-medium-format {
+    font-size: 140%;}
+.cl-text-14pt-format {font-size: 14pt;
+    line-height: 125%; /* adds spacing between the lines of text */
+}
+.cl-text-12pt-format {
+    font-size: 12pt;}
+.cl-text-10pt-format {font-size: 10pt;
+    line-height: 125%; /* adds spacing between the lines of text */
+}
+.cl-text-8pt-format {
+    font-size: 8pt;
+    line-height: 125%; /* adds spacing between the lines of text */
+}
 
 .cl-vertical-align-middle {
     vertical-align: middle;
