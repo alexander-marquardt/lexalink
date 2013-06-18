@@ -5219,7 +5219,7 @@ msgid ""
 msgstr ""
 "\n"
 "Podrás enviar %(cf_num_messages)s mensajes por día a cada persona con quien "
-"ya hayas tenido contacto (contra %(std_num_messages)s mensajes por día para "
+"ya hayas tenido contacto (en vez de %(std_num_messages)s mensajes por día para "
 "los socios no VIP)."
 
 #: rs/templates/user_main_helpers/vip_benefits.html:16
