@@ -453,10 +453,17 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                     html_for_delete_account = u"<p>We have reset access to %s. New email is %s and new password is %s</p>"  % (
                         userobject.username, new_email_address, new_password)     
                     
+                    # Note: eventually , we may consider storing the original email_address and hashed-password in a seperate data structure
+                    # in case we wan the ability to roll-back  profiles that we have "reset" to their original owners. Not a priority right
+                    # now, and so not done yet. 
                     userobject.email_address = new_email_address
                     userobject.password = utils.passhash(new_password)
-                    userobject.reason_for_profile_removal = None            
-            
+                    userobject.reason_for_profile_removal = None    
+                    if new_email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
+                        userobject.email_options[0] = 'only_password_recovery'
+                    else:
+                        userobject.email_options[0] = 'daily_notification_of_new_messages'
+                        
             elif action_to_take == "set_password":
                 if not new_password:
                     html_for_delete_account = "<p>You need to pass in a password. /rs/admin/action/set_password/name/[name_val]/[new_password]/</p>"
