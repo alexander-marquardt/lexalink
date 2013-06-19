@@ -1246,7 +1246,7 @@ def store_report_unacceptable_profile(request, display_uid):
                 error_message = "Profile %s has been deleted due to reports from other users in the time window" % displayed_profile.username 
                 email_utils.send_admin_alert_email(error_message, subject = "%s Deleted Profile" % settings.APP_NAME)
                 logging.critical(error_message)
-                login_utils.delete_or_enable_account_and_generate_response(request, displayed_profile, delete_or_enable = "delete", reason_for_profile_removal = "terms")
+                login_utils.take_action_on_account_and_generate_response(request, displayed_profile, action_to_take = "delete", reason_for_profile_removal = "terms")
                 
                 # have not yet implemented the code to actually check blocked IPs and block them - this will be done in the future.
                 blocked_ip_object = models.TemporarilyBlockedIPAddresses(blocked_ip = blocked_ip)

@@ -414,7 +414,7 @@ def check_test_cookie(request):
         return False
 
     
-def delete_or_enable_account_and_generate_response(request, userobject, delete_or_enable, reason_for_profile_removal = None):
+def take_action_on_account_and_generate_response(request, userobject, action_to_take, reason_for_profile_removal = None, new_password = None):
     # this function marks the user object as deleted, and assumes that verifications have already been done
     # This function should *NEVER* be exposed as a URL.
     
@@ -427,19 +427,33 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
             userobject =  user_key.get()
             
         
-            if delete_or_enable == "delete":
+            if action_to_take == "delete":
                 userobject.user_is_marked_for_elimination = True
         
                 html_for_delete_account = u"<p>%s %s.</p>" % (ugettext("We have eliminated the profile of"), 
                                                                                 userobject.username)
                 userobject.reason_for_profile_removal = reason_for_profile_removal
                 
-            if delete_or_enable == "enable": 
+            if action_to_take == "enable": 
                 userobject.user_is_marked_for_elimination = False
 
                 html_for_delete_account = u"<p>%s %s.</p>" % (ugettext("We have enabled the profile of"),
                     userobject.username)
                 userobject.reason_for_profile_removal = None
+                
+            if action_to_take == "disable":
+                # We leave the account in the database, and we continue to display it, but we remove access. This involves
+                # removing the email address, and setting the password to '' (which will never be matched, since we don't 
+                # accept blank passwords on the login screen)
+                html_for_delete_account = u"<p>%s %s.</p>" % ("We have disabled access to" , userobject.username)                
+                userobject.email_address = '----'
+                userobject.password = utils.passhash(constants.DISABLED_PROFILE_PASSWORD)
+                userobject.reason_for_profile_removal = reason_for_profile_removal
+            
+            if action_to_take == "set_password":
+                assert(new_password)
+                html_for_delete_account = u"<p>We set new password for %s to %s</p>" % (userobject.username, new_password)                
+                userobject.password = utils.passhash(new_password)
             
             utils.put_userobject(userobject)
             
@@ -454,7 +468,7 @@ def delete_or_enable_account_and_generate_response(request, userobject, delete_o
         logging.info(info_message)
     
         # Kill *ALL* sessions (remove from DB) that this user currently has open (on multiple machines)
-        if delete_or_enable == "delete":
+        if action_to_take == "delete" or action_to_take == "disable":
             gaesessions.kill_user_sessions(userobject.user_tracker)
         
         template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
@@ -482,7 +496,7 @@ def delete_userobject_with_name_and_security_hash(request, username, hash_of_cre
         if userobject and \
            hash_of_creation_date == userobject.hash_of_creation_date[:constants.EMAIL_OPTIONS_CONFIRMATION_HASH_SIZE] and\
            userobject.user_is_marked_for_elimination == False:
-            http_response = delete_or_enable_account_and_generate_response(request, userobject, delete_or_enable = "delete")
+            http_response = take_action_on_account_and_generate_response(request, userobject, action_to_take = "delete")
         else: 
             generated_html =  u'<div class="cl-text-large-format"><br><br>'
     
@@ -520,7 +534,7 @@ def delete_or_enable_account(request, owner_uid, delete_or_enable):
         
         assert(owner_uid == owner_userobject.key.urlsafe())
         
-        return delete_or_enable_account_and_generate_response(request, owner_userobject, delete_or_enable)
+        return take_action_on_account_and_generate_response(request, owner_userobject, delete_or_enable)
     except:
         error_reporting.log_exception(logging.critical)   
         return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)

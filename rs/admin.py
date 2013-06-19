@@ -410,30 +410,13 @@ def count_clients(request):
     
     return HttpResponse(generated_html)
 
-
-        
-def enable_username(request, name_to_enable):
-    
-    try:
-        
-        q = models.UserModel.query().filter(models.UserModel.username == name_to_enable.upper())
-        userobject = q.get()
-        
-        return login_utils.delete_or_enable_account_and_generate_response(
-            request, userobject, delete_or_enable = "enable")    
-        
-    except:
-        error_reporting.log_exception(logging.critical)
-        return http.HttpResponseServerError()
-
-
-    
-def run_query_to_remove_profiles(request, query_key, query_value, reason_for_removal):
+         
+def run_query_to_take_action_on_profiles(request, action_to_take, query_key, query_value, reason_for_profile_removal, new_password):
 
     PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors   
     generated_html = ''
     
-    q= models.UserModel.query().filter(models.UserModel._properties[query_key] == query_value)
+    q= models.UserModel.query().filter(models.UserModel._properties[query_key] == query_value).filter(models.UserModel.is_real_user == True)
     userobject_batch = q.fetch(PAGESIZE)
             
     if not userobject_batch:
@@ -444,11 +427,11 @@ def run_query_to_remove_profiles(request, query_key, query_value, reason_for_rem
 
     for userobject in userobject_batch:  
         try:
-            info_message = "** Eliminating %s userobject<br>\n" % userobject.username
+            info_message = "** %s %s userobject<br>\n" % (action_to_take, userobject.username)
             generated_html += info_message
             logging.info(info_message)                    
-            login_utils.delete_or_enable_account_and_generate_response(
-                request, userobject, delete_or_enable = "delete", reason_for_profile_removal = reason_for_removal)
+            login_utils.take_action_on_account_and_generate_response(
+                request, userobject, action_to_take, reason_for_profile_removal, new_password)
                 
         except:
             error_reporting.log_exception(logging.critical)  
@@ -456,27 +439,37 @@ def run_query_to_remove_profiles(request, query_key, query_value, reason_for_rem
     return generated_html
         
         
-def batch_remove_profiles(request, ip_to_remove = None, name_to_remove = None, email_to_remove = None, reason_for_removal = None):
+def batch_take_action_on_profiles(request, action_to_take, field_for_action, val_for_query, reason_for_profile_removal = None, new_password = None):
 
     
     """ This function scans the database for profiles that need to be fixed
+    
+    action_to_take: "delete", "enable", "disable", "set_password"    
+    field_for_action: "name", "ip", "email"
+    val_for_query: if field_for_acion is "email", this is the email address, if field_for_action is "name" this is the name, etc.
+    
     """
-    PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
+    
+    valid_field_for_action_vals = ["name", "ip", "email"] # currently just used for error reporting
     
     try:
                     
         generated_html = 'Updating userobjects:<br><br>'
             
-
-        if ip_to_remove:
-            generated_html += run_query_to_remove_profiles(request, 'registration_ip_address', ip_to_remove.replace(' ', ''), reason_for_removal)
-            generated_html += run_query_to_remove_profiles(request, 'last_login_ip_address', ip_to_remove.replace(' ', ''), reason_for_removal)
-        elif name_to_remove:
-            generated_html += run_query_to_remove_profiles(request, 'username', name_to_remove.upper().replace(' ', ''), reason_for_removal)
-        elif email_to_remove:
-            generated_html += run_query_to_remove_profiles(request, 'email_address', email_to_remove.lower().replace(' ', ''), reason_for_removal)            
+        val_for_query = val_for_query.replace(' ', '')
+        
+        if field_for_action == "ip":
+            generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'registration_ip_address', val_for_query, reason_for_profile_removal, new_password)
+            generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'last_login_ip_address', val_for_query, reason_for_profile_removal, new_password)
+        elif field_for_action == "name":
+            val_for_query = val_for_query.upper()
+            generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'username', val_for_query, reason_for_profile_removal, new_password)
+        elif field_for_action == "email":
+            val_for_query = val_for_query.lower()
+            generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'email_address', val_for_query, reason_for_profile_removal, new_password)            
         else:
-            return http.HttpResponse("Called with incorrect URL")
+            return http.HttpResponse("Called with incorrect URL - invalid field_for_action value of %s. Valid values are: %s" % (
+                field_for_action, valid_field_for_action_vals))
             
         return http.HttpResponse(generated_html)
     except:

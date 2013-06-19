@@ -289,14 +289,12 @@ urlpatterns = patterns('',
     
     
     
-    (r'^rs/admin/remove_ip/(?P<ip_to_remove>[\w|\.]+)/$', admin.batch_remove_profiles),
-    (r'^rs/admin/remove_ip/(?P<ip_to_remove>[\w|\.]+)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles),
-    (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/$', admin.batch_remove_profiles),
-    (r'^rs/admin/remove_name/(?P<name_to_remove>[\w|\.]+)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles),
-    (r'^rs/admin/remove_email/(?P<email_to_remove>[^#?]+?)/$', admin.batch_remove_profiles),
-    (r'^rs/admin/remove_email/(?P<email_to_remove>[^#?]+?)/(?P<reason_for_removal>[\w]+)/$', admin.batch_remove_profiles), 
-    
-    (r'^rs/admin/enable_name/(?P<name_to_enable>[\w|\.]+)/$', admin.enable_username),
+    (r'^rs/admin/action/delete/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<reason_for_profile_removal>[\w]+)/$', admin.batch_take_action_on_profiles,
+     {'action_to_take': 'delete'}),
+    (r'^rs/admin/action/set_password/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<new_password>[\w]+)/$', admin.batch_take_action_on_profiles,
+     {'action_to_take': 'set_password'}),
+    # keep the following URL below the above URLs since it is more of a catch-all.
+    (r'^rs/admin/action/(?P<action_to_take>\w+)/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/$', admin.batch_take_action_on_profiles),
     
     
     (r'^rs/admin/cleanup_sessions/$', gaesessions.cleanup_sessions),
