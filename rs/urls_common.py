@@ -293,6 +293,8 @@ urlpatterns = patterns('',
      {'action_to_take': 'delete'}),
     (r'^rs/admin/action/set_password/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<new_password>[\w]+)/$', admin.batch_take_action_on_profiles,
      {'action_to_take': 'set_password'}),
+    (r'^rs/admin/action/enable/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<new_email_address>.+)/(?P<new_password>[\w]+)/$', admin.batch_take_action_on_profiles,
+     {'action_to_take': 'enable'}),    
     # keep the following URL below the above URLs since it is more of a catch-all.
     (r'^rs/admin/action/(?P<action_to_take>\w+)/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/$', admin.batch_take_action_on_profiles),
     

@@ -2339,7 +2339,7 @@ msgid "is not valid"
 msgstr "no es válido"
 
 #: rs/login_utils.py:433
-msgid "We have eliminated the profile of"
+msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
 #: rs/login_utils.py:440

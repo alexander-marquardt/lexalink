@@ -414,8 +414,9 @@ def check_test_cookie(request):
         return False
 
     
-def take_action_on_account_and_generate_response(request, userobject, action_to_take, reason_for_profile_removal = None, new_password = None):
-    # this function marks the user object as deleted, and assumes that verifications have already been done
+def take_action_on_account_and_generate_response(request, userobject, action_to_take, reason_for_profile_removal = None, new_password = None, 
+                                                 new_email_address = None, return_html_or_text = "html"):
+    # this function marks the user object as deleted, enabled, etc (defined by action_to_take), and assumes that verifications have already been done
     # This function should *NEVER* be exposed as a URL.
     
     try:
@@ -430,14 +431,15 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
             if action_to_take == "delete":
                 userobject.user_is_marked_for_elimination = True
         
-                html_for_delete_account = u"<p>%s %s.</p>" % (ugettext("We have eliminated the profile of"), 
-                                                                                userobject.username)
+                # The following html is multi-lingual because this branch can be executed by a user call, and the return value
+                # will be displayed as html to the user. 
+                html_for_delete_account = u"<p>%s %s.</p>" % (ugettext("We have deleted the profile of"), userobject.username)
                 userobject.reason_for_profile_removal = reason_for_profile_removal
                 
-            if action_to_take == "enable": 
+            if action_to_take == "undelete": 
                 userobject.user_is_marked_for_elimination = False
 
-                html_for_delete_account = u"<p>%s %s.</p>" % (ugettext("We have enabled the profile of"),
+                html_for_delete_account = u"<p>%s %s.</p>" % ("We have un-deleted the profile of",
                     userobject.username)
                 userobject.reason_for_profile_removal = None
                 
@@ -449,11 +451,26 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                 userobject.email_address = '----'
                 userobject.password = utils.passhash(constants.DISABLED_PROFILE_PASSWORD)
                 userobject.reason_for_profile_removal = reason_for_profile_removal
+                
+            if action_to_take == "enable":
+                # Re-enable access to this profile. This requires setting a new password as well as a new email address since
+                # these values were previously removed.
+                if not new_email_address:
+                    html_for_delete_account = u"<p>You must pass in an email address to enable account. /rs/admin/action/enable/name/[name_val]/[email_val]/[password_val]/</p>"
+                else:
+                    html_for_delete_account = u"<p>We have enabled access to %s and set email to %s and password to %s</p>"  % (
+                        userobject.username, new_email_address, new_password)     
+                    
+                    userobject.email_address = new_email_address
+                    userobject.password = utils.passhash(new_password)
+                    userobject.reason_for_profile_removal = None            
             
             if action_to_take == "set_password":
-                assert(new_password)
-                html_for_delete_account = u"<p>We set new password for %s to %s</p>" % (userobject.username, new_password)                
-                userobject.password = utils.passhash(new_password)
+                if not new_password:
+                    html_for_delete_account = "<p>You need to pass in a password. /rs/admin/action/set_password/name/[name_val]/[new_password]/</p>"
+                else:
+                    html_for_delete_account = u"<p>We set new password for %s to %s</p>" % (userobject.username, new_password)                
+                    userobject.password = utils.passhash(new_password)
             
             utils.put_userobject(userobject)
             
@@ -471,17 +488,21 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
         if action_to_take == "delete" or action_to_take == "disable":
             gaesessions.kill_user_sessions(userobject.user_tracker)
         
-        template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
-        context = Context(dict({
-            'html_for_delete_account': html_for_delete_account, 
-            'build_name': settings.BUILD_NAME,}, **constants.template_common_fields))
+        if return_html_or_text == "html":
+            template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
+            context = Context(dict({
+                'html_for_delete_account': html_for_delete_account, 
+                'build_name': settings.BUILD_NAME,}, **constants.template_common_fields))
+            
+            generated_html = template.render(context)
+            nav_bar_text = ugettext("You have exited")
+            response = rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = nav_bar_text, 
+                                                           hide_page_from_webcrawler = True,
+                                                           show_search_box = False, hide_why_to_register = True)
+            return response
+        else:
+            return html_for_delete_account
         
-        generated_html = template.render(context)
-        nav_bar_text = ugettext("You have exited")
-        response = rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = nav_bar_text, 
-                                                       hide_page_from_webcrawler = True,
-                                                       show_search_box = False, hide_why_to_register = True)
-        return response
     except:
         error_reporting.log_exception(logging.critical)   
         return ""
