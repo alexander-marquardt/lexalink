@@ -62,8 +62,8 @@ urlpatterns = patterns('',
     
     # The user_main views are user-dependent. Each URL is different so that 
     # URL-based caching will work. We use the uid to ensure uniqueness.
-    url(r'^rs/delete_account/(?P<owner_uid>[\w|-]+)/$', login_utils.delete_or_enable_account, {'delete_or_enable': 'delete'}, name="delete_account"),
-    url(r'^rs/enable_account/(?P<owner_uid>[\w|-]+)/$', login_utils.delete_or_enable_account, {'delete_or_enable': 'enable'}, name="enable_account"),
+    url(r'^rs/delete_account/(?P<owner_uid>[\w|-]+)/$', login_utils.delete_or_undelete_account, {'delete_or_undelete': 'delete'}, name="delete_account"),
+    url(r'^rs/undelete_account/(?P<owner_uid>[\w|-]+)/$', login_utils.delete_or_undelete_account, {'delete_or_undelete': 'undelete'}, name="undelete_account"),
     
     url(r'^edit_profile/(?P<display_nid>\d+)/$', views.user_main, {'is_primary_user': True}, name="edit_profile_url"),    
     url(r'^profile/(?P<display_nid>\d+)/(?P<profile_url_description>.+)/$', views.user_main, {'is_primary_user': False}, name="user_profile_url"),
@@ -293,8 +293,8 @@ urlpatterns = patterns('',
      {'action_to_take': 'delete'}),
     (r'^rs/admin/action/set_password/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<new_password>[\w]+)/$', admin.batch_take_action_on_profiles,
      {'action_to_take': 'set_password'}),
-    (r'^rs/admin/action/enable/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<new_email_address>.+)/(?P<new_password>[\w]+)/$', admin.batch_take_action_on_profiles,
-     {'action_to_take': 'enable'}),    
+    (r'^rs/admin/action/reset/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<new_email_address>.+)/(?P<new_password>[\w]+)/$', admin.batch_take_action_on_profiles,
+     {'action_to_take': 'reset'}),    
     # keep the following URL below the above URLs since it is more of a catch-all.
     (r'^rs/admin/action/(?P<action_to_take>\w+)/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/$', admin.batch_take_action_on_profiles),
     

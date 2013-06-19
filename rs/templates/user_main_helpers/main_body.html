@@ -421,7 +421,7 @@ essentially we just toggle a bit -->
     '{% url delete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
     {% else %}
     <a HREF="javascript:confirm_decision('Enable this profile?',
-            '{% url enable_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
+            '{% url undelete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
     {% endif %}
 
 </div>

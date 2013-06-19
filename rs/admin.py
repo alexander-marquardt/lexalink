@@ -446,7 +446,7 @@ def batch_take_action_on_profiles(request, action_to_take, field_for_action, val
     
     """ This function scans the database for profiles that need to be fixed
     
-    action_to_take: "delete", "undelete", "disable", "enable", "set_password"    
+    action_to_take: "delete", "undelete", "set_password" , "reset"
         delete: means that the profile will have its "user_is_marked_for_elimination" set to True - this will prevent it from showing up in queries, and
                 will eventually be removed from the database
         undelete: un-does a delete by marking user_is_marked_for_elimination to False
