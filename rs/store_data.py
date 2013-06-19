@@ -1492,6 +1492,7 @@ def store_new_user_after_verify(request, fake_request=None):
             utils.delete_sub_object(userobject, 'backup_tracker')
             utils.delete_sub_object(userobject, 'user_tracker')
             utils.delete_sub_object(userobject, 'viewed_profile_counter_ref')
+            utils.delete_sub_object(userobject, 'user_photos_tracker_key')
 
             try: 
                 userobject.delete() # (Finally - remove the userobject)
@@ -1584,6 +1585,7 @@ def check_and_fix_userobject(userobject, lang_code):
             'hash_of_creation_date': (utils.passhash, (str(userobject.creation_date),)),
             'unique_last_login_offset_ref' : (login_utils.create_and_put_unique_last_login_offset_ref, ()),
             'email_options' : (lambda x: x, (['daily_notification_of_new_messages',],)),
+            'user_photos_tracker_key' : (utils.create_and_return_user_photos_tracker, ()),
 
         }
         
