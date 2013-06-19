@@ -575,12 +575,17 @@ def login(request, is_admin_login = False, referring_code = None):
                                                   
                             # if backup exists but there is no associated "real" userobject, report an error.
                             if backup_userobject and not real_userobject:
-                                error_message  = u"""The profile of %s (entered with username_email=%s) has appeared as backup objects, 
-                                but primary object is not found (this condition can also occur if the user has erased their email address, but it remains
-                                in the backup objects and then they try to enter using their email address). 
-                                """ % (backup_userobject.username, login_dict['username_email']) 
-                                email_utils.send_admin_alert_email(error_message, "%s Login Error" % settings.APP_NAME)
-                                error_reporting.log_exception(logging.critical, error_message=error_message)                   
+                                
+                                # Note: since we may decide to set some user profiles to one of the administrator email addresses, in
+                                # order to prevent a user from future logins, we ignore any errors for which it appears that the email
+                                # address has been set to one of these "admin" addresses.
+                                if  real_userobject.email_address not in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
+                                    error_message  = u"""The profile of %s (entered with username_email=%s) has appeared as backup objects, 
+                                    but primary object is not found (this condition can also occur if the user has erased their email address, but it remains
+                                    in the backup objects and then they try to enter using their email address). 
+                                    """ % (backup_userobject.username, login_dict['username_email']) 
+                                    email_utils.send_admin_alert_email(error_message, "%s Login Error" % settings.APP_NAME)
+                                    error_reporting.log_exception(logging.critical, error_message=error_message)                   
                         
                     if userobject:
                         # success, user is in database and has entered correct data
