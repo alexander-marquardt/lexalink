@@ -179,11 +179,17 @@ def copy_file_to_folder(src_glob, dst_folder):
         
         
 def generate_index_files():
-    logging.info("Copying index file")        
-    src = "%s_index.yaml" % site_configuration.BUILD_NAME
+    logging.info("Generating index file")  
+    src_common = "common_index.yaml"
+    src_index = "%s_index.yaml" % site_configuration.BUILD_NAME
     dst = "index.yaml"
-    logging.info("Generating %s based on %s.\n" % (dst, src))
-    shutil.copyfile(src, dst)    
+    logging.info("Generating %s based on %s and %s.\n" % (dst, src_common, src_index))
+    
+    destination = open(dst,'wb')
+    shutil.copyfileobj(open(src_common,'rb'), destination)
+    shutil.copyfileobj(open(src_index,'rb'), destination)
+    destination.close()
+
 
 def setup_my_local_environment():
     # THE FOLLOWING FUNCTIONALITY IS REQUIRED BECAUSE I AM 
