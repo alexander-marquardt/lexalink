@@ -245,7 +245,8 @@ class FormUtils():
             
             return (photo_object_key_str, photo_object)
         except:
-            error_reporting.log_exception(logging.error)       
+            error_message = "Error getting profile photo for %s" % userobject.username
+            error_reporting.log_exception(logging.error, error_message = error_message)       
             return ('', None)
         
         
@@ -259,7 +260,10 @@ class FormUtils():
         try:
             userobject = userobject_ref
             
-            (photo_object_key_str, photo_object) = cls.get_profile_photo_and_key(userobject)
+            if not userobject_ref.user_is_marked_for_elimination:
+                (photo_object_key_str, photo_object) = cls.get_profile_photo_and_key(userobject)
+            else:
+                (photo_object_key_str, photo_object) = ('', None)
     
             displayed_profile_title = profile_utils.get_base_userobject_title(lang_code, userobject.key.urlsafe())
             img_alt_text = "%s: %s" % (userobject.username, displayed_profile_title)   
