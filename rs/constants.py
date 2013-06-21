@@ -158,9 +158,9 @@ INITIATE_CONTACT_MEMCACHE_PREFIX = "_initiate_contact_" + site_configuration.VER
 ## START Sitemap Constants
 
 # Define how many user profiles will be linked to in a single sitemap file.
-SITEMAP_MAX_ENTRIES_FOR_USERMODEL = 2000
+SITEMAP_MAX_ENTRIES_FOR_USERMODEL = 50
 # Define how many user profile sitemap files will be linked within a single index file.
-SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 2000
+SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 5000
 
 ## END Sitemap Constants
 ######################################################################
