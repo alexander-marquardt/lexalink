@@ -905,7 +905,11 @@ class VideoPhoneUserInfo(ndb.Model):
     m_window_identifier = ndb.StringProperty(default="")
     m_identity = ndb.StringProperty(default="")
     m_updatetime =  ndb.DateTimeProperty(auto_now = True) 
+       
             
+class FakeParent(ndb.Model):
+    # Used by any models that require a parent (in order to be considered in the same entity group)
+    pass            
                  
 class SiteMapCommon(ndb.Model):
     # Defines fields that are used in both SiteMapProfile as well as SiteMapProfileIndex
