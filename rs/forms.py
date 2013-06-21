@@ -281,8 +281,8 @@ class FormUtils():
                 else:
                     fancybox_title = userobject.username                
                 
-                url_for_photo = u'/rs/ajax/get_%s_photo/%s.png' % (photo_size, photo_object_key_str)
-                url_for_large_photo = u'/rs/ajax/get_%s_photo/%s.png' % ('large', photo_object_key_str)
+                url_for_photo = u'/rs/photo/get_%s_photo/%s.png' % (photo_size, photo_object_key_str)
+                url_for_large_photo = u'/rs/photo/get_%s_photo/%s.png' % ('large', photo_object_key_str)
                                             
 
                     
@@ -406,8 +406,8 @@ class FormUtils():
                     # this URL will ensure that ajax call to get the photo are able to locate
                     # the correct database keys for finding each photo.
                     if not is_admin:
-                        url_for_photo = '/rs/ajax/get_small_photo/%s.png' % (photo_object_key_str)
-                        url_for_large_photo = '/rs/ajax/get_large_photo/%s.png' % (photo_object_key_str)
+                        url_for_photo = '/rs/photo/get_small_photo/%s.png' % (photo_object_key_str)
+                        url_for_large_photo = '/rs/photo/get_large_photo/%s.png' % (photo_object_key_str)
                     else:
                         # Show ADMIN the private photos when viewing other acccounts.
                         # Note: the following code ensure that ADMIN will be shown all private photos - however
@@ -417,8 +417,8 @@ class FormUtils():
                             url_for_photo = '/rs/admin/ajax/get_small_photo/%s.png' % (photo_object_key_str)
                             url_for_large_photo = '/rs/admin/ajax/get_large_photo/%s.png' % (photo_object_key_str)   
                         else:
-                            url_for_photo = '/rs/ajax/get_small_photo/%s.png' % (photo_object_key_str)
-                            url_for_large_photo = '/rs/ajax/get_large_photo/%s.png' % (photo_object_key_str)  
+                            url_for_photo = '/rs/photo/get_small_photo/%s.png' % (photo_object_key_str)
+                            url_for_large_photo = '/rs/photo/get_large_photo/%s.png' % (photo_object_key_str)  
                             
                     # if it is not private (is public), and it is approved, then show it with unrestricted access.
                     if not photo_object.is_private and photo_object.is_approved:
