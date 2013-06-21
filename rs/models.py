@@ -906,12 +906,9 @@ class VideoPhoneUserInfo(ndb.Model):
     m_identity = ndb.StringProperty(default="")
     m_updatetime =  ndb.DateTimeProperty(auto_now = True) 
             
-            
-
-            
-class SiteMap(ndb.Model):
-    # Contains XML sitemap data. This can used as a base class for both sitemaps, as well as for 
-    # sitemap indexes. 
+                 
+class SiteMapCommon(ndb.Model):
+    # Defines fields that are used in both SiteMapProfile as well as SiteMapProfileIndex
     
     # Since we have multiple sitemaps, we give each sitemap a unique and user-readable number. This
     # will be used in the URL for accessing the sitemap -- ie http://www.foo.com/sitemap-[site_map_number].xml
@@ -922,11 +919,34 @@ class SiteMap(ndb.Model):
     # will be created.
     num_entries = ndb.IntegerProperty(default = 0) 
     
-    # the following two values are really only for debugging in the future, should anything strange happen
+    # the following two values are for debugging in the future, should anything strange happen
     creationtime =  ndb.DateTimeProperty(auto_now_add = True) # track creation time of this object
     updatetime =  ndb.DateTimeProperty(auto_now = True) # track the last time that this object is written
     
-    # This is the actual contents of the sitemap - but it only includes the "<url>"-related xml - does not contain
+    # Contains the id of the most recent object indexed by the current sitemap (ie. if this is 
+    # a SiteMapUserProfileRange, then it refers to UserModel, and if this is a SiteMapUserProfileIndex, then it 
+    # refers to a SiteMapUserProfileIndex
+    last_object_nid = ndb.IntegerProperty(default = None)
+    
+    # Contains the id of the last object indexed by the previous sitemap object  - ie. defines the start 
+    # of the range that will be used for finding objects "contained" by the current sitemap object. 
+    # Note - the word "start" is a misnomer, because the nid inidicated by this value should not be included
+    # in the current range - the current range should start *just after* the value defined here. (ie. > *not* >=)
+    before_start_object_nid = ndb.IntegerProperty(default = None)
+    
+    
+class SiteMapUserProfileIndex(SiteMapCommon):
+    # Contains XML sitemap data. This can used as a base class for both sitemaps, as well as for 
+    # sitemap indexes. 
+    
+
+    # internal_xml is the actual contents of the sitemap-index - this will indicate which sitemaps have been defined
+    # in this particular index file such as:
+    #     sitemap-1.xml
+    #     sitemap-2.xml
+    #     ...
+    #     sitemap-n.xml
+    # Note, the xml only includes the "<url>"-related xml - does not contain
     # the xml version declaration or the "urlset" definition - these will be dynamically added when the 
     # xml is requested. These are intentionally left out because it would make it more complex to add
     # new URLs to the sitemap (would not be a simple concatenation of the new "<url>" data - it would require
@@ -934,32 +954,17 @@ class SiteMap(ndb.Model):
     # re-writing the closing tags)
     internal_xml = ndb.TextProperty(default = '')
 
-    # we store a reference to the key of the last userobject - mostly for informational purposes 
-    # If this is a container for user profiles, then this contains a string representation of the object key
-    # If this is a container for sitemap objects, then this contains the number of the most recent sitemap object
-    last_object_id = ndb.StringProperty(default = None)
+
     
-    # Track the creation time of the last object (or sitemap) that has been included in the internal_xml. This 
-    # allows us to then start the next query immediately after this object.
-    creation_time_of_last_id =  ndb.DateTimeProperty(default = None)
-       
-    
-class SiteMapUserModel(SiteMap):
-    # Note: inherits from SiteMapXMLContainer, which defines most of the important structures that
-    # are required.
+        
+class SiteMapUserProfileRange(SiteMapCommon):
     # This class specifically contains sitemap data for URLs of User Profiles. 
+    
+    # We will dynamically generate the XML content for the range of profiles starting just after the 
+    # UserModel object indicated by the value stored in start_object_nid and up to and 
+    # including the UserModel object indicated by the last_object_nid value
     pass
-
-
-class SiteMapUserModelIndex(SiteMap):
-    # This class specifically contains sitemap index data that indicates the UserModel sitemap files
-    pass
-
-
-class FakeParent(ndb.Model):
-    # Used by any models that require a parent (in order to be considered in the same entity group)
-    pass
-
+    
 
 class ViewerTracker(ndb.Model):
     displayed_profile = ndb.KeyProperty(kind = UserModel)
