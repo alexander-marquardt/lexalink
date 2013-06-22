@@ -445,7 +445,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                 
                 
             elif action_to_take == "reset":
-                # Re-enable access to this profile. This requires setting a new password as well as a new email address since
+                # Reset access to this profile. This requires setting a new password as well as a new email address since
                 # these values were previously removed.
                 if not new_email_address:
                     html_for_delete_account = u"<p>You must pass in an email address to enable account. /rs/admin/action/reset/name/[name_val]/[email_val]/[password_val]/</p>"
@@ -486,7 +486,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
         logging.info(info_message)
     
         # Kill *ALL* sessions (remove from DB) that this user currently has open (on multiple machines)
-        if action_to_take == "delete" or action_to_take == "disable":
+        if action_to_take == "delete" or action_to_take == "reset":
             gaesessions.kill_user_sessions(userobject.user_tracker)
         
         if return_html_or_text == "html":

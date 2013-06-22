@@ -798,3 +798,6 @@ MONTH_NAMES = {
     11: ugettext_lazy('November'),
     12: ugettext_lazy('December'),
 }
+
+# Add the support email address as an "exempt" (admin) email address
+REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET.add("support@%s" % domain_name)
