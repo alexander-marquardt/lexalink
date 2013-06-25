@@ -54,7 +54,7 @@ def get_my_internal_advertisements(additional_ads_to_include = []):
         if constants.COMPANY_NAME == "Lexabit Inc.":
             
             # code to randomly select from a list of advertisements that are appropriate for the current website.
-            ads_to_show = constants.lexabit_ads_to_show + additional_ads_to_include
+            ads_to_show = constants.lexabit_self_publicity_ads + additional_ads_to_include
             num_ads_to_show = min(constants.MAX_NUM_LEXABIT_ADS_TO_SHOW, len(ads_to_show))
             
             # Randomly select pages from the list
@@ -142,9 +142,9 @@ def get_ad(request, ads_to_select_from):
     try:
         banner_html = ''
         
-        if ads_to_select_from == "ashley_madison_sidebar_ads" or ads_to_select_from == "ashley_madison_bottom_banner_ads":
-            # Temporarily disable Ashley Madison advertisments.
-            return banner_html
+        #if ads_to_select_from == "ashley_madison_sidebar_ads" or ads_to_select_from == "ashley_madison_bottom_banner_ads":
+            ## Temporarily disable Ashley Madison advertisments.
+            #return banner_html
         
         if proprietary_ads_found:
             if len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) >= 1:
@@ -313,7 +313,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         advertising_info = {}  
         side_ad_template_list = []
         bottom_ad_template = None
-        if  constants.enable_internal_ads :
+        
+        if enable_ads:
             ad_list = get_my_internal_advertisements(additional_ads_to_append)
             
             for ad_name in ad_list:
@@ -321,19 +322,17 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 
             advertising_info['ad_template_list'] = side_ad_template_list    
             
-            
-        if enable_ads:
             if constants.enable_google_ads:
                 side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
                 side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
                 bottom_ad_template = utils.render_google_ad('GOOGLE_AD_728x90')
                 
-            if constants.enable_ashley_madison_ads:
-                bottom_ad_template = get_ad(request, "ashley_madison_bottom_banner_ads")
-                side_ad_template_list.append(get_ad(request, "ashley_madison_sidebar_ads"))
+            #elif constants.enable_ashley_madison_ads:
+                #bottom_ad_template = get_ad(request, "ashley_madison_bottom_banner_ads")
+                #side_ad_template_list.append(get_ad(request, "ashley_madison_sidebar_ads"))
                 
-            #elif constants.enable_affiliate_united_ads:
-                #side_ad_template_list.append(get_ad(request, "affiliates_united_sidebar_ads"))
+            else:
+                bottom_ad_template = utils.render_internal_ad("Client_Bottom_Ad1")
                 
             
 
