@@ -80,7 +80,7 @@ def write_watermark_to_dabase(userobject, blob_info):
     # that we are uploading a new image.
     
     if userobject.username == constants.ADMIN_USERNAME:
-        watermark = WatermarkPhotoModel.all().get()
+        watermark = WatermarkPhotoModel.query().get()
         if not watermark:
             # create a new one
             watermark = WatermarkPhotoModel()
