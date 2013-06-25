@@ -4069,8 +4069,8 @@ msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
-"Este usuario ha sido eliminado por el administrado por no seguir los "
-"términos y condiciones de servicio."
+"Este usuario ha sido eliminado por el administrador por no seguir los "
+"términos y condiciones del servicio."
 
 #: rs/utils.py:1459
 msgid ""
@@ -4589,7 +4589,7 @@ msgid ""
 "are perfectly happy with the totally free membership option."
 msgstr ""
 "Este sitio sobrevive de los miembros VIP - sin embargo, la mayoría de "
-"nuestros miembros estan contentos usando la funcionalidad gratis."
+"nuestros miembros están contentos usando la funcionalidad gratuita."
 
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:128
 msgid "VIP benefits"
