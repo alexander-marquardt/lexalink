@@ -1,30 +1,5 @@
 {% load i18n %}
-<!--
-################################################################################
-# LexaLink Copyright information - do not remove this copyright notice
-# Copyright (C) 2012
-#
-# Lexalink - a free social network and dating platform for the Google App Engine.
-#
-# Original author: Alexander Marquardt
-# Documentation and additional information: http://www.LexaLink.com
-# Git source code repository: https://github.com/lexalink/LexaLink.git
-#
-# Please consider contributing your enhancements and modifications to the LexaLink community,
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-################################################################################
--->
+
 
 {% if primary_user_profile_data_fields.is_primary_user %}
 <!-- only primary user can upload photos to their account - otherwise, we are displaying photos
@@ -137,43 +112,7 @@
     <div class="grid_5 omega cl-color-text">
 
 
-        {% if ADULT_ORIENTED_SITE %}
-
-        <strong>{% trans "Rules:" %}</strong>
-        <ul>
-            {% if build_name != "swinger_build" %}
-                <li>
-                    {% trans "No nude photos in public. Allowed in private." %}
-            {% endif %}
-            <li>
-                {% trans "Only authorized people will have access to your private photos." %}
-            <li>
-                {% trans "Read - command verb" %}
-                <a href="{% url views.terms %}">{% trans "Terms and conditions" %}</a>
-                {% trans "for the rules of" %} {{ app_name }}.
-            <li>
-                {% trans "Photos that do not follow the rules will be erased without notification." %}
-        </ul>
-
-        {% else %}
-
-        <strong>{% trans "Rules:" %}</strong>
-        <ul>
-            <li>
-                {% trans "No pornographic or nude photos allowed." %}
-            <li>
-                {% trans "Only authorized people will have access to your private photos." %}
-            <li>
-                {% trans "Read - command verb" %}
-                <a href="{% url views.terms %}">{% trans "Terms and conditions" %}</a>
-                {% trans "for the rules of" %} {{ app_name }}.
-            <li>
-                {% trans "Photos that do not follow the rules will be erased without notification." %}
-
-        </ul>
-        
-        {% endif %}
-
+    {% include "user_main_helpers/photo_rules.html" %}
 
     </div>
     <div class="cl-clear"></div>

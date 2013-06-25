@@ -1,0 +1,26 @@
+{% load i18n %}
+
+<strong>{% trans "Rules:" %}</strong>
+<ul>
+
+{% if ADULT_ORIENTED_SITE %}
+
+    <li>{% trans "No nude photos in public. Allowed in private." %}
+
+
+{% else %}
+
+    <li>{% trans "No pornographic or nude photos allowed." %}
+
+
+{% endif %}
+    <li>{% trans "Only authorized people will have access to your private photos." %}
+    <li>{% trans 'Photos that are not marked as private are "public" and visible to everyone'%}.
+    <li>{% trans "Public photos may show up in search engines such as Google"%}.
+    <li>
+        {% trans "Read - command verb" %}
+        <a href="{% url views.terms %}">{% trans "Terms and conditions" %}</a>
+        {% trans "for the rules of" %} {{ app_name }}.
+    <li>{% trans "Photos that do not follow the rules will be erased without notification." %}
+
+</ul>
