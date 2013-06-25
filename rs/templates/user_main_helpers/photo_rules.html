@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<strong>{% trans "Rules:" %}</strong>
+<strong>{{ app_name }} {% trans "Rules:" %}</strong>
 <ul>
 
 {% if ADULT_ORIENTED_SITE %}
@@ -24,3 +24,4 @@
     <li>{% trans "Photos that do not follow the rules will be erased without notification." %}
 
 </ul>
+

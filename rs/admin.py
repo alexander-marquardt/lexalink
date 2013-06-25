@@ -44,6 +44,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login as django_login, logout as django_logout, authenticate as django_authenticate
 from google.appengine.api import users
+from django.template import loader, Context
 
 
 def admin_logout(request):
@@ -339,6 +340,12 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         else:
             html_to_render = "Error: user not logged in!!!!"
             
+        # show the photo rules for the current site to the administrator, so they don't forget    
+        template = loader.get_template("user_main_helpers/photo_rules.html")
+        context = Context(constants.template_common_fields)
+        photo_rules_html = "<br><br>%s" % template.render(context)
+        
+        html_to_render += photo_rules_html
     except:
         error_reporting.log_exception(logging.critical)  
         html_to_render = "Critical error - check logs"
