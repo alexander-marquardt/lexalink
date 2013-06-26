@@ -115,10 +115,11 @@ def get_additional_ads_to_append(request, userobject = None):
                 additional_ads_to_append.append("lesbian_build")
                 
         if settings.BUILD_NAME == "discrete_build":
-            # Let the swingers know about swinger_build
+            # Let the swingers know about swinger_build site and the lesbian_build site
             if (userobject_sex == 'couple' or userobject_preference == 'couple') or \
                (search_sex == 'couple' or search_preference == 'couple'):
                 additional_ads_to_append.append("swinger_build")
+                additional_ads_to_append.append("lesbian_build")
                 
             if (userobject_relationship_status == 'single' or search_relationship_status == 'single'):
                 additional_ads_to_append.append("single_build")
