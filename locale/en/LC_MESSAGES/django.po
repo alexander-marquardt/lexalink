@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-26 19:59-0400\n"
+"POT-Creation-Date: 2013-06-26 20:57-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,14 +24,14 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:375
+#: rs/admin.py:372
 #, python-format
 msgid ""
 "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
 "approximately %(shutdown_time)s minutes for maintenance"
 msgstr ""
 
-#: rs/admin.py:392
+#: rs/admin.py:389
 #, python-format
 msgid ""
 "We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
@@ -1429,7 +1429,6 @@ msgstr ""
 "to have."
 
 #: rs/html_container.py:150
-#, fuzzy
 msgid "Language-exchange specific text"
 msgstr ""
 "- A description of your abilities in the language that you would like to "
@@ -1439,7 +1438,6 @@ msgstr ""
 "meeting people from other countries"
 
 #: rs/html_container.py:156
-#, fuzzy
 msgid "Friend specific text"
 msgstr ""
 "- Experience that you have in meeting friends on the internet.\n"
@@ -2284,11 +2282,10 @@ msgid "is not valid"
 msgstr ""
 
 #: rs/login_utils.py:440
-#, fuzzy
 msgid "We have deleted the profile of"
-msgstr "Would you like to eliminate the profile of"
+msgstr ""
 
-#: rs/login_utils.py:503 rs/login_utils.py:535 rs/views.py:873
+#: rs/login_utils.py:503 rs/login_utils.py:535 rs/views.py:872
 msgid "You have exited"
 msgstr ""
 
@@ -2750,7 +2747,7 @@ msgstr "For: %(relationship_status)s"
 msgid "Showing results for"
 msgstr ""
 
-#: rs/store_data.py:996
+#: rs/store_data.py:1022
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2759,7 +2756,7 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:1002
+#: rs/store_data.py:1028
 #, python-format
 msgid ""
 "\n"
@@ -2771,7 +2768,7 @@ msgid ""
 "chat friends."
 msgstr ""
 
-#: rs/store_data.py:1030
+#: rs/store_data.py:1056
 #, python-format
 msgid ""
 "\n"
@@ -2781,7 +2778,7 @@ msgid ""
 "member."
 msgstr ""
 
-#: rs/store_data.py:1038
+#: rs/store_data.py:1064
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:35
 msgid "See VIP benefits"
 msgstr ""
@@ -3989,7 +3986,7 @@ msgstr ""
 msgid "Lesbians"
 msgstr ""
 
-#: rs/views.py:449
+#: rs/views.py:448
 #, python-format
 msgid ""
 "\n"
@@ -3998,7 +3995,7 @@ msgid ""
 "                    and password"
 msgstr ""
 
-#: rs/views.py:847
+#: rs/views.py:846
 msgid "terms.html"
 msgstr ""
 
@@ -4136,11 +4133,8 @@ msgid ""
 msgstr ""
 
 #: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:14
-#, fuzzy, python-format
 msgid "Advertise on %(app_name)s"
 msgstr ""
-"You will see the online status (Active, Idle, Away, or Offline) of all "
-"%(app_name)s members."
 
 #: rs/proprietary/templates/proprietary_ads/single_build.html:9
 msgid "100 percent free dating for singles"
@@ -4151,9 +4145,8 @@ msgid "100 percent free contacts for swingers"
 msgstr "100% free contacts for swingers"
 
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:10
-#, fuzzy
 msgid "Thanks for using"
-msgstr "Singles contacts and dating"
+msgstr ""
 
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:11
 msgid "See you soon!"
@@ -4465,7 +4458,7 @@ msgid ""
 msgstr ""
 
 #: rs/templates/common_helpers/footer.html:39
-#: rs/templates/user_main_helpers/photo_rules.html:26
+#: rs/templates/user_main_helpers/photo_rules.html:28
 msgid "Terms and conditions"
 msgstr ""
 
@@ -4759,52 +4752,52 @@ msgstr ""
 msgid "Rules:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/photo_rules.html:9
-msgid "No nude photos in public. Allowed in private."
+#: rs/templates/user_main_helpers/photo_rules.html:5
+msgid ""
+"Photos that are not marked as private are public and visible to everyone"
 msgstr ""
-"Photos that contain nudity will not be approved as \"publicly\" viewable. "
-"Private photos may contain some nudity but may not be pornographic."
+
+#: rs/templates/user_main_helpers/photo_rules.html:10
+msgid "No nude photos in public"
+msgstr ""
+"Photos that contain nudity will not be approved as publicly viewable. "
 
 #: rs/templates/user_main_helpers/photo_rules.html:11
-msgid "No nude photos in public. Allowed in private. No genitals."
-msgstr ""
-"Photos that contain nudity will not be approved as \"publicly\" viewable. "
-"Private photos may contain some nudity but may not be pornographic and must "
-"never be focused on the genital area."
+msgid "Allowed in private"
+msgstr "Private photos can be sensual but may not be pornographic"
 
-#: rs/templates/user_main_helpers/photo_rules.html:17
-msgid "No pornographic or nude photos allowed."
+#: rs/templates/user_main_helpers/photo_rules.html:14
+msgid "Allowed in private no genitals"
+msgstr ""
+"Private photos can be sensual but may not be pornographic and must "
+"never be focused on the genital area"
+
+#: rs/templates/user_main_helpers/photo_rules.html:20
+msgid "No pornographic or nude photos allowed"
 msgstr ""
 "Your profile may not contain pornographic or nude photos under any "
 "circumstances (neither public or private photos)"
 
-#: rs/templates/user_main_helpers/photo_rules.html:21
-msgid "Only authorized people will have access to your private photos."
+#: rs/templates/user_main_helpers/photo_rules.html:24
+msgid "Only authorized people will have access to your private photos"
 msgstr ""
-"You can give access to your private photos by giving people your \"Key\". "
-"You will see a symbol of a key in each persons profile which you can click "
-"on."
+"You can give access to your private photos by giving people your key. "
+"You will see a symbol of a key in each persons profile which you can click on"
 
-#: rs/templates/user_main_helpers/photo_rules.html:22
-msgid ""
-"Photos that are not marked as private are \"public\" and visible to everyone"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photo_rules.html:23
+#: rs/templates/user_main_helpers/photo_rules.html:25
 msgid "Public photos may show up in search engines such as Google"
 msgstr ""
 
-#: rs/templates/user_main_helpers/photo_rules.html:25
+#: rs/templates/user_main_helpers/photo_rules.html:27
 msgid "Read - command verb"
 msgstr "Read"
 
-#: rs/templates/user_main_helpers/photo_rules.html:27
+#: rs/templates/user_main_helpers/photo_rules.html:29
 msgid "for the rules of"
 msgstr ""
 
-#: rs/templates/user_main_helpers/photo_rules.html:28
-msgid ""
-"Photos that do not follow the rules will be erased without notification."
+#: rs/templates/user_main_helpers/photo_rules.html:30
+msgid "Photos that do not follow the rules will be erased without notification"
 msgstr ""
 
 #: rs/templates/user_main_helpers/photos.html:10

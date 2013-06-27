@@ -843,19 +843,8 @@ def accept_photo_rules(request):
     
     userobject =  utils_top_level.get_userobject_from_request(request)
     
-    # eventually, all userobjects should have a photo_tracker_key, and so this check can then be removed
-    if userobject.photo_upload_rules_key:
-        photo_upload_rules_object = userobject.photo_upload_rules_key.get()
-        if photo_upload_rules_object.show_rules_reason != None:
-            # if it is already set to None, don't bother writing to the datastore
-            photo_upload_rules_object.show_rules_reason = None
-            photo_upload_rules_object.put()
-    else:
-        # we need to create the photo_tracker object and add it to the userobject.
-        photo_upload_rules_object = models.PhotoUploadRules()
-        photo_upload_rules_object.show_rules_reason = None
-        photo_upload_rules_object.put()
-        userobject.photo_upload_rules_key = photo_upload_rules_object.key
-        utils.put_userobject(userobject)
+    # clear (set to None) the show_rules_reason value - meaning that they will not be shown next time the user 
+    # wants to upload photos. 
+    store_data.set_photo_rules_on_userobject(userobject, None)
     
     return HttpResponse("OK")

@@ -100,6 +100,22 @@ def store_search_preferences(request):
     request.session.modified = True
 
         
+def set_photo_rules_on_userobject(userobject, value_to_set):
+    
+    # eventually, all userobjects should have a photo_tracker_key, and so this check can then be removed
+    if userobject.photo_upload_rules_key:
+        photo_upload_rules_object = userobject.photo_upload_rules_key.get()
+        if photo_upload_rules_object.show_rules_reason != value_to_set:
+            # if it is already set don't bother writing to the datastore
+            photo_upload_rules_object.show_rules_reason = value_to_set
+            photo_upload_rules_object.put()
+    else:
+        # we need to create the photo_tracker object and add it to the userobject.
+        photo_upload_rules_object = models.PhotoUploadRules()
+        photo_upload_rules_object.show_rules_reason = value_to_set
+        photo_upload_rules_object.put()
+        userobject.photo_upload_rules_key = photo_upload_rules_object.key
+        utils.put_userobject(userobject)    
     
 def store_photo_options(request, owner_uid, is_admin_photo_review = False, review_action_dict = {}):
     # recieves to POST from the "edit_photos" call, and stores to the appropriate data structure.
@@ -147,12 +163,22 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         else:
             # since the administrative review functionality sends one photo key at a time, we fake previously existing
             # structures that were posting lists of values. 
+            
+            # if the administrator marks a photo as private, or deletes a photo, then we will remind the user 
+            # of the photo rules next time they try to upload photos.
+            show_photo_rules = False
             if review_action_dict.has_key('is_profile'):
                 is_profile_key = review_action_dict['is_profile']
             if review_action_dict.has_key('is_private'):
                 is_private_list_of_keys.append(review_action_dict['is_private'])
+                show_photo_rules = True
             if review_action_dict.has_key('delete'):
                 delete_photo_list_of_keys.append(review_action_dict['delete'])
+                show_photo_rules = True
+            
+            
+            if show_photo_rules:
+                set_photo_rules_on_userobject(userobject, "not approved by administrator")
                         
 
         profile_photo_key = None

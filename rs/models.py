@@ -446,8 +446,9 @@ class PhotoUploadRules(ndb.Model):
     """
     Will be used to determine if photo rules must be shown to this user. Rules will be shown to
     new users, and to people who have attempted to upload photos that do not follow the rules.
+    If show_rules_reason is set to None, then the rules will not be shown by default.
     """
-    show_rules_reason = ndb.StringProperty(default = "new_user")
+    show_rules_reason = ndb.StringProperty(default = "new user")
     
     
 ############################################

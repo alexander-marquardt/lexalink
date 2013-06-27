@@ -140,7 +140,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             for photo_key_str in approve_photo_list_of_keys_strs:
                 num_photos_approved += approve_or_unapprove_photo(photo_key_str, True)  
             
-            unapprove_photo_list_of_keys_strs = request.POST.getlist('unapprove_photo')
+            unapprove_photo_list_of_keys_strs = request.POST.getlist('mark_private_photo')
             for photo_key_str in unapprove_photo_list_of_keys_strs:
                 num_photos_approved += approve_or_unapprove_photo(photo_key_str, False)      
                 
@@ -230,9 +230,6 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
                 
                 generated_html += '<input type = "checkbox" name=delete_photo value="%s"> Delete <br>\n' %( photo_object_key_str)
                 
-                checked_val = ""
-                generated_html += '<input type = "checkbox" name=unapprove_photo value="%s" %s> Un-Approve public<br>\n' % (photo_object_key_str, checked_val)
-    
                 if not is_private:
                     # it is marked as "public"
                     generated_html += '<input type = "checkbox" name=mark_private_photo value="%s"> Mark Private <br>\n' % (photo_object_key_str)
