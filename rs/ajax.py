@@ -47,7 +47,7 @@ from forms import FormUtils
 from html_container import UserMainHTML
 from utils import return_time_difference_in_friendly_format, compute_captcha_bypass_string
 from constants import ContactIconText
-import mailbox
+import models, mailbox
 import constants
 import utils, utils_top_level
 import store_data, settings
@@ -518,13 +518,7 @@ def load_about_user(request, section_name):
                 # dialog window will be closed when clicked.
                 generated_html += """
                 <script type="text/javascript" language="javascript">
-                $('#id-about_user_is_empty_popup').ready(function(){    
-                    $('#id-about_user_is_empty-close').button();
-                    $('#id-about_user_is_empty-close').on('click', function() {
-                       $("#id-about_user_is_empty_popup").dialog("close"); 
-                    });                    
-                });
-
+                handle_dialog_popup_close_button('#id-about_user_is_empty_popup', '#id-about_user_is_empty-close')
                 </script>
                 """
                 
@@ -823,3 +817,45 @@ def set_show_online_status_trial(request):
     else:
         # it has returned the amount of time remaining before it will be un-blocked
         return HttpResponse(status)
+    
+    
+def check_if_photo_rules_to_be_shown(request):
+    
+    userobject =  utils_top_level.get_userobject_from_request(request)
+    
+    # Eventually, all logged in users will be guaranteed to have photo_upload_rules_key defined since
+    # we will create it on login - therefore this check can be removed in the future.
+    if userobject.photo_upload_rules_key:
+        photo_upload_rules_object = userobject.photo_upload_rules_key.get()
+        if photo_upload_rules_object.show_rules_reason:
+            show_rules = True
+        else:
+            show_rules = False
+    else:
+        show_rules = True    
+        
+    if show_rules:
+        return HttpResponse("show_rules")
+    else:
+        return HttpResponse("no_show_rules")
+
+def accept_photo_rules(request):
+    
+    userobject =  utils_top_level.get_userobject_from_request(request)
+    
+    # eventually, all userobjects should have a photo_tracker_key, and so this check can then be removed
+    if userobject.photo_upload_rules_key:
+        photo_upload_rules_object = userobject.photo_upload_rules_key.get()
+        if photo_upload_rules_object.show_rules_reason != None:
+            # if it is already set to None, don't bother writing to the datastore
+            photo_upload_rules_object.show_rules_reason = None
+            photo_upload_rules_object.put()
+    else:
+        # we need to create the photo_tracker object and add it to the userobject.
+        photo_upload_rules_object = models.PhotoUploadRules()
+        photo_upload_rules_object.show_rules_reason = None
+        photo_upload_rules_object.put()
+        userobject.photo_upload_rules_key = photo_upload_rules_object.key
+        utils.put_userobject(userobject)
+    
+    return HttpResponse("OK")

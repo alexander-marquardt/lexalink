@@ -303,6 +303,10 @@ def create_viewed_profile_counter_object(userobject_key):
     viewed_counter_object.put()
     return viewed_counter_object.key
 
+def create_photo_upload_rules_object():
+    photo_upload_rules_object = models.PhotoUploadRules()
+    photo_upload_rules_object.put()
+    return photo_upload_rules_object.key
 
 #############################################
 def create_search_preferences2_object(userobject, lang_code):

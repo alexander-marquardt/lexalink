@@ -114,30 +114,7 @@
 <!-- the following only returns a value if it is the primary user. Will return html for editing the current_satus value -->
 {{ html_for_main.current_status|safe }}
 
-<!------------------------------------------------------------>
-{% if primary_user_profile_data_fields.is_primary_user %}
 
-<!-- PHOTO SECTION -->
-<script type="text/javascript">
-
-    // Script for loading photos after clicking edit and photo-options form after
-    // "edit" link has been clicked.
-    $(document).ready(function() {
-        $('#id-edit-photos-submit-data-section').hide();
-
-
-        $("#id-edit-photos-link a").click(function() {
-            var load_url = '/rs/ajax/load_photos_for_edit/' + rnd() + "/";
-            $('#id-photo-table-for-ajax-load').load(load_url, function() {
-                fancybox_setup($("a.cl-fancybox-profile-gallery", this));
-            });
-            $('#id-edit-photos-submit-data-section').show();
-            return false; // ensure that browser doesn't navigate to the href page!
-        });
-    });
-
-</script>
-{% endif %}
 
 
 <!------------------------------------------------------------>
@@ -156,6 +133,9 @@
 
 <!------------------------------------------------------------>
 <!-- "Photos" section -->
+<!------------------------------------------------------------>
+
+
 
 <!-- only show photos section for non-eliminated profiles -->
 {% if not viewed_profile_data_fields.account_has_been_removed_message or primary_user_profile_data_fields.is_primary_user %}

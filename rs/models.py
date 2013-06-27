@@ -441,6 +441,15 @@ class UserPhotosTracker(ndb.Model):
     public_photos_keys = ndb.KeyProperty(kind='PhotoModel', repeated = True)
     private_photos_keys = ndb.KeyProperty(kind='PhotoModel', repeated = True)
 
+
+class PhotoUploadRules(ndb.Model):
+    """
+    Will be used to determine if photo rules must be shown to this user. Rules will be shown to
+    new users, and to people who have attempted to upload photos that do not follow the rules.
+    """
+    show_rules_reason = ndb.StringProperty(default = "new_user")
+    
+    
 ############################################
 class UserModel(ndb.Model):
     # Defines the User Model (ie. the data-structure that contains all relevant information about a 
@@ -473,6 +482,10 @@ class UserModel(ndb.Model):
     # The following allows us to quickly access photos associated with this users profile, without having
     # to query the database. This is here mainly for efficiency. 
     user_photos_tracker_key = ndb.KeyProperty(kind=UserPhotosTracker, default=None)
+    
+    # The following will be used to determine if photo rules need to be shown to the user when
+    # they click on the link to upload photos. 
+    photo_upload_rules_key = ndb.KeyProperty(kind = PhotoUploadRules, default=None)
     
     # The backup tracker provides us with a single node that is in common with a particular user object
     # and it's backups. The primary userobject as well as the backups all contain pointers to the same 

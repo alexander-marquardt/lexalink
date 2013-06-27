@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-26 13:28-0400\n"
+"POT-Creation-Date: 2013-06-26 19:59-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: rs/ajax.py:550
+#: rs/ajax.py:544
 #, python-format
 msgid ""
 "\n"
@@ -55,46 +55,46 @@ msgid ""
 "    that your email address has been correctly stored."
 msgstr ""
 
-#: rs/ajax.py:677
+#: rs/ajax.py:671
 msgid "Greeting sent"
 msgstr ""
 
-#: rs/ajax.py:679
+#: rs/ajax.py:673
 msgid "Wink sent"
 msgstr ""
 
-#: rs/ajax.py:684
+#: rs/ajax.py:678
 msgid "Is favorite"
 msgstr ""
 
-#: rs/ajax.py:685
+#: rs/ajax.py:679
 msgid "Kiss sent"
 msgstr ""
 
-#: rs/ajax.py:686
+#: rs/ajax.py:680
 msgid "Has accsess to your private profile"
 msgstr ""
 
-#: rs/ajax.py:687
+#: rs/ajax.py:681
 msgid "Is blocked (new messages automatically deleted)"
 msgstr ""
 
-#: rs/ajax.py:691
+#: rs/ajax.py:685
 msgid "You are waiting for a confirmation of your chat request"
 msgstr ""
 
-#: rs/ajax.py:692
+#: rs/ajax.py:686
 msgid "You have received a chat request"
 msgstr ""
 
-#: rs/ajax.py:693
+#: rs/ajax.py:687
 msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
 msgstr ""
 
-#: rs/ajax.py:733 rs/forms.py:1059 rs/login_utils.py:256 rs/messages.py:518
-#: rs/rendering.py:404 rs/utils.py:1514
+#: rs/ajax.py:727 rs/forms.py:1059 rs/login_utils.py:256 rs/messages.py:518
+#: rs/rendering.py:405 rs/utils.py:1514
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -123,7 +123,7 @@ msgstr ""
 msgid "Languages I speak"
 msgstr ""
 
-#: rs/callbacks_from_html.py:121 rs/login_utils.py:918
+#: rs/callbacks_from_html.py:121 rs/login_utils.py:922
 msgid "Email"
 msgstr ""
 
@@ -578,8 +578,8 @@ msgid "Confirmation of your email address"
 msgstr ""
 
 #: rs/email_utils.py:186 rs/email_utils.py:230 rs/email_utils.py:290
-#: rs/email_utils.py:368 rs/email_utils.py:649 rs/login_utils.py:677
-#: rs/login_utils.py:700
+#: rs/email_utils.py:368 rs/email_utils.py:649 rs/login_utils.py:681
+#: rs/login_utils.py:704
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
@@ -620,7 +620,7 @@ msgstr ""
 msgid "Are you sure you want to eliminate your account?"
 msgstr ""
 
-#: rs/email_utils.py:300 rs/login_utils.py:528
+#: rs/email_utils.py:300 rs/login_utils.py:532
 msgid "Error - Not authorized"
 msgstr ""
 
@@ -1362,7 +1362,7 @@ msgid "Cancel"
 msgstr ""
 
 #: rs/html_container.py:101 rs/html_container.py:138 rs/html_container.py:198
-#: rs/templates/user_main_helpers/main_body.html:169
+#: rs/templates/user_main_helpers/main_body.html:149
 #: rs/templates/user_main_helpers/status.html:47
 msgid "edit"
 msgstr ""
@@ -2283,41 +2283,41 @@ msgstr ""
 msgid "is not valid"
 msgstr ""
 
-#: rs/login_utils.py:436
+#: rs/login_utils.py:440
 #, fuzzy
 msgid "We have deleted the profile of"
 msgstr "Would you like to eliminate the profile of"
 
-#: rs/login_utils.py:499 rs/login_utils.py:531 rs/views.py:872
+#: rs/login_utils.py:503 rs/login_utils.py:535 rs/views.py:873
 msgid "You have exited"
 msgstr ""
 
-#: rs/login_utils.py:526
+#: rs/login_utils.py:530
 msgid "Profile does not exist"
 msgstr ""
 
-#: rs/login_utils.py:675
+#: rs/login_utils.py:679
 msgid "Verification of your email and registration"
 msgstr ""
 
-#: rs/login_utils.py:679
+#: rs/login_utils.py:683
 #, python-format
 msgid ""
 "To activate your account in %(app_name)s, click on the following link to "
 "verify your request"
 msgstr ""
 
-#: rs/login_utils.py:688
+#: rs/login_utils.py:692
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:699
+#: rs/login_utils.py:703
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:702
+#: rs/login_utils.py:706
 #, python-format
 msgid ""
 "\n"
@@ -2327,7 +2327,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:746
+#: rs/login_utils.py:750
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2335,7 +2335,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:773
+#: rs/login_utils.py:777
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2344,15 +2344,15 @@ msgid ""
 "this account."
 msgstr ""
 
-#: rs/login_utils.py:857
+#: rs/login_utils.py:861
 msgid "We have sent registration instructions to"
 msgstr ""
 
-#: rs/login_utils.py:858
+#: rs/login_utils.py:862
 msgid "from"
 msgstr ""
 
-#: rs/login_utils.py:863
+#: rs/login_utils.py:867
 #, python-format
 msgid ""
 "If you do not receive an email within a few minutes please check your Spam "
@@ -2362,23 +2362,23 @@ msgid ""
 "        future emails from us without any problems."
 msgstr ""
 
-#: rs/login_utils.py:872
+#: rs/login_utils.py:876
 msgid "If you have any problems or suggestions, send us a message at"
 msgstr ""
 
-#: rs/login_utils.py:877 rs/login_utils.py:921
+#: rs/login_utils.py:881 rs/login_utils.py:925
 msgid "Registering"
 msgstr ""
 
-#: rs/login_utils.py:915
+#: rs/login_utils.py:919
 msgid "If the email address "
 msgstr ""
 
-#: rs/login_utils.py:915
+#: rs/login_utils.py:919
 msgid "is not correct, re-enter it here"
 msgstr ""
 
-#: rs/login_utils.py:918
+#: rs/login_utils.py:922
 msgid "Change email address"
 msgstr ""
 
@@ -2615,7 +2615,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:235 rs/views.py:159
+#: rs/rendering.py:236 rs/views.py:159
 #, python-format
 msgid "You must register with %(app_name)s to contact other users"
 msgstr ""
@@ -3989,7 +3989,7 @@ msgstr ""
 msgid "Lesbians"
 msgstr ""
 
-#: rs/views.py:448
+#: rs/views.py:449
 #, python-format
 msgid ""
 "\n"
@@ -3998,7 +3998,7 @@ msgid ""
 "                    and password"
 msgstr ""
 
-#: rs/views.py:846
+#: rs/views.py:847
 msgid "terms.html"
 msgstr ""
 
@@ -4628,79 +4628,79 @@ msgstr ""
 msgid "Headline:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:165
+#: rs/templates/user_main_helpers/main_body.html:145
 msgid "Photos"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:169
+#: rs/templates/user_main_helpers/main_body.html:149
 msgid "upload"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:169
+#: rs/templates/user_main_helpers/main_body.html:149
 msgid "photos"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:266
-#: rs/templates/user_main_helpers/main_body.html:321
+#: rs/templates/user_main_helpers/main_body.html:246
+#: rs/templates/user_main_helpers/main_body.html:301
 msgid "Last entrance:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:284
+#: rs/templates/user_main_helpers/main_body.html:264
 msgid "Activities that I am interested in"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:286
+#: rs/templates/user_main_helpers/main_body.html:266
 #, python-format
 msgid "(a maximum of %(num)s activities may be selected)"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:352
+#: rs/templates/user_main_helpers/main_body.html:332
 msgid "Administrative stuff (never displayed publicly)"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:360
+#: rs/templates/user_main_helpers/main_body.html:340
 msgid "VIP Status"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:367
+#: rs/templates/user_main_helpers/main_body.html:347
 #, python-format
 msgid ""
 "\n"
 "            You currently have VIP status that will expire %(expires)s."
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:370
+#: rs/templates/user_main_helpers/main_body.html:350
 msgid "You currently do not have VIP status"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:394
+#: rs/templates/user_main_helpers/main_body.html:374
 msgid "See my profile:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:397
-#: rs/templates/user_main_helpers/main_body.html:421
-#: rs/templates/user_main_helpers/main_body.html:424
+#: rs/templates/user_main_helpers/main_body.html:377
+#: rs/templates/user_main_helpers/main_body.html:401
+#: rs/templates/user_main_helpers/main_body.html:404
 msgid "click here"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:403
+#: rs/templates/user_main_helpers/main_body.html:383
 msgid "If you want to see how your profile will appear."
 msgstr ""
 "If you want to see how your profile will appear from the perspective of "
 "other users, click on the link to the left."
 
-#: rs/templates/user_main_helpers/main_body.html:416
+#: rs/templates/user_main_helpers/main_body.html:396
 msgid "Eliminate your profile:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/main_body.html:420
+#: rs/templates/user_main_helpers/main_body.html:400
 msgid " Are you sure you want to eliminate your profile?"
 msgstr ""
 "If you want to eliminate your profile/account, click on the link to the "
 "left  (careful -- you will not be able to enter with the same account after "
 "it has been eliminated)."
 
-#: rs/templates/user_main_helpers/main_body.html:430
+#: rs/templates/user_main_helpers/main_body.html:410
 msgid "If you want to eliminate your profile/account."
 msgstr ""
 "If you want to eliminate your profile/account, click on the link to the "
@@ -4774,7 +4774,9 @@ msgstr ""
 
 #: rs/templates/user_main_helpers/photo_rules.html:17
 msgid "No pornographic or nude photos allowed."
-msgstr "Your profile may not contain pornographic or nude photos under any circumstances (neither public or private photos)"
+msgstr ""
+"Your profile may not contain pornographic or nude photos under any "
+"circumstances (neither public or private photos)"
 
 #: rs/templates/user_main_helpers/photo_rules.html:21
 msgid "Only authorized people will have access to your private photos."
@@ -4805,8 +4807,16 @@ msgid ""
 "Photos that do not follow the rules will be erased without notification."
 msgstr ""
 
-#: rs/templates/user_main_helpers/photos.html:137
+#: rs/templates/user_main_helpers/photos.html:10
+msgid "I understand and accept these rules"
+msgstr ""
+
+#: rs/templates/user_main_helpers/photos.html:184
 msgid "Save changes"
+msgstr ""
+
+#: rs/templates/user_main_helpers/photos.html:192
+msgid "View photo upload rules"
 msgstr ""
 
 #: rs/templates/user_main_helpers/search_inline_javascript.html:38

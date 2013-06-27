@@ -5,6 +5,54 @@
 <!-- only primary user can upload photos to their account - otherwise, we are displaying photos
      for other clients in the system -->
 
+    <div id="id-show_photo_rules_popup" style="display:none;">
+        {% include "user_main_helpers/photo_rules.html" %}
+        <br><br><input type="button" class="cl-submit" id="id-show_photo_rules_popup-close" alt="" value='{% trans "I understand and accept these rules" %}'>
+    </div>
+
+    <script type="text/javascript">
+
+
+        $("#id-show_photo_rules_popup").ready(function(){
+            $("#id-show_photo_rules_popup-close").button();
+            $("#id-show_photo_rules_popup-close").on('click', function() {
+                $("#id-show_photo_rules_popup").dialog("close");
+                $.post("/rs/ajax/accept_photo_rules/", function() {
+                });
+            });
+        });
+
+
+    </script>
+
+
+<script type="text/javascript">
+
+    // Script for loading photos after clicking edit and photo-options form after
+    // "edit" link has been clicked.
+    $(document).ready(function() {
+        $('#id-edit-photos-submit-data-section').hide();
+
+
+        $("#id-edit-photos-link a").click(function() {
+            
+            $.get("/rs/ajax/check_if_photo_rules_to_be_shown/", function(html_response) {
+               if (html_response == "show_rules") {
+                   show_dialog_popup("#id-show_photo_rules_popup", 400, 400, false);
+               }
+            });
+
+            var load_url = '/rs/ajax/load_photos_for_edit/' + rnd() + "/";
+            $('#id-photo-table-for-ajax-load').load(load_url, function() {
+                fancybox_setup($("a.cl-fancybox-profile-gallery", this));
+            });
+            $('#id-edit-photos-submit-data-section').show();
+            return false; // ensure that browser doesn't navigate to the href page!
+        });
+    });
+
+</script>
+        
 
 <script type="text/javascript">
 
@@ -112,7 +160,6 @@
     <div class="grid_5 omega cl-color-text">
 
 
-    {% include "user_main_helpers/photo_rules.html" %}
 
     </div>
     <div class="cl-clear"></div>
@@ -139,6 +186,19 @@
     </div>
 
     <div class="cl-clear"></div>
+
+    <div class="grid_2 alpha omega">&nbsp;</div>
+    <div class="grid_2 alpha omega">
+        <a href="#" id="id-show_photo_rules_anchor">{% trans "View photo upload rules" %}</a>
+    </div>
+    <div class="cl-clear"></div>
+
+    <script type="text/javascript">
+        $("#id-show_photo_rules_anchor").click(function() {
+            show_dialog_popup("#id-show_photo_rules_popup", 400, 400, true);
+            return false; 
+        });
+    </script>
 
 </div> <!-- "id-edit-photos-submit-data-section" -->
 {% endif %}

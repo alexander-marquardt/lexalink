@@ -905,18 +905,39 @@ function reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_
 
 
 
-function edit_about_user_dialog_popup() {
-    
-    $("#id-about_user_is_empty_popup").dialog({
+function show_dialog_popup(popup_box_id, height, width, show_x_close_icon) {
+
+    $(popup_box_id).dialog({
         modal: true,
         title: "",
         show: 'clip',
         hide: 'clip',
-        width: 800,
-        height: 500,
+        width: width,
+        height: height,
         position: 'center'
     });
 
+    if (show_x_close_icon == false) {
+        $(popup_box_id).dialog('option', 'dialogClass',  'hide-x-close');
+    } else {
+        // remove the hide-x-close class - this is a bit complicated because there is not built-in functionality for removing a class
+        // Get the existing class string
+        var dlgClass = $(popup_box_id).dialog("option", "dialogClass");
+        // remove the offending class
+        dlgClass = dlgClass.replace('hide-x-close', "");
+        // reset the dialog class
+        $(popup_box_id).dialog("option", "dialogClass", dlgClass);
+    }
+}
+
+function handle_dialog_popup_close_button(popup_box_id, close_button_id) {
+
+    $(popup_box_id).ready(function(){
+        $(close_button_id).button();
+        $(close_button_id).on('click', function() {
+           $(popup_box_id).dialog("close");
+        });
+    });
 }
 
 function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid, captcha_bypass_string, have_sent_messages_string,
@@ -967,7 +988,7 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                     // we must get the user to fill in more information in their profile before they will be permitted to send a message.
                     // pop-up a dialog box that allows them to enter in the appropriate information into their profile, at which point they
                     // should be able to re-submit their message.
-                    edit_about_user_dialog_popup();
+                    show_dialog_popup("#id-about_user_is_empty_popup", 500, 800, true);
                     hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
 
                 } else if (html_response == "captcha_is_incorrect") {

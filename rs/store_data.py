@@ -1440,7 +1440,7 @@ def store_new_user_after_verify(request, fake_request=None):
         userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, request.LANGUAGE_CODE) 
         userobject = setup_new_user_defaults_and_structures(userobject, login_dict['username'], request.LANGUAGE_CODE)
         userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
-
+        userobject.photo_upload_rules_key = login_utils.create_photo_upload_rules_object()
         
         # store indication of email address validity (syntactically valid )
         if login_dict['email_address'] == '----':
@@ -1576,6 +1576,7 @@ def check_and_fix_userobject(userobject, lang_code):
             # it needs to be called.
             'new_contact_counter_ref': (utils.create_contact_counter_object, ()),
             'viewed_profile_counter_ref' : (login_utils.create_viewed_profile_counter_object, (userobject.key,)),
+            'photo_upload_rules_key' : (login_utils.create_photo_upload_rules_object, ()), 
             'unread_mail_count_ref': (utils.create_unread_mail_object, ()),
             'spam_tracker': (messages.initialize_and_store_spam_tracker, (None,)),
             'search_preferences2' : (login_utils.create_search_preferences2_object, (userobject, lang_code)),
