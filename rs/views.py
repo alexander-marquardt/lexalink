@@ -592,6 +592,12 @@ def login(request, is_admin_login = False, referring_code = None):
                         owner_uid = userobject.key.urlsafe()
                         owner_nid = utils.get_nid_from_uid(owner_uid)
                         
+                        # Eventually this check can be removed since we should run a batch job to make
+                        # sure that all userobjects have this field defined.
+                        if not userobject.photo_upload_rules_key:
+                            logging.warning("Creating a new photo_upload_rules object on %s" % userobject.username)
+                            userobject.photo_upload_rules_key = login_utils.create_photo_upload_rules_object()                        
+                        
                         # make sure that the userobject has all the parts that the code expects it to have.
                         store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
     
@@ -632,6 +638,7 @@ def login(request, is_admin_login = False, referring_code = None):
                                 
                             (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
                              get_or_create_unique_last_login(userobject, userobject.username)
+                            
                             
                             # remove chat boxes from previous sessions.
                             channel_support.close_all_chatboxes_internal(owner_uid)
