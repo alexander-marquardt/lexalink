@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-26 20:57-0400\n"
+"POT-Creation-Date: 2013-07-11 12:03-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -897,8 +897,8 @@ msgid ""
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 "¿Eres lo que está buscando? ¿Has escrito algo inteligente y relacionado con "
-"su perfil, algo más que \"Hola guapa ¿que tal?\"? Sino, tu cuenta podría ser "
-"marcada como spam."
+"su perfil, algo más que \"Hola guapa ¿qué tal?\"? Si no, tu cuenta podría "
+"ser marcada como spam."
 
 #: rs/forms.py:1041
 msgid "Send message"
@@ -2343,7 +2343,7 @@ msgstr "no es válido"
 msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
-#: rs/login_utils.py:503 rs/login_utils.py:535 rs/views.py:872
+#: rs/login_utils.py:503 rs/login_utils.py:535 rs/views.py:879
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -4164,7 +4164,7 @@ msgstr ""
 "La cuenta de %(username)s ha sido registrada correctamente.Puedes entrar "
 "directamente con tu \"Nick\" %(username)s y contraseña"
 
-#: rs/views.py:846
+#: rs/views.py:853
 msgid "terms.html"
 msgstr "terminos.html"
 
@@ -4718,7 +4718,6 @@ msgid ""
 msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
 
 #: rs/templates/common_helpers/footer.html:39
-#: rs/templates/user_main_helpers/photo_rules.html:28
 msgid "Terms and conditions"
 msgstr "Términos y condiciones de uso"
 
@@ -5030,23 +5029,23 @@ msgstr "Reglas:"
 msgid ""
 "Photos that are not marked as private are public and visible to everyone"
 msgstr ""
-"Fotos que no están marcadas como privadas son pública y visible para "
+"Las fotos que no estén marcadas como privadas son públicas y visibles para "
 "todo el mundo"
 
 #: rs/templates/user_main_helpers/photo_rules.html:10
+#: rs/templates/user_main_helpers/photo_rules.html:13
 msgid "No nude photos in public"
-msgstr "No se permiten fotografías publicas de cuerpos desnudos"
+msgstr "No se permiten fotografías públicas de cuerpos desnudos"
 
 #: rs/templates/user_main_helpers/photo_rules.html:11
 msgid "Allowed in private"
-msgstr ""
-"Fotos privadas pueden ser sensuales pero no pornográficas"
+msgstr "Las fotos privadas pueden ser sensuales pero no pornográficas"
 
 #: rs/templates/user_main_helpers/photo_rules.html:14
 msgid "Allowed in private no genitals"
 msgstr ""
-"Fotos privadas pueden ser sensuales pero no pornográficas ni enfocadas en los "
-"genitales"
+"Las fotos privadas pueden ser sensuales pero no pornográficas ni enfocadas a "
+"los genitales"
 
 #: rs/templates/user_main_helpers/photo_rules.html:20
 msgid "No pornographic or nude photos allowed"
@@ -5058,15 +5057,20 @@ msgstr ""
 msgid "Only authorized people will have access to your private photos"
 msgstr ""
 "Puedes dar acceso a tus fotos privadas a las personas que consideres "
-"dándoles tu llave. Verás un simbolo de una llave en cada perfil"
+"dándoles tu llave. Verás un símbolo de una llave en cada perfil"
 
 #: rs/templates/user_main_helpers/photo_rules.html:25
 msgid "Public photos may show up in search engines such as Google"
-msgstr "Fotos públicas pueden aparecer en los motores de búsqueda como Google"
+msgstr ""
+"Las fotos públicas pueden aparecer en los motores de búsqueda como Google"
 
 #: rs/templates/user_main_helpers/photo_rules.html:27
 msgid "Read - command verb"
 msgstr "Lee"
+
+#: rs/templates/user_main_helpers/photo_rules.html:28
+msgid "terms and conditions"
+msgstr "términos y condiciones de uso"
 
 #: rs/templates/user_main_helpers/photo_rules.html:29
 msgid "for the rules of"

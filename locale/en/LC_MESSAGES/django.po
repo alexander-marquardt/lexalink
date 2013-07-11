@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-26 20:57-0400\n"
+"POT-Creation-Date: 2013-07-11 12:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2285,7 +2285,7 @@ msgstr ""
 msgid "We have deleted the profile of"
 msgstr ""
 
-#: rs/login_utils.py:503 rs/login_utils.py:535 rs/views.py:872
+#: rs/login_utils.py:503 rs/login_utils.py:535 rs/views.py:879
 msgid "You have exited"
 msgstr ""
 
@@ -3995,7 +3995,7 @@ msgid ""
 "                    and password"
 msgstr ""
 
-#: rs/views.py:846
+#: rs/views.py:853
 msgid "terms.html"
 msgstr ""
 
@@ -4133,6 +4133,7 @@ msgid ""
 msgstr ""
 
 #: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:14
+#, python-format
 msgid "Advertise on %(app_name)s"
 msgstr ""
 
@@ -4458,7 +4459,6 @@ msgid ""
 msgstr ""
 
 #: rs/templates/common_helpers/footer.html:39
-#: rs/templates/user_main_helpers/photo_rules.html:28
 msgid "Terms and conditions"
 msgstr ""
 
@@ -4758,9 +4758,9 @@ msgid ""
 msgstr ""
 
 #: rs/templates/user_main_helpers/photo_rules.html:10
+#: rs/templates/user_main_helpers/photo_rules.html:13
 msgid "No nude photos in public"
-msgstr ""
-"Photos that contain nudity will not be approved as publicly viewable. "
+msgstr "Photos that contain nudity will not be approved as publicly viewable"
 
 #: rs/templates/user_main_helpers/photo_rules.html:11
 msgid "Allowed in private"
@@ -4769,8 +4769,8 @@ msgstr "Private photos can be sensual but may not be pornographic"
 #: rs/templates/user_main_helpers/photo_rules.html:14
 msgid "Allowed in private no genitals"
 msgstr ""
-"Private photos can be sensual but may not be pornographic and must "
-"never be focused on the genital area"
+"Private photos can be sensual but may not be pornographic and must never be "
+"focused on the genital area"
 
 #: rs/templates/user_main_helpers/photo_rules.html:20
 msgid "No pornographic or nude photos allowed"
@@ -4781,8 +4781,8 @@ msgstr ""
 #: rs/templates/user_main_helpers/photo_rules.html:24
 msgid "Only authorized people will have access to your private photos"
 msgstr ""
-"You can give access to your private photos by giving people your key. "
-"You will see a symbol of a key in each persons profile which you can click on"
+"You can give access to your private photos by giving people your key. You "
+"will see a symbol of a key in each persons profile which you can click on"
 
 #: rs/templates/user_main_helpers/photo_rules.html:25
 msgid "Public photos may show up in search engines such as Google"
@@ -4791,6 +4791,10 @@ msgstr ""
 #: rs/templates/user_main_helpers/photo_rules.html:27
 msgid "Read - command verb"
 msgstr "Read"
+
+#: rs/templates/user_main_helpers/photo_rules.html:28
+msgid "terms and conditions"
+msgstr ""
 
 #: rs/templates/user_main_helpers/photo_rules.html:29
 msgid "for the rules of"
