@@ -68,5 +68,13 @@ handlers:
   static_dir: django/contrib/admin/media
   expiration: '0'
 
+- url: /mapreduce/pipeline/images
+  static_dir: mapreduce/lib/pipeline/ui/images
+
+- url: /mapreduce(/.*)?
+  script: djangoappengine.mapreduce.handler.application
+  login: admin
+  
+  
 - url: /.*
   script: djangoappengine.main.application
