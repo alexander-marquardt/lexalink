@@ -203,13 +203,23 @@ def batch_send_email(request):
    
 
 
+
+def mapper_set_photo_rules_on_userobject(userobject):
     
-
- 
-
-import login_utils
-from google.appengine.datastore.datastore_query import Cursor
-
+    if userobject.is_real_user:
+        
+        if not userobject.photo_upload_rules_key :
+            # we need to create the photo_tracker object and add it to the userobject.
+            photo_upload_rules_object = models.PhotoUploadRules()
+            photo_upload_rules_object.show_rules_reason = "new user"
+            photo_upload_rules_object.put()
+            userobject.photo_upload_rules_key = photo_upload_rules_object.key
+            utils.put_userobject(userobject)  
+            logging.info("Setting photo rules on %s" % userobject.username)
+            
+        else:
+            logging.info("User %s has photo rules already" % userobject.username)
+        
 
 def create_and_update_photo_tracker(userobject):
 
@@ -284,6 +294,7 @@ def fix_items_sub_batch (request):
                 
 def batch_fix_object(request):
 
+    from google.appengine.datastore.datastore_query import Cursor
     
     """ This function scans the database for profiles that need to be fixed
     """

@@ -1,0 +1,15 @@
+mapreduce:
+- name: Add PhotoUploadRules (photo_upload_rules_key) to each userobject
+  #params:
+  #- name: done_callback
+  #  value: /done
+  mapper:
+    handler: rs.batch_jobs.mapper_set_photo_rules_on_userobject
+    input_reader: mapreduce.input_readers.DatastoreInputReader
+    params:
+    - name: entity_kind
+      default: rs.models.UserModel
+    - name: processing_rate
+      default: 100
+    - name: shard_count
+      default: 4
