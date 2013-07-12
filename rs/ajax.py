@@ -823,11 +823,11 @@ def check_if_photo_rules_to_be_shown(request):
     
     userobject =  utils_top_level.get_userobject_from_request(request)
     
-    # Eventually, all logged in users will be guaranteed to have photo_upload_rules_key defined since
+    # Eventually, all logged in users will be guaranteed to have accept_terms_and_rules_key defined since
     # we will create it on login - therefore this check can be removed in the future.
-    if userobject.photo_upload_rules_key:
-        photo_upload_rules_object = userobject.photo_upload_rules_key.get()
-        if photo_upload_rules_object.show_rules_reason:
+    if userobject.accept_terms_and_rules_key:
+        terms_and_rules_object = userobject.accept_terms_and_rules_key.get()
+        if terms_and_rules_object.last_photo_rules_accepted != constants.SHOW_PHOTO_RULES_CURRENT_RULES:
             show_rules = True
         else:
             show_rules = False
@@ -843,8 +843,8 @@ def accept_photo_rules(request):
     
     userobject =  utils_top_level.get_userobject_from_request(request)
     
-    # clear (set to None) the show_rules_reason value - meaning that they will not be shown next time the user 
+    # Set to SHOW_PHOTO_RULES_CURRENT_RULES meaning that they will not be shown next time the user 
     # wants to upload photos. 
-    store_data.set_photo_rules_on_userobject(userobject, None)
+    store_data.set_photo_rules_on_userobject(userobject, constants.SHOW_PHOTO_RULES_CURRENT_RULES)
     
     return HttpResponse("OK")

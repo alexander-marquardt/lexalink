@@ -1,5 +1,5 @@
 mapreduce:
-- name: Add PhotoUploadRules (photo_upload_rules_key) to each userobject
+- name: Add AcceptTermsAndRules object (terms_and_rules_key) to each userobject
   #params:
   #- name: done_callback
   #  value: /done

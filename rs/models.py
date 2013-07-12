@@ -442,13 +442,22 @@ class UserPhotosTracker(ndb.Model):
     private_photos_keys = ndb.KeyProperty(kind='PhotoModel', repeated = True)
 
 
-class PhotoUploadRules(ndb.Model):
+class AcceptTermsAndRules(ndb.Model):
     """
-    Will be used to determine if photo rules must be shown to this user. Rules will be shown to
-    new users, and to people who have attempted to upload photos that do not follow the rules.
-    If show_rules_reason is set to None, then the rules will not be shown by default.
+    Will be used to determine if terms&conditions and/or other rules must be shown to this user. 
     """
-    show_rules_reason = ndb.StringProperty(default = "new user")
+    
+    """ 
+    Eg, photo rules will be shown to new users, and to people who have attempted to 
+    upload photos that do not follow the rules.
+    
+    In order to be able to show rules to users that have broken the rules as well as to new users, and 
+    also to users whenever the rules change, we check if the last_photo_rules_accepted matches the value 
+    stored in SHOW_PHOTO_RULES_CURRENT_RULES. If it does not match SHOW_PHOTO_RULES_CURRENT_RULES, then
+    the user will be shown the rules again.
+    """
+    last_photo_rules_accepted = ndb.StringProperty(default = None)
+    last_terms_and_conditions_accepted = ndb.StringProperty(default = None)
     
     
 ############################################
@@ -486,7 +495,7 @@ class UserModel(ndb.Model):
     
     # The following will be used to determine if photo rules need to be shown to the user when
     # they click on the link to upload photos. 
-    photo_upload_rules_key = ndb.KeyProperty(kind = PhotoUploadRules, default=None)
+    accept_terms_and_rules_key = ndb.KeyProperty(kind = AcceptTermsAndRules, default=None)
     
     # The backup tracker provides us with a single node that is in common with a particular user object
     # and it's backups. The primary userobject as well as the backups all contain pointers to the same 

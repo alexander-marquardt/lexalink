@@ -103,18 +103,18 @@ def store_search_preferences(request):
 def set_photo_rules_on_userobject(userobject, value_to_set):
     
     # eventually, all userobjects should have a photo_tracker_key, and so this check can then be removed
-    if userobject.photo_upload_rules_key:
-        photo_upload_rules_object = userobject.photo_upload_rules_key.get()
-        if photo_upload_rules_object.show_rules_reason != value_to_set:
+    if userobject.accept_terms_and_rules_key:
+        accept_terms_and_rules_object = userobject.accept_terms_and_rules_key.get()
+        if accept_terms_and_rules_object.last_photo_rules_accepted != value_to_set:
             # if it is already set don't bother writing to the datastore
-            photo_upload_rules_object.show_rules_reason = value_to_set
-            photo_upload_rules_object.put()
+            accept_terms_and_rules_object.last_photo_rules_accepted = value_to_set
+            accept_terms_and_rules_object.put()
     else:
         # we need to create the photo_tracker object and add it to the userobject.
-        photo_upload_rules_object = models.PhotoUploadRules()
-        photo_upload_rules_object.show_rules_reason = value_to_set
-        photo_upload_rules_object.put()
-        userobject.photo_upload_rules_key = photo_upload_rules_object.key
+        accept_terms_and_rules_object = models.AcceptTermsAndRules()
+        accept_terms_and_rules_object.last_photo_rules_accepted = value_to_set
+        accept_terms_and_rules_object.put()
+        userobject.accept_terms_and_rules_key = accept_terms_and_rules_object.key
         utils.put_userobject(userobject)    
     
 def store_photo_options(request, owner_uid, is_admin_photo_review = False, review_action_dict = {}):
@@ -1466,7 +1466,7 @@ def store_new_user_after_verify(request, fake_request=None):
         userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, request.LANGUAGE_CODE) 
         userobject = setup_new_user_defaults_and_structures(userobject, login_dict['username'], request.LANGUAGE_CODE)
         userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
-        userobject.photo_upload_rules_key = login_utils.create_photo_upload_rules_object()
+        userobject.accept_terms_and_rules_key = login_utils.create_terms_and_rules_object()
         
         # store indication of email address validity (syntactically valid )
         if login_dict['email_address'] == '----':
@@ -1602,7 +1602,7 @@ def check_and_fix_userobject(userobject, lang_code):
             # it needs to be called.
             'new_contact_counter_ref': (utils.create_contact_counter_object, ()),
             'viewed_profile_counter_ref' : (login_utils.create_viewed_profile_counter_object, (userobject.key,)),
-            'photo_upload_rules_key' : (login_utils.create_photo_upload_rules_object, ()), 
+            'accept_terms_and_rules_key' : (login_utils.create_terms_and_rules_object, ()), 
             'unread_mail_count_ref': (utils.create_unread_mail_object, ()),
             'spam_tracker': (messages.initialize_and_store_spam_tracker, (None,)),
             'search_preferences2' : (login_utils.create_search_preferences2_object, (userobject, lang_code)),

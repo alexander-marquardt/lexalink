@@ -1,5 +1,9 @@
 queue:
 
+- name: default
+  rate: 200/s
+  bucket_size: 100
+  
 - name: fast-queue
   rate: 200/s
 

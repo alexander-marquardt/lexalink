@@ -277,8 +277,12 @@ ONLINE_CHAT_CONTACTS_INFO_MEMCACHE_PREFIX = "_online_contacts_info_dict_" + FORC
 CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_last_update_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
 
 ## End Chat Functionality Constants
-######################################################################
 
+######################################################################
+## AcceptTermsAndRules Constants
+# if the userobject AcceptTermsAndRules show_photo_rules_string does not match this value, then
+# the user will be shown the photo rules again.
+SHOW_PHOTO_RULES_CURRENT_RULES = "July 11 2013" 
 
 
 ###################################################

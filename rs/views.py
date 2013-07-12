@@ -594,9 +594,9 @@ def login(request, is_admin_login = False, referring_code = None):
                         
                         # Eventually this check can be removed since we should run a batch job to make
                         # sure that all userobjects have this field defined.
-                        if not userobject.photo_upload_rules_key:
-                            logging.warning("Creating a new photo_upload_rules object on %s" % userobject.username)
-                            userobject.photo_upload_rules_key = login_utils.create_photo_upload_rules_object()                        
+                        if not userobject.accept_terms_and_rules_key:
+                            logging.warning("Creating a new accept_terms_and_rules object on %s" % userobject.username)
+                            userobject.accept_terms_and_rules_key = login_utils.create_terms_and_rules_object()                        
                         
                         # make sure that the userobject has all the parts that the code expects it to have.
                         store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
