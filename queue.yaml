@@ -3,7 +3,7 @@ queue:
 - name: default
   rate: 200/s
   bucket_size: 100
-  
+
 - name: fast-queue
   rate: 200/s
 
@@ -15,9 +15,8 @@ queue:
   rate: 100/s
   bucket_size: 100
 
-- name: deferred-queue
-  rate: 500/s
-  bucket_size: 100
-
 - name: cleanup-sessions-queue
   rate: 100000/d
+
+= nae: backup-entities-queue
+  rate: 200/s
