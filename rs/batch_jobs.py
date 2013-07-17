@@ -473,61 +473,61 @@ def write_mail_txn(myobject, props, text):
         
 
     
-def batch_fix_initiate_contact_model(request):
+#def batch_fix_initiate_contact_model(request):
     
     
-    """ This function scans the database for profiles that need to be fixed
-    """
-    PAGESIZE = 200 # don't make this much more than 100 or we start overusing memory and get errors
+    #""" This function scans the database for profiles that need to be fixed
+    #"""
+    #PAGESIZE = 200 # don't make this much more than 100 or we start overusing memory and get errors
     
-    # Note: to use cursors, filter parameters must be the same for all queries. 
-    # This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    # why the code wasn't working).
+    ## Note: to use cursors, filter parameters must be the same for all queries. 
+    ## This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
+    ## why the code wasn't working).
     
     
-    try:
+    #try:
         
-        batch_cursor = None
+        #batch_cursor = None
         
-        if request.method == 'POST':
-            batch_cursor = request.POST.get('batch_cursor',None)          
+        #if request.method == 'POST':
+            #batch_cursor = request.POST.get('batch_cursor',None)          
             
-        generated_html = 'Updating InitiateContact objects:<br><br>'
+        #generated_html = 'Updating InitiateContact objects:<br><br>'
         
-        logging.info("Paging new page with cursor %s" % batch_cursor)
+        #logging.info("Paging new page with cursor %s" % batch_cursor)
                 
 
-        order_by = "__key__"
-        query = models.InitiateContactModel.all(keys_only = True).order(order_by)            
+        #order_by = "__key__"
+        #query = models.InitiateContactModel.all(keys_only = True).order(order_by)            
                    
-        if batch_cursor:
-            query.with_cursor(batch_cursor)
+        #if batch_cursor:
+            #query.with_cursor(batch_cursor)
                                    
-        object_batch_keys = query.fetch(PAGESIZE)
+        #object_batch_keys = query.fetch(PAGESIZE)
                 
-        if not object_batch_keys:
-            # there are no more objects - break out of this function.
-            info_message = "No more objects found - Exiting function<br>\n"
-            logging.info(info_message)
-            return http.HttpResponse(info_message)
+        #if not object_batch_keys:
+            ## there are no more objects - break out of this function.
+            #info_message = "No more objects found - Exiting function<br>\n"
+            #logging.info(info_message)
+            #return http.HttpResponse(info_message)
 
-        for initiate_contact_model_key in object_batch_keys:  
-            try:
-                assert(initiate_contact_model_key)
-                taskqueue.add(queue_name ="deferred-queue", url= '/rs/admin/deferred_fix_initiate_contact_model/', 
-                              params = {'initiate_contact_model_key' : initiate_contact_model_key})
-            except:
-                error_reporting.log_exception(logging.critical)  
+        #for initiate_contact_model_key in object_batch_keys:  
+            #try:
+                #assert(initiate_contact_model_key)
+                #taskqueue.add(queue_name ="deferred-queue", url= '/rs/admin/deferred_fix_initiate_contact_model/', 
+                              #params = {'initiate_contact_model_key' : initiate_contact_model_key})
+            #except:
+                #error_reporting.log_exception(logging.critical)  
                 
-        # queue up more jobs
-        batch_cursor = query.cursor()
-        path = request.path_info
-        taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
+        ## queue up more jobs
+        #batch_cursor = query.cursor()
+        #path = request.path_info
+        #taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
 
-        return http.HttpResponse(generated_html)
-    except:
-        error_reporting.log_exception(logging.critical)
-        return http.HttpResponseServerError()
+        #return http.HttpResponse(generated_html)
+    #except:
+        #error_reporting.log_exception(logging.critical)
+        #return http.HttpResponseServerError()
 
     
 #def batch_fix_empty_checkboxes(request):
