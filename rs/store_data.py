@@ -56,7 +56,7 @@ from user_profile_details import UserProfileDetails
 import mailbox
 import email_utils
 import queries
-import backup_data, error_reporting
+import error_reporting
 import login_utils, utils, sharding, utils_top_level, models
 import constants, models, localizations, text_fields, lang_settings, messages
 import friend_bazaar_specific_code

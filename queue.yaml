@@ -18,5 +18,5 @@ queue:
 - name: cleanup-sessions-queue
   rate: 100000/d
 
-= nae: backup-entities-queue
+- name: backup-entities-queue
   rate: 200/s

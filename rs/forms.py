@@ -1267,6 +1267,7 @@ def print_current_search_settings(search_vals_dict, lang_idx):
             curr_column += 1
             
             label =  UserSpec.search_fields[field_name]['label'][lang_idx]
+            printed_value = ''
                          
             field_val = 'Undefined' #initialze this so the exception handler doesn't fail
             try:

@@ -284,6 +284,10 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 # the user will be shown the photo rules again.
 SHOW_PHOTO_RULES_CURRENT_RULES = "July 11 2013" 
 
+######################################################################
+## Database (Google Cloud Storage) Backup Constants
+CLOUD_STORE_NUM_BACKUPS_TO_KEEP = 3
+
 
 ###################################################
 ## START Advertising related constants

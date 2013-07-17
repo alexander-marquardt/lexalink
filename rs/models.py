@@ -236,28 +236,6 @@ class CountInitiateContact(ndb.Model):
     num_sent_chat_friend = ndb.IntegerProperty(default = 0, indexed = False)        
     
     
-class UserModelBackupTracker(ndb.Model):    
-
-    # This data structure contains pointers to a principal userobject and the backup objects for that
-    # principal object.  Additionally, the principal userobject and the backup objects all will contain
-    # pointers back to the object instantiated from this class. 
-    
-    # The following contains a pointer to the main userobject. Note, we set the reference_class to None so that
-    # we can later assign a pointer to the userobject (of class UserModel).
-    userobject_ref = ndb.KeyProperty(indexed = False)
-    
-    
-    # contains the name of the most recent backup (backup_1, backup_2 ... ), which allows us to track
-    # which of the references (below) contains the most recent copy of the userobject.
-    most_recent_backup_name = ndb.StringProperty(default = None, indexed = False)
-    
-    # The following structures will contain copies of the userobject.  We periodically (on a rotating basis)
-    # copy the userobject into an object referenced by one of the following properties.
-    
-    backup_1 = ndb.KeyProperty(indexed = False)
-    backup_2 = ndb.KeyProperty(indexed = False)
-    backup_3 = ndb.KeyProperty(indexed = False)
-    
 class UserTracker(ndb.Model):
     
     # This model provides us with information that will allow us to come back and check on user
@@ -496,14 +474,7 @@ class UserModel(ndb.Model):
     # The following will be used to determine if photo rules need to be shown to the user when
     # they click on the link to upload photos. 
     accept_terms_and_rules_key = ndb.KeyProperty(kind = AcceptTermsAndRules, default=None)
-    
-    # The backup tracker provides us with a single node that is in common with a particular user object
-    # and it's backups. The primary userobject as well as the backups all contain pointers to the same 
-    # backup tracker, and the backup_tracker then contains pointers to the userobject and all of it's backups.
-    # This will allow us to easily navigate between userobject and backups if this becomes necessary due to
-    # some kind of destruction of data in the database. 
-    backup_tracker = ndb.KeyProperty(kind=UserModelBackupTracker, required=False)
-    
+        
     #### values defined in signup fields (defined in constants.py)
     # This part of the class  defines the sign-up fields, such 
     # as gender, what they are looking for age, etc.

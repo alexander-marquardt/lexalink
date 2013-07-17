@@ -52,7 +52,7 @@ from utils import passhash, get_new_contact_count_sum, return_time_difference_in
 import mailbox 
 import debugging
 import admin, mailbox, login_utils, channel_support
-import email_utils, backup_data, utils_top_level, sitemaps
+import email_utils, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, lang_settings
 from rs import profile_utils, online_presence_support, online_presence_support, track_viewers
 from django import http

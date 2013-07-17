@@ -25,10 +25,11 @@
 # limitations under the License.
 ################################################################################
 
-import datetime
+import datetime, inspect
 
 from google.appengine.ext import ndb 
 from google.appengine.api import users
+from google.appengine.api import taskqueue
 
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django import http
@@ -492,3 +493,42 @@ def batch_take_action_on_profiles(request, action_to_take, field_for_action, val
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()
     
+    
+def backup_database(request):
+    # Backup the important elements from the database into Google Cloud Storage
+    
+    try:
+        
+        app_id = constants.app_id_dict[settings.BUILD_NAME]
+        bucket_name = "lexabit-common" 
+
+        today = datetime.date.today()
+        curr_day = today.strftime('%d')
+        curr_month = today.strftime('%B')
+        curr_year = today.strftime('%Y')
+        sub_dir = "/%s/%s/%s/%s/" % (curr_year, curr_month, curr_day, app_id)
+
+        # get all object types from models.py
+        object_name_list = []
+        for name, obj in inspect.getmembers(models):
+            if inspect.isclass(obj):
+                object_name_list.append(obj.__name__)
+             
+        gs_bucket_name = bucket_name + sub_dir
+        logging.info("Backing up %s to bucket: %s" % (app_id, gs_bucket_name))
+        taskqueue.add(queue_name = 'backup-entities-queue',
+                      url    = '/_ah/datastore_admin/backup.create', 
+                      method = 'GET',
+                      target = 'ah-builtin-python-bundle', 
+                      params ={ 'kind' : object_name_list,
+                                'name' : 'cron-backup-', 
+                                'filesystem' : "gs",
+                                'gs_bucket_name' : gs_bucket_name,
+                                }
+                      )
+        
+        return HttpResponse("OK")
+    
+    except:
+        error_reporting.log_exception(logging.critical)
+        return http.HttpResponseServerError()

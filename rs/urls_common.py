@@ -291,6 +291,7 @@ urlpatterns = patterns('',
     
     #(r'^rs/admin/batch_create_username_combinations_list/$', batch_jobs.batch_create_username_combinations_list),
     
+    (r'^rs/admin/backup_database/$', admin.backup_database),
     
     
     (r'^rs/admin/action/delete/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<reason_for_profile_removal>[\w]+)/$', admin.batch_take_action_on_profiles,

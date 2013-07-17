@@ -10,3 +10,9 @@ cron:
 - description: Remove old sessions
   url: /rs/admin/cleanup_sessions/
   schedule: every 8 hours
+
+- description: Backup Database
+  url: /rs/admin/backup_database/
+  schedule: every 240 hours # every 10 days
+
+  

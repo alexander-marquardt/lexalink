@@ -49,7 +49,7 @@ from user_profile_main_data import UserSpec
 import utils, email_utils
 import sharding
 import constants
-import utils, utils_top_level, channel_support, chat_support, backup_data
+import utils, utils_top_level, channel_support, chat_support
 import forms
 import error_reporting
 import models
@@ -85,9 +85,6 @@ def store_session(request, userobject):
         # force user to appear online and active in the chat boxes (from module chat_support)
         online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.ACTIVE)
         channel_support.update_chat_boxes_status(owner_uid, constants.ChatBoxStatus.IS_ENABLED)
-    
-        # create "in-the-cloud" backups of the userobject
-        backup_data.update_or_create_userobject_backups(request, userobject)    
         
         chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
         chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized="maximized", type_of_conversation="NA")
