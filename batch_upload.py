@@ -26,7 +26,7 @@
 # This code will batch-upload a time-stamped version of the current code to all sites
 
 import datetime, codecs, re
-import subprocess, sys, shutil, pexpect, time, getpass
+import subprocess, sys, shutil #, pexpect, time, getpass
     
 # Note: we add in the '' build name to the end of the list so that
 # the site_configuration.py will default back to the previously selected build name (see site_configuration.py to understand
@@ -50,8 +50,8 @@ new_site_configuration_file_name = "site_configuration.new.py"
 build_name_pattern = re.compile(r'(BATCH_BUILD_NAME.*=)(.*)')  
 version_id_pattern = re.compile(r'(VERSION_ID.*=)(.*)')  
 
-email_address = raw_input('Email: ')
-password = getpass.getpass()
+#email_address = raw_input('Email: ')
+#password = getpass.getpass()
 
 
 for build_name in BUILD_NAMES_LIST:
@@ -83,22 +83,24 @@ for build_name in BUILD_NAMES_LIST:
         print "**********************************************************************\n"
     
         pargs = ['python', './upload_code.py'] + sys.argv[1:]
+        process = subprocess.call(pargs,  stderr=subprocess.STDOUT)
         
-        try:
-            command = "%s" % " ".join(pargs)
-            print "command = %s" % command
-            child = pexpect.spawn(command)
-            #child.logfile = sys.stdout
-            child.expect('Email: ')
-            child.sendline(email_address)
-            child.expect('Password:')
-            time.sleep(0.1) # wait for 1/10th of a second so that the password echo can be turned off.
-            child.sendline(password)
-            child.interact()        
+        
+        #try:
+            #command = "%s" % " ".join(pargs)
+            #print "command = %s" % command
+            #child = pexpect.spawn(command)
+            ##child.logfile = sys.stdout
+            #child.expect('Email: ')
+            #child.sendline(email_address)
+            #child.expect('Password:')
+            #time.sleep(0.1) # wait for 1/10th of a second so that the password echo can be turned off.
+            #child.sendline(password)
+            #child.interact()        
 
-        except: # CalledProcessError (but we catch all errors here just in case there are others)
-            sys.stderr.write("Error calling upload_code.py\n\n") 
-            sys.exit(1)
+        #except: # CalledProcessError (but we catch all errors here just in case there are others)
+            #sys.stderr.write("Error calling upload_code.py\n\n") 
+            #sys.exit(1)
 
     
     

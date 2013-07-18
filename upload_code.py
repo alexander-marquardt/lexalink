@@ -30,7 +30,7 @@
 
 import subprocess, sys, build_helpers, logging, datetime, time
 import build_helpers
-import pexpect # http://www.noah.org/wiki/Pexpect - you must install this
+# import pexpect # http://www.noah.org/wiki/Pexpect - you must install this
 import getpass
 import site_configuration
 
@@ -67,8 +67,8 @@ print "**********************************************************************\n"
 
 check_site_configuration()
 
-email_address = raw_input('Email: ')
-password = getpass.getpass()
+#email_address = raw_input('Email: ')
+#password = getpass.getpass()
     
 # Build all the dependent files etc. 
 build_helpers.customize_files()
@@ -81,21 +81,21 @@ print "**********************************************************************\n"
 
 additional_args = sys.argv[1:]
 if not additional_args:
-    pargs = ['appcfg.py', 'update'] + ['.']
+    pargs = ['appcfg.py', '--oauth2', 'update'] + ['.']
 else:
-    pargs = ['appcfg.py'] + additional_args + ['.']
+    pargs = ['appcfg.py', '--oauth2'] + additional_args + ['.']
 
 print "Process args = %s" % pargs
 
-#process = subprocess.call(pargs,  stderr=subprocess.STDOUT)
-command = "%s" % " ".join(pargs)
-child = pexpect.spawn(command)
-child.expect('Email: ')
-child.sendline(email_address)
-child.expect('Password for .+:')
-time.sleep(0.1) # wait for 1/10th of a second so that the password echo can be turned off.
-child.sendline(password)
-child.interact()
+process = subprocess.call(pargs,  stderr=subprocess.STDOUT)
+#command = "%s" % " ".join(pargs)
+#child = pexpect.spawn(command)
+#child.expect('Email: ')
+#child.sendline(email_address)
+#child.expect('Password for .+:')
+#time.sleep(0.1) # wait for 1/10th of a second so that the password echo can be turned off.
+#child.sendline(password)
+#child.interact()
 
 print "**********************************************************************"
 print "Finisehd upload %s (Build: %s)" % (site_configuration.APP_NAME, site_configuration.BUILD_NAME)
