@@ -204,7 +204,7 @@ def batch_send_email(request):
 
 
 
-def mapper_set_photo_rules_on_userobject(userobject):
+def remove_backup_userobjects_and_set_photo_rules_on_userobject(userobject):
     
     if userobject.is_real_user:
         
@@ -215,10 +215,14 @@ def mapper_set_photo_rules_on_userobject(userobject):
             terms_and_rules_object.put()
             userobject.accept_terms_and_rules_key = terms_and_rules_object.key
             utils.put_userobject(userobject)  
-            logging.info("Setting photo rules on %s" % userobject.username)
+            logging.info("Adding AcceptTermsAndRules to %s" % userobject.username)
             
         else:
-            logging.info("User %s has photo rules already" % userobject.username)
+            logging.info("User %s has AcceptTermsAndRules already" % userobject.username)
+        
+    else:
+        logging.warning("Deleting backup object with username %s" % userobject.username)
+        userobject.key.delete()
         
 
 def create_and_update_photo_tracker(userobject):
