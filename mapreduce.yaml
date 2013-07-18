@@ -1,10 +1,12 @@
 mapreduce:
-- name: Add AcceptTermsAndRules object (terms_and_rules_key) to each userobject
+
+- name: Example of using mapreduce to modify userobject
   #params:
   #- name: done_callback
   #  value: /done
   mapper:
-    handler: rs.batch_jobs.set_photo_rules_on_userobject
+
+    handler: rs.batch_jobs.mapreduce_update_userobject
     input_reader: mapreduce.input_readers.DatastoreInputReader
     params:
     - name: entity_kind
