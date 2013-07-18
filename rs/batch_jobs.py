@@ -49,8 +49,6 @@ import email_utils
 from constants import offset_values
 import store_data, login_utils, utils_top_level
 
-
-
 import sharding
 import mailbox
 import models
@@ -60,7 +58,39 @@ import constants, settings
     
 from google.appengine.runtime import DeadlineExceededError
 
+from mapreduce import operation as op
 
+def mapreduce_update_userobject(userobject):
+    
+    # ADD all pending userobjects updates to the comments here. Next time this code is run *all* updates
+    # should be addressed.
+    # 1) some userobjects to not have user_photos_tracker correctly set
+    # 2) 
+    
+    pass
+    
+    #if userobject.is_real_user:
+        
+        #if not userobject.accept_terms_and_rules_key :
+            ## we need to create the new object and add it to the userobject.
+            ## remember that each database key is not assigned until the object is Put in the datastore, but if we 
+            ## are yielding the Put operation, then the key is not available.
+            ## This means that we must either write the object before the yield of the put on userobject,
+            ## or that we must manually assign database keys.
+            #terms_and_rules_object = models.AcceptTermsAndRules()
+            #terms_and_rules_object.last_photo_rules_accepted = "not accepted yet"
+            #terms_and_rules_object.put()
+            #userobject.accept_terms_and_rules_key = terms_and_rules_object.key
+            #logging.info("Yield: Adding AcceptTermsAndRules to %s" % userobject.username)            
+            #yield op.db.Put(userobject)  
+            
+        #else:
+            #logging.info("User %s has AcceptTermsAndRules already" % userobject.username)
+        
+    #else:
+        #logging.warning("Yield: Deleting backup object with username %s" % userobject.username)
+        #yield op.db.Delete(userobject)
+        
 
 def send_new_feature_email(userobject, return_message_html = False):
     
@@ -200,30 +230,7 @@ def batch_send_email(request):
     except:
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()
-   
 
-
-
-def remove_backup_userobjects_and_set_photo_rules_on_userobject(userobject):
-    
-    if userobject.is_real_user:
-        
-        if not userobject.accept_terms_and_rules_key :
-            # we need to create the photo_tracker object and add it to the userobject.
-            terms_and_rules_object = models.AcceptTermsAndRules()
-            terms_and_rules_object.last_photo_rules_accepted = "not accepted yet"
-            terms_and_rules_object.put()
-            userobject.accept_terms_and_rules_key = terms_and_rules_object.key
-            utils.put_userobject(userobject)  
-            logging.info("Adding AcceptTermsAndRules to %s" % userobject.username)
-            
-        else:
-            logging.info("User %s has AcceptTermsAndRules already" % userobject.username)
-        
-    else:
-        logging.warning("Deleting backup object with username %s" % userobject.username)
-        userobject.key.delete()
-        
 
 def create_and_update_photo_tracker(userobject):
 
@@ -348,344 +355,6 @@ def batch_fix_object(request):
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()
     
-#def batch_fix(request):
+
 
     
-    #""" This function scans the database for profiles that need to be fixed
-    #"""
-    #PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
-    
-    ## Note: to use cursors, filter parameters must be the same for all queries. 
-    ## This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    ## why the code wasn't working).
-    
-    
-    #try:
-        
-        #batch_cursor = None
-        
-        #if request.method == 'POST':
-            #batch_cursor = request.POST.get('batch_cursor',None)          
-            
-        #generated_html = 'Updating InitiateContact objects:<br><br>'
-        
-        #logging.info("Paging new page with cursor %s" % batch_cursor)
-                
-
-        #order_by = "__key__"
-        #query = models.InitiateContactModel.all().order(order_by)            
-                   
-        #if batch_cursor:
-            #query.with_cursor(batch_cursor)
-                                   
-        #object_batch = query.fetch(PAGESIZE)
-                
-        #if not object_batch:
-            ## there are no more objects - break out of this function.
-            #info_message = "No more objects found - Exiting function<br>\n"
-            #logging.info(info_message)
-            #return http.HttpResponse(info_message)
-
-        #for myobject in object_batch:  
-            #try:
-                #current_object_key_name = myobject.key().id_or_name()
-                #info_message = "**Checking %s object<br>\n" % current_object_key_name
-                #logging.info(info_message)     
-
-                #viewer_userobject_key = myobject.viewer_profile.key()
-                #display_userobject_key = myobject.displayed_profile.key()
-                #desired_object_key_name = str(viewer_userobject_key) + str(display_userobject_key) 
-                
-                #current_object_key_name = myobject.key().name()
-                
-                #if current_object_key_name != desired_object_key_name:
-                    ## we need to copy the entity, and over-ride the key name.
-                    #new_object = utils.clone_entity(myobject, key_name=desired_object_key_name)
-                    #logging.info("**Cloning object to key %s and deleting original\n" % desired_object_key_name)
-                    #new_object.put()
-                    
-                    #logging.info("**Deleting object %s\n" % myobject)
-                    #myobject.delete()
- 
-            #except:
-                #error_reporting.log_exception(logging.critical)  
-                
-        ## queue up more jobs
-        #batch_cursor = query.cursor()
-        #path = request.path_info
-        #taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
-
-        #return http.HttpResponse(generated_html)
-    #except:
-        #error_reporting.log_exception(logging.critical)
-        #return http.HttpResponseServerError()
-    
-
-    
-import datetime
-def write_mail_txn(myobject, props, text):
-    
-    try:
-        info_message = "**Considering copying MailMessageModel %s object<br>\n" % myobject.key.urlsafe()
-        logging.info(info_message)     
-                        
-
-            
-        owner_key = myobject.owner_ref.key()
-        other_key = myobject.other_ref.key()
-        
-        parent_key = utils.get_fake_mail_parent_entity_key(owner_key, other_key)
-        
-        def check_if_already_copied():
-            query_filter_dict = {}    
-
-            query_filter_dict['m_to = '] = myobject.m_to.key()
-            query_filter_dict['m_from = '] = myobject.m_from.key()
-            query_filter_dict['m_date <= '] = myobject.m_date + datetime.timedelta(seconds = 2)
-            query_filter_dict['m_date >= '] = myobject.m_date + datetime.timedelta(seconds = -2)
-             
-            query = models.MailMessageModel.all().ancestor(parent_key)
-            for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-                query = query.filter(query_filter_key, query_filter_value)
-            
-            existing_object = query.get()
-            if existing_object:
-                return True
-            else:
-                return False
-
-        if not check_if_already_copied():
-            mail_message = models.MailMessageModel(parent=parent_key)
-            
-            for k in props.keys():
-                setattr(mail_message, k, getattr(myobject, k))
-            mail_message.m_text = text
-                
-            mail_message.put()
-            info_message = "**Wrote mail_message object %s<br>\n"  % mail_message.key()
-            logging.info(info_message)
-            return "copied_to_hr_datastore_v7"
-        else:
-            return "previously_copied_v7"
-
-
-    except:
-        error_reporting.log_exception(logging.critical) 
-        return None
-        
-        
-        
-
-    
-#def batch_fix_initiate_contact_model(request):
-    
-    
-    #""" This function scans the database for profiles that need to be fixed
-    #"""
-    #PAGESIZE = 200 # don't make this much more than 100 or we start overusing memory and get errors
-    
-    ## Note: to use cursors, filter parameters must be the same for all queries. 
-    ## This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    ## why the code wasn't working).
-    
-    
-    #try:
-        
-        #batch_cursor = None
-        
-        #if request.method == 'POST':
-            #batch_cursor = request.POST.get('batch_cursor',None)          
-            
-        #generated_html = 'Updating InitiateContact objects:<br><br>'
-        
-        #logging.info("Paging new page with cursor %s" % batch_cursor)
-                
-
-        #order_by = "__key__"
-        #query = models.InitiateContactModel.all(keys_only = True).order(order_by)            
-                   
-        #if batch_cursor:
-            #query.with_cursor(batch_cursor)
-                                   
-        #object_batch_keys = query.fetch(PAGESIZE)
-                
-        #if not object_batch_keys:
-            ## there are no more objects - break out of this function.
-            #info_message = "No more objects found - Exiting function<br>\n"
-            #logging.info(info_message)
-            #return http.HttpResponse(info_message)
-
-        #for initiate_contact_model_key in object_batch_keys:  
-            #try:
-                #assert(initiate_contact_model_key)
-                #taskqueue.add(queue_name ="deferred-queue", url= '/rs/admin/deferred_fix_initiate_contact_model/', 
-                              #params = {'initiate_contact_model_key' : initiate_contact_model_key})
-            #except:
-                #error_reporting.log_exception(logging.critical)  
-                
-        ## queue up more jobs
-        #batch_cursor = query.cursor()
-        #path = request.path_info
-        #taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
-
-        #return http.HttpResponse(generated_html)
-    #except:
-        #error_reporting.log_exception(logging.critical)
-        #return http.HttpResponseServerError()
-
-    
-#def batch_fix_empty_checkboxes(request):
-
-    
-    #""" This function scans the database for profiles that need to be fixed
-    #"""
-    #PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
-    
-    ## Note: to use cursors, filter parameters must be the same for all queries. 
-    ## This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    ## why the code wasn't working).
-    
-    
-    #try:
-        
-        #batch_cursor = None
-        
-        #if request.method == 'POST':
-            #batch_cursor = request.POST.get('batch_cursor',None)          
-            
-        #generated_html = 'Updating userobjects:<br><br>'
-        
-        #logging.info("Paging new page with cursor %s" % batch_cursor)
-                
-        #query_filter_dict = {}    
-
-        #query_filter_dict['is_real_user = '] = True
-        #query_filter_dict['user_is_marked_for_elimination = '] = False
-        
-        #order_by = "__key__"
-        
-        #query = UserModel.all().order(order_by)
-        #for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            #query = query.filter(query_filter_key, query_filter_value)
-
- 
-        #if batch_cursor:
-            #query.with_cursor(batch_cursor)
-                                   
-        #userobject_batch = query.fetch(PAGESIZE)
-                
-        #if not userobject_batch:
-            ## there are no more objects - break out of this function.
-            #info_message = "No more objects found - Exiting function<br>\n"
-            #logging.info(info_message)
-            #return http.HttpResponse(info_message)
-
-        #for userobject in userobject_batch:  
-            #try:
-                #info_message = "**Checking %s userobject<br>\n" % userobject.username
-                #logging.info(info_message)   
-                #is_dirty = False
-
-                #if not userobject.entertainment:
-                    #userobject.entertainment = ["prefer_no_say"]
-                    #is_dirty = True
-                #if not userobject.athletics:
-                    #userobject.athletics = ["prefer_no_say"]
-                    #is_dirty = True
-                    
-                #if is_dirty:
-                    #info_message = "** Writing %s userobject<br>\n" % userobject.username
-                    #logging.info(info_message)                    
-                    
-                    #utils.put_userobject(userobject)
-                    
-            #except:
-                #error_reporting.log_exception(logging.critical)  
-                
-        ## queue up more jobs
-        #batch_cursor = query.cursor()
-        #path = request.path_info
-        #taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
-
-        #return http.HttpResponse(generated_html)
-    #except:
-        #error_reporting.log_exception(logging.critical)
-        #return http.HttpResponseServerError()
-        
-
-
-
-   
-#def batch_create_username_combinations_list(request):
-
-    
-    #""" This function scans the database for profiles that need to be fixed
-    #"""
-    #PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors
-    
-    ## Note: to use cursors, filter parameters must be the same for all queries. 
-    ## This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
-    ## why the code wasn't working).
-    
-    
-    #try:
-        
-        #batch_cursor = None
-        
-        #if request.method == 'POST':
-            #batch_cursor = request.POST.get('batch_cursor',None)          
-            
-        #generated_html = 'Updating userobjects:<br><br>'
-        
-        #logging.info("Paging new page with cursor %s" % batch_cursor)
-                
-        #query_filter_dict = {}    
-
-        #query_filter_dict['is_real_user = '] = True
-        #query_filter_dict['user_is_marked_for_elimination = '] = False
-        
-        #order_by = "__key__"
-        
-        #query = UserModel.all().order(order_by)
-        #for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-            #query = query.filter(query_filter_key, query_filter_value)
-
- 
-        #if batch_cursor:
-            #query.with_cursor(batch_cursor)
-                                   
-        #userobject_batch = query.fetch(PAGESIZE)
-                
-        #if not userobject_batch:
-            ## there are no more objects - break out of this function.
-            #info_message = "No more objects found - Exiting function<br>\n"
-            #logging.info(info_message)
-            #return http.HttpResponse(info_message)
-
-        #for userobject in userobject_batch:  
-            #try:
-                #info_message = "**Checking %s userobject<br>\n" % userobject.username
-                #logging.info(info_message)   
-                #is_dirty = False
-
-                #userobject.username_combinations_list = utils.get_username_combinations_list(userobject.username)
-                #is_dirty = True
-        
-                #info_message = "** Writing %s userobject<br>\n" % userobject.username
-                #logging.info(info_message)                    
-                 
-                #utils.put_userobject(userobject)
-                    
-            #except:
-                #error_reporting.log_exception(logging.critical)  
-                
-        ## queue up more jobs
-        #batch_cursor = query.cursor()
-        #path = request.path_info
-        #taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': batch_cursor})
-
-        #return http.HttpResponse(generated_html)
-    #except:
-        #error_reporting.log_exception(logging.critical)
-        #return http.HttpResponseServerError()
-        
