@@ -375,7 +375,6 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
         fancybox_setup($("a.cl-fancybox-profile-gallery"));
         });
         </script>"""
-        assert(userobject.is_real_user)
     
         query_for_message = setup_and_run_conversation_mailbox_query('', userobject, other_userobject, SINGLE_CONVERSATION_PAGESIZE+1)
     

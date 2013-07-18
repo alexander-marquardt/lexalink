@@ -158,7 +158,6 @@ def batch_send_email(request):
                 
         query_filter_dict = {}    
 
-        query_filter_dict['is_real_user = '] = True
         query_filter_dict['user_is_marked_for_elimination = '] = False        
         order_by = "-last_login_string"
         
@@ -204,26 +203,22 @@ def batch_send_email(request):
 
 
 
-def remove_backup_userobjects_and_set_photo_rules_on_userobject(userobject):
+def set_photo_rules_on_userobject(userobject):
     
-    if userobject.is_real_user:
         
-        if not userobject.accept_terms_and_rules_key :
-            # we need to create the photo_tracker object and add it to the userobject.
-            terms_and_rules_object = models.AcceptTermsAndRules()
-            terms_and_rules_object.last_photo_rules_accepted = "not accepted yet"
-            terms_and_rules_object.put()
-            userobject.accept_terms_and_rules_key = terms_and_rules_object.key
-            utils.put_userobject(userobject)  
-            logging.info("Adding AcceptTermsAndRules to %s" % userobject.username)
-            
-        else:
-            logging.info("User %s has AcceptTermsAndRules already" % userobject.username)
+    if not userobject.accept_terms_and_rules_key :
+        # we need to create the photo_tracker object and add it to the userobject.
+        terms_and_rules_object = models.AcceptTermsAndRules()
+        terms_and_rules_object.last_photo_rules_accepted = "not accepted yet"
+        terms_and_rules_object.put()
+        userobject.accept_terms_and_rules_key = terms_and_rules_object.key
+        utils.put_userobject(userobject)  
+        logging.info("Adding AcceptTermsAndRules to %s" % userobject.username)
         
     else:
-        logging.warning("Deleting backup object with username %s" % userobject.username)
-        userobject.key.delete()
+        logging.info("User %s has AcceptTermsAndRules already" % userobject.username)
         
+
 
 def create_and_update_photo_tracker(userobject):
 
@@ -322,7 +317,6 @@ def batch_fix_object(request):
         logging.info("Paging new page with cursor %s" % batch_cursor)
                 
         q = UserModel.query().order(UserModel._key)
-        q = q.filter(UserModel.is_real_user == True)
         q = q.filter(UserModel.user_is_marked_for_elimination == False)
         
         if paging_cursor:
@@ -559,7 +553,6 @@ def write_mail_txn(myobject, props, text):
                 
         #query_filter_dict = {}    
 
-        #query_filter_dict['is_real_user = '] = True
         #query_filter_dict['user_is_marked_for_elimination = '] = False
         
         #order_by = "__key__"
@@ -641,7 +634,6 @@ def write_mail_txn(myobject, props, text):
                 
         #query_filter_dict = {}    
 
-        #query_filter_dict['is_real_user = '] = True
         #query_filter_dict['user_is_marked_for_elimination = '] = False
         
         #order_by = "__key__"

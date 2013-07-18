@@ -654,7 +654,6 @@ def email_address_already_has_account_registered(email_address):
     try:
         email_address = email_address.lower()
         query = models.UserModel.gql("WHERE email_address = :email_address and \
-        is_real_user = True and\
         user_is_marked_for_elimination = False \
         ORDER BY last_login_string DESC", 
         email_address = email_address)

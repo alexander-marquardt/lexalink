@@ -1419,7 +1419,6 @@ def store_new_user_after_verify(request, fake_request=None):
         q = UserModel.query().order(-UserModel.last_login_string)
         q = q.filter(UserModel.username == username)
         q = q.filter(UserModel.password == password)    
-        q = q.filter(UserModel.is_real_user == True)
         q = q.filter(UserModel.user_is_marked_for_elimination == False)
 
         userobject = q.get()
@@ -1458,7 +1457,6 @@ def store_new_user_after_verify(request, fake_request=None):
         
         # passing in the login_dict to the following declaration will copy the values into the user object.
         userobject = UserModel(**login_dict)
-        userobject.is_real_user = True    
         
         userobject.username_combinations_list = utils.get_username_combinations_list(username)
         utils.put_userobject(userobject)

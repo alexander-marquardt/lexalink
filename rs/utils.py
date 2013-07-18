@@ -366,7 +366,6 @@ def get_active_userobject_from_username(username):
     try:
         q = UserModel.query().order(-UserModel.last_login_string)
         # ensure that unique_last_login None values are removed -- these are backup objects
-        q = q.filter(UserModel.is_real_user == True)
         q = q.filter(UserModel.user_is_marked_for_elimination == False)
         q = q.filter(UserModel.username == username)
                             

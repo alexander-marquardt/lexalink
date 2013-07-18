@@ -764,7 +764,6 @@ def send_batch_email_notifications(request,  object_type, key_type_on_usermodel)
             # we just do a reverse lookup on UserModel to that references the current counter_object, and get() 
             
             q = UserModel.query()
-            q = q.filter(UserModel.is_real_user == True)
             q = q.filter(key_type_on_usermodel == counter_object.key)
             q_not_eliminated_user = q.filter(UserModel.user_is_marked_for_elimination == False)
             userobject = q_not_eliminated_user.get()

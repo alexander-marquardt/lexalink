@@ -421,7 +421,7 @@ def run_query_to_take_action_on_profiles(request, action_to_take, query_key, que
     PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors   
     generated_html = ''
     
-    q= models.UserModel.query().filter(models.UserModel._properties[query_key] == query_value).filter(models.UserModel.is_real_user == True)
+    q= models.UserModel.query().filter(models.UserModel._properties[query_key] == query_value)
     userobject_batch = q.fetch(PAGESIZE)
             
     if not userobject_batch:

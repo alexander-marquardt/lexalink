@@ -5,7 +5,6 @@
   properties:
   - name: age_ix_list
   - name: country_ix_list
-  - name: is_real_user
   - name: region_ix_list
   - name: sex_ix_list
   - name: sub_region_ix_list
@@ -23,7 +22,6 @@
   properties:
   - name: age_ix_list
   - name: country_ix_list
-  - name: is_real_user
   - name: region_ix_list
   - name: sex_ix_list
   - name: sub_region_ix_list

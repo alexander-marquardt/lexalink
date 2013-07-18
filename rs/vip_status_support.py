@@ -276,7 +276,6 @@ def manually_give_paid_status(request, username, num_credits, txn_id = None):
     
     q = UserModel.query()
     q = q.filter(UserModel.username == username.upper())
-    q = q.filter(UserModel.is_real_user == True)
     userobject = q.get()
 
     if txn_id:
@@ -299,7 +298,6 @@ def manually_remove_paid_status(request, username):
   try:
     q = UserModel.query()
     q = q.filter(UserModel.username == username.upper())
-    q = q.filter(UserModel.is_real_user == True)
     userobject = q.get()
     
     userobject.client_paid_status_expiry = datetime.datetime.now()

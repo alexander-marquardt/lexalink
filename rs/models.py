@@ -451,21 +451,6 @@ class UserModel(ndb.Model):
     # used ReferenceProperties to split some of the data out, but this would make queries that 
     # include data in ReferenceProperties much more difficult and probablly inefficient.   
     
-    #### Structures required for backing up userobjects "in-the-cloud" 
-    # We will keep daily, weekly, and monthly bakups of userobjects so that in the case of an emergency,
-    # we can quickly restore the user profiles to a previously known good state. This is intended mostly
-    # for the case that our program starts trashing the database, as opposed to a massive failure of 
-    # googles servers. We currently do not backup messages or photos (these are less critical).
-    # 
-    # Backups will be 
-    # written to only when the user signs in (and only if the appropriate amount of time has passed since
-    # the last time the particular backup object was written to). We will use "last_login"
-    # on the backup objects to indicate when the backup occured. 
-    # Furthermore, to ensure that backup objects to not appear in search results, we set is_real_user to False. 
-    
-    # Boolean to distinguish "backup" copies
-    # of the userobject versus the "real" copy -- in the case of a backup, this value will be set to False.
-    is_real_user = ndb.BooleanProperty(default=False)
     
     # The following allows us to quickly access photos associated with this users profile, without having
     # to query the database. This is here mainly for efficiency. 

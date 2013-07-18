@@ -99,7 +99,6 @@ def generate_and_save_password(email_address):
         
     email_address = email_address.lower()
     query = UserModel.gql("WHERE email_address = :email_address and \
-    is_real_user = True and\
     user_is_marked_for_elimination = False \
     ORDER BY last_login_string DESC", 
     email_address = email_address)
@@ -110,7 +109,6 @@ def generate_and_save_password(email_address):
         logging.info("Unable to set new password for email: %s - not registered: " % email_address)
         
         query = UserModel.gql("WHERE email_address = :email_address and \
-        is_real_user = True and\
         user_is_marked_for_elimination = True \
         ORDER BY last_login_string DESC", 
         email_address = email_address)

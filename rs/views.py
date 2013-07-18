@@ -470,8 +470,6 @@ def login(request, is_admin_login = False, referring_code = None):
                             error_list.append(ErrorMessages.username_alphabetic)
                                             
                     
-                    # make sure that we are accessing a "real" userobject (not a backup)    
-                    q_is_real_user = q_username_email.filter(UserModel.is_real_user == True)
                     
                     # Verify that the password only contains acceptable characters  - 
                     # this is necessary for the password hashing algorithm which only works with ascii chars, 
@@ -485,7 +483,7 @@ def login(request, is_admin_login = False, referring_code = None):
                             assert(login_dict['password'])
                                    
                             # All "normal" (non admin) logins MUST check the password!!
-                            q_with_password = q_is_real_user.filter(UserModel.password == passhash(login_dict['password']))
+                            q_with_password = q_username_email.filter(UserModel.password == passhash(login_dict['password']))
                             
                             # make sure that profile has not been marked for elimination (if we are an administrator, we can
                             # still log into deleted accounts, so we don't add this value into the search query)
@@ -494,8 +492,10 @@ def login(request, is_admin_login = False, referring_code = None):
 
                         else:
                             # for administrator, we don't filter on the password. We also allow the administrator to log into 
-                            # deleted accounts.
-                            q_not_eliminated = q_is_real_user
+                            # deleted accounts (so q_not_eliminated does not mean tht the profile has necessarily
+                            # not been marked for elmination when the admin is logging in, but this allows us to use
+                            # the same variable in the following code)
+                            q_not_eliminated = q_username_email
 
 
     
@@ -517,7 +517,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         # this will contain a new password, if the user has requested a new password be 
                         # sent to their email account.
                         # set up the query to check the 'password_reset' value
-                        q_password_reset = q_is_real_user.filter(UserModel.password_reset == passhash(login_dict['password']))
+                        q_password_reset = q_username_email.filter(UserModel.password_reset == passhash(login_dict['password']))
                         q_not_eliminated = q_password_reset.filter(UserModel.user_is_marked_for_elimination == False)  
 
                         userobject = q_not_eliminated.get()    
@@ -540,7 +540,7 @@ def login(request, is_admin_login = False, referring_code = None):
                             
                             if email_or_username_login == 'username':
                                 # we know that a username as opposed to an email address was entered
-                                q_is_eliminated = q_is_real_user.filter(UserModel.user_is_marked_for_elimination == True)
+                                q_is_eliminated = q_username_email.filter(UserModel.user_is_marked_for_elimination == True)
                                 eliminated_userobject = q_is_eliminated.get()                            
                         
                         if eliminated_userobject:
@@ -551,41 +551,7 @@ def login(request, is_admin_login = False, referring_code = None):
                         else: # the profile (email + password OR username) did not appear in the list of eliminated userobjects
                             
                             error_list.append(ErrorMessages.incorrect_username_password)
-                            
-                            # check to see if the username or email is registered but we can only find backup copies (as opposed to the real object)
-                            # This would be a serious error condition that should be addressed immediately - this error check is here
-                            # because this condition has occured in the past for unknown reasons.
-                             
-                            # We are just making sure that if the username/email
-                            # is registered (meaning that we can find a profile that matches the username/email), 
-                            # and that at least one of the userobjects has "is_real_user" set to true.
-                            #
-                            # must include both eliminated and current profiles to prevent false error reporting, which could otherwise
-                            # occur if a user eliminated a profile, but enters in the wrong password
-                            
-
-                            # search for a backup userobject
-                            q_backup = q_username_email.filter(UserModel.is_real_user == False)
-                            backup_userobject = q_backup.get()
-                            
-                            # Now we just check to see if an object exists that corresponds to the email_address or the username that
-                            # has been entered - but we ignore the password, since we are just checking to see if it exists (not that
-                            # the user has entered the password correctly)
-                            real_userobject = q_is_real_user.get()
-                                                  
-                            # if backup exists but there is no associated "real" userobject, report an error.
-                            if backup_userobject and not real_userobject:
-                                
-                                # Note: since we may decide to set some user profiles to one of the administrator email addresses, in
-                                # order to prevent a user from future logins, we ignore any errors for which it appears that the email
-                                # address has been set to one of these "admin" addresses.
-                                if  real_userobject.email_address not in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
-                                    error_message  = u"""The profile of %s (entered with username_email=%s) has appeared as backup objects, 
-                                    but primary object is not found (this condition can also occur if the user has erased their email address, but it remains
-                                    in the backup objects and then they try to enter using their email address). 
-                                    """ % (backup_userobject.username, login_dict['username_email']) 
-                                    email_utils.send_admin_alert_email(error_message, "%s Login Error" % settings.APP_NAME)
-                                    error_reporting.log_exception(logging.critical, error_message=error_message)                   
+                                             
                         
                     if userobject:
                         # success, user is in database and has entered correct data

@@ -69,7 +69,6 @@ def setup_and_run_search_by_name_query(search_vals_dict, num_results_needed, pag
     try:
         q = UserModel.query().order(-UserModel.last_login_string)
         
-        q = q.filter(UserModel.is_real_user == True)
         q = q.filter(UserModel.user_is_marked_for_elimination == False)
         q = q.filter(UserModel.username_combinations_list == search_vals_dict['search_by_name'])
             
@@ -156,7 +155,6 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
         
         q = q.filter(UserModel.age_ix_list ==  search_vals_dict['age'])
             
-        q = q.filter(UserModel.is_real_user == True)
         q = q.filter(UserModel.user_is_marked_for_elimination == False)
     
         # DO NOT REMOVE BOOKMARKS - to replace with cursors - search engines can come back to a page 

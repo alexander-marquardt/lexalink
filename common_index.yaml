@@ -107,14 +107,12 @@ indexes:
 - kind: UserModel
   properties:
   - name: email_address
-  - name: is_real_user
   - name: last_login_string
     direction: desc
 
 - kind: UserModel
   properties:
   - name: email_address
-  - name: is_real_user
   - name: password
   - name: user_is_marked_for_elimination
   - name: last_login_string
@@ -123,7 +121,6 @@ indexes:
 - kind: UserModel
   properties:
   - name: email_address
-  - name: is_real_user
   - name: password_reset
   - name: user_is_marked_for_elimination
   - name: last_login_string
@@ -132,7 +129,6 @@ indexes:
 - kind: UserModel
   properties:
   - name: email_address
-  - name: is_real_user
   - name: user_is_marked_for_elimination
   - name: last_login_string
     direction: desc
@@ -141,7 +137,6 @@ indexes:
   properties:
   - name: email_address_is_valid
   - name: email_options
-  - name: is_real_user
   - name: user_is_marked_for_elimination
   - name: last_login_string
     direction: desc
@@ -149,7 +144,6 @@ indexes:
 - kind: UserModel
   properties:
   - name: email_address_is_valid
-  - name: is_real_user
   - name: user_is_marked_for_elimination
   - name: username
   - name: last_login_string
@@ -157,13 +151,6 @@ indexes:
 
 - kind: UserModel
   properties:
-  - name: is_real_user
-  - name: last_login_string
-    direction: desc
-
-- kind: UserModel
-  properties:
-  - name: is_real_user
   - name: password
   - name: user_is_marked_for_elimination
   - name: username
@@ -172,7 +159,6 @@ indexes:
 
 - kind: UserModel
   properties:
-  - name: is_real_user
   - name: password_reset
   - name: user_is_marked_for_elimination
   - name: username
@@ -182,21 +168,18 @@ indexes:
 
 - kind: UserModel
   properties:
-  - name: is_real_user
   - name: user_is_marked_for_elimination
   - name: last_login_string
     direction: desc
 
 - kind: UserModel
   properties:
-  - name: is_real_user
   - name: user_is_marked_for_elimination
   - name: unique_last_login
     direction: desc
 
 - kind: UserModel
   properties:
-  - name: is_real_user
   - name: user_is_marked_for_elimination
   - name: username
   - name: last_login_string
@@ -204,7 +187,6 @@ indexes:
 
 - kind: UserModel
   properties:
-  - name: is_real_user
   - name: username
   - name: last_login_string
     direction: desc
@@ -212,7 +194,6 @@ indexes:
 
 - kind: UserModel
   properties:
-  - name: is_real_user
   - name: user_is_marked_for_elimination
   - name: username_combinations_list
   - name: last_login_string

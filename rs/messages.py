@@ -522,7 +522,7 @@ def get_admin_userobject():
     # first, query for "Alex" which is the account that will send the welcome message.
     
     
-    query = models.UserModel.gql("WHERE username = :username AND is_real_user = True ORDER BY last_login_string DESC " , 
+    query = models.UserModel.gql("WHERE username = :username ORDER BY last_login_string DESC " , 
                           username = constants.ADMIN_USERNAME)
     alex_object = query.get()    
     

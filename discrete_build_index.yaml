@@ -4,7 +4,6 @@
   properties:
   - name: age_ix_list
   - name: country_ix_list
-  - name: is_real_user
   - name: preference_ix_list
   - name: region_ix_list
   - name: relationship_status_ix_list
@@ -18,7 +17,6 @@
   properties:
   - name: age_ix_list
   - name: country_ix_list
-  - name: is_real_user
   - name: preference_ix_list
   - name: region_ix_list
   - name: relationship_status_ix_list
