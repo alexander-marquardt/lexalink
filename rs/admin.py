@@ -521,7 +521,7 @@ def backup_database(request):
                       method = 'GET',
                       target = 'ah-builtin-python-bundle', 
                       params ={ 'kind' : object_name_list,
-                                'name' : 'cron-backup-', 
+                                'name' : 'version_id-%s-date-' % settings.VERSION_ID, 
                                 'filesystem' : "gs",
                                 'gs_bucket_name' : gs_bucket_name,
                                 }

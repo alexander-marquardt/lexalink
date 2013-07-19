@@ -64,8 +64,7 @@ def mapreduce_update_userobject(userobject):
     
     # ADD all pending userobjects updates to the comments here. Next time this code is run *all* updates
     # should be addressed.
-    # 1) some userobjects to not have user_photos_tracker correctly set
-    # 2) move language settings out of search_preferences into a seperate object.
+    # 1) move language settings out of search_preferences into a seperate object.
     
     pass
     
