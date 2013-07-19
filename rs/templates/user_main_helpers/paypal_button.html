@@ -33,26 +33,41 @@
 
 {% if paypal_data.testing_paypal_sandbox %}
 
-        Warning - sandbox code enabled<br>
+        <h1>Warning - PayPal sandbox code enabled</h1>
 
             <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-
+                <input type="hidden" name="charset" value="utf-8">
                 <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
                 <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
 
-                <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="{{ paypal_data.paypal_sandbox_button_id }}">
+                <!-- <input type="hidden" name="cmd" value="_s-xclick"> -->
+                <input type="hidden" name="cmd" value="_xclick">
+                <!-- <input type="hidden" name="hosted_button_id" value="{{ paypal_data.paypal_sandbox_button_id }}"> -->
+                <input type="hidden" name="business" value="payments@lexbit.com">
+                <input type="hidden" name="item_name" value='{% trans "VIP Membership" %}'>
+                <input type="hidden" name="lc" value="ES"> <!-- Language code -->
+                
+                <input type="hidden" name="currency_code" value="EUR">  
                 <table>
-                    <tr><td><input type="hidden" name="on0" value="VIP">VIP</td></tr><tr><td><select name="os0">
-                        <option value="10 Euros">€10.00 - 1 mes</option>
-                        <option value="20 Euros">€20.00 - 3 meses</option>
-                        <option value="30 Euros">€30.00 - 6 meses</option>
+                    <tr><td><input type="hidden" name="on0" value="VIP"></td></tr><tr><td>
+                    <select name="os0">
+                        <option value="1 mes">€10.00 - 1 meses</option>
+                        <option value="3 meses">€30.00 - 3 meses</option>
+                        <option value="6 meses">€60.00 - 6 meses</option>
                     </select> </td>
-                    <td class="cl-paypal-td"><input type="hidden" name="currency_code" value="EUR">
-                        <input id="id-paypal-purchase" type="submit" name="submit" value="Purchase">
+                    <td class="cl-paypal-td">
+                        <input id="id-paypal-purchase" type="submit" name="submit" value='{% trans "Purchase" %}'>
                     </td>
                     </tr>
                 </table>
+
+                <input type="hidden" name="option_select0" value="1 mes">
+                <input type="hidden" name="option_amount0" value="10.00">
+                <input type="hidden" name="option_select1" value="3 meses">
+                <input type="hidden" name="option_amount1" value="30.00">
+                <input type="hidden" name="option_select2" value="6 meses">
+                <input type="hidden" name="option_amount2" value="60.00">
+
             </form>
 
 
