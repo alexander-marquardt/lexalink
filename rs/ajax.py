@@ -824,15 +824,13 @@ def check_if_photo_rules_to_be_shown(request):
     userobject =  utils_top_level.get_userobject_from_request(request)
     
     # Eventually, all logged in users will be guaranteed to have accept_terms_and_rules_key defined since
-    # we will create it on login - therefore this check can be removed in the future.
-    if userobject.accept_terms_and_rules_key:
-        terms_and_rules_object = userobject.accept_terms_and_rules_key.get()
-        if terms_and_rules_object.last_photo_rules_accepted != constants.SHOW_PHOTO_RULES_CURRENT_RULES:
-            show_rules = True
-        else:
-            show_rules = False
+
+    terms_and_rules_object = userobject.accept_terms_and_rules_key.get()
+    if terms_and_rules_object.last_photo_rules_accepted != constants.SHOW_PHOTO_RULES_CURRENT_RULES:
+        show_rules = True
     else:
-        show_rules = True    
+        show_rules = False
+  
         
     if show_rules:
         return HttpResponse("show_rules")
