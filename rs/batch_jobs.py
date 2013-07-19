@@ -68,31 +68,16 @@ def mapreduce_update_userobject(userobject):
     
     pass
     
-    
-    #if userobject.is_real_user:
-        
-        #if not userobject.accept_terms_and_rules_key:
-            #if not userobject.user_is_marked_for_elimination:
-                ## we need to create the new object and add it to the userobject.
-                ## remember that each database key is not assigned until the object is Put in the datastore, but if we 
-                ## are yielding the Put operation, then the key is not available.
-                ## This means that we must either write the object before the yield of the put on userobject,
-                ## or that we must manually assign database keys.
-                #terms_and_rules_object = models.AcceptTermsAndRules()
-                #terms_and_rules_object.last_photo_rules_accepted = "not accepted yet"
-                #terms_and_rules_object.put()
-                #userobject.accept_terms_and_rules_key = terms_and_rules_object.key
-                #logging.info("Yield: Adding AcceptTermsAndRules to %s" % userobject.username)            
-                #yield op.db.Put(userobject)  
-            #else:
-                #logging.info("User %s is marked for elimination, not updated" % userobject.username)
-            
-        #else:
-            #logging.info("User %s has AcceptTermsAndRules already" % userobject.username)
-        
-    #else:
-        #logging.warning("Yield: Deleting backup object with username %s" % userobject.username)
+    # NOTE: The database appears to be doing some strange things, which I strongly suspect are due to the
+    # database models using NDB, and the mapreduce operations working on the standard DB. Until it has been
+    # confirmed exactly how these interact, it is probably better to explicitly write the object to the database
+    # as opposed to yielding it.
+    #if not userobject.is_real_user:
+        ## Deleting the object
         #yield op.db.Delete(userobject)
+    #else:
+        ## Do something to the object
+        #yield op.db.Put(userobject)  
         
 
 def send_new_feature_email(userobject, return_message_html = False):
