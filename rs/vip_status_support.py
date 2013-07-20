@@ -30,7 +30,7 @@ import urllib
 import urllib2
 import logging
 import error_reporting, email_utils
-import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages
+import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages, vip_pricing_structures
 import datetime, re
 from models import UserModel
 import views, http_utils
@@ -43,14 +43,6 @@ if settings.TESTING_PAYPAL_SANDBOX:
 else:
   PP_URL = "https://www.paypal.com/cgi-bin/webscr"
 
-
-
-def instant_payment_notification_default(request):
-  # since the default IPN URL that we entered into PayPal only allowed us to enter in a single domain
-  # we must dynamically set the IPN URL for all transactions. If this default URL is ever hit, then
-  # this is an error.
-  logging.critical("The default IPN URL should never be called - check what is happening with PayPal")
-  return HttpResponseServerError("Error")
   
   
 custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')  
@@ -106,6 +98,8 @@ def instant_payment_notification(request):
       else:
         raise Exception("Paypal custom value does not match expected format: %s" % custom)
       
+      logging.info("Paypal parameters: %s" % parameters)
+      
       donation_type = parameters['item_number']
       txn_id = parameters['txn_id']
       currency = parameters['mc_currency']
@@ -115,16 +109,19 @@ def instant_payment_notification(request):
       uid = utils.get_uid_from_nid(nid)
       userobject = utils_top_level.get_object_from_string(uid)
 
-      if currency == 'EUR':
-        num_credits_awarded = constants.client_paid_status_num_credits_awarded_for_euros[int(float(amount))]
+      if currency in vip_pricing_structures.valid_currencies:
+        membership_category = vip_pricing_structures.vip_price_to_membership_category_lookup[currency][amount]
+        num_days_awarded = vip_pricing_structures.num_days_in_vip_membership_category[membership_category]
       else:
         assert(0)
         
-      if check_payment_and_update_structures(userobject, currency, amount, num_credits_awarded, txn_id):
+      if check_payment_and_update_structures(userobject, currency, amount, num_days_awarded, txn_id):
         # only process the payment if this is the first time we have seen this txn_id.
-        update_userobject_vip_status(userobject,  num_credits_awarded, payer_email)         
+        update_userobject_vip_status(userobject,  num_days_awarded, payer_email)         
         
       return HttpResponse("OK")
+    else:
+      return HttpResponse("Not Valid")
 
   except:
     error_reporting.log_exception(logging.critical, request=request)
@@ -144,25 +141,7 @@ def instant_payment_notification(request):
     return HttpResponse("OK")
 
 
-#def test_store_payment_and_update_structures(request, username, txn_id):
-  ## just a temporary function for verifying that store_payment_and_update_structures works.
-  
-  #query_filter_dict = {}    
-  #query_filter_dict['username'] = username.upper()
-
-  #query = UserModel.all()
-  #for (query_filter_key, query_filter_value) in query_filter_dict.iteritems():
-      #query = query.filter(query_filter_key, query_filter_value)
-  #userobject = query.get()
-  
-  #if userobject:
-    #store_payment_and_update_structures(userobject, 'EUR', 10, txn_id)
-  #else:
-    #logging.error("userobject for %s not found"  % username)
-    
-  #return HttpResponse("OK")
-
-def check_payment_and_update_structures(userobject, currency, amount_paid, num_credits_awarded, txn_id):
+def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id):
   
   # This stores information about the user that has made the payment. This is stored for informational purposes.
   
@@ -178,10 +157,10 @@ def check_payment_and_update_structures(userobject, currency, amount_paid, num_c
     payment_object = models.PaymentInfo()
     payment_object.username = userobject.username
     payment_object.owner_userobject = userobject.key
-    payment_object.amount_paid = int(float(amount_paid))
+    payment_object.amount_paid = float(amount_paid)
     payment_object.currency = currency
     payment_object.date_paid = datetime.datetime.now()
-    payment_object.num_credits_awarded = num_credits_awarded
+    payment_object.num_days_awarded = num_days_awarded
     payment_object.txn_id = txn_id
     transaction_is_ok = True
 
@@ -192,7 +171,7 @@ def check_payment_and_update_structures(userobject, currency, amount_paid, num_c
   return transaction_is_ok
 
 
-def get_new_vip_status_and_expiry(previous_expiry, num_credits_to_apply):
+def get_new_vip_status_and_expiry(previous_expiry, num_days_awarded):
 
   # Compares the previous_paid_status, and the just_paid_status, and sets the new_paid_status to the higher of the two.
   # Also, either adds just_paid_extra_days to the previous_expiry, or just computes a new expiry_date if not available.
@@ -202,21 +181,20 @@ def get_new_vip_status_and_expiry(previous_expiry, num_credits_to_apply):
   (just_paid_status, new_expiry_date) = (None, previous_expiry)
   
   try:
-    if num_credits_to_apply > 0:
-      
-      just_paid_extra_days = constants.client_paid_status_credit_amounts[num_credits_to_apply]  
-      just_paid_status = "%d credits (%d days) applied on %s" % (num_credits_to_apply, just_paid_extra_days, datetime.datetime.now())
-      logging.info(just_paid_status)
-
-      # store payment related information on the userobject.
+    assert(num_days_awarded > 0)
     
-      if previous_expiry <= datetime.datetime.now():
-        # previous_paid_status has expired - so just assign the new values
-        new_expiry_date = datetime.datetime.now() + datetime.timedelta(days = just_paid_extra_days) 
-        
-      else:
-        # Need to take into account previously purchased credits, and add them to the newly acquired credits.
-        new_expiry_date = previous_expiry + datetime.timedelta(days = just_paid_extra_days)  
+    just_paid_status = "%d days of VIP status added on %s" % (num_days_awarded, datetime.datetime.now())
+    logging.info(just_paid_status)
+
+    # store payment related information on the userobject.
+  
+    if previous_expiry <= datetime.datetime.now():
+      # previous_paid_status has expired - so just assign the new values
+      new_expiry_date = datetime.datetime.now() + datetime.timedelta(days = num_days_awarded) 
+      
+    else:
+      # Need to take into account previously purchased credits, and add them to the newly acquired credits.
+      new_expiry_date = previous_expiry + datetime.timedelta(days = num_days_awarded)  
         
   except:
     error_reporting.log_exception(logging.critical)
@@ -224,16 +202,16 @@ def get_new_vip_status_and_expiry(previous_expiry, num_credits_to_apply):
   return (just_paid_status, new_expiry_date)
   
   
-def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email):
+def update_userobject_vip_status(userobject,  num_days_awarded, payer_email):
 
-  # updates VIP status on the userobject to reflect the new num_credits_to_apply that have either
+  # updates VIP status on the userobject to reflect the new num_days_awarded that have either
   # been purchased or awarded to the userobject profile. 
     
   try:
     
 
     (userobject.client_paid_status, userobject.client_paid_status_expiry) = \
-      get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_credits_to_apply)
+      get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_days_awarded)
     
     utils.put_userobject(userobject)
     
@@ -241,14 +219,14 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
     App name: %(app_name)s<br>
     Payer email: %(payer_email)s<br>
     User: %(username)s (%(email_address)s)<br>
-    Credits applied: %(num_credits)s<br>
+    Days purchased: %(num_days_awarded)s<br>
     Expiry date: %(expiry)s<br>
     Status: %(status)s<br>
     """ % {'app_name' : settings.APP_NAME, 
            'payer_email' : payer_email,
            'username':  userobject.username, 
            'email_address' : userobject.email_address,
-           'num_credits' : num_credits_to_apply, 
+           'num_days_awarded' : num_days_awarded, 
            'expiry' : userobject.client_paid_status_expiry,
            'status' : userobject.client_paid_status}
     
@@ -269,10 +247,10 @@ def update_userobject_vip_status(userobject,  num_credits_to_apply, payer_email)
     
     
 
-def manually_give_paid_status(request, username, num_credits, txn_id = None):
+def manually_give_paid_status(request, username, num_days_awarded, txn_id = None):
   
   try:
-    num_credits = int(num_credits)
+    num_days_awarded = int(num_days_awarded)
     
     q = UserModel.query()
     q = q.filter(UserModel.username == username.upper())
@@ -280,12 +258,11 @@ def manually_give_paid_status(request, username, num_credits, txn_id = None):
 
     if txn_id:
       # manually add in the txn_id if it is inclded
-      amount = num_credits / 100
-      currency = "EUR"
-      check_payment_and_update_structures(userobject, currency, amount, 
-                                          num_credits, txn_id)
+      currency = "NA - Manually Assigned"
+      check_payment_and_update_structures(userobject, currency, num_days_awarded, 
+                                          num_days_awarded, txn_id)
     
-    update_userobject_vip_status(userobject,  num_credits, payer_email = "N/A - manually awarded") 
+    update_userobject_vip_status(userobject,  num_days_awarded, payer_email = "N/A - manually awarded") 
     return http_utils.ajax_compatible_http_response(request, "Done")
   
   except:

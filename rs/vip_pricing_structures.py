@@ -50,6 +50,14 @@ num_months_in_vip_membership_category = {
     VIP_1_YEAR  : 12,
 }
 
+num_days_in_vip_membership_category = {
+    VIP_1_WEEK  : 7,
+    VIP_1_MONTH : 31,
+    VIP_3_MONTHS : 92,
+    VIP_6_MONTHS : 183,
+    VIP_1_YEAR  : 365,    
+}
+
 vip_option_values = {
     # this is broken up like this so that the lazy translation isn't done until the value is read.
     VIP_1_WEEK : {'duration': "1", 'duration_units' : ugettext_lazy("week")}, 
@@ -66,20 +74,30 @@ vip_currency_symbols = {
 
 vip_prices = {
     'EUR': {
-        VIP_1_WEEK: 7.95,
-        VIP_1_MONTH: 19.95,
-        VIP_3_MONTHS: 44.95,
-        VIP_6_MONTHS: 59.95,
-        VIP_1_YEAR: 79.79,
+        VIP_1_WEEK: "7.95",
+        VIP_1_MONTH: "19.95",
+        VIP_3_MONTHS: "44.95",
+        VIP_6_MONTHS: "59.95",
+        VIP_1_YEAR: "79.79",
     },
     'USD' : {
-        VIP_1_WEEK: 7.95,
-        VIP_1_MONTH: 19.95,
-        VIP_3_MONTHS: 44.95,
-        VIP_6_MONTHS: 59.95,
-        VIP_1_YEAR: 79.79,
+        VIP_1_WEEK: "7.95",
+        VIP_1_MONTH: "19.95",
+        VIP_3_MONTHS: "44.95",
+        VIP_6_MONTHS: "59.95",
+        VIP_1_YEAR: "79.79",
     }
 }
+
+# generate the dictionary that will allow us to do a reverse lookup when we receive a payment amount
+# to the corresponding membership category
+vip_price_to_membership_category_lookup = {}
+for currency in valid_currencies:
+    vip_price_to_membership_category_lookup[currency] = {}
+    for k,v in vip_prices[currency].iteritems():
+        vip_price_to_membership_category_lookup[currency][v] = k
+    
+
 
 def generate_prices_with_currency_units(prices_to_loop_over):
     prices_dict_to_show = {}
@@ -95,8 +113,8 @@ vip_prices_per_month = {}
 for currency in valid_currencies:
     vip_prices_per_month[currency] =  {}
     for category in vip_membership_categories:
-        vip_prices_per_month[currency][category] = "%.2f" % (
-            vip_prices[currency][category] / num_months_in_vip_membership_category[category])
+        vip_prices_per_month[currency][category] = "%.2s" % (
+            float(vip_prices[currency][category]) / num_months_in_vip_membership_category[category])
         
 vip_prices_per_month_with_currency_units = generate_prices_with_currency_units(vip_prices_per_month)
 

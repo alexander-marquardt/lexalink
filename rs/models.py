@@ -643,14 +643,14 @@ class PaymentInfo(ndb.Model):
     # userobject.payments_set[0] - Note: we can therefore also keep track of multiple payments for a single user. 
     owner_userobject = ndb.KeyProperty(kind = UserModel, default = None)
     
-    amount_paid = ndb.IntegerProperty(default=0)
+    amount_paid = ndb.FloatProperty(default=0)
     currency = ndb.StringProperty(default=None)
     
     # The username is stored here just for convenience, so that we can query by username (in the admin console) to see what payments
     # a given user has made, in case of any disputes or confusion.
     username = ndb.StringProperty(default=None)
     date_paid = ndb.DateTimeProperty(required=False)
-    num_credits_awarded = ndb.IntegerProperty(default=0)
+    num_days_awarded = ndb.IntegerProperty(default=0)
     
     txn_id = ndb.StringProperty(required = False, default=None)
     
