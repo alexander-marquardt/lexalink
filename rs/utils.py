@@ -51,6 +51,7 @@ from models import UnreadMailCount, CountInitiateContact
 from utils_top_level import serialize_entity, deserialize_entity
 
 import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
+import vip_pricing_structures
 from rs.import_search_engine_overrides import *
 
 import base64
@@ -1584,10 +1585,9 @@ def render_paypal_button(request, username, owner_nid):
                 paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
                 paypal_data['owner_nid'] = owner_nid    
                 paypal_data['username'] = username
-                paypal_data['paypal_en_button_id'] = site_configuration.PAYPAL_EN_BUTTON_ID
-                paypal_data['paypal_es_button_id'] = site_configuration.PAYPAL_ES_BUTTON_ID   
-                paypal_data['paypal_sandbox_button_id'] = site_configuration.PAYPAL_SANDBOX_BUTTON_ID
-                
+                paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
+                paypal_data['dropdown_options'] = vip_pricing_structures.generate_dropdown_options()
+                paypal_data['dropdown_options_hidden_fields'] = vip_pricing_structures.generate_dropdown_options_hidden_fields()
             
                 template = loader.get_template("user_main_helpers/paypal_button.html")    
                 context = Context (dict({

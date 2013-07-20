@@ -46,17 +46,15 @@
             <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
 
             <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="payments@lexbit.com">
-            <input type="hidden" name="item_name" value='{% trans "VIP Membership" %}'>
+            <input type="hidden" name="business" value="{{ paypal_data.paypal_account }}">
+            <input type="hidden" name="item_name" value='{{ app_name }} {% trans "VIP Membership" %}'>
             <input type="hidden" name="lc" value="{{ paypal_data.language }}"> <!-- Language code -->
 
             <input type="hidden" name="currency_code" value="EUR">
             <table>
                 <tr><td><input type="hidden" name="on0" value="VIP"></td></tr><tr><td>
                 <select name="os0">
-                    <option value="1 mes">€10.00 - 1 meses</option>
-                    <option value="3 meses">€30.00 - 3 meses</option>
-                    <option value="6 meses">€60.00 - 6 meses</option>
+                    {{ paypal_data.dropdown_options|safe }}
                 </select> </td>
                 <td class="cl-paypal-td">
                     <input id="id-paypal-purchase" type="submit" name="submit" value='{% trans "Purchase" %}'>
@@ -64,12 +62,7 @@
                 </tr>
             </table>
 
-            <input type="hidden" name="option_select0" value="1 mes">
-            <input type="hidden" name="option_amount0" value="10.00">
-            <input type="hidden" name="option_select1" value="3 meses">
-            <input type="hidden" name="option_amount1" value="30.00">
-            <input type="hidden" name="option_select2" value="6 meses">
-            <input type="hidden" name="option_amount2" value="60.00">
+            {{ paypal_data.dropdown_options_hidden_fields|safe }}
 
         </form>
 

@@ -107,12 +107,9 @@ except:
     MY_HOME_IP_PATTERN = re.compile(r'xx\.xx\.xx\.xxx') # you can enter the IP of your home network
     LOCAL_IP_PATTERN = re.compile(r'127\.0\.0\.1')
 
-    # The site is currently setup to process paypal payments in English and in Spanish. In order to 
-    # accept payments, you must register with PayPal and get button IDs that are assocaited with
-    # your paypal account, and that will be used when communicating with PayPals servers.
-    PAYPAL_EN_BUTTON_ID = 'YOUR-ENGLISH-PAYPAL-BUTTON-ID'
-    PAYPAL_ES_BUTTON_ID = 'YOUR-SPANISH-PAYPAL-BUTTON-ID'
-    PAYPAL_SANDBOX_BUTTON_ID = 'YOUR-PAYPAL-SANDBOX-BUTTON-ID'
+    # The site is currently setup to process paypal payments - you must have a paypal account setup
+    PAYPAL_ACCOUNT = 'YOUR-EMAIL-ADDRESS-FOR-PAYPAL'
+
     
     # PROPRIETARY_STATIC_DIR_EXISTS then we will load "customized" CSS and images
     # These will be loaded from the rs/proprietary/static directory. This directory

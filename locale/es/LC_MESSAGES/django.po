@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-19 16:12-0400\n"
+"POT-Creation-Date: 2013-07-19 20:50-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -100,7 +100,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:727 rs/forms.py:1059 rs/login_utils.py:253 rs/messages.py:518
-#: rs/rendering.py:405 rs/utils.py:1513
+#: rs/rendering.py:405 rs/utils.py:1514
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -3951,108 +3951,108 @@ msgstr "Con&nbsp;Personas&nbsp;Que&nbsp;Son"
 msgid "Any Language"
 msgstr "Cualquier&nbsp;idioma"
 
-#: rs/utils.py:135
+#: rs/utils.py:136
 msgid "and other (languages)..."
 msgstr "y otros..."
 
-#: rs/utils.py:211
+#: rs/utils.py:212
 msgid "I am"
 msgstr "Soy"
 
-#: rs/utils.py:212
+#: rs/utils.py:213
 msgid "Preference"
 msgstr "Preferencia"
 
-#: rs/utils.py:213
+#: rs/utils.py:214
 msgid "Relationship status"
 msgstr "Estado"
 
-#: rs/utils.py:214
+#: rs/utils.py:215
 msgid "I fluently speak"
 msgstr "Hablo fluidamente"
 
-#: rs/utils.py:215
+#: rs/utils.py:216
 msgid "I want to practice"
 msgstr "Quiero practicar"
 
-#: rs/utils.py:216
+#: rs/utils.py:217
 msgid "Looking for"
 msgstr "Busco a"
 
-#: rs/utils.py:217
+#: rs/utils.py:218
 msgid "My age"
 msgstr "Mi edad"
 
-#: rs/utils.py:218
+#: rs/utils.py:219
 msgid "My price"
 msgstr "Mi precio"
 
-#: rs/utils.py:221
+#: rs/utils.py:222
 msgid "In location"
 msgstr "En"
 
-#: rs/utils.py:223
+#: rs/utils.py:224
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:496
+#: rs/utils.py:497
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] "%(days)s día"
 msgstr[1] "%(days)s días"
 
-#: rs/utils.py:509
+#: rs/utils.py:510
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] "%(hours)s hora"
 msgstr[1] "%(hours)s horas"
 
-#: rs/utils.py:524
+#: rs/utils.py:525
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] "%(minutes)s minuto"
 msgstr[1] "%(minutes)s minutos"
 
-#: rs/utils.py:539
+#: rs/utils.py:540
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] "%(seconds)s segundo"
 msgstr[1] "%(seconds)s segundos"
 
-#: rs/utils.py:556
+#: rs/utils.py:557
 msgid "ago (capitalize if first word)"
 msgstr "Hace"
 
-#: rs/utils.py:558
+#: rs/utils.py:559
 msgid "ago"
 msgstr "hace"
 
-#: rs/utils.py:562
+#: rs/utils.py:563
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr "%(ago_text)s %(joined_time)s"
 
-#: rs/utils.py:567
+#: rs/utils.py:568
 msgid "In"
 msgstr "En"
 
-#: rs/utils.py:569
+#: rs/utils.py:570
 msgid "in"
 msgstr "en"
 
-#: rs/utils.py:1004
+#: rs/utils.py:1005
 msgid "Interested in:"
 msgstr "Interesado en:"
 
-#: rs/utils.py:1007
+#: rs/utils.py:1008
 msgid ", and"
 msgstr ", y"
 
-#: rs/utils.py:1454
+#: rs/utils.py:1455
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to support@"
@@ -4061,7 +4061,7 @@ msgstr ""
 "Si ves algun otro perfil como este, por favor envíanos un mensaje a support@"
 "%(app_name)s para notificarnos del nick / nombre de usuario."
 
-#: rs/utils.py:1459
+#: rs/utils.py:1460
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
@@ -4069,7 +4069,7 @@ msgstr ""
 "Este usuario ha sido eliminado por el administrador por no seguir los "
 "términos y condiciones del servicio."
 
-#: rs/utils.py:1464
+#: rs/utils.py:1465
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
@@ -4079,7 +4079,7 @@ msgstr ""
 "Por favor no le contactes o envíes correos electrónicos a este usuario "
 "debido a que su objetivo final será pedirte dinero."
 
-#: rs/utils.py:1471
+#: rs/utils.py:1472
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
@@ -4090,7 +4090,7 @@ msgstr ""
 "debido a que su objetivo es convencerte para registrarte a un servicio de "
 "pago."
 
-#: rs/utils.py:1478
+#: rs/utils.py:1479
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
@@ -4167,6 +4167,26 @@ msgstr ""
 #: rs/views.py:813
 msgid "terms.html"
 msgstr "terminos.html"
+
+#: rs/vip_pricing_structures.py:55
+msgid "week"
+msgstr "semana"
+
+#: rs/vip_pricing_structures.py:56 rs/vip_pricing_structures.py:127
+msgid "month"
+msgstr "mes"
+
+#: rs/vip_pricing_structures.py:57 rs/vip_pricing_structures.py:58
+msgid "months"
+msgstr "meses"
+
+#: rs/vip_pricing_structures.py:59
+msgid "year"
+msgstr "año"
+
+#: rs/vip_pricing_structures.py:127
+msgid "payment of"
+msgstr "pago de"
 
 #: rs/proprietary/my_sitemaps.py:159
 #: rs/templates/user_main_helpers/main_body.html:88
@@ -5021,11 +5041,11 @@ msgstr "Mostrar estados de conexión"
 msgid "Exit"
 msgstr "Salir"
 
-#: rs/templates/user_main_helpers/paypal_button.html:47
+#: rs/templates/user_main_helpers/paypal_button.html:50
 msgid "VIP Membership"
 msgstr "Membresía VIP"
 
-#: rs/templates/user_main_helpers/paypal_button.html:59
+#: rs/templates/user_main_helpers/paypal_button.html:60
 msgid "Purchase"
 msgstr "Comprar"
 
