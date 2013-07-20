@@ -98,7 +98,7 @@ def instant_payment_notification(request):
       else:
         raise Exception("Paypal custom value does not match expected format: %s" % custom)
       
-      logging.info("Paypal parameters: %s" % parameters)
+      #logging.info("Paypal parameters: %s" % parameters)
       
       donation_type = parameters['item_number']
       txn_id = parameters['txn_id']
@@ -113,7 +113,7 @@ def instant_payment_notification(request):
         membership_category = vip_pricing_structures.vip_price_to_membership_category_lookup[currency][amount]
         num_days_awarded = vip_pricing_structures.num_days_in_vip_membership_category[membership_category]
       else:
-        assert(0)
+        raise Exception("Paypal currency %s not handled by code" % currency)
         
       if check_payment_and_update_structures(userobject, currency, amount, num_days_awarded, txn_id):
         # only process the payment if this is the first time we have seen this txn_id.
@@ -121,7 +121,8 @@ def instant_payment_notification(request):
         
       return HttpResponse("OK")
     else:
-      return HttpResponse("Not Valid")
+      raise Exception("Paypal transaction status is %s" % (status))
+
 
   except:
     error_reporting.log_exception(logging.critical, request=request)

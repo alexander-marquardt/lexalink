@@ -31,6 +31,7 @@ from django.utils.translation import ugettext_lazy, ugettext
 # Note: the following ugettext calls *do not translate* the values - they are dummy calls so that the
 # pre-processor can detect the words that will need to be tranlated in the ugettext_lazy calls that
 # occur lower down in this module.
+VIP_1_DAY = "1_day" # for testing only
 VIP_1_WEEK  = "1_week"
 VIP_1_MONTH = "1_month"
 VIP_3_MONTHS = "3_months"
@@ -43,6 +44,7 @@ valid_currencies = ['EUR', 'USD']
 SELECTED_VIP_DROPDOWN = VIP_1_YEAR
 
 num_months_in_vip_membership_category = {
+    VIP_1_DAY : 1/float(30),
     VIP_1_WEEK  : 7/float(30),
     VIP_1_MONTH : 1,
     VIP_3_MONTHS : 3,
@@ -51,6 +53,7 @@ num_months_in_vip_membership_category = {
 }
 
 num_days_in_vip_membership_category = {
+    VIP_1_DAY : 1,
     VIP_1_WEEK  : 7,
     VIP_1_MONTH : 31,
     VIP_3_MONTHS : 92,
@@ -60,6 +63,7 @@ num_days_in_vip_membership_category = {
 
 vip_option_values = {
     # this is broken up like this so that the lazy translation isn't done until the value is read.
+    VIP_1_DAY : {'duration' : "1", 'duration_units' : "day"},
     VIP_1_WEEK : {'duration': "1", 'duration_units' : ugettext_lazy("week")}, 
     VIP_1_MONTH: {'duration': "1", 'duration_units' : ugettext_lazy("month")},
     VIP_3_MONTHS: {'duration': "3", 'duration_units' : ugettext_lazy("months")},
@@ -74,6 +78,7 @@ vip_currency_symbols = {
 
 vip_prices = {
     'EUR': {
+        VIP_1_DAY : "0.05",
         VIP_1_WEEK: "7.95",
         VIP_1_MONTH: "19.95",
         VIP_3_MONTHS: "44.95",
@@ -81,6 +86,7 @@ vip_prices = {
         VIP_1_YEAR: "79.79",
     },
     'USD' : {
+        VIP_1_DAY : "0.05",    
         VIP_1_WEEK: "7.95",
         VIP_1_MONTH: "19.95",
         VIP_3_MONTHS: "44.95",
@@ -113,7 +119,7 @@ vip_prices_per_month = {}
 for currency in valid_currencies:
     vip_prices_per_month[currency] =  {}
     for category in vip_membership_categories:
-        vip_prices_per_month[currency][category] = "%.2s" % (
+        vip_prices_per_month[currency][category] = "%.2f" % (
             float(vip_prices[currency][category]) / num_months_in_vip_membership_category[category])
         
 vip_prices_per_month_with_currency_units = generate_prices_with_currency_units(vip_prices_per_month)
