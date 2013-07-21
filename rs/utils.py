@@ -35,6 +35,7 @@ import hashlib, re
 import datetime, time, logging
 import string, random, sys, os
 import http_utils
+from localization_files import currency_by_country
 
 
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed, HttpResponseServerError
@@ -1579,15 +1580,36 @@ def render_paypal_button(request, username, owner_nid):
         if constants.SHOW_VIP_UPGRADE_OPTION:
             if request.session.__contains__('userobject_str'):
                 # only show paypal button to users that are logged-in.
+                
+                # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the 
+                # appropriate currency to display. If country code is missing, then we will display
+                # prices for the value defined in vip_pricing_structures.DEFAULT_CURRENCY
+                http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+                
+                try:
+                    # Lookup currency for the country
+                    if http_country_code in currency_by_country.country_to_currency_map:
+                        internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]
+                    else: 
+                        internal_currency_code = vip_pricing_structures.DEFAULT_CURRENCY
+                        
+                    if internal_currency_code not in currency_by_country.currency_symbols:
+                        raise Exception('Verify that currency_symbols contains all expected currencies')
+                    
+                except:
+                    # If there is any error, report it, and default to the "international" $US
+                    internal_currency_code = vip_pricing_structures.DEFAULT_CURRENCY
+                    error_reporting.log_exception(logging.error)
                             
                 paypal_data = {}
                 paypal_data['language'] = request.LANGUAGE_CODE
                 paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
                 paypal_data['owner_nid'] = owner_nid    
                 paypal_data['username'] = username
+                paypal_data['currency_code'] = currency_by_country.real_currency_codes[internal_currency_code]
                 paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
-                paypal_data['dropdown_options'] = vip_pricing_structures.generate_dropdown_options()
-                paypal_data['dropdown_options_hidden_fields'] = vip_pricing_structures.generate_dropdown_options_hidden_fields()
+                paypal_data['dropdown_options'] = vip_pricing_structures.generate_dropdown_options(internal_currency_code)
+                paypal_data['dropdown_options_hidden_fields'] = vip_pricing_structures.generate_dropdown_options_hidden_fields(internal_currency_code)
             
                 template = loader.get_template("user_main_helpers/paypal_button.html")    
                 context = Context (dict({

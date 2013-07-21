@@ -28,6 +28,8 @@
 
 from django.utils.translation import ugettext_lazy, ugettext
 
+from localization_files import currency_by_country
+
 # Note: the following ugettext calls *do not translate* the values - they are dummy calls so that the
 # pre-processor can detect the words that will need to be tranlated in the ugettext_lazy calls that
 # occur lower down in this module.
@@ -40,8 +42,8 @@ VIP_1_YEAR  = "1_year"
 
 # the following list will allow us to iterate over the various membership options in the correct order
 vip_membership_categories = [VIP_1_WEEK, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
-valid_currencies = ['EUR', 'USD']
 SELECTED_VIP_DROPDOWN = VIP_1_YEAR
+DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 num_months_in_vip_membership_category = {
     VIP_1_DAY : 1/float(30),
@@ -71,34 +73,55 @@ vip_option_values = {
     VIP_1_YEAR: {'duration': "1", 'duration_units' : ugettext_lazy("year")},
 }
 
-vip_currency_symbols = {
-    'EUR' : u'€',
-    'USD' : u'$',
-    }
 
 vip_prices = {
     'EUR': {
-        VIP_1_DAY : "0.05",
+        VIP_1_DAY : "1.95",
         VIP_1_WEEK: "7.95",
         VIP_1_MONTH: "19.95",
         VIP_3_MONTHS: "44.95",
         VIP_6_MONTHS: "59.95",
         VIP_1_YEAR: "79.79",
-    },
+        },
     'USD' : {
-        VIP_1_DAY : "0.05",    
+        VIP_1_DAY : "1.95",    
         VIP_1_WEEK: "7.95",
         VIP_1_MONTH: "19.95",
         VIP_3_MONTHS: "44.95",
         VIP_6_MONTHS: "59.95",
         VIP_1_YEAR: "79.79",
-    }
+        },
+    'USD_NON_US' : {
+        # Pricing for international customers outside of the US
+        VIP_1_DAY : "1.95",    
+        VIP_1_WEEK: "7.95",
+        VIP_1_MONTH: "19.95",
+        VIP_3_MONTHS: "44.95",
+        VIP_6_MONTHS: "59.95",
+        VIP_1_YEAR: "79.79",
+        },    
+    'GBP' : {
+        VIP_1_DAY : "1.65",    
+        VIP_1_WEEK: "6.95",
+        VIP_1_MONTH: "16.95",
+        VIP_3_MONTHS: "39.95",
+        VIP_6_MONTHS: "49.95",
+        VIP_1_YEAR: "69.95",
+        },
+    'MXN' : {
+        VIP_1_DAY : "24.95",    # $1.99 USD July 20, 2013
+        VIP_1_WEEK: "99.95",    # $7.97
+        VIP_1_MONTH: "249.95",  # $19.95
+        VIP_3_MONTHS: "539.95", # $43.1
+        VIP_6_MONTHS: "749.95", # $59.86
+        VIP_1_YEAR: "959.88",   # $76.62 
+        },
 }
 
 # generate the dictionary that will allow us to do a reverse lookup when we receive a payment amount
 # to the corresponding membership category
 vip_price_to_membership_category_lookup = {}
-for currency in valid_currencies:
+for currency in currency_by_country.valid_currencies:
     vip_price_to_membership_category_lookup[currency] = {}
     for k,v in vip_prices[currency].iteritems():
         vip_price_to_membership_category_lookup[currency][v] = k
@@ -107,16 +130,16 @@ for currency in valid_currencies:
 
 def generate_prices_with_currency_units(prices_to_loop_over):
     prices_dict_to_show = {}
-    for currency in valid_currencies:
+    for currency in currency_by_country.valid_currencies:
         prices_dict_to_show[currency] = {}
         for category in vip_membership_categories:
-            prices_dict_to_show[currency][category] = u"%s%s" % (vip_currency_symbols[currency], prices_to_loop_over[currency][category])
+            prices_dict_to_show[currency][category] = u"%s%s" % (currency_by_country.currency_symbols[currency], prices_to_loop_over[currency][category])
     return prices_dict_to_show
     
 vip_prices_with_currency_units = generate_prices_with_currency_units(vip_prices)
 
 vip_prices_per_month = {}
-for currency in valid_currencies:
+for currency in currency_by_country.valid_currencies:
     vip_prices_per_month[currency] =  {}
     for category in vip_membership_categories:
         vip_prices_per_month[currency][category] = "%.2f" % (
@@ -124,7 +147,7 @@ for currency in valid_currencies:
         
 vip_prices_per_month_with_currency_units = generate_prices_with_currency_units(vip_prices_per_month)
 
-def generate_dropdown_options(currency = 'EUR'):
+def generate_dropdown_options(currency):
     
     generated_html = u''
     for member_category in vip_membership_categories:
@@ -153,7 +176,7 @@ def generate_dropdown_options(currency = 'EUR'):
             
     return generated_html
 
-def generate_dropdown_options_hidden_fields(currency = 'EUR'):
+def generate_dropdown_options_hidden_fields(currency):
     
     generated_html = ''
     counter = 0
