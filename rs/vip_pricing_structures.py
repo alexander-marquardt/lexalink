@@ -171,7 +171,7 @@ def generate_dropdown_options(currency):
                 'duration': duration, 'duration_units' : duration_units, 
                 'selected' : selected,                
                 'price_per_month' : vip_prices_per_month_with_currency_units[currency][member_category], 
-                'one_payment_txt': ugettext('payment of'), 'month_txt' : ugettext('month'),
+                'one_payment_txt': ugettext('total of'), 'month_txt' : ugettext('month'),
                 'total_price' : vip_prices_with_currency_units[currency][member_category]}
             
     return generated_html
