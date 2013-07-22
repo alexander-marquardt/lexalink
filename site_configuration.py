@@ -45,7 +45,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 # Other debugging/build-related flags
-TESTING_PAYPAL_SANDBOX = False
+TESTING_PAYPAL_SANDBOX = True
 BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 # The following variable reates to the flash/video conference code, which is almost done, but not activated and

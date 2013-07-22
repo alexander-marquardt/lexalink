@@ -1607,7 +1607,12 @@ def render_paypal_button(request, username, owner_nid):
                 paypal_data['owner_nid'] = owner_nid    
                 paypal_data['username'] = username
                 paypal_data['currency_code'] = currency_by_country.real_currency_codes[internal_currency_code]
-                paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
+                
+                if not site_configuration.TESTING_PAYPAL_SANDBOX:
+                    paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
+                else:
+                    paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
+                    
                 paypal_data['dropdown_options'] = vip_pricing_structures.generate_dropdown_options(internal_currency_code)
                 paypal_data['dropdown_options_hidden_fields'] = vip_pricing_structures.generate_dropdown_options_hidden_fields(internal_currency_code)
             

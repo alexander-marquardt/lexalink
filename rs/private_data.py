@@ -109,7 +109,7 @@ except:
 
     # The site is currently setup to process paypal payments - you must have a paypal account setup
     PAYPAL_ACCOUNT = 'YOUR-EMAIL-ADDRESS-FOR-PAYPAL'
-
+    PAYPAL_SANDBOX_ACCOUNT = 'YOUR-SANDBOX-EMAIL-ADDRESS-FOR-PAYPAL'
     
     # PROPRIETARY_STATIC_DIR_EXISTS then we will load "customized" CSS and images
     # These will be loaded from the rs/proprietary/static directory. This directory
