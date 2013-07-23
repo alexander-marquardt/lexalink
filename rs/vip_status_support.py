@@ -106,6 +106,12 @@ def instant_payment_notification(request):
       currency = parameters['mc_currency']
       amount = parameters['mc_gross']
       payer_email = parameters['payer_email']
+      
+      # os0 is represented as option_selection1
+      # We are not presently using this varible, but can use this in the future instead of looking up the membership
+      # category based on the price.
+      option_selected = parameters['option_selection1'] # this is language specific (ie. "1 year" in english "1 año" in spanish)
+
             
       uid = utils.get_uid_from_nid(nid)
       userobject = utils_top_level.get_object_from_string(uid)

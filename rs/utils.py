@@ -1584,7 +1584,11 @@ def render_paypal_button(request, username, owner_nid):
                 # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the 
                 # appropriate currency to display. If country code is missing, then we will display
                 # prices for the value defined in vip_pricing_structures.DEFAULT_CURRENCY
-                http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+                if not vip_pricing_structures.TESTING_COUNTRY:
+                    http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+                else: 
+                    logging.error("TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
+                    http_country_code = vip_pricing_structures.TESTING_COUNTRY
                 
                 try:
                     # Lookup currency for the country
@@ -1613,8 +1617,8 @@ def render_paypal_button(request, username, owner_nid):
                 else:
                     paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
                     
-                paypal_data['dropdown_options'] = vip_pricing_structures.generate_dropdown_options(internal_currency_code)
-                paypal_data['dropdown_options_hidden_fields'] = vip_pricing_structures.generate_dropdown_options_hidden_fields(internal_currency_code)
+                paypal_data['dropdown_options'] = vip_pricing_structures.generate_paypal_dropdown_options(internal_currency_code)
+                paypal_data['dropdown_options_hidden_fields'] = vip_pricing_structures.generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
             
                 template = loader.get_template("user_main_helpers/paypal_button.html")    
                 context = Context (dict({

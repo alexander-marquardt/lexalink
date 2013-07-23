@@ -30,9 +30,6 @@ from django.utils.translation import ugettext_lazy, ugettext
 
 from localization_files import currency_by_country
 
-# Note: the following ugettext calls *do not translate* the values - they are dummy calls so that the
-# pre-processor can detect the words that will need to be tranlated in the ugettext_lazy calls that
-# occur lower down in this module.
 VIP_1_DAY = "1_day" # for testing only
 VIP_1_WEEK  = "1_week"
 VIP_1_MONTH = "1_month"
@@ -44,6 +41,10 @@ VIP_1_YEAR  = "1_year"
 vip_membership_categories = [VIP_1_WEEK, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
 SELECTED_VIP_DROPDOWN = VIP_1_YEAR
 DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
+
+# Leave the following value set to None if we are not trying to force a particular country's options to be displayed
+TESTING_COUNTRY = 'ES'
+
 
 num_months_in_vip_membership_category = {
     VIP_1_DAY : 1/float(30),
@@ -74,7 +75,7 @@ vip_option_values = {
 }
 
 
-vip_prices = {
+vip_paypal_prices = {
     'EUR': {
         VIP_1_DAY : "1.95",
         VIP_1_WEEK: "7.95",
@@ -123,7 +124,7 @@ vip_prices = {
 vip_price_to_membership_category_lookup = {}
 for currency in currency_by_country.valid_currencies:
     vip_price_to_membership_category_lookup[currency] = {}
-    for k,v in vip_prices[currency].iteritems():
+    for k,v in vip_paypal_prices[currency].iteritems():
         vip_price_to_membership_category_lookup[currency][v] = k
     
 
@@ -136,18 +137,18 @@ def generate_prices_with_currency_units(prices_to_loop_over):
             prices_dict_to_show[currency][category] = u"%s%s" % (currency_by_country.currency_symbols[currency], prices_to_loop_over[currency][category])
     return prices_dict_to_show
     
-vip_prices_with_currency_units = generate_prices_with_currency_units(vip_prices)
+vip_prices_with_currency_units = generate_prices_with_currency_units(vip_paypal_prices)
 
 vip_prices_per_month = {}
 for currency in currency_by_country.valid_currencies:
     vip_prices_per_month[currency] =  {}
     for category in vip_membership_categories:
         vip_prices_per_month[currency][category] = "%.2f" % (
-            float(vip_prices[currency][category]) / num_months_in_vip_membership_category[category])
+            float(vip_paypal_prices[currency][category]) / num_months_in_vip_membership_category[category])
         
 vip_prices_per_month_with_currency_units = generate_prices_with_currency_units(vip_prices_per_month)
 
-def generate_dropdown_options(currency):
+def generate_paypal_dropdown_options(currency):
     
     generated_html = u''
     for member_category in vip_membership_categories:
@@ -176,14 +177,17 @@ def generate_dropdown_options(currency):
             
     return generated_html
 
-def generate_dropdown_options_hidden_fields(currency):
+def generate_paypal_dropdown_options_hidden_fields(currency):
     
     generated_html = ''
     counter = 0
     for member_category in vip_membership_categories:
         generated_html += u'<input type="hidden" name="option_select%d" value="%s %s">' % (
             counter, vip_option_values[member_category]['duration'], vip_option_values[member_category]['duration_units'])
-        generated_html += u'<input type="hidden" name="option_amount%d" value="%s">' % (counter, vip_prices[currency][member_category])
+        generated_html += u'<input type="hidden" name="option_amount%d" value="%s">' % (counter, vip_paypal_prices[currency][member_category])
         counter += 1
         
     return generated_html
+
+
+
