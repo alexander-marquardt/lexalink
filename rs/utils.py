@@ -52,7 +52,7 @@ from models import UnreadMailCount, CountInitiateContact
 from utils_top_level import serialize_entity, deserialize_entity
 
 import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
-import vip_pricing_structures
+import vip_paypal_structures
 from rs.import_search_engine_overrides import *
 
 import base64
@@ -1583,26 +1583,26 @@ def render_paypal_button(request, username, owner_nid):
                 
                 # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the 
                 # appropriate currency to display. If country code is missing, then we will display
-                # prices for the value defined in vip_pricing_structures.DEFAULT_CURRENCY
-                if not vip_pricing_structures.TESTING_COUNTRY:
+                # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
+                if not vip_paypal_structures.TESTING_COUNTRY:
                     http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
                 else: 
                     logging.error("TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-                    http_country_code = vip_pricing_structures.TESTING_COUNTRY
+                    http_country_code = vip_paypal_structures.TESTING_COUNTRY
                 
                 try:
                     # Lookup currency for the country
                     if http_country_code in currency_by_country.country_to_currency_map:
                         internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]
                     else: 
-                        internal_currency_code = vip_pricing_structures.DEFAULT_CURRENCY
+                        internal_currency_code = vip_paypal_structures.DEFAULT_CURRENCY
                         
                     if internal_currency_code not in currency_by_country.currency_symbols:
                         raise Exception('Verify that currency_symbols contains all expected currencies')
                     
                 except:
                     # If there is any error, report it, and default to the "international" $US
-                    internal_currency_code = vip_pricing_structures.DEFAULT_CURRENCY
+                    internal_currency_code = vip_paypal_structures.DEFAULT_CURRENCY
                     error_reporting.log_exception(logging.error)
                             
                 paypal_data = {}
@@ -1617,8 +1617,8 @@ def render_paypal_button(request, username, owner_nid):
                 else:
                     paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
                     
-                paypal_data['dropdown_options'] = vip_pricing_structures.generate_paypal_dropdown_options(internal_currency_code)
-                paypal_data['dropdown_options_hidden_fields'] = vip_pricing_structures.generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
+                paypal_data['dropdown_options'] = vip_paypal_structures.generate_paypal_dropdown_options(internal_currency_code)
+                paypal_data['dropdown_options_hidden_fields'] = vip_paypal_structures.generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
             
                 template = loader.get_template("user_main_helpers/paypal_button.html")    
                 context = Context (dict({

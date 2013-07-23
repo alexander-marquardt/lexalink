@@ -30,7 +30,7 @@ import urllib
 import urllib2
 import logging
 import error_reporting, email_utils
-import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages, vip_pricing_structures
+import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages, vip_paypal_structures
 import datetime, re
 from models import UserModel
 from localization_files import currency_by_country
@@ -117,8 +117,8 @@ def instant_payment_notification(request):
       userobject = utils_top_level.get_object_from_string(uid)
 
       if currency in currency_by_country.valid_currencies:
-        membership_category = vip_pricing_structures.vip_price_to_membership_category_lookup[currency][amount]
-        num_days_awarded = vip_pricing_structures.num_days_in_vip_membership_category[membership_category]
+        membership_category = vip_paypal_structures.vip_price_to_membership_category_lookup[currency][amount]
+        num_days_awarded = vip_paypal_structures.num_days_in_vip_membership_category[membership_category]
       else:
         raise Exception("Paypal currency %s not handled by code" % currency)
         
