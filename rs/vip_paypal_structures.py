@@ -43,7 +43,7 @@ SELECTED_VIP_DROPDOWN = VIP_1_YEAR
 DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
-TESTING_COUNTRY = 'ES'
+TESTING_COUNTRY = ''
 
 
 num_months_in_vip_membership_category = {
