@@ -29,7 +29,7 @@
 
 currency_symbols = {
     'EUR' : u'€',
-    'GBP' : u'£', 
+    #'GBP' : u'£', 
     'MXN' : u'MX$',
     'USD' : u'$',
     'USD_NON_US' : u'US$', # For people outside the US, we show the US$ as the symbol instead of $ to prevent confusion
@@ -38,17 +38,6 @@ currency_symbols = {
                            # it with 'USD' before passing to paypal
     }
 
-
-# keep track of which currencies we currently support. This is used in the for initializing 
-# dictionaries that are used for efficiently looking up membership prices with the currency units.
-valid_currencies = []
-# The following represent the "real" currency-codes that will be passed to paypal - principally it is designed to over-ride
-# the internally used 'USD_NON_US' value to become 'USD' when passing the currency-code into paypal
-real_currency_codes = {}
-for key, value in currency_symbols.iteritems() :
-    valid_currencies.append(key)
-    real_currency_codes[key] = key
-real_currency_codes['USD_NON_US'] = 'USD'
 
 # The following mapping is used for automatically setting the correct currency when the user selects a given country. 
 # We include two commas after the country code, because this is the format that we have used internally for distinguishing
@@ -68,7 +57,7 @@ country_to_currency_map = {
     'AD' : 'EUR', # Andorra
     #'AO' : 'AOA', # Angola
     #'AQ' : 'USD', # Antarctica
-    #'AR' : 'ARS', # Argentina
+    'AR' : 'ARS', # Argentina
     #'AM' : 'AMD', # Armenia
     #'AU' : 'AUD', # Australia
     'AT' : 'EUR', # Austria
@@ -90,9 +79,9 @@ country_to_currency_map = {
     #'KH' : 'USD', # Cambodia
     #'CA' : 'CAD', # Canada
     #'KY' : 'KYD', # Cayman Islands
-    #'CL' : 'CLP', # Chile
+    'CL' : 'CLP', # Chile
     #'CN' : 'CNY', # China
-    #'CO' : 'COP', # Colombia
+    'CO' : 'COP', # Colombia
     #'CR' : 'CRC', # Costa Rica
     #'HR' : 'HRK', # Croatia
     #'CU' : 'CUP', # Cuba
@@ -189,7 +178,7 @@ country_to_currency_map = {
     #'TM' : 'TMT', # Turkmenistan
     #'UA' : 'UAH', # Ukraine
     #'AE' : 'AED', # United Arab Emirates
-    'GB' : 'GBP', # United Kingdom
+    #'GB' : 'GBP', # United Kingdom
     'US' : 'USD', # United States of America
     #'UY' : 'UYU', # Uruguay
     #'UZ' : 'UZS', # Uzbekistan

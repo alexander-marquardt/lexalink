@@ -30,7 +30,7 @@ from django.utils.translation import ugettext_lazy, ugettext
 
 from localization_files import currency_by_country
 
-VIP_1_DAY = "1_day" # for testing only
+#VIP_1_DAY = "1_day" # for testing only
 VIP_1_WEEK  = "1_week"
 VIP_1_MONTH = "1_month"
 VIP_3_MONTHS = "3_months"
@@ -39,7 +39,7 @@ VIP_1_YEAR  = "1_year"
 
 # the following list will allow us to iterate over the various membership options in the correct order
 vip_membership_categories = [VIP_1_WEEK, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
-SELECTED_VIP_DROPDOWN = VIP_1_YEAR
+SELECTED_VIP_DROPDOWN = VIP_6_MONTHS
 DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
@@ -47,7 +47,7 @@ TESTING_COUNTRY = ''
 
 
 num_months_in_vip_membership_category = {
-    VIP_1_DAY : 1/float(30),
+    #VIP_1_DAY : 1/float(30),
     VIP_1_WEEK  : 7/float(30),
     VIP_1_MONTH : 1,
     VIP_3_MONTHS : 3,
@@ -56,7 +56,7 @@ num_months_in_vip_membership_category = {
 }
 
 num_days_in_vip_membership_category = {
-    VIP_1_DAY : 1,
+    #VIP_1_DAY : 1,
     VIP_1_WEEK  : 7,
     VIP_1_MONTH : 31,
     VIP_3_MONTHS : 92,
@@ -66,7 +66,7 @@ num_days_in_vip_membership_category = {
 
 vip_option_values = {
     # this is broken up like this so that the lazy translation isn't done until the value is read.
-    VIP_1_DAY : {'duration' : "1", 'duration_units' : "day"},
+    #VIP_1_DAY : {'duration' : "1", 'duration_units' : "day"},
     VIP_1_WEEK : {'duration': "1", 'duration_units' : ugettext_lazy("week")}, 
     VIP_1_MONTH: {'duration': "1", 'duration_units' : ugettext_lazy("month")},
     VIP_3_MONTHS: {'duration': "3", 'duration_units' : ugettext_lazy("months")},
@@ -77,52 +77,61 @@ vip_option_values = {
 
 vip_paypal_prices = {
     'EUR': {
-        VIP_1_DAY : "1.95",
-        VIP_1_WEEK: "7.95",
-        VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "44.95",
-        VIP_6_MONTHS: "59.95",
-        VIP_1_YEAR: "79.79",
+        VIP_1_WEEK: "6.95",
+        VIP_1_MONTH: "17.95",
+        VIP_3_MONTHS: "34.95",
+        VIP_6_MONTHS: "49.95",
+        VIP_1_YEAR: "99.95",
         },
     'USD' : {
-        VIP_1_DAY : "1.95",    
-        VIP_1_WEEK: "7.95",
-        VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "44.95",
-        VIP_6_MONTHS: "59.95",
-        VIP_1_YEAR: "79.79",
+        VIP_1_WEEK: "6.95",
+        VIP_1_MONTH: "17.95",
+        VIP_3_MONTHS: "34.95",
+        VIP_6_MONTHS: "49.95",
+        VIP_1_YEAR: "99.95",
         },
     'USD_NON_US' : {
         # Pricing for international customers outside of the US
-        VIP_1_DAY : "1.95",    
-        VIP_1_WEEK: "7.95",
-        VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "44.95",
-        VIP_6_MONTHS: "59.95",
-        VIP_1_YEAR: "79.79",
-        },    
-    'GBP' : {
-        VIP_1_DAY : "1.65",    
-        VIP_1_WEEK: "6.95",
+        VIP_1_WEEK: "5.95",
         VIP_1_MONTH: "16.95",
-        VIP_3_MONTHS: "39.95",
-        VIP_6_MONTHS: "49.95",
-        VIP_1_YEAR: "69.95",
-        },
+        VIP_3_MONTHS: "27.95",
+        VIP_6_MONTHS: "39.85",
+        VIP_1_YEAR: "78.95",
+        },   
     'MXN' : {
-        VIP_1_DAY : "24.95",    # $1.99 USD July 20, 2013
-        VIP_1_WEEK: "99.95",    # $7.97
-        VIP_1_MONTH: "249.95",  # $19.95
-        VIP_3_MONTHS: "539.95", # $43.1
-        VIP_6_MONTHS: "749.95", # $59.86
-        VIP_1_YEAR: "959.88",   # $76.62 
-        },
+        # 1 USD = 13 MXN
+        VIP_1_WEEK: "69.95",    # 
+        VIP_1_MONTH: "179.95",  # 
+        VIP_3_MONTHS: "349.95", # 
+        VIP_6_MONTHS: "499.95", # 
+        VIP_1_YEAR: "999.95",   
+        },    
+    #'GBP' : {
+        #VIP_1_WEEK: ".95",
+        #VIP_1_MONTH: "16.95",
+        #VIP_3_MONTHS: "39.95",
+        #VIP_6_MONTHS: "49.95",
+        #VIP_1_YEAR: "99.95",
+        #},
+
 }
+
+
+# keep track of which currencies we currently support. This is used in the for initializing 
+# dictionaries that are used for efficiently looking up membership prices with the currency units.
+valid_currencies = []
+# The following represent the "real" currency-codes that will be passed to paypal - principally it is designed to over-ride
+# the internally used 'USD_NON_US' value to become 'USD' when passing the currency-code into paypal
+real_currency_codes = {}
+for key, value in vip_paypal_prices.iteritems() :
+    valid_currencies.append(key)
+    real_currency_codes[key] = key
+real_currency_codes['USD_NON_US'] = 'USD'
 
 # generate the dictionary that will allow us to do a reverse lookup when we receive a payment amount
 # to the corresponding membership category
 vip_price_to_membership_category_lookup = {}
-for currency in currency_by_country.valid_currencies:
+for currency in vip_paypal_prices:
     vip_price_to_membership_category_lookup[currency] = {}
     for k,v in vip_paypal_prices[currency].iteritems():
         vip_price_to_membership_category_lookup[currency][v] = k
@@ -131,7 +140,7 @@ for currency in currency_by_country.valid_currencies:
 
 def generate_prices_with_currency_units(prices_to_loop_over):
     prices_dict_to_show = {}
-    for currency in currency_by_country.valid_currencies:
+    for currency in valid_currencies:
         prices_dict_to_show[currency] = {}
         for category in vip_membership_categories:
             prices_dict_to_show[currency][category] = u"%s%s" % (currency_by_country.currency_symbols[currency], prices_to_loop_over[currency][category])
@@ -140,7 +149,7 @@ def generate_prices_with_currency_units(prices_to_loop_over):
 vip_prices_with_currency_units = generate_prices_with_currency_units(vip_paypal_prices)
 
 vip_prices_per_month = {}
-for currency in currency_by_country.valid_currencies:
+for currency in valid_currencies:
     vip_prices_per_month[currency] =  {}
     for category in vip_membership_categories:
         vip_prices_per_month[currency][category] = "%.2f" % (

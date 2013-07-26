@@ -1610,7 +1610,7 @@ def render_paypal_button(request, username, owner_nid):
                 paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
                 paypal_data['owner_nid'] = owner_nid    
                 paypal_data['username'] = username
-                paypal_data['currency_code'] = currency_by_country.real_currency_codes[internal_currency_code]
+                paypal_data['currency_code'] = vip_paypal_structures.real_currency_codes[internal_currency_code]
                 
                 if not site_configuration.TESTING_PAYPAL_SANDBOX:
                     paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT

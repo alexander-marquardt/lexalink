@@ -116,7 +116,7 @@ def instant_payment_notification(request):
       uid = utils.get_uid_from_nid(nid)
       userobject = utils_top_level.get_object_from_string(uid)
 
-      if currency in currency_by_country.valid_currencies:
+      if currency in vip_paypal_structures.valid_currencies:
         membership_category = vip_paypal_structures.vip_price_to_membership_category_lookup[currency][amount]
         num_days_awarded = vip_paypal_structures.num_days_in_vip_membership_category[membership_category]
       else:
