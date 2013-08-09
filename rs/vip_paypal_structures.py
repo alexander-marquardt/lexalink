@@ -40,11 +40,12 @@ VIP_1_YEAR  = "1_year"
 # the following list will allow us to iterate over the various membership options in the correct order
 vip_membership_categories = [VIP_1_WEEK, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
 SELECTED_VIP_DROPDOWN = VIP_6_MONTHS
-DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
+
+paypal_valid_currencies = ['EUR', 'MXN', 'USD', 'USD_NON_US']
+PAYPAL_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
 TESTING_COUNTRY = ''
-
 
 num_months_in_vip_membership_category = {
     #VIP_1_DAY : 1/float(30),
@@ -84,14 +85,17 @@ vip_paypal_prices = {
         VIP_1_YEAR: "99.95",
         },
     'USD' : {
-        VIP_1_WEEK: "6.95",
-        VIP_1_MONTH: "17.95",
-        VIP_3_MONTHS: "34.95",
-        VIP_6_MONTHS: "49.95",
-        VIP_1_YEAR: "99.95",
+        VIP_1_WEEK: "5.95",
+        VIP_1_MONTH: "16.95",
+        VIP_3_MONTHS: "27.95",
+        VIP_6_MONTHS: "39.85",
+        VIP_1_YEAR: "78.95",
         },
     'USD_NON_US' : {
         # Pricing for international customers outside of the US
+        # For the moment, keep these prices the same as the USD prices - we need to modify the IPN paymenmt 
+        # processing code to distinguish between USD and USD_NON_US, which is currently does not do
+        # and therefore if these values are different than USD the payment will not be processed correctly.
         VIP_1_WEEK: "5.95",
         VIP_1_MONTH: "16.95",
         VIP_3_MONTHS: "27.95",

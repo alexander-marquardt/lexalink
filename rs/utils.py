@@ -1593,16 +1593,20 @@ def render_paypal_button(request, username, owner_nid):
                 try:
                     # Lookup currency for the country
                     if http_country_code in currency_by_country.country_to_currency_map:
-                        internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]
-                    else: 
-                        internal_currency_code = vip_paypal_structures.DEFAULT_CURRENCY
+                        internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]  
+                    else:
+                        internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
+                    
+                    # make sure that we have defined the papal structures for the current currency
+                    if internal_currency_code not in vip_paypal_structures.paypal_valid_currencies:
+                        internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
                         
                     if internal_currency_code not in currency_by_country.currency_symbols:
-                        raise Exception('Verify that currency_symbols contains all expected currencies')
+                        raise Exception('Verify that currency_symbols contains all expected currencies. Received %s' % internal_currency_code)
                     
                 except:
                     # If there is any error, report it, and default to the "international" $US
-                    internal_currency_code = vip_paypal_structures.DEFAULT_CURRENCY
+                    internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
                     error_reporting.log_exception(logging.error)
                             
                 paypal_data = {}

@@ -523,34 +523,7 @@ SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX = "_SHOW_ONLINE_STATUS_TRIAL_TI
 BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX = "_BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX_" + site_configuration.VERSION_ID + "_"
 
 
-client_paid_status_num_credits_awarded_for_euros = {
-    # credits are multiplied by 100 so that we can represent fractions up to tenths and hundredth. Ie.
-    # 500 credits (internally) will be represented to the user as 5 credits. 
-    # 450 credits (internally) would be represented to the user as 4.5 credits.
-    0 : 0 , # for testing, sometimes we pass in small amounts - this prevents an exception from being raised
-    10: 1000, # Euros: Credits - ie. 10 euros gives 1000 credits 
-    20: 2000,
-    30: 3000,
-    40: 4000,
-    50: 5000,
-    }
-
-reverse_lookup_client_paid_status_num_credits_awarded_for_euros = {}
-for k,v in client_paid_status_num_credits_awarded_for_euros.iteritems():
-    reverse_lookup_client_paid_status_num_credits_awarded_for_euros[v] = k
-
-client_paid_status_credit_amounts = {
-    1000: 31,
-    2000: 92,
-    3000: 182,
-    4000: 274 ,
-    5000: 365,
-    }
-
-
 NUMER_OF_DAYS_PROFILE_VIEWS_STORED = 30
-## START VIP/Paid Client Related
-###################################################
 
 ###################################################
 ## START Profile Display Offset values
