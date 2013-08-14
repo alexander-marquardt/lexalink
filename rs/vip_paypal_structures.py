@@ -169,19 +169,19 @@ def generate_paypal_dropdown_options(currency):
         duration_units = u"%s" % vip_option_values[member_category]['duration_units']
         
         if member_category == SELECTED_VIP_DROPDOWN:
-            selected = "selected"
+            selected = "checked"
         else:
             selected = ''
             
         if member_category == VIP_1_WEEK or member_category == VIP_1_MONTH:
-            generated_html += u"""<option value="%(duration)s %(duration_units)s" %(selected)s>
-                        %(duration)s %(duration_units)s: %(total_price)s</option>\n""" % {
+            generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
+                        %(duration)s %(duration_units)s: %(total_price)s<br>\n""" % {
                             'duration': duration, 'duration_units' : duration_units, 
                             'selected' : selected,
                             'total_price' : vip_prices_with_currency_units[currency][member_category]}            
         else:
-            generated_html += u"""<option value="%(duration)s %(duration_units)s" %(selected)s>
-            %(duration)s %(duration_units)s: %(price_per_month)s/%(month_txt)s  (%(one_payment_txt)s %(total_price)s)</option>\n""" % {
+            generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
+            %(duration)s %(duration_units)s: %(price_per_month)s/%(month_txt)s  (%(one_payment_txt)s %(total_price)s)<br>\n""" % {
                 'duration': duration, 'duration_units' : duration_units, 
                 'selected' : selected,                
                 'price_per_month' : vip_prices_per_month_with_currency_units[currency][member_category], 
@@ -191,6 +191,15 @@ def generate_paypal_dropdown_options(currency):
     return generated_html
 
 def generate_paypal_dropdown_options_hidden_fields(currency):
+    
+    # Paypal has a pretty obfuscated manner of passing values to their checkout page. 
+    # First, an option_select[0-9] must be linked to a "value" that the user has selected
+    # Then, the option_select[0-9] is intrinsically linked to an option_amount[0-9] (price), which allows  the 
+    # selected value to pass a price to the paypal checkout page. 
+    # Eg. In order to process a payment for 1 week (in spanish "1 semana"), we would have the following entries
+    # <input type="radio" name="os0" value="1 semana">1 semana : $5.95   <-- defines the value "1 semana", and shows appropriate text to the user
+    # <input type="hidden" name="option_select0" value="1 semana"> <-- link from "1 semana" to selector 0
+    # <input type="hidden" name="option_amount0" value="5.95">     <-- link from selector 0 to the price of 5.95
     
     generated_html = ''
     counter = 0

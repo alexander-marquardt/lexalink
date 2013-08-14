@@ -292,7 +292,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['path_info'] = request.path_info
 
 
-        paypal_button = utils.render_paypal_button(request, username, owner_nid)
+        purchase_buttons = utils.render_purchase_buttons(request, username, owner_nid)
         
         meta_info = {}
         if page_title:
@@ -380,7 +380,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 'hide_logo_banner_links' : hide_logo_banner_links,
                 'request' : request,
                 'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
-                'paypal_button' : paypal_button,
+                'purchase_buttons' : purchase_buttons,
                 }, **constants.template_common_fields))
         
             body_main_html = template.render(context)

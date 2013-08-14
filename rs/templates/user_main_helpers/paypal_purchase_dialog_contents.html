@@ -1,0 +1,57 @@
+{% load i18n %}
+
+
+{% if paypal_data.testing_paypal_sandbox %}
+
+        <h1>Warning - PayPal sandbox code enabled</h1>
+
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+
+{% else %}
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+
+{% endif %}
+            <input type="hidden" name="charset" value="utf-8">
+            <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
+            <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
+
+            <input type="hidden" name="cmd" value="_xclick">
+            <input type="hidden" name="business" value="{{ paypal_data.paypal_account }}">
+            <input type="hidden" name="item_name" value='{{ app_name }} {% trans "VIP Membership" %}'>
+            <input type="hidden" name="lc" value="{{ paypal_data.language }}"> <!-- Language code -->
+
+            <input type="hidden" name="currency_code" value="{{ paypal_data.currency_code }}">
+                <p>
+                <input type="hidden" name="on0" value="VIP"></td>
+                {{ paypal_data.dropdown_options|safe }}
+                <p>
+                <input id="id-paypal-purchase" type="submit" name="submit" value='{% trans "Purchase" %}'>
+                <p>
+
+            {{ paypal_data.dropdown_options_hidden_fields|safe }}
+
+        </form>
+
+
+<p>
+
+{% blocktrans %}
+Payments are processed by PayPal (an eBay company, and one of the worlds largest online payment processors)
+and can be made with credit card or a PayPal account.
+{% endblocktrans%}
+
+</p>
+
+<p>
+{% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "lesbian_build" or build_name == "swinger_build" %}
+    {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit card you will be billed
+    with a discrete name that cannot be easily linked to {{ app_name }}.
+    {% endblocktrans %}
+{% endif %}
+</p>
+
+            
+
+<script type="text/javascript">
+    $('#id-paypal-purchase').button();
+</script>

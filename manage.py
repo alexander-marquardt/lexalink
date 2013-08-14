@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 
 # Before executing the original manage.py code, we first setup the customized app.yaml file,

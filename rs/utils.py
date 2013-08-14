@@ -1573,7 +1573,7 @@ def store_login_ip_information(request, userobject):
     userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    
     
     
-def render_paypal_button(request, username, owner_nid):
+def render_purchase_buttons(request, username, owner_nid):
     
     try:
     
@@ -1624,7 +1624,7 @@ def render_paypal_button(request, username, owner_nid):
                 paypal_data['dropdown_options'] = vip_paypal_structures.generate_paypal_dropdown_options(internal_currency_code)
                 paypal_data['dropdown_options_hidden_fields'] = vip_paypal_structures.generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
             
-                template = loader.get_template("user_main_helpers/paypal_button.html")    
+                template = loader.get_template("user_main_helpers/purchase_buttons.html")    
                 context = Context (dict({
                     'paypal_data': paypal_data,
                     'request' : request, 

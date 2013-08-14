@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<div class="cl-clear"></div>
+<div class="cl-text-medium-format">
+    <p><strong>
+    Click on the images below to see the VIP plans available for each payment method
+    </strong></p>
+</div>
+<table>
+    <tr>
+        <td>
+        <a href="#" class="cl-paypal_logo_button"><img src="/{{ live_static_dir }}/img/paypal/paypal_credit_card_logo_small.jpg"></a>
+        </td>
+        <td>
+        <img src="/{{ live_static_dir }}/img/paypal/paypal_logo_small.jpg">
+        </td>
+        <td>
+    </tr>
+
+</table>
+
+
+<div id="id-show_paypal_purchase_dialog" style="display:none;">
+    {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
+</div>
+
+<div id="id-show_paypal_purchase_dialog_title" style="display:none;">
+    {% trans "VIP options" %}
+</div>
+
+        
