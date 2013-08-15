@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 17:26-0400\n"
+"POT-Creation-Date: 2013-08-15 18:09-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -5030,6 +5030,11 @@ msgid "View photo upload rules"
 msgstr "Ver las reglas para fotos"
 
 #: rs/templates/user_main_helpers/purchase_buttons.html:14
+msgid "Purchase VIP status with a credit card"
+msgstr "Compra estado VIP con una tarjeta de crédito"
+
+
+#: rs/templates/user_main_helpers/purchase_buttons.html:20
 msgid ""
 "\n"
 "        Credit card payments are processed by PayPal, an eBay company, and "
@@ -5037,11 +5042,12 @@ msgid ""
 "        "
 msgstr ""
 "\n"
-"Los pagos con tarjeta de crédito son procesados a través de PayPal, una compañía del grupo eBay, y "
-"una de las empresas de pago online más grandes del mundo.\n"
+"Los pagos con tarjeta de crédito son procesados a través de PayPal, una "
+"compañía del grupo eBay, y una de las empresas de pago online más grandes "
+"del mundo.\n"
 "        "
 
-#: rs/templates/user_main_helpers/purchase_buttons.html:22
+#: rs/templates/user_main_helpers/purchase_buttons.html:26
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit card you will be "
@@ -5052,6 +5058,10 @@ msgid ""
 msgstr ""
 "Para proteger tu privacidad, si eliges pagar con tarjeta de crédito, se te "
 "cobrará con un nombre discreto que sería difícil de vincular a %(app_name)s."
+
+#: rs/templates/user_main_helpers/purchase_buttons.html:35
+msgid "Purchase VIP status with a PayPal account"
+msgstr "Compra estado VIP con una cuenta de PayPal"
 
 #: rs/templates/user_main_helpers/search_inline_javascript.html:38
 msgid "All Regions"

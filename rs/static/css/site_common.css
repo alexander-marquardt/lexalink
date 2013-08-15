@@ -484,7 +484,7 @@ li.cl-indent {
     border: 1px solid #bbb;
 }
 .cl-payment_tabs .ui-widget-header {
-    background: #f2f2f2;
+    background: #eee;
     border: 1px solid #bbb;
 }
 
@@ -493,5 +493,5 @@ li.cl-indent {
 }
 
 .cl-payment_tabs .ui-tabs, .cl-payment_tabs .ui-tabs-panel, .cl-payment_tabs .ui-tabs-active {
-    background: #fafafa;
+    background: #f9f9f9;
 }

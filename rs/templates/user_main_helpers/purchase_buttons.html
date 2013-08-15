@@ -4,30 +4,40 @@
 
 <div class="cl-payment_tabs">
   <ul>
-    <li><a href="#credit-card-tab"><img src="/{{ live_static_dir }}/img/paypal/paypal_credit_card_logo_small.jpg"></a></li>
-    <li><a href="#paypal-tab"><img src="/{{ live_static_dir }}/img/paypal/paypal_logo_small.jpg"></a></li>
+    <li><a href="#credit-card-tab"><img src="/{{ live_static_dir }}/img/payment_images/paypal_credit_187x47.png"></a></li>
+      <li><a href="#paypal-tab"><img src="/{{ live_static_dir }}/img/payment_images/paypal_logo_75x47.png"></a></li>
+      <li><a href="#paypal-tab"><img src="/{{ live_static_dir }}/img/payment_images/fortumopay_96x47.png"></a></li>
   </ul>
   <div id="credit-card-tab">
-    {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
+
+      <p>
+        <strong>
+        {% blocktrans with app_name as app_name %}Purchase VIP status with a credit card{% endblocktrans %}
+        </strong>
+      <p>
+        {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
       <p>
 
         {% blocktrans %}
         Credit card payments are processed by PayPal, an eBay company, and one of the worlds largest online payment processors).
         {% endblocktrans%}
 
-        </p>
-
-        <p>
+       <p>
         {% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "lesbian_build" or build_name == "swinger_build" %}
             {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit card you will be billed
             with a discrete name that cannot be easily linked to {{ app_name }}.
             {% endblocktrans %}
         {% endif %}
-        </p>
   </div>
     
   <div id="paypal-tab">
-    {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
+      <p>
+        <strong>
+        {% blocktrans with app_name as app_name %}Purchase VIP status with a PayPal account{% endblocktrans %}
+        </strong>
+
+      <p>
+        {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
   </div>
 
 </div>
