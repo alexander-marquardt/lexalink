@@ -22,10 +22,12 @@
 
             <input type="hidden" name="currency_code" value="{{ paypal_data.currency_code }}">
                 <p>
-                <input type="hidden" name="on0" value="VIP"></td>
+                <input type="hidden" name="on0" value="VIP">
                 {{ paypal_data.dropdown_options|safe }}
                 <p>
-                <input id="id-paypal-purchase" type="submit" name="submit" value='{% trans "Purchase" %}'>
+                <!-- Note: since we currently have multiple paypal buttons defined on a single page (in pop-up menu, and at bottom of page)
+                we need to define each region as a class as opposed to assigning an id, since an id would not be unique -->
+                <input class="cl-paypal-purchase" type="submit" name="submit" value='{% trans "Purchase" %}'>
                 <p>
 
             {{ paypal_data.dropdown_options_hidden_fields|safe }}
@@ -50,8 +52,3 @@ and can be made with credit card or a PayPal account.
 {% endif %}
 </p>
 
-            
-
-<script type="text/javascript">
-    $('#id-paypal-purchase').button();
-</script>

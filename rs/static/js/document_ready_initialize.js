@@ -20,12 +20,13 @@ $(document).ready(function() {
     $(document).on("click",'.cl-see_all_vip_benefits', function(e) {
         show_all_vip_benefits_dialog();
         e.preventDefault();
-    })
+    });
 
-
-    $(document).on("click",'.cl-paypal_logo_button', function(e) {
-        debugger;
-        show_paypal_purchase_dialog();
+    $('.cl-paypal-purchase').button();
+    
+    $(document).on("click",'#id-paypal_logo_button', function(e) {
+        $(".cl-show_paypal_purchase_options").show();
         e.preventDefault();
-    })
+    });
+    
 });

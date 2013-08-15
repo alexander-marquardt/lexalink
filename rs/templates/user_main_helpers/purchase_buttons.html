@@ -9,23 +9,19 @@
 <table>
     <tr>
         <td>
-        <a href="#" class="cl-paypal_logo_button"><img src="/{{ live_static_dir }}/img/paypal/paypal_credit_card_logo_small.jpg"></a>
+        <a href="#" id="id-paypal_logo_button"><img src="/{{ live_static_dir }}/img/paypal/paypal_credit_card_logo_small.jpg"></a>
         </td>
         <td>
         <img src="/{{ live_static_dir }}/img/paypal/paypal_logo_small.jpg">
         </td>
         <td>
     </tr>
-
 </table>
 
 
-<div id="id-show_paypal_purchase_dialog" style="display:none;">
+<!-- Note: since we currently have multiple paypal buttons defined on a single page (in pop-up menu, and at bottom of page)
+     we need to define each region as a class as opposed to assigning an id, since an id would not be unique -->
+<div class="cl-show_paypal_purchase_options" >
     {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
 </div>
 
-<div id="id-show_paypal_purchase_dialog_title" style="display:none;">
-    {% trans "VIP options" %}
-</div>
-
-        
