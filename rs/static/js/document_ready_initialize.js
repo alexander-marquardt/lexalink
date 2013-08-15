@@ -1,5 +1,7 @@
 /* This file contains javascript code that will be called automatically once the document has been loaded.
-   It is envisioned as a "container" for all code that executes on the $(document).ready() trigger.
+   It is envisioned as a "container" for code that executes on the $(document).ready() trigger.
+   This is specifically intended for pieces of code that may be imported multiple times - but we don't want to
+   place the javascript multiple times in the html code, so we put it here.
    This code will only be executed a single time.
  */
 

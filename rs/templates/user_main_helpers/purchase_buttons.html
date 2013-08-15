@@ -1,27 +1,42 @@
 {% load i18n %}
 
 <div class="cl-clear"></div>
-<div class="cl-text-medium-format">
-    <p><strong>
-    Click on the images below to see the VIP plans available for each payment method
-    </strong></p>
-</div>
-<table>
-    <tr>
-        <td>
-        <a href="#" id="id-paypal_logo_button"><img src="/{{ live_static_dir }}/img/paypal/paypal_credit_card_logo_small.jpg"></a>
-        </td>
-        <td>
-        <img src="/{{ live_static_dir }}/img/paypal/paypal_logo_small.jpg">
-        </td>
-        <td>
-    </tr>
-</table>
 
-
-<!-- Note: since we currently have multiple paypal buttons defined on a single page (in pop-up menu, and at bottom of page)
-     we need to define each region as a class as opposed to assigning an id, since an id would not be unique -->
-<div class="cl-show_paypal_purchase_options" >
+<div class="cl-payment_tabs">
+  <ul>
+    <li><a href="#credit-card-tab"><img src="/{{ live_static_dir }}/img/paypal/paypal_credit_card_logo_small.jpg"></a></li>
+    <li><a href="#paypal-tab"><img src="/{{ live_static_dir }}/img/paypal/paypal_logo_small.jpg"></a></li>
+  </ul>
+  <div id="credit-card-tab">
     {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
+      <p>
+
+        {% blocktrans %}
+        Credit card payments are processed by PayPal, an eBay company, and one of the worlds largest online payment processors).
+        {% endblocktrans%}
+
+        </p>
+
+        <p>
+        {% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "lesbian_build" or build_name == "swinger_build" %}
+            {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit card you will be billed
+            with a discrete name that cannot be easily linked to {{ app_name }}.
+            {% endblocktrans %}
+        {% endif %}
+        </p>
+  </div>
+    
+  <div id="paypal-tab">
+    {% include "user_main_helpers/paypal_purchase_dialog_contents.html" %}
+  </div>
+
 </div>
 
+<script type="text/javascript" language="javascript">
+$(function() {
+    $(document).ready(function() {
+        $( ".cl-payment_tabs" ).tabs();
+    });
+});
+</script>
+        

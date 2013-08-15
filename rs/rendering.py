@@ -332,8 +332,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 #bottom_ad_template = get_ad(request, "ashley_madison_bottom_banner_ads")
                 #side_ad_template_list.append(get_ad(request, "ashley_madison_sidebar_ads"))
                 
-            else:
-                bottom_ad_template = utils.render_internal_ad("Client_Bottom_Ad1")
+            #else:
+                #bottom_ad_template = utils.render_internal_ad("Client_Bottom_Ad1")
                 
             
 

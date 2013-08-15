@@ -480,3 +480,18 @@ li.cl-indent {
 /* the following is used for hiding the "X" (close icon) in the top right corner of dialog boxes. */
 .hide-x-close .ui-dialog-titlebar-close {display: none }
 
+.cl-payment_tabs {
+    border: 1px solid #bbb;
+}
+.cl-payment_tabs .ui-widget-header {
+    background: #f2f2f2;
+    border: 1px solid #bbb;
+}
+
+.cl-payment_tabs .ui-tabs-active {
+    border: 1px solid #bbb;
+}
+
+.cl-payment_tabs .ui-tabs, .cl-payment_tabs .ui-tabs-panel, .cl-payment_tabs .ui-tabs-active {
+    background: #fafafa;
+}

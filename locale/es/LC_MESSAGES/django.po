@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-14 12:43-0400\n"
+"POT-Creation-Date: 2013-08-15 17:26-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -216,15 +216,18 @@ msgstr "Error - ya has creado demasiados grupos"
 msgid "Error - you appear to have been logged out"
 msgstr "Error - parece que tu session ha expirado"
 
-#: rs/constants.py:220 rs/templates/user_main_helpers/chat.html:70
+#: rs/constants.py:220
+#: rs/templates/user_main_helpers/translation_helper.html:44
 msgid "(Active)"
 msgstr "(Activo)"
 
-#: rs/constants.py:221 rs/templates/user_main_helpers/chat.html:77
+#: rs/constants.py:221
+#: rs/templates/user_main_helpers/translation_helper.html:51
 msgid "(Idle)"
 msgstr "(Inactivo)"
 
-#: rs/constants.py:222 rs/templates/user_main_helpers/chat.html:84
+#: rs/constants.py:222
+#: rs/templates/user_main_helpers/translation_helper.html:58
 msgid "(Away)"
 msgstr "(Ausente)"
 
@@ -4800,82 +4803,14 @@ msgstr "Si te gusta %(app_name)s puedes considerar hacerte miembro VIP"
 msgid "VIP benefits include"
 msgstr "Los beneficios VIP incluyen"
 
-#: rs/templates/user_main_helpers/chat.html:34
-msgid "It appears that your internet connection is not functioning correctly."
-msgstr ""
-
 #: rs/templates/user_main_helpers/chat.html:40
-#, python-format
-msgid ""
-"\n"
-"        Your session has closed - you must re-login to continue to use "
-"%(app_name)s.\n"
-"    "
-msgstr ""
-"\n"
-"Tu session ha cerrado - tienes que entrar otra vez para continuar usando "
-"%(app_name)s.\n"
-"   "
-
-#: rs/templates/user_main_helpers/chat.html:48
-msgid "Close chat"
-msgstr "Cerrar chat"
-
-#: rs/templates/user_main_helpers/chat.html:52
-msgid "Open chat"
-msgstr "Abrir chat"
-
-#: rs/templates/user_main_helpers/chat.html:57
-msgid "None of your contacts are logged into their chat at the moment"
-msgstr "Ninguno de tus contactos están conectados al chat en este momento"
-
-#: rs/templates/user_main_helpers/chat.html:61
-msgid "There are no chat groups currently available. Why don't you create one?"
-msgstr "No hay grupos de chat disponibles. ¿Por qué no creas uno?"
-
-#: rs/templates/user_main_helpers/chat.html:66
-msgid "Online chat friends"
-msgstr "Chats amigos"
-
-#: rs/templates/user_main_helpers/chat.html:92
-msgid "Your chat is currently closed. You must open it to see your contacts."
-msgstr ""
-"El chat está actualmente cerrado. Debes abrirlo para ver tus contactos."
-
-#: rs/templates/user_main_helpers/chat.html:97
-msgid "We are loading your online contact list. This may take a few moments."
-msgstr ""
-"Estamos cargando tu lista de contactos conectados. Esto puede tardar un poco."
-
-#: rs/templates/user_main_helpers/chat.html:101
-msgid "We are loading available chat groups. This may take a few moments."
-msgstr ""
-"Estamos cargando tu lista de contactos conectados. Esto puede tardar un poco."
-
-#: rs/templates/user_main_helpers/chat.html:106
-msgid "loading"
-msgstr "cargando"
-
-#: rs/templates/user_main_helpers/chat.html:110
-msgid "Chat groups"
-msgstr "Grupos de chat"
-
-#: rs/templates/user_main_helpers/chat.html:114
-#: rs/templates/user_main_helpers/chat.html:141
-msgid "Create a group"
-msgstr "Crea un grupo"
-
-#: rs/templates/user_main_helpers/chat.html:118
-msgid "Video call"
-msgstr "Video llamada"
-
-#: rs/templates/user_main_helpers/chat.html:122
-msgid "Group members"
-msgstr "Miembros del Grupo"
-
-#: rs/templates/user_main_helpers/chat.html:134
 msgid "Please enter the group name to create and join:"
 msgstr "Por favor escribe el nombre del grupo para crearlo y unirte a él:"
+
+#: rs/templates/user_main_helpers/chat.html:47
+#: rs/templates/user_main_helpers/translation_helper.html:87
+msgid "Create a group"
+msgstr "Crea un grupo"
 
 #: rs/templates/user_main_helpers/main_body.html:55
 msgid "Welcome"
@@ -5015,34 +4950,11 @@ msgstr "Mostrar estados de conexión"
 msgid "Exit"
 msgstr "Salir"
 
-#: rs/templates/user_main_helpers/paypal_purchase_dialog.html:6
-msgid ""
-"\n"
-"Payments are processed by PayPal (an eBay company, and one of the worlds "
-"largest online payment processors)\n"
-"and can be made with credit card or a PayPal account.\n"
-msgstr ""
-"\n"
-"Los pagos son procesados a través de PayPal (una compañía del grupo eBay, y "
-"una de las empresas de pago online más grandes del mundo) y se puede hacer "
-"con tarjeta de crédito o una cuenta PayPal.\n"
-
-#: rs/templates/user_main_helpers/paypal_purchase_dialog.html:13
-#, python-format
-msgid ""
-"To protect your privacy, if you choose to pay with credit card you will be "
-"billed\n"
-"    with a discrete name that cannot be easily linked to %(app_name)s.\n"
-"    "
-msgstr ""
-"Para proteger tu privacidad, si eliges pagar con tarjeta de crédito, se te "
-"cobrará con un nombre discreto que sería difícil de vincular a %(app_name)s."
-
-#: rs/templates/user_main_helpers/paypal_purchase_dialog.html:35
+#: rs/templates/user_main_helpers/paypal_purchase_dialog_contents.html:20
 msgid "VIP Membership"
 msgstr "Membresía VIP"
 
-#: rs/templates/user_main_helpers/paypal_purchase_dialog.html:47
+#: rs/templates/user_main_helpers/paypal_purchase_dialog_contents.html:30
 msgid "Purchase"
 msgstr "Comprar"
 
@@ -5116,6 +5028,30 @@ msgstr "Guardar cambios"
 #: rs/templates/user_main_helpers/photos.html:192
 msgid "View photo upload rules"
 msgstr "Ver las reglas para fotos"
+
+#: rs/templates/user_main_helpers/purchase_buttons.html:14
+msgid ""
+"\n"
+"        Credit card payments are processed by PayPal, an eBay company, and "
+"one of the worlds largest online payment processors).\n"
+"        "
+msgstr ""
+"\n"
+"Los pagos con tarjeta de crédito son procesados a través de PayPal, una compañía del grupo eBay, y "
+"una de las empresas de pago online más grandes del mundo.\n"
+"        "
+
+#: rs/templates/user_main_helpers/purchase_buttons.html:22
+#, python-format
+msgid ""
+"To protect your privacy, if you choose to pay with credit card you will be "
+"billed\n"
+"            with a discrete name that cannot be easily linked to "
+"%(app_name)s.\n"
+"            "
+msgstr ""
+"Para proteger tu privacidad, si eliges pagar con tarjeta de crédito, se te "
+"cobrará con un nombre discreto que sería difícil de vincular a %(app_name)s."
 
 #: rs/templates/user_main_helpers/search_inline_javascript.html:38
 msgid "All Regions"
@@ -5197,6 +5133,74 @@ msgid ""
 msgstr ""
 "Eres un miembro VIP y por ello siempre puedes ver el estado de conexión de "
 "los otros miembros."
+
+#: rs/templates/user_main_helpers/translation_helper.html:8
+msgid "It appears that your internet connection is not functioning correctly."
+msgstr ""
+
+#: rs/templates/user_main_helpers/translation_helper.html:14
+#, python-format
+msgid ""
+"\n"
+"        Your session has closed - you must re-login to continue to use "
+"%(app_name)s.\n"
+"    "
+msgstr ""
+"\n"
+"Tu session ha cerrado - tienes que entrar otra vez para continuar usando "
+"%(app_name)s.\n"
+"   "
+
+#: rs/templates/user_main_helpers/translation_helper.html:22
+msgid "Close chat"
+msgstr "Cerrar chat"
+
+#: rs/templates/user_main_helpers/translation_helper.html:26
+msgid "Open chat"
+msgstr "Abrir chat"
+
+#: rs/templates/user_main_helpers/translation_helper.html:31
+msgid "None of your contacts are logged into their chat at the moment"
+msgstr "Ninguno de tus contactos están conectados al chat en este momento"
+
+#: rs/templates/user_main_helpers/translation_helper.html:35
+msgid "There are no chat groups currently available. Why don't you create one?"
+msgstr "No hay grupos de chat disponibles. ¿Por qué no creas uno?"
+
+#: rs/templates/user_main_helpers/translation_helper.html:40
+msgid "Online chat friends"
+msgstr "Chats amigos"
+
+#: rs/templates/user_main_helpers/translation_helper.html:66
+msgid "Your chat is currently closed. You must open it to see your contacts."
+msgstr ""
+"El chat está actualmente cerrado. Debes abrirlo para ver tus contactos."
+
+#: rs/templates/user_main_helpers/translation_helper.html:71
+msgid "We are loading your online contact list. This may take a few moments."
+msgstr ""
+"Estamos cargando tu lista de contactos conectados. Esto puede tardar un poco."
+
+#: rs/templates/user_main_helpers/translation_helper.html:75
+msgid "We are loading available chat groups. This may take a few moments."
+msgstr ""
+"Estamos cargando tu lista de contactos conectados. Esto puede tardar un poco."
+
+#: rs/templates/user_main_helpers/translation_helper.html:79
+msgid "loading"
+msgstr "cargando"
+
+#: rs/templates/user_main_helpers/translation_helper.html:83
+msgid "Chat groups"
+msgstr "Grupos de chat"
+
+#: rs/templates/user_main_helpers/translation_helper.html:91
+msgid "Video call"
+msgstr "Video llamada"
+
+#: rs/templates/user_main_helpers/translation_helper.html:95
+msgid "Group members"
+msgstr "Miembros del Grupo"
 
 #: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:50
 #, python-format
@@ -5282,9 +5286,8 @@ msgstr ""
 #~ msgid ""
 #~ "To protect your privacy, if you choose to pay with credit card you will "
 #~ "be billed\n"
-#~ "            with a discrete name that cannot be easily linked to "
-#~ "%(app_name)s.\n"
-#~ "            "
+#~ "    with a discrete name that cannot be easily linked to %(app_name)s.\n"
+#~ "    "
 #~ msgstr ""
 #~ "Para proteger tu privacidad, si eliges pagar con tarjeta de crédito, se "
 #~ "te cobrará con un nombre discreto que sería difícil de vincular a "

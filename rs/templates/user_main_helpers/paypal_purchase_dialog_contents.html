@@ -35,20 +35,5 @@
         </form>
 
 
-<p>
 
-{% blocktrans %}
-Payments are processed by PayPal (an eBay company, and one of the worlds largest online payment processors)
-and can be made with credit card or a PayPal account.
-{% endblocktrans%}
-
-</p>
-
-<p>
-{% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "lesbian_build" or build_name == "swinger_build" %}
-    {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit card you will be billed
-    with a discrete name that cannot be easily linked to {{ app_name }}.
-    {% endblocktrans %}
-{% endif %}
-</p>
 
