@@ -38,10 +38,10 @@
 # will be awarded to the member.
 payment_days_awarded = { 
     # for each country, specify a dictionary of the form {price : days awarded}
-    'AR' : {"9.99" : 1},    # $1.75 USD
-    'CL' : {"900.00" : 1},  # $1.70 USD
-    'CO' : {"6960.00" : 3}, # $3.46 USD
-    'MX' : {"30.26" : 2},   # $2.16 USD
+    #'AR' : {"9.99" : 1},    # $1.75 USD
+    #'CL' : {"900.00" : 1},  # $1.70 USD
+    #'CO' : {"6960.00" : 3}, # $3.46 USD
+    #'MX' : {"30.26" : 2},   # $2.16 USD
     'ES' : {"7.26" : 7},    # $9.18 USD 
 }
 

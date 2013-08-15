@@ -52,7 +52,7 @@ from models import UnreadMailCount, CountInitiateContact
 from utils_top_level import serialize_entity, deserialize_entity
 
 import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
-import vip_paypal_structures
+import vip_paypal_structures, vip_sms_payment_processing
 from rs.import_search_engine_overrides import *
 
 import base64
@@ -1573,57 +1573,62 @@ def store_login_ip_information(request, userobject):
     userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    
     
     
+def generate_paypal_data(request, username, owner_nid):
+    
+    # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the 
+    # appropriate currency to display. If country code is missing, then we will display
+    # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
+    if not vip_paypal_structures.TESTING_COUNTRY:
+        http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+    else: 
+        logging.error("TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
+        http_country_code = vip_paypal_structures.TESTING_COUNTRY
+    
+    try:
+        # Lookup currency for the country
+        if http_country_code in currency_by_country.country_to_currency_map:
+            internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]  
+        else:
+            internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
+        
+        # make sure that we have defined the papal structures for the current currency
+        if internal_currency_code not in vip_paypal_structures.paypal_valid_currencies:
+            internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
+            
+        if internal_currency_code not in currency_by_country.currency_symbols:
+            raise Exception('Verify that currency_symbols contains all expected currencies. Received %s' % internal_currency_code)
+        
+    except:
+        # If there is any error, report it, and default to the "international" $US
+        internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
+        error_reporting.log_exception(logging.error)
+                
+    paypal_data = {}
+    paypal_data['language'] = request.LANGUAGE_CODE
+    paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
+    paypal_data['owner_nid'] = owner_nid    
+    paypal_data['username'] = username
+    paypal_data['currency_code'] = vip_paypal_structures.real_currency_codes[internal_currency_code]
+    
+    if not site_configuration.TESTING_PAYPAL_SANDBOX:
+        paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
+    else:
+        paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
+        
+    paypal_data['dropdown_options'] = vip_paypal_structures.generate_paypal_dropdown_options(internal_currency_code)
+    paypal_data['dropdown_options_hidden_fields'] = vip_paypal_structures.generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
+                    
+    return paypal_data
+
 def render_purchase_buttons(request, username, owner_nid):
     
     try:
     
         if constants.SHOW_VIP_UPGRADE_OPTION:
             if request.session.__contains__('userobject_str'):
-                # only show paypal button to users that are logged-in.
+                # only show payment options/buttons to users that are logged-in.
                 
-                # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the 
-                # appropriate currency to display. If country code is missing, then we will display
-                # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
-                if not vip_paypal_structures.TESTING_COUNTRY:
-                    http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-                else: 
-                    logging.error("TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-                    http_country_code = vip_paypal_structures.TESTING_COUNTRY
-                
-                try:
-                    # Lookup currency for the country
-                    if http_country_code in currency_by_country.country_to_currency_map:
-                        internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]  
-                    else:
-                        internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
-                    
-                    # make sure that we have defined the papal structures for the current currency
-                    if internal_currency_code not in vip_paypal_structures.paypal_valid_currencies:
-                        internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
-                        
-                    if internal_currency_code not in currency_by_country.currency_symbols:
-                        raise Exception('Verify that currency_symbols contains all expected currencies. Received %s' % internal_currency_code)
-                    
-                except:
-                    # If there is any error, report it, and default to the "international" $US
-                    internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
-                    error_reporting.log_exception(logging.error)
-                            
-                paypal_data = {}
-                paypal_data['language'] = request.LANGUAGE_CODE
-                paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
-                paypal_data['owner_nid'] = owner_nid    
-                paypal_data['username'] = username
-                paypal_data['currency_code'] = vip_paypal_structures.real_currency_codes[internal_currency_code]
-                
-                if not site_configuration.TESTING_PAYPAL_SANDBOX:
-                    paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
-                else:
-                    paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
-                    
-                paypal_data['dropdown_options'] = vip_paypal_structures.generate_paypal_dropdown_options(internal_currency_code)
-                paypal_data['dropdown_options_hidden_fields'] = vip_paypal_structures.generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
-            
+                paypal_data = generate_paypal_data(request, username, owner_nid)
                 template = loader.get_template("user_main_helpers/purchase_buttons.html")    
                 context = Context (dict({
                     'paypal_data': paypal_data,
