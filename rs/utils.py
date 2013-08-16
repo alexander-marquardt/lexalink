@@ -1620,6 +1620,28 @@ def generate_paypal_data(request, username, owner_nid):
                     
     return paypal_data
 
+def generate_fortumo_data(request, username, owner_nid):
+    fortumo_data = {}
+    show_fortumo_options = False
+    try:
+        if not vip_sms_payment_processing.TESTING_COUNTRY:
+            http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+        else: 
+            logging.error("TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
+            http_country_code = vip_sms_payment_processing.TESTING_COUNTRY    
+            
+        # Lookup currency for the country
+        if http_country_code in vip_sms_payment_processing.valid_countries:
+            show_fortumo_options = True
+            fortumo_data['radio_options'] = vip_sms_payment_processing.generate_fortumo_options(http_country_code)
+    
+        fortumo_data['show_fortumo_options'] = show_fortumo_options
+        fortumo_data['service_id'] = settings.fortumo_web_apps_service_id
+    except: 
+        error_reporting.log_exception(logging.critical)
+        
+    return fortumo_data
+    
 def render_purchase_buttons(request, username, owner_nid):
     
     try:
@@ -1629,9 +1651,11 @@ def render_purchase_buttons(request, username, owner_nid):
                 # only show payment options/buttons to users that are logged-in.
                 
                 paypal_data = generate_paypal_data(request, username, owner_nid)
+                fortumo_data = generate_fortumo_data(request, username, owner_nid)
                 template = loader.get_template("user_main_helpers/purchase_buttons.html")    
                 context = Context (dict({
                     'paypal_data': paypal_data,
+                    'fortumo_data' : fortumo_data, 
                     'request' : request, 
                     }, **constants.template_common_fields))    
                 return template.render(context) 

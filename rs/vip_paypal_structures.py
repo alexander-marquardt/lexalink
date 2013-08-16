@@ -157,7 +157,8 @@ for currency in paypal_valid_currencies:
 vip_prices_per_month_with_currency_units = generate_prices_with_currency_units(vip_prices_per_month)
 
 def generate_paypal_dropdown_options(currency):
-    
+    # for efficiency don't call this from outside this module, instead perform a lookup in
+    # paypal_dropdown_options
     generated_html = u''
     for member_category in vip_membership_categories:
         duration = u"%s" % vip_option_values[member_category]['duration']

@@ -6,7 +6,9 @@
   <ul>
     <li><a href="#credit-card-tab"><img src="/{{ live_static_dir }}/img/payment_images/paypal_credit_187x47.png"></a></li>
       <li><a href="#paypal-tab"><img src="/{{ live_static_dir }}/img/payment_images/paypal_logo_75x47.png"></a></li>
-      <li><a href="#paypal-tab"><img src="/{{ live_static_dir }}/img/payment_images/fortumopay_96x47.png"></a></li>
+      {% if fortumo_data.show_fortumo_options %}
+        <li><a href="#fortumo-tab"><img src="/{{ live_static_dir }}/img/payment_images/fortumopay_96x47.png"></a></li>
+      {% endif %}
   </ul>
   <div id="credit-card-tab">
 
@@ -39,6 +41,18 @@
       <p>
         {% include "user_main_helpers/paypal_purchase_form.html" %}
   </div>
+
+    {% if fortumo_data.show_fortumo_options %}
+
+  <div id="fortumo-tab">
+      <p>
+        <strong>
+        {% blocktrans with app_name as app_name %}Purchase VIP status by sending an SMS from your mobile phone{% endblocktrans %}
+        </strong>
+      <p>
+        {% include "user_main_helpers/fortumo_purchase_form.html" %}
+  </div>
+  {% endif %}
 
 </div>
 

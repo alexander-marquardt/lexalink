@@ -1,0 +1,8 @@
+{% load i18n %}
+
+        <form action="https://www.fortumo.com/mobile_payments/{{ fortumo_data.service_id }}" method="get" target="_blank">
+            <p>
+            {{ fortumo_data.radio_options|safe }}
+            <p>
+            <input class="cl-paypal-purchase" type="submit" name="submit" value='{% trans "Purchase" %}'>
+        </form>

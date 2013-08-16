@@ -144,6 +144,9 @@ except:
         "mature_build"   : 'UA-YOUR-IDX-X',
     }    
     
-    
+    # Fortumo - Mobile Payments for Web Apps
+    fortumo_web_apps_service_id = 'your fortumo service id goes here'   
+    fortumo_web_apps_secret = 'your fortumo secret hash goes here'
+
     REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET = set([])
     
