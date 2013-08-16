@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-15 18:09-0400\n"
+"POT-Creation-Date: 2013-08-16 12:12-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -535,6 +535,10 @@ msgid "April"
 msgstr "abril"
 
 #: rs/constants.py:771
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:135
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:334
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:343
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:833
 msgid "May"
 msgstr "mayo"
 
@@ -4097,16 +4101,16 @@ msgstr ""
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
-#: rs/utils.py:1746
+#: rs/utils.py:1751
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr "el %(day)s de %(month)s de %(year)s"
 
-#: rs/utils.py:1767 rs/utils.py:1769
+#: rs/utils.py:1772 rs/utils.py:1774
 msgid "is"
 msgstr "es"
 
-#: rs/utils.py:1767 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1772 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -4125,19 +4129,19 @@ msgstr "es"
 msgid "100 percent free"
 msgstr "100% gratis"
 
-#: rs/utils.py:1767 rs/templates/login.html:292
+#: rs/utils.py:1772 rs/templates/login.html:292
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
-#: rs/utils.py:1769
+#: rs/utils.py:1774
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1769 rs/templates/login.html:290
+#: rs/utils.py:1774 rs/templates/login.html:290
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
-#: rs/utils.py:1772
+#: rs/utils.py:1777
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -4355,6 +4359,135 @@ msgstr "100% gratis - contactos para solteros"
 #: rs/proprietary/templates/proprietary_ads/swinger_build.html:15
 msgid "100 percent free contacts for swingers"
 msgstr "100% gratis - contactos para swingers y parejas liberales"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:40
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:152
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:263
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:417
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:424
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:434
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:441
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:450
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:457
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:465
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:473
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:480
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:487
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:494
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:501
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:508
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:515
+msgid "Oct"
+msgstr "oct"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:47
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:158
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:165
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:173
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:181
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:270
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:524
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:531
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:538
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:546
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:797
+msgid "Sep"
+msgstr "sep"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:72
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:80
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:88
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:189
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:197
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:206
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:214
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:279
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:286
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:294
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:301
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:309
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:317
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:325
+msgid "Aug"
+msgstr "ago"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:96
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:104
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:112
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:120
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:128
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:222
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:228
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:553
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:561
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:568
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:575
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:845
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:850
+msgid "Jul"
+msgstr "jul"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:143
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:249
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:256
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:855
+msgid "Jan"
+msgstr "ene"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:235
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:242
+msgid "Feb"
+msgstr "feb"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:353
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:360
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:367
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:375
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:383
+msgid "Mar"
+msgstr "mar"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:391
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:401
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:409
+msgid "Nov"
+msgstr "nov"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:583
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:590
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:597
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:604
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:612
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:621
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:629
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:638
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:646
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:653
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:660
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:667
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:674
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:681
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:688
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:695
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:702
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:709
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:717
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:724
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:731
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:738
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:745
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:752
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:760
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:767
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:776
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:804
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:826
+msgid "Jun"
+msgstr "jun"
+
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:839
+msgid "Apr"
+msgstr "abr"
 
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:10
 msgid "Thanks for using"
@@ -4950,11 +5083,11 @@ msgstr "Mostrar estados de conexión"
 msgid "Exit"
 msgstr "Salir"
 
-#: rs/templates/user_main_helpers/paypal_purchase_dialog_contents.html:20
+#: rs/templates/user_main_helpers/paypal_purchase_form.html:20
 msgid "VIP Membership"
 msgstr "Membresía VIP"
 
-#: rs/templates/user_main_helpers/paypal_purchase_dialog_contents.html:30
+#: rs/templates/user_main_helpers/paypal_purchase_form.html:30
 msgid "Purchase"
 msgstr "Comprar"
 
@@ -5029,12 +5162,11 @@ msgstr "Guardar cambios"
 msgid "View photo upload rules"
 msgstr "Ver las reglas para fotos"
 
-#: rs/templates/user_main_helpers/purchase_buttons.html:14
+#: rs/templates/user_main_helpers/purchase_buttons.html:15
 msgid "Purchase VIP status with a credit card"
 msgstr "Compra estado VIP con una tarjeta de crédito"
 
-
-#: rs/templates/user_main_helpers/purchase_buttons.html:20
+#: rs/templates/user_main_helpers/purchase_buttons.html:21
 msgid ""
 "\n"
 "        Credit card payments are processed by PayPal, an eBay company, and "
@@ -5047,7 +5179,7 @@ msgstr ""
 "del mundo.\n"
 "        "
 
-#: rs/templates/user_main_helpers/purchase_buttons.html:26
+#: rs/templates/user_main_helpers/purchase_buttons.html:27
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit card you will be "
@@ -5059,7 +5191,7 @@ msgstr ""
 "Para proteger tu privacidad, si eliges pagar con tarjeta de crédito, se te "
 "cobrará con un nombre discreto que sería difícil de vincular a %(app_name)s."
 
-#: rs/templates/user_main_helpers/purchase_buttons.html:35
+#: rs/templates/user_main_helpers/purchase_buttons.html:36
 msgid "Purchase VIP status with a PayPal account"
 msgstr "Compra estado VIP con una cuenta de PayPal"
 
@@ -5292,6 +5424,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "Dec"
+#~ msgstr "dic"
 
 #~ msgid ""
 #~ "To protect your privacy, if you choose to pay with credit card you will "
