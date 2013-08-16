@@ -41,9 +41,6 @@ VIP_1_YEAR  = "1_year"
 vip_membership_categories = [VIP_1_WEEK, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
 SELECTED_VIP_DROPDOWN = VIP_6_MONTHS
 
-paypal_valid_currencies = ['EUR', 'MXN', 'USD', 'USD_NON_US']
-PAYPAL_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
-
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
 TESTING_COUNTRY = ''
 
@@ -90,18 +87,7 @@ vip_paypal_prices = {
         VIP_3_MONTHS: "27.95",
         VIP_6_MONTHS: "39.85",
         VIP_1_YEAR: "78.95",
-        },
-    'USD_NON_US' : {
-        # Pricing for international customers outside of the US
-        # For the moment, keep these prices the same as the USD prices - we need to modify the IPN paymenmt 
-        # processing code to distinguish between USD and USD_NON_US, which is currently does not do
-        # and therefore if these values are different than USD the payment will not be processed correctly.
-        VIP_1_WEEK: "5.95",
-        VIP_1_MONTH: "16.95",
-        VIP_3_MONTHS: "27.95",
-        VIP_6_MONTHS: "39.85",
-        VIP_1_YEAR: "78.95",
-        },   
+        }, 
     'MXN' : {
         # 1 USD = 13 MXN
         VIP_1_WEEK: "69.95",    # 
@@ -119,18 +105,27 @@ vip_paypal_prices = {
         #},
 
 }
+# Pricing for international customers outside of the US
+# For the moment, keep these prices the same as the USD prices - we need to modify the IPN paymenmt 
+# processing code to distinguish between USD and USD_NON_US, which is currently does not do
+# and therefore if these values are different than USD the payment will not be processed correctly.
+vip_paypal_prices['USD_NON_US'] = vip_paypal_prices['USD']
 
 
-# keep track of which currencies we currently support. This is used in the for initializing 
+# keep track of which currencies we currently support. This is used for initializing 
 # dictionaries that are used for efficiently looking up membership prices with the currency units.
-valid_currencies = []
+paypal_valid_currencies = []
 # The following represent the "real" currency-codes that will be passed to paypal - principally it is designed to over-ride
 # the internally used 'USD_NON_US' value to become 'USD' when passing the currency-code into paypal
 real_currency_codes = {}
-for key, value in vip_paypal_prices.iteritems() :
-    valid_currencies.append(key)
+for key in vip_paypal_prices.keys() :
+    paypal_valid_currencies.append(key)
     real_currency_codes[key] = key
+    
+paypal_valid_currencies.append('USD_NON_US')
 real_currency_codes['USD_NON_US'] = 'USD'
+
+PAYPAL_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 # generate the dictionary that will allow us to do a reverse lookup when we receive a payment amount
 # to the corresponding membership category
@@ -144,7 +139,7 @@ for currency in vip_paypal_prices:
 
 def generate_prices_with_currency_units(prices_to_loop_over):
     prices_dict_to_show = {}
-    for currency in valid_currencies:
+    for currency in paypal_valid_currencies:
         prices_dict_to_show[currency] = {}
         for category in vip_membership_categories:
             prices_dict_to_show[currency][category] = u"%s%s" % (currency_by_country.currency_symbols[currency], prices_to_loop_over[currency][category])
@@ -153,7 +148,7 @@ def generate_prices_with_currency_units(prices_to_loop_over):
 vip_prices_with_currency_units = generate_prices_with_currency_units(vip_paypal_prices)
 
 vip_prices_per_month = {}
-for currency in valid_currencies:
+for currency in paypal_valid_currencies:
     vip_prices_per_month[currency] =  {}
     for category in vip_membership_categories:
         vip_prices_per_month[currency][category] = "%.2f" % (
