@@ -8,3 +8,16 @@
     </form>
 
 
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $(document).on("click", ".cl-fortumo_purchase", function() {
+        // since we may dynamically create other popups that have purchase buttons/payment info, we need to make sure that
+        // we select the input from the "closest" form (the one that the submit button has been pressed on)
+        var fortumo_selected_payment_url = $(this).closest('form').find("input:radio[name=fortumo_price_point]:checked").val();
+        // open the url in a new window
+        window.open(fortumo_selected_payment_url);
+        return false;
+    });
+});
+</script>

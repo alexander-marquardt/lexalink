@@ -59,7 +59,7 @@
 </div>
 
 <div id="id-show_vip_benefits_dialog_box" style="display:none;">
-   {% include "user_main_helpers/become_a_vip.html" %}
+   
 </div>
 
 
@@ -102,11 +102,30 @@ function show_online_status_main_dialog() {
 }
 
 function show_all_vip_benefits_dialog() {
+
+    $("#id-show_vip_benefits_dialog_box").html($("#id-become_a_vip").html())
     $("#id-show_vip_benefits_dialog_box").dialog({
         width: '750px'
     });
     $("#id-show_vip_benefits_dialog_box").dialog('open');
     return false;
 }
+
+$(document).on("click",'.cl-see_all_vip_benefits', function(e) {
+    show_all_vip_benefits_dialog();
+    e.preventDefault();
+});
+
+$('#id-show_online_status_menu_element').click(function() {
+    return show_online_status_main_dialog();
+});
+
+
+$('#id-show_online_status_button').button();
+$('#id-show_online_status_button').click(function(){
+    show_online_status_button_click_dialog();
+});
+
+
 
 </script>
