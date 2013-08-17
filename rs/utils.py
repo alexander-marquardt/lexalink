@@ -1633,7 +1633,7 @@ def generate_fortumo_data(request, username, owner_nid):
         # Lookup currency for the country
         if http_country_code in vip_sms_payment_processing.valid_countries:
             show_fortumo_options = True
-            fortumo_data['radio_options'] = vip_sms_payment_processing.generate_fortumo_options(http_country_code)
+            fortumo_data['radio_options'] = vip_sms_payment_processing.generate_fortumo_options(http_country_code, owner_nid)
     
         fortumo_data['show_fortumo_options'] = show_fortumo_options
         fortumo_data['service_id'] = settings.fortumo_web_apps_service_id

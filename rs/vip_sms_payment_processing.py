@@ -25,7 +25,7 @@
 # limitations under the License.
 ################################################################################
 
-from django.utils.translation import  ugettext
+from django.utils.translation import  ungettext
 import hashlib
 
 from localization_files import currency_by_country
@@ -47,9 +47,9 @@ payment_options = {
     #'CL' : {"900.00" : 1},  # $1.70 USD
     #'CO' : {"6960.00" : 3}, # $3.46 USD
     #'MX' : {"30.26" : 2},   # $2.16 USD
-    'ES' : {"3.63" : 2,
-            "5.20" : 4, 
-            "7.26" : 7},    # $9.18 USD 
+    'ES' : {"3.63" : 1,
+            "5.20" : 3, 
+            "7.26" : 5},    # $9.18 USD 
 }
 
 payment_options_tc_ids = {
@@ -78,15 +78,21 @@ for country in payment_options.keys():
     
 # http://fortumo.com/mobile_payments/b364da18148a355f8b87303fe0ad1794/fortumo-test-6fb84aed?test=ok&tc_amount=7&tc_id=301&sig=3ef90b89383d9d3eb912f8e10833e5dd
 
-def generate_fortumo_options(country):
+def generate_fortumo_options(country, owner_nid):
     
     # Generate the payment options (radio boxes) for fortumo paymens
     
     generated_html = u''
     for price_point in ordered_payment_options_price_points[country]:
         days_awarded = payment_options[country][price_point]
-        duration = days_awarded
-        duration_units = u"%s" % ugettext("days")
+        duration = days_text = ungettext(
+                    '%(days)s day',
+                    '%(days)s days',
+                    days_awarded
+            ) % {
+                'days': days_awarded,
+            }     
+        
         currency = currency_by_country.country_to_currency_map[country]
         currency_symbol = currency_by_country.currency_symbols[currency]
     
@@ -98,31 +104,36 @@ def generate_fortumo_options(country):
         # to prevent fraud, we have to compute a hash of certain values. 
         # See: http://developers.fortumo.com/mobile-payments-for-web-apps/advanced-integration/ for details
         calculation_string = ''
-        tc_amount = duration;
+        cuid = owner_nid
+        calculation_string += 'cuid=%s' % cuid
+        tc_amount = days_awarded;
         calculation_string += 'tc_amount=%d' % tc_amount
         tc_id = payment_options_tc_ids[country][price_point]
         calculation_string += 'tc_id=%d' % tc_id
         if TEST_VAL:
             calculation_string += 'test=%s' % TEST_VAL
             test_param = 'test=%s&' % TEST_VAL
+        else:
+            test_param = ''
+            
         secret = settings.fortumo_web_apps_secret
         calculation_string += secret
         sig = hashlib.md5(calculation_string).hexdigest()
             
-        generated_html += "http://fortumo.com/mobile_payments/%(service_id)s?%(test_param)stc_amount=%(tc_amount)s&tc_id=%(tc_id)s&sig=%(sig)s" % {
+        fortumo_url = "http://fortumo.com/mobile_payments/%(service_id)s?%(test_param)scuid=%(cuid)s&tc_amount=%(tc_amount)s&tc_id=%(tc_id)s&sig=%(sig)s" % {
             'service_id' : settings.fortumo_web_apps_service_id,
+            'cuid' : cuid,
             'test_param' : test_param,
             'tc_amount' : tc_amount,
             'tc_id' : tc_id,
             'sig' : sig,
             }
-        generated_html += u"""<input type="radio" name="price_point" price=%(price)s currency=%(currency)s
-        tc_amount="%(duration)s" %(selected)s>
-        %(duration)s %(duration_units)s: %(currency_symbol)s%(price)s<br>\n""" % {
+        
+        generated_html += u"""<input type="radio" name="fortumo_price_point" value="%(fortumo_url)s" %(selected)s>
+        %(duration)s: %(currency_symbol)s%(price)s<br>\n""" % {
+            'fortumo_url' : fortumo_url,
             'duration': duration, 
-            'duration_units' : duration_units, 
             'selected' : selected,  
-            'currency' : currency, 
             'currency_symbol' : currency_symbol,
             'price' : price_point}
     

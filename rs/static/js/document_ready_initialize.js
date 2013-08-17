@@ -26,9 +26,20 @@ $(document).ready(function() {
 
     $('.cl-paypal-purchase').button();
     
-    $(document).on("click",'#id-paypal_logo_button', function(e) {
-        $(".cl-show_paypal_purchase_options").show();
-        e.preventDefault();
+
+    // The following is a hack to deal with the fact that we have multiple payment buttons imported into the document.
+    // We therefore need to remember which value the user has checked, otherwise we might pull the value from the wrong
+    // radio button. We need to fix this by only importing the payment buttons a single time.
+    // This creates a small bug - if the user changes their payment option in one part of the document, and then pays
+    // in a different part of the document, only the most recently selected option will be remembered, as opposed to
+    // what the user may see as the selected option. 
+    var fortumo_selected_payment_url = $("input:radio[name=fortumo_price_point]").val();
+    $("input:radio[name=fortumo_price_point]").click(function(){
+        fortumo_selected_payment_url = $(this).val();
     });
-    
+    $(document).on("click", ".cl-fortumo_purchase", function() {
+        // open the url in a new window
+        window.open(fortumo_selected_payment_url);
+        return false;
+    });
 });
