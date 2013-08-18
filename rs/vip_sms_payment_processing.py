@@ -65,8 +65,12 @@ default_selected_option = {
     'ES' : "7.26",
 }
 
-TEST_VAL = "ok" # can be None, "ok" (simulate a successfull payment), or "fail" (simulate a failed payment)
-TESTING_COUNTRY = 'ES'
+if settings.TESTING_FORTUMO_PAYMENYS:
+    TESTING_COUNTRY = 'ES'    
+    TEST_VAL = "ok" # can be None, "ok" (simulate a successfull payment), or "fail" (simulate a failed payment)
+else:
+    TESTING_COUNTRY = ''        
+    TEST_VAL = ''
 
 valid_countries = []
 ordered_payment_options_price_points = {}

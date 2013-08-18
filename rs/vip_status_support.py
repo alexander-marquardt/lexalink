@@ -26,15 +26,15 @@
 ################################################################################
 
 
-import urllib
-import urllib2
+import os 
+import urllib, urllib2
 import logging
 import error_reporting, email_utils
 import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages, vip_paypal_structures
 import datetime, re
 from models import UserModel
 from localization_files import currency_by_country
-import views, http_utils
+import views, http_utils, hashlib
 
 
 from django.http import HttpResponse, HttpResponseServerError, HttpResponseRedirect
@@ -43,9 +43,9 @@ if settings.TESTING_PAYPAL_SANDBOX:
   PP_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"
 else:
   PP_URL = "https://www.paypal.com/cgi-bin/webscr"
+  
+FORTUMO_VALID_IP_LIST = ['79.125.125.1', '79.125.5.205', '79.125.5.95']
 
-  
-  
 custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')  
   
 def instant_payment_notification(request):
@@ -148,6 +148,54 @@ def instant_payment_notification(request):
     # payment.
     return HttpResponse("OK")
 
+def fortumo_webapp_ipn(request):
+  # Fortumo es an SMS payment provider that will call this function when a payment is received. 
+  # Information about how to process the payment can be found at http://developers.fortumo.com/receipt-verification/
+  # The code here is based on the PHP code in the example on the fortumo website.
+  try:
+    remoteip = remoteip  = os.environ['REMOTE_ADDR']
+    if not remoteip in FORTUMO_VALID_IP_LIST:
+      error_reporting.log_exception(logging.error, request=request, 
+                                        error_message = "unauthorized remoteip %s is trying to access fortumo ipn" % remoteip)    
+      return HttpResponse("Error - invalid IP")
+      
+    if not check_signature(request):
+      error_reporting.log_exception(logging.error, request=request, error_message = "invalid fortumo signature")    
+      return HttpResponse("Error - invalid Signature")
+    
+    product_name = request.GET['product_name']
+    transaction_id = request.GET['payment_id']
+    billing_type = request.GET['billing_type']
+    payment_status = request.GET['status']
+    cuid = request.GET['cuid']
+    
+    # only grant virtual credits to account, if payment has been successful.
+    # Read http://developers.fortumo.com/getting-started/handling-billing-status/ for information about
+    # MT and MO billing. 
+    if (billing_type == 'MO' and payment_status == 'pending') or (billing_type in ['MT','CC','DCB'] and payment_status == 'ok'):
+        logging.info("Successfully processed payment from user nid (cuid) %s" % cuid)
+    else:
+      raise Exception("Failed to award credits during fortumo IPN notification - check logs") 
+    
+  except:
+    message_content = "Failed to award VIP status for fortumo ipn call "
+    email_utils.send_admin_alert_email(message_content, subject="%s Fortumo Error VIP" % settings.APP_NAME)
+    error_reporting.log_exception(logging.critical, request=request, error_message = "Fortumo credits not awarted ")
+        
+    
+def check_signature(request):
+  secret = settings.fortumo_web_apps_secret
+  keys_of_get = request.GET.keys()
+  keys_of_get.sort()
+  calculation_string = ''
+  for key in keys_of_get:
+    if key != "sig":
+      calculation_string += "%s=%s" % (key, request.GET[key])
+      
+  calculation_string += secret
+  #logging.info("calculation_string: %s" % calculation_string)
+  sig = hashlib.md5(calculation_string).hexdigest()
+  return (request.GET['sig'] == sig)  
 
 def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id):
   
@@ -248,7 +296,7 @@ def update_userobject_vip_status(userobject,  num_days_awarded, payer_email):
     try: 
       # In case there is a problem with sending the error alert
       message_content = "Failed to award VIP status. See logs for error"
-      email_utils.send_admin_alert_email(message_content, subject="%s *** Error *** VIP" % settings.APP_NAME)
+      email_utils.send_admin_alert_email(message_content, subject="%s Paypal Error VIP" % settings.APP_NAME)
     except:
       error_reporting.log_exception(logging.critical)
       

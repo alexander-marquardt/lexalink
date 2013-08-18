@@ -32,7 +32,7 @@ from rs.private_data import *
 VERSION_ID = '2013-08-15-1738'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_TIME_STAMPED_STATIC_FILES = True
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -46,6 +46,7 @@ ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhe
 
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
+TESTING_FORTUMO_PAYMENYS = True
 BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 # The following variable reates to the flash/video conference code, which is almost done, but not activated and
@@ -107,6 +108,8 @@ if BUILD_STAGING:
     
 if TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp'
+if TESTING_FORTUMO_PAYMENYS:
+    VERSION_ID = 'fortumo-test'
 
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0

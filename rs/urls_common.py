@@ -227,8 +227,10 @@ urlpatterns = patterns('',
     (r'^rs/channel_support/set_minimize_chat_box_status/[\w|-]+/$', channel_support.set_minimize_chat_box_status),
     (r'^rs/channel_support/initialize_main_and_group_boxes_on_server/[\w|-]+/$', channel_support.initialize_main_and_group_boxes_on_server),
         
-    # Paypal feedback URLs
+    # Paypal IPN payement notification URLs
     (r'^paypal/ipn/$', vip_status_support.instant_payment_notification),
+    # fortumo payment notification URL
+    (r'^fortumo/webapp_ipn/$', vip_status_support.fortumo_webapp_ipn),
     
     # Videochat URLs
     (r'^videochat_server/$', videochat.videochat_server),

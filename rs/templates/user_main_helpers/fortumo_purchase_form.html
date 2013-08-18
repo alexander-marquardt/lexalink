@@ -16,7 +16,7 @@ $(document).ready(function() {
         // we select the input from the "closest" form (the one that the submit button has been pressed on)
         var fortumo_selected_payment_url = $(this).closest('form').find("input:radio[name=fortumo_price_point]:checked").val();
         // open the url in a new window
-        window.open(fortumo_selected_payment_url);
+        window.open(fortumo_selected_payment_url, "_blank");
         return false;
     });
 });

@@ -1637,6 +1637,8 @@ def generate_fortumo_data(request, username, owner_nid):
     
         fortumo_data['show_fortumo_options'] = show_fortumo_options
         fortumo_data['service_id'] = settings.fortumo_web_apps_service_id
+        fortumo_data['testing_fortumo_payments'] = site_configuration.TESTING_FORTUMO_PAYMENYS
+        
     except: 
         error_reporting.log_exception(logging.critical)
         
