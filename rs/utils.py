@@ -1604,6 +1604,7 @@ def generate_paypal_data(request, username, owner_nid):
         error_reporting.log_exception(logging.error)
                 
     paypal_data = {}
+    paypal_data['country_override'] = vip_paypal_structures.TESTING_COUNTRY
     paypal_data['language'] = request.LANGUAGE_CODE
     paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
     paypal_data['owner_nid'] = owner_nid    
@@ -1635,9 +1636,9 @@ def generate_fortumo_data(request, username, owner_nid):
             show_fortumo_options = True
             fortumo_data['radio_options'] = vip_sms_payment_processing.generate_fortumo_options(http_country_code, owner_nid)
     
+        fortumo_data['country_override'] = vip_sms_payment_processing.TESTING_COUNTRY
         fortumo_data['show_fortumo_options'] = show_fortumo_options
         fortumo_data['service_id'] = settings.fortumo_web_apps_service_id
-        fortumo_data['testing_fortumo_payments'] = site_configuration.TESTING_FORTUMO_PAYMENYS
         
     except: 
         error_reporting.log_exception(logging.critical)

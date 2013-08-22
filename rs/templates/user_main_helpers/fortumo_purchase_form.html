@@ -1,5 +1,9 @@
 {% load i18n %}
 
+{% if fortumo_data.country_override %}
+        <h1>Warning - Fortumo country override to {{ fortumo_data.country_override }}</h1>
+{% endif %}
+
     <form action="#" method="get">
         <p>
         {{ fortumo_data.radio_options|safe }}

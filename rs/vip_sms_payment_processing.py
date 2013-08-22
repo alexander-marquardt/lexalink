@@ -38,6 +38,13 @@ import settings
     Currently we are offering SMS payment in Argentina, Chile, Colombia, Mexico, and Spain"""
 
 
+if settings.TESTING_FORTUMO_PAYMENTS:
+    TESTING_COUNTRY = 'ES'    
+    TEST_VAL = "ok" # can be None, "ok" (simulate a successfull payment), or "fail" (simulate a failed payment)
+else:
+    TESTING_COUNTRY = 'Not set deactivated'        
+    TEST_VAL = ''
+
 # We  detect that an SMS payment has come from a given country, and verify that it is 
 # of the expected amount. Once these two conditions are met, then the following number of VIP days
 # will be awarded to the member.
@@ -65,12 +72,7 @@ default_selected_option = {
     'ES' : "7.26",
 }
 
-if settings.TESTING_FORTUMO_PAYMENYS:
-    TESTING_COUNTRY = 'ES'    
-    TEST_VAL = "ok" # can be None, "ok" (simulate a successfull payment), or "fail" (simulate a failed payment)
-else:
-    TESTING_COUNTRY = ''        
-    TEST_VAL = ''
+
 
 valid_countries = []
 ordered_payment_options_price_points = {}

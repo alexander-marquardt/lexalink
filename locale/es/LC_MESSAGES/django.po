@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-16 20:31-0400\n"
+"POT-Creation-Date: 2013-08-21 22:13-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -4002,7 +4002,7 @@ msgstr "En"
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:498
+#: rs/utils.py:498 rs/vip_sms_payment_processing.py:95
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
@@ -4101,16 +4101,16 @@ msgstr ""
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
-#: rs/utils.py:1775
+#: rs/utils.py:1778
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr "el %(day)s de %(month)s de %(year)s"
 
-#: rs/utils.py:1796 rs/utils.py:1798
+#: rs/utils.py:1799 rs/utils.py:1801
 msgid "is"
 msgstr "es"
 
-#: rs/utils.py:1796 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1799 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -4129,19 +4129,19 @@ msgstr "es"
 msgid "100 percent free"
 msgstr "100% gratis"
 
-#: rs/utils.py:1796 rs/templates/login.html:292
+#: rs/utils.py:1799 rs/templates/login.html:292
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
-#: rs/utils.py:1798
+#: rs/utils.py:1801
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1798 rs/templates/login.html:290
+#: rs/utils.py:1801 rs/templates/login.html:290
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
-#: rs/utils.py:1801
+#: rs/utils.py:1804
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -4176,8 +4176,8 @@ msgid "terms.html"
 msgstr "terminos.html"
 
 #: rs/vip_paypal_structures.py:68
-msgid "week"
-msgstr "semana"
+msgid "days"
+msgstr "días"
 
 #: rs/vip_paypal_structures.py:69 rs/vip_paypal_structures.py:184
 msgid "month"
@@ -4194,10 +4194,6 @@ msgstr "año"
 #: rs/vip_paypal_structures.py:184
 msgid "total of"
 msgstr "total de"
-
-#: rs/vip_sms_payment_processing.py:89
-msgid "days"
-msgstr ""
 
 #: rs/proprietary/my_sitemaps.py:159
 #: rs/templates/user_main_helpers/main_body.html:88
@@ -4931,12 +4927,12 @@ msgstr "en 30 segundos está hecho"
 msgid " Register me"
 msgstr "Me Registro"
 
-#: rs/templates/user_main_helpers/become_a_vip.html:34
+#: rs/templates/user_main_helpers/become_a_vip.html:37
 #, python-format
 msgid "If you like %(app_name)s, consider becoming a VIP member"
 msgstr "Si te gusta %(app_name)s puedes considerar hacerte miembro VIP"
 
-#: rs/templates/user_main_helpers/become_a_vip.html:41
+#: rs/templates/user_main_helpers/become_a_vip.html:44
 msgid "VIP benefits include"
 msgstr "Los beneficios VIP incluyen"
 
@@ -4949,8 +4945,8 @@ msgstr "Por favor escribe el nombre del grupo para crearlo y unirte a él:"
 msgid "Create a group"
 msgstr "Crea un grupo"
 
-#: rs/templates/user_main_helpers/fortumo_purchase_form.html:7
-#: rs/templates/user_main_helpers/paypal_purchase_form.html:30
+#: rs/templates/user_main_helpers/fortumo_purchase_form.html:11
+#: rs/templates/user_main_helpers/paypal_purchase_form.html:33
 msgid "Purchase"
 msgstr "Comprar"
 
@@ -5092,7 +5088,7 @@ msgstr "Mostrar estados de conexión"
 msgid "Exit"
 msgstr "Salir"
 
-#: rs/templates/user_main_helpers/paypal_purchase_form.html:20
+#: rs/templates/user_main_helpers/paypal_purchase_form.html:23
 msgid "VIP Membership"
 msgstr "Membresía VIP"
 
@@ -5433,6 +5429,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "week"
+#~ msgstr "semana"
 
 #~ msgid "Dec"
 #~ msgstr "dic"

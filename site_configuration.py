@@ -46,7 +46,7 @@ ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhe
 
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
-TESTING_FORTUMO_PAYMENYS = True
+TESTING_FORTUMO_PAYMENTS = False
 BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 # The following variable reates to the flash/video conference code, which is almost done, but not activated and
@@ -108,7 +108,7 @@ if BUILD_STAGING:
     
 if TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp'
-if TESTING_FORTUMO_PAYMENYS:
+if TESTING_FORTUMO_PAYMENTS:
     VERSION_ID = 'fortumo-test'
 
 
