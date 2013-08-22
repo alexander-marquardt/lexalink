@@ -1581,7 +1581,7 @@ def generate_paypal_data(request, username, owner_nid):
     if not vip_paypal_structures.TESTING_COUNTRY:
         http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
     else: 
-        logging.error("TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
+        error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
         http_country_code = vip_paypal_structures.TESTING_COUNTRY
     
     try:
@@ -1625,16 +1625,16 @@ def generate_fortumo_data(request, username, owner_nid):
     fortumo_data = {}
     show_fortumo_options = False
     try:
-        if not vip_sms_payment_processing.TESTING_COUNTRY:
-            http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-        else: 
-            logging.error("TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-            http_country_code = vip_sms_payment_processing.TESTING_COUNTRY    
+        #if not vip_sms_payment_processing.TESTING_COUNTRY:
+            #http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+        #else: 
+            #error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
+            #http_country_code = vip_sms_payment_processing.TESTING_COUNTRY    
             
-        # Lookup currency for the country
-        if http_country_code in vip_sms_payment_processing.valid_countries:
-            show_fortumo_options = True
-            fortumo_data['radio_options'] = vip_sms_payment_processing.generate_fortumo_options(http_country_code, owner_nid)
+        ## Lookup currency for the country
+        #if http_country_code in vip_sms_payment_processing.valid_countries:
+            #show_fortumo_options = True
+            #fortumo_data['radio_options'] = vip_sms_payment_processing.generate_fortumo_options(http_country_code, owner_nid)
     
         fortumo_data['country_override'] = vip_sms_payment_processing.TESTING_COUNTRY
         fortumo_data['show_fortumo_options'] = show_fortumo_options

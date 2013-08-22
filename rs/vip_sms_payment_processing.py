@@ -42,7 +42,7 @@ if settings.TESTING_FORTUMO_PAYMENTS:
     TESTING_COUNTRY = 'ES'    
     TEST_VAL = "ok" # can be None, "ok" (simulate a successfull payment), or "fail" (simulate a failed payment)
 else:
-    TESTING_COUNTRY = 'Not set deactivated'        
+    TESTING_COUNTRY = ''        
     TEST_VAL = ''
 
 # We  detect that an SMS payment has come from a given country, and verify that it is 
@@ -91,7 +91,7 @@ def generate_fortumo_options(country, owner_nid):
     generated_html = u''
     for price_point in ordered_payment_options_price_points[country]:
         days_awarded = payment_options[country][price_point]
-        duration = days_text = ungettext(
+        duration_txt = ungettext(
                     '%(days)s day',
                     '%(days)s days',
                     days_awarded
@@ -136,9 +136,9 @@ def generate_fortumo_options(country, owner_nid):
             }
         
         generated_html += u"""<input type="radio" name="fortumo_price_point" value="%(fortumo_url)s" %(selected)s>
-        %(duration)s: %(currency_symbol)s%(price)s<br>\n""" % {
+        <strong>%(duration_txt)s</strong>: %(currency_symbol)s%(price)s<br>\n""" % {
             'fortumo_url' : fortumo_url,
-            'duration': duration, 
+            'duration_txt': duration_txt, 
             'selected' : selected,  
             'currency_symbol' : currency_symbol,
             'price' : price_point}
