@@ -13,6 +13,6 @@ cron:
 
 - description: Backup Database
   url: /rs/admin/backup_database/
-  schedule: every 240 hours # every 10 days
+  schedule: every 96 hours # every 4 days
 
   
