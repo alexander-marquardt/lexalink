@@ -653,7 +653,7 @@ class PaymentInfo(ndb.Model):
     num_days_awarded = ndb.IntegerProperty(default=0)
     
     txn_id = ndb.StringProperty(required = False, default=None)
-    
+    payment_source = ndb.StringProperty(default=None) # should be either "paypal" or "fortumo"
             
 class WatermarkPhotoModel(ndb.Model):
     # Will contain the watermark that will be used for marking all uploaded photos. This data structure is intended to

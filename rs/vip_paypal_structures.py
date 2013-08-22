@@ -68,14 +68,14 @@ vip_paypal_prices = {
     'EUR': {
         VIP_3_DAYS: "6.95",
         VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "34.95",
+        VIP_3_MONTHS: "37.95",
         VIP_6_MONTHS: "49.95",
         VIP_1_YEAR: "99.95",
         },
     'USD' : {
         VIP_3_DAYS: "6.95",
         VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "34.95",
+        VIP_3_MONTHS: "37.95",
         VIP_6_MONTHS: "49.95",
         VIP_1_YEAR: "99.95",
         }, 
@@ -83,7 +83,7 @@ vip_paypal_prices = {
         # 1 USD = 13 MXN
         VIP_3_DAYS: "69.95",    # 
         VIP_1_MONTH: "199.95",  # 
-        VIP_3_MONTHS: "349.95", # 
+        VIP_3_MONTHS: "379.95", # 
         VIP_6_MONTHS: "499.95", # 
         VIP_1_YEAR: "999.95",   
         },    

@@ -102,9 +102,9 @@ def instant_payment_notification(request):
       #logging.info("Paypal parameters: %s" % parameters)
       
       donation_type = parameters['item_number']
-      txn_id = parameters['txn_id']
+      txn_id = "paypal-" + parameters['txn_id']
       currency = parameters['mc_currency']
-      amount = parameters['mc_gross']
+      amount_paid = parameters['mc_gross']
       payer_email = parameters['payer_email']
       
       # os0 is represented as option_selection1
@@ -117,14 +117,14 @@ def instant_payment_notification(request):
       userobject = utils_top_level.get_object_from_string(uid)
 
       if currency in vip_paypal_structures.paypal_valid_currencies:
-        membership_category = vip_paypal_structures.vip_price_to_membership_category_lookup[currency][amount]
+        membership_category = vip_paypal_structures.vip_price_to_membership_category_lookup[currency][amount_paid]
         num_days_awarded = vip_paypal_structures.num_days_in_vip_membership_category[membership_category]
       else:
         raise Exception("Paypal currency %s not handled by code" % currency)
         
-      if check_payment_and_update_structures(userobject, currency, amount, num_days_awarded, txn_id):
+      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal"):
         # only process the payment if this is the first time we have seen this txn_id.
-        update_userobject_vip_status(userobject,  num_days_awarded, payer_email)         
+        update_userobject_vip_status("paypal", userobject,  num_days_awarded, payer_email)         
         
       return HttpResponse("OK")
     else:
@@ -149,39 +149,57 @@ def instant_payment_notification(request):
     return HttpResponse("OK")
 
 def fortumo_webapp_ipn(request):
-  # Fortumo es an SMS payment provider that will call this function when a payment is received. 
+  # Fortumo is an SMS payment provider that will call this function when a payment is received. 
   # Information about how to process the payment can be found at http://developers.fortumo.com/receipt-verification/
   # The code here is based on the PHP code in the example on the fortumo website.
   try:
     remoteip = remoteip  = os.environ['REMOTE_ADDR']
     if not remoteip in FORTUMO_VALID_IP_LIST:
       error_reporting.log_exception(logging.error, request=request, 
-                                        error_message = "unauthorized remoteip %s is trying to access fortumo ipn" % remoteip)    
+                                    error_message = "unauthorized remoteip %s is trying to access fortumo ipn" % remoteip)    
       return HttpResponse("Error - invalid IP")
       
     if not check_signature(request):
       error_reporting.log_exception(logging.error, request=request, error_message = "invalid fortumo signature")    
       return HttpResponse("Error - invalid Signature")
     
-    product_name = request.GET['product_name']
-    transaction_id = request.GET['payment_id']
-    billing_type = request.GET['billing_type']
+    txn_id = "fortumo-" + request.GET['payment_id']
+    currency = request.GET['currency']
+    amount_paid = request.GET['price']
+    num_days_awarded = int(request.GET['amount'])
+    payer_phone_number = request.GET['sender']
     payment_status = request.GET['status']
-    cuid = request.GET['cuid']
+    nid = request.GET['cuid']
+    uid = utils.get_uid_from_nid(nid)
+    userobject = utils_top_level.get_object_from_string(uid)
     
     # only grant virtual credits to account, if payment has been successful.
-    # Read http://developers.fortumo.com/getting-started/handling-billing-status/ for information about
-    # MT and MO billing. 
-    if (billing_type == 'MO' and payment_status == 'pending') or (billing_type in ['MT','CC','DCB'] and payment_status == 'ok'):
-        logging.info("Successfully processed payment from user nid (cuid) %s" % cuid)
+    if (payment_status == 'completed' or payment_status == 'pending'):
+      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal"):
+        logging.info("Successfully processed payment status: %s from user nid %s" % (payment_status, nid))
+        update_userobject_vip_status("fortumo", userobject,  num_days_awarded, payer_phone_number)      
+        
+    elif (payment_status == 'failed'):
+      status_message = '"failed" payment status for user nid %s %s' % (nid, userobject.username)
+      logging.error(status_message)
+      message_content = status_message      
+      email_utils.send_admin_alert_email(message_content, subject="%s fortumo VIP failed payment status received" % settings.APP_NAME)
+      
     else:
       raise Exception("Failed to award credits during fortumo IPN notification - check logs") 
+    
+    return HttpResponse("OK")
     
   except:
     message_content = "Failed to award VIP status for fortumo ipn call "
     email_utils.send_admin_alert_email(message_content, subject="%s Fortumo Error VIP" % settings.APP_NAME)
     error_reporting.log_exception(logging.critical, request=request, error_message = "Fortumo credits not awarted ")
         
+    # Return "OK" even though we had a server error - this should stop fortumo from re-sending notifications of the
+    # payment.
+    return HttpResponse("OK")
+    
+    
     
 def check_signature(request):
   secret = settings.fortumo_web_apps_secret
@@ -197,9 +215,12 @@ def check_signature(request):
   sig = hashlib.md5(calculation_string).hexdigest()
   return (request.GET['sig'] == sig)  
 
-def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id):
+def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, payment_source):
   
-  # This stores information about the user that has made the payment. This is stored for informational purposes.
+  # This stores information about the user that has made the payment. This is stored for informational purposes 
+  # and to detect duplicate payment submissions with the same txn_id 
+  # If the current txn_id is detected in the database, then we will return False otherwise return True
+  # to indicate that this is a new/unique payment.
   
   # DO NOT wrap this in a try/except - we will let the outer blocks exception handlers deal with any exceptions
   # since they send notification email to the administrator.
@@ -218,6 +239,7 @@ def check_payment_and_update_structures(userobject, currency, amount_paid, num_d
     payment_object.date_paid = datetime.datetime.now()
     payment_object.num_days_awarded = num_days_awarded
     payment_object.txn_id = txn_id
+    payment_object.payment_source = payment_source
     transaction_is_ok = True
 
     payment_object.put()
@@ -258,11 +280,13 @@ def get_new_vip_status_and_expiry(previous_expiry, num_days_awarded):
   return (just_paid_status, new_expiry_date)
   
   
-def update_userobject_vip_status(userobject,  num_days_awarded, payer_email):
+def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded, payer_account_info):
 
   # updates VIP status on the userobject to reflect the new num_days_awarded that have either
   # been purchased or awarded to the userobject profile. 
     
+  # payer_account_info: in the case of paypal, this is the paypal-associated email address. 
+  #                     for fortumo, this is the phone number that has made the payment. 
   try:
     
 
@@ -273,13 +297,15 @@ def update_userobject_vip_status(userobject,  num_days_awarded, payer_email):
     
     message_content = """VIP status awarded:<br>
     App name: %(app_name)s<br>
-    Payer email: %(payer_email)s<br>
+    Payment Provider: %(payment_provider)s<br>
+    Payer Account: %(payer_account_info)s<br>
     User: %(username)s (%(email_address)s)<br>
     Days purchased: %(num_days_awarded)s<br>
     Expiry date: %(expiry)s<br>
     Status: %(status)s<br>
     """ % {'app_name' : settings.APP_NAME, 
-           'payer_email' : payer_email,
+           'payment_provider' : payment_provider, 
+           'payer_account_info' : payer_account_info,
            'username':  userobject.username, 
            'email_address' : userobject.email_address,
            'num_days_awarded' : num_days_awarded, 
@@ -316,9 +342,9 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
       # manually add in the txn_id if it is inclded
       currency = "NA - Manually Assigned"
       check_payment_and_update_structures(userobject, currency, num_days_awarded, 
-                                          num_days_awarded, txn_id)
+                                          num_days_awarded, txn_id, "manually assigned")
     
-    update_userobject_vip_status(userobject,  num_days_awarded, payer_email = "N/A - manually awarded") 
+    update_userobject_vip_status("manually awarded", userobject,  num_days_awarded, payer_account_info = "N/A - manually awarded") 
     return http_utils.ajax_compatible_http_response(request, "Done")
   
   except:
