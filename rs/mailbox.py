@@ -999,8 +999,9 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
     
         be_polite_html = u"""
         <div class="grid_9 alpha omega"><br></div>
-        <div class="grid_9 alpha omega cl-gray-box">
-        **%(please_be_polite)s <strong>%(doesnt_count)s</strong> %(if_spam)s </div>
+        <div class="grid_9 alpha omega cl-light-gray-box">
+        <div class="cl-padding-3px">
+        **%(please_be_polite)s <strong>%(doesnt_count)s</strong> %(if_spam)s </div></div>
         """ % {'please_be_polite' : ugettext('Please be polite and respond to the people that have made an honest effort to \
 contact you.'), 
                'doesnt_count': ugettext('Responding to messages does not count in your daily message quota.'),

@@ -38,9 +38,7 @@ table#id-mail-header
 	padding: 3px;
 	vertical-align: middle;
     border-width: 1px;
-	border-color: #bbb;
 	border-style: solid;
-	background-color:  #eee;
     margin-right: 3px;
     margin-left: 3px;
     margin-top: 3px;
@@ -300,8 +298,18 @@ td.cl-profile-photo-td-img
 
 .cl-gray-box 
 {
-	border: 1px solid #666666;
-	background: #FAFAFA;
+	border: 1px solid #bbb;
+	background: #eee;
+}
+
+.cl-light-gray-box
+{
+	border: 1px solid #bbb;
+	background: #f9f9f9;
+}
+
+.cl-padding-3px {
+    padding: 3px;
 }
 
 td.cl-td-left-align-user_main

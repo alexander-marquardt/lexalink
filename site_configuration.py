@@ -29,10 +29,10 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-08-23-2140'
+VERSION_ID = '2013-08-23-2201'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -46,7 +46,7 @@ ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhe
 
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
-TESTING_FORTUMO_PAYMENTS = True
+TESTING_FORTUMO_PAYMENTS = False
 BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 # The following variable reates to the flash/video conference code, which is almost done, but not activated and

@@ -45,6 +45,8 @@ input { /* used for defining the characteristics of input text boxes and anythin
 
 h1, h2, h3, h4, h5, h6 {
 	font-weight:bold;
+    line-height: 125%; /* adds spacing between the lines of text */
+    
 }
 
 h1 {
