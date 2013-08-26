@@ -153,7 +153,7 @@ def fortumo_webapp_ipn(request):
   # Information about how to process the payment can be found at http://developers.fortumo.com/receipt-verification/
   # The code here is based on the PHP code in the example on the fortumo website.
   try:
-    remoteip = remoteip  = os.environ['REMOTE_ADDR']
+    remoteip = os.environ['REMOTE_ADDR']
     if not remoteip in FORTUMO_VALID_IP_LIST:
       error_reporting.log_exception(logging.error, request=request, 
                                     error_message = "unauthorized remoteip %s is trying to access fortumo ipn" % remoteip)    
@@ -312,7 +312,7 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
            'expiry' : userobject.client_paid_status_expiry,
            'status' : userobject.client_paid_status}
     
-    email_utils.send_admin_alert_email(message_content, subject="%s VIP Awarded" % settings.APP_NAME)
+    email_utils.send_admin_alert_email(message_content, subject="%s %s VIP Awarded - %s" % (settings.APP_NAME, userobject.username, payment_provider))
     messages.send_vip_congratulations_message(userobject)
     
   except:
