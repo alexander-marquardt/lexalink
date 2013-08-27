@@ -700,11 +700,11 @@ def login(request, is_admin_login = False, referring_code = None):
             # unable_to_verify_user GET value contains the username that we were unable to find in the authorization info data struct.
             unable_to_verify_username = request.REQUEST.get('unable_to_verify_user', '') 
             if (unable_to_verify_username):
-                message_for_client = u"""
-                No podemos verifificar/autorizar la cuenta para %s. 
-                Este puede pasar si ya has verificado esta cuenta una vez.
-                Si la cuenta %s es tuya, puedes entrar directamente con tu "Nick" y contraseña en las casillas arriba. """ % (
-                    unable_to_verify_username, unable_to_verify_username)               
+                message_for_client = ugettext("""We are unable verify/authorize the account for %(unable_to_verify_username)s. 
+                This can happen if you have already verified your acount. If the account %(unable_to_verify_username)s is 
+                yours, then you can directly enter with your "Nick" and your password in the boxes above.""") % {
+                'unable_to_verify_username' : unable_to_verify_username}
+            
                 error_list.append(message_for_client)
                 
         # The following two calls generate the table rows required for displaying the login
