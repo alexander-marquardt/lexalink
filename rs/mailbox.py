@@ -580,8 +580,8 @@ def display_conversation_summary(request, have_sent_messages_object,
             # it is possible that the have_sent_messages object exists, but no message is associated.
             
             error = "User %s and User %s have_sent_messages object exists, but no messages found. Consider deleting" % (
-                have_sent_messages_object.owner_ref.username, 
-                have_sent_messages_object.other_ref.username)
+                have_sent_messages_owner.username, 
+                have_sent_messages_other.username)
 
             error_reporting.log_exception(logging.critical, error_message=error)
             
