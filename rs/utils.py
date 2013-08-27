@@ -1239,7 +1239,10 @@ def get_fake_mail_parent_entity_key(uid1, uid2):
     # there is only one unique key for each pair of users, we *always* use a key name which contains
     # the lower key followed by the higher key
     
-    # must ensure that keys are compared using *string* representations, *not* key representations - because the 
+    # Note: Using "uid's" instead of "nid's" is a mistake - if we ever need to restore mail messages to a different
+    # application id, the parent will not be consistent, and the maill messages will not be found. 
+    
+    # must ensure that keys are compared using *string* or *integer* representations, *not* key representations - because the 
     # order can change - see (my comment) on StackOverflow
     # http://stackoverflow.com/questions/7572386/why-are-appengine-database-keys-sorted-differently-than-strings
     uid1 = str(uid1)

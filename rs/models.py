@@ -710,6 +710,10 @@ class MailMessageModel(ndb.Model):
     all messages between these two users. To ensure that the key is the same for a pair of users, we will always generate this
     key as a combination of the key values of the user objects, with the "lower" key value appearing first. 
     
+    Note: we should have used numeric identifiers in the generation of the parent key ... but instead we used the uid's
+    of the two users - this means that mail messages will not migrate nicely if we change the app ID. We could either 
+    pre-emptively fix this design flaw, or just fix it on the fly if we have to migrate to a new app ID. 
+    
     This also has the additional benefit of ensuring database  consistency in the High Replication data store, since all messages 
     between two users are members of the same entity group.
     

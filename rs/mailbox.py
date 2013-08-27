@@ -69,9 +69,14 @@ def setup_and_run_conversation_mailbox_query(bookmark_key_str, userobject, other
         bookmarked_mailbox_object = bookmark_key.get()
         top_date = bookmarked_mailbox_object.unique_m_date
 
+        
+    # Note: Using "uid's" instead of "nid's" was a mistake - if we ever need to restore mail messages to a different
+    # application id, the parent will not be consistent, and the maill messages will not be found. 
+    # If we ever migrate to a new app ID, this could temporarily
+    # be fixed by manually creating the uid's used for the parent based on the old app name... 
     uid = userobject.key.urlsafe()
     other_uid = other_userobject.key.urlsafe()
-
+    
     parent_key = utils.get_fake_mail_parent_entity_key(uid, other_uid)
     
     q = models.MailMessageModel.query(ancestor = parent_key).order(-models.MailMessageModel.unique_m_date)
