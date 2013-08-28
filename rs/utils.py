@@ -1537,12 +1537,12 @@ def get_country_name_from_code(country_code):
         return None
 
 
-def generate_profile_information_for_administrator(viewer_userobject, display_userobject):
+def generate_profile_information_for_administrator(display_userobject, is_admin):
     
     generated_html = ''
     
     try:
-        if user_is_admin(viewer_userobject):
+        if is_admin:
             # show information about this user to the administrator.
             generated_html += u'<br><br><div>'            
             if display_userobject.client_paid_status:

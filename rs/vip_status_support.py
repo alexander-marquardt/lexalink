@@ -25,11 +25,12 @@
 # limitations under the License.
 ################################################################################
 
+from django.utils import translation
 
 import os 
 import urllib, urllib2
 import logging
-import error_reporting, email_utils
+import error_reporting, email_utils, profile_utils
 import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages, vip_paypal_structures
 import datetime, re
 from models import UserModel
@@ -287,33 +288,50 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
     
   # payer_account_info: in the case of paypal, this is the paypal-associated email address. 
   #                     for fortumo, this is the phone number that has made the payment. 
+  message_content = ''
   try:
     
-
-    (userobject.client_paid_status, userobject.client_paid_status_expiry) = \
-      get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_days_awarded)
+    previous_language = translation.get_language()# remember the original language, so we can set it back when we finish 
+    try:
+      # Set translation language so that the generated profile description (title) is in english
+      translation.activate('en')      
+  
     
-    utils.put_userobject(userobject)
-    
-    message_content = """VIP status awarded:<br>
-    App name: %(app_name)s<br>
-    Payment Provider: %(payment_provider)s<br>
-    Payer Account: %(payer_account_info)s<br>
-    User: %(username)s (%(email_address)s)<br>
-    Days purchased: %(num_days_awarded)s<br>
-    Expiry date: %(expiry)s<br>
-    Status: %(status)s<br>
-    """ % {'app_name' : settings.APP_NAME, 
-           'payment_provider' : payment_provider, 
-           'payer_account_info' : payer_account_info,
-           'username':  userobject.username, 
-           'email_address' : userobject.email_address,
-           'num_days_awarded' : num_days_awarded, 
-           'expiry' : userobject.client_paid_status_expiry,
-           'status' : userobject.client_paid_status}
-    
-    email_utils.send_admin_alert_email(message_content, subject="%s %s VIP Awarded - %s" % (settings.APP_NAME, userobject.username, payment_provider))
-    messages.send_vip_congratulations_message(userobject)
+      (userobject.client_paid_status, userobject.client_paid_status_expiry) = \
+        get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_days_awarded)
+        
+      utils.put_userobject(userobject)
+        
+      message_content = """<strong>VIP status awarded</strong><br><br>
+      User: %(username)s<br>    
+      App name: %(app_name)s<br>
+      Payment provider: %(payment_provider)s<br>
+      Payer account: %(payer_account_info)s<br>
+      Description: %(description)s<br>
+      Days awarded: %(num_days_awarded)s<br>
+      Expiry date: %(expiry)s<br>
+      Status: %(status)s<br>
+      <br>
+      ==========================================<br>
+      <strong>Admin Stuff:</strong>
+      %(admin_info)s<br>
+      """ % {'app_name' : settings.APP_NAME, 
+             'payment_provider' : payment_provider, 
+             'payer_account_info' : payer_account_info,
+             'username':  userobject.username, 
+             'description' : profile_utils.get_base_userobject_title('en', userobject.key.urlsafe()),
+             'num_days_awarded' : num_days_awarded, 
+             'expiry' : userobject.client_paid_status_expiry,
+             'status' : userobject.client_paid_status,
+             'admin_info' : utils.generate_profile_information_for_administrator(userobject, True),
+             }
+        
+      email_utils.send_admin_alert_email(message_content, subject="%s %s VIP Awarded - %s" % (settings.APP_NAME, userobject.username, payment_provider))
+      messages.send_vip_congratulations_message(userobject)
+        
+    finally:
+      translation.activate(previous_language)
+        
     
   except:
     # This is a very serious error - someone has been awarded VIP status, but it was not stored correctly. 
@@ -326,6 +344,7 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
     except:
       error_reporting.log_exception(logging.critical)
       
+  return message_content
     
     
 
@@ -344,8 +363,8 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
       check_payment_and_update_structures(userobject, currency, num_days_awarded, 
                                           num_days_awarded, txn_id, "manually assigned")
     
-    update_userobject_vip_status("manually awarded", userobject,  num_days_awarded, payer_account_info = "N/A - manually awarded") 
-    return http_utils.ajax_compatible_http_response(request, "Done")
+    message_content = update_userobject_vip_status("manually awarded", userobject,  num_days_awarded, payer_account_info = "N/A - manually awarded") 
+    return http_utils.ajax_compatible_http_response(request, message_content)
   
   except:
     error_reporting.log_exception(logging.critical)

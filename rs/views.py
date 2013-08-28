@@ -301,7 +301,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         viewed_profile_data_fields['html_for_mail_history_summary'] = html_for_mail_history_summary
         viewed_profile_data_fields['account_has_been_removed_message'] = account_has_been_removed_message
         viewed_profile_data_fields['debugging_html'] = debugging_html
-        viewed_profile_data_fields['profile_information_for_admin'] = utils.generate_profile_information_for_administrator(owner_userobject, display_userobject)
+        viewed_profile_data_fields['profile_information_for_admin'] = utils.generate_profile_information_for_administrator(display_userobject, utils.user_is_admin(owner_userobject))
         viewed_profile_data_fields['about_user_dialog_popup'] = about_user_dialog_popup
         
         

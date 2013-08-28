@@ -228,7 +228,7 @@ def display_userobject_second_half_summary(viewer_userobject, display_userobject
         generated_html += u'</div> <!-- end grid8 -->'
         generated_html += u'</div> <!-- end grid10 -->\n'
         
-        generated_html += utils.generate_profile_information_for_administrator(viewer_userobject, display_userobject)
+        generated_html += utils.generate_profile_information_for_administrator(display_userobject, utils.user_is_admin(viewer_userobject))
         
         
         return generated_html
