@@ -52,7 +52,7 @@ from models import UnreadMailCount, CountInitiateContact
 from utils_top_level import serialize_entity, deserialize_entity
 
 import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
-import vip_paypal_structures, vip_sms_payment_processing
+import vip_paypal_structures, vip_sms_payment_structures
 from rs.import_search_engine_overrides import *
 
 import base64
@@ -1628,18 +1628,18 @@ def generate_fortumo_data(request, username, owner_nid):
     fortumo_data = {}
     show_fortumo_options = False
     try:
-        if not vip_sms_payment_processing.TESTING_COUNTRY:
+        if not vip_sms_payment_structures.TESTING_COUNTRY:
             http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
         else: 
             error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-            http_country_code = vip_sms_payment_processing.TESTING_COUNTRY    
+            http_country_code = vip_sms_payment_structures.TESTING_COUNTRY    
             
         # Lookup currency for the country
-        if http_country_code in vip_sms_payment_processing.valid_countries:
+        if http_country_code in vip_sms_payment_structures.valid_countries:
             show_fortumo_options = True
-            fortumo_data['radio_options'] = vip_sms_payment_processing.generate_fortumo_options(http_country_code, owner_nid)
+            fortumo_data['radio_options'] = vip_sms_payment_structures.generate_fortumo_options(http_country_code, owner_nid)
     
-        fortumo_data['country_override'] = vip_sms_payment_processing.TESTING_COUNTRY
+        fortumo_data['country_override'] = vip_sms_payment_structures.TESTING_COUNTRY
         fortumo_data['show_fortumo_options'] = show_fortumo_options
         fortumo_data['service_id'] = settings.fortumo_web_apps_service_id
         

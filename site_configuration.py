@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-08-26-1750'
+VERSION_ID = '2013-08-28-1148'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = False
@@ -47,7 +47,7 @@ ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhe
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
 TESTING_FORTUMO_PAYMENTS = False
-BUILD_STAGING = False # forces upload to staging server as opposed to the real server
+BUILD_STAGING = True # forces upload to staging server as opposed to the real server
 
 # The following variable reates to the flash/video conference code, which is almost done, but not activated and
 # without any current plans for additional coding hours to get it to release quality. 
@@ -104,7 +104,7 @@ else:
 if BUILD_STAGING:
     # we are uploading the code for the "discrete_build" website to a staging appid - this is used for debugging the code
     # in the actual AppEngine (in-the-cloud) environment without uploading it to the live server. 
-    app_id_dict['discrete_build'] = staging_appid, 
+    app_id_dict[BUILD_NAME] = staging_appid, 
     
 if TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp'
