@@ -662,7 +662,7 @@ def display_conversation_summary(request, have_sent_messages_object,
         # if the checkbox is shown, then we are in the mailbox view of the message. Therefore, indicate additional information
         # about the user who has sent the message.
         if show_checkbox_beside_summary:
-            summary_table = utils.generate_profile_summary_table(request, other_userobject)
+            summary_table = utils.generate_profile_summary_table(request.LANGUAGE_CODE, other_userobject)
         else:
             summary_table = ''
                         

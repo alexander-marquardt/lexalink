@@ -292,18 +292,24 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
   try:
     
     previous_language = translation.get_language()# remember the original language, so we can set it back when we finish 
+    lang_code = 'en'
     try:
       # Set translation language so that the generated profile description (title) is in english
-      translation.activate('en')      
+      translation.activate(lang_code)      
   
     
       (userobject.client_paid_status, userobject.client_paid_status_expiry) = \
         get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_days_awarded)
         
       utils.put_userobject(userobject)
+      
+      profile_href = "http://www.%(domain_name)s%(profile_href)s" % {
+        'domain_name': settings.DOMAIN_NAME, 
+        'profile_href' :  profile_utils.get_userprofile_href(lang_code, userobject),
+      }      
         
       message_content = """<strong>VIP status awarded</strong><br><br>
-      User: %(username)s<br>    
+      User: <a href="%(href)s">%(username)s</a><br>    
       App name: %(app_name)s<br>
       Payment provider: %(payment_provider)s<br>
       Payer account: %(payer_account_info)s<br>
@@ -319,7 +325,8 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
              'payment_provider' : payment_provider, 
              'payer_account_info' : payer_account_info,
              'username':  userobject.username, 
-             'description' : profile_utils.get_base_userobject_title('en', userobject.key.urlsafe()),
+             'href' :  profile_href,
+             'description' : profile_utils.get_base_userobject_title(lang_code, userobject.key.urlsafe()),
              'num_days_awarded' : num_days_awarded, 
              'expiry' : userobject.client_paid_status_expiry,
              'status' : userobject.client_paid_status,

@@ -109,7 +109,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
     
     
     
-        generated_html += utils.generate_profile_summary_table(request, display_userobject)
+        generated_html += utils.generate_profile_summary_table(request.LANGUAGE_CODE, display_userobject)
 
 
         if not display_userobject.user_is_marked_for_elimination:

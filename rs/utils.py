@@ -155,9 +155,9 @@ def generic_html_generator_for_list(lang_idx, field_name, list_of_field_vals, ma
     
 #############################################
 
-def generate_profile_summary_table(request, profile):
+def generate_profile_summary_table(request_lang_code, profile):
 
-    current_language = request.LANGUAGE_CODE
+    current_language = request_lang_code
     lang_idx = localizations.input_field_lang_idx[current_language]
     
     generated_html = ''
