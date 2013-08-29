@@ -296,8 +296,7 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
     try:
       # Set translation language so that the generated profile description (title) is in english
       translation.activate(lang_code)      
-  
-    
+   
       (userobject.client_paid_status, userobject.client_paid_status_expiry) = \
         get_new_vip_status_and_expiry(userobject.client_paid_status_expiry, num_days_awarded)
         
@@ -333,7 +332,7 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
              'admin_info' : utils.generate_profile_information_for_administrator(userobject, True),
              }
         
-      email_utils.send_admin_alert_email(message_content, subject="%s %s VIP Awarded - %s" % (settings.APP_NAME, userobject.username, payment_provider))
+      email_utils.send_admin_alert_email(message_content, subject="%s %s VIP Awarded - Service: %s" % (settings.APP_NAME, userobject.username, payment_provider))
       messages.send_vip_congratulations_message(userobject)
         
     finally:
@@ -347,7 +346,7 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
     try: 
       # In case there is a problem with sending the error alert
       message_content = "Failed to award VIP status. See logs for error"
-      email_utils.send_admin_alert_email(message_content, subject="%s Paypal Error VIP" % settings.APP_NAME)
+      email_utils.send_admin_alert_email(message_content, subject="%s VIP error - %s" % (settings.APP_NAME, payment_provider))
     except:
       error_reporting.log_exception(logging.critical)
       
