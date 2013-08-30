@@ -749,8 +749,8 @@ if settings.BUILD_NAME == "discrete_build":
     
 elif settings.BUILD_NAME == "language_build":
     support_email_address = 'ilikelanguages@lexabit.com'
-    sender_address = u"ILikeLanguages - Customer Support <%s>" % support_email_address
-    sender_address_html = u"ILikeLanguages - Customer Support &lt;%s&gt;"  % support_email_address
+    sender_address = u"I Like Languages - Customer Support <%s>" % support_email_address
+    sender_address_html = u"I Like Languages - Customer Support &lt;%s&gt;"  % support_email_address
     
 else:
     support_email_address = "%support@%s" % domain_name
