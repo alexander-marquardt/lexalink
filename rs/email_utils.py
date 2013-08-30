@@ -649,7 +649,8 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
         message.html = u"<p>%s," % ugettext("Hello %(username)s") % {'username': userobject.username}
         message.html += "%(message_text)s<br>%(cheers)s<br>" % {'message_text' : message_text, 'cheers' : ugettext("Cheers")}
                                               
-        message.html += u"Alex (support@%(app_name)s.com)<br>%(link_to_build)s<br><br><br><br>" % {
+        message.html += u"Alex (%(support_email_address)s)<br>%(link_to_build)s<br><br><br><br>" % {
+            'support_email_address' : constants.support_email_address,
             'app_name': settings.APP_NAME, 'link_to_build': link_to_build()}
         message.html += u"<p>%(notification_control)s" % {'notification_control': get_notification_control_html(userobject)}     
         

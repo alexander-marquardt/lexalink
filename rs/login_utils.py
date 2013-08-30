@@ -868,9 +868,10 @@ def verify_user_login(request, login_dict):
             
         generated_html += """<div>
         <p><p>%(problem_or_suggestion)s: \
-        <strong>support@%(app_name)s.com</strong>.<p><p><p><p><p><p><p><p></div>
+        <strong>%(support_email_address)s</strong>.<p><p><p><p><p><p><p><p></div>
         """ % {'problem_or_suggestion' : ugettext("If you have any problems or suggestions, send us a message at"),
-                'app_name': settings.APP_NAME}
+                'app_name': settings.APP_NAME,
+                'support_email_address' : constants.support_email_address}
     
 
     

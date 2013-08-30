@@ -434,30 +434,6 @@ hours_between_new_contacts_notifications = {
 
     
 ###################################################
-## START Administrator/Site Email Addresses
-
-domain_name = domain_name_dict[settings.BUILD_NAME]
-appspot_match = re.match(r'(.*).appspot.com', domain_name)
-if appspot_match:
-    domain_name = "%s.appspotmail.com" % appspot_match.group(1)
-    logging.info("Changing mailing doman name to %s" % domain_name)
-
-if settings.BUILD_NAME == "discrete_build":
-    # Special case for the "discrete" site, because we don't want to explicitly say the name of the site in the address field
-    sender_address = u"RS - Customer Support <support@%s>" % domain_name
-    sender_address_html = u"RS - Customer Support &lt;support@%s&gt;" % domain_name
-    admin_address = u"Admin <support@%s>" % domain_name
-else:
-    sender_address = u"%s - Customer Support <support@%s>" % (app_name_dict[settings.BUILD_NAME], domain_name)
-    sender_address_html = u"%s - Customer Support &lt;support@%s&gt;" % (app_name_dict[settings.BUILD_NAME], domain_name)
-    admin_address = u"Admin <support@%s>" % domain_name
-    
-    
-## END Administrator/Site Email Addresses
-###################################################
-    
-    
-###################################################
 ## START Site-description 
 ADULT_ORIENTED_SITE = False # used in determining what sort of behavior (ie. photo uploads) is allowed, and instructions that will be shown
 SITE_IS_TOTALLY_FREE = True    
@@ -736,9 +712,65 @@ class ContactIconText():
         
     icon_images = {'favorite': 'star.png', 'wink':wink_icon, 'kiss':'kiss.png', 'key':'key.png', 'chat_friend' : 'chat_bubble.png', 'blocked' : 'stop.png'}
 
+
+
+
+MONTH_NAMES = {
+    1: ugettext_lazy('January'),
+    2: ugettext_lazy('February'),
+    3: ugettext_lazy('March'),
+    4: ugettext_lazy('April'),
+    5: ugettext_lazy('May'),
+    6: ugettext_lazy('June'),
+    7: ugettext_lazy('July'),
+    8: ugettext_lazy('August'),
+    9: ugettext_lazy('September'),
+    10: ugettext_lazy('October'),
+    11: ugettext_lazy('November'),
+    12: ugettext_lazy('December'),
+}
+
+
+        
+###################################################
+## START Administrator/Site Email Addresses
+
+domain_name = domain_name_dict[settings.BUILD_NAME]
+appspot_match = re.match(r'(.*).appspot.com', domain_name)
+if appspot_match:
+    domain_name = "%s.appspotmail.com" % appspot_match.group(1)
+    logging.info("Changing mailing doman name to %s" % domain_name)
+
+if settings.BUILD_NAME == "discrete_build":
+    # Special case for the "discrete" site, because we don't want to explicitly say the name of the site in the address field
+    support_email_address = "support@%s" % domain_name
+    sender_address = u"RS - Customer Support <%s>" % support_email_address
+    sender_address_html = u"RS - Customer Support &lt;%s&gt;" % support_email_address
+    
+elif settings.BUILD_NAME == "language_build":
+    support_email_address = 'ilikelanguages@lexabit.com'
+    sender_address = u"ILikeLanguages - Customer Support <%s>" % support_email_address
+    sender_address_html = u"ILikeLanguages - Customer Support &lt;%s&gt;"  % support_email_address
+    
+else:
+    support_email_address = "%support@%s" % domain_name
+    sender_address = u"%s - Customer Support <%s>" % (app_name_dict[settings.BUILD_NAME], support_email_address)
+    sender_address_html = u"%s - Customer Support &lt;%s&gt;" % (app_name_dict[settings.BUILD_NAME], support_email_address)
+    
+admin_address = sender_address
+
+# Add the support email address as an "exempt" (admin) email address - if these email addresses are used for registering an account
+# then limits on the number of accounts that can be registered per email address will be ignored.
+REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET.add(support_email_address)
+
+## END Administrator/Site Email Addresses
+###################################################
+        
+        
 template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'app_name' : site_configuration.APP_NAME,
                           'domain_name' : site_configuration.DOMAIN_NAME,
+                          'support_email_address' : support_email_address,
                           'site_type' : SITE_TYPE,
                           'company_name' : COMPANY_NAME,
                           'company_www' : COMPANY_WWW,
@@ -760,23 +792,4 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'SHOW_VIP_UPGRADE_OPTION' : SHOW_VIP_UPGRADE_OPTION,
                           'ADULT_ORIENTED_SITE' : ADULT_ORIENTED_SITE, 
                           'SITE_IS_TOTALLY_FREE' : SITE_IS_TOTALLY_FREE, 
-                          }
-
-
-MONTH_NAMES = {
-    1: ugettext_lazy('January'),
-    2: ugettext_lazy('February'),
-    3: ugettext_lazy('March'),
-    4: ugettext_lazy('April'),
-    5: ugettext_lazy('May'),
-    6: ugettext_lazy('June'),
-    7: ugettext_lazy('July'),
-    8: ugettext_lazy('August'),
-    9: ugettext_lazy('September'),
-    10: ugettext_lazy('October'),
-    11: ugettext_lazy('November'),
-    12: ugettext_lazy('December'),
-}
-
-# Add the support email address as an "exempt" (admin) email address
-REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET.add("support@%s" % domain_name)
+                          }        
