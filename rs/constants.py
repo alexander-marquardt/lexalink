@@ -70,7 +70,7 @@ if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
 else:
-    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 5
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 8
     
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
@@ -81,7 +81,7 @@ if SHOW_VIP_UPGRADE_OPTION:
     # VIP purchase is available - this user should pay if they want to send more messages.
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 2 # can only send X messages to another user in a window period
 else:
-    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 4
+    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 5
     
 # If the users are "chat friends" then they can send more messages between them in time window period. 
 VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
