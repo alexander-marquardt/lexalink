@@ -860,7 +860,8 @@ def verify_user_login(request, login_dict):
             
         generated_html += """<div class="cl-text-large-format"><p><p>** %(if_not_received)s</div>
         <div class="cl-text-large-format"></div>""" % {
-        'if_not_received' : ugettext("""If you do not receive an email within a few minutes please check your Spam folder. 
+        'if_not_received' : ugettext("""Normally you will receive an email in few minutes, but this can sometimes take
+        up to a half hour. If you do not receive an email from us, please check your Spam folder. 
         If the message from %(app_name)s has been marked as Spam, please mark it as not Spam so that you can recieve 
         future emails from us without any problems.""") % {'app_name' : settings.APP_NAME},
                                                     }
