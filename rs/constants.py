@@ -753,7 +753,7 @@ elif settings.BUILD_NAME == "language_build":
     sender_address_html = u"I Like Languages - Customer Support &lt;%s&gt;"  % support_email_address
     
 else:
-    support_email_address = "%support@%s" % domain_name
+    support_email_address = "support@%s" % domain_name
     sender_address = u"%s - Customer Support <%s>" % (app_name_dict[settings.BUILD_NAME], support_email_address)
     sender_address_html = u"%s - Customer Support &lt;%s&gt;" % (app_name_dict[settings.BUILD_NAME], support_email_address)
     
