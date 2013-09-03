@@ -140,73 +140,73 @@ def send_generic_email_message(request):
     return return_val
 
 
-def send_confirmation_email(request):
+#def send_confirmation_email(request):
     
-    # sends an email to the user after their profile/email address has been successfully registered.
-    previous_language = translation.get_language() # remember the original language, so we can set it back when we finish     
+    ## sends an email to the user after their profile/email address has been successfully registered.
+    #previous_language = translation.get_language() # remember the original language, so we can set it back when we finish     
     
-    try:
-        uid =  email_address = remoteip = None
+    #try:
+        #uid =  email_address = remoteip = None
    
-        if request.method == 'POST':
-            uid = request.POST.get('uid',None)
-            email_address = request.POST.get('email_address', None)
-            remoteip = request.POST.get('remoteip', None)
-            lang_code = request.POST.get('lang_code', None)
+        #if request.method == 'POST':
+            #uid = request.POST.get('uid',None)
+            #email_address = request.POST.get('email_address', None)
+            #remoteip = request.POST.get('remoteip', None)
+            #lang_code = request.POST.get('lang_code', None)
 
 
-        if not uid or not email_address or not remoteip or not lang_code:    
-            error_message = u"uid = %s email_address = %s remoteip = %s lang_code = %s" % (uid, email_address, remoteip, lang_code)
-            error_reporting.log_exception(logging.critical, error_message = error_message, request=request)   
-            # return a non-errorr http response, so that this will not be re-queued -- this error will not resolve itself.
-            return http.HttpResponse(error_message)  
+        #if not uid or not email_address or not remoteip or not lang_code:    
+            #error_message = u"uid = %s email_address = %s remoteip = %s lang_code = %s" % (uid, email_address, remoteip, lang_code)
+            #error_reporting.log_exception(logging.critical, error_message = error_message, request=request)   
+            ## return a non-errorr http response, so that this will not be re-queued -- this error will not resolve itself.
+            #return http.HttpResponse(error_message)  
             
-        # set the language to be the users preferred language
-        translation.activate(lang_code)        
+        ## set the language to be the users preferred language
+        #translation.activate(lang_code)        
                 
-        try:
-            userobject = utils_top_level.get_object_from_string(uid)
-            # don't know how/why this can happen, but it may return a None object occasionally
-            assert(userobject != None)
-        except:
-            error_message = "Error getting userobject for: uid = %s" % (uid)
-            error_reporting.log_exception(logging.error, error_message = error_message, request = request)
-            # return a non-errorr http response, so that this will not be re-queued -- this error will not resolve itself.
-            return http.HttpResponse(error_message)
+        #try:
+            #userobject = utils_top_level.get_object_from_string(uid)
+            ## don't know how/why this can happen, but it may return a None object occasionally
+            #assert(userobject != None)
+        #except:
+            #error_message = "Error getting userobject for: uid = %s" % (uid)
+            #error_reporting.log_exception(logging.error, error_message = error_message, request = request)
+            ## return a non-errorr http response, so that this will not be re-queued -- this error will not resolve itself.
+            #return http.HttpResponse(error_message)
         
         
-        username = userobject.username
-        logging.info("Preparing to send confirmation email to %s" % username)
+        #username = userobject.username
+        #logging.info("Preparing to send confirmation email to %s" % username)
         
-        message = mail.EmailMessage(sender=constants.sender_address,
-                                    subject=ugettext("Confirmation of your email address"))
+        #message = mail.EmailMessage(sender=constants.sender_address,
+                                    #subject=ugettext("Confirmation of your email address"))
         
-        message.to = u"%s <%s>" % (username, email_address)
+        #message.to = u"%s <%s>" % (username, email_address)
                 
-        message.html = u"<p>%s," % ugettext("Hello %(username)s") % {'username': username}
-        message.html += u"<p>%s." % ugettext("Your account has been correctly registered")
-        message.html += text_for_footer_on_registration_email(remoteip)  
-        message.html += get_notification_control_html(userobject)
-        message.body = html2text.html2text(message.html) 
+        #message.html = u"<p>%s," % ugettext("Hello %(username)s") % {'username': username}
+        #message.html += u"<p>%s." % ugettext("Your account has been correctly registered")
+        #message.html += text_for_footer_on_registration_email(remoteip)  
+        #message.html += get_notification_control_html(userobject)
+        #message.body = html2text.html2text(message.html) 
         
-        message.send()
+        #message.send()
         
-        info_message = u"%s\n%s\n%s\n" % (message.sender, message.to, message.body)
-        logging.info(info_message)
+        #info_message = u"%s\n%s\n%s\n" % (message.sender, message.to, message.body)
+        #logging.info(info_message)
         
-        return_val = http.HttpResponse(info_message)
+        #return_val = http.HttpResponse(info_message)
     
-    except:
-        error_message = "Unknown error (message not configured correctly)"
-        error_reporting.log_exception(logging.error, error_message = error_message)
-        return_val = http.HttpResponseServerError(error_message)    
+    #except:
+        #error_message = "Unknown error (message not configured correctly)"
+        #error_reporting.log_exception(logging.error, error_message = error_message)
+        #return_val = http.HttpResponseServerError(error_message)    
 
-    finally:
-        # activate the original language -- not sure if this is really necessary, but is 
-        # somewhat safer (until I fully understand how multiple processes in a single thread are interacting)
-        translation.activate(previous_language)
+    #finally:
+        ## activate the original language -- not sure if this is really necessary, but is 
+        ## somewhat safer (until I fully understand how multiple processes in a single thread are interacting)
+        #translation.activate(previous_language)
         
-    return return_val
+    #return return_val
 
     
     
