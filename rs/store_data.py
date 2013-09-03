@@ -301,23 +301,23 @@ def store_about_user(request, owner_uid, section_name):
 
 
 #############################################
-def verify_email_address_is_valid_and_send_confirmation(request, userobject, email_address):
+#def verify_email_address_is_valid_and_send_confirmation(request, userobject, email_address):
     
 
-    # email_re is a built-in django regular expression that can be checked against for validity of email
-    # address. 
-    if email_re.match(email_address):
-        assert(userobject != None)
-        is_valid=True
-        countdown_time = 5 # give few seconds to make sure userobject has had time to propagate through servers (especially if this is a new registration) 
-                           # this is necessary because the task-queue could otherwise start in parallel with the writing of the userobject, which could 
-                           # cause a failure due to to email address not yet being stored properly.
-        taskqueue.add(queue_name = 'mail-queue',  countdown = countdown_time, url='/rs/admin/send_confirmation_email/',\
-                      params = {'uid': userobject.key.urlsafe(), 'email_address':email_address, 'remoteip': os.environ['REMOTE_ADDR'],
-                                'lang_code' : request.LANGUAGE_CODE})
-    else:
-        is_valid=False
-    return is_valid
+    ## email_re is a built-in django regular expression that can be checked against for validity of email
+    ## address. 
+    #if email_re.match(email_address):
+        #assert(userobject != None)
+        #is_valid=True
+        #countdown_time = 5 # give few seconds to make sure userobject has had time to propagate through servers (especially if this is a new registration) 
+                           ## this is necessary because the task-queue could otherwise start in parallel with the writing of the userobject, which could 
+                           ## cause a failure due to to email address not yet being stored properly.
+        #taskqueue.add(queue_name = 'mail-queue',  countdown = countdown_time, url='/rs/admin/send_confirmation_email/',\
+                      #params = {'uid': userobject.key.urlsafe(), 'email_address':email_address, 'remoteip': os.environ['REMOTE_ADDR'],
+                                #'lang_code' : request.LANGUAGE_CODE})
+    #else:
+        #is_valid=False
+    #return is_valid
 
 
 #############################################
@@ -382,8 +382,7 @@ def store_email_address(request, owner_uid):
             unique_last_login_offset = userobject.unique_last_login_offset_ref.get()
     
             if posted_email:
-                email_is_valid = \
-                    verify_email_address_is_valid_and_send_confirmation(request, userobject, posted_email)
+                email_is_valid = email_re.match(posted_email)
                 userobject.email_address_is_valid = email_is_valid
                 
                 if  email_is_valid:
@@ -1470,9 +1469,10 @@ def store_new_user_after_verify(request, fake_request=None):
                 # email address, since we have now confirmed that it is truly verified.
                 utils.update_email_address_on_user_tracker(userobject, login_dict['email_address'])
             try:
-                assert(verify_email_address_is_valid_and_send_confirmation(request, userobject, login_dict['email_address']))
+                # make sure that the email address is a valid email address.
+                assert(email_re.match(login_dict['email_address']))
             except:
-                error_reporting.log_exception(logging.warning, error_message = 'Unable to queue confirmation email to %s' % login_dict['email_address'])       
+                error_reporting.log_exception(logging.warning, error_message = 'Email address %s is invalid' % login_dict['email_address'])       
         
                 
         userobject.registration_ip_address = environ['REMOTE_ADDR']   
@@ -1481,6 +1481,7 @@ def store_new_user_after_verify(request, fake_request=None):
         utils.store_login_ip_information(request, userobject)
         
         utils.put_userobject(userobject)
+        logging.info("New userobject stored: Username: %s Email: %s" %  (userobject.username, userobject.email_address))
 
         login_utils.store_session(request, userobject)
         
