@@ -203,13 +203,7 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
             
             <div class="grid_7 omega" > """ % {"section_name": section_name}
             
-            
-            if is_primary_user and (input_type == "about_user" or input_type == "about_user_dialog_popup"):
-                # The following text will be shown during "edit" and "viewing" of the primary users profile.
-                if len(userobject.about_user) < constants.ABOUT_USER_MIN_DESCRIPTION_LEN:
-                    generated_html += '<span class="cl-literally-display-user-text">%s\n\n</span>' % ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
-                                                                               'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}            
-            
+
             generated_html += """
             <div id="id-display-%(section_name)s-section">
             <a name = "display-%(section_name)s-section"></a>
@@ -247,6 +241,9 @@ of %(app_name)s will be eliminated and banned.") % {'app_name': settings.APP_NAM
                 
             elif input_type == "about_user" or input_type == "about_user_dialog_popup":
                 if is_primary_user:
+                    if len(userobject.about_user) < constants.ABOUT_USER_MIN_DESCRIPTION_LEN:
+                        generated_html += '<span class="cl-literally-display-user-text">%s\n\n</span>' % ugettext("""Write a descripion about yourself %(num_chars)s %(num_lines)s""") % {'num_chars' : (constants.ABOUT_USER_MIN_DESCRIPTION_LEN), 
+                                'num_lines' : constants.ABOUT_USER_MIN_NUM_LINES_INT}                    
                     generated_html += "<strong>%s:</strong> " % (ugettext("Your description"))
                 (text_about_user, length_of_about_user) = cls.get_text_about_user(userobject, is_primary_user, section_name)
                 generated_html += """<span class="cl-literally-display-user-text">%s</span>""" % text_about_user
