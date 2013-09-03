@@ -123,6 +123,7 @@ class UserProfileDetails:
             ('dark_brown',)     + ugettext_tuple(ugettext('Dark brown hair')),
             ('black',)          + ugettext_tuple(ugettext('Black hair')),
             ('red',)            + ugettext_tuple(ugettext('Red hair')),
+            ('wite',)           + ugettext_tuple(ugettext('White hair')), 
             ('gray',)           + ugettext_tuple(ugettext('Gray hair')),
             ('bald',)           + ugettext_tuple(ugettext('Bald hair')),
             ('prefer_no_say',)  + ugettext_tuple(ugettext('Prefer not to say')),        
