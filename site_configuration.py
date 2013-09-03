@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-09-03-1015'
+VERSION_ID = '2013-09-03-xxxx'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = True
@@ -66,13 +66,13 @@ if os.path.isdir('rs/proprietary'):
         # the build name.
         
         BUILD_NAME = 'discrete_build'     # originally used for RomanceSecreto.com
-        #BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
+        BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
         #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
-        BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
+        #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
         #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
         #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
         #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
-        BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
+        #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     
     else:
         BUILD_NAME = BATCH_BUILD_NAME

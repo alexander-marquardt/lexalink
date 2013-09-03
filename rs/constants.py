@@ -293,45 +293,32 @@ CLOUD_STORE_NUM_BACKUPS_TO_KEEP = 3
 ## START Advertising related constants
 # define the list of pages which we want to advertise
 lexabit_self_publicity_ads = []
+
+# If this is True, then we include the javascript and text that will be shown which the user clicks on "show me more info" 
+# with respect to purchasing advertising on our websites.
 append_more_advertising_info_dialog = False
 
 # Pages with Google Ads (ie. family friendly) first.
 # Note: these lists may not represent the final advertisements that are shown to the user. We post-process this information
 # to include criteria such as users search parameters and profile information - ie. if a man is looking for a man, we may
-# show them gay advertisements in addition to what is listed below. 
+# show them gay advertisements in addition to what is listed below (see: get_additional_ads_to_append() for implementation)
 
 if settings.BUILD_NAME == 'friend_build':
     enable_google_ads = True
-    lexabit_self_publicity_ads.append('single_build')
-    lexabit_self_publicity_ads.append('language_build')
-    lexabit_self_publicity_ads.append('mature_build')
-    
+
 if settings.BUILD_NAME == 'language_build':
     enable_google_ads = True
-    lexabit_self_publicity_ads.append('single_build')
-    lexabit_self_publicity_ads.append('friend_build')
-    lexabit_self_publicity_ads.append('mature_build')
     
 if settings.BUILD_NAME == 'mature_build':
-    # gay_build, and lesbian_build ads will be dynamically added depending on the search criteria.
     enable_google_ads = True
-    lexabit_self_publicity_ads.append('single_build')    
-    lexabit_self_publicity_ads.append('language_build')
-    lexabit_self_publicity_ads.append('friend_build')
     
 if settings.BUILD_NAME == 'single_build':
     enable_google_ads = True
-    lexabit_self_publicity_ads.append('language_build')
-    lexabit_self_publicity_ads.append('friend_build')    
-    lexabit_self_publicity_ads.append('mature_build')
-    
-    
+
+
 if settings.BUILD_NAME == 'lesbian_build':
     enable_google_ads = True
-    lexabit_self_publicity_ads.append('single_build')
-    lexabit_self_publicity_ads.append('language_build')
-    lexabit_self_publicity_ads.append('friend_build')
-    lexabit_self_publicity_ads.append('mature_build')
+    
     
 
 # Pages that are more adult oriented.
@@ -340,11 +327,9 @@ if settings.BUILD_NAME == 'discrete_build':
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
     # relevant (ie. a woman seeking a woman will be shown an ad for lesbian_buildHeart)
     enable_google_ads = False
-    lexabit_self_publicity_ads.append('single_build')
-    lexabit_self_publicity_ads.append('mature_build')    
-    lexabit_self_publicity_ads.append('Client_Ad1')
     lexabit_self_publicity_ads.append('friend_build')
-    append_more_advertising_info_dialog = True
+    #lexabit_self_publicity_ads.append('Client_Ad1')    
+    #append_more_advertising_info_dialog = True
     
 
 if settings.BUILD_NAME == 'gay_build':
@@ -352,7 +337,6 @@ if settings.BUILD_NAME == 'gay_build':
     lexabit_self_publicity_ads.append('discrete_build')
     lexabit_self_publicity_ads.append('single_build')
     lexabit_self_publicity_ads.append('friend_build')
-    lexabit_self_publicity_ads.append('mature_build')
     
     
 if settings.BUILD_NAME == "swinger_build":
@@ -360,15 +344,14 @@ if settings.BUILD_NAME == "swinger_build":
     lexabit_self_publicity_ads.append('discrete_build')
     lexabit_self_publicity_ads.append('friend_build')
     lexabit_self_publicity_ads.append('lesbian_build')
-    lexabit_self_publicity_ads.append('single_build')
-    lexabit_self_publicity_ads.append('mature_build')
     
     
     
-if settings.BUILD_NAME == 'gay_build' or settings.BUILD_NAME == 'swinger_build' or settings.BUILD_NAME == 'discrete_build':
+if not enable_google_ads:
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 4
     #enable_affiliate_united_ads = False
 else:
+    # we are showing google ads, we don't want to distract too much with our own advertising.
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 1
     #enable_affiliate_united_ads = False   
     

@@ -87,6 +87,7 @@ def get_additional_ads_to_append(request, userobject = None):
         search_preference = request.GET.get('preference', '')
         search_sex = request.GET.get('sex', '')
         search_relationship_status = request.GET.get('relationship_status', '')
+        search_age = request.GET.get('age', '')
         
         if userobject:
             search_preferences = userobject.search_preferences2.get()
@@ -100,30 +101,42 @@ def get_additional_ads_to_append(request, userobject = None):
             userobject_sex = userobject.sex
             userobject_preference = userobject.preference
             userobject_relationship_status = userobject.relationship_status
+            userobject_age = userobject.age
         else:
             userobject_sex = None
             userobject_preference = None
             userobject_relationship_status = None
+            userobject_age = None
     
         if settings.BUILD_NAME == "single_build" or settings.BUILD_NAME == "discrete_build":
             # let the lesbians and gays know about our other websites
-            if (userobject_sex == 'male' and userobject_preference == 'male') or \
-               ( search_sex == 'male' and search_preference == 'male'):
-                additional_ads_to_append.append("gay_build")
+            #if (userobject_sex == 'male' and userobject_preference == 'male') or \
+               #( search_sex == 'male' and search_preference == 'male'):
+                #additional_ads_to_append.append("gay_build")
+
             if (userobject_sex == 'female' and userobject_preference == 'female') or \
                (search_sex == 'female' and search_preference == 'female'):
+                additional_ads_to_append.append("lesbian_build")
                 additional_ads_to_append.append("lesbian_build")
                 
         if settings.BUILD_NAME == "discrete_build":
             # Let the swingers know about swinger_build site and the lesbian_build site
             if (userobject_sex == 'couple' or userobject_preference == 'couple') or \
                (search_sex == 'couple' or search_preference == 'couple'):
-                additional_ads_to_append.append("swinger_build")
+                additional_ads_to_append.append("lesbian_build")
                 additional_ads_to_append.append("lesbian_build")
                 
             if (userobject_relationship_status == 'single' or search_relationship_status == 'single'):
                 additional_ads_to_append.append("single_build")
+                additional_ads_to_append.append("single_build")
                 
+                
+        # Let all mature people (irregardless of which site we are showing), know about the "mature" website
+        if settings.BUILD_NAME != "mature_build":
+            if userobject_age >= '50' or search_age >= '50':
+                additional_ads_to_append.append('mature_build')    
+                additional_ads_to_append.append('mature_build')    
+            
 
     except:
         error_reporting.log_exception(logging.critical)  
