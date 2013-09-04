@@ -26,8 +26,9 @@
 ################################################################################
 
 import settings
+import logging
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
-from rs import models
+from rs import models, error_reporting
 from django import template, shortcuts
 
 try:
@@ -445,16 +446,12 @@ def login(request, is_admin_login = False):
             }, **constants.template_common_fields))
         body_main_html = my_template.render(context)
         
-        if request.REQUEST.get("is_ajax_call", ''):
-            # We check if it is an ajax request to see the entire page should be loaded, or just the body.
-            http_response = http_utils.ajax_compatible_http_response(request, body_main_html)
-            
-        else:               
-            http_response = shortcuts.render_to_response("common_wrapper.html", dict({   
-                'meta_info': meta_info,
-                'wrapper_data_fields' : common_data_structs.wrapper_data_fields,
-                'body_main_html' : body_main_html,
-            }, **constants.template_common_fields))
+
+        http_response = shortcuts.render_to_response("common_wrapper.html", dict({   
+            'meta_info': meta_info,
+            'wrapper_data_fields' : common_data_structs.wrapper_data_fields,
+            'body_main_html' : body_main_html,
+        }, **constants.template_common_fields))
 
         return http_response
     
