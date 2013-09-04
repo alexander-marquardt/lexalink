@@ -728,7 +728,7 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
         
         # Will run periodic clean-up routines to remove registrations that were not completed
         secret_verification_code = utils.compute_secret_verification_code(username, email_address)
-        creation_day = datetime.datetime.now().strftime("%d-%m-%Y")
+        creation_day = datetime.datetime.now().strftime("%Y-%m-%d")
         ip_address = os.environ['REMOTE_ADDR']
         
         
@@ -798,9 +798,9 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
 
 def verify_user_login(request, login_dict):
 
-    # Receives the user_login values and forces user to verify captcha or click on registration link (in an email) before
-    # registration data is stored. Note, after this function is called, the store_data.store_new_user_after_verify() function
-    # finishes the process/storage (called from the captcha, or from an email link sent to the user).
+    # Receives the user_login values and forces user to verify a registration link (in an email) before
+    # registration data is stored. Note, the store_data.store_new_user_after_verify() function
+    # finishes the process/storage (called an email link sent to the user).
 
     try:
         generated_html = ''
