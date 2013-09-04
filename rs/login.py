@@ -42,7 +42,7 @@ except:
 # will be automatically logged out if the user goes to the home page.
 
 
-def login(request, is_admin_login = False, referring_code = None):
+def login(request, is_admin_login = False):
     # displays the information for allowing the user to log in. Also, processes the post information
     # from login attempts.
     # 
@@ -455,16 +455,7 @@ def login(request, is_admin_login = False, referring_code = None):
                 'wrapper_data_fields' : common_data_structs.wrapper_data_fields,
                 'body_main_html' : body_main_html,
             }, **constants.template_common_fields))
-        
-        if referring_code:
-            # write the code into a cookie on the users computer, so that if/when they register we can credit the referring profile
-            logging.info("Writing referring_code %s to cookie" % referring_code)
-            num_days = 30
-            max_age = num_days*24*60*60  
-            expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
-            http_response.set_cookie(constants.REFERRING_COOKIE_CODE , value=referring_code, max_age=max_age, expires=expires, path='/', domain=None, secure=None)
-                
-    
+
         return http_response
     
     except: 
