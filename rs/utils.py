@@ -672,24 +672,11 @@ def gen_passwd():
     return newpasswd
 
 
-
-EMAIL_VERIFICATION_CONFIRMATION_HASH_SIZE = 5
-
-# we need to prevent any possible confusion with the secret verification code -- therefore, replace the following 
-# characters: 1, i, I, l, L, 0, O with less confusing (easier to distinguish) chars. 
-intab = "1iIlL0O"
-outtab = "ABCDEFG"
-trantab = string.maketrans(intab, outtab)
-
 def compute_secret_verification_code(username, email_address):
     # computes a secret code that is used for verifying a particular username and email_address.
-    # Note: we add "_random_string_" into the string before hashing to make it more difficult for someone 
-    # to reverse engineer the code that we use for computing the hash. 
-    string_to_hash = "%s_random_string_%s" % (username, email_address)
-    secret_verification_code = passhash(string_to_hash)
-    secret_verification_code = secret_verification_code[:EMAIL_VERIFICATION_CONFIRMATION_HASH_SIZE]
-    secret_verification_code = secret_verification_code.translate(trantab)
-    secret_verification_code = secret_verification_code.upper()
+
+    # generate a 6 digit random number (stored as a string for historical reasons)
+    secret_verification_code = "%d" % random.randint(100000, 999999)
     return secret_verification_code
 
 
