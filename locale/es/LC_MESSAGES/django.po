@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-03 12:38-0400\n"
+"POT-Creation-Date: 2013-09-04 07:39-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 "Hemos cerrado %(app_name)s.com por aproximadamente %(shutdown_time)s minutos "
 "para el mantenimiento. Esperamos abrir en %(minutes_remaining)s minutos."
 
-#: rs/ajax.py:505 rs/html_container.py:250
+#: rs/ajax.py:505 rs/html_container.py:247
 msgid "Your description"
 msgstr "Tu descripción"
 
@@ -266,8 +266,8 @@ msgstr "sitio para conocer gente y hacer amigos"
 #: rs/constants.py:451 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
 #: rs/templates/login.html:285
-msgid "dating website to meet mature adults over 50 years old"
-msgstr "sitio web para conocer adultos mayores de 50 años"
+msgid "dating website to meet mature adults over 40 years old"
+msgstr "sitio web para conocer adultos mayores de 40 años"
 
 #: rs/constants.py:564
 msgid "VIP member"
@@ -610,21 +610,6 @@ msgstr "Esta cuenta se ha pedido desde la dirección IP: %(remoteip)s."
 msgid "Someone with the IP address: %(remoteip)s has requested this."
 msgstr ""
 
-#: rs/email_utils.py:182
-msgid "Confirmation of your email address"
-msgstr "Confirmación de tu dirección de correo electrónico"
-
-#: rs/email_utils.py:186 rs/email_utils.py:230 rs/email_utils.py:290
-#: rs/email_utils.py:368 rs/email_utils.py:649 rs/login_utils.py:677
-#: rs/login_utils.py:700
-#, python-format
-msgid "Hello %(username)s"
-msgstr "Hola %(username)s"
-
-#: rs/email_utils.py:187
-msgid "Your account has been correctly registered"
-msgstr "Tu cuenta ha sido registrada correctamente"
-
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -633,6 +618,12 @@ msgstr "Tu cuenta ha sido registrada correctamente"
 #: rs/email_utils.py:225 rs/reset_password.py:83
 msgid "New password"
 msgstr "Contraseña nueva"
+
+#: rs/email_utils.py:230 rs/email_utils.py:290 rs/email_utils.py:368
+#: rs/email_utils.py:649 rs/login_utils.py:677 rs/login_utils.py:700
+#, python-format
+msgid "Hello %(username)s"
+msgstr "Hola %(username)s"
 
 #: rs/email_utils.py:231
 #, python-format
@@ -1523,7 +1514,7 @@ msgstr ""
 msgid "Has not written a description"
 msgstr "No tiene una descripción"
 
-#: rs/html_container.py:210
+#: rs/html_container.py:245
 #, python-format
 msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
 msgstr ""
@@ -2429,6 +2420,7 @@ msgid "from"
 msgstr "desde"
 
 #: rs/login_utils.py:863
+#, python-format
 msgid ""
 "Normally you will receive an email in few minutes, but this can sometimes "
 "take\n"
@@ -3816,151 +3808,151 @@ msgstr "Lesbianas Sin Etiquetas"
 msgid "Physical Relationship"
 msgstr "Relación Física"
 
-#: rs/user_profile_main_data.py:325
+#: rs/user_profile_main_data.py:326
 msgid "Completed Profiles First"
 msgstr "Perfiles Completos Primero"
 
-#: rs/user_profile_main_data.py:326
+#: rs/user_profile_main_data.py:327
 msgid "Recent Logins First"
 msgstr "Últimas Entradas Primero"
 
-#: rs/user_profile_main_data.py:336
+#: rs/user_profile_main_data.py:337
 msgid "I Am Currently In"
 msgstr "Actualmente&nbsp;Estoy&nbsp;En"
 
-#: rs/user_profile_main_data.py:338
+#: rs/user_profile_main_data.py:339
 msgid "I / We Live In"
 msgstr "Vivo / Vivimos En"
 
-#: rs/user_profile_main_data.py:340
+#: rs/user_profile_main_data.py:341
 msgid "I Live In"
 msgstr "Vivo&nbsp;En"
 
-#: rs/user_profile_main_data.py:345
+#: rs/user_profile_main_data.py:346
 msgid "I Prefer"
 msgstr "Prefiero"
 
-#: rs/user_profile_main_data.py:347
+#: rs/user_profile_main_data.py:348
 msgid "I / We Would Like To Meet"
 msgstr "Me&nbsp;/&nbsp;Nos&nbsp;Gustaría&nbsp;Conocer"
 
-#: rs/user_profile_main_data.py:349
+#: rs/user_profile_main_data.py:350
 msgid "I Would Like To Meet"
 msgstr "Me&nbsp;Gustaría&nbsp;Conocer"
 
-#: rs/user_profile_main_data.py:353
+#: rs/user_profile_main_data.py:354
 msgid "Email Address (Confidential)"
 msgstr "Correo&nbsp;Electrónico&nbsp;(Confidencial)"
 
-#: rs/user_profile_main_data.py:354
+#: rs/user_profile_main_data.py:355
 msgid "Verify Password"
 msgstr "Verificar&nbsp;Contraseña"
 
-#: rs/user_profile_main_data.py:355
+#: rs/user_profile_main_data.py:356
 msgid "Password"
 msgstr "Contraseña"
 
-#: rs/user_profile_main_data.py:356
+#: rs/user_profile_main_data.py:357
 msgid "Username (Visible To Others)"
 msgstr "Nick&nbsp;/&nbsp;Nombre&nbsp;(Visible&nbsp;A&nbsp;Otros)"
 
-#: rs/user_profile_main_data.py:359
+#: rs/user_profile_main_data.py:360
 msgid "I Am"
 msgstr "Soy"
 
-#: rs/user_profile_main_data.py:360
+#: rs/user_profile_main_data.py:361
 msgid "My Age"
 msgstr "Mi Edad"
 
-#: rs/user_profile_main_data.py:362
+#: rs/user_profile_main_data.py:363
 msgid "I Am / We Are"
 msgstr "Soy / Somos"
 
-#: rs/user_profile_main_data.py:363
+#: rs/user_profile_main_data.py:364
 msgid "My / Our Age (Average)"
 msgstr "Mi / Nuestra Edad (Promedia)"
 
-#: rs/user_profile_main_data.py:366
+#: rs/user_profile_main_data.py:367
 msgid "Sub Region"
 msgstr "Sub&nbsp;Región"
 
-#: rs/user_profile_main_data.py:367 rs/user_profile_main_data.py:553
+#: rs/user_profile_main_data.py:368 rs/user_profile_main_data.py:554
 msgid "Region"
 msgstr "Región"
 
-#: rs/user_profile_main_data.py:370
+#: rs/user_profile_main_data.py:371
 msgid "My Relationship Status"
 msgstr "Mi&nbsp;Estado&nbsp;Actual"
 
-#: rs/user_profile_main_data.py:372
+#: rs/user_profile_main_data.py:373
 msgid "My / Our Relationship Status"
 msgstr "Mi / Nuestro Estado"
 
-#: rs/user_profile_main_data.py:374
+#: rs/user_profile_main_data.py:375
 msgid "Type Of Relationship"
 msgstr "Tipo&nbsp;De&nbsp;Relación"
 
-#: rs/user_profile_main_data.py:376 rs/user_profile_main_data.py:583
+#: rs/user_profile_main_data.py:377 rs/user_profile_main_data.py:584
 msgid "Language That I Want To Practice"
 msgstr "Quiero&nbsp;Practicar"
 
-#: rs/user_profile_main_data.py:377
+#: rs/user_profile_main_data.py:378
 msgid "My Native Language"
 msgstr "Mi&nbsp;Idioma&nbsp;Materno"
 
-#: rs/user_profile_main_data.py:552
+#: rs/user_profile_main_data.py:553
 msgid "Country"
 msgstr "País"
 
-#: rs/user_profile_main_data.py:554
+#: rs/user_profile_main_data.py:555
 msgid "Sub region"
 msgstr "Sub&nbsp;región"
 
-#: rs/user_profile_main_data.py:555
+#: rs/user_profile_main_data.py:556
 msgid "Sex"
 msgstr "Sexo"
 
-#: rs/user_profile_main_data.py:556 rs/user_profile_main_data.py:586
+#: rs/user_profile_main_data.py:557 rs/user_profile_main_data.py:587
 msgid "Age"
 msgstr "Edad"
 
-#: rs/user_profile_main_data.py:557 rs/user_profile_main_data.py:587
+#: rs/user_profile_main_data.py:558 rs/user_profile_main_data.py:588
 msgid "Order"
 msgstr "Ordenar"
 
-#: rs/user_profile_main_data.py:560
+#: rs/user_profile_main_data.py:561
 msgid "I Would Like To See"
 msgstr "Yo&nbsp;Quiero&nbsp;Ver"
 
-#: rs/user_profile_main_data.py:562
+#: rs/user_profile_main_data.py:563
 msgid "That Are Interested In"
 msgstr "Que&nbsp;Están&nbsp;Buscando"
 
-#: rs/user_profile_main_data.py:564
+#: rs/user_profile_main_data.py:565
 msgid "That Prefer"
 msgstr "Que&nbsp;Prefieren"
 
-#: rs/user_profile_main_data.py:565
+#: rs/user_profile_main_data.py:566
 msgid "Their Age"
 msgstr "Su&nbsp;Edad"
 
-#: rs/user_profile_main_data.py:567
+#: rs/user_profile_main_data.py:568
 msgid "Relationship Status"
 msgstr "Estado"
 
-#: rs/user_profile_main_data.py:569
+#: rs/user_profile_main_data.py:570
 msgid "Looking For"
 msgstr "Busco A"
 
-#: rs/user_profile_main_data.py:584
+#: rs/user_profile_main_data.py:585
 msgid "In Exchange For (I Speak)"
 msgstr "A&nbsp;Cambio&nbsp;De&nbsp;(Yo&nbsp;Hablo)"
 
-#: rs/user_profile_main_data.py:585
+#: rs/user_profile_main_data.py:586
 msgid "With People That Are"
 msgstr "Con&nbsp;Personas&nbsp;Que&nbsp;Son"
 
-#: rs/user_profile_main_data.py:717 rs/user_profile_main_data.py:718
+#: rs/user_profile_main_data.py:718 rs/user_profile_main_data.py:719
 msgid "Any Language"
 msgstr "Cualquier&nbsp;idioma"
 
@@ -4204,7 +4196,7 @@ msgstr "días"
 msgid "month"
 msgstr "mes"
 
-#: rs/vip_paypal_structures.py:62
+#: rs/vip_paypal_structures.py:61 rs/vip_paypal_structures.py:62
 msgid "months"
 msgstr "meses"
 
@@ -5448,6 +5440,12 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "Confirmation of your email address"
+#~ msgstr "Confirmación de tu dirección de correo electrónico"
+
+#~ msgid "Your account has been correctly registered"
+#~ msgstr "Tu cuenta ha sido registrada correctamente"
 
 #~ msgid "total of"
 #~ msgstr "total de"

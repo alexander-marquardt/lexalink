@@ -448,7 +448,7 @@ elif settings.BUILD_NAME == "friend_build":
     SITE_TYPE = ugettext_lazy('website to meet people and make friends')
     
 elif settings.BUILD_NAME == "mature_build":
-    SITE_TYPE = ugettext_lazy('dating website to meet mature adults over 50 years old')
+    SITE_TYPE = ugettext_lazy('dating website to meet mature adults over 40 years old')
     
 else:
     raise Exception("Unknown settings.BUILD_NAME")
