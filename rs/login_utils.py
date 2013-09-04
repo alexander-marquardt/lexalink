@@ -641,13 +641,6 @@ def check_authorization_info_for_email_registrations_today(creation_day, email_a
         
     return q.count(constants.MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW)
     
-def check_authorization_info_for_ip_address_registrations_today(creation_day, ip_address):
-    
-    q = models.EmailAutorizationModel.query()   
-    q = q.filter(models.EmailAutorizationModel.ip_address == ip_address)
-    q = q.filter(models.EmailAutorizationModel.creation_day == creation_day)
-
-    return q.count(constants.MAX_REGISTRATIONS_SINGLE_IP)  
 
 def email_address_already_has_account_registered(email_address):
     
@@ -746,18 +739,6 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
             return ugettext("We already sent an email to %(email_address)s and cannot send another email to the same account until tomorrow - please register with a different email address") % {
                 'email_address' : email_address}
         
-        #ip_address_registration_count = check_authorization_info_for_ip_address_registrations_today(creation_day, ip_address)
-        #if ip_address_registration_count >= constants.MAX_REGISTRATIONS_SINGLE_IP:
-            #error_message="Exceeded registrations allowed (%s) on IP: %s" % (constants.MAX_REGISTRATIONS_SINGLE_IP, ip_address)
-            #error_reporting.log_exception(logging.critical, error_message=error_message)  
-            #return u"El IP: %s ya ha registrado demasiadas cuentas hoy." % (ip_address)
-        
-        ## the following is just a warning (even though I report it as an error so that I don't miss it)
-        ## We allow the registration to proceede
-        #if ip_address_registration_count >= constants.MAX_REGISTRATIONS_SINGLE_IP/2:
-            #logging.error("Getting close to limit for registrations permitted (%s) from IP: %s" % (constants.MAX_REGISTRATIONS_SINGLE_IP, ip_address))    
- 
- 
  
         authorization_info = query_for_authorization_info(username, secret_verification_code)
         # make sure that the combination of email_address and username has not already been written to the database. 

@@ -125,17 +125,13 @@ SESSION_EXPIRE_HOURS = 90 * 24 # 90 days before sessions expire (if we need to m
 
 MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we will store for a single profile in the UserTracker object.
 
-
-MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW = 2 # If they exceed this number of attempted registrations with a single email address in one day
-                                   # then they will not be sent any more registration emails. 
-                                   # This prevents someone from spamming an email address with multiple registration requests. 
-                                   
-MAX_REGISTRATIONS_SINGLE_IP = 4 # single IP address will be denied if this number is exceeded within a single day. 
-
+# If a user exceeds the following number of attempted registrations with a single email address in one day
+# then they will not be sent any more registration emails. This prevents someone from spamming an email address 
+# with multiple registration requests. 
+MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW = 2 
 
 SMALL_TIME_WINDOW_HOURS_FOR_COUNT_UNACCEPTABLE_PROFILE_REPORTS = 3 # hours
 SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN = 4 # if this number of reports is received within the window, profile and IP banned
-BANNED_IP_NUM_HOURS_TO_BLOCK = 48 #hours (not used yet)
 
 ## START - Malicious User Controls
 ######################################################################
