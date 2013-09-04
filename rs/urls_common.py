@@ -27,7 +27,7 @@
 
 from django.conf.urls.defaults import *
 
-from rs import views, ajax, store_data, search_results, mailbox, contacts, \
+from rs import views, login, ajax, store_data, search_results, mailbox, contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, lang_settings, channel_support, vip_status_support, \
      videochat, rendering, sitemaps, mail_handlers, track_viewers, messages
@@ -37,8 +37,8 @@ import gaesessions
 import logging
 
 urlpatterns = patterns('',
-    url(r'^$', views.login, name="views.login"),
-    (r'^/$', views.login),     
+    url(r'^$', login.login, name="views.login"),
+    (r'^/$', login.login),     
     
     #(r'^ajax/$', rendering.render_main_html, {'generated_html': '', 'render_wrapper_only' : True}), 
         
@@ -321,7 +321,7 @@ urlpatterns = patterns('',
     (r'^rs/admin/fix_items_sub_batch/$', batch_jobs.fix_items_sub_batch),
     
     
-    (r'^rs/admin/login/$', views.login, {'is_admin_login': True}),
+    (r'^rs/admin/login/$', login.login, {'is_admin_login': True}),
       
     (r'^rs/admin/count_clients/$', admin.count_clients),
     
