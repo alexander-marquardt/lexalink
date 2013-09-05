@@ -26,8 +26,9 @@
 ################################################################################
 
 import settings
-import logging, StringIO, pickle
+import logging, StringIO, pickle, datetime, os
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
+from rs import store_data, channel_support, lang_settings, http_utils
 from rs import models, error_reporting
 from django import template, shortcuts, http
 from django.utils import simplejson
@@ -158,16 +159,16 @@ def login(request, is_admin_login = False):
                         email_or_username_login = "username"
                         username = login_dict['username_email'].upper()
                         q_username_email = q_last_login.filter(models.UserModel.username == username)
-                        if (rematch_non_alpha.search(username) != None or len(username) < 3):
-                            error_list.append(ErrorMessages.username_alphabetic)
+                        if (constants.rematch_non_alpha.search(username) != None or len(username) < 3):
+                            error_list.append(constants.ErrorMessages.username_alphabetic)
                                             
                     
                     
                     # Verify that the password only contains acceptable characters  - 
                     # this is necessary for the password hashing algorithm which only works with ascii chars, 
                     # and make sure that it is not empty.
-                    if not login_dict['password'] or rematch_non_alpha.search(login_dict['password']) != None :
-                        error_list.append(ErrorMessages.password_alphabetic)
+                    if not login_dict['password'] or constants.rematch_non_alpha.search(login_dict['password']) != None :
+                        error_list.append(constants.ErrorMessages.password_alphabetic)
                     else:
                         if not is_admin_login:
                             # make sure that the password is not empty -- should never even get into here
@@ -242,7 +243,7 @@ def login(request, is_admin_login = False):
                             
                         else: # the profile (email + password OR username) did not appear in the list of eliminated userobjects
                             
-                            error_list.append(ErrorMessages.incorrect_username_password)
+                            error_list.append(constants.ErrorMessages.incorrect_username_password)
                                              
                         
                     if userobject:
@@ -289,7 +290,7 @@ def login(request, is_admin_login = False):
                                 
                                 
                             (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-                             get_or_create_unique_last_login(userobject, userobject.username)
+                             login_utils.get_or_create_unique_last_login(userobject, userobject.username)
                             
                             
                             # remove chat boxes from previous sessions.
@@ -308,9 +309,9 @@ def login(request, is_admin_login = False):
                             utils.put_userobject(userobject)
     
                         # update session to point to the current userobject
-                        store_session(request, userobject)
+                        login_utils.store_session(request, userobject)
                     
-    
+                        http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
                         logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
     
                         # Set language to whatever the user used the last time they were logged in. 
@@ -439,29 +440,30 @@ def verify_user_email(request, login_dict):
         if authorization_result != "OK":     
             generated_html += u"""<p></p><p>%s</p>""" % (authorization_result)                
         
-        generated_html += u"""
-        <p><p>
-        %(activate_code_to)s <strong> %(email_address)s </strong> %(from)s 
-        <em>%(sender_email)s</em>. 
-        """ % {'activate_code_to' : ugettext("We have sent an activation email to"), 
-               'email_address': email_address, 'from' : ugettext("from"), 
-               'sender_email': constants.sender_address_html,}
-            
-        generated_html += """<p><p>** %(if_not_received)s
-        """ % {
-        'if_not_received' : ugettext("""Normally you will receive an email in few minutes, but this can sometimes take
-        up to a half hour. If you do not receive an email from us, please check your Spam folder. 
-        If the message from %(app_name)s has been marked as Spam, please mark it as not Spam.""") % {'app_name' : settings.APP_NAME},
-                                                    }
-
-            
-        generated_html += """<div>
-        <p><p>%(problem_or_suggestion)s: \
-        <strong>%(support_email_address)s</strong>.<p><p><p><p><p><p><p><p></div>
-        """ % {'problem_or_suggestion' : ugettext("If you have any problems or suggestions, send us a message at"),
-                'app_name': settings.APP_NAME,
-                'support_email_address' : constants.support_email_address}
+        else:
+            generated_html += u"""
+            <p><p>
+            %(activate_code_to)s <strong> %(email_address)s </strong> %(from)s 
+            <em>%(sender_email)s</em>. 
+            """ % {'activate_code_to' : ugettext("We have sent an activation email to"), 
+                   'email_address': email_address, 'from' : ugettext("from"), 
+                   'sender_email': constants.sender_address_html,}
+                
+            generated_html += """<p><p>** %(if_not_received)s
+            """ % {
+            'if_not_received' : ugettext("""Normally you will receive an email in few minutes, but this can sometimes take
+            up to a half hour. If you do not receive an email from us, please check your Spam folder. 
+            If the message from %(app_name)s has been marked as Spam, please mark it as not Spam.""") % {'app_name' : settings.APP_NAME},
+                                                        }
     
+                
+            generated_html += """<div>
+            <p><p>%(problem_or_suggestion)s: \
+            <strong>%(support_email_address)s</strong>.<p><p><p><p><p><p><p><p></div>
+            """ % {'problem_or_suggestion' : ugettext("If you have any problems or suggestions, send us a message at"),
+                    'app_name': settings.APP_NAME,
+                    'support_email_address' : constants.support_email_address}
+        
 
         return generated_html
 
@@ -476,65 +478,71 @@ def process_registration(request):
     lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
     response_dict = {}
        
-    if request.method == 'POST':
-           
-        (login_allowed, message_for_client) = check_if_login_country_allowed(request)
-        
-        if not login_allowed:
-            logging.critical("Must handle countries that are not allowed")  
-            assert(0)
-        
-        login_dict = login_utils.get_login_dict_from_post(request, "signup_fields")
-                
-        login_dict['country'] = request.REQUEST.get('country', '----')
-        login_dict['sub_region'] = request.REQUEST.get('sub_region', '----')
-        login_dict['region'] = request.REQUEST.get('region', '----')
-        
-        # re-write all user names to upper-case to prevent confusion
-        # and amateur users from not being able to log in.
-        login_dict['username'] = login_dict['username'].upper()
+    try:
+        if request.method == 'POST':
+               
+            (login_allowed, message_for_client) = check_if_login_country_allowed(request)
+            
+            if not login_allowed:
+                logging.critical("Must handle countries that are not allowed")  
+                assert(0)
+            
+            login_dict = login_utils.get_login_dict_from_post(request, "signup_fields")
                     
-        # if email address is given, make sure that it is valid
-        if login_dict['email_address'] and login_dict['email_address'] != "----":
-            # remove blank spaces from the email address -- to make it more likely to be acceptable
-            login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
-            login_dict['email_address'] = login_dict['email_address'].lower()
-        
-        (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
-        
-        # Now check if username is already taken
-        query = models.UserModel.query().filter(models.UserModel.username == login_dict['username'])
-        query_result = query.fetch(limit=1)
-        if len(query_result) > 0:
-            error_dict['username'] = ErrorMessages.username_taken
-        else:
-            # now check if the username is in the process of being registered (in EmailAuthorization model)
-            query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
+            login_dict['country'] = request.REQUEST.get('country', '----')
+            login_dict['sub_region'] = request.REQUEST.get('sub_region', '----')
+            login_dict['region'] = request.REQUEST.get('region', '----')
+            
+            # re-write all user names to upper-case to prevent confusion
+            # and amateur users from not being able to log in.
+            login_dict['username'] = login_dict['username'].upper()
+                        
+            # if email address is given, make sure that it is valid
+            if login_dict['email_address'] and login_dict['email_address'] != "----":
+                # remove blank spaces from the email address -- to make it more likely to be acceptable
+                login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
+                login_dict['email_address'] = login_dict['email_address'].lower()
+            
+            (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
+            
+            # Now check if username is already taken
+            query = models.UserModel.query().filter(models.UserModel.username == login_dict['username'])
             query_result = query.fetch(limit=1)
             if len(query_result) > 0:
-                error_dict['username'] = ErrorMessages.username_taken 
+                error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken
+            else:
+                # now check if the username is in the process of being registered (in EmailAuthorization model)
+                query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
+                query_result = query.fetch(limit=1)
+                if len(query_result) > 0:
+                    error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken 
+                    
+            # if there are no errors, then store the signup information.
+            if not error_dict:
+        
                 
-        # if there are no errors, then store the signup information.
-        if not error_dict:
+                # encrypt the password -- but only if it is a new password or if the password
+                # has been changed by the user if it does not match the password stored in password_hashed
+                password_encrypted = utils.passhash(login_dict['password'])
+                login_dict['password'] = password_encrypted
     
-            
-            # encrypt the password -- but only if it is a new password or if the password
-            # has been changed by the user if it does not match the password stored in password_hashed
-            password_encrypted = utils.passhash(login_dict['password'])
-            login_dict['password'] = password_encrypted
-
-            # we should totally remove 'password_verify' from the UserModel eventually -- but for 
-            # now just set it to the hashed password (since we have just replaced the password with the hash).
-            login_dict['password_verify'] = login_dict['password']
-                           
-            response =  verify_user_email(request, login_dict)
-            response_dict['Registration_OK'] = response
+                # we should totally remove 'password_verify' from the UserModel eventually -- but for 
+                # now just set it to the hashed password (since we have just replaced the password with the hash).
+                login_dict['password_verify'] = login_dict['password']
+                               
+                response =  verify_user_email(request, login_dict)
+                response_dict['Registration_OK'] = response
+            else:
+                response_dict['Registration_Error'] = error_dict
+                
+            json_response = simplejson.dumps(response_dict)
+            return http.HttpResponse(json_response, mimetype='text/javascript')  
+        
         else:
-            response_dict['Registration_Error'] = error_dict
-            
-        json_response = simplejson.dumps(response_dict)
-        return http.HttpResponse(json_response, mimetype='text/javascript')  
-    
-    else:
-        error_reporting.log_exception(logging.critical, error_message = "process_registration was not called with POST data")  
-        return http.HttpResponseBadRequest("Error")
+            error_message = "process_registration was not called with POST data"
+            error_reporting.log_exception(logging.critical, error_message = error_message)  
+            return http.HttpResponseBadRequest(error_message)
+    except:
+        error_message = "Unknown error"
+        error_reporting.log_exception(logging.critical, error_message = error_message)          
+        return http.HttpResponseBadRequest(error_message)

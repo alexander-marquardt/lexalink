@@ -129,6 +129,10 @@ MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we wi
 # then they will not be sent any more registration emails. This prevents someone from spamming an email address 
 # with multiple registration requests. 
 MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW = 2 
+# single IP address will be denied if this number is exceeded within a single day. This is necessary to 
+# prevent an attack in which someone attempts to register a large number of email addresses that do not
+# belong to them.
+MAX_REGISTRATIONS_SINGLE_IP = 20  
 
 SMALL_TIME_WINDOW_HOURS_FOR_COUNT_UNACCEPTABLE_PROFILE_REPORTS = 3 # hours
 SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN = 4 # if this number of reports is received within the window, profile and IP banned

@@ -149,4 +149,4 @@ except:
     fortumo_web_apps_secret = 'your fortumo secret hash goes here'
 
     REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET = set([])
-    
+    REGISTRATION_EXEMPT_IP_ADDRESS_SET  = set([])
