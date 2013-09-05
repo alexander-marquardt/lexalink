@@ -126,8 +126,7 @@ td#id-td-horizontal-bar-second-cell
 	vertical-align: middle;
 }
 
-
-.cl-over-image {
+#id-over-image {
     height: 320px;
     display: block;
 }

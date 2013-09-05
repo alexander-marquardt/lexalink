@@ -38,7 +38,6 @@
         </div>
 
         <input type=hidden name=login_type value=signup_fields>
-        <input type=hidden id="id-signup_fields-password_hashed" name=password_hashed value="replace_this">
 
         <div class="grid_6 alpha omega cl-login-fields-background">
             <div class="cl-padding-login-fields">
@@ -89,25 +88,38 @@
         $("#id-signup_fields-sub_region").hide();
 
 
-        // If previous posted values are available for the location, then load the appropriate drop-down menus and set
-        // the values to reflect previous selection
-        if ($('#id-hidden_country').val()) {
-
-            // load options available for the region
-            load_selector_options(region_id, $('#id-hidden_country').val(), default_text['region'], true, $('#id-hidden_region').val(),
-                    default_text['not_available'], "{{ live_static_dir }}", "/rs/ajax/get_location_options/");
-
-            // if the region value is defined and is set to "----", then this indicates that the
-            // region has not been selected -- therefore don't display the sub_region
-            // if it is defined and not "----", then it should be displayed
-            if ($('#id-hidden_region').val() && $('#id-hidden_region').val() != "----") {
-                load_selector_options(sub_region_id, $('#id-hidden_region').val(), default_text['sub_region'], true, $('#id-hidden_sub_region').val(),
-                        default_text['not_available'], "{{ live_static_dir }}", "/rs/ajax/get_location_options/");
-
-            }
-        }
         load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
     }
+
+
+    function clear_registration_errors(registration_errors_dict) {
+        for (key in registration_errors_dict) {
+            var input_field_id_selector = "#id-signup_fields-" + key;
+            $(input_field_id_selector).removeClass("cl-highlight_border");
+        }
+    }
+
+    function show_registration_errors(registration_errors_dict) {
+        
+        // loop over the objects in the errors_dict
+        var error_html = '<ul>';
+        for (key in registration_errors_dict) {
+            var input_field_id_selector = "#id-signup_fields-" + key;
+            $(input_field_id_selector).addClass("cl-highlight_border");
+            error_html += '<li class="cl-indent">'+ registration_errors_dict[key];
+        }
+        error_html += '</ul>';
+        $('#id-show_after_registration_dialog_box').html(error_html);
+        $('#id-show_after_registration_dialog_box').dialog({
+            width: 400
+        }).dialog('widget').position({
+            my: "center",
+            at: "center",
+            of: "#id-over-image"
+        });
+
+    }
+
 
 
     function handle_user_registration_form() {
@@ -116,7 +128,11 @@
         // The following code automatically submits the file that is selected by the user
         // as opposed to adding a "submit" button. This is more consistent with the other
         // interfaces on the website, and makes more sense.
+        var registration_errors_dict = [];
+
         $("#id-submit-signup-form").submit(function(e) {
+
+            clear_registration_errors(registration_errors_dict);
 
             var submit_signup_form_url = "{% url login.process_registration %}";
             $(this).ajaxSubmit({url: submit_signup_form_url,
@@ -127,9 +143,15 @@
                 success:  function(post_response) {
                     if ("Registration_OK" in post_response) {
                         $('#id-show_after_registration_dialog_box').html(post_response["Registration_OK"]);
-                        $('#id-show_after_registration_dialog_box').dialog();
+                        $('#id-show_after_registration_dialog_box').dialog({
+                            width: 500
+                        }).dialog('widget').position({
+                            my: "center",
+                            at: "center"
+                        });
                     } else if ("Registration_Error" in post_response) {
-debugger;
+                        registration_errors_dict = post_response["Registration_Error"];
+                        show_registration_errors(registration_errors_dict);
                     } else {
                         var readable_object = JSON.stringify(post_response);
                         report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);

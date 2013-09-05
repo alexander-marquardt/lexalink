@@ -1371,7 +1371,7 @@ def store_new_user_after_verify(request, fake_request=None):
                     
         # create a dictionary for the "GET string" in case there are errors and we need to re-direct the user back to the login page.
         back_to_login_page_dict = {}       
-        for field in UserSpec.signup_fields_to_display_in_order +['sub_region', 'region', 'country', 'password_hashed', 'login_type', 'referring_code']:
+        for field in UserSpec.signup_fields_to_display_in_order +['sub_region', 'region', 'country', 'login_type', 'referring_code']:
             # remember that sub_region, region, can be empty if they have not been specified -- this is assumed by the code that
             # pulls data from ajax calls -- therefore, this should not be considered an error.
             if not fake_request:
@@ -1440,8 +1440,7 @@ def store_new_user_after_verify(request, fake_request=None):
     try:
         
         # Cleanup the login_dict before passing it in to the UserModel
-        if 'password_hashed' in login_dict:
-            del login_dict['password_hashed']
+
         if 'login_type' in login_dict:
             del login_dict['login_type']
         

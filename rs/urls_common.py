@@ -51,9 +51,6 @@ urlpatterns = patterns('',
     (r'^rs/auth/crawler_login/$', views.crawler_login),
     (r'^rs/crawler_auth/$', views.crawler_auth),
     
-    
-    
-    (r'^rs/resubmit_email/$', login_utils.resubmit_email),
     (r'^rs/auth/clear_session/$', login_utils.clear_session),
     
     # NOTE: we pass the UID into functions that retrieve or modify user information, so that

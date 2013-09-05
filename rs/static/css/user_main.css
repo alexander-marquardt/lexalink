@@ -553,6 +553,8 @@ td.cl-registration-big-prompt-td {
     text-align: center;
 }
 
+
+
 /* allow the user to click on the image to get into the results */
 #id-image-link {
         position: absolute;
@@ -561,6 +563,11 @@ td.cl-registration-big-prompt-td {
         width: 400px;
         height: 520px;
         background-color: transparent;
+}
+
+
+.cl-highlight_border {
+    border: solid 3px #FF0000;
 }
 
 .cl-dot {
@@ -579,7 +586,6 @@ td.cl-registration-big-prompt-td {
 .cl-4-black_dot {
     background: url(../img/4-black_dot_10px_10px.png) center center no-repeat;
 }
-/* *** End login customizations *** */
 
 a.cl-dialog_anchor {text-decoration: underline; color:#000 ; outline: none; font-weight: bold; } /* #B857AB close to purple */
 a.cl-dialog_anchor:hover {text-decoration: underline; color:#EB485D ; outline: none;  font-weight: bold;} /* #EB485D soft RED */

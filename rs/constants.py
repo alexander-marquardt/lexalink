@@ -564,14 +564,14 @@ class ErrorMessages():
     # all user-oriented error messages should appear here, so that translations into 
     # other languages will be easier in the future.
 
-    username_alphabetic = ugettext_lazy("Username needs at least 3 characters and can only contain letters \
+    username_alphabetic = ugettext_lazy("<strong>Username</strong> needs at least 3 characters and can only contain letters \
 and numbers. Additionally, it may not contain any spaces.")
-    password_required = ugettext_lazy("Password required")
-    password_alphabetic = ugettext_lazy("Password may only contain letters and numbers, and cannot contain spaces.")
-    passwords_not_match = ugettext_lazy("The password and the verification must be the same.")
-    username_taken = ugettext_lazy("The username that you have selected is not available.")
-    incorrect_username_password = ugettext_lazy("Username/email + password is incorrect")
-    email_address_invalid = ugettext_lazy("The email address is not valid")
+    password_required = ugettext_lazy("<strong>Password</strong> required")
+    password_alphabetic = ugettext_lazy("<strong>Password</strong> may only contain letters and numbers, and cannot contain spaces.")
+    passwords_not_match = ugettext_lazy("The <strong>Password</strong> and the <strong>Verification Password</strong> must be the same.")
+    username_taken = ugettext_lazy("The <strong>Username</strong> that you have selected is not available.")
+    incorrect_username_password = ugettext_lazy("<strong>Username/email + Password</strong> is incorrect")
+    email_address_invalid = ugettext_lazy("The <strong>Email Address</strong> is not valid")
 
     @classmethod
     def num_messages_to_other_in_time_window(cls, txt_for_when_quota_resets):

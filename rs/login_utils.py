@@ -28,7 +28,7 @@
 
 """ This module contains support functions for logging-in the user. """
 
-import datetime, logging, pickle, StringIO, os, re
+import datetime, logging, os, re
 from google.appengine.ext import ndb 
 
 from google.appengine.api import taskqueue
@@ -102,7 +102,7 @@ def generate_get_string_for_passing_login_fields(post_dict):
     # This is necessary for certian steps during the login process.
     
     fields_to_pass_in_url = []
-    fields_names = UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country', 'password_hashed', 'login_type']
+    fields_names = UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country', 'login_type']
     for field in fields_names: 
         to_append = "%s=%s" % (field, post_dict[field])
         fields_to_pass_in_url.append(to_append)
@@ -186,13 +186,13 @@ def error_check_signup_parameters(login_dict, lang_idx):
         if not login_dict['password']:
             error_dict['password'] = u"%s" % constants.ErrorMessages.password_required
         elif login_dict['password'] != login_dict["password_verify"]:
-            error_dict['password'] = u"%s" % constants.ErrorMessages.passwords_not_match
+            error_dict['password_verify'] = u"%s" % constants.ErrorMessages.passwords_not_match
             
         if len(login_dict["password_verify"]) > constants.MAX_TEXT_INPUT_LEN:
             # this should never trigger, and is therefore just a message for admin (ie. in english only) - but this 
             # must be added to error_dict to ensure that the users login is aborted later on.
-            error_dict['password_verify'] = u"%s" % "Password must be less than %s chars" % constants.MAX_TEXT_INPUT_LEN
-            error_reporting.log_exception(logging.critical, "Password entered is longer than %s chars" % constants.MAX_TEXT_INPUT_LEN)  
+            error_dict['password_verify'] = u"%s" % "<strong>Password</strong> must be less than %s chars" % constants.MAX_TEXT_INPUT_LEN
+            error_reporting.log_exception(logging.critical, error_message = error_dict['password_verify'])  
             
         # Verify that the password only contains acceptable characters  - this is necessary for 
         # the password hashing algorithm which only works with ascii chars.
@@ -206,7 +206,8 @@ def error_check_signup_parameters(login_dict, lang_idx):
             
         if len(login_dict['username']) > constants.MAX_USERNAME_LEN:
             # this should never trigger, and is therefore just a message for admin (ie. in english only)
-            error_dict['username'] = "Username must be less than %s chars" % constants.MAX_USERNAME_LEN   
+            error_dict['username'] = "<strong>Username</strong> must be less than %s chars" % constants.MAX_USERNAME_LEN   
+            error_reporting.log_exception(logging.critical, error_message = error_dict['username'])  
                         
         def try_remaining_signup_fields(field_name):
             try:
@@ -215,7 +216,7 @@ def error_check_signup_parameters(login_dict, lang_idx):
                 user_profile_main_data.UserSpec.signup_fields_options_dict[field_name][lang_idx][login_dict[field_name]]
             except:
                 field_label = UserSpec.signup_fields[field_name]['label'][lang_idx]
-                error_dict[field_name] = """"%s" %s""" % (field_label, ugettext("is not valid"))
+                error_dict[field_name] = ugettext('<strong>%(field_label)s</strong> must be selected') % {'field_label': field_label}
             
         try_remaining_signup_fields("country")       
         try_remaining_signup_fields("sex")       
@@ -255,7 +256,7 @@ def get_login_dict_from_post(request, login_type):
         if login_type == 'signup_fields' or login_type == "left_side_fields":
             
             if login_type == 'signup_fields':
-                additional_fields =  ['password_hashed', 'country', 'region', 'sub_region']
+                additional_fields =  ['country', 'region', 'sub_region']
             else:
                 additional_fields = []
             fields_to_display_in_order = login_type + "_to_display_in_order"
@@ -547,29 +548,7 @@ def delete_or_undelete_account(request, owner_uid, delete_or_undelete):
         return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
     
 
-def extract_data_from_get(request):
-    
-    # gets user login info from the GET string that is passed in -- also, writes the login data into the "additional_form_data"
-    # string, which is useful for writing the data into a POST which will be posted to a storage function, if the validation
-    # is passed correctly.
-    
-    additional_form_data = ''
-    username = ''
-    email_address = ''
-    for field in UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country', 'password_hashed', 'login_type']: 
-        # Copy the GET into the hidden fields so they can be saved after the 
-        # the user has solved a captcha.
-        value = request.GET.get(field,'')
 
-        additional_form_data += '<input type="hidden" name="%s" value="%s" />\n' % (
-            field, value)
-        if field == 'username':
-            username = value
-        if field == 'email_address':
-            email_address = value
-            email_address = email_address.lower()
-            
-    return(additional_form_data, username, email_address)
 
 
 def extract_data_from_login_dict(login_dict):
@@ -581,7 +560,7 @@ def extract_data_from_login_dict(login_dict):
     additional_form_data = ''
     username = ''
     email_address = ''
-    for field in UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country', 'password_hashed', 'login_type']: 
+    for field in UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country', 'login_type']: 
         # Copy the POST into the hidden fields so they can be saved after the 
         # the user has solved a captcha.
         value = login_dict[field]
@@ -760,132 +739,3 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
         error_reporting.log_exception(logging.critical)   
         return 'Error'
         
-
-def verify_user_login(request, login_dict):
-
-    # Receives the user_login values and forces user to verify a registration link (in an email) before
-    # registration data is stored. Note, the store_data.store_new_user_after_verify() function
-    # finishes the process/storage (called an email link sent to the user).
-
-    try:
-        generated_html = ''
-        
-        (additional_form_data, username, email_address) = extract_data_from_login_dict(login_dict)        
-                   
-        email_is_entered = False        
-        if email_address and email_address != "----": 
-    
-            # if someone calls the associated URL without using our website (i.e hacking us), it is possible that they could pass in
-            # bad values, and register invalid emails and usernames -- catch this.
-            if (not email_re.match(email_address) or constants.rematch_non_alpha.search(username) != None or len(username) < 3):
-                error_message="Invalid data passed in: username: %s email_address: %s" % (username, email_address)
-                error_reporting.log_exception(logging.error, error_message=error_message)
-                raise Exception(error_message)
-                
-            
-            email_is_entered = True
-            
-            # pickle the GET string for re-insertion into the request object when the user clicks on the email link to
-            # validate their account. 
-            # We create a StringIO object because the pickle module expectes files to pickle the objects into. This is like a 
-            # fake file. 
-            pickled_login_get_dict_fake_file = StringIO.StringIO()
-            
-            pickle.dump(login_dict, pickled_login_get_dict_fake_file)        
-            pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
-            authorization_result = store_authorization_info_and_send_email(username, email_address, pickled_login_get_dict, request.LANGUAGE_CODE)   
-            pickled_login_get_dict_fake_file.close()
-
-                    
-        # the following string is just an enconding of relevant post data for inclusion in the URL as a GET.
-        string_for_get_login_data = generate_get_string_for_passing_login_fields(login_dict)
-        
-        assert(email_is_entered) 
-             
-        if authorization_result != "OK":     
-            generated_html += u"""
-                   <div class="cl-text-large-format">
-                   <p></p><p>%s</p>
-                   </div>
-                   """ % (authorization_result)                
-
-        href = "/%(locale)s/rs/resubmit_email/?%(string_for_get_login_data)s" % {
-            'locale' : request.LANGUAGE_CODE,
-            'string_for_get_login_data': string_for_get_login_data,
-            }
-        
-        generated_html += u"""
-        <div class="cl-text-large-format"><p><p>
-        %(activate_code_to)s <strong> %(email_address)s </strong> %(from)s 
-        <em>%(sender_email)s</em>. 
-        </div>
-        """ % {'activate_code_to' : ugettext("We have sent registration instructions to"), 
-               'email_address': email_address, 'from' : ugettext("from"), 
-               'sender_email': constants.sender_address_html,}
-            
-        generated_html += """<div class="cl-text-large-format"><p><p>** %(if_not_received)s</div>
-        <div class="cl-text-large-format"></div>""" % {
-        'if_not_received' : ugettext("""Normally you will receive an email in few minutes, but this can sometimes take
-        up to a half hour. If you do not receive an email from us, please check your Spam folder. 
-        If the message from %(app_name)s has been marked as Spam, please mark it as not Spam so that you can recieve 
-        future emails from us without any problems.""") % {'app_name' : settings.APP_NAME},
-                                                    }
-
-            
-        generated_html += """<div>
-        <p><p>%(problem_or_suggestion)s: \
-        <strong>%(support_email_address)s</strong>.<p><p><p><p><p><p><p><p></div>
-        """ % {'problem_or_suggestion' : ugettext("If you have any problems or suggestions, send us a message at"),
-                'app_name': settings.APP_NAME,
-                'support_email_address' : constants.support_email_address}
-    
-
-        return generated_html
-
-    except:
-        error_reporting.log_exception(logging.critical)   
-        return "Error"
-    
-        
-
-def resubmit_email(request):
-    # if the user made a mistake when entering their email, this provides a simple for for resubmitting their email 
-    # (without sending them back to the login page, which is another option)
-    
-    generated_html = ''
-    (additional_form_data, username, email_address) = extract_data_from_get(request)  
-       
-    
-    generated_html += u"""        
-    <script type="text/javascript" language="javascript">
-        $(document).ready(function(){
-        
-        mouseover_button_handler($("#id-submit-resubmit_email"))
-        
-     });
-     </script>                
-
-    
-    <p><p><p>%(if_email)s<strong> %(email_address)s </strong>
-    %(not_correct)s: </p>
-    <form id="id-%(section_name)s-form" method="POST" action="/%(lang_code)s/" rel="form-address:/%(lang_code)s/">
-    %(additional_form_data)s
-    <strong>%(email)s: </strong><input type="text" class="cl-standard-textinput-width-px" id="id-signup_fields-email_address" name="email_address" maxlength=100>
-    <input type=submit class = "cl-submit" id="id-submit-%(section_name)s" value="%(button_val)s">
-    </form>
-        
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    """ %   {'if_email' : ugettext("If the email address "), 'not_correct' : ugettext('is not correct, re-enter it here'), 
-             'lang_code': request.LANGUAGE_CODE, 
-             "email_address": email_address, 'section_name': 'resubmit_email', 'additional_form_data' : additional_form_data,
-             'email': ugettext("Email"), 'button_val' : ugettext("Change email address"),
-             }    
-    
-    nav_bar = ugettext("Registering")
-    return rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = nav_bar, 
-                                               link_to_hide = "login", enable_ads = False, hide_page_from_webcrawler = True,
-                                               show_search_box = False, hide_why_to_register = True)
-
-
-
-

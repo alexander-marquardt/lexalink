@@ -26,11 +26,13 @@
 ################################################################################
 
 import settings
-import logging
+import logging, StringIO, pickle
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
 from rs import models, error_reporting
 from django import template, shortcuts, http
 from django.utils import simplejson
+from django.core.validators import email_re
+from django.utils.translation import ugettext
 
 try:
     from rs.proprietary import search_engine_overrides
@@ -325,6 +327,7 @@ def login(request, is_admin_login = False):
                 
 
             else:
+                logging.error("login_type = %s" % login_type)
                 assert(login_type == '') 
                 
     
@@ -395,13 +398,85 @@ def login(request, is_admin_login = False):
         return utils.return_and_report_internal_error(request)
 
 
+def verify_user_email(request, login_dict):
+
+    # Receives the user_login values and forces user to verify a registration link (in an email) before
+    # registration data is stored. Note, the store_data.store_new_user_after_verify() function
+    # finishes the process/storage (called an email link sent to the user).
+
+    try:
+        generated_html = ''
+        
+        (additional_form_data, username, email_address) = login_utils.extract_data_from_login_dict(login_dict)        
+                   
+        email_is_entered = False        
+        if email_address and email_address != "----": 
+    
+            # if someone calls the associated URL without using our website (i.e hacking us), it is possible that they could pass in
+            # bad values, and register invalid emails and usernames -- catch this.
+            if (not email_re.match(email_address) or constants.rematch_non_alpha.search(username) != None or len(username) < 3):
+                error_message="Invalid data passed in: username: %s email_address: %s" % (username, email_address)
+                error_reporting.log_exception(logging.error, error_message=error_message)
+                raise Exception(error_message)
+                
+            
+            email_is_entered = True
+            
+            # pickle the GET string for re-insertion into the request object when the user clicks on the email link to
+            # validate their account. 
+            # We create a StringIO object because the pickle module expectes files to pickle the objects into. This is like a 
+            # fake file. 
+            pickled_login_get_dict_fake_file = StringIO.StringIO()
+            
+            pickle.dump(login_dict, pickled_login_get_dict_fake_file)        
+            pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
+            authorization_result = login_utils.store_authorization_info_and_send_email(username, email_address, pickled_login_get_dict, request.LANGUAGE_CODE)   
+            pickled_login_get_dict_fake_file.close()
+
+        
+        assert(email_is_entered) 
+             
+        if authorization_result != "OK":     
+            generated_html += u"""<p></p><p>%s</p>""" % (authorization_result)                
+        
+        generated_html += u"""
+        <p><p>
+        %(activate_code_to)s <strong> %(email_address)s </strong> %(from)s 
+        <em>%(sender_email)s</em>. 
+        """ % {'activate_code_to' : ugettext("We have sent an activation email to"), 
+               'email_address': email_address, 'from' : ugettext("from"), 
+               'sender_email': constants.sender_address_html,}
+            
+        generated_html += """<p><p>** %(if_not_received)s
+        """ % {
+        'if_not_received' : ugettext("""Normally you will receive an email in few minutes, but this can sometimes take
+        up to a half hour. If you do not receive an email from us, please check your Spam folder. 
+        If the message from %(app_name)s has been marked as Spam, please mark it as not Spam.""") % {'app_name' : settings.APP_NAME},
+                                                    }
+
+            
+        generated_html += """<div>
+        <p><p>%(problem_or_suggestion)s: \
+        <strong>%(support_email_address)s</strong>.<p><p><p><p><p><p><p><p></div>
+        """ % {'problem_or_suggestion' : ugettext("If you have any problems or suggestions, send us a message at"),
+                'app_name': settings.APP_NAME,
+                'support_email_address' : constants.support_email_address}
+    
+
+        return generated_html
+
+    except:
+        error_reporting.log_exception(logging.critical)   
+        return "Critical error in verify_user_email"
+    
+
         
 def process_registration(request):
     # new user is signing up 
     lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
     response_dict = {}
        
-    if request.method == 'POST' or request.method == 'GET':
+    if request.method == 'POST':
            
         (login_allowed, message_for_client) = check_if_login_country_allowed(request)
         
@@ -442,30 +517,24 @@ def process_registration(request):
         # if there are no errors, then store the signup information.
         if not error_dict:
     
-            # we keep a copy of the hashed password so that if we are re-directed back to the login page
-            # with a hashed password (as opposed to cleartext), we can check to see if the password matches
-            # the previously hashed password. If there is a match, then DO NOT hash it again -- just leave it
-            # as it is, because we know that it is already hashed.  
-            login_dict['password_hashed'] = request.REQUEST.get('password_hashed', '')
             
-            if login_dict['password'] != login_dict['password_hashed']:
-                # encrypt the password -- but only if it is a new password or if the password
-                # has been changed by the user if it does not match the password stored in password_hashed
-                password_hashed = utils.passhash(login_dict['password'])
-                login_dict['password'] = password_hashed
-                login_dict['password_hashed'] = password_hashed
-            else:
-                # it is already hashed -- don't has it again.
-                login_dict['password_hashed'] = login_dict['password']
-            
+            # encrypt the password -- but only if it is a new password or if the password
+            # has been changed by the user if it does not match the password stored in password_hashed
+            password_encrypted = utils.passhash(login_dict['password'])
+            login_dict['password'] = password_encrypted
+
             # we should totally remove 'password_verify' from the UserModel eventually -- but for 
-            # now just set it to the password (since we have just replaced the password with the hash).
+            # now just set it to the hashed password (since we have just replaced the password with the hash).
             login_dict['password_verify'] = login_dict['password']
                            
-            response =  login_utils.verify_user_login(request, login_dict)
+            response =  verify_user_email(request, login_dict)
             response_dict['Registration_OK'] = response
         else:
             response_dict['Registration_Error'] = error_dict
             
         json_response = simplejson.dumps(response_dict)
-        return http.HttpResponse(json_response, mimetype='text/javascript')        
+        return http.HttpResponse(json_response, mimetype='text/javascript')  
+    
+    else:
+        error_reporting.log_exception(logging.critical, error_message = "process_registration was not called with POST data")  
+        return http.HttpResponseBadRequest("Error")
