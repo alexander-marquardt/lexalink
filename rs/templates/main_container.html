@@ -54,7 +54,7 @@ $(document).ready(function() {
         <!-- the following code is used for displaying the search bar. -->
         <div class="cl-clear" id="id-debugging-main-1b"></div>
         <div class="grid_12 cl-center-text cl-content-background">
-            <div id="id-search-container" class="cl-center-text cl-gray-box">
+            <div id="id-search-container" class="cl-center-text">
                 {% include "user_main_helpers/simple_search_form.html" %}
             </div>
             <!-- end searchcontainer-->
@@ -110,8 +110,7 @@ $(document).ready(function() {
                         {% if guest_user_data_fields.show_social_buttons %}
                             <div class="grid_9 alpha omega  cl-center-text">
                             {% include "common_helpers/facebook_like.html" %}
-                            <!-- google +1 -->
-                            <g:plusone size="small"></g:plusone> <br><br>
+                            <br><br>
                             </div>
 
                         {% endif %}
