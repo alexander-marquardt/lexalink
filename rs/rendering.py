@@ -133,7 +133,7 @@ def get_additional_ads_to_append(request, userobject = None):
                 
         # Let all mature people (irregardless of which site we are showing), know about the "mature" website
         if settings.BUILD_NAME != "mature_build":
-            if userobject_age >= '50' or search_age >= '50':
+            if userobject_age >= '40' or search_age >= '40':
                 additional_ads_to_append.append('mature_build')    
                 additional_ads_to_append.append('mature_build')    
             
