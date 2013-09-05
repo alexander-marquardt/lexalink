@@ -37,11 +37,11 @@ import gaesessions
 import logging
 
 urlpatterns = patterns('',
-    url(r'^$', login.login, name="views.login"),
+    url(r'^$', login.login, name="login.login"),
     (r'^/$', login.login),     
     
-    #(r'^ajax/$', rendering.render_main_html, {'generated_html': '', 'render_wrapper_only' : True}), 
-        
+    url(r'^rs/process_registration/$', login.process_registration, name="login.process_registration"),
+            
     (r'^setlang/(?P<lang_code>[\w]{2})/$', lang_settings.set_language_and_redirect_back),    
     
     url(r'^rs/welcome/$', views.welcome, name="views.welcome"),

@@ -1357,7 +1357,6 @@ def store_new_user_after_verify(request, fake_request=None):
     # Does some validation to prevent attacks 
     
 
-    error_list = []
             
     try:
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
@@ -1368,7 +1367,7 @@ def store_new_user_after_verify(request, fake_request=None):
             fake_request.LANGUAGE_CODE = request.LANGUAGE_CODE
             login_dict = login_utils.get_login_dict_from_post(fake_request, "signup_fields")
     
-        error_list += login_utils.error_check_signup_parameters(login_dict, lang_idx)
+        (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
                     
         # create a dictionary for the "GET string" in case there are errors and we need to re-direct the user back to the login page.
         back_to_login_page_dict = {}       
@@ -1386,7 +1385,7 @@ def store_new_user_after_verify(request, fake_request=None):
         url_for_re_signup = "/?%s" % login_utils.generate_get_string_for_passing_login_fields(back_to_login_page_dict)   
         
                     
-        if error_list:
+        if error_dict:
             # if there is an error, make them re-do login process (I don't anticipate
             # this happeneing here, since all inputs have been previously verified).
             error_message = repr(error_list)

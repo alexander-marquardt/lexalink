@@ -122,7 +122,7 @@
         {% if is_admin_login %}
             <form id="id-already_registered_inputs" method=POST action="/rs/admin/login/">
         {% else %}
-            <form id="id-already_registered_inputs" method=POST action="{% url views.login %}">
+            <form id="id-already_registered_inputs" method=POST action="{% url login.login %}">
         {% endif %}
 
                 <input type=hidden name=login_type value=left_side_fields>

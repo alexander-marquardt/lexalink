@@ -25,11 +25,56 @@
 # limitations under the License.
 ################################################################################
 -->
+
+<div id="id-show_after_registration_dialog_box" style="display:none;"></div>
+
+    <!-- The form submission does not have an "action" because we use javascript for the form submission -->
+    <form method=POST id="id-submit-signup-form">
+
+        <div id="id-show_accept_terms_dialog_box" style="display:none;">
+            {% blocktrans with app_name as app_name and minimum_registration_age as age %}
+            I confirm that I am {{ age }} or older and that I have read and accept the terms and conditions for using {{ app_name }}
+            {% endblocktrans %}
+        </div>
+
+        <input type=hidden name=login_type value=signup_fields>
+        <input type=hidden id="id-signup_fields-password_hashed" name=password_hashed value="replace_this">
+
+        <div class="grid_6 alpha omega cl-login-fields-background">
+            <div class="cl-padding-login-fields">
+
+                <table class="center" > <!-- inner table -->
+
+                    <tr>
+                        <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
+                    </tr>
+                    <tr>
+                        <td class="cl-registration-small-prompt-td">({% trans "it only takes 30 seconds" %})
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    {{ html_for_signup|safe }}
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value='{% trans " Register me" %}!'>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- end outer table -->
+    </form>
+
+
+
 <script type="text/javascript">
-    // script to expand the locations menu as country and region are selected.
 
-    $(document).ready(function() {
 
+    function handle_location_changes() {
+        // function to expand the locations menu as country and region are selected.
+        
         var default_text = new Object();
         default_text['region'] = '{% trans "Select Region" %}';
         default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
@@ -61,63 +106,54 @@
 
             }
         }
-
         load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
+    }
 
+
+    function handle_user_registration_form() {
+
+
+        // The following code automatically submits the file that is selected by the user
+        // as opposed to adding a "submit" button. This is more consistent with the other
+        // interfaces on the website, and makes more sense.
+        $("#id-submit-signup-form").submit(function(e) {
+
+            var submit_signup_form_url = "{% url login.process_registration %}";
+            $(this).ajaxSubmit({url: submit_signup_form_url,
+                type: 'post',
+                dataType: "json",
+                clearForm: false,
+                cache: false,
+                success:  function(post_response) {
+                    if ("Registration_OK" in post_response) {
+                        $('#id-show_after_registration_dialog_box').html(post_response["Registration_OK"]);
+                        $('#id-show_after_registration_dialog_box').dialog();
+                    } else if ("Registration_Error" in post_response) {
+debugger;
+                    } else {
+                        var readable_object = JSON.stringify(post_response);
+                        report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.responseText != undefined) {
+                        error_string = jqXHR.responseText;
+                    } else {
+                        report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown error");
+                    }
+                }
+            });
+            // prevent normal page navigation upon form submission - this is the same as calling
+            // e.preventDefault and e.stopPropagation
+            return false;
+        });
+    }
+
+    
+    $(document).ready(function() {
+        handle_location_changes();
+        handle_user_registration_form();
     });
 
-</script>
-
-<!-- Note: the following form submissions are caught by the javascript following the form declaration -->
-{% if not html_for_previously_posted_values %}
-<!-- DO NOT BREAK THE FOLLOWING "onsubmit" over multiple lines - it will break it -->
-    <form method=POST id="submit-signup-form" action="{% url views.login %}"
-          onsubmit="return confirm('{% blocktrans with app_name as app_name and minimum_registration_age as age %}I confirm that I am {{ age }} or older and that I have read and accept the terms and conditions for using {{ app_name }} {% endblocktrans %}')">
-{% else %}
-    <form method=POST id="submit-signup-form" action="{% url views.login %}">
-{% endif %}
-
-        <input type=hidden name=login_type value=signup_fields>
-        <input type=hidden id="id-signup_fields-password_hashed" name=password_hashed value="replace_this">
-
-        <div class="grid_6 alpha omega cl-login-fields-background">
-        <div class="cl-padding-login-fields">
-
-            <table class="center" > <!-- inner table -->
-
-                <tr>
-                    <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
-                </tr>
-                <tr>
-                    <td class="cl-registration-small-prompt-td">({% trans "it only takes 30 seconds" %})
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-                {{ html_for_signup|safe }}
-                <tr>
-                    <td></td>
-                    <td><input type="submit" value='{% trans " Register me" %}!'>
-                    </td>
-                </tr>
-                <!-- force space below the login options -->
-                <!--<tr><td class="cl-login-td-right-side-stub">&nbsp;</td></tr> --><!-- dummy cell -->
-            </table>
-        </div>
-        </div>
-        <!-- end outer table -->
-    </form>
-
-
-<script type="text/javascript">
-    // In the current fully ajax implementation, it is not possible to press the back button and see what was entered --
-    // eventually we should remove this code and let  jquery.address pass in the values on the URL as a GET -- however,
-    // this will require hashing the password before submission - which means that we will need to implement server-side
-    // password validity checking ... so, for the moment this has not yet been done...
-
-    handle_ajax_form_submission('#submit-signup-form', '#id-body_main_html');
-
 
 </script>
-

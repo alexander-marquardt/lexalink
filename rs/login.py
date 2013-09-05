@@ -29,7 +29,8 @@ import settings
 import logging
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
 from rs import models, error_reporting
-from django import template, shortcuts
+from django import template, shortcuts, http
+from django.utils import simplejson
 
 try:
     from rs.proprietary import search_engine_overrides
@@ -42,6 +43,43 @@ except:
 # jealous spouse to accidently discover that their partner has been logged in, since previous session
 # will be automatically logged out if the user goes to the home page.
 
+def check_if_login_country_allowed(request):
+
+    login_allowed = True
+    message_for_client = ''
+    country_encoded = None
+    region_encoded = None
+    
+    http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+    if http_country_code:
+        # check if country is valid and is allowed to register profiles on our website
+        if http_country_code in localizations.forbidden_countries:
+    
+            # user will not be allowed to register or login from un-supported countries.
+            forbidden_country_name = localizations.forbidden_countries[http_country_code] 
+            message_for_client = u"We do not currently allow users from %s" % forbidden_country_name
+            logging.warning(message_for_client)
+            login_allowed = False
+        else:
+            tmp_country_encoded = "%s,," % http_country_code
+            if tmp_country_encoded in localizations.location_dict[0]:
+                # make sure that it is a country that we support.
+                country_encoded = tmp_country_encoded
+            else:
+                logging.info("Logging in user in unknown country: %s" % http_country_code)  
+                
+        http_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
+        if country_encoded and http_region_code:
+            http_region_code = http_region_code.upper()
+            
+            # check if the region code matches a region key 
+            tmp_region_encoded = "%s,%s," % (http_country_code, http_region_code)
+            if tmp_region_encoded in localizations.location_dict[0]:
+                region_encoded = tmp_region_encoded
+            else:
+                logging.warning("Region code %s not found in location_dict" % http_region_code)
+        
+    return (login_allowed, message_for_client)
 
 def login(request, is_admin_login = False):
     # displays the information for allowing the user to log in. Also, processes the post information
@@ -75,60 +113,14 @@ def login(request, is_admin_login = False):
         # 
         if request.method == 'POST' or request.method == 'GET':
                
+            (login_allowed, message_for_client) = check_if_login_country_allowed(request)
+            
+            if not login_allowed:
+                logging.critical("Must handle countries that are not allowed")
+                assert(0)
+            
             login_type = request.REQUEST.get('login_type', '') # use REQUEST, because this applies to either GET or POST
-            login_dict = login_utils.get_login_dict_from_post(request, login_type)
-            
-            country_encoded = None
-            region_encoded = None
-            
-            http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-            if http_country_code:
-                # check if country is valid and is allowed to register profiles on our website
-                if http_country_code in localizations.forbidden_countries:
-    
-                    # user will not be allowed to register or login from un-supported countries.
-                    forbidden_country_name = localizations.forbidden_countries[http_country_code] 
-                    message_for_client = u"We do not currently allow users from %s" % forbidden_country_name
-                    error_list.append(message_for_client)
-                    logging.warning(message_for_client)
-                else:
-                    tmp_country_encoded = "%s,," % http_country_code
-                    if tmp_country_encoded in localizations.location_dict[0]:
-                        # make sure that it is a country that we support.
-                        country_encoded = tmp_country_encoded
-                    else:
-                        logging.info("Logging in user in unknown country: %s" % http_country_code)  
-                        
-                http_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
-                if country_encoded and http_region_code:
-                    http_region_code = http_region_code.upper()
-                    
-                    # check if the region code matches a region key 
-                    tmp_region_encoded = "%s,%s," % (http_country_code, http_region_code)
-                    if tmp_region_encoded in localizations.location_dict[0]:
-                        region_encoded = tmp_region_encoded
-                    else:
-                        logging.warning("Region code %s not found in location_dict" % http_region_code)
-                
-            
-            # the following code returns posted values inside the generated HTML, so that we can use Jquery to 
-            # search for these values, and replace them in the appropriate fields that were previously entered.
-            # Note: the "id-hidden_" prefix -- this is necessary to avoid confusion with the real fields that have the
-            # same name.
-            if login_dict:
-                html_for_posted_values = login_utils.html_for_posted_values(login_dict)  
-            else:
-                # we are displaying a "fresh" home-page, without any information submitted from the user.            
-                # write country as a hidden input fields so that the Javascript can discover it, and set the dropdown appropriately
-                if country_encoded:
-                    
-                    html_for_posted_values = '<input type="hidden" id= "%s" name="%s" value="%s" />\n' % (
-                                "id-hidden_country", "hidden_country", country_encoded)   
-                    
-                    if region_encoded:
-                        html_for_posted_values += '<input type="hidden" id= "%s" name="%s" value="%s" />\n' % (
-                                    "id-hidden_region", "hidden_region", region_encoded)                           
-            
+            login_dict = login_utils.get_login_dict_from_post(request, login_type)            
                 
             ##### existing user is logging in ##################################
             if (login_type == 'left_side_fields'):
@@ -331,63 +323,7 @@ def login(request, is_admin_login = False):
 
                         
                 
-            ##### new user is signing up ########################################
-            elif (login_type == 'signup_fields'):
-                            
-                login_dict['country'] = request.REQUEST.get('country', '----')
-                login_dict['sub_region'] = request.REQUEST.get('sub_region', '----')
-                login_dict['region'] = request.REQUEST.get('region', '----')
-                
-                # re-write all user names to upper-case to prevent confusion
-                # and amateur users from not being able to log in.
-                login_dict['username'] = login_dict['username'].upper()
-                            
-                # if email address is given, make sure that it is valid
-                if login_dict['email_address'] and login_dict['email_address'] != "----":
-                    # remove blank spaces from the email address -- to make it more likely to be acceptable
-                    login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
-                    login_dict['email_address'] = login_dict['email_address'].lower()
-                
-                error_list += login_utils.error_check_signup_parameters(login_dict, lang_idx)
-                
-                # Now check if username is already taken
-                query = models.UserModel.query().filter(models.UserModel.username == login_dict['username'])
-                query_result = query.fetch(limit=1)
-                if len(query_result) > 0:
-                    error_list.append(ErrorMessages.username_taken)
-                else:
-                    # now check if the username is in the process of being registered (in EmailAuthorization model)
-                    query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
-                    query_result = query.fetch(limit=1)
-                    if len(query_result) > 0:
-                        error_list.append(ErrorMessages.username_taken)   
-                        
-                # if there are no errors, then store the signup information.
-                if not error_list:
-    
-                    # we keep a copy of the hashed password so that if we are re-directed back to the login page
-                    # with a hashed password (as opposed to cleartext), we can check to see if the password matches
-                    # the previously hashed password. If there is a match, then DO NOT hash it again -- just leave it
-                    # as it is, because we know that it is already hashed.  
-                    login_dict['password_hashed'] = request.REQUEST.get('password_hashed', '')
-                    
-                    if login_dict['password'] != login_dict['password_hashed']:
-                        # encrypt the password -- but only if it is a new password or if the password
-                        # has been changed by the user if it does not match the password stored in password_hashed
-                        password_hashed = utils.passhash(login_dict['password'])
-                        login_dict['password'] = password_hashed
-                        login_dict['password_hashed'] = password_hashed
-                    else:
-                        # it is already hashed -- don't has it again.
-                        login_dict['password_hashed'] = login_dict['password']
-                    
-                    # we should totally remove 'password_verify' from the UserModel eventually -- but for 
-                    # now just set it to the password (since we have just replaced the password with the hash).
-                    login_dict['password_verify'] = login_dict['password']
-                                   
-                    response =  login_utils.verify_user_login(request, login_dict)
-                    return response
-            
+
             else:
                 assert(login_type == '') 
                 
@@ -460,3 +396,76 @@ def login(request, is_admin_login = False):
 
 
         
+def process_registration(request):
+    # new user is signing up 
+    lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
+    response_dict = {}
+       
+    if request.method == 'POST' or request.method == 'GET':
+           
+        (login_allowed, message_for_client) = check_if_login_country_allowed(request)
+        
+        if not login_allowed:
+            logging.critical("Must handle countries that are not allowed")  
+            assert(0)
+        
+        login_dict = login_utils.get_login_dict_from_post(request, "signup_fields")
+                
+        login_dict['country'] = request.REQUEST.get('country', '----')
+        login_dict['sub_region'] = request.REQUEST.get('sub_region', '----')
+        login_dict['region'] = request.REQUEST.get('region', '----')
+        
+        # re-write all user names to upper-case to prevent confusion
+        # and amateur users from not being able to log in.
+        login_dict['username'] = login_dict['username'].upper()
+                    
+        # if email address is given, make sure that it is valid
+        if login_dict['email_address'] and login_dict['email_address'] != "----":
+            # remove blank spaces from the email address -- to make it more likely to be acceptable
+            login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
+            login_dict['email_address'] = login_dict['email_address'].lower()
+        
+        (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
+        
+        # Now check if username is already taken
+        query = models.UserModel.query().filter(models.UserModel.username == login_dict['username'])
+        query_result = query.fetch(limit=1)
+        if len(query_result) > 0:
+            error_dict['username'] = ErrorMessages.username_taken
+        else:
+            # now check if the username is in the process of being registered (in EmailAuthorization model)
+            query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
+            query_result = query.fetch(limit=1)
+            if len(query_result) > 0:
+                error_dict['username'] = ErrorMessages.username_taken 
+                
+        # if there are no errors, then store the signup information.
+        if not error_dict:
+    
+            # we keep a copy of the hashed password so that if we are re-directed back to the login page
+            # with a hashed password (as opposed to cleartext), we can check to see if the password matches
+            # the previously hashed password. If there is a match, then DO NOT hash it again -- just leave it
+            # as it is, because we know that it is already hashed.  
+            login_dict['password_hashed'] = request.REQUEST.get('password_hashed', '')
+            
+            if login_dict['password'] != login_dict['password_hashed']:
+                # encrypt the password -- but only if it is a new password or if the password
+                # has been changed by the user if it does not match the password stored in password_hashed
+                password_hashed = utils.passhash(login_dict['password'])
+                login_dict['password'] = password_hashed
+                login_dict['password_hashed'] = password_hashed
+            else:
+                # it is already hashed -- don't has it again.
+                login_dict['password_hashed'] = login_dict['password']
+            
+            # we should totally remove 'password_verify' from the UserModel eventually -- but for 
+            # now just set it to the password (since we have just replaced the password with the hash).
+            login_dict['password_verify'] = login_dict['password']
+                           
+            response =  login_utils.verify_user_login(request, login_dict)
+            response_dict['Registration_OK'] = response
+        else:
+            response_dict['Registration_Error'] = error_dict
+            
+        json_response = simplejson.dumps(response_dict)
+        return http.HttpResponse(json_response, mimetype='text/javascript')        

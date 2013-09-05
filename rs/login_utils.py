@@ -95,23 +95,6 @@ def store_session(request, userobject):
     except: 
         error_reporting.log_exception(logging.critical)      
     
-def html_for_posted_values(login_dict):
-    # the following code returns posted values inside the generated HTML, so that we can use Jquery to 
-    # search for these values, and replace them in the appropriate fields that were previously entered.
-    # Note: the "hidden_" prefix -- this is necessary to avoid confusion with the real fields that have the
-    # same name.
-    
-    html_for_previously_posted_values = ''
-    if login_dict:
-        for field in login_dict:
-            hidden_field_name = "hidden_%s" % field
-            hidden_field_id = "id-hidden_%s" % field
-            value = login_dict[field]
-            if value and value != '----':
-                html_for_previously_posted_values += '<input type="hidden" id= "%s" name="%s" value="%s">\n' % (
-                    hidden_field_id, hidden_field_name, value)
-        
-        return html_for_previously_posted_values
 
  
 def generate_get_string_for_passing_login_fields(post_dict):
@@ -195,34 +178,35 @@ def get_or_create_unique_last_login(userobject, username):
 
 def error_check_signup_parameters(login_dict, lang_idx):
     
-    error_list = [] # used for containing error messages to be presented to user in a friendly format   
+    error_dict = {} # used for containing error messages to be presented to user in a friendly format   
     try:        
         if (not email_re.match(login_dict['email_address'])) or (len(login_dict['email_address'])>constants.MAX_TEXT_INPUT_LEN):
-            error_list.append(u"%s" % constants.ErrorMessages.email_address_invalid)  
+            error_dict['email_address'] = u"%s" % constants.ErrorMessages.email_address_invalid
                 
         if not login_dict['password']:
-            error_list.append(u"%s" % constants.ErrorMessages.password_required)
-                
-        if login_dict['password'] != login_dict["password_verify"]:
-            error_list.append(u"%s" % constants.ErrorMessages.passwords_not_match)
+            error_dict['password'] = u"%s" % constants.ErrorMessages.password_required
+        elif login_dict['password'] != login_dict["password_verify"]:
+            error_dict['password'] = u"%s" % constants.ErrorMessages.passwords_not_match
             
         if len(login_dict["password_verify"]) > constants.MAX_TEXT_INPUT_LEN:
-            # this should never trigger, and is therefore just a message for admin (ie. in english only)
-            error_list.append(u"%s" % "Password must be less than %s chars" % constants.MAX_TEXT_INPUT_LEN)
+            # this should never trigger, and is therefore just a message for admin (ie. in english only) - but this 
+            # must be added to error_dict to ensure that the users login is aborted later on.
+            error_dict['password_verify'] = u"%s" % "Password must be less than %s chars" % constants.MAX_TEXT_INPUT_LEN
+            error_reporting.log_exception(logging.critical, "Password entered is longer than %s chars" % constants.MAX_TEXT_INPUT_LEN)  
             
         # Verify that the password only contains acceptable characters  - this is necessary for 
         # the password hashing algorithm which only works with ascii chars.
         if (constants.rematch_non_alpha.search(login_dict['password']) != None):
-            error_list.append(u"%s" %constants.ErrorMessages.password_alphabetic)
+            error_dict['password'] = u"%s" %constants.ErrorMessages.password_alphabetic
             
         # Verify that the username only contains acceptable characters 
         # This is not really necessary, but prevents people from entering strange names.
         if (constants.rematch_non_alpha.search(login_dict['username']) != None or len(login_dict['username']) < 3):
-            error_list.append(u"%s" %constants.ErrorMessages.username_alphabetic)    
+            error_dict['username'] = u"%s" %constants.ErrorMessages.username_alphabetic   
             
         if len(login_dict['username']) > constants.MAX_USERNAME_LEN:
             # this should never trigger, and is therefore just a message for admin (ie. in english only)
-            error_list.append("Username must be less than %s chars" % constants.MAX_USERNAME_LEN)   
+            error_dict['username'] = "Username must be less than %s chars" % constants.MAX_USERNAME_LEN   
                         
         def try_remaining_signup_fields(field_name):
             try:
@@ -231,7 +215,7 @@ def error_check_signup_parameters(login_dict, lang_idx):
                 user_profile_main_data.UserSpec.signup_fields_options_dict[field_name][lang_idx][login_dict[field_name]]
             except:
                 field_label = UserSpec.signup_fields[field_name]['label'][lang_idx]
-                error_list.append(""""%s" %s""" % (field_label, ugettext("is not valid")))
+                error_dict[field_name] = """"%s" %s""" % (field_label, ugettext("is not valid"))
             
         try_remaining_signup_fields("country")       
         try_remaining_signup_fields("sex")       
@@ -246,12 +230,12 @@ def error_check_signup_parameters(login_dict, lang_idx):
                 try_remaining_signup_fields("native_language")
                 try_remaining_signup_fields("language_to_learn")         
             
-        return(error_list)
+        return(error_dict)
     
     except: 
         error_reporting.log_exception(logging.critical)  
-        error_list.append(ugettext('Internal error - this error has been logged, and will be investigated immediately'))
-        return error_list
+        error_dict['internal'] = 'Internal error - this error has been logged, and will be investigated immediately'
+        return error_dict
 
 #############################################
 def get_login_dict_from_post(request, login_type):
@@ -856,11 +840,7 @@ def verify_user_login(request, login_dict):
                 'support_email_address' : constants.support_email_address}
     
 
-    
-        nav_bar = ugettext("Registering")
-        return rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = nav_bar, 
-                                          link_to_hide = "login", hide_page_from_webcrawler=True, enable_ads = False,
-                                          show_search_box = False, hide_why_to_register = True, hide_logo_banner_links = True)
+        return generated_html
 
     except:
         error_reporting.log_exception(logging.critical)   
