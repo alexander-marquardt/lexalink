@@ -57,7 +57,7 @@
                     {{ html_for_signup|safe }}
                     <tr>
                         <td></td>
-                        <td><input type="submit" value='{% trans " Register me" %}!'>
+                        <td><input id="id-submit-signup-button" type="submit" value='{% trans " Register me" %}!'>
                         </td>
                     </tr>
                 </table>
@@ -111,13 +111,13 @@
         error_html += '</ul>';
         $('#id-show_after_registration_dialog_box').html(error_html);
         $('#id-show_after_registration_dialog_box').dialog({
-            width: 400
-        }).dialog('widget').position({
-            my: "center",
-            at: "center",
-            of: "#id-over-image"
+            width: 400,
+            position: {
+                my: "center",
+                at: "center",
+                of: "#id-over-image"
+            }
         });
-
     }
 
 
@@ -132,6 +132,9 @@
 
         $("#id-submit-signup-form").submit(function(e) {
 
+            // prevent double clicks from being processed.
+            $('#id-submit-signup-button').attr('disabled', 'disabled')
+
             clear_registration_errors(registration_errors_dict);
 
             var submit_signup_form_url = "{% url login.process_registration %}";
@@ -141,13 +144,18 @@
                 clearForm: false,
                 cache: false,
                 success:  function(post_response) {
+                    $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
+
                     if ("Registration_OK" in post_response) {
                         $('#id-show_after_registration_dialog_box').html(post_response["Registration_OK"]);
                         $('#id-show_after_registration_dialog_box').dialog({
-                            width: 500
-                        }).dialog('widget').position({
-                            my: "center",
-                            at: "center"
+                            width: 500,
+                            height: 300,
+                            modal: true,
+                            position: {
+                                my: "center",
+                                at: "center"
+                            }
                         });
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];
@@ -158,6 +166,8 @@
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
+                    
                     if (jqXHR.responseText != undefined) {
                         error_string = jqXHR.responseText;
                     } else {
