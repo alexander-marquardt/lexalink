@@ -487,7 +487,6 @@ class UserModel(ndb.Model):
     username_combinations_list = ndb.StringProperty(repeated = True)
     
     password = ndb.StringProperty(default = None)   
-    password_verify = ndb.StringProperty(default = None)   
     password_reset = ndb.StringProperty(default = None)  
     email_address = ndb.StringProperty(default = "----")
     

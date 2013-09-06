@@ -1420,9 +1420,10 @@ def store_new_user_after_verify(request, fake_request=None):
     try:
         
         # Cleanup the login_dict before passing it in to the UserModel
-
         if 'login_type' in login_dict:
             del login_dict['login_type']
+        if 'password_verify' in login_dict:
+            del login_dict['password_verify']
         
         # passing in the login_dict to the following declaration will copy the values into the user object.
         userobject = UserModel(**login_dict)
@@ -1483,8 +1484,6 @@ def store_new_user_after_verify(request, fake_request=None):
             utils.delete_sub_object(userobject, 'spam_tracker')
             utils.delete_sub_object(userobject, 'unread_mail_count_ref')
             utils.delete_sub_object(userobject, 'new_contact_counter_ref')
-            utils.delete_sub_object(userobject.backup_tracker, 'backup_1') # Note: by construction the first backup object is "backup_1"
-            utils.delete_sub_object(userobject, 'backup_tracker')
             utils.delete_sub_object(userobject, 'user_tracker')
             utils.delete_sub_object(userobject, 'viewed_profile_counter_ref')
             utils.delete_sub_object(userobject, 'user_photos_tracker_key')
@@ -1500,7 +1499,7 @@ def store_new_user_after_verify(request, fake_request=None):
         except:
             error_reporting.log_exception(logging.critical, request = request, error_message = "Unable to clean up after failed sign-up attempt" ) 
             
-        return(url_for_re_signup)
+        return("/")
 
     # log information about this users login time, and IP address
     utils.update_ip_address_on_user_tracker(userobject.user_tracker)
