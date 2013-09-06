@@ -131,8 +131,8 @@ def login(request, is_admin_login = False):
                 if (user_already_registered):
                     username = login_dict['username_email'] 
                     message_for_client = ugettext("""
-                    The account for %(username)s has been correctly registered. You can enter using your "Nick" %(username)s
-                    and password""") % {'username' : username}
+                    Your account has been correctly registered. You can enter using your username: %(username)s
+                    and the password that you entered when you created your account.""") % {'username' : username}
       
                     error_list.append(message_for_client)   
                     
@@ -159,7 +159,9 @@ def login(request, is_admin_login = False):
                     # Verify that the password only contains acceptable characters  - 
                     # this is necessary for the password hashing algorithm which only works with ascii chars, 
                     # and make sure that it is not empty.
-                    if not login_dict['password'] or constants.rematch_non_alpha.search(login_dict['password']) != None :
+                    if login_dict['password'] == "----":
+                        error_list.append(constants.ErrorMessages.password_required)
+                    elif constants.rematch_non_alpha.search(login_dict['password']) != None :
                         error_list.append(constants.ErrorMessages.password_alphabetic)
                     else:
                         if not is_admin_login:

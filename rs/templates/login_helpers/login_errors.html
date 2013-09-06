@@ -29,11 +29,9 @@
 
     <div id="id-show_login_errors_dialog_box" style="display:none;">
 
-        <p><span class="cl-text-24pt-format cl-warning-text">
-        {% trans "There is a problem" %}:</span></p>
         <ul>
         {% for error in errors %}
-            <li> {{ error|safe }} </li>
+            <li  class="cl-indent"> {{ error|safe }} </li>
         {% endfor %}
         </ul>
     </div>
