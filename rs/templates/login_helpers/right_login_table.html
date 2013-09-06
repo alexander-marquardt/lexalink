@@ -112,12 +112,13 @@
         $('#id-show_after_registration_dialog_box').html(error_html);
         $('#id-show_after_registration_dialog_box').dialog({
             width: 400,
+            modal: false,
             position: {
                 my: "center",
                 at: "center",
                 of: "#id-over-image"
             }
-        });
+        }).dialog('close').dialog('open');
     }
 
 
@@ -156,7 +157,7 @@
                                 my: "center",
                                 at: "center"
                             }
-                        });
+                        }).dialog('close').dialog('open');
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];
                         show_registration_errors(registration_errors_dict);
