@@ -565,15 +565,13 @@ def extract_data_from_login_dict(login_dict):
         # the user has solved a captcha.
         value = login_dict[field]
 
-        additional_form_data += '<input type="hidden" name="%s" value="%s" />\n' % (
-            field, value)
         if field == 'username':
             username = value
         if field == 'email_address':
             email_address = value
             email_address = email_address.lower()
             
-    return(additional_form_data, username, email_address)
+    return(username, email_address)
 
 
 

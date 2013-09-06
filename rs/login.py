@@ -408,7 +408,7 @@ def verify_user_email(request, login_dict):
     try:
         generated_html = ''
         
-        (additional_form_data, username, email_address) = login_utils.extract_data_from_login_dict(login_dict)        
+        (username, email_address) = login_utils.extract_data_from_login_dict(login_dict)        
                    
         email_is_entered = False        
         if email_address and email_address != "----": 

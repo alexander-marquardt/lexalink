@@ -46,12 +46,6 @@
         var stored_input_fields = {};
 
         for (ix in input_fields) {
-            if ($('#id-hidden_' + input_fields[ix]).val()) {
-                // write the value into a variable. This is required for ajax since the variable will exist as long
-                // as the current ajax page, but the hidden fields will be removed on each load -- therefore, in order
-                // for the back button to work, we need these values stored in a variable.
-                stored_input_fields[input_fields[ix]] = $('#id-hidden_' + input_fields[ix]).val();
-            }
 
             // if the key was stored in the stored_input_fields dictionary, then write it to the selector
             if (stored_input_fields.hasOwnProperty(input_fields[ix])) {
@@ -59,11 +53,6 @@
             }
         }
 
-        // only load the email address if it is not the default value of "----"
-        if ($('#id-hidden_email_address').val() != "----") {
-            rs_set_selector_to_value('#id-signup_fields-email_address', $('#id-hidden_email_address').val());
-
-        }
 
         // code for showing default text in the input box
         $(".defaultText").focus(function(srcc) {
