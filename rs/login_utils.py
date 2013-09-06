@@ -96,21 +96,6 @@ def store_session(request, userobject):
         error_reporting.log_exception(logging.critical)      
     
 
- 
-def generate_get_string_for_passing_login_fields(post_dict):
-    # generates a get-style string which is used for passing login data within the URL (as opposed to in a POST)
-    # This is necessary for certian steps during the login process.
-    
-    fields_to_pass_in_url = []
-    fields_names = UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country', 'login_type']
-    for field in fields_names: 
-        to_append = "%s=%s" % (field, post_dict[field])
-        fields_to_pass_in_url.append(to_append)
-        
-    # seperate passed-in values with "&" as per html spec for a "get" request
-    url_get_string = "&".join(fields_to_pass_in_url)    
-    
-    return url_get_string
 
 
 def create_and_put_unique_last_login_offset_ref():
