@@ -362,7 +362,7 @@ def login(request, is_admin_login = False):
         meta_info['content_description'] =  meta_info['page_title']
         meta_info['keywords_description'] =  meta_info['page_title']
         
-        my_template = template.loader.get_template('login.html')
+        my_template = template.loader.get_template('landing_page.html')
         context = template.Context (dict({   
             'LANGUAGES' : settings.LANGUAGES,                
             'html_for_signup': html_for_signup,
