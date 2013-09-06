@@ -139,7 +139,7 @@ def login(request, is_admin_login = False):
                 if (user_already_registered):
                     username = login_dict['username_email'] 
                     message_for_client = ugettext("""
-                    The account for %(username)s has been correctlly registered. You can enter using your "Nick" %(username)s
+                    The account for %(username)s has been correctly registered. You can enter using your "Nick" %(username)s
                     and password""") % {'username' : username}
       
                     error_list.append(message_for_client)   
