@@ -29,11 +29,12 @@ import settings
 import logging, StringIO, pickle, datetime, os
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
 from rs import store_data, channel_support, lang_settings, http_utils
-from rs import models, error_reporting
+from rs import models, error_reporting, messages
 from django import template, shortcuts, http
 from django.utils import simplejson
 from django.core.validators import email_re
 from django.utils.translation import ugettext
+from django.core.urlresolvers import reverse
 
 try:
     from rs.proprietary import search_engine_overrides
@@ -546,3 +547,196 @@ def process_registration(request):
         error_message = "Unknown error"
         error_reporting.log_exception(logging.critical, error_message = error_message)          
         return http.HttpResponseBadRequest(error_message)
+    
+    
+  
+    
+
+def store_new_user_after_verify(request, fake_request=None):
+    # Store the user information passed in the request into a userobject.
+    # Does some validation to prevent attacks 
+    
+
+            
+    try:
+        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
+        
+        if not fake_request:
+            login_dict = login_utils.get_login_dict_from_post(request, "signup_fields")
+        else:
+            fake_request.LANGUAGE_CODE = request.LANGUAGE_CODE
+            login_dict = login_utils.get_login_dict_from_post(fake_request, "signup_fields")
+    
+        error_dict = login_utils.error_check_signup_parameters(login_dict, lang_idx)
+ 
+        if error_dict:
+            # if there is an error, make them re-do login process (I don't anticipate
+            # this happeneing here, since all inputs have been previously verified).
+            error_message = repr(error_list)
+            error_reporting.log_exception(logging.error, error_message=error_message)
+            return "/"
+        
+        login_dict['username'] = login_dict['username'].upper()
+        username = login_dict['username']
+        assert(username)
+        password = login_dict['password']
+        assert(password)
+        # if the username is already registered, and the password is the correct password
+        # for the given username, then do not add another user into the database. 
+        # Re-direct the user to their home page. This could happen if the user clicks on the registration
+        # link more than one time.
+        q = models.UserModel.query().order(-models.UserModel.last_login_string)
+        q = q.filter(models.UserModel.username == username)
+        q = q.filter(models.UserModel.password == password)    
+        q = q.filter(models.UserModel.user_is_marked_for_elimination == False)
+        userobject = q.get()
+        if userobject:
+            # user is already authorized -- send back to login
+            return ('/?already_registered=True&username_email=%s&login_type=left_side_fields' % userobject.username)          
+        
+        # make sure that the user name is not already registered. (this should not happen
+        # under normal circumstances, but could possibly happen if someone is hacking our system or if two users have gone through
+        # the registration process and attempted to register the same username at the same moment)
+        query = models.UserModel.gql("WHERE username = :username", username = username)
+        if query.get():
+            error_reporting.log_exception(logging.warning, error_message = 'Registered username encountered in storing user - sending back to main login')       
+            return "/"
+    
+    except:
+        error_reporting.log_exception(logging.critical)   
+        return "/"
+
+    # do not change the order of the following calls. Userobject is written twice because this
+    # is necessary to get a database key value. Also, since this is only on signup, efficiency is
+    # not an issue.
+    
+    try:
+        
+        # Cleanup the login_dict before passing it in to the UserModel
+        if 'login_type' in login_dict:
+            del login_dict['login_type']
+        if 'password_verify' in login_dict:
+            del login_dict['password_verify']
+        
+        # passing in the login_dict to the following declaration will copy the values into the user object.
+        userobject = models.UserModel(**login_dict)
+        
+        userobject.username_combinations_list = utils.get_username_combinations_list(username)
+        utils.put_userobject(userobject)
+               
+        userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, request.LANGUAGE_CODE) 
+        userobject = login_utils.setup_new_user_defaults_and_structures(userobject, login_dict['username'], request.LANGUAGE_CODE)
+        userobject.viewed_profile_counter_ref = login_utils.create_viewed_profile_counter_object(userobject.key)
+        userobject.accept_terms_and_rules_key = login_utils.create_terms_and_rules_object()
+        
+        # store indication of email address validity (syntactically valid )
+        if login_dict['email_address'] == '----':
+            userobject.email_address_is_valid = False
+        else:
+            userobject.email_address_is_valid = True
+            
+            if fake_request:
+                # if we have entered into this function with a fake request, then we know that the user has entered into the system
+                # by clicking on the verification link in an email. Therefore, we can update the user_tracker object with the
+                # email address, since we have now confirmed that it is truly verified.
+                utils.update_email_address_on_user_tracker(userobject, login_dict['email_address'])
+            try:
+                # make sure that the email address is a valid email address.
+                assert(email_re.match(login_dict['email_address']))
+            except:
+                error_reporting.log_exception(logging.warning, error_message = 'Email address %s is invalid' % login_dict['email_address'])       
+        
+                
+        userobject.registration_ip_address = os.environ['REMOTE_ADDR']   
+        userobject.registration_city = userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    
+        userobject.registration_country_code = userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)    
+        utils.store_login_ip_information(request, userobject)
+        
+        utils.put_userobject(userobject)
+        logging.info("New userobject stored: Username: %s Email: %s" %  (userobject.username, userobject.email_address))
+
+        login_utils.store_session(request, userobject)
+        
+        lang_set_in_session = lang_settings.set_language_in_session(request, request.LANGUAGE_CODE)
+        assert(lang_set_in_session)    
+                   
+        # send the user a welcome email and key and wink from Alex
+        messages.welcome_new_user(request)
+    
+        owner_uid = userobject.key.urlsafe()
+        owner_nid = userobject.key.id()
+    except:
+        # if there is any failure in the signup process, clean up all the data stored, and send the user back to the login page with the data that they
+        # previously entered.
+        try:
+            error_message = "Error storing user -- cleaning up and sending back to login screen"
+            error_reporting.log_exception(logging.critical, request = request, error_message = error_message )   
+
+            utils.delete_sub_object(userobject, 'search_preferences2')
+            utils.delete_sub_object(userobject, 'spam_tracker')
+            utils.delete_sub_object(userobject, 'unread_mail_count_ref')
+            utils.delete_sub_object(userobject, 'new_contact_counter_ref')
+            utils.delete_sub_object(userobject, 'user_tracker')
+            utils.delete_sub_object(userobject, 'viewed_profile_counter_ref')
+            utils.delete_sub_object(userobject, 'user_photos_tracker_key')
+
+            try: 
+                error_message = "Deleting userobject: %s : %s" % (userobject.username, repr(userobject))                
+                userobject.key.delete() # (Finally - remove the userobject)
+                error_reporting.log_exception(logging.critical,  error_message = error_message)  
+
+            except: 
+                error_message = "Unable to delete userobject: %s : %s" % (userobject.username, repr(userobject))
+                error_reporting.log_exception(logging.critical, error_message = error_message)
+        except:
+            error_reporting.log_exception(logging.critical, request = request, error_message = "Unable to clean up after failed sign-up attempt" ) 
+            
+        return("/")
+
+    # log information about this users login time, and IP address
+    utils.update_ip_address_on_user_tracker(userobject.user_tracker)
+
+    home_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
+    logging.info("Registered/Logging in User: %s IP: %s country code: %s - re-directing to edit_profile_url: %s" % (
+        userobject.username, os.environ['REMOTE_ADDR'], request.META.get('HTTP_X_APPENGINE_COUNTRY', None), home_url))
+    return home_url
+
+
+def store_new_user_after_verify_email_url(request, username, secret_verification_code):
+    # Note, this function is called directly as a URL from a user clicking on an email link. Therefore, 
+    # we must direct them directly to a web page (not just returning a URL unlike some of the code that is 
+    # communicating with JavaScript code on the client side)
+    
+    try:
+        authorization_info = login_utils.query_for_authorization_info(username, secret_verification_code)
+            
+        if authorization_info:
+            login_get_dict = pickle.load(StringIO.StringIO(authorization_info.pickled_login_get_dict))
+            
+            # somewhat of a hack, but we create a fake request object so that we can use common code to process 
+            # the user information that was previously submitted.
+            class FakeRequest():
+                pass
+            
+            fake_request = FakeRequest()
+            fake_request.GET =  fake_request.REQUEST = login_get_dict
+            
+            response = store_new_user_after_verify(request, fake_request)
+            http_response = http.HttpResponseRedirect(response)
+            
+            return http_response
+        
+        else:
+            # could happen if the user clicks on the link more than once to authorize their account at some point after
+            # we have erased the authorization info.
+            warning_message = "Warning: User: %s Code %s  authorization_info not found" % (
+                username, secret_verification_code)
+            logging.warning(warning_message)
+            return http.HttpResponseRedirect("/?unable_to_verify_user=%s" % username)
+        
+        error_reporting.log_exception(logging.error, error_message = 'Reached end of function - redirect to /') 
+
+    except: 
+        error_reporting.log_exception(logging.critical)      
+        
+    return http.HttpResponseRedirect("/")

@@ -46,14 +46,14 @@ from user_profile_details import UserProfileDetails
 from user_profile_main_data import UserSpec
 
 
-import utils, email_utils
+import utils, email_utils, messages
 import sharding
 import constants
 import utils, utils_top_level, channel_support, chat_support
 import forms
 import error_reporting
 import models
-import localizations, user_profile_main_data, online_presence_support
+import localizations, user_profile_main_data, user_profile_details, online_presence_support
 import rendering
 import http_utils
 import gaesessions
@@ -758,3 +758,94 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
         error_reporting.log_exception(logging.critical)   
         return 'Error'
         
+
+
+def copy_principal_user_data_fields_into_ix_lists(userobject):
+
+    try:
+        for field in user_profile_main_data.UserSpec.principal_user_data + ['region', 'sub_region',]:
+            
+            val = getattr(userobject, field)
+            ix_field_name = field + "_ix_list"
+            ix_list = [u'----',]
+            if val:
+                ix_list.append(val)
+            setattr(userobject, ix_field_name, ix_list)   
+    except:
+        error_message = "Unknown error userobject: %s" % (repr(userobject))
+        error_reporting.log_exception(logging.critical, error_message = error_message)
+
+
+           
+#############################################
+def setup_new_user_defaults_and_structures(userobject, username, lang_code):
+    """ set sensible initial defaults for the profile details. 
+        Also, sets other defaults that need to be configured upon login.
+        lang_code: the langage that the user is viewing the website in.
+        native_language: (if set -- currenly only in language_build) refers to the native language that the user speaks.
+        Note, the user could be viewing the website in English, but be a native speaker of German .. 
+        therefore we would mark him initally as speaking both English and German. 
+    """
+    
+    try:
+    
+        copy_principal_user_data_fields_into_ix_lists(userobject)
+        
+        userobject.email_options = ['daily_notification_of_new_messages_or_contacts']
+        
+    
+        for field_name in user_profile_details.UserProfileDetails.enabled_checkbox_fields_list:
+            setattr(userobject, field_name, ['prefer_no_say' ])
+                
+        if settings.BUILD_NAME == "language_build":
+            
+            # set language fields to ['----', *language* ], since we know that the user has already specified 
+            # a language (only for LikeLangage)
+            userobject.languages = [u'----',]
+            userobject.languages.append(userobject.native_language)
+                
+            userobject.languages_to_learn = [u'----',]
+            userobject.languages_to_learn.append(userobject.language_to_learn)
+        else:
+            try:
+                # set the languages field to include the language that the user is currently viewing this website in.
+                # Note: we don't do this for language_build, because viewing/reading in a language is not enough information 
+                # for us to determine if the user is tryingto learn the language, or if they speak well enough to teach
+                # someone else. Additionally, in language_build, we have the user language. Here we are inferring it.
+                userobject.languages = []
+                userobject.languages.append(localizations.language_code_transaltion[lang_code])
+            except:
+                error_reporting.log_exception(logging.critical, error_message = "Error, unknown lang_code %s passed in" % lang_code)
+                userobject.languages = ['english',]
+                
+    
+        userobject.last_login =  datetime.datetime.now()
+        userobject.last_login_string = str(userobject.last_login)
+    
+        userobject.previous_last_login = datetime.datetime.now()
+        
+        userobject.hash_of_creation_date = utils.passhash(str(userobject.creation_date))
+            
+        (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
+         get_or_create_unique_last_login(userobject, username)
+        
+        userobject.unread_mail_count_ref = utils.create_unread_mail_object()
+        userobject.new_contact_counter_ref = utils.create_contact_counter_object()
+        
+        userobject.spam_tracker = messages.initialize_and_store_spam_tracker(userobject.spam_tracker) 
+        
+        userobject.user_tracker = utils.create_and_return_usertracker()
+        
+        userobject.user_photos_tracker_key = utils.create_and_return_user_photos_tracker()
+            
+        sharding.increment("number_of_new_users_shard_counter")
+    
+        # setup structures for chat
+        owner_uid = userobject.key.urlsafe
+    
+        # userobject will be put in the function that called this. 
+        return userobject 
+    
+    except: 
+        error_reporting.log_exception(logging.critical)     
+        return None
