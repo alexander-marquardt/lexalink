@@ -89,9 +89,6 @@ def login(request, is_admin_login = False):
     # displays the information for allowing the user to log in. Also, processes the post information
     # from login attempts.
     # 
-    # if referring_code is passed in, this means that this user has been referred by a friend. We therefore write
-    # a cookie to their computer (with the refferers ID) so that we can detect if they register at some point in the future. 
-    # This is then used for crediting the referrings account. 
     
     try:
                 
@@ -100,14 +97,8 @@ def login(request, is_admin_login = False):
         login_dict = None
         html_for_posted_values = ''
         
-        # hashed_password is used for storing a hashed version of the password that was previously entered,
-        # so that if the login page is called back with previously entered data, we can check if the password
-        # has already been encrypted, or if it is still cleartext.
-        hashed_password = ''
-        
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-                            
-                
+                                
         # Note that this function can be called from a POST or a GET (URL-passing in login parameters), 
         # or on initial loading without POST information.
         # If it is called without POST information, then the default login page is simply displayed. Otherwise
