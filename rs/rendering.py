@@ -38,7 +38,7 @@ import settings, site_configuration
 import forms, admin, utils, error_reporting, logging
 from models import UserModel
 from forms import FormUtils
-import constants, text_fields, time, chat_support, localizations, http_utils, common_data_structs, channel_support, online_presence_support
+import constants, text_fields, time, chat_support, localizations, common_data_structs, channel_support, online_presence_support
 import online_presence_support, menubar
 from rs.import_search_engine_overrides import *
 
@@ -400,7 +400,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         
             if request.REQUEST.get("is_ajax_call", 'no') == 'yes':
                 # We just check if it is an ajax request to see the entire page should be loaded, or just the body.
-                http_response = http_utils.ajax_compatible_http_response(request, body_main_html)
+                http_response = http.HttpResponse(body_main_html)
                 
             else:               
                 # This is a traditional HTML request - entire page will be loaded
@@ -413,9 +413,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         return http_response
     
     except:
-        from django.http import HttpResponseServerError
         error_reporting.log_exception(logging.critical)
         txt = ugettext('Internal error - this error has been logged, and will be investigated immediately')
-        return http_utils.ajax_compatible_http_response(request, txt, HttpResponseServerError)
+        return http.HttpResponseServerError(txt)
 
 

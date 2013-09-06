@@ -51,7 +51,7 @@ import user_profile_main_data
 import localizations
 import error_reporting
 import rendering, text_fields
-import models, constants, http_utils
+import models, constants
 from rs import profile_utils
 
 CONTACTS_PAGESIZE = 10 # number of contacts to show on a page.
@@ -495,7 +495,7 @@ def mail_message_display(request, owner_uid, other_uid):
 
     try:
         if not utils.access_allowed_to_page(request, owner_uid):
-            return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+            return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
     
         userobject =  utils_top_level.get_object_from_string(owner_uid)
             
@@ -878,7 +878,7 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
 
     try:
         if not utils.access_allowed_to_page(request, owner_uid):
-            return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+            return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
     
         userobject =  utils_top_level.get_object_from_string(owner_uid)
         username = userobject.username
@@ -964,9 +964,6 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
                 });		
             });
             
-            if (!disable_jquery_address)
-                handle_ajax_form_submission_with_button_values('.cl-manage_messages-button', '#id-mark_conversation-form', '#id-body_main_html'); 
-            
             </script>""") % {'select': ugettext("Select"), 'all' : ugettext("All (messages - override)"), 'none' : ugettext("None (messages - override)")}
           
         message_controls_html += u'<div class="grid_7 alpha">'
@@ -1022,7 +1019,7 @@ you have specified in your profile, then mark the message as spam without respon
     
     except:
         error_reporting.log_exception(logging.critical)
-        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
         
         
 def modify_message(have_sent_messages_key, mailbox_to_move_message_to):
@@ -1129,11 +1126,11 @@ def manage_mailbox(request, owner_uid):
             else:
                 href = reverse('generate_mailbox_with_bookmark', kwargs = {'bookmark' : bookmark, 'mailbox_name': mailbox_name, 'owner_uid' : owner_uid})
             
-            return http_utils.redirect_to_url(request, href)
+            return http.HttpResponseRedirect(href)
                 
         else:
             error_reporting.log_exception(logging.info, error_message = "Expected post data.", request=request)
             return http.HttpResponseServerError("Error")
     except:
         error_reporting.log_exception(logging.critical)
-        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)

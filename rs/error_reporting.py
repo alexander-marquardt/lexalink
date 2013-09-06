@@ -31,8 +31,9 @@ from os import environ
 import traceback, sys, os, StringIO, re
 import settings
 import logging
+from django import http
 
-from rs import utils_top_level, http_utils
+from rs import utils_top_level
 
 def log_exception(logging_function, *args, **kwds):
     """Signal handler to log an exception or error condition for which we want further details 
@@ -137,7 +138,7 @@ def error_500_go_to_login(request):
         error_message = u"Error 500:\nURL: %s" % error_url
         log_exception(logging.error, error_message=error_message, request=request)    
         
-    return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+    return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
 
 def report_bad_url(request):
@@ -159,7 +160,7 @@ def report_bad_url(request):
         # a bad URL was generated -- however, in production this will show up in the logs
         raise Exception(msg)
     
-    return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+    return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
 
 def check_if_trend_micro_scanning():

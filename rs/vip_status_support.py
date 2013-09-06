@@ -35,10 +35,12 @@ import settings, constants, models, login_utils, utils_top_level, utils, store_d
 import datetime, re
 from models import UserModel
 from localization_files import currency_by_country
-import views, http_utils, hashlib
+import views, hashlib
 
 
 from django.http import HttpResponse, HttpResponseServerError, HttpResponseRedirect
+from django import http
+
 
 if settings.TESTING_PAYPAL_SANDBOX:
   PP_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"
@@ -370,11 +372,11 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
                                           num_days_awarded, txn_id, "manually assigned")
     
     message_content = update_userobject_vip_status("manually awarded", userobject,  num_days_awarded, payer_account_info = "N/A - manually awarded") 
-    return http_utils.ajax_compatible_http_response(request, message_content)
+    return http.HttpResponse(message_content)
   
   except:
     error_reporting.log_exception(logging.critical)
-    return http_utils.ajax_compatible_http_response(request, "Error", HttpResponseServerError)
+    return http.HttpResponseServerError("Error")
   
   
 def manually_remove_paid_status(request, username):
@@ -388,10 +390,10 @@ def manually_remove_paid_status(request, username):
     userobject.client_paid_status = None
     utils.put_userobject(userobject)
         
-    return http_utils.ajax_compatible_http_response(request, "Done")
+    return http.HttpResponse("Done")
   
   except:
     error_reporting.log_exception(logging.critical)
-    return http_utils.ajax_compatible_http_response(request, "Error", HttpResponseServerError)
+    return http.HttpResponseServerError("Error")
   
 

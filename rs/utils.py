@@ -34,11 +34,10 @@ from google.appengine.api import memcache, users
 import hashlib, re
 import datetime, time, logging
 import string, random, sys, os
-import http_utils
 from localization_files import currency_by_country
 
 
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotAllowed, HttpResponseServerError
+from django import http
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext, ungettext
 from django.template import loader, Context
@@ -79,7 +78,7 @@ def requires_login(view):
                 return view(request, *args, **kwargs)
             else:
                 error_reporting.log_exception(logging.warning, error_message = 'Crawler session invalid IP') 
-                return HttpResponseForbidden()
+                return http.HttpResponseForbidden()
         else: 
             
             # check the IP address to see if it is the google web-crawler .
@@ -88,11 +87,11 @@ def requires_login(view):
             if constants.GOOGLE_CRAWLER_IP_PATTERN.match(remoteip):
                 # if it is the web-crawler - let then know that they need authorization to view the page.
                 error_reporting.log_exception(logging.warning, error_message = 'Google crawler unauthorized access (No session)')
-                return HttpResponseForbidden()
+                return http.HttpResponseForbidden()
                 
             else:
                 error_reporting.log_exception(logging.warning, error_message = 'Error: Non-logged in user unauthorized access - redirect to /') 
-                return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+                return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
     return new_login_view
   
@@ -108,7 +107,7 @@ def ajax_call_requires_login(view):
             error_message = """Error, hemos perdido tu session - deberias 
             <a href="/">entrar</a> en %(app_name)s otra vez.""" % {'app_name': settings.APP_NAME}
             error_reporting.log_exception(logging.warning, error_message = error_message) 
-            return HttpResponse(error_message)
+            return http.HttpResponse(error_message)
 
     return new_login_view
 
@@ -1504,7 +1503,8 @@ def return_and_report_internal_error(request):
     
     error_reporting.log_exception(logging.critical)
     txt = ugettext('Internal error - this error has been logged, and will be investigated immediately')
-    return http_utils.ajax_compatible_http_response(request, txt, HttpResponseServerError)
+    return http.HttpResponseServerError(txt)
+
 
 
 def user_is_admin(userobject):

@@ -56,7 +56,7 @@ import email_utils, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, lang_settings
 from rs import profile_utils, online_presence_support, online_presence_support, track_viewers
 from django import http
-import http_utils, common_data_structs, html_container
+import common_data_structs, html_container
 
 if settings.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code
@@ -98,7 +98,7 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
             raise Exception("Bad display_uid passed into views.user_main")
     except:
         error_reporting.log_exception(logging.critical)        
-        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
 
 def user_main(request, display_nid, is_primary_user = False, profile_url_description = None):
@@ -172,7 +172,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 # modifying the URL). 
                 display_userobject = utils_top_level.get_object_from_string(display_uid)
                 redirect_url = profile_utils.get_userprofile_href(lang_code, display_userobject)                
-                return http_utils.redirect_to_url(request, redirect_url)
+                return http.HttpResponseRedirect(redirect_url)
                       
             else:
                 # Show the new user the welcome text, only for as long as the user has not yet 
@@ -334,7 +334,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
     
     except:
         error_reporting.log_exception(logging.critical)        
-        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
         
 

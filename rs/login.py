@@ -28,7 +28,7 @@
 import settings
 import logging, StringIO, pickle, datetime, os
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
-from rs import store_data, channel_support, lang_settings, http_utils
+from rs import store_data, channel_support, lang_settings
 from rs import models, error_reporting, messages
 from django import template, shortcuts, http
 from django.utils import simplejson
@@ -316,7 +316,7 @@ def login(request, is_admin_login = False):
                         # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
                         redirect_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
                                 'lang_code': lang_code, 'owner_nid':owner_nid}                        
-                        return http_utils.redirect_to_url(request, redirect_url)                        
+                        return http.HttpResponseRedirect(redirect_url)                        
 
                         
                 

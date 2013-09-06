@@ -43,7 +43,6 @@ from utils import return_time_difference_in_friendly_format, get_new_contact_cou
 from rs import profile_utils
 import queries, rendering, localizations, error_reporting, logging
 import utils, utils_top_level, display_profiles_summary
-import http_utils
 
 supress_sent_received_list = ['favorite', 'blocked']
 

@@ -36,21 +36,12 @@
 
         // check if we are running an old version of IE (before version 8.0)
         var lt_ie8 = false;
-        var disable_jquery_address = false;
         var rmsie = /(msie) ([\w.]+)/;
         //var rchrome_frame = /chromeframe/;
         var useragent_lower_case = navigator.userAgent.toLowerCase();
         var lt_ie8_match = rmsie.exec(useragent_lower_case);
         var remove_chatboxes = false;
         //var chrome_frame_match = rchrome_frame.exec(useragent_lower_case);
-        if (lt_ie8_match && lt_ie8_match[2] < 8.0) {
-            lt_ie8 = true;
-            disable_jquery_address = true;
-        }
-
-        {% if wrapper_data_fields.disable_jquery_address %}
-            disable_jquery_address = true;
-        {% endif %}
 
         var href = location.href;
         var pathname = location.pathname;
@@ -60,28 +51,8 @@
         // The following code is responsible for redirecting any standard (non-ajax)
         // URLs to their corresponding ajaxified URL.
 
-        if (!disable_jquery_address) {
-            // check if this is a non-ajax URL that should be re-mapped to ajax URL
-            var ajax_pattern = /\/jx\//;
-
-            if (!href.match(ajax_pattern)) {
-                // if it is not specified in ajax with hash URL format (ie /ajax/#!) then we re-direct
-                window.location.replace( protocol + "//" + host + "/jx/#!" + pathname + query);
-            }
-        }
-        else {
-            // if this is an ajax URL running on IE7 or IE6, then we should re-map it to a non-ajax URL
-            var ajax_pattern = /\/jx\/#!(.*)/;
-            var match_result = href.match(ajax_pattern)
-            if (match_result) {
-                window.location.replace(protocol + "//" + host + match_result[1]);
-            }
-        }
-
         {% if wrapper_data_fields.debugging_enabled %}
             var debugging_enabled = true;
-            // TESTING - DISABLE AJAX TEMPORARILY
-            //disable_jquery_address = true;
         {% else %}
             var debugging_enabled = false;
         {% endif %}

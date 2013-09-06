@@ -574,7 +574,7 @@ def generate_search_results(request, type_of_search = "normal"):
 
     except:
         error_reporting.log_exception(logging.critical)
-        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
         
 dont_care_pattern = re.compile(r'.*dont_care.*') 
 dashes_pattern = re.compile(r'.*----.*')

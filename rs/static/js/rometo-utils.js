@@ -38,11 +38,7 @@ function rnd() {
 
 function confirm_decision(message, url) {
     if (confirm(message)) {
-        if (disable_jquery_address) {
-            location.href = url;
-        } else {
-            location.href = "/jx/#!" + url;
-        }
+        location.href = url;
     }
 }
 
@@ -770,74 +766,6 @@ function handle_submit_and_cancel_buttons(section_name, uid) {
 }
 
 
-function handle_ajax_form_submission(form_id, target_id) {
-
-    try {
-        if (!disable_jquery_address) {
-            var form_obj = $(form_id);
-            form_obj.on("submit", function() {
-                $(this).ajaxSubmit({
-                    // need to manually push the submit button values onto the form submission.
-                    data: {'is_ajax_call' : 'yes' },
-                    dataType: 'json',
-                    success: function(json_response) {
-                        handle_form_ajax_json_response(json_response, target_id);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        report_ajax_error(textStatus, errorThrown, form_id);
-                    }
-                });
-
-                return false; // prevent normal page navigation
-            });
-            unloadFuncs.push([undo_func_handle_ajax_form_submission, form_obj]);
-        }
-    } catch(err) {
-        report_try_catch_error( err, "handle_ajax_form_submission");
-    }
-}
-
-function undo_func_handle_ajax_form_submission(form_obj) {
-    form_obj.off("submit");
-}
-
-function handle_ajax_form_submission_with_button_values(submit_button_class, form_id, target_id) {
-
-    // if we have multiple submit buttons embedded into a form , we must manually copy the value of the selected
-    // button into the ajaxSubmit data field. 
-    try {
-        if (!disable_jquery_address) {
-            // when ajaxSubmit is used, the value on the button is not passed in with the form,
-            // and therefore we need to manually pass it in.
-
-            var button_object = $('.cl-manage_messages-button');
-            button_object.on("click", function () {
-                var extra_data = {'is_ajax_call' : 'yes'};
-                extra_data[$(this).attr("name")] = $(this).attr("value");
-
-                $('#id-mark_conversation-form').ajaxSubmit({
-                    data: extra_data,
-                    dataType: 'json',
-                    success: function(json_response) {
-                        handle_form_ajax_json_response(json_response, '#id-body_main_html');
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        report_ajax_error(textStatus, errorThrown, '#id-mark_conversation-form');
-                    }
-                });
-                return false; // prevent normal page navigation
-            });
-            unloadFuncs.push([undo_func_handle_ajax_form_submission_with_button_values, button_object]);
-        }
-    } catch(err) {
-        report_try_catch_error( err, "handle_ajax_form_submission_with_button_values");
-    }
-}
-
-function undo_func_handle_ajax_form_submission_with_button_values(button_object) {
-    button_object.off("click");
-}
-
 function getJSON_initiate_contact_settings(uid) {
     // requests settings for the "contact" objects from the server, and sets their values to the values returned from the server
 
@@ -1080,13 +1008,7 @@ function submit_verify_captcha(section_name, submit_button_id, captcha_div_id) {
                     $(captcha_status_id).html('<strong>Captcha incorrecto, intentalo de nuevo</strong>');
                     reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, "no_bypass");
                 } else {
-                    // The html response should contain the URL for the user profile.
-                    if (!disable_jquery_address) {
-                        $.address.value(html_response); // display the user profile
-                    } else {
-                        self.location = html_response; // re-direct to user profile
-                    }
-
+                    self.location = html_response; // re-direct to user profile
                 }
 
             },
@@ -1189,28 +1111,6 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
         mouseover_button_handler($(submit_button_id));
     } catch(err) {
         report_try_catch_error( err, "handle_post_button_with_confirmation_of_result");
-    }
-}
-
-function handle_form_ajax_json_response(json_response, target_id) {
-
-    try {
-        
-        if (disable_jquery_address) {
-            var err = "handle_form_ajax_json_response called in non-ajax build";
-            report_javascript_error_on_server(err);
-            throw err;
-        }
-
-        if (json_response.redirect_url) {
-            $.address.value(json_response.redirect_url);
-        }
-        else {
-            $(target_id).html(json_response.html);
-            window.scroll(0,0); // since it is a new page, scroll to the top
-        }
-    } catch(err) {
-        report_try_catch_error( err, "handle_form_ajax_json_response");
     }
 }
 

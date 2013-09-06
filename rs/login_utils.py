@@ -40,6 +40,7 @@ from django.template import Context, loader
 from django.conf import settings
 from django.core.validators import email_re
 from django.utils.translation import ugettext
+from django import http
 
 from models import UserSearchPreferences2, UniqueLastLoginOffsets
 from user_profile_details import UserProfileDetails
@@ -55,7 +56,6 @@ import error_reporting
 import models
 import localizations, user_profile_main_data, user_profile_details, online_presence_support
 import rendering
-import http_utils
 import gaesessions
 
 #############################################
@@ -374,7 +374,7 @@ def clear_old_session(request):
 def clear_session(request):  
     # Used for clearing old sessions -- returns HttpResponse so we can call direct from a URL
     clear_old_session(request)
-    return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+    return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
     
 def check_test_cookie(request):
@@ -510,7 +510,7 @@ def delete_userobject_with_name_and_security_hash(request, username, hash_of_cre
         return http_response
     except:
         error_reporting.log_exception(logging.critical)   
-        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
 
 def delete_or_undelete_account(request, owner_uid, delete_or_undelete):
@@ -523,14 +523,14 @@ def delete_or_undelete_account(request, owner_uid, delete_or_undelete):
         owner_userobject = utils_top_level.get_userobject_from_request(request)
         
         if not owner_userobject:
-            return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+            return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
         
         assert(owner_uid == owner_userobject.key.urlsafe())
         
         return take_action_on_account_and_generate_response(request, owner_userobject, delete_or_undelete)
     except:
         error_reporting.log_exception(logging.critical)   
-        return http_utils.redirect_to_url(request, "/%s/" % request.LANGUAGE_CODE)
+        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
     
 
 
