@@ -1367,30 +1367,14 @@ def store_new_user_after_verify(request, fake_request=None):
             fake_request.LANGUAGE_CODE = request.LANGUAGE_CODE
             login_dict = login_utils.get_login_dict_from_post(fake_request, "signup_fields")
     
-        (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
-                    
-        # create a dictionary for the "GET string" in case there are errors and we need to re-direct the user back to the login page.
-        back_to_login_page_dict = {}       
-        for field in UserSpec.signup_fields_to_display_in_order +['sub_region', 'region', 'country', 'login_type', 'referring_code']:
-            # remember that sub_region, region, can be empty if they have not been specified -- this is assumed by the code that
-            # pulls data from ajax calls -- therefore, this should not be considered an error.
-            if not fake_request:
-                # we use a "fake_request" to allow us to simulate a login when the user clicks on an authorization
-                # link in an email that we sent to them.
-                field_val = request.REQUEST.get(field, '')
-            else:
-                field_val = fake_request.REQUEST.get(field, '')
-                
-            back_to_login_page_dict[field] = field_val    
-        url_for_re_signup = "/?%s" % login_utils.generate_get_string_for_passing_login_fields(back_to_login_page_dict)   
-        
-                    
+        error_dict = login_utils.error_check_signup_parameters(login_dict, lang_idx)
+ 
         if error_dict:
             # if there is an error, make them re-do login process (I don't anticipate
             # this happeneing here, since all inputs have been previously verified).
             error_message = repr(error_list)
             error_reporting.log_exception(logging.error, error_message=error_message)
-            return (url_for_re_signup)
+            return "/"
         
         login_dict['username'] = login_dict['username'].upper()
         username = login_dict['username']
@@ -1423,16 +1407,12 @@ def store_new_user_after_verify(request, fake_request=None):
         query = UserModel.gql("WHERE username = :username", username = username)
         if query.get():
             error_reporting.log_exception(logging.warning, error_message = 'Registered username encountered in storing user - sending back to main login')       
-            return (url_for_re_signup)
+            return "/"
     
     except:
         error_reporting.log_exception(logging.critical)   
-        return ""
+        return "/"
 
-        
-        
-        
-        
     # do not change the order of the following calls. Userobject is written twice because this
     # is necessary to get a database key value. Also, since this is only on signup, efficiency is
     # not an issue.
