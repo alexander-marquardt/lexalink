@@ -141,7 +141,8 @@ def submit_email_for_reset_password(request):
         is_email = False
         
 
-        email_address =  request.REQUEST.get('email_address', '')
+        email_address = request.REQUEST.get('email_address', '')
+        email_address = email_address.replace(' ', '')
 
         if email_re.match(email_address):
         
@@ -159,11 +160,11 @@ def submit_email_for_reset_password(request):
                 email_utils.send_password_reset_email(userobject, new_password)
 
         else:
-            generated_html += u"<p><p>%s" % ugettext("%(email_address)s is not a valid email address" % {'email_address' : email_address})
+            generated_html += u"<p><p>%s" % ugettext("%(email_address)s is not a valid email address") % {'email_address' : email_address}
 
         generated_html += u"<p><p>%s" % ugettext("If you have a problem or suggestion, please send us a message at: <strong>%(support_email_address)s</strong>.") % {
             'app_name': settings.APP_NAME,
-            'support_email_address' : support_email_address }
+            'support_email_address' : constants.support_email_address }
         
         navigation_text = ugettext("Finished") ;    
         return rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = navigation_text,
