@@ -569,9 +569,9 @@ class ErrorMessages():
     # other languages will be easier in the future.
 
     username_alphabetic = ugettext_lazy("<strong>Username</strong> needs at least 3 characters and can only contain letters \
-and numbers. Additionally, it may not contain any spaces.")
+and numbers.")
     password_required = ugettext_lazy("<strong>Password</strong> required")
-    password_alphabetic = ugettext_lazy("<strong>Password</strong> may only contain letters and numbers, and cannot contain spaces.")
+    password_alphabetic = ugettext_lazy("<strong>Password</strong> may only contain letters and numbers.")
     passwords_not_match = ugettext_lazy("The <strong>Password</strong> and the <strong>Verification Password</strong> must be the same.")
     username_taken = ugettext_lazy("The <strong>Username</strong> that you have selected is not available.")
     incorrect_username_password = ugettext_lazy("<strong>Username/email + Password</strong> is incorrect")

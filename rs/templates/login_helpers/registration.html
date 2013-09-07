@@ -96,14 +96,13 @@
 
     function handle_user_registration_form() {
 
-        var registration_errors_dict = [];
 
         $("#id-submit-signup-form").submit(function(e) {
 
             // prevent double clicks from being processed.
             $('#id-submit-signup-button').attr('disabled', 'disabled');
 
-            clear_fields_errors("signup_fields" , registration_errors_dict);
+            clear_both_registration_and_login_fields_errors();
 
             var submit_signup_form_url = "{% url login.process_registration %}";
             $(this).ajaxSubmit({url: submit_signup_form_url,

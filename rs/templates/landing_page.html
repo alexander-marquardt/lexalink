@@ -32,6 +32,8 @@
 
 <script type="text/javascript">
 
+    var login_errors_dict = [];
+    var registration_errors_dict = [];
 
 
     $(document).ready(function() {
@@ -69,6 +71,14 @@
             var input_field_id_selector = "#id-"+ fields_type + "-" + key;
             $(input_field_id_selector).removeClass("cl-highlight_border");
         }
+    }
+
+    function clear_both_registration_and_login_fields_errors() {
+            clear_fields_errors("login_fields", login_errors_dict);
+            $("#id-password-prompt").removeClass("cl-highlight_border");
+            $("#id-password-input").removeClass("cl-highlight_border");
+
+            clear_fields_errors("signup_fields" , registration_errors_dict);
     }
 
     function show_fields_errors(fields_type, errors_dict, extra_html) {

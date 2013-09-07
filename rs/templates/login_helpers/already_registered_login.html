@@ -68,16 +68,13 @@
 
     function handle_registered_login_form() {
 
-        var login_errors_dict = [];
 
         $("#id-already_registered_login_form").submit(function(e) {
 
             // prevent double clicks from being processed.
             $('#id-submit-login-button').attr('disabled', 'disabled');
 
-            clear_fields_errors("login_fields", login_errors_dict);
-            $("#id-password-prompt").removeClass("cl-highlight_border");
-            $("#id-password-input").removeClass("cl-highlight_border");
+            clear_both_registration_and_login_fields_errors();
 
             var submit_form_url = $("#id-already_registered_login_form").attr('action');
             $(this).ajaxSubmit({url: submit_form_url,
