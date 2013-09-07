@@ -535,7 +535,7 @@ def extract_data_from_login_dict(login_dict):
     additional_form_data = ''
     username = ''
     email_address = ''
-    for field in UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country', 'login_type']: 
+    for field in UserSpec.signup_fields_to_display_in_order + ['sub_region', 'region', 'country']: 
         # Copy the POST into the hidden fields so they can be saved after the 
         # the user has solved a captcha.
         value = login_dict[field]

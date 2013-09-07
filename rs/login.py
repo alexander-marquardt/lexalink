@@ -115,7 +115,7 @@ def landing_page(request, is_admin_login = False):
             # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
             user_already_registered = request.GET.get('already_registered', '') 
             if (user_already_registered):
-                username = login_dict['username_email'] 
+                username = request.GET.get('username_email', '') 
                 message_for_client = ugettext("""
                 Your account has been correctly registered. You can enter using your username: %(username)s
                 and the password that you entered when you created your account.""") % {'username' : username}
