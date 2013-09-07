@@ -6,8 +6,6 @@
     <form id="id-already_registered_login_form" method=POST action="{% url login.process_login %}">
 {% endif %}
 
-        <input type=hidden name=login_type value=left_side_fields>
-
         <table id="id-horiz-bar-table"> <!-- outer table -->
             <tr> <!-- container row -->
                 {% if build_name == "discrete_build" %}

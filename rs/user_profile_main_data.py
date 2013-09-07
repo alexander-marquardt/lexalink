@@ -51,10 +51,6 @@ class UserSpec():
     # places. It is necessary to set up and store all language translations in one go, which means that we store information
     # for different languages in arrays that will be indexed by the current language configuration. 
     
-    
-    #specify which fields will be required for login or signup
-    left_side_fields_to_display_in_order = ['username_email', 'password']
-    
     if settings.BUILD_NAME != 'language_build' and settings.BUILD_NAME != "friend_build":
         principal_user_data = ['sex', 'preference', 'relationship_status', 'age', 'country', 'username',]
         simple_search_fields = [ 'sex', 'country', 'relationship_status','preference', 'region', 'query_order', 'age', 'sub_region',   ]

@@ -804,36 +804,33 @@ class FormUtils():
         try:
             generated_html = '';
             
-            if current_section_fields_spec == 'left_side_fields' or current_section_fields_spec == 'signup_fields' or\
-               current_section_fields_spec == 'change_password_fields':      
-                fields_to_display_in_order = current_section_fields_spec + "_to_display_in_order"
-                for field_name in getattr(spec_class, fields_to_display_in_order):
-                            
-                    current_section_fields = getattr(spec_class, current_section)
-                    current_section_fields_names = current_section_fields[field_name]
-                    mylabel = current_section_fields_names['label'][lang_idx]
-                    
-                    #input_type refers to 'text', 'select', 'password', etc.
-                    myinputtype = current_section_fields_names['input_type']
-                    
-                    if current_section_fields_names.has_key('max_length'):
-                        myinputmaxlength = current_section_fields_names['max_length']
-                    else: myinputmaxlength = constants.MAX_TEXT_INPUT_LEN
-                    
-                    if myinputtype == 'text' or myinputtype == 'password':
-                        generated_html += FormUtils.generate_text_input_table_row(mylabel,
-                        field_name, myinputtype, current_section_fields_spec, 
-                        field_formats['right_align_login'], field_formats['left_align_login'],
-                        myinputmaxlength)
-                    elif myinputtype == 'select':
-                        choices = current_section_fields_names['options']
-                        generated_html += FormUtils.generate_dd_input_table_row(lang_idx, mylabel, 
-                            field_name, choices, current_section_fields_spec)
-                    else:
-                        raise Exception("Unknown input type")
-            else:
-                raise Exception("Unknown section type\n")
-            
+    
+            fields_to_display_in_order = current_section_fields_spec + "_to_display_in_order"
+            for field_name in getattr(spec_class, fields_to_display_in_order):
+                        
+                current_section_fields = getattr(spec_class, current_section)
+                current_section_fields_names = current_section_fields[field_name]
+                mylabel = current_section_fields_names['label'][lang_idx]
+                
+                #input_type refers to 'text', 'select', 'password', etc.
+                myinputtype = current_section_fields_names['input_type']
+                
+                if current_section_fields_names.has_key('max_length'):
+                    myinputmaxlength = current_section_fields_names['max_length']
+                else: myinputmaxlength = constants.MAX_TEXT_INPUT_LEN
+                
+                if myinputtype == 'text' or myinputtype == 'password':
+                    generated_html += FormUtils.generate_text_input_table_row(mylabel,
+                    field_name, myinputtype, current_section_fields_spec, 
+                    field_formats['right_align_login'], field_formats['left_align_login'],
+                    myinputmaxlength)
+                elif myinputtype == 'select':
+                    choices = current_section_fields_names['options']
+                    generated_html += FormUtils.generate_dd_input_table_row(lang_idx, mylabel, 
+                        field_name, choices, current_section_fields_spec)
+                else:
+                    raise Exception("Unknown input type")
+
             return generated_html
         except:
             error_reporting.log_exception(logging.critical)       

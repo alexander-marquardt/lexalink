@@ -598,7 +598,7 @@ def store_new_user_after_verify(request, fake_request=None):
         userobject = q.get()
         if userobject:
             # user is already authorized -- send back to login
-            return ('/?already_registered=True&username_email=%s&login_type=left_side_fields' % userobject.username)          
+            return ('/?already_registered=True&username_email=%s' % userobject.username)          
         
         # make sure that the user name is not already registered. (this should not happen
         # under normal circumstances, but could possibly happen if someone is hacking our system or if two users have gone through
