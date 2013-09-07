@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% if is_admin_login %}
-    <form id="id-already_registered_login_form" method=POST action="{url login.admin_process_login %}">
+    <form id="id-already_registered_login_form" method=POST action="{% url login.admin_process_login %}">
 {% else %}
     <form id="id-already_registered_login_form" method=POST action="{% url login.process_login %}">
 {% endif %}
@@ -32,7 +32,7 @@
 
                 <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
                     <input type="text"
-                           class="defaultText cl-default-password-input-text-prompt cl-nick-textinput-width-px"
+                           class="defaultText cl-default-username_or_password-input-text-prompt cl-nick-textinput-width-px"
                            title='{% trans "username or email"%}'
                            id="id-login_fields-username_email" name="username_email" maxlength=50>
                 </td>
@@ -40,7 +40,7 @@
 
                     <!-- need to define two boxes for the password - but only one will be shown at a time -
            required for showing text prompt in the input box -->
-                    <input type="text" class="cl-default-password-input-text-prompt cl-narrow-textinput-width-px"
+                    <input type="text" class="cl-default-username_or_password-input-text-prompt cl-narrow-textinput-width-px"
                            value='{% trans "password" %}' id="id-password-prompt"
                            name="password-prompt" maxlength=50>
                     <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
@@ -69,9 +69,11 @@
         $("#id-already_registered_login_form").submit(function(e) {
 
             // prevent double clicks from being processed.
-            $('#id-submit-login-button').attr('disabled', 'disabled')
+            $('#id-submit-login-button').attr('disabled', 'disabled');
 
-            clear_registration_errors(login_errors_dict);
+            clear_fields_errors("login_fields", login_errors_dict);
+            $("#id-password-prompt").removeClass("cl-highlight_border");
+            $("#id-password-input").removeClass("cl-highlight_border");
 
             var submit_form_url = $("#id-already_registered_login_form").attr('action');
             $(this).ajaxSubmit({url: submit_form_url,
@@ -83,10 +85,11 @@
                     $('#id-submit-login-button').removeAttr('disabled'); // enable submit button
 
                     if ("Login_OK_Redirect_URL" in post_response) {
-                       var redirect_url = post_response["Login_OK_Redirect_URL"];
-                       self.location = redirect_url; // load the URL that was passed back.
+                        self.location = post_response["Login_OK_Redirect_URL"]; // load the URL that was passed back.
 
                     } else if ("Login_Error" in post_response) {
+
+                        var extra_html = '<div class="cl-right-text">' + $('#id-forgot-password').html() + '</div>';
                         login_errors_dict = post_response["Login_Error"];
 
                         //deal with password error here
@@ -95,7 +98,7 @@
                             $("#id-password-input").addClass("cl-highlight_border");
                         }
 
-                        show_fields_errors("login_fields", login_errors_dict);
+                        show_fields_errors("login_fields", login_errors_dict, extra_html);
                     } else {
                         var readable_object = JSON.stringify(post_response);
                         report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);
@@ -105,8 +108,7 @@
                     $('#id-submit-login-button').removeAttr('disabled'); // enable submit button
 
                     if (jqXHR.responseText != undefined) {
-                        var error_string = jqXHR.responseText;
-                        report_ajax_error(textStatus, errorThrown, error_string);
+                        report_ajax_error(textStatus, errorThrown, jqXHR.responseText);
                     } else {
                         report_ajax_error(textStatus, errorThrown, "handle_registered_login_form - unknown error");
                     }
@@ -124,11 +126,11 @@
             if ($(this).val() == $(this)[0].title) {
                 $(this).val("");
             }
-            $(this).removeClass("cl-default-password-input-text-prompt");
+            $(this).removeClass("cl-default-username_or_password-input-text-prompt");
         });
         $(".defaultText").blur(function() {
             if ($(this).val() == "") {
-                $(this).addClass("cl-default-password-input-text-prompt");
+                $(this).addClass("cl-default-username_or_password-input-text-prompt");
                 $(this).val($(this)[0].title);
             }
         });

@@ -71,11 +71,6 @@ def reset_password(request, email_address=''):
     generated_html += ugettext("""When you click on "Send", you will receive an email from \
 <em>%(sender_email)s</em> with your new password.""") % {'sender_email': constants.sender_address_html}
     
-    generated_html += "<br><br>%s" % ugettext("""
-** This only works if you have previously registered your email address. If you did not register an
-email address, then it is not possible to recover your account.<br><br>
-If you have a problem or a suggestion, send us an email to <strong>%(sender_email)s.</strong>""") % {
-    'sender_email': constants.sender_address_html}
     
     
     generated_html += u'<br><br><a href="/">%(app_name)s.com</a>' % {'app_name': settings.APP_NAME}

@@ -64,14 +64,14 @@
     });
 
 
-    function clear_registration_errors(registration_errors_dict) {
-        for (key in registration_errors_dict) {
-            var input_field_id_selector = "#id-signup_fields-" + key;
+    function clear_fields_errors(fields_type, errors_dict) {
+        for (key in errors_dict) {
+            var input_field_id_selector = "#id-"+ fields_type + "-" + key;
             $(input_field_id_selector).removeClass("cl-highlight_border");
         }
     }
 
-    function show_fields_errors(fields_type, errors_dict) {
+    function show_fields_errors(fields_type, errors_dict, extra_html) {
 
         var error_html = '<ul>';
         // loop over the objects in the errors_dict        
@@ -81,6 +81,7 @@
             error_html += '<li class="cl-indent">'+ errors_dict[key];
         }
         error_html += '</ul>';
+        error_html += extra_html;
         $('#id-show_after_registration_dialog_box').html(error_html);
         $('#id-show_after_registration_dialog_box').dialog({
             width: 400,
@@ -140,33 +141,18 @@
 
             {% endif %}
 
-
-
         </div>
         <div class="grid_6 alpha omega cl-background-image cl-login-text">
             <!-- if the login_type is left_side_fields, then the user has already attempted to login
             and failed - therefore make the prompt for help bigger
             -->
 
-
-            {% ifequal login_type "left_side_fields" %}
-            <div class="grid_6 alpha omega cl-right-text cl-text-24pt-format cl-forgot-password-block">
-                <!-- Problem logging in - make password 24 pt -->
-                <a href="{% url reset_password %}" rel="address:{% url reset_password %}"><br>
+            <br>
+            <div id="id-forgot-password"class="grid_6 alpha omega cl-right-text cl-text-12pt-format cl-forgot-password-block">
+                <a href="{% url reset_password %}">
                     {% trans "Have you forgotten your password?" %}
                 </a>
             </div>
-            {% else %}
-            <div class="grid_6 alpha omega cl-right-text cl-text-12pt-format cl-forgot-password-block">
-                <a href="{% url reset_password %}" rel="address:{% url reset_password %}"><br>
-                    {% trans "Have you forgotten your password?" %}
-                </a>
-            </div>
-            {% endifequal %}
-
-
-            
-
 
 
             <div id="id-over-image" class="grid_6">{% include "login_helpers/landing_page_errors.html" %}</div>

@@ -101,9 +101,9 @@
         $("#id-submit-signup-form").submit(function(e) {
 
             // prevent double clicks from being processed.
-            $('#id-submit-signup-button').attr('disabled', 'disabled')
+            $('#id-submit-signup-button').attr('disabled', 'disabled');
 
-            clear_registration_errors(registration_errors_dict);
+            clear_fields_errors("signup_fields" , registration_errors_dict);
 
             var submit_signup_form_url = "{% url login.process_registration %}";
             $(this).ajaxSubmit({url: submit_signup_form_url,
@@ -126,7 +126,7 @@
                         }).dialog('close').dialog('open');
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];
-                        show_fields_errors("signup_fields", registration_errors_dict);
+                        show_fields_errors("signup_fields", registration_errors_dict, '');
 
                     } else {
                         var readable_object = JSON.stringify(post_response);
@@ -137,8 +137,7 @@
                     $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
                     
                     if (jqXHR.responseText != undefined) {
-                        var error_string = jqXHR.responseText;
-                        report_ajax_error(textStatus, errorThrown, error_string);
+                        report_ajax_error(textStatus, errorThrown, jqXHR.responseText);
                     } else {
                         report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown error");
                     }
