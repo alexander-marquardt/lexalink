@@ -284,7 +284,7 @@ msgstr ""
 
 #: rs/constants.py:573
 msgid "<strong>Password</strong> required"
-msgstr "<strong>contraseña</strong> es obligatoria"
+msgstr "<strong>Contraseña</strong> es obligatoria"
 
 #: rs/constants.py:574
 msgid ""

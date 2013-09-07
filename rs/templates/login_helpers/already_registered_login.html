@@ -58,7 +58,11 @@
         <!-- end outer table -->
     </form>
 
-
+     <div id="id-forgot-password" style="display:none;"><div  class="cl-right-text" >
+        <a class="cl-dialog_anchor" href="{% url reset_password %}">
+            {% trans "Have you forgotten your password?" %}
+        </a>
+     </div></div>
 
 <script type="text/javascript">
 
@@ -89,7 +93,7 @@
 
                     } else if ("Login_Error" in post_response) {
 
-                        var extra_html = '<div class="cl-right-text">' + $('#id-forgot-password').html() + '</div>';
+                        var extra_html = $('#id-forgot-password').html();
                         login_errors_dict = post_response["Login_Error"];
 
                         //deal with password error here
