@@ -126,7 +126,8 @@
                         }).dialog('close').dialog('open');
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];
-                        show_registration_errors(registration_errors_dict, "signup_fields");
+                        show_fields_errors("signup_fields", registration_errors_dict);
+
                     } else {
                         var readable_object = JSON.stringify(post_response);
                         report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);

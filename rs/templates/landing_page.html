@@ -71,14 +71,14 @@
         }
     }
 
-    function show_registration_errors(registration_errors_dict, fields_type) {
+    function show_fields_errors(fields_type, errors_dict) {
 
-        // loop over the objects in the errors_dict
         var error_html = '<ul>';
-        for (key in registration_errors_dict) {
+        // loop over the objects in the errors_dict        
+        for (key in errors_dict) {
             var input_field_id_selector = "#id-" + fields_type + "-" + key;
             $(input_field_id_selector).addClass("cl-highlight_border");
-            error_html += '<li class="cl-indent">'+ registration_errors_dict[key];
+            error_html += '<li class="cl-indent">'+ errors_dict[key];
         }
         error_html += '</ul>';
         $('#id-show_after_registration_dialog_box').html(error_html);

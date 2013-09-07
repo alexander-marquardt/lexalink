@@ -40,13 +40,11 @@
 
                     <!-- need to define two boxes for the password - but only one will be shown at a time -
            required for showing text prompt in the input box -->
-                    <span id="id-login_fields-password">
-                        <input type="text" class="cl-default-password-input-text-prompt cl-narrow-textinput-width-px"
-                               value='{% trans "password" %}' id="id-password-prompt"
-                               name="password-prompt" maxlength=50>
-                        <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
-                               name="password" maxlength=50>
-                    </span>
+                    <input type="text" class="cl-default-password-input-text-prompt cl-narrow-textinput-width-px"
+                           value='{% trans "password" %}' id="id-password-prompt"
+                           name="password-prompt" maxlength=50>
+                    <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
+                           name="password" maxlength=50>
                 </td>
                 <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field ">
                     <input id="id-submit-login-button" type="submit" class="cl-small-login-button"
@@ -66,14 +64,14 @@
 
     function handle_registered_login_form() {
 
-        var registration_errors_dict = [];
+        var login_errors_dict = [];
 
         $("#id-already_registered_login_form").submit(function(e) {
 
             // prevent double clicks from being processed.
             $('#id-submit-login-button').attr('disabled', 'disabled')
 
-            clear_registration_errors(registration_errors_dict);
+            clear_registration_errors(login_errors_dict);
 
             var submit_form_url = $("#id-already_registered_login_form").attr('action');
             $(this).ajaxSubmit({url: submit_form_url,
@@ -89,8 +87,15 @@
                        self.location = redirect_url; // load the URL that was passed back.
 
                     } else if ("Login_Error" in post_response) {
-                        registration_errors_dict = post_response["Login_Error"];
-                        show_registration_errors(registration_errors_dict, "login_fields");
+                        login_errors_dict = post_response["Login_Error"];
+
+                        //deal with password error here
+                        if (login_errors_dict['password']) {
+                            $("#id-password-prompt").addClass("cl-highlight_border");
+                            $("#id-password-input").addClass("cl-highlight_border");
+                        }
+
+                        show_fields_errors("login_fields", login_errors_dict);
                     } else {
                         var readable_object = JSON.stringify(post_response);
                         report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);
