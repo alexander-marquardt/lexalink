@@ -37,8 +37,10 @@ import gaesessions
 import logging
 
 urlpatterns = patterns('',
-    url(r'^$', login.login, name="login.login"),
-    (r'^/$', login.login),     
+    (r'^$', login.landing_page),
+    (r'^/$', login.landing_page),     
+    url(r'^rs/process_login/$', login.process_login, name="login.process_login"),
+    url(r'^rs/admin/process_login/$', login.process_login, {'is_admin_login' : True}, name="login.admin_process_login"),
     
     url(r'^rs/process_registration/$', login.process_registration, name="login.process_registration"),
             
@@ -318,7 +320,7 @@ urlpatterns = patterns('',
     (r'^rs/admin/fix_items_sub_batch/$', batch_jobs.fix_items_sub_batch),
     
     
-    (r'^rs/admin/login/$', login.login, {'is_admin_login': True}),
+    url(r'^rs/admin/login/$', login.landing_page, {'is_admin_login': True}, name="login.admin_landing_page"),
       
     (r'^rs/admin/count_clients/$', admin.count_clients),
     

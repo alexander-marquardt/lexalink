@@ -85,7 +85,7 @@ def check_if_login_country_allowed(request):
         
     return (login_allowed, message_for_client)
 
-def login(request, is_admin_login = False):
+def landing_page(request, is_admin_login = False):
     # displays the information for allowing the user to log in. Also, processes the post information
     # from login attempts.
     # 
@@ -99,238 +99,11 @@ def login(request, is_admin_login = False):
         
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
                                 
-        # Note that this function can be called from a POST or a GET (URL-passing in login parameters), 
-        # or on initial loading without POST information.
-        # If it is called without POST information, then the default login page is simply displayed. Otherwise
-        # the POST data is analyzed to see if the login/signup is successful.
-        # GET is used for sending an incorrect login back to the original login page along with parameters
-        # that have previously been entered (such as a username)
-        # 
-        if request.method == 'POST' or request.method == 'GET':
-               
-            (login_allowed, message_for_client) = check_if_login_country_allowed(request)
-            
-            if not login_allowed:
-                logging.critical("Must handle countries that are not allowed")
-                assert(0)
-            
-            login_type = request.REQUEST.get('login_type', '') # use REQUEST, because this applies to either GET or POST
-            login_dict = login_utils.get_login_dict_from_post(request, login_type)            
-                
-            ##### existing user is logging in ##################################
-            if (login_type == 'left_side_fields'):
-                
-                #clear_old_session(request)
-                username = ''
-                
-                # remove spaces in the username/email field
-                login_dict['username_email'] = login_dict['username_email'].replace(' ', '')
-                
-                # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
-                user_already_registered = request.REQUEST.get('already_registered', '') 
-                if (user_already_registered):
-                    username = login_dict['username_email'] 
-                    message_for_client = ugettext("""
-                    Your account has been correctly registered. You can enter using your username: %(username)s
-                    and the password that you entered when you created your account.""") % {'username' : username}
-      
-                    error_list.append(message_for_client)   
-                    
-                else:
-                    
-                    # Ensure that the most recently
-                    # accessed object will be returned in case of a conflict (which might occur if a person uses the same email
-                    # address for multiple accounts)       
-                    q_last_login = models.UserModel.query().order(-models.UserModel.last_login_string)
-                    
-                    email_or_username_login = None
-                    if email_re.match(login_dict['username_email']):                       
-                        email_or_username_login = "email"
-                        q_username_email = q_last_login.filter(models.UserModel.email_address == login_dict['username_email'].lower())
-                    else:
-                        email_or_username_login = "username"
-                        username = login_dict['username_email'].upper()
-                        q_username_email = q_last_login.filter(models.UserModel.username == username)
-                        if (constants.rematch_non_alpha.search(username) != None or len(username) < 3):
-                            error_list.append(constants.ErrorMessages.username_alphabetic)
-                                            
-                    
-                    
-                    # Verify that the password only contains acceptable characters  - 
-                    # this is necessary for the password hashing algorithm which only works with ascii chars, 
-                    # and make sure that it is not empty.
-                    if login_dict['password'] == "----":
-                        error_list.append(constants.ErrorMessages.password_required)
-                    elif constants.rematch_non_alpha.search(login_dict['password']) != None :
-                        error_list.append(constants.ErrorMessages.password_alphabetic)
-                    else:
-                        if not is_admin_login:
-                            # make sure that the password is not empty -- should never even get into here
-                            # if it is not set (earlier error checking should catch this). 
-                            assert(login_dict['password'])
-                                   
-                            # All "normal" (non admin) logins MUST check the password!!
-                            q_with_password = q_username_email.filter(models.UserModel.password == utils.passhash(login_dict['password']))
-                            
-                            # make sure that profile has not been marked for elimination (if we are an administrator, we can
-                            # still log into deleted accounts, so we don't add this value into the search query)
-                            q_not_eliminated = q_with_password.filter(models.UserModel.user_is_marked_for_elimination == False)                          
-                            
-
-                        else:
-                            # for administrator, we don't filter on the password. We also allow the administrator to log into 
-                            # deleted accounts (so q_not_eliminated does not mean tht the profile has necessarily
-                            # not been marked for elmination when the admin is logging in, but this allows us to use
-                            # the same variable in the following code)
-                            q_not_eliminated = q_username_email
-
-
-    
-                if not error_list:
-                    # No errors so far. Continue validation.
-                    
-                    # Note: if the password has been reset, then the 'password_reset' value will contain
-                    # the new password (as opposed to directly overwriting the 'password' field). This is done  to prevent
-                    # random people from resetting other peoples passwords. -- Once the user has 
-                    # logged in using the new 'reset_password', then we copy this field over to the 'password'
-                    # field. If the user never logs in with this 'reset_password', then the original password
-                    # is not over-written -- and we instead erase the 'reset_password' value
-                    
-                    password_has_been_reset = False
-                    userobject = q_not_eliminated.get()
-    
-                    if not userobject and not is_admin_login:
-                        # if the original query failed, do a query using the 'password_reset' value --
-                        # this will contain a new password, if the user has requested a new password be 
-                        # sent to their email account.
-                        # set up the query to check the 'password_reset' value
-                        q_password_reset = q_username_email.filter(models.UserModel.password_reset == utils.passhash(login_dict['password']))
-                        q_not_eliminated = q_password_reset.filter(models.UserModel.user_is_marked_for_elimination == False)  
-
-                        userobject = q_not_eliminated.get()    
-                        if userobject:
-                            password_has_been_reset = True
-                    
-                    
-                    if not userobject and not is_admin_login:
-                        # The user was unable to login -- 
-                        # check to see if the username/email+password was registered at some point, and has been eliminated
-    
-                        q_is_eliminated = q_with_password.filter(models.UserModel.user_is_marked_for_elimination == True)
-                        eliminated_userobject = q_is_eliminated.get()
-                        
-                        # if no eliminated object was found, try again, but this time only if the user has entered a username (not an email)
-                        # and we will remove the password from the query. This will allow better reporting for people who may have forgotten
-                        # their password. (we do not query without password for an email address login to prevent people from probing our system
-                        # to see if an email address was registered)
-                        if not eliminated_userobject:
-                            
-                            if email_or_username_login == 'username':
-                                # we know that a username as opposed to an email address was entered
-                                q_is_eliminated = q_username_email.filter(models.UserModel.user_is_marked_for_elimination == True)
-                                eliminated_userobject = q_is_eliminated.get()                            
-                        
-                        if eliminated_userobject:
-                            # Let user know that the profile was eliminated. 
-                            message_for_client = utils.get_removed_user_reason_html(eliminated_userobject)
-                            error_list.append(message_for_client)
-                            
-                        else: # the profile (email + password OR username) did not appear in the list of eliminated userobjects
-                            
-                            error_list.append(constants.ErrorMessages.incorrect_username_password)
-                                             
-                        
-                    if userobject:
-                        # success, user is in database and has entered correct data
-                        owner_uid = userobject.key.urlsafe()
-                        owner_nid = utils.get_nid_from_uid(owner_uid)
-                        
-                        # make sure that the userobject has all the parts that the code expects it to have.
-                        store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
-    
-                        # if administrator is logging in, do not update anything. 
-                        if not is_admin_login:
-                            
-                            if password_has_been_reset:
-                                # The user has logged in using the new password - so eliminate the 
-                                # original password.
-                                userobject.password = userobject.password_reset
-                                userobject.password_reset = None
-                            else: # entering with the original password
-                                
-                                # if the user has entered with the original password, then remove the reset_password
-                                # so that they don't have two valid passwords floating around
-                                if userobject.password_reset != None:
-                                    userobject.password_reset = None
-                                
-    
-                            userobject.previous_last_login = userobject.last_login
-                            userobject.last_login =  datetime.datetime.now()   
-                            userobject.last_login_string = str(userobject.last_login)
-                                                    
-                            if not utils.get_client_paid_status(userobject):
-                                # client has lost their VIP status - clear from both the userobject and and the 
-                                # unique_last_login_offset structures.
-                                userobject.client_paid_status = None
-                                
-                                # this user up until now has not had to solve any captchas since he was a VIP member - therefore, it is possible
-                                # that his spam_tracker has accumulated a number of times being reported as spammer. We don't want to punish people
-                                # after they lose their vip status, and so we set the number of captchas solved to be equal to the number of times
-                                # reported as a spammer (this means that any previous spam messages will not require that a new captcha be solved). 
-                                spam_tracker =  userobject.spam_tracker.get()                           
-                                spam_tracker.number_of_captchass_solved_total = spam_tracker.num_times_reported_as_spammer_total
-                                spam_tracker.put()
-                                
-                                
-                                
-                            (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-                             login_utils.get_or_create_unique_last_login(userobject, userobject.username)
-                            
-                            
-                            # remove chat boxes from previous sessions.
-                            channel_support.close_all_chatboxes_internal(owner_uid)
-                             
-                            # reset the new_messages_since_last_notification data strutures since the user 
-                            # is logging in, and is obviously aware of new messages etc. 
-                            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref)
-                            store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.new_contact_counter_ref) 
-                            
-                            # log information about this users login time, and IP address
-                            utils.update_ip_address_on_user_tracker(userobject.user_tracker)
-                            
-                            utils.store_login_ip_information(request, userobject)
-    
-                            utils.put_userobject(userobject)
-    
-                        # update session to point to the current userobject
-                        login_utils.store_session(request, userobject)
-                    
-                        http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-                        logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
-    
-                        # Set language to whatever the user used the last time they were logged in. 
-                        search_preferences = userobject.search_preferences2.get()
-                        lang_code = search_preferences.lang_code
-                        assert(lang_settings.set_language_in_session(request, lang_code))
-                        # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
-                        # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
-                        redirect_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
-                                'lang_code': lang_code, 'owner_nid':owner_nid}                        
-                        return http.HttpResponseRedirect(redirect_url)                        
-
-                        
-                
-
-            else:
-                logging.error("login_type = %s" % login_type)
-                assert(login_type == '') 
-                
-    
-                
+        if request.method == 'GET':
             # the following information is used for telling the user that the emailed link that they have clicked on was unable to be
             # authorized. 
             # unable_to_verify_user GET value contains the username that we were unable to find in the authorization info data struct.
-            unable_to_verify_username = request.REQUEST.get('unable_to_verify_user', '') 
+            unable_to_verify_username = request.GET.get('unable_to_verify_user', '') 
             if (unable_to_verify_username):
                 message_for_client = ugettext("""We are unable verify/authorize the account for %(unable_to_verify_username)s. 
                 This can happen if you have already verified your acount. If the account %(unable_to_verify_username)s is 
@@ -339,6 +112,16 @@ def login(request, is_admin_login = False):
             
                 error_list.append(message_for_client)
                 
+            # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
+            user_already_registered = request.GET.get('already_registered', '') 
+            if (user_already_registered):
+                username = login_dict['username_email'] 
+                message_for_client = ugettext("""
+                Your account has been correctly registered. You can enter using your username: %(username)s
+                and the password that you entered when you created your account.""") % {'username' : username}
+  
+                error_list.append(message_for_client)   
+                                    
         # The following two calls generate the table rows required for displaying the login
         # note that this is a reference to the class, *not* to an instance (object) of the class. This is because
         # we do not want to re-generate a new object for each unique login (this would make caching
@@ -347,11 +130,6 @@ def login(request, is_admin_login = False):
         
         # This code is used for generating maintenance warning messages. 
         (maintenance_soon_warning, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
-            
-        # login_type is passed in to ensure that error-messages occur in the correct part of the
-        # display.    
-        if error_list:
-            error_reporting.log_exception(logging.info, error_message=repr(error_list))
             
         meta_info = {}
         if settings.SEO_OVERRIDES_ENABLED:
@@ -466,76 +244,310 @@ def verify_user_email(request, login_dict):
         return "Critical error in verify_user_email"
     
 
+
+def process_login(request, is_admin_login = False):
+    
+    # Note that this function can be called from a POST or a GET (URL-passing in login parameters), 
+    # or on initial loading without POST information.
+    # If it is called without POST information, then the default login page is simply displayed. Otherwise
+    # the POST data is analyzed to see if the login/signup is successful.
+    # GET is used for sending an incorrect login back to the original login page along with parameters
+    # that have previously been entered (such as a username)
+    # 
+    try:
+        response_dict = {}
+        error_dict = {}
+        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
         
+        if request.method != 'POST':
+            error_message = "process_login was not called with POST data"
+            error_reporting.log_exception(logging.critical, error_message = error_message)  
+            return http.HttpResponseBadRequest(error_message)
+        
+               
+        (login_allowed, message_for_client) = check_if_login_country_allowed(request)
+        
+        if not login_allowed:
+            logging.critical("Must handle countries that are not allowed")
+            assert(0)
+        
+        
+        login_dict = {'username_email' : request.POST.get('username_email', '----'),
+                      'password' : request.POST.get('password', '----'),
+                      }
+        for key in login_dict.keys():
+            if not login_dict[key]: login_dict[key] = "----" 
+            
+        #clear_old_session(request)
+        username = ''
+        
+        # remove spaces in the username/email field
+        login_dict['username_email'] = login_dict['username_email'].replace(' ', '')
+        
+        # Ensure that the most recently
+        # accessed object will be returned in case of a conflict (which might occur if a person uses the same email
+        # address for multiple accounts)       
+        q_last_login = models.UserModel.query().order(-models.UserModel.last_login_string)
+        
+        email_or_username_login = None
+        if email_re.match(login_dict['username_email']):                       
+            email_or_username_login = "email"
+            q_username_email = q_last_login.filter(models.UserModel.email_address == login_dict['username_email'].lower())
+        else:
+            email_or_username_login = "username"
+            username = login_dict['username_email'].upper()
+            q_username_email = q_last_login.filter(models.UserModel.username == username)
+            if (constants.rematch_non_alpha.search(username) != None or len(username) < 3):
+                error_dict['username_email'] = u"%s" % constants.ErrorMessages.username_alphabetic
+                                
+        
+        # Verify that the password only contains acceptable characters  - 
+        # this is necessary for the password hashing algorithm which only works with ascii chars, 
+        # and make sure that it is not empty.
+        if login_dict['password'] == "----":
+            error_dict['password'] = u"%s" % constants.ErrorMessages.password_required
+        elif constants.rematch_non_alpha.search(login_dict['password']) != None :
+            error_dict['password'] = u"%s" % constants.ErrorMessages.password_alphabetic
+        else:
+            if not is_admin_login:
+                # make sure that the password is not empty -- should never even get into here
+                # if it is not set (earlier error checking should catch this). 
+                assert(login_dict['password'])
+                       
+                # All "normal" (non admin) logins MUST check the password!!
+                q_with_password = q_username_email.filter(models.UserModel.password == utils.passhash(login_dict['password']))
+                
+                # make sure that profile has not been marked for elimination (if we are an administrator, we can
+                # still log into deleted accounts, so we don't add this value into the search query)
+                q_not_eliminated = q_with_password.filter(models.UserModel.user_is_marked_for_elimination == False)                          
+                
+
+            else:
+                # for administrator, we don't filter on the password. We also allow the administrator to log into 
+                # deleted accounts (so q_not_eliminated does not mean tht the profile has necessarily
+                # not been marked for elmination when the admin is logging in, but this allows us to use
+                # the same variable in the following code)
+                q_not_eliminated = q_username_email
+
+
+
+        if not error_dict:
+            # No errors so far. Continue validation.
+            
+            # Note: if the password has been reset, then the 'password_reset' value will contain
+            # the new password (as opposed to directly overwriting the 'password' field). This is done  to prevent
+            # random people from resetting other peoples passwords. -- Once the user has 
+            # logged in using the new 'reset_password', then we copy this field over to the 'password'
+            # field. If the user never logs in with this 'reset_password', then the original password
+            # is not over-written -- and we instead erase the 'reset_password' value
+            
+            password_has_been_reset = False
+            userobject = q_not_eliminated.get()
+
+            if not userobject and not is_admin_login:
+                # if the original query failed, do a query using the 'password_reset' value --
+                # this will contain a new password, if the user has requested a new password be 
+                # sent to their email account.
+                # set up the query to check the 'password_reset' value
+                q_password_reset = q_username_email.filter(models.UserModel.password_reset == utils.passhash(login_dict['password']))
+                q_not_eliminated = q_password_reset.filter(models.UserModel.user_is_marked_for_elimination == False)  
+
+                userobject = q_not_eliminated.get()    
+                if userobject:
+                    password_has_been_reset = True
+            
+            
+            if not userobject and not is_admin_login:
+                # The user was unable to login -- 
+                # check to see if the username/email+password was registered at some point, and has been eliminated
+
+                q_is_eliminated = q_with_password.filter(models.UserModel.user_is_marked_for_elimination == True)
+                eliminated_userobject = q_is_eliminated.get()
+                
+                # if no eliminated object was found, try again, but this time only if the user has entered a username (not an email)
+                # and we will remove the password from the query. This will allow better reporting for people who may have forgotten
+                # their password. (we do not query without password for an email address login to prevent people from probing our system
+                # to see if an email address was registered)
+                if not eliminated_userobject:
+                    
+                    if email_or_username_login == 'username':
+                        # we know that a username as opposed to an email address was entered
+                        q_is_eliminated = q_username_email.filter(models.UserModel.user_is_marked_for_elimination == True)
+                        eliminated_userobject = q_is_eliminated.get()                            
+                
+                if eliminated_userobject:
+                    # Let user know that the profile was eliminated. 
+                    message_for_client = utils.get_removed_user_reason_html(eliminated_userobject)
+                    error_dict['message'] = message_for_client
+                    
+                else: # the profile (email + password OR username) did not appear in the list of eliminated userobjects
+                    
+                    error_dict['message'] = u"%s" % constants.ErrorMessages.incorrect_username_password
+                                     
+                
+            if userobject:
+                # success, user is in database and has entered correct data
+                owner_uid = userobject.key.urlsafe()
+                owner_nid = utils.get_nid_from_uid(owner_uid)
+                
+                # make sure that the userobject has all the parts that the code expects it to have.
+                store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
+
+                # if administrator is logging in, do not update anything. 
+                if not is_admin_login:
+                    
+                    if password_has_been_reset:
+                        # The user has logged in using the new password - so eliminate the 
+                        # original password.
+                        userobject.password = userobject.password_reset
+                        userobject.password_reset = None
+                    else: # entering with the original password
+                        
+                        # if the user has entered with the original password, then remove the reset_password
+                        # so that they don't have two valid passwords floating around
+                        if userobject.password_reset != None:
+                            userobject.password_reset = None
+                        
+
+                    userobject.previous_last_login = userobject.last_login
+                    userobject.last_login =  datetime.datetime.now()   
+                    userobject.last_login_string = str(userobject.last_login)
+                                            
+                    if not utils.get_client_paid_status(userobject):
+                        # client has lost their VIP status - clear from both the userobject and and the 
+                        # unique_last_login_offset structures.
+                        userobject.client_paid_status = None
+                        
+                        # this user up until now has not had to solve any captchas since he was a VIP member - therefore, it is possible
+                        # that his spam_tracker has accumulated a number of times being reported as spammer. We don't want to punish people
+                        # after they lose their vip status, and so we set the number of captchas solved to be equal to the number of times
+                        # reported as a spammer (this means that any previous spam messages will not require that a new captcha be solved). 
+                        spam_tracker =  userobject.spam_tracker.get()                           
+                        spam_tracker.number_of_captchass_solved_total = spam_tracker.num_times_reported_as_spammer_total
+                        spam_tracker.put()
+                        
+                        
+                        
+                    (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
+                     login_utils.get_or_create_unique_last_login(userobject, userobject.username)
+                    
+                    
+                    # remove chat boxes from previous sessions.
+                    channel_support.close_all_chatboxes_internal(owner_uid)
+                     
+                    # reset the new_messages_since_last_notification data strutures since the user 
+                    # is logging in, and is obviously aware of new messages etc. 
+                    store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref)
+                    store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.new_contact_counter_ref) 
+                    
+                    # log information about this users login time, and IP address
+                    utils.update_ip_address_on_user_tracker(userobject.user_tracker)
+                    
+                    utils.store_login_ip_information(request, userobject)
+
+                    utils.put_userobject(userobject)
+
+                # update session to point to the current userobject
+                login_utils.store_session(request, userobject)
+            
+                http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+                logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
+
+                # Set language to whatever the user used the last time they were logged in. 
+                search_preferences = userobject.search_preferences2.get()
+                lang_code = search_preferences.lang_code
+                assert(lang_settings.set_language_in_session(request, lang_code))
+                # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
+                # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
+                redirect_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
+                        'lang_code': lang_code, 'owner_nid':owner_nid}                        
+            
+            
+            response_dict['Login_OK_Redirect_URL'] = redirect_url
+        else:
+            # there were errors - report them
+            response_dict['Login_Error'] = error_dict
+            
+        json_response = simplejson.dumps(response_dict)
+        return http.HttpResponse(json_response, mimetype='text/javascript')  
+        
+
+    except:
+        error_message = "process_login unknown error"
+        error_reporting.log_exception(logging.critical, error_message = error_message)          
+        return http.HttpResponseBadRequest(error_message)
+                
+                
 def process_registration(request):
     # new user is signing up 
     lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
     response_dict = {}
        
     try:
-        if request.method == 'POST':
-               
-            (login_allowed, message_for_client) = check_if_login_country_allowed(request)
-            
-            if not login_allowed:
-                logging.critical("Must handle countries that are not allowed")  
-                assert(0)
-            
-            login_dict = login_utils.get_login_dict_from_post(request, "signup_fields")
-                    
-            login_dict['country'] = request.REQUEST.get('country', '----')
-            login_dict['sub_region'] = request.REQUEST.get('sub_region', '----')
-            login_dict['region'] = request.REQUEST.get('region', '----')
-            
-            # re-write all user names to upper-case to prevent confusion
-            # and amateur users from not being able to log in.
-            login_dict['username'] = login_dict['username'].upper()
-                        
-            # if email address is given, make sure that it is valid
-            if login_dict['email_address'] and login_dict['email_address'] != "----":
-                # remove blank spaces from the email address -- to make it more likely to be acceptable
-                login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
-                login_dict['email_address'] = login_dict['email_address'].lower()
-            
-            (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
-            
-            # Now check if username is already taken
-            query = models.UserModel.query().filter(models.UserModel.username == login_dict['username'])
-            query_result = query.fetch(limit=1)
-            if len(query_result) > 0:
-                error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken
-            else:
-                # now check if the username is in the process of being registered (in EmailAuthorization model)
-                query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
-                query_result = query.fetch(limit=1)
-                if len(query_result) > 0:
-                    error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken 
-                    
-            # if there are no errors, then store the signup information.
-            if not error_dict:
-        
-                
-                # encrypt the password -- but only if it is a new password or if the password
-                # has been changed by the user if it does not match the password stored in password_hashed
-                password_encrypted = utils.passhash(login_dict['password'])
-                login_dict['password'] = password_encrypted
-    
-                # we should totally remove 'password_verify' from the UserModel eventually -- but for 
-                # now just set it to the hashed password (since we have just replaced the password with the hash).
-                login_dict['password_verify'] = login_dict['password']
-                               
-                response =  verify_user_email(request, login_dict)
-                response_dict['Registration_OK'] = response
-            else:
-                response_dict['Registration_Error'] = error_dict
-                
-            json_response = simplejson.dumps(response_dict)
-            return http.HttpResponse(json_response, mimetype='text/javascript')  
-        
-        else:
+        if request.method != 'POST':
             error_message = "process_registration was not called with POST data"
             error_reporting.log_exception(logging.critical, error_message = error_message)  
             return http.HttpResponseBadRequest(error_message)
+        
+               
+        (login_allowed, message_for_client) = check_if_login_country_allowed(request)
+        
+        if not login_allowed:
+            logging.critical("Must handle countries that are not allowed")  
+            assert(0)
+        
+        login_dict = login_utils.get_registration_dict_from_post(request)
+                
+        login_dict['country'] = request.REQUEST.get('country', '----')
+        login_dict['sub_region'] = request.REQUEST.get('sub_region', '----')
+        login_dict['region'] = request.REQUEST.get('region', '----')
+        
+        # re-write all user names to upper-case to prevent confusion
+        # and amateur users from not being able to log in.
+        login_dict['username'] = login_dict['username'].upper()
+                    
+        # if email address is given, make sure that it is valid
+        if login_dict['email_address'] and login_dict['email_address'] != "----":
+            # remove blank spaces from the email address -- to make it more likely to be acceptable
+            login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
+            login_dict['email_address'] = login_dict['email_address'].lower()
+        
+        (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
+        
+        # Now check if username is already taken
+        query = models.UserModel.query().filter(models.UserModel.username == login_dict['username'])
+        query_result = query.fetch(limit=1)
+        if len(query_result) > 0:
+            error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken
+        else:
+            # now check if the username is in the process of being registered (in EmailAuthorization model)
+            query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
+            query_result = query.fetch(limit=1)
+            if len(query_result) > 0:
+                error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken 
+                
+        # if there are no errors, then store the signup information.
+        if not error_dict:
+    
+            
+            # encrypt the password -- but only if it is a new password or if the password
+            # has been changed by the user if it does not match the password stored in password_hashed
+            password_encrypted = utils.passhash(login_dict['password'])
+            login_dict['password'] = password_encrypted
+
+            # we should totally remove 'password_verify' from the UserModel eventually -- but for 
+            # now just set it to the hashed password (since we have just replaced the password with the hash).
+            login_dict['password_verify'] = login_dict['password']
+                           
+            response =  verify_user_email(request, login_dict)
+            response_dict['Registration_OK'] = response
+        else:
+            response_dict['Registration_Error'] = error_dict
+            
+        json_response = simplejson.dumps(response_dict)
+        return http.HttpResponse(json_response, mimetype='text/javascript')  
+        
+
     except:
         error_message = "Unknown error"
         error_reporting.log_exception(logging.critical, error_message = error_message)          
@@ -555,10 +567,10 @@ def store_new_user_after_verify(request, fake_request=None):
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
         
         if not fake_request:
-            login_dict = login_utils.get_login_dict_from_post(request, "signup_fields")
+            login_dict = login_utils.get_registration_dict_from_post(request)
         else:
             fake_request.LANGUAGE_CODE = request.LANGUAGE_CODE
-            login_dict = login_utils.get_login_dict_from_post(fake_request, "signup_fields")
+            login_dict = login_utils.get_registration_dict_from_post(fake_request)
     
         error_dict = login_utils.error_check_signup_parameters(login_dict, lang_idx)
  

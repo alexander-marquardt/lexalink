@@ -224,7 +224,7 @@ def error_check_signup_parameters(login_dict, lang_idx):
         return error_dict
 
 #############################################
-def get_login_dict_from_post(request, login_type):
+def get_registration_dict_from_post(request):
     # parses the POST data, and checks to see that something has been entered.
     
     login_dict = {}
@@ -236,29 +236,19 @@ def get_login_dict_from_post(request, login_type):
             error_reporting.log_exception(logging.critical)
             lang_idx = localizations.input_field_lang_idx['es']
         
-        if login_type:
-            login_dict['login_type'] = login_type
-        if login_type == 'signup_fields' or login_type == "left_side_fields":
-            
-            if login_type == 'signup_fields':
-                additional_fields =  ['country', 'region', 'sub_region']
-            else:
-                additional_fields = []
-            fields_to_display_in_order = login_type + "_to_display_in_order"
-            
-            for field in getattr(UserSpec, fields_to_display_in_order) + additional_fields: 
-                # Accept POST and GET -- use REQUEST to do this
-                post_val = request.REQUEST.get(field, '----')
-                if not post_val:
-                    post_val = '----'
-                    
-                # probably a bit paranoid, but we cut the input to "MAX_TEXT_INPUT_LEN" - in case someone tries to overload our DB.
-                login_dict[field] = post_val[:constants.MAX_TEXT_INPUT_LEN]
+        additional_fields =  ['country', 'region', 'sub_region']
+        
+        for field in UserSpec.signup_fields_to_display_in_order + additional_fields: 
+            # Accept POST and GET -- use REQUEST to do this
+            post_val = request.REQUEST.get(field, '----')
+            if not post_val:
+                post_val = '----'
                 
-                        
+            # probably a bit paranoid, but we cut the input to "MAX_TEXT_INPUT_LEN" - in case someone tries to overload our DB.
+            login_dict[field] = post_val[:constants.MAX_TEXT_INPUT_LEN]
+                
     except:
         error_reporting.log_exception(logging.critical)
-        error_list = ''
         
     return (login_dict) 
 

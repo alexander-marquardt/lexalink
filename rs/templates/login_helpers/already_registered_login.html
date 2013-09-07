@@ -1,0 +1,155 @@
+{% load i18n %}
+
+{% if is_admin_login %}
+    <form id="id-already_registered_login_form" method=POST action="{url login.admin_process_login %}">
+{% else %}
+    <form id="id-already_registered_login_form" method=POST action="{% url login.process_login %}">
+{% endif %}
+
+        <input type=hidden name=login_type value=left_side_fields>
+
+        <table id="id-horiz-bar-table"> <!-- outer table -->
+            <tr> <!-- container row -->
+                {% if build_name == "discrete_build" %}
+                <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                    {% trans "Free confidential dating" %}.
+                </td>
+                {% endif %}
+
+                {% if SITE_IS_TOTALLY_FREE %}
+                <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
+                    {% trans "100 percent free everything included" %}.
+                </td>
+                {% endif %}
+
+                <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
+                {% if build_name == "lesbian_build" %}
+                    {% trans "Are you already registered (female)? Enter here:" %}&nbsp;</td>
+                {% else %}
+                    {% trans "Are you already registered? Enter here:" %}&nbsp;</td>
+                {% endif %}
+
+
+                <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
+                    <input type="text"
+                           class="defaultText cl-default-password-input-text-prompt cl-nick-textinput-width-px"
+                           title='{% trans "username or email"%}'
+                           id="id-login_fields-username_email" name="username_email" maxlength=50>
+                </td>
+                <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
+
+                    <!-- need to define two boxes for the password - but only one will be shown at a time -
+           required for showing text prompt in the input box -->
+                    <span id="id-login_fields-password">
+                        <input type="text" class="cl-default-password-input-text-prompt cl-narrow-textinput-width-px"
+                               value='{% trans "password" %}' id="id-password-prompt"
+                               name="password-prompt" maxlength=50>
+                        <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
+                               name="password" maxlength=50>
+                    </span>
+                </td>
+                <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field ">
+                    <input id="id-submit-login-button" type="submit" class="cl-small-login-button"
+                           value='{% trans "Enter" %}!'>
+                </td>
+
+
+                <!-- the following rows push the table up from the bottom-->
+            </tr>
+        </table>
+        <!-- end outer table -->
+    </form>
+
+
+
+<script type="text/javascript">
+
+    function handle_registered_login_form() {
+
+        var registration_errors_dict = [];
+
+        $("#id-already_registered_login_form").submit(function(e) {
+
+            // prevent double clicks from being processed.
+            $('#id-submit-login-button').attr('disabled', 'disabled')
+
+            clear_registration_errors(registration_errors_dict);
+
+            var submit_form_url = $("#id-already_registered_login_form").attr('action');
+            $(this).ajaxSubmit({url: submit_form_url,
+                type: 'post',
+                dataType: "json",
+                clearForm: false,
+                cache: false,
+                success:  function(post_response) {
+                    $('#id-submit-login-button').removeAttr('disabled'); // enable submit button
+
+                    if ("Login_OK_Redirect_URL" in post_response) {
+                       var redirect_url = post_response["Login_OK_Redirect_URL"];
+                       self.location = redirect_url; // load the URL that was passed back.
+
+                    } else if ("Login_Error" in post_response) {
+                        registration_errors_dict = post_response["Login_Error"];
+                        show_registration_errors(registration_errors_dict, "login_fields");
+                    } else {
+                        var readable_object = JSON.stringify(post_response);
+                        report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#id-submit-login-button').removeAttr('disabled'); // enable submit button
+
+                    if (jqXHR.responseText != undefined) {
+                        var error_string = jqXHR.responseText;
+                        report_ajax_error(textStatus, errorThrown, error_string);
+                    } else {
+                        report_ajax_error(textStatus, errorThrown, "handle_registered_login_form - unknown error");
+                    }
+                }
+            });
+            // prevent normal page navigation upon form submission - this is the same as calling
+            // e.preventDefault and e.stopPropagation
+            return false;
+        });
+    }
+
+    function handle_password_input() {
+        // code for showing default text in the input box
+        $(".defaultText").focus(function(srcc) {
+            if ($(this).val() == $(this)[0].title) {
+                $(this).val("");
+            }
+            $(this).removeClass("cl-default-password-input-text-prompt");
+        });
+        $(".defaultText").blur(function() {
+            if ($(this).val() == "") {
+                $(this).addClass("cl-default-password-input-text-prompt");
+                $(this).val($(this)[0].title);
+            }
+        });
+        $(".defaultText").blur();
+
+        // code for swapping in and out the password textbox
+        $('#id-password-prompt').show();
+        $('#id-password-input').hide();
+        $('#id-password-prompt').focus(function() {
+            $('#id-password-prompt').hide();
+            $('#id-password-input').show();
+            $('#id-password-input').focus();
+        });
+        $('#id-password-input').blur(function() {
+            if ($('#id-password-input').val() == '') {
+                $('#id-password-prompt').show();
+                $('#id-password-input').hide();
+            }
+        });
+    }
+
+
+    $(document).ready(function() {       
+        handle_registered_login_form();
+        handle_password_input();
+    });
+
+
+</script>

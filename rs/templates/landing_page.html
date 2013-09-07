@@ -54,35 +54,6 @@
         }
 
 
-        // code for showing default text in the input box
-        $(".defaultText").focus(function(srcc) {
-            if ($(this).val() == $(this)[0].title) {
-                $(this).val("");
-            }
-            $(this).removeClass("cl-default-input-text-prompt");
-        });
-        $(".defaultText").blur(function() {
-            if ($(this).val() == "") {
-                $(this).addClass("cl-default-input-text-prompt");
-                $(this).val($(this)[0].title);
-            }
-        });
-        $(".defaultText").blur();
-
-        // code for swapping in and out the password textbox
-        $('#id-password-prompt').show();
-        $('#id-password-input').hide();
-        $('#id-password-prompt').focus(function() {
-            $('#id-password-prompt').hide();
-            $('#id-password-input').show();
-            $('#id-password-input').focus();
-        });
-        $('#id-password-input').blur(function() {
-            if ($('#id-password-input').val() == '') {
-                $('#id-password-prompt').show();
-                $('#id-password-input').hide();
-            }
-        });
 
         $("#id-enter_guest").button();
         $("#id-enter_guest").addClass('cl-enter_guest-flash');
@@ -91,6 +62,37 @@
         $("#id-enter_guest").removeClass('cl-enter_guest-flash', 2000);
 
     });
+
+
+    function clear_registration_errors(registration_errors_dict) {
+        for (key in registration_errors_dict) {
+            var input_field_id_selector = "#id-signup_fields-" + key;
+            $(input_field_id_selector).removeClass("cl-highlight_border");
+        }
+    }
+
+    function show_registration_errors(registration_errors_dict, fields_type) {
+
+        // loop over the objects in the errors_dict
+        var error_html = '<ul>';
+        for (key in registration_errors_dict) {
+            var input_field_id_selector = "#id-" + fields_type + "-" + key;
+            $(input_field_id_selector).addClass("cl-highlight_border");
+            error_html += '<li class="cl-indent">'+ registration_errors_dict[key];
+        }
+        error_html += '</ul>';
+        $('#id-show_after_registration_dialog_box').html(error_html);
+        $('#id-show_after_registration_dialog_box').dialog({
+            width: 400,
+            modal: false,
+            position: {
+                my: "center",
+                at: "center",
+                of: "#id-over-image"
+            }
+        }).dialog('close').dialog('open');
+    }
+    
 
 </script>
 
@@ -107,66 +109,9 @@
     <div class="cl-clear"></div>
     <div class="grid_12">
 
-
-        {% if is_admin_login %}
-            <form id="id-already_registered_inputs" method=POST action="/rs/admin/login/">
-        {% else %}
-            <form id="id-already_registered_inputs" method=POST action="{% url login.login %}">
-        {% endif %}
-
-                <input type=hidden name=login_type value=left_side_fields>
-
-                <table id="id-horiz-bar-table"> <!-- outer table -->
-                    <tr> <!-- container row -->
-                        {% if build_name == "discrete_build" %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {% trans "Free confidential dating" %}.
-                        </td>
-                        {% endif %}
-
-                        {% if SITE_IS_TOTALLY_FREE %}
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                            {% trans "100 percent free everything included" %}.
-                        </td>
-                        {% endif %}
-
-                        <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
-                        {% if build_name == "lesbian_build" %}
-                            {% trans "Are you already registered (female)? Enter here:" %}&nbsp;</td>
-                        {% else %}
-                            {% trans "Are you already registered? Enter here:" %}&nbsp;</td>
-                        {% endif %}
-                        
-
-                        <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
-                            <input type="text"
-                                   class="defaultText cl-default-input-text-prompt cl-nick-textinput-width-px"
-                                   title='{% trans "username or email"%}'
-                                   id="id-signup_fields-username_email" name="username_email" maxlength=50>
-                        </td>
-                        <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
-
-                            <!-- need to define two boxes for the password - but only one will be shown at a time -
-                   required for showing text prompt in the input box -->
-                            <input type="text" class="cl-default-input-text-prompt cl-narrow-textinput-width-px"
-                                   value='{% trans "password" %}' id="id-password-prompt"
-                            name="password-prompt" maxlength=50>
-                            <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
-                                   name="password" maxlength=50></td>
-
-                        <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field ">
-                            <input type="submit" class="cl-small-login-button"
-                                   value='{% trans "Enter" %}!'>
-                        </td>
-
-                        <!-- the following rows push the table up from the bottom-->
-                    </tr>
-                </table>
-                <!-- end outer table -->
-            </form>
-
+        {% include "login_helpers/already_registered_login.html" %}
     </div>
-
+        
     <div class="cl-clear"></div>
 
 
@@ -188,10 +133,6 @@
                 {% trans "Enter with a guest account" %}
             </a>
             <br><br>
-
-
-
-            </ul>
 
             {% if not maintenance_shutdown_warning %}
 
@@ -228,7 +169,7 @@
 
 
 
-            <div id="id-over-image" class="grid_6">{% include "login_helpers/login_errors.html" %}</div>
+            <div id="id-over-image" class="grid_6">{% include "login_helpers/landing_page_errors.html" %}</div>
 
 
 

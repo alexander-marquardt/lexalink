@@ -92,43 +92,10 @@
     }
 
 
-    function clear_registration_errors(registration_errors_dict) {
-        for (key in registration_errors_dict) {
-            var input_field_id_selector = "#id-signup_fields-" + key;
-            $(input_field_id_selector).removeClass("cl-highlight_border");
-        }
-    }
-
-    function show_registration_errors(registration_errors_dict) {
-        
-        // loop over the objects in the errors_dict
-        var error_html = '<ul>';
-        for (key in registration_errors_dict) {
-            var input_field_id_selector = "#id-signup_fields-" + key;
-            $(input_field_id_selector).addClass("cl-highlight_border");
-            error_html += '<li class="cl-indent">'+ registration_errors_dict[key];
-        }
-        error_html += '</ul>';
-        $('#id-show_after_registration_dialog_box').html(error_html);
-        $('#id-show_after_registration_dialog_box').dialog({
-            width: 400,
-            modal: false,
-            position: {
-                my: "center",
-                at: "center",
-                of: "#id-over-image"
-            }
-        }).dialog('close').dialog('open');
-    }
-
 
 
     function handle_user_registration_form() {
 
-
-        // The following code automatically submits the file that is selected by the user
-        // as opposed to adding a "submit" button. This is more consistent with the other
-        // interfaces on the website, and makes more sense.
         var registration_errors_dict = [];
 
         $("#id-submit-signup-form").submit(function(e) {
@@ -159,7 +126,7 @@
                         }).dialog('close').dialog('open');
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];
-                        show_registration_errors(registration_errors_dict);
+                        show_registration_errors(registration_errors_dict, "signup_fields");
                     } else {
                         var readable_object = JSON.stringify(post_response);
                         report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);
@@ -169,7 +136,8 @@
                     $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
                     
                     if (jqXHR.responseText != undefined) {
-                        error_string = jqXHR.responseText;
+                        var error_string = jqXHR.responseText;
+                        report_ajax_error(textStatus, errorThrown, error_string);
                     } else {
                         report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown error");
                     }
