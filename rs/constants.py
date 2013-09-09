@@ -568,7 +568,7 @@ class ErrorMessages():
     # all user-oriented error messages should appear here, so that translations into 
     # other languages will be easier in the future.
 
-    username_alphabetic = ugettext_lazy("<strong>Username</strong> can only contain letters and numbers.")    
+    username_alphabetic = ugettext_lazy("<strong>Username</strong> can only contain letters and numbers, and must not contain spaces.")    
     username_too_short = ugettext_lazy("<strong>Username</strong> needs at least 3 characters.")
     password_required = ugettext_lazy("<strong>Password</strong> required")
     passwords_not_match = ugettext_lazy("The <strong>Password</strong> and the <strong>Verification Password</strong> must be the same.")
