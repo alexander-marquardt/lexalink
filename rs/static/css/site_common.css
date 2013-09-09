@@ -421,7 +421,7 @@ table.cl-table-no-margin
 	margin: 0px;
 }
 
-.cl-default-input-text-prompt { color: #a1a1a1;}
+.cl-default-username_or_password-input-text-prompt { color: #a1a1a1;}
 
 td.cl-info-td
 {

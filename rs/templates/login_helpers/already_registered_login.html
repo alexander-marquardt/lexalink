@@ -74,6 +74,12 @@
 
             clear_both_registration_and_login_fields_errors();
 
+            if ($('#id-login_fields-username_email').val() == $('#id-login_fields-username_email')[0].title) {
+                // if the username field has not been entered, then clear the default text that we show to the user
+                // in the input box, before submitting
+                $('#id-login_fields-username_email').val("");
+            }
+
             var submit_form_url = $("#id-already_registered_login_form").attr('action');
             $(this).ajaxSubmit({url: submit_form_url,
                 type: 'post',
@@ -98,6 +104,11 @@
                         }
 
                         show_fields_errors("login_fields", login_errors_dict, extra_html);
+
+                        if ($('#id-login_fields-username_email').val() == '') {
+                            // if the username field has not been entered, show the default text
+                            $('#id-login_fields-username_email').val($('#id-login_fields-username_email')[0].title);
+                        }
                     } else {
                         var readable_object = JSON.stringify(post_response);
                         var error_html =  "handle_user_registration_form - unknown json response object: " + readable_object
@@ -124,9 +135,9 @@
         });
     }
 
-    function handle_password_input() {
+    function handle_login_inputs() {
         // code for showing default text in the input box
-        $(".defaultText").focus(function(srcc) {
+        $(".defaultText").focus(function() {
             if ($(this).val() == $(this)[0].title) {
                 $(this).val("");
             }
@@ -159,7 +170,7 @@
 
     $(document).ready(function() {       
         handle_registered_login_form();
-        handle_password_input();
+        handle_login_inputs();
     });
 
 

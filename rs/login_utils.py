@@ -183,7 +183,7 @@ def error_check_signup_parameters(login_dict, lang_idx):
         # Verify that the username only contains acceptable characters 
         # This is not really necessary, but prevents people from entering strange names.
         if (len(login_dict['username']) < 3 or login_dict['username'] == "----"): 
-            error_dict['username_email'] = u"%s" % constants.ErrorMessages.username_too_short              
+            error_dict['username'] = u"%s" % constants.ErrorMessages.username_too_short              
         elif (constants.rematch_non_alpha.search(login_dict['username']) != None):
             error_dict['username'] = u"%s" %constants.ErrorMessages.username_alphabetic   
             
