@@ -385,11 +385,18 @@ def get_active_userobject_from_username(username):
         error_reporting.log_exception(logging.critical, error_message = 'Error in get_active_userobject_from_username') 
         return None
     
-def old_passhash(raw_password):
+def old_passhash(raw_password, salt=''):
     
     # hash the password so that it is unreadable
     pwhash = hashlib.sha1()
-    pwhash.update(raw_password.encode('utf-8'))
+    pwhash.update(raw_password.encode('utf-8') + salt)
+    return pwhash.hexdigest()
+
+def new_passhash(raw_password, salt=''):
+    
+    # hash the password so that it is unreadable
+    pwhash = hashlib.sha512()
+    pwhash.update(raw_password.encode('utf-8') + salt)
     return pwhash.hexdigest()
 
 def get_new_contact_count_sum(new_contact_counter):

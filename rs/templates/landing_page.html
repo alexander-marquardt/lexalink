@@ -88,7 +88,9 @@
         for (key in errors_dict) {
             var input_field_id_selector = "#id-" + fields_type + "-" + key;
             $(input_field_id_selector).addClass("cl-highlight_border");
-            error_html += '<li class="cl-indent">'+ errors_dict[key];
+            if (errors_dict[key]) {
+                error_html += '<li class="cl-indent">'+ errors_dict[key];
+            }
         }
         error_html += '</ul>';
         error_html += extra_html;

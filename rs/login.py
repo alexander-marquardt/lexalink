@@ -288,106 +288,88 @@ def process_login(request, is_admin_login = False):
         # Ensure that the most recently
         # accessed object will be returned in case of a conflict (which might occur if a person uses the same email
         # address for multiple accounts)       
-        q_last_login = models.UserModel.query().order(-models.UserModel.last_login_string)
+        q_order_by_last_login = models.UserModel.query().order(-models.UserModel.last_login_string)
         
         email_or_username_login = None
         if email_re.match(login_dict['username_email']):                       
             email_or_username_login = "email"
-            q_username_email = q_last_login.filter(models.UserModel.email_address == login_dict['username_email'].lower())
+            q_username_email = q_order_by_last_login.filter(models.UserModel.email_address == login_dict['username_email'].lower())
         else:
             email_or_username_login = "username"
             username = login_dict['username_email'].upper()
-            q_username_email = q_last_login.filter(models.UserModel.username == username)
+            q_username_email = q_order_by_last_login.filter(models.UserModel.username == username)
             if (len(username) < 3 or username == "----"): 
                 error_dict['username_email'] = u"%s" % constants.ErrorMessages.username_too_short            
             elif (constants.rematch_non_alpha.search(username) != None ):
                 error_dict['username_email'] = u"%s" % constants.ErrorMessages.username_alphabetic
-                                
-        
-        # Verify that the password only contains acceptable characters  - 
-        # this is necessary for the password hashing algorithm which only works with ascii chars, 
-        # and make sure that it is not empty.
-        if login_dict['password'] == "----":
-            error_dict['password'] = u"%s" % constants.ErrorMessages.password_required
-
+                   
+                              
+        if is_admin_login:
+            # There should only be a single "active" (not eliminated) user for each username/email.
+            userobject = q_username_email.get()            
         else:
-            if not is_admin_login:
-                # make sure that the password is not empty -- should never even get into here
-                # if it is not set (earlier error checking should catch this). 
-                assert(login_dict['password'])
-                       
-                # All "normal" (non admin) logins MUST check the password!!
-                q_with_password = q_username_email.filter(models.UserModel.password == utils.old_passhash(login_dict['password']))
-                
-                # make sure that profile has not been marked for elimination (if we are an administrator, we can
-                # still log into deleted accounts, so we don't add this value into the search query)
-                q_not_eliminated = q_with_password.filter(models.UserModel.user_is_marked_for_elimination == False)                          
-                
-
+            q_not_eliminated = q_username_email.filter(models.UserModel.user_is_marked_for_elimination == False)  
+            userobject = q_not_eliminated.get()
+            
+            if userobject:
+                # Verify that the password is not empty.
+                if login_dict['password'] == "----":
+                    error_dict['password'] = u"%s" % constants.ErrorMessages.password_required
             else:
-                # for administrator, we don't filter on the password. We also allow the administrator to log into 
-                # deleted accounts (so q_not_eliminated does not mean tht the profile has necessarily
-                # not been marked for elmination when the admin is logging in, but this allows us to use
-                # the same variable in the following code)
-                q_not_eliminated = q_username_email
-
-
+                # userobject no found, just for informational purposes, we check to see if the user profile has been
+                # eliminated, and if so we provide some feedback to the user about the reason for elimination of their 
+                # profile.
+                q_is_eliminated = q_username_email.filter(models.UserModel.user_is_marked_for_elimination == True)
+                eliminated_userobject = q_is_eliminated.get()  
+                show_reason_for_elimination = False
+                
+                if eliminated_userobject and email_or_username_login == 'username':
+                    # if the user has entered a username for an eliminated account, show them the reason for elimination, even
+                    # if the password was incorrect - this does not violate anyones privacy
+                    show_reason_for_elimination = True
+                
+                elif eliminated_userobject and eliminated_userobject.password == utils.old_passhash(login_dict['password']):
+                    # The usernaem_login is an email address, this needs more privacy protection.
+                    # Let user know that the profile was eliminated (but only if they have entered in the correct password). 
+                    # To protect users privacy, we don't want to confirm that an email address was registered unless the 
+                    # correct password was entered. 
+                    show_reason_for_elimination = True
+                    
+                if show_reason_for_elimination:
+                    message_for_client = utils.get_removed_user_reason_html(eliminated_userobject)
+                    error_dict['reason_for_removal_message'] = message_for_client                
+            
+        correct_username_password = True
+        
+        if userobject:
+            if is_admin_login:
+                correct_username_password = True
+            elif userobject.password == utils.old_passhash(login_dict['password']):
+                # All "normal" (non admin) logins MUST check the password!!                
+                correct_username_password = True
+            elif userobject.password_reset and userobject.password_reset == utils.old_passhash(login_dict['password']):
+                # Note: if the password has been reset, then the 'password_reset' value will contain
+                # the new password (as opposed to directly overwriting the 'password' field). This is done  to prevent
+                # random people from resetting other peoples passwords. -- Once the user has 
+                # logged in using the new 'reset_password', then we copy this field over to the 'password'
+                # field. If the user never logs in with this 'reset_password', then the original password
+                # is not over-written -- and we instead erase the 'reset_password' value                
+                correct_username_password = True
+                userobject.password = userobject.password_reset
+                userobject.password_reset = None
+        else:
+            correct_username_password = False
+        
+        if not correct_username_password:
+            error_dict['incorrect_username_password_message'] = u"%s" % constants.ErrorMessages.incorrect_username_password            
+            if not 'username_email' in error_dict:
+                error_dict['username_email'] = ''
+            if not 'password' in error_dict:
+                error_dict['password'] = ''
+           
 
         if not error_dict:
-            # No errors so far. Continue validation.
-            
-            # Note: if the password has been reset, then the 'password_reset' value will contain
-            # the new password (as opposed to directly overwriting the 'password' field). This is done  to prevent
-            # random people from resetting other peoples passwords. -- Once the user has 
-            # logged in using the new 'reset_password', then we copy this field over to the 'password'
-            # field. If the user never logs in with this 'reset_password', then the original password
-            # is not over-written -- and we instead erase the 'reset_password' value
-            
-            password_has_been_reset = False
-            userobject = q_not_eliminated.get()
-
-            if not userobject and not is_admin_login:
-                # if the original query failed, do a query using the 'password_reset' value --
-                # this will contain a new password, if the user has requested a new password be 
-                # sent to their email account.
-                # set up the query to check the 'password_reset' value
-                q_password_reset = q_username_email.filter(models.UserModel.password_reset == utils.old_passhash(login_dict['password']))
-                q_not_eliminated = q_password_reset.filter(models.UserModel.user_is_marked_for_elimination == False)  
-
-                userobject = q_not_eliminated.get()    
-                if userobject:
-                    password_has_been_reset = True
-            
-            
-            if not userobject and not is_admin_login:
-                # The user was unable to login
-                # check to see if the username/email+password was registered at some point, and has been eliminated
-
-                q_is_eliminated = q_with_password.filter(models.UserModel.user_is_marked_for_elimination == True)
-                eliminated_userobject = q_is_eliminated.get()
-                
-                # if no eliminated object was found, try again, but this time only if the user has entered a username (not an email)
-                # and we will remove the password from the query. This will allow better reporting for people who may have forgotten
-                # their password. (we do not query without password for an email address login to prevent people from probing our system
-                # to see if an email address was registered)
-                if not eliminated_userobject:
-                    
-                    if email_or_username_login == 'username':
-                        # we know that a username as opposed to an email address was entered
-                        q_is_eliminated = q_username_email.filter(models.UserModel.user_is_marked_for_elimination == True)
-                        eliminated_userobject = q_is_eliminated.get()                            
-                
-                if eliminated_userobject:
-                    # Let user know that the profile was eliminated. 
-                    message_for_client = utils.get_removed_user_reason_html(eliminated_userobject)
-                    error_dict['message'] = message_for_client
-                    
-                else: # the profile (email + password OR username) did not appear in the list of eliminated userobjects
-                    
-                    error_dict['message'] = u"%s" % constants.ErrorMessages.incorrect_username_password
-                                     
-                
-        if userobject:
+            assert(userobject)
             # success, user is in database and has entered correct data
             owner_uid = userobject.key.urlsafe()
             owner_nid = utils.get_nid_from_uid(owner_uid)
@@ -398,19 +380,6 @@ def process_login(request, is_admin_login = False):
             # if administrator is logging in, do not update anything. 
             if not is_admin_login:
                 
-                if password_has_been_reset:
-                    # The user has logged in using the new password - so eliminate the 
-                    # original password.
-                    userobject.password = userobject.password_reset
-                    userobject.password_reset = None
-                else: # entering with the original password
-                    
-                    # if the user has entered with the original password, then remove the reset_password
-                    # so that they don't have two valid passwords floating around
-                    if userobject.password_reset != None:
-                        userobject.password_reset = None
-                    
-
                 userobject.previous_last_login = userobject.last_login
                 userobject.last_login =  datetime.datetime.now()   
                 userobject.last_login_string = str(userobject.last_login)

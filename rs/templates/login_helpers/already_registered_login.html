@@ -98,7 +98,7 @@
                         login_errors_dict = post_response["Login_Error"];
 
                         //deal with password error here
-                        if (login_errors_dict['password']) {
+                        if ('password' in login_errors_dict) {
                             $("#id-password-prompt").addClass("cl-highlight_border");
                             $("#id-password-input").addClass("cl-highlight_border");
                         }
