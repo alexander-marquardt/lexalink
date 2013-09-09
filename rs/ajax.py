@@ -181,7 +181,7 @@ def get_signup_fields_settings(request, uid):
     try:
         userobject = utils_top_level.get_userobject_from_request(request)
         assert(uid == userobject.key.urlsafe())
-        response_dict = get_settings(request, UserSpec.signup_fields_to_display_in_order + ['region', 'sub_region'], userobject)
+        response_dict = get_settings(request, UserSpec.principal_signup_fields + ['region', 'sub_region'], userobject)
         
         # add additional location data to the response_dict 
         response_dict.update(

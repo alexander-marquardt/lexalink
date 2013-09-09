@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 01:44-0400\n"
+"POT-Creation-Date: 2013-09-09 04:37-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -274,26 +274,21 @@ msgid "VIP member"
 msgstr "miembro VIP"
 
 #: rs/constants.py:571
-msgid "<strong>Username</strong> can only contain letters and numbers."
+msgid ""
+"<strong>Username</strong> can only contain letters and numbers, and must not "
+"contain spaces."
 msgstr ""
-"<strong>Nick</strong> sólo puede tener caracters alfabéticos y/o números."
+"<strong>Nick</strong> sólo puede tener caracters alfabéticos y/o números, y no debe tener espacios."
 
 #: rs/constants.py:572
 msgid "<strong>Username</strong> needs at least 3 characters."
-msgstr ""
-"<strong>Nick</strong> necesita por lo menos 3 carácteres."
+msgstr "<strong>Nick</strong> necesita por lo menos 3 carácteres."
 
 #: rs/constants.py:573
 msgid "<strong>Password</strong> required"
 msgstr "<strong>Contraseña</strong> es obligatoria"
 
 #: rs/constants.py:574
-msgid "<strong>Password</strong> may only contain letters and numbers."
-msgstr ""
-"<strong>Contraseña</strong> sólo puede tener caracters alfabéticos (ascii/"
-"inglés) y/o números."
-
-#: rs/constants.py:575
 msgid ""
 "The <strong>Password</strong> and the <strong>Verification Password</strong> "
 "must be the same."
@@ -301,26 +296,26 @@ msgstr ""
 "La <strong>Contraseña</strong> y <strong>Verificar Contraseña</strong> "
 "tienen que ser lo mismo."
 
-#: rs/constants.py:576
+#: rs/constants.py:575
 msgid "The <strong>Username</strong> that you have selected is not available."
 msgstr "El <strong>Nick</strong> que has elegido no está disponible."
 
-#: rs/constants.py:577
+#: rs/constants.py:576
 msgid "<strong>Username/email + Password</strong> is incorrect"
 msgstr ""
 "La combinación de <strong>Nick/correo electrónico + contraseña</strong> es "
 "incorrecta."
 
-#: rs/constants.py:578
+#: rs/constants.py:577
 msgid "The <strong>Email Address</strong> is not valid"
 msgstr "El <strong>correo electrónico</strong> entrado no es válido."
 
-#: rs/constants.py:584
+#: rs/constants.py:583
 #, python-format
 msgid " or if you are a %(vip_member)s"
 msgstr " o si eres %(vip_member)s"
 
-#: rs/constants.py:588
+#: rs/constants.py:587
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member in a single "
@@ -342,203 +337,203 @@ msgstr ""
 "este socio, los mensajes futuros a este socio no contarán contra la cuota "
 "para contactar otros socios."
 
-#: rs/constants.py:623
+#: rs/constants.py:622
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:625
+#: rs/constants.py:624
 msgid "sent (singular)"
 msgstr "enviado"
 
-#: rs/constants.py:626
+#: rs/constants.py:625
 msgid "received (singluar)"
 msgstr "recibido"
 
-#: rs/constants.py:627
+#: rs/constants.py:626
 msgid "saved (singular)"
 msgstr "guardado"
 
-#: rs/constants.py:628
+#: rs/constants.py:627
 msgid "confirmed (singular)"
 msgstr "confirmado"
 
-#: rs/constants.py:634 rs/messages.py:367
+#: rs/constants.py:633 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "enviados"
 
-#: rs/constants.py:634
+#: rs/constants.py:633
 msgid "Sent (plural)"
 msgstr "Enviados"
 
-#: rs/constants.py:635
+#: rs/constants.py:634
 msgid "received (plural)"
 msgstr "recibidos"
 
-#: rs/constants.py:635
+#: rs/constants.py:634
 msgid "Received (plural)"
 msgstr "Recibidos"
 
-#: rs/constants.py:636
+#: rs/constants.py:635
 msgid "saved (plural)"
 msgstr "guardados"
 
-#: rs/constants.py:636
+#: rs/constants.py:635
 msgid "Saved (plural)"
 msgstr "Guardados"
 
-#: rs/constants.py:637
+#: rs/constants.py:636
 msgid "confirmed (plural)"
 msgstr "confirmados"
 
-#: rs/constants.py:637
+#: rs/constants.py:636
 msgid "Confirmed (plural)"
 msgstr "Confirmados"
 
-#: rs/constants.py:642
+#: rs/constants.py:641
 msgid "sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:642
+#: rs/constants.py:641
 msgid "Sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:643
+#: rs/constants.py:642
 msgid "received (plural feminine)"
 msgstr "recibidas"
 
-#: rs/constants.py:643
+#: rs/constants.py:642
 msgid "Received (plural feminine)"
 msgstr "Recibidas"
 
-#: rs/constants.py:644
+#: rs/constants.py:643
 msgid "saved (plural feminine)"
 msgstr "guardadas"
 
-#: rs/constants.py:644
+#: rs/constants.py:643
 msgid "Saved (plural feminine)"
 msgstr "Guardadas"
 
-#: rs/constants.py:645
+#: rs/constants.py:644
 msgid "confirmed (plural feminine)"
 msgstr "confirmadas"
 
-#: rs/constants.py:645
+#: rs/constants.py:644
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmadas"
 
-#: rs/constants.py:650
+#: rs/constants.py:649
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:651
+#: rs/constants.py:650
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:652
+#: rs/constants.py:651
 msgid "Greeting"
 msgstr "Saludo"
 
-#: rs/constants.py:654
+#: rs/constants.py:653
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:655
+#: rs/constants.py:654
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:656
+#: rs/constants.py:655
 msgid "Wink"
 msgstr "Guiño"
 
-#: rs/constants.py:659
+#: rs/constants.py:658
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:661
+#: rs/constants.py:660
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:662
+#: rs/constants.py:661
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:663
+#: rs/constants.py:662
 msgid "Chat friends"
 msgstr "Chats amigos"
 
-#: rs/constants.py:664
+#: rs/constants.py:663
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:669
+#: rs/constants.py:668
 msgid "My favorite"
 msgstr "Mi Favorito"
 
-#: rs/constants.py:671
+#: rs/constants.py:670
 msgid "Kiss"
 msgstr "Beso"
 
-#: rs/constants.py:672
+#: rs/constants.py:671
 msgid "Key"
 msgstr "Llave"
 
-#: rs/constants.py:673
+#: rs/constants.py:672
 msgid "Chat friend"
 msgstr "Amigo de chat"
 
-#: rs/constants.py:674
+#: rs/constants.py:673
 msgid "Blocked (singular)"
 msgstr "Bloqueado"
 
-#: rs/constants.py:678
+#: rs/constants.py:677
 msgid "Chat requests sent"
 msgstr "Chats amigos pedidos"
 
-#: rs/constants.py:679
+#: rs/constants.py:678
 msgid "Chat requests received"
 msgstr "Chats amigos recibidos"
 
-#: rs/constants.py:680
+#: rs/constants.py:679
 msgid "Chat connections confirmed"
 msgstr "Chats amigos confirmados"
 
-#: rs/constants.py:684
+#: rs/constants.py:683
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:686
+#: rs/constants.py:685
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:687
+#: rs/constants.py:686
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:688
+#: rs/constants.py:687
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:689
+#: rs/constants.py:688
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automáticamente)"
 
-#: rs/constants.py:702
+#: rs/constants.py:701
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:703
+#: rs/constants.py:702
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:704
+#: rs/constants.py:703
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:705
+#: rs/constants.py:704
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:706
+#: rs/constants.py:705
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:149
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:348
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:357
@@ -546,31 +541,31 @@ msgstr "abril"
 msgid "May"
 msgstr "mayo"
 
-#: rs/constants.py:707
+#: rs/constants.py:706
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:708
+#: rs/constants.py:707
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:709
+#: rs/constants.py:708
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:710
+#: rs/constants.py:709
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:711
+#: rs/constants.py:710
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:712
+#: rs/constants.py:711
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:713
+#: rs/constants.py:712
 msgid "December"
 msgstr "diciembre"
 
@@ -624,7 +619,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: rs/email_utils.py:230 rs/email_utils.py:290 rs/email_utils.py:368
-#: rs/email_utils.py:649 rs/login_utils.py:616 rs/login_utils.py:639
+#: rs/email_utils.py:649 rs/login_utils.py:612 rs/login_utils.py:635
 #, python-format
 msgid "Hello %(username)s"
 msgstr "Hola %(username)s"
@@ -661,7 +656,7 @@ msgstr "Sí,estoy seguro que quiero eliminar el perfil de %(username)s"
 msgid "Are you sure you want to eliminate your account?"
 msgstr "¿Estás seguro que quieres eliminar tu perfil?"
 
-#: rs/email_utils.py:300 rs/login_utils.py:491
+#: rs/email_utils.py:300 rs/login_utils.py:487
 msgid "Error - Not authorized"
 msgstr "Error - No autorizado"
 
@@ -2393,28 +2388,28 @@ msgstr ""
 msgid "If you have any problems or suggestions, send us a message at"
 msgstr "Si tienes algun problema o sugerencia, envíanos un mensaje a"
 
-#: rs/login_utils.py:206
+#: rs/login_utils.py:202
 #, python-format
 msgid "<strong>%(field_label)s</strong> must be selected"
 msgstr "Tienes que seleccionar <strong>%(field_label)s</strong>"
 
-#: rs/login_utils.py:399
+#: rs/login_utils.py:395
 msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
-#: rs/login_utils.py:462 rs/login_utils.py:494 rs/views.py:402
+#: rs/login_utils.py:458 rs/login_utils.py:490 rs/views.py:402
 msgid "You have exited"
 msgstr "Has salido"
 
-#: rs/login_utils.py:489
+#: rs/login_utils.py:485
 msgid "Profile does not exist"
 msgstr "No existe el perfil"
 
-#: rs/login_utils.py:614
+#: rs/login_utils.py:610
 msgid "Verification of your email and registration"
 msgstr "Verificación de tu dirección de correo electrónico"
 
-#: rs/login_utils.py:618
+#: rs/login_utils.py:614
 #, python-format
 msgid ""
 "To activate your account in %(app_name)s, click on the following link to "
@@ -2423,7 +2418,7 @@ msgstr ""
 "Para activar tu cuenta en %(app_name)s, haz clic en el siguiente vínculo "
 "para confirmar tu solicitud"
 
-#: rs/login_utils.py:627
+#: rs/login_utils.py:623
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
@@ -2431,11 +2426,11 @@ msgstr ""
 "Si al hacer clic en el vínculo parece que no funciona, cópialo y pégalo en "
 "una ventana nueva del navegador"
 
-#: rs/login_utils.py:638
+#: rs/login_utils.py:634
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:641
+#: rs/login_utils.py:637
 #, python-format
 msgid ""
 "\n"
@@ -2449,7 +2444,7 @@ msgstr ""
 "que ya tienes una cuenta registrada. Si deseas registrar una cuenta nueva, "
 "por favor, elimina la cuenta vieja. "
 
-#: rs/login_utils.py:685
+#: rs/login_utils.py:681
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2460,7 +2455,7 @@ msgstr ""
 "enviar otro a la misma cuenta hasta mañana - por favor registrate con otro "
 "correo electrónico."
 
-#: rs/login_utils.py:713
+#: rs/login_utils.py:709
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -5412,6 +5407,11 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "<strong>Password</strong> may only contain letters and numbers."
+#~ msgstr ""
+#~ "<strong>Contraseña</strong> sólo puede tener caracters alfabéticos (ascii/"
+#~ "inglés) y/o números."
 
 #~ msgid ""
 #~ "\n"

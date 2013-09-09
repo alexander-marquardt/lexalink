@@ -68,6 +68,7 @@ class UserSpec():
             assert(0)
             
     signup_fields_to_display_in_order =  principal_user_data + ['email_address', 'password', 'password_verify', ]
+    principal_signup_fields =  principal_user_data
     #define fields that will show up in the "simple" search bar on the users main page
     
     # define don't care in the languages that we will use
