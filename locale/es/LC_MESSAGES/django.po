@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-06 22:46-0400\n"
+"POT-Creation-Date: 2013-09-09 01:44-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -99,7 +99,7 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:727 rs/forms.py:1059 rs/messages.py:518 rs/rendering.py:417
+#: rs/ajax.py:727 rs/forms.py:1056 rs/messages.py:518 rs/rendering.py:417
 #: rs/utils.py:1505
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -265,7 +265,7 @@ msgstr "sitio para conocer gente y hacer amigos"
 
 #: rs/constants.py:451 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:195
+#: rs/templates/landing_page.html:202
 msgid "dating website to meet mature adults over 40 years old"
 msgstr "sitio web para conocer adultos mayores de 40 años"
 
@@ -274,12 +274,14 @@ msgid "VIP member"
 msgstr "miembro VIP"
 
 #: rs/constants.py:571
-msgid ""
-"<strong>Username</strong> needs at least 3 characters and can only contain "
-"letters and numbers."
+msgid "<strong>Username</strong> can only contain letters and numbers."
 msgstr ""
-"<strong>Nick</strong> necesita por lo menos 3 carácteres, y sólo puede tener "
-"caracters alfabéticos (ascii/inglés) y números."
+"<strong>Nick</strong> sólo puede tener caracters alfabéticos y/o números."
+
+#: rs/constants.py:572
+msgid "<strong>Username</strong> needs at least 3 characters."
+msgstr ""
+"<strong>Nick</strong> necesita por lo menos 3 carácteres."
 
 #: rs/constants.py:573
 msgid "<strong>Password</strong> required"
@@ -622,7 +624,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: rs/email_utils.py:230 rs/email_utils.py:290 rs/email_utils.py:368
-#: rs/email_utils.py:649 rs/login_utils.py:614 rs/login_utils.py:637
+#: rs/email_utils.py:649 rs/login_utils.py:616 rs/login_utils.py:639
 #, python-format
 msgid "Hello %(username)s"
 msgstr "Hola %(username)s"
@@ -659,7 +661,7 @@ msgstr "Sí,estoy seguro que quiero eliminar el perfil de %(username)s"
 msgid "Are you sure you want to eliminate your account?"
 msgstr "¿Estás seguro que quieres eliminar tu perfil?"
 
-#: rs/email_utils.py:300 rs/login_utils.py:489
+#: rs/email_utils.py:300 rs/login_utils.py:491
 msgid "Error - Not authorized"
 msgstr "Error - No autorizado"
 
@@ -690,8 +692,8 @@ msgstr ""
 "Puedes cambiar tus opciones de notificaciones dentro de  %(link_to_build)s "
 "por modificar tu perfil directamente"
 
-#: rs/email_utils.py:419 rs/templates/landing_page.html:153
-#: rs/templates/login_helpers/already_registered_login.html:63
+#: rs/email_utils.py:419 rs/templates/landing_page.html:160
+#: rs/templates/login_helpers/already_registered_login.html:61
 msgid "Have you forgotten your password?"
 msgstr "¿Has olvidado tu contraseña?"
 
@@ -858,7 +860,7 @@ msgstr "Foto"
 msgid "No primary photo"
 msgstr "Sin&nbsp;foto&nbsp;principal"
 
-#: rs/forms.py:850
+#: rs/forms.py:847
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
@@ -866,31 +868,31 @@ msgstr ""
 "Si no puedes leer las palabras en la \"captcha\", puedes elegir otras "
 "palabras haciendo clic en el símbolo"
 
-#: rs/forms.py:851
+#: rs/forms.py:848
 msgid "inside the \"captcha\""
 msgstr "dentro de la \"captcha\""
 
-#: rs/forms.py:907
+#: rs/forms.py:904
 msgid "Remove report"
 msgstr "Quitar denuncia"
 
-#: rs/forms.py:909
+#: rs/forms.py:906
 msgid "Report this profile"
 msgstr "Denunciar este perfil"
 
-#: rs/forms.py:1008
+#: rs/forms.py:1005
 msgid "Sent correctly"
 msgstr "Enviado correctamente"
 
-#: rs/forms.py:1009
+#: rs/forms.py:1006
 msgid "Not sent, try again"
 msgstr "No enviado, intentalo de nuevo"
 
-#: rs/forms.py:1026
+#: rs/forms.py:1023
 msgid "Before sending it!"
 msgstr "¡Antes de enviarlo!"
 
-#: rs/forms.py:1027
+#: rs/forms.py:1024
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
@@ -900,31 +902,31 @@ msgstr ""
 "su perfil, algo más que \"Hola guapa ¿qué tal?\"? Si no, tu cuenta podría "
 "ser marcada como spam."
 
-#: rs/forms.py:1041
+#: rs/forms.py:1038
 msgid "Send message"
 msgstr "Enviar mensaje"
 
-#: rs/forms.py:1104
+#: rs/forms.py:1101
 msgid "Verify"
 msgstr "Verificar"
 
-#: rs/forms.py:1165 rs/forms.py:1246
+#: rs/forms.py:1162 rs/forms.py:1243
 msgid "Search Box"
 msgstr "El Buscador"
 
-#: rs/forms.py:1166
+#: rs/forms.py:1163
 msgid "Specify the profiles that you would like to see"
 msgstr "Especifica los perfiles que te gustaría ver"
 
-#: rs/forms.py:1211 rs/forms.py:1243
+#: rs/forms.py:1208 rs/forms.py:1240
 msgid "Search"
 msgstr "Buscar"
 
-#: rs/forms.py:1238
+#: rs/forms.py:1235
 msgid "Username to search for"
 msgstr "Nombre de usuario a buscar"
 
-#: rs/forms.py:1247
+#: rs/forms.py:1244
 msgid "Specify the username that you would like to see"
 msgstr "Especifica el nombre del usuario que te gustaría ver"
 
@@ -2391,28 +2393,28 @@ msgstr ""
 msgid "If you have any problems or suggestions, send us a message at"
 msgstr "Si tienes algun problema o sugerencia, envíanos un mensaje a"
 
-#: rs/login_utils.py:204
+#: rs/login_utils.py:206
 #, python-format
 msgid "<strong>%(field_label)s</strong> must be selected"
 msgstr "Tienes que seleccionar <strong>%(field_label)s</strong>"
 
-#: rs/login_utils.py:397
+#: rs/login_utils.py:399
 msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
-#: rs/login_utils.py:460 rs/login_utils.py:492 rs/views.py:402
+#: rs/login_utils.py:462 rs/login_utils.py:494 rs/views.py:402
 msgid "You have exited"
 msgstr "Has salido"
 
-#: rs/login_utils.py:487
+#: rs/login_utils.py:489
 msgid "Profile does not exist"
 msgstr "No existe el perfil"
 
-#: rs/login_utils.py:612
+#: rs/login_utils.py:614
 msgid "Verification of your email and registration"
 msgstr "Verificación de tu dirección de correo electrónico"
 
-#: rs/login_utils.py:616
+#: rs/login_utils.py:618
 #, python-format
 msgid ""
 "To activate your account in %(app_name)s, click on the following link to "
@@ -2421,7 +2423,7 @@ msgstr ""
 "Para activar tu cuenta en %(app_name)s, haz clic en el siguiente vínculo "
 "para confirmar tu solicitud"
 
-#: rs/login_utils.py:625
+#: rs/login_utils.py:627
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
@@ -2429,11 +2431,11 @@ msgstr ""
 "Si al hacer clic en el vínculo parece que no funciona, cópialo y pégalo en "
 "una ventana nueva del navegador"
 
-#: rs/login_utils.py:636
+#: rs/login_utils.py:638
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:639
+#: rs/login_utils.py:641
 #, python-format
 msgid ""
 "\n"
@@ -2447,7 +2449,7 @@ msgstr ""
 "que ya tienes una cuenta registrada. Si deseas registrar una cuenta nueva, "
 "por favor, elimina la cuenta vieja. "
 
-#: rs/login_utils.py:683
+#: rs/login_utils.py:685
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2458,7 +2460,7 @@ msgstr ""
 "enviar otro a la misma cuenta hasta mañana - por favor registrate con otro "
 "correo electrónico."
 
-#: rs/login_utils.py:711
+#: rs/login_utils.py:713
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -3631,327 +3633,327 @@ msgstr "Mi&nbsp;contraseña&nbsp;nueva"
 msgid "Verify new password"
 msgstr "Verificar&nbsp;contraseña&nbsp;nueva"
 
-#: rs/user_profile_main_data.py:78
+#: rs/user_profile_main_data.py:74
 msgid "Not Important"
 msgstr "No Importa"
 
-#: rs/user_profile_main_data.py:79
+#: rs/user_profile_main_data.py:75
 msgid "Anything"
 msgstr "Cualquier Tipo De Relacion"
 
-#: rs/user_profile_main_data.py:80
+#: rs/user_profile_main_data.py:76
 #: rs/templates/user_main_helpers/search_inline_javascript.html:40
 #: rs/templates/user_main_helpers/search_inline_javascript.html:41
 msgid "Show All"
 msgstr "Mostrar Todos"
 
-#: rs/user_profile_main_data.py:83
+#: rs/user_profile_main_data.py:79
 msgid "All People"
 msgstr "Todos"
 
-#: rs/user_profile_main_data.py:85
+#: rs/user_profile_main_data.py:81
 msgid "All Lesbian Types"
 msgstr "Todo Tipo De Lesbianas"
 
-#: rs/user_profile_main_data.py:94 rs/user_profile_main_data.py:111
-#: rs/user_profile_main_data.py:168 rs/user_profile_main_data.py:189
-#: rs/user_profile_main_data.py:202
+#: rs/user_profile_main_data.py:90 rs/user_profile_main_data.py:107
+#: rs/user_profile_main_data.py:164 rs/user_profile_main_data.py:185
+#: rs/user_profile_main_data.py:198
 msgid "Female"
 msgstr "Mujer"
 
-#: rs/user_profile_main_data.py:95 rs/user_profile_main_data.py:112
-#: rs/user_profile_main_data.py:169 rs/user_profile_main_data.py:190
-#: rs/user_profile_main_data.py:203
+#: rs/user_profile_main_data.py:91 rs/user_profile_main_data.py:108
+#: rs/user_profile_main_data.py:165 rs/user_profile_main_data.py:186
+#: rs/user_profile_main_data.py:199
 msgid "Male"
 msgstr "Hombre"
 
-#: rs/user_profile_main_data.py:96 rs/user_profile_main_data.py:110
+#: rs/user_profile_main_data.py:92 rs/user_profile_main_data.py:106
 msgid "Swinger (Couple)"
 msgstr "Pareja Liberal (Swinger)"
 
-#: rs/user_profile_main_data.py:97 rs/user_profile_main_data.py:113
-#: rs/user_profile_main_data.py:133
+#: rs/user_profile_main_data.py:93 rs/user_profile_main_data.py:109
+#: rs/user_profile_main_data.py:129
 msgid "Transvestite / Transgendered"
 msgstr "Travesti / Transgénero"
 
-#: rs/user_profile_main_data.py:102 rs/user_profile_main_data.py:121
-#: rs/user_profile_main_data.py:173 rs/user_profile_main_data.py:194
-#: rs/user_profile_main_data.py:206
+#: rs/user_profile_main_data.py:98 rs/user_profile_main_data.py:117
+#: rs/user_profile_main_data.py:169 rs/user_profile_main_data.py:190
+#: rs/user_profile_main_data.py:202
 msgid "Females"
 msgstr "Mujeres"
 
-#: rs/user_profile_main_data.py:103 rs/user_profile_main_data.py:122
-#: rs/user_profile_main_data.py:174 rs/user_profile_main_data.py:195
-#: rs/user_profile_main_data.py:207
+#: rs/user_profile_main_data.py:99 rs/user_profile_main_data.py:118
+#: rs/user_profile_main_data.py:170 rs/user_profile_main_data.py:191
+#: rs/user_profile_main_data.py:203
 msgid "Males"
 msgstr "Hombres"
 
-#: rs/user_profile_main_data.py:104 rs/user_profile_main_data.py:120
+#: rs/user_profile_main_data.py:100 rs/user_profile_main_data.py:116
 msgid "Swingers (Couples)"
 msgstr "Parejas Liberales (Swingers)"
 
-#: rs/user_profile_main_data.py:105 rs/user_profile_main_data.py:123
-#: rs/user_profile_main_data.py:143
+#: rs/user_profile_main_data.py:101 rs/user_profile_main_data.py:119
+#: rs/user_profile_main_data.py:139
 msgid "Transvestites / Transgendered"
 msgstr "Travestis / Transgéneros"
 
-#: rs/user_profile_main_data.py:114 rs/user_profile_main_data.py:134
+#: rs/user_profile_main_data.py:110 rs/user_profile_main_data.py:130
 msgid "Other (Details In Profile)"
 msgstr "Otro (Detalles En Perfil)"
 
-#: rs/user_profile_main_data.py:124 rs/user_profile_main_data.py:144
+#: rs/user_profile_main_data.py:120 rs/user_profile_main_data.py:140
 msgid "Others (Details In Profile)"
 msgstr "Otros (Detalles En Perfil)"
 
-#: rs/user_profile_main_data.py:129
+#: rs/user_profile_main_data.py:125
 msgid "Active Gay"
 msgstr "Gay Activo"
 
-#: rs/user_profile_main_data.py:130
+#: rs/user_profile_main_data.py:126
 msgid "Passive Gay"
 msgstr "Gay Pasivo"
 
-#: rs/user_profile_main_data.py:131
+#: rs/user_profile_main_data.py:127
 msgid "Versatile Gay"
 msgstr "Gay Versatil"
 
-#: rs/user_profile_main_data.py:132
+#: rs/user_profile_main_data.py:128
 msgid "Bisexual"
 msgstr "Bisexual"
 
-#: rs/user_profile_main_data.py:139
+#: rs/user_profile_main_data.py:135
 msgid "Active Gays"
 msgstr "Gays Activos"
 
-#: rs/user_profile_main_data.py:140
+#: rs/user_profile_main_data.py:136
 msgid "Passive Gays"
 msgstr "Gays Pasivos"
 
-#: rs/user_profile_main_data.py:141
+#: rs/user_profile_main_data.py:137
 msgid "Versatile Gays"
 msgstr "Gays Versatiles"
 
-#: rs/user_profile_main_data.py:142
+#: rs/user_profile_main_data.py:138
 msgid "Bisexuals"
 msgstr "Bisexuales"
 
-#: rs/user_profile_main_data.py:153 rs/user_profile_main_data.py:160
+#: rs/user_profile_main_data.py:149 rs/user_profile_main_data.py:156
 msgid "Single"
 msgstr "Solter@"
 
-#: rs/user_profile_main_data.py:154 rs/user_profile_main_data.py:161
+#: rs/user_profile_main_data.py:150 rs/user_profile_main_data.py:157
 msgid "Attached"
 msgstr "En Una Relación"
 
-#: rs/user_profile_main_data.py:155 rs/user_profile_main_data.py:162
+#: rs/user_profile_main_data.py:151 rs/user_profile_main_data.py:158
 msgid "Married"
 msgstr "Casad@"
 
-#: rs/user_profile_main_data.py:156 rs/user_profile_main_data.py:191
+#: rs/user_profile_main_data.py:152 rs/user_profile_main_data.py:187
 msgid "Prefer Not To Say"
 msgstr "Prefiero No Decirlo"
 
-#: rs/user_profile_main_data.py:163
+#: rs/user_profile_main_data.py:159
 msgid "Secret"
 msgstr "Secreto"
 
-#: rs/user_profile_main_data.py:179 rs/user_profile_main_data.py:227
+#: rs/user_profile_main_data.py:175 rs/user_profile_main_data.py:223
 msgid "Friendship"
 msgstr "Amistad"
 
-#: rs/user_profile_main_data.py:180 rs/user_profile_main_data.py:228
+#: rs/user_profile_main_data.py:176 rs/user_profile_main_data.py:224
 msgid "Dating"
 msgstr "Relación Casual"
 
-#: rs/user_profile_main_data.py:181 rs/user_profile_main_data.py:229
+#: rs/user_profile_main_data.py:177 rs/user_profile_main_data.py:225
 msgid "Long Term Relationship"
 msgstr "Relación Amorosa"
 
-#: rs/user_profile_main_data.py:196
+#: rs/user_profile_main_data.py:192
 msgid "People Who Don't Specify"
 msgstr "Personas Que No Lo Han Especificado"
 
-#: rs/user_profile_main_data.py:212
+#: rs/user_profile_main_data.py:208
 msgid "Femme (Feminine Lesbian)"
 msgstr "Femme (Lesbiana Femenina)"
 
-#: rs/user_profile_main_data.py:213
+#: rs/user_profile_main_data.py:209
 msgid "Bisexual Lesbian"
 msgstr "Lesbiana Bisexual"
 
-#: rs/user_profile_main_data.py:214
+#: rs/user_profile_main_data.py:210
 msgid "Butch (Masculine Lesbian)"
 msgstr "Butch (Lesbiana Masculina)"
 
-#: rs/user_profile_main_data.py:215
+#: rs/user_profile_main_data.py:211
 msgid "Unlabeled Lesbian"
 msgstr "Lesbiana Sin Etiqueta"
 
-#: rs/user_profile_main_data.py:219
+#: rs/user_profile_main_data.py:215
 msgid "Femmes (Feminine Lesbians)"
 msgstr "Femmes (Lesbianas Femeninas)"
 
-#: rs/user_profile_main_data.py:220
+#: rs/user_profile_main_data.py:216
 msgid "Bisexual Lesbians"
 msgstr "Lesbianas Bisexuales"
 
-#: rs/user_profile_main_data.py:221
+#: rs/user_profile_main_data.py:217
 msgid "Butches (Masculine Lesbians)"
 msgstr "Butches (Lesbianas Masculinas)"
 
-#: rs/user_profile_main_data.py:222
+#: rs/user_profile_main_data.py:218
 msgid "Unlabeled Lesbians"
 msgstr "Lesbianas Sin Etiquetas"
 
-#: rs/user_profile_main_data.py:230
+#: rs/user_profile_main_data.py:226
 msgid "Physical Relationship"
 msgstr "Relación Física"
 
-#: rs/user_profile_main_data.py:326
+#: rs/user_profile_main_data.py:322
 msgid "Completed Profiles First"
 msgstr "Perfiles Completos Primero"
 
-#: rs/user_profile_main_data.py:327
+#: rs/user_profile_main_data.py:323
 msgid "Recent Logins First"
 msgstr "Últimas Entradas Primero"
 
-#: rs/user_profile_main_data.py:337
+#: rs/user_profile_main_data.py:333
 msgid "I Am Currently In"
 msgstr "Actualmente&nbsp;Estoy&nbsp;En"
 
-#: rs/user_profile_main_data.py:339
+#: rs/user_profile_main_data.py:335
 msgid "I / We Live In"
 msgstr "Vivo / Vivimos En"
 
-#: rs/user_profile_main_data.py:341
+#: rs/user_profile_main_data.py:337
 msgid "I Live In"
 msgstr "Vivo&nbsp;En"
 
-#: rs/user_profile_main_data.py:346
+#: rs/user_profile_main_data.py:342
 msgid "I Prefer"
 msgstr "Prefiero"
 
-#: rs/user_profile_main_data.py:348
+#: rs/user_profile_main_data.py:344
 msgid "I / We Would Like To Meet"
 msgstr "Me&nbsp;/&nbsp;Nos&nbsp;Gustaría&nbsp;Conocer"
 
-#: rs/user_profile_main_data.py:350
+#: rs/user_profile_main_data.py:346
 msgid "I Would Like To Meet"
 msgstr "Me&nbsp;Gustaría&nbsp;Conocer"
 
-#: rs/user_profile_main_data.py:354
+#: rs/user_profile_main_data.py:350
 msgid "Email Address (Confidential)"
 msgstr "Correo&nbsp;Electrónico&nbsp;(Confidencial)"
 
-#: rs/user_profile_main_data.py:355
+#: rs/user_profile_main_data.py:351
 msgid "Verify Password"
 msgstr "Verificar&nbsp;Contraseña"
 
-#: rs/user_profile_main_data.py:356
+#: rs/user_profile_main_data.py:352
 msgid "Password"
 msgstr "Contraseña"
 
-#: rs/user_profile_main_data.py:357
+#: rs/user_profile_main_data.py:353
 msgid "Username (Visible To Others)"
 msgstr "Nick&nbsp;/&nbsp;Nombre&nbsp;(Visible&nbsp;A&nbsp;Otros)"
 
-#: rs/user_profile_main_data.py:360
+#: rs/user_profile_main_data.py:356
 msgid "I Am"
 msgstr "Soy"
 
-#: rs/user_profile_main_data.py:361
+#: rs/user_profile_main_data.py:357
 msgid "My Age"
 msgstr "Mi Edad"
 
-#: rs/user_profile_main_data.py:363
+#: rs/user_profile_main_data.py:359
 msgid "I Am / We Are"
 msgstr "Soy / Somos"
 
-#: rs/user_profile_main_data.py:364
+#: rs/user_profile_main_data.py:360
 msgid "My / Our Age (Average)"
 msgstr "Mi / Nuestra Edad (Promedia)"
 
-#: rs/user_profile_main_data.py:367
+#: rs/user_profile_main_data.py:363
 msgid "Sub Region"
 msgstr "Sub&nbsp;Región"
 
-#: rs/user_profile_main_data.py:368 rs/user_profile_main_data.py:554
+#: rs/user_profile_main_data.py:364 rs/user_profile_main_data.py:550
 msgid "Region"
 msgstr "Región"
 
-#: rs/user_profile_main_data.py:371
+#: rs/user_profile_main_data.py:367
 msgid "My Relationship Status"
 msgstr "Mi&nbsp;Estado&nbsp;Actual"
 
-#: rs/user_profile_main_data.py:373
+#: rs/user_profile_main_data.py:369
 msgid "My / Our Relationship Status"
 msgstr "Mi / Nuestro Estado"
 
-#: rs/user_profile_main_data.py:375
+#: rs/user_profile_main_data.py:371
 msgid "Type Of Relationship"
 msgstr "Tipo&nbsp;De&nbsp;Relación"
 
-#: rs/user_profile_main_data.py:377 rs/user_profile_main_data.py:584
+#: rs/user_profile_main_data.py:373 rs/user_profile_main_data.py:580
 msgid "Language That I Want To Practice"
 msgstr "Quiero&nbsp;Practicar"
 
-#: rs/user_profile_main_data.py:378
+#: rs/user_profile_main_data.py:374
 msgid "My Native Language"
 msgstr "Mi&nbsp;Idioma&nbsp;Materno"
 
-#: rs/user_profile_main_data.py:553
+#: rs/user_profile_main_data.py:549
 msgid "Country"
 msgstr "País"
 
-#: rs/user_profile_main_data.py:555
+#: rs/user_profile_main_data.py:551
 msgid "Sub region"
 msgstr "Sub&nbsp;región"
 
-#: rs/user_profile_main_data.py:556
+#: rs/user_profile_main_data.py:552
 msgid "Sex"
 msgstr "Sexo"
 
-#: rs/user_profile_main_data.py:557 rs/user_profile_main_data.py:587
+#: rs/user_profile_main_data.py:553 rs/user_profile_main_data.py:583
 msgid "Age"
 msgstr "Edad"
 
-#: rs/user_profile_main_data.py:558 rs/user_profile_main_data.py:588
+#: rs/user_profile_main_data.py:554 rs/user_profile_main_data.py:584
 msgid "Order"
 msgstr "Ordenar"
 
-#: rs/user_profile_main_data.py:561
+#: rs/user_profile_main_data.py:557
 msgid "I Would Like To See"
 msgstr "Yo&nbsp;Quiero&nbsp;Ver"
 
-#: rs/user_profile_main_data.py:563
+#: rs/user_profile_main_data.py:559
 msgid "That Are Interested In"
 msgstr "Que&nbsp;Están&nbsp;Buscando"
 
-#: rs/user_profile_main_data.py:565
+#: rs/user_profile_main_data.py:561
 msgid "That Prefer"
 msgstr "Que&nbsp;Prefieren"
 
-#: rs/user_profile_main_data.py:566
+#: rs/user_profile_main_data.py:562
 msgid "Their Age"
 msgstr "Su&nbsp;Edad"
 
-#: rs/user_profile_main_data.py:568
+#: rs/user_profile_main_data.py:564
 msgid "Relationship Status"
 msgstr "Estado"
 
-#: rs/user_profile_main_data.py:570
+#: rs/user_profile_main_data.py:566
 msgid "Looking For"
 msgstr "Busco A"
 
-#: rs/user_profile_main_data.py:585
+#: rs/user_profile_main_data.py:581
 msgid "In Exchange For (I Speak)"
 msgstr "A&nbsp;Cambio&nbsp;De&nbsp;(Yo&nbsp;Hablo)"
 
-#: rs/user_profile_main_data.py:586
+#: rs/user_profile_main_data.py:582
 msgid "With People That Are"
 msgstr "Con&nbsp;Personas&nbsp;Que&nbsp;Son"
 
-#: rs/user_profile_main_data.py:718 rs/user_profile_main_data.py:719
+#: rs/user_profile_main_data.py:714 rs/user_profile_main_data.py:715
 msgid "Any Language"
 msgstr "Cualquier&nbsp;idioma"
 
@@ -4122,11 +4124,11 @@ msgstr "es"
 #: rs/proprietary/search_engine_overrides.py:124
 #: rs/proprietary/templates/proprietary_ads/friend_build.html:30
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:167
+#: rs/templates/landing_page.html:174
 msgid "100 percent free"
 msgstr "100% gratis"
 
-#: rs/utils.py:1790 rs/templates/landing_page.html:202
+#: rs/utils.py:1790 rs/templates/landing_page.html:209
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
@@ -4134,7 +4136,7 @@ msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1792 rs/templates/landing_page.html:200
+#: rs/utils.py:1792 rs/templates/landing_page.html:207
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
@@ -4217,7 +4219,7 @@ msgstr ""
 "swinger. Intercambio de pareja."
 
 #: rs/proprietary/search_engine_overrides.py:75
-#: rs/templates/landing_page.html:179
+#: rs/templates/landing_page.html:186
 msgid "gay dating"
 msgstr "contactos para gays"
 
@@ -4763,47 +4765,47 @@ msgstr "¿Quieres más información?"
 msgid "Send us an email at:"
 msgstr "Envíanos un correo electrónico a:"
 
-#: rs/templates/landing_page.html:131
+#: rs/templates/landing_page.html:141
 msgid "Do you want to look around before registering?"
 msgstr "¿Quieres mirar antes de registrarte?"
 
-#: rs/templates/landing_page.html:134
+#: rs/templates/landing_page.html:144
 msgid "Enter with a guest account"
 msgstr "Entra con una cuenta de invitado"
 
-#: rs/templates/landing_page.html:171
+#: rs/templates/landing_page.html:178
 msgid "online dating"
 msgstr "servicio de buscar pareja en linea"
 
-#: rs/templates/landing_page.html:175
+#: rs/templates/landing_page.html:182
 msgid "swinger contacts"
 msgstr "contactos para swingers y parejas liberales"
 
-#: rs/templates/landing_page.html:183
+#: rs/templates/landing_page.html:190
 msgid "language exchange"
 msgstr "intercambio de idiomas"
 
-#: rs/templates/landing_page.html:187
+#: rs/templates/landing_page.html:194
 msgid "meet friends"
 msgstr "conocer amigos"
 
-#: rs/templates/landing_page.html:191
+#: rs/templates/landing_page.html:198
 msgid "lesbian dating"
 msgstr "contactos para lesbianas"
 
-#: rs/templates/landing_page.html:200
+#: rs/templates/landing_page.html:207
 msgid "Free"
 msgstr "Gratis"
 
-#: rs/templates/landing_page.html:206
+#: rs/templates/landing_page.html:213
 msgid "Over 50 percent of our members are single"
 msgstr "Más del 50% de nuestros socios son solter@s"
 
-#: rs/templates/landing_page.html:211
+#: rs/templates/landing_page.html:218
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr "no permite ni tiene contenido explícito, pornográfico u obsceno"
 
-#: rs/templates/landing_page.html:220
+#: rs/templates/landing_page.html:227
 #, python-format
 msgid ""
 "\n"
@@ -4843,31 +4845,31 @@ msgstr "Prensa"
 msgid "Register / Enter"
 msgstr "Regístrate / Entrar"
 
-#: rs/templates/login_helpers/already_registered_login.html:15
+#: rs/templates/login_helpers/already_registered_login.html:13
 msgid "Free confidential dating"
 msgstr "Contactos confidenciales. Gratis"
 
-#: rs/templates/login_helpers/already_registered_login.html:21
+#: rs/templates/login_helpers/already_registered_login.html:19
 msgid "100 percent free everything included"
 msgstr "100% gratis - todo incluido"
 
-#: rs/templates/login_helpers/already_registered_login.html:27
+#: rs/templates/login_helpers/already_registered_login.html:25
 msgid "Are you already registered (female)? Enter here:"
 msgstr "¿Ya estás registrada? Entra aquí:"
 
-#: rs/templates/login_helpers/already_registered_login.html:29
+#: rs/templates/login_helpers/already_registered_login.html:27
 msgid "Are you already registered? Enter here:"
 msgstr "¿Ya estás registrado? Entra aquí:"
 
-#: rs/templates/login_helpers/already_registered_login.html:36
+#: rs/templates/login_helpers/already_registered_login.html:34
 msgid "username or email"
 msgstr "nick o correo electrónico"
 
-#: rs/templates/login_helpers/already_registered_login.html:44
+#: rs/templates/login_helpers/already_registered_login.html:42
 msgid "password"
 msgstr "contraseña"
 
-#: rs/templates/login_helpers/already_registered_login.html:51
+#: rs/templates/login_helpers/already_registered_login.html:49
 msgid "Enter"
 msgstr "Entrar"
 

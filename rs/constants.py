@@ -529,7 +529,7 @@ NUM_INITIATE_CONTACT_OBJECTS_PER_PAGE = 6
 MAX_TEXT_INPUT_LEN = 100 # default value for text inputs if not defined.
 MAX_USERNAME_LEN = 16 # max number of chars allowed in a username
 
-rematch_non_alpha = re.compile(r'\W+') #match one or more non-alphanumeric characters
+rematch_non_alpha = re.compile(r'\W+', re.UNICODE) #match one or more non-alphanumeric characters
 
 # Number of characters to display for the "about me" section, and the cutoff for being considered to have
 # entered enough data.
@@ -568,8 +568,8 @@ class ErrorMessages():
     # all user-oriented error messages should appear here, so that translations into 
     # other languages will be easier in the future.
 
-    username_alphabetic = ugettext_lazy("<strong>Username</strong> needs at least 3 characters and can only contain letters \
-and numbers.")
+    username_alphabetic = ugettext_lazy("<strong>Username</strong> can only contain letters and numbers.")    
+    username_too_short = ugettext_lazy("<strong>Username</strong> needs at least 3 characters.")
     password_required = ugettext_lazy("<strong>Password</strong> required")
     password_alphabetic = ugettext_lazy("<strong>Password</strong> may only contain letters and numbers.")
     passwords_not_match = ugettext_lazy("The <strong>Password</strong> and the <strong>Verification Password</strong> must be the same.")

@@ -100,17 +100,22 @@
                         show_fields_errors("login_fields", login_errors_dict, extra_html);
                     } else {
                         var readable_object = JSON.stringify(post_response);
-                        report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - unknown json response: " + readable_object);
+                        var error_html =  "handle_user_registration_form - unknown json response object: " + readable_object
+                        report_ajax_error("NA", "NA", error_html);
+                        show_fields_errors("login_fields", [], error_html);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#id-submit-login-button').removeAttr('disabled'); // enable submit button
-
+                    var error_html;
                     if (jqXHR.responseText != undefined) {
-                        report_ajax_error(textStatus, errorThrown, jqXHR.responseText);
+                        error_html = jqXHR.responseText;
                     } else {
-                        report_ajax_error(textStatus, errorThrown, "handle_registered_login_form - unknown error");
+                        error_html = "handle_registered_login_form - unknown error";
                     }
+                    report_ajax_error(textStatus, errorThrown, error_html);   
+                    show_fields_errors("login_fields", [], error_html);
+
                 }
             });
             // prevent normal page navigation upon form submission - this is the same as calling

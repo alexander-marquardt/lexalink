@@ -298,7 +298,9 @@ def process_login(request, is_admin_login = False):
             email_or_username_login = "username"
             username = login_dict['username_email'].upper()
             q_username_email = q_last_login.filter(models.UserModel.username == username)
-            if (constants.rematch_non_alpha.search(username) != None or len(username) < 3):
+            if (len(username) < 3): 
+                error_dict['username_email'] = u"%s" % constants.ErrorMessages.username_too_short            
+            elif (constants.rematch_non_alpha.search(username) != None ):
                 error_dict['username_email'] = u"%s" % constants.ErrorMessages.username_alphabetic
                                 
         
@@ -468,6 +470,7 @@ def process_login(request, is_admin_login = False):
             assert(error_dict)
             # there were errors - report them
             response_dict['Login_Error'] = error_dict
+            
             
         json_response = simplejson.dumps(response_dict)
         return http.HttpResponse(json_response, mimetype='text/javascript')  
