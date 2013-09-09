@@ -37,7 +37,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedire
 
 from models import PhotoModel, WatermarkPhotoModel
 from constants import MAX_NUM_PHOTOS, SMALL_IMAGE_X, SMALL_IMAGE_Y, MEDIUM_IMAGE_X, MEDIUM_IMAGE_Y, LARGE_IMAGE_X, LARGE_IMAGE_Y
-from utils import passhash, put_userobject
+from utils import put_userobject
 import error_reporting, utils_top_level
 import settings, utils, constants
 

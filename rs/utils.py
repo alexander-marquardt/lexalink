@@ -385,11 +385,11 @@ def get_active_userobject_from_username(username):
         error_reporting.log_exception(logging.critical, error_message = 'Error in get_active_userobject_from_username') 
         return None
     
-def passhash(raw_password):
+def old_passhash(raw_password):
     
     # hash the password so that it is unreadable
     pwhash = hashlib.sha1()
-    pwhash.update(raw_password)
+    pwhash.update(raw_password.encode('utf-8'))
     return pwhash.hexdigest()
 
 def get_new_contact_count_sum(new_contact_counter):
@@ -580,7 +580,7 @@ def compute_captcha_bypass_string(sender_uid, receiver_uid):
     # must be known if the captcha is to be bypassed when sending a message between two users.
     
     # only compute it based on the last few characters
-    return passhash(sender_uid[-5:]  + receiver_uid[-5:])
+    return old_passhash(sender_uid[-5:]  + receiver_uid[-5:])
 
 
 def left_pad_with_nbsp(desired_length, input_string):

@@ -179,10 +179,6 @@ def error_check_signup_parameters(login_dict, lang_idx):
             error_dict['password_verify'] = u"%s" % "<strong>Password</strong> must be less than %s chars" % constants.MAX_TEXT_INPUT_LEN
             error_reporting.log_exception(logging.critical, error_message = error_dict['password_verify'])  
             
-        # Verify that the password only contains acceptable characters  - this is necessary for 
-        # the password hashing algorithm which only works with ascii chars.
-        if (constants.rematch_non_alpha.search(login_dict['password']) != None):
-            error_dict['password'] = u"%s" %constants.ErrorMessages.password_alphabetic
             
         # Verify that the username only contains acceptable characters 
         # This is not really necessary, but prevents people from entering strange names.
@@ -420,7 +416,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                     # in case we wan the ability to roll-back  profiles that we have "reset" to their original owners. Not a priority right
                     # now, and so not done yet. 
                     userobject.email_address = new_email_address
-                    userobject.password = utils.passhash(new_password)
+                    userobject.password = utils.old_passhash(new_password)
                     userobject.reason_for_profile_removal = None    
                     if new_email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
                         userobject.email_options[0] = 'only_password_recovery'
@@ -432,7 +428,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                     html_for_delete_account = "<p>You need to pass in a password. /rs/admin/action/set_password/name/[name_val]/[new_password]/</p>"
                 else:
                     html_for_delete_account = u"<p>We set new password for %s to %s</p>" % (userobject.username, new_password)                
-                    userobject.password = utils.passhash(new_password)
+                    userobject.password = utils.old_passhash(new_password)
             else: 
                 html_for_delete_account = "<p>unknown action_to_take %s</p>" % action_to_take
             
@@ -801,7 +797,7 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
     
         userobject.previous_last_login = datetime.datetime.now()
         
-        userobject.hash_of_creation_date = utils.passhash(str(userobject.creation_date))
+        userobject.hash_of_creation_date = utils.old_passhash(str(userobject.creation_date))
             
         (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
          get_or_create_unique_last_login(userobject, username)

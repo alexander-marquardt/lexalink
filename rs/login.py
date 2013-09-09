@@ -309,8 +309,7 @@ def process_login(request, is_admin_login = False):
         # and make sure that it is not empty.
         if login_dict['password'] == "----":
             error_dict['password'] = u"%s" % constants.ErrorMessages.password_required
-        elif constants.rematch_non_alpha.search(login_dict['password']) != None :
-            error_dict['password'] = u"%s" % constants.ErrorMessages.password_alphabetic
+
         else:
             if not is_admin_login:
                 # make sure that the password is not empty -- should never even get into here
@@ -318,7 +317,7 @@ def process_login(request, is_admin_login = False):
                 assert(login_dict['password'])
                        
                 # All "normal" (non admin) logins MUST check the password!!
-                q_with_password = q_username_email.filter(models.UserModel.password == utils.passhash(login_dict['password']))
+                q_with_password = q_username_email.filter(models.UserModel.password == utils.old_passhash(login_dict['password']))
                 
                 # make sure that profile has not been marked for elimination (if we are an administrator, we can
                 # still log into deleted accounts, so we don't add this value into the search query)
@@ -352,7 +351,7 @@ def process_login(request, is_admin_login = False):
                 # this will contain a new password, if the user has requested a new password be 
                 # sent to their email account.
                 # set up the query to check the 'password_reset' value
-                q_password_reset = q_username_email.filter(models.UserModel.password_reset == utils.passhash(login_dict['password']))
+                q_password_reset = q_username_email.filter(models.UserModel.password_reset == utils.old_passhash(login_dict['password']))
                 q_not_eliminated = q_password_reset.filter(models.UserModel.user_is_marked_for_elimination == False)  
 
                 userobject = q_not_eliminated.get()    
@@ -536,7 +535,7 @@ def process_registration(request):
             
             # encrypt the password -- but only if it is a new password or if the password
             # has been changed by the user if it does not match the password stored in password_hashed
-            password_encrypted = utils.passhash(login_dict['password'])
+            password_encrypted = utils.old_passhash(login_dict['password'])
             login_dict['password'] = password_encrypted
 
             # we should totally remove 'password_verify' from the UserModel eventually -- but for 

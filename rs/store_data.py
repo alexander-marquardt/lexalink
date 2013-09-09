@@ -47,7 +47,7 @@ from django.utils import translation
 
 import settings
 from constants import *
-from utils import passhash, \
+from utils import old_passhash, \
      put_userobject, requires_login, ajax_call_requires_login
 from models import PhotoModel,  InitiateContactModel, \
      UserModel, SpamMailStructures
@@ -660,7 +660,7 @@ def store_change_password_fields(request, owner_uid):
         verify_new_password = request.POST.get('verify_new_password','')
         
         # Authenticate the original password
-        if passhash(current_password) == userobject.password:
+        if old_passhash(current_password) == userobject.password:
             if new_password == verify_new_password and new_password != "":
                 password_change_is_valid = True
                
@@ -670,7 +670,7 @@ def store_change_password_fields(request, owner_uid):
             
     #only overwrite the password if the post was a valid password change
     if password_change_is_valid:
-        setattr(userobject, 'password', passhash(new_password))
+        setattr(userobject, 'password', old_passhash(new_password))
         
     # write the object in all cases, because state information about the attempted password
     # change is written into the userobject. We use the attempted_password_change time in the
@@ -1294,7 +1294,7 @@ def check_and_fix_userobject(userobject, lang_code):
             'last_login': (datetime.datetime.now,()),
             'previous_last_login': (datetime.datetime.now, ()),
             'user_tracker': (utils.create_and_return_usertracker, ()),
-            'hash_of_creation_date': (utils.passhash, (str(userobject.creation_date),)),
+            'hash_of_creation_date': (utils.old_passhash, (str(userobject.creation_date),)),
             'unique_last_login_offset_ref' : (login_utils.create_and_put_unique_last_login_offset_ref, ()),
             'email_options' : (lambda x: x, (['daily_notification_of_new_messages',],)),
             'user_photos_tracker_key' : (utils.create_and_return_user_photos_tracker, ()),
