@@ -70,7 +70,7 @@ if os.path.isdir('rs/proprietary'):
         #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
         #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
         #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
-        BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
+        #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
         #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
         #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     

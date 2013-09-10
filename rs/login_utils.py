@@ -174,10 +174,8 @@ def error_check_signup_parameters(login_dict, lang_idx):
             error_dict['password_verify'] = u"%s" % constants.ErrorMessages.passwords_not_match
             
         if len(login_dict["password_verify"]) > constants.MAX_TEXT_INPUT_LEN:
-            # this should never trigger, and is therefore just a message for admin (ie. in english only) - but this 
-            # must be added to error_dict to ensure that the users login is aborted later on.
-            error_dict['password_verify'] = u"%s" % "<strong>Password</strong> must be less than %s chars" % constants.MAX_TEXT_INPUT_LEN
-            error_reporting.log_exception(logging.critical, error_message = error_dict['password_verify'])  
+            error_dict['password_verify'] = u"%s" % ugettext("<strong>Password</strong> must not be more than %(max_len)s characters") % {
+                'max_len' : constants.MAX_TEXT_INPUT_LEN}
             
             
         # Verify that the username only contains acceptable characters 
@@ -188,9 +186,8 @@ def error_check_signup_parameters(login_dict, lang_idx):
             error_dict['username'] = u"%s" %constants.ErrorMessages.username_alphabetic   
             
         if len(login_dict['username']) > constants.MAX_USERNAME_LEN:
-            # this should never trigger, and is therefore just a message for admin (ie. in english only)
-            error_dict['username'] = "<strong>Username</strong> must be less than %s chars" % constants.MAX_USERNAME_LEN   
-            error_reporting.log_exception(logging.critical, error_message = error_dict['username'])  
+            error_dict['username'] = ugettext("<strong>Username</strong> must not be more than %(max_len)s characters") % {
+                'max_len': constants.MAX_USERNAME_LEN}  
                         
         def try_remaining_signup_fields(field_name):
             try:
