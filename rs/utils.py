@@ -389,14 +389,15 @@ def old_passhash(raw_password, salt=''):
     
     # hash the password so that it is unreadable
     pwhash = hashlib.sha1()
-    pwhash.update(raw_password.encode('utf-8') + salt)
+    pwhash.update(raw_password.encode('utf-8') + salt.encode('utf-8'))
     return pwhash.hexdigest()
 
 def new_passhash(raw_password, salt):
     
     # hash the password so that it is unreadable
     pwhash = hashlib.sha512()
-    pwhash.update(raw_password.encode('utf-8') + salt)
+    pw_with_salt = raw_password.encode('utf-8') + salt.encode('utf-8')
+    pwhash.update(pw_with_salt)
     return pwhash.hexdigest()
 
 def get_new_contact_count_sum(new_contact_counter):
