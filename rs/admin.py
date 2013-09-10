@@ -532,3 +532,94 @@ def backup_database(request):
     except:
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError()
+    
+
+
+def delete_model_sub_batch (request):
+    
+    # Deletes all of the objects indicated by the list of object keys that is passed in
+    
+    if request.method == 'POST':
+        model_keys_strs = request.POST.getlist('batch_keys_strs')     
+    else:
+        return http.HttpResponse('No post received')
+    
+    for model_keys_str in model_keys_strs:  
+        
+        model_key = ndb.Key(urlsafe = model_keys_str)
+            
+        try:
+            model_key.delete()
+            logging.info("removing %s" % model_key)
+            
+        except:
+            error_reporting.log_exception(logging.critical)  
+            
+    return http.HttpResponse('OK')
+
+
+def remove_old_email_authorization_model_setup_query():
+    
+    # We want to remove all EmailAuthorizationModel objects that are older than 7 days. 
+    q = models.EmailAutorizationModel.query().order(models.EmailAutorizationModel.creation_date)
+    q = q.filter(models.EmailAutorizationModel.creation_date < datetime.datetime.now() - datetime.timedelta(days = 7))    
+    return q
+                
+                
+def batch_run_passed_in_job(request, query_function_pointer, sub_processing_function_pointer):
+    
+    """ 
+    This function scans the database for userobjects that need fixing or editing or deletion or whatever.
+    It is written generically so that we can pass in the query function and the sub_processing function to do whatever 
+    we need done.
+    query_function_pointer is a pointer to a function that returns the query object
+    sub_processing_function_pointer is a pointer to a function that receives a batch of strings that reference objects, and does 
+    some custom action to those objects.
+    """
+    
+    from google.appengine.datastore.datastore_query import Cursor
+    
+    PAGESIZE = 50 # don't make this much more than 100 or we start overusing memory and get errors
+    
+    # Note: to use cursors, filter parameters must be the same for all queries. 
+    # This means that the cutoff_time must be remain constant as well (confused me for a few hours while figuring out
+    # why the code wasn't working).
+    
+    try:
+        
+        batch_cursor = None
+        
+        if request.method == 'POST':
+            batch_cursor = request.POST.get('batch_cursor', None)          
+        paging_cursor = Cursor(urlsafe = batch_cursor)
+        
+        name_of_function_to_call = sub_processing_function_pointer.__name__
+        generated_html = 'Batch processing with query function %s  and sub-batch function %s:<br><br>' %  (query_function_pointer.__name__, name_of_function_to_call)
+        
+        logging.info(generated_html)
+        logging.info("Paging new page with cursor %s" % batch_cursor)
+                
+        q = query_function_pointer()
+            
+        if paging_cursor:
+            (batch_keys, new_cursor, more_results) = q.fetch_page(PAGESIZE, start_cursor = paging_cursor, keys_only = True)
+        else:
+            (batch_keys, new_cursor, more_results) = q.fetch_page(PAGESIZE, keys_only = True)               
+                
+        batch_keys_strs = []
+        for key in batch_keys:
+            batch_keys_strs.append(key.urlsafe())
+            
+        taskqueue.add(queue_name = 'background-processing-queue', url='/rs/admin/%s/' % name_of_function_to_call, 
+                      params={'batch_keys_strs': batch_keys_strs})
+            
+        # queue up more jobs
+        if more_results:
+            path = request.path_info
+            taskqueue.add(queue_name = 'background-processing-queue', url=path, params={'batch_cursor': new_cursor.urlsafe()})
+
+        return http.HttpResponse(generated_html)
+    except:
+        error_reporting.log_exception(logging.critical)
+        return http.HttpResponseServerError()
+    

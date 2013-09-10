@@ -15,4 +15,8 @@ cron:
   url: /rs/admin/backup_database/
   schedule: every 96 hours # every 4 days
 
+- description: Remove old EmailAuthorizationModel objects
+  url: /rs/admin/remove_old_email_authorization_model/
+  schedule: every 24 hours
+
   

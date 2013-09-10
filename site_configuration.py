@@ -29,10 +29,10 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-09-09-1200'
+VERSION_ID = '2013-09-10-0133'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_TIME_STAMPED_STATIC_FILES = True
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -70,7 +70,7 @@ if os.path.isdir('rs/proprietary'):
         #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
         #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
         #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
-        #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
+        BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
         #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
         #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     
