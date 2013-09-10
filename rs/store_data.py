@@ -679,11 +679,8 @@ def store_change_password_fields(request, owner_uid):
                 
         #only overwrite the password if the post was a valid password change
         if password_change_is_valid:
-            if not userobject.password_salt:
-                # In case the user doesn't have a password_salt, now is a good time time to give them one. This code can
-                # likely be removed once the transition to new password hashing algorithm is fully complete.
-                userobject.password_salt = uuid.uuid4().hex
-            setattr(userobject, 'password', utils.new_passhash(new_password, userobject.password_salt))
+            userobject.password_salt = uuid.uuid4().hex
+            userobject.password = utils.new_passhash(new_password, userobject.password_salt)
         else:
             logging.info("unable to set password to %s. Current password %s appears not to match" % (new_password, current_password))
             

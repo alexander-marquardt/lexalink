@@ -34,6 +34,7 @@ from django.core.validators import email_re
 from django.utils.translation import ugettext
 
 from os import environ
+import uuid
 
 import settings, constants
 
@@ -120,6 +121,7 @@ def generate_and_save_password(email_address):
         info_message = "Setting %s email: %s password_reset value to: %s\nKey %s" % (
             username, email_address, new_password, userobject.key)
         logging.info(info_message)
+        userobject.password_salt = uuid.uuid4().hex
         userobject.password_reset = utils.new_passhash(new_password, userobject.password_salt)
         utils.put_userobject(userobject)
     else:
