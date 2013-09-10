@@ -662,16 +662,15 @@ def store_change_password_fields(request, owner_uid):
         
         # Authenticate the original password      
         if new_password == verify_new_password and new_password != "":
+            
+            if not userobject.password_salt:
+                # just set the salt to a string if it is None, so that the hashing algorithm will not have an exception
+                userobject.password_salt = ''
+                
             if utils.old_passhash(current_password) == userobject.password:
                 password_change_is_valid = True      
-            else:
-                if not userobject.password_salt:
-                    # This user has probably not logged-in since the new password hashing algorithm was implemented,
-                    # and therefore doesn't have a password_salt value defined yet. 
-                    password_change_is_valid = False 
-
-                elif utils.new_passhash(current_password, userobject.password_salt) == userobject.password:
-                    password_change_is_valid = True
+            elif utils.new_passhash(current_password, userobject.password_salt) == userobject.password:
+                password_change_is_valid = True
     
                
         userobject.change_password_is_valid = password_change_is_valid
@@ -681,6 +680,8 @@ def store_change_password_fields(request, owner_uid):
         #only overwrite the password if the post was a valid password change
         if password_change_is_valid:
             if not userobject.password_salt:
+                # In case the user doesn't have a password_salt, now is a good time time to give them one. This code can
+                # likely be removed once the transition to new password hashing algorithm is fully complete.
                 userobject.password_salt = uuid.uuid4().hex
             setattr(userobject, 'password', utils.new_passhash(new_password, userobject.password_salt))
         else:
