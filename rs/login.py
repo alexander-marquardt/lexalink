@@ -372,10 +372,9 @@ def process_login(request, is_admin_login = False):
                 # random people from resetting other peoples passwords. -- Once the user has 
                 # logged in using the new 'reset_password', then we copy this field over to the 'password'
                 # field. If the user never logs in with this 'reset_password', then the original password
-                # is not over-written -- and we instead erase the 'reset_password' value                
+                # is not over-written -- and we instead erase the 'reset_password' value (lower down in this function)             
                 correct_username_password = True
                 userobject.password = userobject.password_reset
-                userobject.password_reset = None
                 
             else:
                 correct_username_password = False
@@ -397,9 +396,11 @@ def process_login(request, is_admin_login = False):
             # make sure that the userobject has all the parts that the code expects it to have.
             store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
 
-            # if administrator is logging in, do not update anything. 
+            # if administrator is logging in, do not update any of the user login times, or other data that should only be updated 
+            # if the real user logs in. 
             if not is_admin_login:
                 
+                userobject.password_reset = None # if the user has sucessfully logged in, then we know that the "reset_password" is no longer needed
                 userobject.previous_last_login = userobject.last_login
                 userobject.last_login =  datetime.datetime.now()   
                 userobject.last_login_string = str(userobject.last_login)
