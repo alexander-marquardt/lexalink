@@ -315,7 +315,10 @@ def get_photo(request, photo_object_key_str, photo_size = 'small', is_admin_logi
         
         try:
             photo_object = utils_top_level.get_object_from_string(photo_object_key_str)
-            assert(photo_object)    
+            if not photo_object:
+                error_reporting.log_exception(logging.error, 
+                    error_message = "Unable to get photo object from key string: %s. Perhaps the photos was eliminated?" % photo_object_key_str)
+                return HttpResponse('Fail')
            
             has_key_to_private_photos = False
             
@@ -354,10 +357,10 @@ def get_photo(request, photo_object_key_str, photo_size = 'small', is_admin_logi
 
             return response
         except:
-            error_reporting.log_exception(logging.error, request=request, error_message = 'User: "%s" get_photo error' % utils.get_username_from_request(request))
+            error_reporting.log_exception(logging.error, request=request, error_message = 'get_photo error. User: "%s" ' % utils.get_username_from_request(request))
             return HttpResponse('Fail')
     else:
-        error_reporting.log_exception(logging.warning, request=request, error_message = 'User: "%s" get_photo called with method other than GET' %\
+        error_reporting.log_exception(logging.warning, request=request, error_message = 'get_photo called with method other than GET. User: "%s"' %\
                                       utils.get_username_from_request(request))
         return HttpResponse('Fail')
     

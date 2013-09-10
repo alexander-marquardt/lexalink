@@ -267,7 +267,7 @@ def process_login(request, is_admin_login = False):
         
         if request.method != 'POST':
             error_message = "process_login was not called with POST data"
-            error_reporting.log_exception(logging.critical, error_message = error_message)  
+            error_reporting.log_exception(logging.error, error_message = error_message)  
             return http.HttpResponseBadRequest(error_message)
         
                
