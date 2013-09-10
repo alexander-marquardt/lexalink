@@ -646,44 +646,49 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
 @ajax_call_requires_login
 def store_change_password_fields(request, owner_uid):
 
-    assert(owner_uid == request.session['userobject_str'])
-    userobject = utils_top_level.get_userobject_from_request(request)
-    
-    password_change_is_valid = False
-    
-    if request.method != 'POST':
-        return HttpResponseBadRequest()
-    else:
-        current_password = request.POST.get('current_password','')
-        new_password = request.POST.get('new_password', '')
-        verify_new_password = request.POST.get('verify_new_password','')
+    try:
+        assert(owner_uid == request.session['userobject_str'])
+        userobject = utils_top_level.get_userobject_from_request(request)
         
-        # Authenticate the original password
-        if utils.new_passhash(current_password, userobject.password_salt) == userobject.password or utils.old_passhash(current_password) == userobject.password:
-            if new_password == verify_new_password and new_password != "":
-                password_change_is_valid = True
+        password_change_is_valid = False
+        
+        if request.method != 'POST':
+            return HttpResponseBadRequest()
         else:
-            logging.info("unable to set password to %s. Current password %s appears not to match" % (new_password, current_password))
-               
-        userobject.change_password_is_valid = password_change_is_valid
-        userobject.password_attempted_change_date = datetime.datetime.now()             
-
+            current_password = request.POST.get('current_password','')
+            new_password = request.POST.get('new_password', '')
+            verify_new_password = request.POST.get('verify_new_password','')
             
-    #only overwrite the password if the post was a valid password change
-    if password_change_is_valid:
-        setattr(userobject, 'password', utils.new_passhash(new_password, userobject.password_salt))
-        
-    # write the object in all cases, because state information about the attempted password
-    # change is written into the userobject. We use the attempted_password_change time in the
-    # ajax function "load_change_password_fields" -- we should fix this in the future, and 
-    # NOT write the userobject, unless a successful password change has occured -- we can eaily
-    # pass the status back to the client and process with javascript as opposed to server side
-    # tracking of this status (this is written like this because when I first started coding I didn't know
-    # any javascript). 
-    put_userobject(userobject)  
+            # Authenticate the original password
+            if utils.new_passhash(current_password, userobject.password_salt) == userobject.password \
+               or utils.old_passhash(current_password) == userobject.password:
+                if new_password == verify_new_password and new_password != "":
+                    password_change_is_valid = True
+            else:
+                logging.info("unable to set password to %s. Current password %s appears not to match" % (new_password, current_password))
+                   
+            userobject.change_password_is_valid = password_change_is_valid
+            userobject.password_attempted_change_date = datetime.datetime.now()             
     
-    return HttpResponse('Success')
-
+                
+        #only overwrite the password if the post was a valid password change
+        if password_change_is_valid:
+            setattr(userobject, 'password', utils.new_passhash(new_password, userobject.password_salt))
+            
+        # write the object in all cases, because state information about the attempted password
+        # change is written into the userobject. We use the attempted_password_change time in the
+        # ajax function "load_change_password_fields" -- we should fix this in the future, and 
+        # NOT write the userobject, unless a successful password change has occured -- we can eaily
+        # pass the status back to the client and process with javascript as opposed to server side
+        # tracking of this status (this is written like this because when I first started coding I didn't know
+        # any javascript). 
+        put_userobject(userobject)  
+        
+        return HttpResponse('Success')
+    
+    except:
+        error_reporting.log_exception(logging.critical)       
+        return HttpResponse('Error')
 
 ###########################################################################
 def  reset_new_contact_or_mail_counter_notification_settings(object_ref_key):

@@ -351,15 +351,17 @@ def process_login(request, is_admin_login = False):
             if is_admin_login:
                 correct_username_password = True
                 
-            elif userobject.password == utils.new_passhash(login_dict['password'], userobject.password_salt):
-                # All "normal" (non admin) logins MUST check the password!!                
-                correct_username_password = True     
-                
             elif userobject.password == utils.old_passhash(login_dict['password']):
                 # All "normal" (non admin) logins MUST check the password!!                
                 correct_username_password = True
-                # Now we have to resest the users password to the new_passhash to make it more secure
+                # Now we have to resest the users password to the new_passhash algorithm to make it more secure. 
+                # This requires that we generate a salt in addition to hashing with the new algorithm.
+                userobject.password_salt = uuid.uuid4().hex
                 userobject.password = utils.new_passhash(login_dict['password'], userobject.password_salt)
+                
+            elif userobject.password == utils.new_passhash(login_dict['password'], userobject.password_salt):
+                # All "normal" (non admin) logins MUST check the password!!                
+                correct_username_password = True                     
                 
             elif userobject.password_reset and userobject.password_reset == utils.new_passhash(login_dict['password'], userobject.password_salt):
                 # Note: if the password has been reset, then the 'password_reset' value will contain

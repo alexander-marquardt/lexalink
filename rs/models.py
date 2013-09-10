@@ -842,7 +842,7 @@ class EmailAutorizationModel(ndb.Model):
     email_address =  ndb.StringProperty(default = None)
     
     encrypted_password = ndb.StringProperty()
-    password_salt = ndb.StringProperty(default = None)
+    password_salt = ndb.StringProperty(default = '')
     
     # the following variable will contain a string representation of the day that the registration takes place
     # which will allow us to do database queries for all registrations in the current day.
