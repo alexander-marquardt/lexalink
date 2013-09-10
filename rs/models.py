@@ -488,6 +488,7 @@ class UserModel(ndb.Model):
     
     password = ndb.StringProperty(default = None)   
     password_reset = ndb.StringProperty(default = None)  
+    password_salt = ndb.StringProperty(default = None)
     email_address = ndb.StringProperty(default = "----")
     
     if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
@@ -839,6 +840,9 @@ class EmailAutorizationModel(ndb.Model):
     # address registers an excessive number of times, it will not be permitted to register more accounts.
     ip_address = ndb.StringProperty(default=None)
     email_address =  ndb.StringProperty(default = None)
+    
+    encrypted_password = ndb.StringProperty()
+    password_salt = ndb.StringProperty(default = None)
     
     # the following variable will contain a string representation of the day that the registration takes place
     # which will allow us to do database queries for all registrations in the current day.

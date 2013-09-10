@@ -48,7 +48,7 @@ from constants import *
 from user_profile_main_data import UserSpec
 from models import UserSearchPreferences2
 from login_utils import *
-from utils import old_passhash, get_new_contact_count_sum, return_time_difference_in_friendly_format, requires_login
+from utils import get_new_contact_count_sum, return_time_difference_in_friendly_format, requires_login
 import mailbox 
 import debugging
 import admin, mailbox, login_utils, channel_support

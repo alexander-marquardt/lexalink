@@ -40,7 +40,8 @@ import settings, constants
 from forms import FormUtils
 from constants import rematch_non_alpha
 from models import UserModel
-from utils import old_passhash, gen_passwd
+from utils import gen_passwd
+import utils
 
 import email_utils, utils, rendering
 
@@ -116,10 +117,10 @@ def generate_and_save_password(email_address):
         # we have found a user matching the given email address
         username = userobject.username
         new_password = gen_passwd()
-        info_message = "Setting %s email: %s password to: %s\nKey %s" % (
+        info_message = "Setting %s email: %s password_reset value to: %s\nKey %s" % (
             username, email_address, new_password, userobject.key)
         logging.info(info_message)
-        userobject.password_reset = old_passhash(new_password)
+        userobject.password_reset = utils.new_passhash(new_password, userobject.password_salt)
         utils.put_userobject(userobject)
     else:
         error_reporting.log_exception(logging.warning, error_message = "Unable to set new password for email: %s - No userobject found" % email_address)

@@ -593,8 +593,8 @@ def load_change_password_fields(request):
         time_since_password_change =  datetime.datetime.now() - userobject.password_attempted_change_date
         
         # if password was updated in the previous minute, then we show the user a success message
-        # This is hackey -- should look at another way of achieveing this functionality, possibly
-        # by passing additional data with the POST.
+        # This is hackey -- should look at another way of achieveing this functionality - this should 
+        # be done with an ajax call (it was written before I knew any javascript ...)
         if time_since_password_change < datetime.timedelta(minutes = 1):
             if userobject.change_password_is_valid:
                 generated_html = u"%s" % text_fields.success_change_password_text

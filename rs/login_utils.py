@@ -416,7 +416,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                     # in case we wan the ability to roll-back  profiles that we have "reset" to their original owners. Not a priority right
                     # now, and so not done yet. 
                     userobject.email_address = new_email_address
-                    userobject.password = utils.old_passhash(new_password)
+                    userobject.password = utils.new_passhash(new_password, userobject.password_salt)
                     userobject.reason_for_profile_removal = None    
                     if new_email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
                         userobject.email_options[0] = 'only_password_recovery'
@@ -428,7 +428,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                     html_for_delete_account = "<p>You need to pass in a password. /rs/admin/action/set_password/name/[name_val]/[new_password]/</p>"
                 else:
                     html_for_delete_account = u"<p>We set new password for %s to %s</p>" % (userobject.username, new_password)                
-                    userobject.password = utils.old_passhash(new_password)
+                    userobject.password = utils.new_passhash(new_password, userobject.password_salt)
             else: 
                 html_for_delete_account = "<p>unknown action_to_take %s</p>" % action_to_take
             
@@ -653,7 +653,7 @@ http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_
     return return_val
 
     
-def store_authorization_info_and_send_email(username, email_address, pickled_login_get_dict, lang_code):
+def store_authorization_info_and_send_email(username, email_address, encrypted_password, password_salt, pickled_login_get_dict, lang_code):
     # Writes a (hopefully temporary) object to the database, which will be accessed when the user verifies their account 
     # by clicking on a URL directly from their email -- note, this function saves us from sending
     # out super long URLs that get broken up by email systems and that would therefore cause problems -- instead, we store
@@ -714,7 +714,8 @@ def store_authorization_info_and_send_email(username, email_address, pickled_log
         authorization_info.username = username  
         authorization_info.pickled_login_get_dict = pickled_login_get_dict
         authorization_info.has_been_authorized = False
-        
+        authorization_info.encrypted_password = encrypted_password
+        authorization_info.password_salt = password_salt
         authorization_info.ip_address  = ip_address 
         authorization_info.email_address = email_address
         authorization_info.creation_day = creation_day

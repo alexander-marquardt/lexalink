@@ -47,8 +47,7 @@ from django.utils import translation
 
 import settings
 from constants import *
-from utils import old_passhash, \
-     put_userobject, requires_login, ajax_call_requires_login
+from utils import put_userobject, requires_login, ajax_call_requires_login
 from models import PhotoModel,  InitiateContactModel, \
      UserModel, SpamMailStructures
 from user_profile_main_data import UserSpec
@@ -660,9 +659,11 @@ def store_change_password_fields(request, owner_uid):
         verify_new_password = request.POST.get('verify_new_password','')
         
         # Authenticate the original password
-        if old_passhash(current_password) == userobject.password:
+        if utils.new_passhash(current_password, userobject.password_salt) == userobject.password or utils.old_passhash(current_password) == userobject.password:
             if new_password == verify_new_password and new_password != "":
                 password_change_is_valid = True
+        else:
+            logging.info("unable to set password to %s. Current password %s appears not to match" % (new_password, current_password))
                
         userobject.change_password_is_valid = password_change_is_valid
         userobject.password_attempted_change_date = datetime.datetime.now()             
@@ -670,7 +671,7 @@ def store_change_password_fields(request, owner_uid):
             
     #only overwrite the password if the post was a valid password change
     if password_change_is_valid:
-        setattr(userobject, 'password', old_passhash(new_password))
+        setattr(userobject, 'password', utils.new_passhash(new_password, userobject.password_salt))
         
     # write the object in all cases, because state information about the attempted password
     # change is written into the userobject. We use the attempted_password_change time in the

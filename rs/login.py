@@ -25,6 +25,7 @@
 # limitations under the License.
 ################################################################################
 
+import uuid
 import settings
 import logging, StringIO, pickle, datetime, os
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
@@ -171,7 +172,7 @@ def landing_page(request, is_admin_login = False):
         return utils.return_and_report_internal_error(request)
 
 
-def verify_user_email(request, login_dict):
+def verify_user_email(request, login_dict, encrypted_password, password_salt):
 
     # Receives the user_login values and forces user to verify a registration link (in an email) before
     # registration data is stored. Note, the store_data.store_new_user_after_verify() function
@@ -198,12 +199,17 @@ def verify_user_email(request, login_dict):
             # pickle the GET string for re-insertion into the request object when the user clicks on the email link to
             # validate their account. 
             # We create a StringIO object because the pickle module expectes files to pickle the objects into. This is like a 
-            # fake file. 
+            # fake file.  
             pickled_login_get_dict_fake_file = StringIO.StringIO()
             
-            pickle.dump(login_dict, pickled_login_get_dict_fake_file)        
+            
+            dump_login_dict = login_dict.copy()
+            # remove the password from the login_dict before pickling it so that we don't have un-encrypted passwords stored in the database.
+            dump_login_dict['password'] = "Unencrypted password is not stored - you should be using the encrypted_password field"
+            dump_login_dict['password_verify'] = dump_login_dict['password'] 
+            pickle.dump(dump_login_dict, pickled_login_get_dict_fake_file)        
             pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
-            authorization_result = login_utils.store_authorization_info_and_send_email(username, email_address, pickled_login_get_dict, request.LANGUAGE_CODE)   
+            authorization_result = login_utils.store_authorization_info_and_send_email(username, email_address, encrypted_password, password_salt, pickled_login_get_dict, request.LANGUAGE_CODE)   
             pickled_login_get_dict_fake_file.close()
 
         
@@ -328,8 +334,9 @@ def process_login(request, is_admin_login = False):
                     # if the password was incorrect - this does not violate anyones privacy
                     show_reason_for_elimination = True
                 
-                elif eliminated_userobject and eliminated_userobject.password == utils.old_passhash(login_dict['password']):
-                    # The usernaem_login is an email address, this needs more privacy protection.
+                elif eliminated_userobject and (eliminated_userobject.password == utils.old_passhash(login_dict['password']) or \
+                     eliminated_userobject.password == utils.new_passhash(login_dict['password'], eliminated_userobject.password_salt)):
+                    # The username_login is an email address, this needs more privacy protection.
                     # Let user know that the profile was eliminated (but only if they have entered in the correct password). 
                     # To protect users privacy, we don't want to confirm that an email address was registered unless the 
                     # correct password was entered. 
@@ -339,15 +346,22 @@ def process_login(request, is_admin_login = False):
                     message_for_client = utils.get_removed_user_reason_html(eliminated_userobject)
                     error_dict['reason_for_removal_message'] = message_for_client                
             
-        correct_username_password = True
-        
+        correct_username_password = False
         if userobject:
             if is_admin_login:
                 correct_username_password = True
+                
+            elif userobject.password == utils.new_passhash(login_dict['password'], userobject.password_salt):
+                # All "normal" (non admin) logins MUST check the password!!                
+                correct_username_password = True     
+                
             elif userobject.password == utils.old_passhash(login_dict['password']):
                 # All "normal" (non admin) logins MUST check the password!!                
                 correct_username_password = True
-            elif userobject.password_reset and userobject.password_reset == utils.old_passhash(login_dict['password']):
+                # Now we have to resest the users password to the new_passhash to make it more secure
+                userobject.password = utils.new_passhash(login_dict['password'], userobject.password_salt)
+                
+            elif userobject.password_reset and userobject.password_reset == utils.new_passhash(login_dict['password'], userobject.password_salt):
                 # Note: if the password has been reset, then the 'password_reset' value will contain
                 # the new password (as opposed to directly overwriting the 'password' field). This is done  to prevent
                 # random people from resetting other peoples passwords. -- Once the user has 
@@ -357,9 +371,10 @@ def process_login(request, is_admin_login = False):
                 correct_username_password = True
                 userobject.password = userobject.password_reset
                 userobject.password_reset = None
-        else:
-            correct_username_password = False
-        
+                
+            else:
+                correct_username_password = False
+
         if not correct_username_password:
             error_dict['incorrect_username_password_message'] = u"%s" % constants.ErrorMessages.incorrect_username_password            
             if not 'username_email' in error_dict:
@@ -501,17 +516,10 @@ def process_registration(request):
         # if there are no errors, then store the signup information.
         if not error_dict:
     
-            
-            # encrypt the password -- but only if it is a new password or if the password
-            # has been changed by the user if it does not match the password stored in password_hashed
-            password_encrypted = utils.old_passhash(login_dict['password'])
-            login_dict['password'] = password_encrypted
-
-            # we should totally remove 'password_verify' from the UserModel eventually -- but for 
-            # now just set it to the hashed password (since we have just replaced the password with the hash).
-            login_dict['password_verify'] = login_dict['password']
-                           
-            response =  verify_user_email(request, login_dict)
+            password_salt = uuid.uuid4().hex              
+            # encrypt the password 
+            encrypted_password = utils.new_passhash(login_dict['password'], password_salt)
+            response =  verify_user_email(request, login_dict, encrypted_password, password_salt)
             response_dict['Registration_OK'] = response
         else:
             response_dict['Registration_Error'] = error_dict
@@ -529,21 +537,12 @@ def process_registration(request):
   
     
 
-def store_new_user_after_verify(request, fake_request=None):
+def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_password, password_salt):
     # Store the user information passed in the request into a userobject.
     # Does some validation to prevent attacks 
     
-
-            
     try:
-        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
         
-        if not fake_request:
-            login_dict = login_utils.get_registration_dict_from_post(request)
-        else:
-            fake_request.LANGUAGE_CODE = request.LANGUAGE_CODE
-            login_dict = login_utils.get_registration_dict_from_post(fake_request)
-    
         error_dict = login_utils.error_check_signup_parameters(login_dict, lang_idx)
  
         if error_dict:
@@ -555,16 +554,13 @@ def store_new_user_after_verify(request, fake_request=None):
         
         login_dict['username'] = login_dict['username'].upper()
         username = login_dict['username']
-        assert(username)
-        password = login_dict['password']
-        assert(password)
+        password = encrypted_password
         # if the username is already registered, and the password is the correct password
         # for the given username, then do not add another user into the database. 
         # Re-direct the user to their home page. This could happen if the user clicks on the registration
         # link more than one time.
         q = models.UserModel.query().order(-models.UserModel.last_login_string)
         q = q.filter(models.UserModel.username == username)
-        q = q.filter(models.UserModel.password == password)    
         q = q.filter(models.UserModel.user_is_marked_for_elimination == False)
         userobject = q.get()
         if userobject:
@@ -597,8 +593,11 @@ def store_new_user_after_verify(request, fake_request=None):
         
         # passing in the login_dict to the following declaration will copy the values into the user object.
         userobject = models.UserModel(**login_dict)
+        userobject.password = encrypted_password
+        userobject.password_salt = password_salt
         
         userobject.username_combinations_list = utils.get_username_combinations_list(username)
+        
         utils.put_userobject(userobject)
                
         userobject.search_preferences2 = login_utils.create_search_preferences2_object(userobject, request.LANGUAGE_CODE) 
@@ -612,11 +611,9 @@ def store_new_user_after_verify(request, fake_request=None):
         else:
             userobject.email_address_is_valid = True
             
-            if fake_request:
-                # if we have entered into this function with a fake request, then we know that the user has entered into the system
-                # by clicking on the verification link in an email. Therefore, we can update the user_tracker object with the
-                # email address, since we have now confirmed that it is truly verified.
-                utils.update_email_address_on_user_tracker(userobject, login_dict['email_address'])
+            # We can update the user_tracker object with the
+            # email address, since we have now confirmed that it is truly verified.
+            utils.update_email_address_on_user_tracker(userobject, login_dict['email_address'])
             try:
                 # make sure that the email address is a valid email address.
                 assert(email_re.match(login_dict['email_address']))
@@ -664,9 +661,9 @@ def store_new_user_after_verify(request, fake_request=None):
 
             except: 
                 error_message = "Unable to delete userobject: %s : %s" % (userobject.username, repr(userobject))
-                error_reporting.log_exception(logging.critical, error_message = error_message)
+                error_reporting.log_exception(logging.critical, request = request, error_message = error_message)
         except:
-            error_reporting.log_exception(logging.critical, request = request, error_message = "Unable to clean up after failed sign-up attempt" ) 
+            error_reporting.log_exception(logging.critical, error_message = "Unable to clean up after failed sign-up attempt" ) 
             
         return("/")
 
@@ -689,16 +686,10 @@ def store_new_user_after_verify_email_url(request, username, secret_verification
             
         if authorization_info:
             login_get_dict = pickle.load(StringIO.StringIO(authorization_info.pickled_login_get_dict))
-            
-            # somewhat of a hack, but we create a fake request object so that we can use common code to process 
-            # the user information that was previously submitted.
-            class FakeRequest():
-                pass
-            
-            fake_request = FakeRequest()
-            fake_request.GET =  fake_request.REQUEST = login_get_dict
-            
-            response = store_new_user_after_verify(request, fake_request)
+            encrypted_password = authorization_info.encrypted_password
+            password_salt = authorization_info.password_salt
+            lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
+            response = store_new_user_after_verify(request, lang_idx, login_get_dict, encrypted_password, password_salt)
             http_response = http.HttpResponseRedirect(response)
             
             return http_response

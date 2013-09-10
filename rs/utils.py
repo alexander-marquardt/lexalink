@@ -392,7 +392,7 @@ def old_passhash(raw_password, salt=''):
     pwhash.update(raw_password.encode('utf-8') + salt)
     return pwhash.hexdigest()
 
-def new_passhash(raw_password, salt=''):
+def new_passhash(raw_password, salt):
     
     # hash the password so that it is unreadable
     pwhash = hashlib.sha512()
