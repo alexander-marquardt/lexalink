@@ -27,6 +27,7 @@
 
 
 from os import environ
+import uuid
 
 from google.appengine.api import images
 from google.appengine.ext import ndb 
@@ -654,26 +655,37 @@ def store_change_password_fields(request, owner_uid):
         
         if request.method != 'POST':
             return HttpResponseBadRequest()
-        else:
-            current_password = request.POST.get('current_password','')
-            new_password = request.POST.get('new_password', '')
-            verify_new_password = request.POST.get('verify_new_password','')
-            
-            # Authenticate the original password
-            if utils.new_passhash(current_password, userobject.password_salt) == userobject.password \
-               or utils.old_passhash(current_password) == userobject.password:
-                if new_password == verify_new_password and new_password != "":
-                    password_change_is_valid = True
+        
+        current_password = request.POST.get('current_password','')
+        new_password = request.POST.get('new_password', '')
+        verify_new_password = request.POST.get('verify_new_password','')
+        
+        # Authenticate the original password      
+        if new_password == verify_new_password and new_password != "":
+            if utils.old_passhash(current_password) == userobject.password:
+                password_change_is_valid = True      
             else:
-                logging.info("unable to set password to %s. Current password %s appears not to match" % (new_password, current_password))
-                   
-            userobject.change_password_is_valid = password_change_is_valid
-            userobject.password_attempted_change_date = datetime.datetime.now()             
+                if not userobject.password_salt:
+                    # This user has probably not logged-in since the new password hashing algorithm was implemented,
+                    # and therefore doesn't have a password_salt value defined yet. 
+                    password_change_is_valid = False 
+
+                elif utils.new_passhash(current_password, userobject.password_salt) == userobject.password:
+                    password_change_is_valid = True
+    
+               
+        userobject.change_password_is_valid = password_change_is_valid
+        userobject.password_attempted_change_date = datetime.datetime.now()             
     
                 
         #only overwrite the password if the post was a valid password change
         if password_change_is_valid:
+            if not userobject.password_salt:
+                userobject.password_salt = uuid.uuid4().hex
             setattr(userobject, 'password', utils.new_passhash(new_password, userobject.password_salt))
+        else:
+            logging.info("unable to set password to %s. Current password %s appears not to match" % (new_password, current_password))
+            
             
         # write the object in all cases, because state information about the attempted password
         # change is written into the userobject. We use the attempted_password_change time in the
