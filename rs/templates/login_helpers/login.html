@@ -1,9 +1,9 @@
 {% load i18n %}
 
 {% if is_admin_login %}
-    <form id="id-already_registered_login_form" method=POST action="{% url login.admin_process_login %}">
+    <form id="id-login_form" method=POST action="{% url login.admin_process_login %}">
 {% else %}
-    <form id="id-already_registered_login_form" method=POST action="{% url login.process_login %}">
+    <form id="id-login_form" method=POST action="{% url login.process_login %}">
 {% endif %}
 
         <table id="id-horiz-bar-table"> <!-- outer table -->
@@ -67,7 +67,7 @@
     function handle_registered_login_form() {
 
 
-        $("#id-already_registered_login_form").submit(function(e) {
+        $("#id-login_form").submit(function(e) {
 
             // prevent double clicks from being processed.
             $('#id-submit-login-button').attr('disabled', 'disabled');
@@ -80,7 +80,7 @@
                 $('#id-login_fields-username_email').val("");
             }
 
-            var submit_form_url = $("#id-already_registered_login_form").attr('action');
+            var submit_form_url = $("#id-login_form").attr('action');
             $(this).ajaxSubmit({url: submit_form_url,
                 type: 'post',
                 dataType: "json",
