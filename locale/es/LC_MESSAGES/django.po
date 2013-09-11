@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-11 15:44-0400\n"
+"POT-Creation-Date: 2013-09-11 19:31-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -2361,25 +2361,6 @@ msgstr "Hemos enviado un correo electrónico para activar tu cuenta a"
 msgid "from"
 msgstr "desde"
 
-#: rs/login.py:234
-#, python-format
-msgid ""
-"Normally you will receive an email in few minutes, but this can sometimes "
-"take\n"
-"            up to a half hour. If you do not receive an email from us, "
-"please check your Spam folder. \n"
-"            If the message from %(app_name)s has been marked as Spam, please "
-"mark it as not Spam."
-msgstr ""
-"Normalmente, recibirás un correo electrónico en pocos minutos, pero a veces "
-"puede tardar hasta media hora. Si no recibes un correo electrónico por favor "
-"mira tu buzón de Spam. Si el mensaje de %(app_name)s ha sido marcado como "
-"Spam por favor márcalo como no Spam."
-
-#: rs/login.py:243
-msgid "If you have any problems or suggestions, send us a message at"
-msgstr "Si tienes algun problema o sugerencia, envíanos un mensaje a"
-
 #: rs/login_utils.py:177
 #, python-format
 msgid "<strong>Password</strong> must not be more than %(max_len)s characters"
@@ -2405,6 +2386,7 @@ msgid "You have exited"
 msgstr "Has salido"
 
 #: rs/login_utils.py:481
+#, python-format
 msgid "Profile %(username)s has already been deleted, or never existed"
 msgstr "El perfil de %(username)s ya ha sido eliminado o no existía"
 
@@ -4885,9 +4867,9 @@ msgstr "Entrar"
 #, python-format
 msgid ""
 "\n"
-"            I confirm that I am %(age)s or older and that I have read and "
-"accept the terms and conditions for using %(app_name)s\n"
-"            "
+"        I confirm that I am %(age)s or older and that I have read and accept "
+"the terms and conditions for using %(app_name)s\n"
+"        "
 msgstr ""
 "\n"
 "Afirmo que tengo %(age)s años y que he leído y acepto los términos y "
@@ -4905,15 +4887,66 @@ msgstr "en 30 segundos está hecho"
 msgid " Register me"
 msgstr "Me Registro"
 
-#: rs/templates/login_helpers/registration.html:78
+#: rs/templates/login_helpers/registration.html:74
+#, python-format
+msgid ""
+"\n"
+"    Once you receive the email from %(app_name)s, in order to activate your "
+"account, you can either enter the verification code from the\n"
+"    email in the input below, or you can directly click on the activation "
+"link included in the email.\n"
+"    "
+msgstr ""
+"Una vez que has recibido el correo electrónico desde %(app_name)s, para "
+"activar tu cuenta, puedes o bien introducir el código de verificación del "
+"correo electrónico en la casilla debajo o puedes hacer clic directamente en "
+"el vínculo de activación incluido en el correo electrónico. "
+
+#: rs/templates/login_helpers/registration.html:83
+msgid "Verification Code"
+msgstr "Codigo de verificación"
+
+#: rs/templates/login_helpers/registration.html:84
+msgid "Activate account"
+msgstr "Activar cuenta"
+
+#: rs/templates/login_helpers/registration.html:88
+#, python-format
+msgid ""
+"\n"
+"        Normally you will receive an email in few minutes, but this can "
+"sometimes take\n"
+"        up to a half hour. If you do not receive an email from us, please "
+"check your Spam folder.\n"
+"        If the message from %(app_name)s has been marked as Spam, please "
+"mark it as not Spam.\n"
+"    "
+msgstr ""
+"Normalmente, recibirás un correo electrónico en pocos minutos, pero a veces "
+"puede tardar hasta media hora. Si no recibes un correo electrónico por favor "
+"mira tu buzón de Spam. Si el mensaje de %(app_name)s ha sido marcado como "
+"Spam por favor márcalo como no Spam."
+
+#: rs/templates/login_helpers/registration.html:96
+#, fuzzy, python-format
+msgid ""
+"\n"
+"          If you have any problems or suggestions, send us a message at: "
+"<strong>%(email)s</strong>.\n"
+"    "
+msgstr ""
+"Si tienes algun problema o sugerencia, envíanos un mensaje a: <strong>"
+"%(support_email_address)s</strong>."
+
+#: rs/templates/login_helpers/registration.html:110
 msgid "Select Region"
 msgstr "Elegir Región"
 
-#: rs/templates/login_helpers/registration.html:79
+#: rs/templates/login_helpers/registration.html:111
 msgid "Select Sub-Region"
 msgstr "Elegir Sub-Región"
 
-#: rs/templates/login_helpers/registration.html:80
+#: rs/templates/login_helpers/registration.html:112
 #: rs/templates/user_main_helpers/search_inline_javascript.html:42
 msgid "Not Defined Yet"
 msgstr "Todavía No Definida"
@@ -5420,6 +5453,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "If you have any problems or suggestions, send us a message at"
+#~ msgstr "Si tienes algun problema o sugerencia, envíanos un mensaje a"
 
 #~ msgid ""
 #~ "\n"

@@ -28,44 +28,76 @@
 
 <div id="id-show_after_registration_dialog_box" style="display:none;"></div>
 
-    <!-- The form submission does not have an "action" because we use javascript for the form submission -->
-    <form method=POST id="id-submit-signup-form">
+<!-- The form submission does not have an "action" because we use javascript for the form submission -->
+<form method=POST id="id-submit-signup-form">
 
-        <div id="id-show_accept_terms_dialog_box" style="display:none;">
-            {% blocktrans with app_name as app_name and minimum_registration_age as age %}
-            I confirm that I am {{ age }} or older and that I have read and accept the terms and conditions for using {{ app_name }}
-            {% endblocktrans %}
+    <div id="id-show_accept_terms_dialog_box" style="display:none;">
+        {% blocktrans with app_name as app_name and minimum_registration_age as age %}
+        I confirm that I am {{ age }} or older and that I have read and accept the terms and conditions for using {{ app_name }}
+        {% endblocktrans %}
+    </div>
+
+    <input type=hidden name=login_type value=signup_fields>
+
+    <div class="grid_6 alpha omega cl-login-fields-background">
+        <div class="cl-padding-login-fields">
+
+            <table class="center" > <!-- inner table -->
+
+                <tr>
+                    <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
+                </tr>
+                <tr>
+                    <td class="cl-registration-small-prompt-td">({% trans "it only takes 30 seconds" %})
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                {{ html_for_signup|safe }}
+                <tr>
+                    <td></td>
+                    <td><input id="id-submit-signup-button" type="submit" value='{% trans " Register me" %}!'>
+                    </td>
+                </tr>
+            </table>
         </div>
+    </div>
+    <!-- end outer table -->
+</form>
 
-        <input type=hidden name=login_type value=signup_fields>
 
-        <div class="grid_6 alpha omega cl-login-fields-background">
-            <div class="cl-padding-login-fields">
+<div id="id-show_verification_code_input" style="display:none;">
+    <!-- contains the html that will allow the user to enter in the verification code directly, as opposed to
+         having to click on the link in the email -->
+    <p><p>
+    {% blocktrans with app_name as app_name %}
+    Once you receive the email from {{ app_name }}, in order to activate your account, you can either enter the verification code from the
+    email in the input below, or you can directly click on the activation link included in the email.
+    {% endblocktrans %}
 
-                <table class="center" > <!-- inner table -->
-
-                    <tr>
-                        <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
-                    </tr>
-                    <tr>
-                        <td class="cl-registration-small-prompt-td">({% trans "it only takes 30 seconds" %})
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                    </tr>
-                    {{ html_for_signup|safe }}
-                    <tr>
-                        <td></td>
-                        <td><input id="id-submit-signup-button" type="submit" value='{% trans " Register me" %}!'>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <!-- end outer table -->
+    
+    <form method="POST" class="cl-sumbit-confirmation-code">
+        <input type="text"
+               class="cl-default-verification-input-text cl-default-username_or_password-input-text-prompt cl-standard-textinput-width-px"
+               maxlength=10 title='{% trans "Verification Code" %}' >
+        <input class="cl-submit-verification-code-button" type="submit" value='{% trans "Activate account" %}!'>
     </form>
 
+    <p><p><em>**
+    {% blocktrans with app_name as app_name %}
+        Normally you will receive an email in few minutes, but this can sometimes take
+        up to a half hour. If you do not receive an email from us, please check your Spam folder.
+        If the message from {{ app_name }} has been marked as Spam, please mark it as not Spam.
+    {% endblocktrans %}
+    </em>
+
+    <p><p>
+    {% blocktrans with support_email_address as email%}
+          If you have any problems or suggestions, send us a message at: <strong>{{ email }}</strong>.
+    {% endblocktrans %}
+    <p><p>
+</div>
 
 
 <script type="text/javascript">
@@ -92,6 +124,21 @@
     }
 
 
+    function handle_verification_code_input() {
+        $(document).on('focusin', "input.cl-default-verification-input-text", function() {
+            if ($(this).val() == $(this)[0].title) {
+                $(this).val("");
+            }
+            $(this).removeClass("cl-default-username_or_password-input-text-prompt");
+        });
+        $(document).on('focusout', "input.cl-default-verification-input-text", function() {
+            if ($(this).val() == "") {
+                $(this).addClass("cl-default-username_or_password-input-text-prompt");
+                $(this).val($(this)[0].title);
+            }
+        });
+
+    }
 
 
     function handle_user_registration_form() {
@@ -114,13 +161,22 @@
                     $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
 
                     if ("Registration_OK" in post_response) {
-                        $('#id-show_after_registration_dialog_box').html(post_response["Registration_OK"]);
+                        var html_to_show = post_response["Registration_OK"];
+                        html_to_show += $("#id-show_verification_code_input").html();
+                        $('#id-show_after_registration_dialog_box').html(html_to_show);
                         $('#id-show_after_registration_dialog_box').dialog({
                             width: 500,
                             modal: true,
                             position: {
                                 my: "center",
                                 at: "center"
+                            },
+                            open: function(event, ui) {
+                                // By default jquery-ui puts the cursor in the first input inside the dialog.
+                                // We do not want this default behaviour.
+                                // Make sure that the cursor is not inide the input box so that the user will see
+                                // the text indicating that this is where they need to enter the verification code.
+                                $("input.cl-default-verification-input-text").blur()
                             }
                         }).dialog('close').dialog('open');
                     } else if ("Registration_Error" in post_response) {
@@ -157,6 +213,7 @@
     $(document).ready(function() {
         handle_location_changes();
         handle_user_registration_form();
+        handle_verification_code_input();
     });
 
 

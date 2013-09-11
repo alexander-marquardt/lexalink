@@ -229,21 +229,6 @@ def verify_user_email(request, login_dict, encrypted_password, password_salt):
                    'email_address': email_address, 'from' : ugettext("from"), 
                    'sender_email': constants.sender_address_html,}
                 
-            generated_html += """<p><p>** %(if_not_received)s
-            """ % {
-            'if_not_received' : ugettext("""Normally you will receive an email in few minutes, but this can sometimes take
-            up to a half hour. If you do not receive an email from us, please check your Spam folder. 
-            If the message from %(app_name)s has been marked as Spam, please mark it as not Spam.""") % {'app_name' : settings.APP_NAME},
-                                                        }
-    
-                
-            generated_html += """<div>
-            <p><p>%(problem_or_suggestion)s: \
-            <strong>%(support_email_address)s</strong>.<p><p><p><p><p><p><p><p></div>
-            """ % {'problem_or_suggestion' : ugettext("If you have any problems or suggestions, send us a message at"),
-                    'app_name': settings.APP_NAME,
-                    'support_email_address' : constants.support_email_address}
-        
 
         return (authorization_result, generated_html)
 
