@@ -215,8 +215,10 @@ def verify_user_email(request, login_dict, encrypted_password, password_salt):
         
         assert(email_is_entered) 
              
-        if authorization_result != "OK":     
-            generated_html += u"""<p></p><p>%s</p>""" % (authorization_result)                
+        if authorization_result != "OK":    
+            generated_html += u"""<p></p><p>%s</p>""" % (authorization_result)  
+            error_reporting.log_exception(logging.error, error_message = authorization_result)  
+            
         
         else:
             generated_html += u"""
@@ -243,7 +245,7 @@ def verify_user_email(request, login_dict, encrypted_password, password_salt):
                     'support_email_address' : constants.support_email_address}
         
 
-        return generated_html
+        return (authorization_result, generated_html)
 
     except:
         error_reporting.log_exception(logging.critical)   
@@ -523,8 +525,11 @@ def process_registration(request):
             password_salt = uuid.uuid4().hex              
             # encrypt the password 
             encrypted_password = utils.new_passhash(login_dict['password'], password_salt)
-            response =  verify_user_email(request, login_dict, encrypted_password, password_salt)
-            response_dict['Registration_OK'] = response
+            (authorization_result, generated_html) =  verify_user_email(request, login_dict, encrypted_password, password_salt)
+            if authorization_result == 'OK':
+                response_dict['Registration_OK'] = generated_html
+            else:
+                response_dict['Registration_Error'] = {'message': generated_html}
         else:
             response_dict['Registration_Error'] = error_dict
             

@@ -426,7 +426,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                     html_for_delete_account = u"<p>We set new password for %s to %s</p>" % (userobject.username, new_password)                
                     userobject.password = utils.new_passhash(new_password, userobject.password_salt)
             else: 
-                html_for_delete_account = "<p>unknown action_to_take %s</p>" % action_to_take
+                html_for_delete_account = u'<p>Error: unknown action_to_take: %s</p>' % action_to_take
             
             utils.put_userobject(userobject)
             
@@ -478,7 +478,7 @@ def delete_userobject_with_name_and_security_hash(request, username, hash_of_cre
             generated_html =  u'<div class="cl-text-large-format"><br><br>'
     
             if not userobject:
-                generated_html += u"%s: %s" % (ugettext("Profile does not exist"), username)
+                generated_html += u"%s" % ugettext("Profile %(username)s has already been deleted, or never existed") % {'username': username}
             else:
                 generated_html += ugettext("Error - Not authorized")
                 
@@ -601,51 +601,58 @@ def email_address_already_has_account_registered(email_address):
     
 def send_verification_email(username, email_address, secret_verification_code, lang_code):
     
-    if not email_address_already_has_account_registered(email_address) or email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
-
-        subject = ugettext("Verification of your email and registration")  
-
-        message_html = u"<p>%s, " % ugettext("Hello %(username)s") % {'username': username}
-        message_html += u"<p>%s:<p>" % \
-               ugettext("To activate your account in %(app_name)s, click on the following link to verify your request") % \
-               {'app_name' : settings.APP_NAME }
-        message_html += """<a href=http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/>\
-http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/</a>""" % \
-            {'lang_code': lang_code, 'app_name' : settings.APP_NAME, 
-             'username' : username, 
-             'secret_verification_code' : secret_verification_code,
-             }
-        
-        message_html += u"<p>%s. " % ugettext("If clicking on the link appears not to work, you can copy and paste it into your browser")
-                        
-        return_val = "Code sent"                
-    else:
-        # If the user is not allowed to register because they already have an account registered with the current email 
-        # address, we *intentionally* don't write to the authorization info, because we want for them to be able to 
-        # sign-up a new account after deleting their existing account - even if they are still within the "time_window" 
-        # (currently a day) for receiving registration notifications on a single email address. 
-        # This makes sense, because the current authorization_info is useless as long as they have an account already registered for
-        # their current email address -- and if they do decide to register on a new email address, then a new authorization_info will
-        # be written at that point in time. 
-        subject = ugettext("Verification failed")  
-        message_html = u"<p>%s, " % ugettext("Hello %(username)s") % {'username': username}
-        message_html += u"<p>%s" % \
-                           ugettext("""
-                           Unfortunately we are unable to register your new account in %(app_name)s, since you already have an account registered.
-                           If you wish to register a new account, please delete the old account first.""") % \
-                           {'app_name' : settings.APP_NAME }    
-        return_val = "Code not sent"
-        
-    message_html += email_utils.text_for_footer_on_registration_email(os.environ['REMOTE_ADDR'])
-        
+    try:
+        if not email_address_already_has_account_registered(email_address) or email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
     
-    taskqueue.add(queue_name = 'fast-queue', url='/rs/admin/send_generic_email_message/', \
-                  params = {'username' : username, 
-                            'email_address': email_address,
-                            'subject' : subject,
-                            'lang_code' : lang_code,
-                            'message_html' : message_html
-                            })
+            subject = ugettext("Verification of your email and registration")  
+    
+            message_html = u"<p>%s, " % ugettext("Hello %(username)s") % {'username': username}
+            message_html += u"<p>%s:<p>" % \
+                   ugettext("To activate your account in %(app_name)s, click on the following link to verify your request") % \
+                   {'app_name' : settings.APP_NAME }
+            message_html += """<a href=http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/>\
+    http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/</a>""" % \
+                {'lang_code': lang_code, 'app_name' : settings.APP_NAME, 
+                 'username' : username, 
+                 'secret_verification_code' : secret_verification_code,
+                 }
+            
+            message_html += u"<p>%s. " % ugettext("If clicking on the link appears not to work, you can copy and paste it into your browser")
+                            
+            return_val = "Code sent"                
+        else:
+            # If the user is not allowed to register because they already have an account registered with the current email 
+            # address, we *intentionally* don't write to the authorization info, because we want for them to be able to 
+            # sign-up a new account after deleting their existing account - even if they are still within the "time_window" 
+            # (currently a day) for receiving registration notifications on a single email address. 
+            # This makes sense, because the current authorization_info is useless as long as they have an account already registered for
+            # their current email address -- and if they do decide to register on a new email address, then a new authorization_info will
+            # be written at that point in time. 
+            subject = ugettext("Verification failed")  
+            message_html = u"<p>%s, " % ugettext("Hello %(username)s") % {'username': username}
+            message_html += u"<p>%s" % \
+                               ugettext("""
+                               Unfortunately we are unable to register your new account in %(app_name)s, since you already have an account registered.
+                               If you wish to register a new account, please delete the old account first.""") % \
+                               {'app_name' : settings.APP_NAME }    
+            message_html += u"%s" % utils.html_to_request_new_password(email_address)
+            
+            return_val = "Code not sent"
+            
+        message_html += email_utils.text_for_footer_on_registration_email(os.environ['REMOTE_ADDR'])
+            
+        
+        taskqueue.add(queue_name = 'fast-queue', url='/rs/admin/send_generic_email_message/', \
+                      params = {'username' : username, 
+                                'email_address': email_address,
+                                'subject' : subject,
+                                'lang_code' : lang_code,
+                                'message_html' : message_html
+                                })
+    except:
+        return_val = "Unknown internal error - check logs"
+        error_reporting.log_exception(logging.critical)   
+        
     return return_val
 
     

@@ -416,12 +416,8 @@ def get_notification_control_html(userobject):
         options_dict = user_profile_details.UserProfileDetails.checkbox_options_dict['email_options'][lang_idx]
         option_in_current_language = options_dict[subscription_option]
         
-        generated_html += u"<p><strong>%s</strong> " % ugettext("Have you forgotten your password?")
-        url_encoded_email_address = urllib.quote(email_address)
-        text_link_for_new_password = "<a href=http://www.%(app_name)s.com/rs/reset_password/%(url_encoded_email_address)s/>%(here)s</a> " % {
-            'app_name' : settings.APP_NAME, 'here' : ugettext("Here"), 'url_encoded_email_address' : url_encoded_email_address}
-        generated_html += u"<ul><li>%s %s.</li></ul><br><br>" % (text_link_for_new_password, ugettext("you can request a new password"))
-        
+        generated_html += utils.html_to_request_new_password(email_address)
+                
         generated_html += u"<strong>%s:</strong><br><br>" % ugettext("Email notification settings")
         generated_html += u"%s:" % ugettext("You have currently selected")
         generated_html += u'<strong>"%(current_option)s"</strong> ' % {'current_option': option_in_current_language }

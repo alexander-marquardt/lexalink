@@ -31,7 +31,7 @@ from os import environ
 from google.appengine.ext import ndb
 from google.appengine.api import memcache, users
 
-import hashlib, re
+import hashlib, re, urllib
 import datetime, time, logging
 import string, random, sys, os
 from localization_files import currency_by_country
@@ -403,6 +403,16 @@ def new_passhash(raw_password, salt):
     pw_with_salt = raw_password.encode('utf-8') + salt.encode('utf-8')
     pwhash.update(pw_with_salt)
     return pwhash.hexdigest()
+
+def html_to_request_new_password(email_address):
+    generated_html = ''
+    generated_html += u"<p><strong>%s</strong> " % ugettext("Have you forgotten your password?")
+    url_encoded_email_address = urllib.quote(email_address)
+    text_link_for_new_password = "<a href=http://www.%(app_name)s.com/rs/reset_password/%(url_encoded_email_address)s/>%(here)s</a> " % {
+        'app_name' : settings.APP_NAME, 'here' : ugettext("Here"), 'url_encoded_email_address' : url_encoded_email_address}
+    generated_html += u"<ul><li>%s %s.</li></ul><br><br>" % (text_link_for_new_password, ugettext("you can request a new password"))    
+    return generated_html
+
 
 def get_new_contact_count_sum(new_contact_counter):
     # simply counts up the total number of contact items received since the previous last time the user has logged in
