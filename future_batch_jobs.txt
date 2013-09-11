@@ -1,0 +1,8 @@
+
+
+### Userobject - to update 
+
+Usermodel.password_salt
+    userobject should include by default a password_salt, set to '' if not defined. This will allow
+    us to remove some "if" statements from the code. Read https://developers.google.com/appengine/articles/update_schema, 
+    to understand that default values only apply to objects that are going into the datastore, not to existing objects.
