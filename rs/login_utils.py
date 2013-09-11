@@ -382,8 +382,6 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
         def txn(user_key):
             # run in transaction to prevent conflicts with other writes to the userobject.
             userobject =  user_key.get()
-            if not userobject.password_salt:
-                userobject.password_salt = ''
         
             if action_to_take == "delete":
                 userobject.user_is_marked_for_elimination = True

@@ -662,11 +662,7 @@ def store_change_password_fields(request, owner_uid):
         
         # Authenticate the original password      
         if new_password == verify_new_password and new_password != "":
-            
-            if not userobject.password_salt:
-                # just set the salt to a string if it is None, so that the hashing algorithm will not have an exception
-                userobject.password_salt = ''
-                
+                            
             if utils.old_passhash(current_password) == userobject.password:
                 password_change_is_valid = True      
             elif utils.new_passhash(current_password, userobject.password_salt) == userobject.password:

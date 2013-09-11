@@ -348,8 +348,6 @@ def process_login(request, is_admin_login = False):
             
         correct_username_password = False
         if userobject:
-            if not userobject.password_salt:
-                userobject.password_salt = ''
                 
             if is_admin_login:
                 correct_username_password = True

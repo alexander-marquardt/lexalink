@@ -388,6 +388,8 @@ def get_active_userobject_from_username(username):
 def old_passhash(raw_password, salt=''):
     
     # hash the password so that it is unreadable
+    if not salt:
+        salt = ''
     pwhash = hashlib.sha1()
     pwhash.update(raw_password.encode('utf-8') + salt.encode('utf-8'))
     return pwhash.hexdigest()
@@ -395,6 +397,8 @@ def old_passhash(raw_password, salt=''):
 def new_passhash(raw_password, salt):
     
     # hash the password so that it is unreadable
+    if not salt:
+        salt = ''
     pwhash = hashlib.sha512()
     pw_with_salt = raw_password.encode('utf-8') + salt.encode('utf-8')
     pwhash.update(pw_with_salt)
