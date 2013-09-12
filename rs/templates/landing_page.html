@@ -67,6 +67,8 @@
 
 
     function clear_fields_errors(fields_type, errors_dict) {
+        // fields_type is either signup_fields or login_fields
+
         for (key in errors_dict) {
             var input_field_id_selector = "#id-"+ fields_type + "-" + key;
             $(input_field_id_selector).removeClass("cl-highlight_border");
@@ -82,6 +84,7 @@
     }
 
     function show_fields_errors(fields_type, errors_dict, extra_html) {
+        // fields_type is either signup_fields or login_fields
 
         var error_html = '<ul>';
         // loop over the objects in the errors_dict        
@@ -149,7 +152,8 @@
 
             {% if not maintenance_shutdown_warning %}
 
-                {% include "login_helpers/registration.html" %}
+            {% include "login_helpers/registration.html" %}
+            {% include "login_helpers/verification.html" %}
 
             {% endif %}
 

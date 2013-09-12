@@ -111,7 +111,11 @@ urlpatterns = patterns('',
     (r'^rs/store_report_unacceptable_profile/(?P<display_uid>[\w|-]+)/', store_data.store_report_unacceptable_profile),
 
     (r'^rs/authenticate/(?P<username>[\w|-]+)/(?P<secret_verification_code>[\w|-]+)/$',
-     login.store_new_user_after_verify_email_url),
+     login.check_verification_and_authorize_user, {'is_ajax' : False}),
+
+    (r'^rs/ajax/check_verification_and_authorize_user/(?P<username>[\w|-]+)/(?P<secret_verification_code>[\w|-]+)/$',
+     login.check_verification_and_authorize_user, {'is_ajax' : True}),  
+    
     (r'^rs/store_send_mail_from_profile_checkbox_no/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', 
      messages.store_send_mail, {'text_post_identifier_string': 'send_mail_from_profile_checkbox_no'}),    
     (r'^rs/store_send_mail_from_profile_checkbox_yes/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', 

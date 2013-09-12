@@ -696,8 +696,8 @@ def gen_passwd():
 def compute_secret_verification_code(username, email_address):
     # computes a secret code that is used for verifying a particular username and email_address.
 
-    # generate a 6 digit random number (stored as a string for historical reasons)
-    secret_verification_code = "%d" % random.randint(100000, 999999)
+    # generate a 7 digit random number (stored as a string)
+    secret_verification_code = "%d" % random.randint(1000000, 9999999)
     return secret_verification_code
 
 

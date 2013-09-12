@@ -543,23 +543,25 @@ def extract_data_from_login_dict(login_dict):
     return(username, email_address)
 
 
-
-def query_for_authorization_info(username, secret_verification_code):
-    # given a username and secret_verification_code, query to see if it has already been registered, which
-    # can happen if the user refreshes multiple times. 
-    # Note, in the event that two users register
-    # with the same username but different email addresses, the "secret_verification_code" should be almost
-    # guaranteed to be unique. In any case, there is only an insignificant possibility of a clash if two
-    # usernames (that are not already registered) are registered within the same time period and before one of them is activated. 
+def check_if_username_and_email_are_in_authorization_info(username, email_address):
     
     assert(username)
-    assert(secret_verification_code)
+    assert(email_address)
+    q = models.EmailAutorizationModel.query()
+    q = q.filter(models.EmailAutorizationModel.username == username)
+    q = q.filter(models.EmailAutorizationModel.email_address == email_address)
+    authorization_info = q.get()
+    return authorization_info
+
+def query_authorization_info_for_username(username,):
+
+    assert(username)
     
     q = models.EmailAutorizationModel.query()
     q = q.filter(models.EmailAutorizationModel.username == username)
-    q = q.filter(models.EmailAutorizationModel.secret_verification_code == secret_verification_code)
     
     authorization_info = q.get()
+        
     return authorization_info
 
 
@@ -661,7 +663,9 @@ def store_authorization_info_and_send_email(username, email_address, encrypted_p
     # by clicking on a URL directly from their email -- note, this function saves us from sending
     # out super long URLs that get broken up by email systems and that would therefore cause problems -- instead, we store
     # the user data in the database, and access it using a short email.
-
+    # 
+    # returns (authorizaion_info_status, secret_verification_code)
+    secret_verification_code = ''
     try:
         
         # Will run periodic clean-up routines to remove registrations that were not completed
@@ -678,11 +682,11 @@ def store_authorization_info_and_send_email(username, email_address, encrypted_p
             # This user has already exceeded the number of allowed attempted registrations for this email address in the past day
             # do not allow additional registration. 
             # This prevents someone from spamming an email address with multiple registration requests. 
-            error_message="Exceeded registrations allowed (%s) on email_address: %s" % (constants.MAX_REGISTRATIONS_SINGLE_EMAIL_IN_TIME_WINDOW, email_address)
+            error_message = ugettext("We already sent an email to %(email_address)s and cannot send another email to the same account until tomorrow - please register with a different email address") % {
+                'email_address' : email_address}
             error_reporting.log_exception(logging.error, error_message=error_message)  
             
-            return ugettext("We already sent an email to %(email_address)s and cannot send another email to the same account until tomorrow - please register with a different email address") % {
-                'email_address' : email_address}
+            return (error_message, secret_verification_code)
         
         ip_address_registration_count = check_authorization_info_for_ip_address_registrations_today(creation_day, ip_address)
         if ip_address_registration_count >= constants.MAX_REGISTRATIONS_SINGLE_IP and \
@@ -690,7 +694,7 @@ def store_authorization_info_and_send_email(username, email_address, encrypted_p
             error_message="Exceeded registrations allowed on IP: %s" % (ip_address)
             error_reporting.log_exception(logging.critical, error_message=error_message)  
             email_utils.send_admin_alert_email(error_message, subject="%s - IP %s registration exceeded" % (settings.APP_NAME, ip_address))
-            return error_message
+            return (error_message, secret_verification_code)
         
         # the following is just a warning (even though I report it as an error so that I don't miss it)
         # We allow the registration to proceede
@@ -698,7 +702,7 @@ def store_authorization_info_and_send_email(username, email_address, encrypted_p
             logging.error("Getting close to limit for registrations permitted (%s) from IP: %s" % (constants.MAX_REGISTRATIONS_SINGLE_IP, ip_address))    
          
  
-        authorization_info = query_for_authorization_info(username, secret_verification_code)
+        authorization_info = check_if_username_and_email_are_in_authorization_info(username, email_address)
         # make sure that the combination of email_address and username has not already been written to the database. 
         # if it has, just overwrite with the new GET string instead of creating a new object.
         if not authorization_info:
@@ -709,9 +713,9 @@ def store_authorization_info_and_send_email(username, email_address, encrypted_p
         else:
             # The email / username combination is already registered -- therefore we do NOT send an email
             send_notification_email = False
-            return ugettext("""We have previously sent an email to %(email_address)s to activate the account for %(username)s. 
-                               We cannot send another activation message for this account.""") % {
-                            'email_address' : email_address, 'username' : username}            
+            error_message = ugettext("""We have previously sent an email to %(email_address)s to activate the account for %(username)s. 
+            We cannot send another activation message for this account.""") % {'email_address' : email_address, 'username' : username}   
+            return (error_message, secret_verification_code)
         
         authorization_info.secret_verification_code = secret_verification_code    
         authorization_info.username = username  
@@ -729,11 +733,11 @@ def store_authorization_info_and_send_email(username, email_address, encrypted_p
             # Only write the authorization_info structure if we send the user an email that *contains* registration information,
             authorization_info.put()
                         
-        return "OK" # just means that no internal errors or violations occured.
+        return ("OK", secret_verification_code) # just means that no internal errors or violations occured.
     
     except:
         error_reporting.log_exception(logging.critical)   
-        return 'Error'
+        return ('Unknown Error', secret_verification_code)
         
 
 

@@ -560,9 +560,10 @@ def delete_model_sub_batch (request):
 
 def remove_old_email_authorization_model_setup_query():
     
-    # We want to remove all EmailAuthorizationModel objects that are older than 7 days. 
+    # We want to remove all EmailAuthorizationModel objects that are older than REMOVE_EMAIL_AUTHORIZATION_OBECTS_OLDER_THAN_DAYS days. 
     q = models.EmailAutorizationModel.query().order(models.EmailAutorizationModel.creation_date)
-    q = q.filter(models.EmailAutorizationModel.creation_date < datetime.datetime.now() - datetime.timedelta(days = 7))    
+    q = q.filter(models.EmailAutorizationModel.creation_date < datetime.datetime.now() - \
+                 datetime.timedelta(days = constants.REMOVE_EMAIL_AUTHORIZATION_OBECTS_OLDER_THAN_DAYS))    
     return q
                 
                 

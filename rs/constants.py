@@ -153,7 +153,8 @@ INITIATE_CONTACT_MEMCACHE_PREFIX = "_initiate_contact_" + site_configuration.VER
 
 ## END - General Memcache Constants
 ######################################################################
-
+# We want to remove all EmailAuthorizationModel objects that are older than X days.
+REMOVE_EMAIL_AUTHORIZATION_OBECTS_OLDER_THAN_DAYS = 30
 ######################################################################
 ## START Sitemap Constants
 

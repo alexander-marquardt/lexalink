@@ -1,30 +1,4 @@
 {% load i18n %}
-<!--
-################################################################################
-# LexaLink Copyright information - do not remove this copyright notice
-# Copyright (C) 2012
-#
-# Lexalink - a free social network and dating platform for the Google App Engine.
-#
-# Original author: Alexander Marquardt
-# Documentation and additional information: http://www.LexaLink.com
-# Git source code repository: https://github.com/lexalink/LexaLink.git
-#
-# Please consider contributing your enhancements and modifications to the LexaLink community,
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-################################################################################
--->
 
 <div id="id-show_after_registration_dialog_box" style="display:none;"></div>
 
@@ -42,7 +16,7 @@
     <div class="grid_6 alpha omega cl-login-fields-background">
         <div class="cl-padding-login-fields">
 
-            <table class="center" > <!-- inner table -->
+            <table class="center" > <!-- registration table -->
 
                 <tr>
                     <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
@@ -63,41 +37,7 @@
             </table>
         </div>
     </div>
-    <!-- end outer table -->
 </form>
-
-
-<div id="id-show_verification_code_input" style="display:none;">
-    <!-- contains the html that will allow the user to enter in the verification code directly, as opposed to
-         having to click on the link in the email -->
-    <p><p>
-    {% blocktrans with app_name as app_name %}
-    Once you receive the email from {{ app_name }}, in order to activate your account, you can either enter the verification code from the
-    email in the input below, or you can directly click on the activation link included in the email.
-    {% endblocktrans %}
-
-    
-    <form method="POST" class="cl-sumbit-confirmation-code">
-        <input type="text"
-               class="cl-default-verification-input-text cl-default-username_or_password-input-text-prompt cl-standard-textinput-width-px"
-               maxlength=10 title='{% trans "Verification Code" %}' >
-        <input class="cl-submit-verification-code-button" type="submit" value='{% trans "Activate account" %}!'>
-    </form>
-
-    <p><p><em>**
-    {% blocktrans with app_name as app_name %}
-        Normally you will receive an email in few minutes, but this can sometimes take
-        up to a half hour. If you do not receive an email from us, please check your Spam folder.
-        If the message from {{ app_name }} has been marked as Spam, please mark it as not Spam.
-    {% endblocktrans %}
-    </em>
-
-    <p><p>
-    {% blocktrans with support_email_address as email%}
-          If you have any problems or suggestions, send us a message at: <strong>{{ email }}</strong>.
-    {% endblocktrans %}
-    <p><p>
-</div>
 
 
 <script type="text/javascript">
@@ -124,21 +64,6 @@
     }
 
 
-    function handle_verification_code_input() {
-        $(document).on('focusin', "input.cl-default-verification-input-text", function() {
-            if ($(this).val() == $(this)[0].title) {
-                $(this).val("");
-            }
-            $(this).removeClass("cl-default-username_or_password-input-text-prompt");
-        });
-        $(document).on('focusout', "input.cl-default-verification-input-text", function() {
-            if ($(this).val() == "") {
-                $(this).addClass("cl-default-username_or_password-input-text-prompt");
-                $(this).val($(this)[0].title);
-            }
-        });
-
-    }
 
 
     function handle_user_registration_form() {
@@ -152,7 +77,8 @@
             clear_both_registration_and_login_fields_errors();
 
             var submit_signup_form_url = "{% url login.process_registration %}";
-            $(this).ajaxSubmit({url: submit_signup_form_url,
+            $(this).ajaxSubmit({
+                url: submit_signup_form_url,
                 type: 'post',
                 dataType: "json",
                 clearForm: false,
@@ -161,24 +87,13 @@
                     $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
 
                     if ("Registration_OK" in post_response) {
-                        var html_to_show = post_response["Registration_OK"];
-                        html_to_show += $("#id-show_verification_code_input").html();
-                        $('#id-show_after_registration_dialog_box').html(html_to_show);
-                        $('#id-show_after_registration_dialog_box').dialog({
-                            width: 500,
-                            modal: true,
-                            position: {
-                                my: "center",
-                                at: "center"
-                            },
-                            open: function(event, ui) {
-                                // By default jquery-ui puts the cursor in the first input inside the dialog.
-                                // We do not want this default behaviour.
-                                // Make sure that the cursor is not inide the input box so that the user will see
-                                // the text indicating that this is where they need to enter the verification code.
-                                $("input.cl-default-verification-input-text").blur()
-                            }
-                        }).dialog('close').dialog('open');
+                        // re-direct to the current page that the user is viewing, but this time they will be shown the
+                        // verification dialog box, which they can enter their "verification_code" in order to activate
+                        // t heir account.
+                        var registration_ok_dict = post_response["Registration_OK"];
+                        self.location = window.location.pathname + "?show_verification=true&username="+ registration_ok_dict['username'] +
+                        "&secret_verification_code=" + registration_ok_dict['secret_verification_code'];
+
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];
                         show_fields_errors("signup_fields", registration_errors_dict, '');
@@ -187,7 +102,7 @@
                         var readable_object = JSON.stringify(post_response);
                         var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
                         report_ajax_error("NA", "NA",  error_html);
-                        show_fields_errors("login_fields", [], error_html);
+                        show_fields_errors("signup_fields", [], error_html);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -213,7 +128,6 @@
     $(document).ready(function() {
         handle_location_changes();
         handle_user_registration_form();
-        handle_verification_code_input();
     });
 
 

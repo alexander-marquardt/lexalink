@@ -172,65 +172,47 @@ def landing_page(request, is_admin_login = False):
         return utils.return_and_report_internal_error(request)
 
 
-def verify_user_email(request, login_dict, encrypted_password, password_salt):
+def store_authorization_info(request, login_dict, encrypted_password, password_salt):
 
-    # Receives the user_login values and forces user to verify a registration link (in an email) before
-    # registration data is stored. Note, the store_data.store_new_user_after_verify() function
-    # finishes the process/storage (called an email link sent to the user).
+    # Receives the user_login values and forces user to verify a registration code sent to their email address before
+    # registration data is stored in the permanent data structures. 
 
     try:
         generated_html = ''
         
         (username, email_address) = login_utils.extract_data_from_login_dict(login_dict)        
+        assert(username); assert(email_address)
                    
-        email_is_entered = False        
-        if email_address and email_address != "----": 
-    
-            # if someone calls the associated URL without using our website (i.e hacking us), it is possible that they could pass in
-            # bad values, and register invalid emails and usernames -- catch this.
-            if (not email_re.match(email_address) or constants.rematch_non_alpha.search(username) != None or len(username) < 3):
-                error_message="Invalid data passed in: username: %s email_address: %s" % (username, email_address)
-                error_reporting.log_exception(logging.error, error_message=error_message)
-                raise Exception(error_message)
-                
+           
+        # if someone calls the associated URL without using our website (i.e hacking us), it is possible that they could pass in
+        # bad values, and register invalid emails and usernames -- catch this.
+        if (not email_re.match(email_address) or constants.rematch_non_alpha.search(username) != None or len(username) < 3):
+            error_message="Invalid data passed in: username: %s email_address: %s" % (username, email_address)
+            error_reporting.log_exception(logging.error, error_message=error_message)
+            raise Exception(error_message)
             
-            email_is_entered = True
-            
-            # pickle the GET string for re-insertion into the request object when the user clicks on the email link to
-            # validate their account. 
-            # We create a StringIO object because the pickle module expectes files to pickle the objects into. This is like a 
-            # fake file.  
-            pickled_login_get_dict_fake_file = StringIO.StringIO()
-            
-            
-            dump_login_dict = login_dict.copy()
-            # remove the password from the login_dict before pickling it so that we don't have un-encrypted passwords stored in the database.
-            dump_login_dict['password'] = "Unencrypted password is not stored - you should be using the encrypted_password field"
-            dump_login_dict['password_verify'] = dump_login_dict['password'] 
-            pickle.dump(dump_login_dict, pickled_login_get_dict_fake_file)        
-            pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
-            authorization_result = login_utils.store_authorization_info_and_send_email(username, email_address, encrypted_password, password_salt, pickled_login_get_dict, request.LANGUAGE_CODE)   
-            pickled_login_get_dict_fake_file.close()
-
+                    
+        # pickle the GET string for re-insertion into the request object when the user clicks on the email link to
+        # validate their account. 
+        # We create a StringIO object because the pickle module expectes files to pickle the objects into. This is like a 
+        # fake file.  
+        pickled_login_get_dict_fake_file = StringIO.StringIO()
         
-        assert(email_is_entered) 
+        
+        dump_login_dict = login_dict.copy()
+        # remove the password from the login_dict before pickling it so that we don't have un-encrypted passwords stored in the database.
+        dump_login_dict['password'] = "Unencrypted password is not stored - you should be using the encrypted_password field"
+        dump_login_dict['password_verify'] = dump_login_dict['password'] 
+        pickle.dump(dump_login_dict, pickled_login_get_dict_fake_file)        
+        pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
+        (authorization_info_status, secret_verification_code) = login_utils.store_authorization_info_and_send_email(
+            username, email_address, encrypted_password, password_salt, pickled_login_get_dict, request.LANGUAGE_CODE)   
+        pickled_login_get_dict_fake_file.close()
              
-        if authorization_result != "OK":    
-            generated_html += u"""<p></p><p>%s</p>""" % (authorization_result)  
-            error_reporting.log_exception(logging.error, error_message = authorization_result)  
-            
-        
-        else:
-            generated_html += u"""
-            <p><p>
-            %(activate_code_to)s <strong> %(email_address)s </strong> %(from)s 
-            <em>%(sender_email)s</em>. 
-            """ % {'activate_code_to' : ugettext("We have sent an activation email to"), 
-                   'email_address': email_address, 'from' : ugettext("from"), 
-                   'sender_email': constants.sender_address_html,}
-                
+        if authorization_info_status != "OK":    
+            error_reporting.log_exception(logging.error, error_message = authorization_info_status)  
 
-        return (authorization_result, generated_html)
+        return (authorization_info_status, secret_verification_code)
 
     except:
         error_reporting.log_exception(logging.critical)   
@@ -483,6 +465,7 @@ def process_registration(request):
         # re-write all user names to upper-case to prevent confusion
         # and amateur users from not being able to log in.
         login_dict['username'] = login_dict['username'].upper()
+        username = login_dict['username']
                     
         # if email address is given, make sure that it is valid
         if login_dict['email_address'] and login_dict['email_address'] != "----":
@@ -492,14 +475,15 @@ def process_registration(request):
         
         (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
         
+        
         # Now check if username is already taken
-        query = models.UserModel.query().filter(models.UserModel.username == login_dict['username'])
+        query = models.UserModel.query().filter(models.UserModel.username == username)
         query_result = query.fetch(limit=1)
         if len(query_result) > 0:
             error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken
         else:
             # now check if the username is in the process of being registered (in EmailAuthorization model)
-            query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == login_dict['username'])
+            query = models.EmailAutorizationModel.query().filter(models.EmailAutorizationModel.username == username)
             query_result = query.fetch(limit=1)
             if len(query_result) > 0:
                 error_dict['username'] = u"%s" % constants.ErrorMessages.username_taken 
@@ -510,11 +494,12 @@ def process_registration(request):
             password_salt = uuid.uuid4().hex              
             # encrypt the password 
             encrypted_password = utils.new_passhash(login_dict['password'], password_salt)
-            (authorization_result, generated_html) =  verify_user_email(request, login_dict, encrypted_password, password_salt)
-            if authorization_result == 'OK':
-                response_dict['Registration_OK'] = generated_html
+            (authorization_info_status, secret_verification_code) =  store_authorization_info(request, login_dict, encrypted_password, password_salt)
+            if authorization_info_status == 'OK':
+                response_dict['Registration_OK'] = {'username': username,
+                                                    'secret_verification_code' : secret_verification_code}
             else:
-                response_dict['Registration_Error'] = {'message': generated_html}
+                response_dict['Registration_Error'] = {'message': authorization_info_status}
         else:
             response_dict['Registration_Error'] = error_dict
             
@@ -537,14 +522,15 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
     
     try:
         
+        # The following error-checking should never fail unless the user has modified their login parameters 
+        # after signing up - this is here just for peace of mind.
         error_dict = login_utils.error_check_signup_parameters(login_dict, lang_idx)
  
         if error_dict:
-            # if there is an error, make them re-do login process (I don't anticipate
-            # this happeneing here, since all inputs have been previously verified).
+            # if there is an error, make them re-do login process (this should never happen though)
             error_message = repr(error_list)
             error_reporting.log_exception(logging.error, error_message=error_message)
-            return "/"
+            return ("Error", None)
         
         login_dict['username'] = login_dict['username'].upper()
         username = login_dict['username']
@@ -559,7 +545,7 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         userobject = q.get()
         if userobject:
             # user is already authorized -- send back to login
-            return ('/?already_registered=True&username_email=%s' % userobject.username)          
+            return ("already_registered", None)       
         
         # make sure that the user name is not already registered. (this should not happen
         # under normal circumstances, but could possibly happen if someone is hacking our system or if two users have gone through
@@ -567,11 +553,11 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         query = models.UserModel.gql("WHERE username = :username", username = username)
         if query.get():
             error_reporting.log_exception(logging.warning, error_message = 'Registered username encountered in storing user - sending back to main login')       
-            return "/"
+            return ("Error", None)
     
     except:
         error_reporting.log_exception(logging.critical)   
-        return "/"
+        return ("Error", None)
 
     # do not change the order of the following calls. Userobject is written twice because this
     # is necessary to get a database key value. Also, since this is only on signup, efficiency is
@@ -659,46 +645,89 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         except:
             error_reporting.log_exception(logging.critical, error_message = "Unable to clean up after failed sign-up attempt" ) 
             
-        return("/")
+        return ("Error", None)
 
     # log information about this users login time, and IP address
     utils.update_ip_address_on_user_tracker(userobject.user_tracker)
 
-    home_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
     logging.info("Registered/Logging in User: %s IP: %s country code: %s - re-directing to edit_profile_url: %s" % (
         userobject.username, os.environ['REMOTE_ADDR'], request.META.get('HTTP_X_APPENGINE_COUNTRY', None), home_url))
-    return home_url
+    return ("OK", owner_nid)
 
 
-def store_new_user_after_verify_email_url(request, username, secret_verification_code):
-    # Note, this function is called directly as a URL from a user clicking on an email link. Therefore, 
-    # we must direct them directly to a web page (not just returning a URL unlike some of the code that is 
-    # communicating with JavaScript code on the client side)
+def check_verification_and_authorize_user(request, username, secret_verification_code, is_ajax):
+    # Note, this function is called directly as a URL from a user clicking on an email link OR
+    # it is called from the user entering the verification_code in a popup dialog. 
+    # We direct them to a web page after verification.
+    #
+    # If is_ajax is true (which it should be if the user has entered the secret_verification_code directly from the 
+    # website, versus clicking on an email link), then instead of redirecting to the URL and rendering the page, we 
+    # should just return a json object containing the URL, that the client-side javascript will then redirect to.
+    
+    destination_url = "/"
     
     try:
-        authorization_info = login_utils.query_for_authorization_info(username, secret_verification_code)
-            
+        authorization_info = login_utils.query_authorization_info_for_username(username)
         if authorization_info:
+            if authorization_info.secret_verification_code != secret_verification_code:
+                authorization_status = "Incorrect code" 
+            else:
+                # secret codes match
+                authorization_status = "Authorization OK" # User has sucessfully authorized their account
+        else:
+            authorization_status = "No authorization_info"
+            
+        if authorization_status == "Authorization OK":
             login_get_dict = pickle.load(StringIO.StringIO(authorization_info.pickled_login_get_dict))
             encrypted_password = authorization_info.encrypted_password
             password_salt = authorization_info.password_salt
             lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-            response = store_new_user_after_verify(request, lang_idx, login_get_dict, encrypted_password, password_salt)
-            http_response = http.HttpResponseRedirect(response)
-            
-            return http_response
-        
-        else:
-            # could happen if the user clicks on the link more than once to authorize their account at some point after
-            # we have erased the authorization info.
-            warning_message = "Warning: User: %s Code %s  authorization_info not found" % (
-                username, secret_verification_code)
-            logging.warning(warning_message)
-            return http.HttpResponseRedirect("/?unable_to_verify_user=%s" % username)
-        
-        error_reporting.log_exception(logging.error, error_message = 'Reached end of function - redirect to /') 
+            (store_user_status, owner_nid) = store_new_user_after_verify(request, lang_idx, login_get_dict, encrypted_password, password_salt)
+            if store_user_status == "OK":
+                destination_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
+            elif store_user_status == "Error":
+                destination_url = "/"
+            elif store_user_status == "already_registered":
+                destination_url = '/?already_registered=True&username_email=%s' % username
+            else:
+                destination_url = "/"                
+                error_reporting.log_exception(logging.critical, error_message = "unknown status %s returned from store_new_user_after_verify" % status)   
+                
 
+        else:
+            # The verification code does not match the username that is being verified.
+            
+            # could happen if the user clicks on the link to authorize their account at some point after
+            # we have erased the authorization info, or if the code really doesn't match
+            if not is_ajax:
+                warning_message = "Warning: User: %s Code %s  authorization_info not found" % (
+                    username, secret_verification_code)
+                error_reporting.log_exception(logging.error, error_message = warning_message)
+                destination_url = "/?unable_to_verify_user=%s" % username
+            else:
+                # We want to let the user know that the code they have entered is incorrect, without redirecting to 
+                # another page.
+                if authorization_status == "Incorrect code" :
+                    response_dict = {"Incorrect_code" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
+                        'warning_message' : ugettext("Invalid code")}
+                                     }
+                                     
+                elif authorization_status == "No authorization_info":
+                    response_dict = {"No_info_found" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
+                        "warning_message" : ugettext("Verification has expired. Please login with an existing account of signup for a new account")}
+                                     }
+                
+                json_response = simplejson.dumps(response_dict)
+                return http.HttpResponse(json_response, mimetype='text/javascript')    
+        
     except: 
+        destination_url = "/"
         error_reporting.log_exception(logging.critical)      
         
-    return http.HttpResponseRedirect("/")
+    if not is_ajax:
+        http_response = http.HttpResponseRedirect(destination_url)
+        return http_response
+    else:
+        response_dict = {"User_Stored_Redirect_URL" : destination_url}
+        json_response = simplejson.dumps(response_dict)
+        return http.HttpResponse(json_response, mimetype='text/javascript')          

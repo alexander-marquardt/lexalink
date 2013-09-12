@@ -1,0 +1,120 @@
+{% load i18n %}
+{% if show_verification_dialog %}
+    <div id="id-show_verification_dialog_box" style="display:none;"></div>
+
+    <div id="id-show_verification_code_input" style="display:none;">
+        <!-- contains the html that will allow the user to enter in the verification code directly, as opposed to
+             having to click on the link in the email -->
+
+        <p><p>
+        {% blocktrans %}
+        We have sent an activation email to <strong>{{ registration_email_address }}</strong>
+        from  <em>{{ sender_support_email_address }}</em>.
+
+        {% endblocktrans %}
+        <p><p>
+        {% blocktrans with app_name as app_name %}
+        Once you receive the email from {{ app_name }}, in order to activate your account, you can either enter the verification code from the
+        email in the input below, or you can directly click on the activation link included in the email.
+        {% endblocktrans %}
+
+
+        <form method="POST" class="cl-submit-confirmation-code-form">
+            <input type="text"
+                   class="cl-default-verification-input-text cl-default-username_or_password-input-text-prompt cl-standard-textinput-width-px"
+                   maxlength=10 title='{% trans "Verification Code" %}' >
+            <input class="cl-submit-verification-code-button" type="submit" value='{% trans "Activate account" %}!'>
+        </form>
+
+        <p><p><em>**
+        {% blocktrans with app_name as app_name %}
+            Normally you will receive an email in few seconds, but this can sometimes take
+            up to 15 minutes. If you do not receive an email from us, please check your Spam folder.
+            If the message from {{ app_name }} has been marked as Spam, please mark it as not Spam.
+        {% endblocktrans %}
+        </em>
+
+        <p><p>
+        {% blocktrans with support_email_address as email%}
+              If you have any problems or suggestions, send us a message at: <strong>{{ email }}</strong>.
+        {% endblocktrans %}
+        <p><p>
+    </div>
+
+
+    <script type="text/javascript">
+
+    function handle_verification_code_input() {
+        // This function will handle the submission of the user profile verification code.
+        // Note: this form element is dynamically added to the DOM, and so we *must* use $(document).on.. as opposed
+        // to selecting the element directly.
+
+        $('#id-show_verification_dialog_box').dialog({
+            width: 500,
+            modal: true,
+            position: {
+                my: "center",
+                at: "center"
+            },
+            open: function(event, ui) {
+                // By default jquery-ui puts the cursor in the first input inside the dialog.
+                // We do not want this default behaviour.
+                // Make sure that the cursor is not inide the input box so that the user will see
+                // the text indicating that this is where they need to enter the verification code.
+                $("input.cl-default-verification-input-text").blur()
+                $(".cl-submit-verification-code-button").button();
+            }
+        }).dialog('close').dialog('open');
+
+        $(document).on('focusin', "input.cl-default-verification-input-text", function() {
+            if ($(this).val() == $(this)[0].title) {
+                $(this).val("");
+            }
+            $(this).removeClass("cl-default-username_or_password-input-text-prompt");
+        });
+        $(document).on('focusout', "input.cl-default-verification-input-text", function() {
+            if ($(this).val() == "") {
+                $(this).addClass("cl-default-username_or_password-input-text-prompt");
+                $(this).val($(this)[0].title);
+            }
+        });
+
+        $(document).on('submit', "form.cl-submit-confirmation-code-form", function(e) {
+            var username = $("#id-signup_fields-username").val();
+            var secret_code = $(this).find(".cl-default-verification-input-text").val();
+            var submit_verification_code_url = "rs/check_verification_and_authorize_user/" + username + "/" + secret_code + "/";
+            $(this).ajaxSubmit({
+                url: submit_verification_code_url,
+                type: 'get',
+                dataType: "json",
+                clearForm: false,
+                cache: false,
+                success:  function(post_response) {
+                    if ("User_Stored_Redirect_URL" in post_response) {
+                        // redirect to the pased-in URL
+                        self.location = post_response["User_Stored_Redirect_URL"];
+                    } else if ("Incorrect_code" in post_response) {
+                        $(this).after(post_response["Incorrect_code"]);
+                    } else if ("No_info_found" in post_response) {
+
+                    } else {
+                        var readable_object = JSON.stringify(post_response);
+                        var error_html = "handle_verification_code_input - unknown json response: " + readable_object;
+                        report_ajax_error("NA", "NA",  error_html);
+                    }
+                }
+            });
+
+            // prevent normal page navigation upon form submission - this is the same as calling
+            // e.preventDefault and e.stopPropagation
+            return false;
+        });
+
+    }
+
+    $(document).ready(function() {
+       handle_verification_code_input();
+    });
+
+    </script>
+{% endif %} 
