@@ -30,7 +30,7 @@
 
                 <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
                     <input type="text"
-                           class="defaultText cl-default-username_or_password-input-text-prompt cl-nick-textinput-width-px"
+                           class="defaultText cl-gray-letters-text-prompt cl-nick-textinput-width-px"
                            title='{% trans "username or email"%}'
                            id="id-login_fields-username_email" name="username_email" maxlength=50>
                 </td>
@@ -38,7 +38,7 @@
 
                     <!-- need to define two boxes for the password - but only one will be shown at a time -
            required for showing text prompt in the input box -->
-                    <input type="text" class="cl-default-username_or_password-input-text-prompt cl-narrow-textinput-width-px"
+                    <input type="text" class="cl-gray-letters-text-prompt cl-narrow-textinput-width-px"
                            value='{% trans "password" %}' id="id-password-prompt"
                            name="password-prompt" maxlength=50>
                     <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
@@ -141,11 +141,11 @@
             if ($(this).val() == $(this)[0].title) {
                 $(this).val("");
             }
-            $(this).removeClass("cl-default-username_or_password-input-text-prompt");
+            $(this).removeClass("cl-gray-letters-text-prompt");
         });
         $(".defaultText").blur(function() {
             if ($(this).val() == "") {
-                $(this).addClass("cl-default-username_or_password-input-text-prompt");
+                $(this).addClass("cl-gray-letters-text-prompt");
                 $(this).val($(this)[0].title);
             }
         });

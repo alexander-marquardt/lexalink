@@ -30,87 +30,7 @@
 {% include "common_helpers/logo_banner.html" %}
         
 
-<script type="text/javascript">
-
-    var login_errors_dict = [];
-    var registration_errors_dict = [];
-
-
-    $(document).ready(function() {
-        // This function sets the drop-down menu to the value passed inside the html (on the second pass
-        // if the user has made an error in entering in their login information
-
-        check_if_javascript_version_id_has_changed("{{ javascript_version_id }}");
-
-
-        var input_fields = ['username_email', 'username', 'sex', 'relationship_status',
-        'preference', 'age', 'password', 'password_verify', 'country', 'native_language', 'language_to_learn'];
-        var stored_input_fields = {};
-
-        for (ix in input_fields) {
-
-            // if the key was stored in the stored_input_fields dictionary, then write it to the selector
-            if (stored_input_fields.hasOwnProperty(input_fields[ix])) {
-                rs_set_selector_to_value('#id-signup_fields-' + input_fields[ix], stored_input_fields[input_fields[ix]]);
-            }
-        }
-
-
-
-        $("#id-enter_guest").button();
-        $("#id-enter_guest").addClass('cl-enter_guest-flash');
-        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 5000);
-        $("#id-enter_guest").addClass('cl-enter_guest-flash', 2000);
-        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 2000);
-
-    });
-
-
-    function clear_fields_errors(fields_type, errors_dict) {
-        // fields_type is either signup_fields or login_fields
-
-        for (key in errors_dict) {
-            var input_field_id_selector = "#id-"+ fields_type + "-" + key;
-            $(input_field_id_selector).removeClass("cl-highlight_border");
-        }
-    }
-
-    function clear_both_registration_and_login_fields_errors() {
-            clear_fields_errors("login_fields", login_errors_dict);
-            $("#id-password-prompt").removeClass("cl-highlight_border");
-            $("#id-password-input").removeClass("cl-highlight_border");
-
-            clear_fields_errors("signup_fields" , registration_errors_dict);
-    }
-
-    function show_fields_errors(fields_type, errors_dict, extra_html) {
-        // fields_type is either signup_fields or login_fields
-
-        var error_html = '<ul>';
-        // loop over the objects in the errors_dict        
-        for (key in errors_dict) {
-            var input_field_id_selector = "#id-" + fields_type + "-" + key;
-            $(input_field_id_selector).addClass("cl-highlight_border");
-            if (errors_dict[key]) {
-                error_html += '<li class="cl-indent">'+ errors_dict[key];
-            }
-        }
-        error_html += '</ul>';
-        error_html += extra_html;
-        $('#id-show_after_registration_dialog_box').html(error_html);
-        $('#id-show_after_registration_dialog_box').dialog({
-            width: 400,
-            modal: false,
-            position: {
-                my: "center",
-                at: "center",
-                of: "#id-over-image"
-            }
-        }).dialog('close').dialog('open');
-    }
-    
-
-</script>
+<div id="id-dialog_box_for_user_feedback" style="display:none;"></div>
 
 
 
@@ -264,3 +184,87 @@
 
 <!-- Google Analytics -->
 {% include "common_helpers/analytics.html" %}
+
+
+<script type="text/javascript">
+
+    var login_errors_dict = [];
+    var registration_errors_dict = [];
+
+
+    $(document).ready(function() {
+        // This function sets the drop-down menu to the value passed inside the html (on the second pass
+        // if the user has made an error in entering in their login information
+
+        check_if_javascript_version_id_has_changed("{{ javascript_version_id }}");
+
+
+        var input_fields = ['username_email', 'username', 'sex', 'relationship_status',
+        'preference', 'age', 'password', 'password_verify', 'country', 'native_language', 'language_to_learn'];
+        var stored_input_fields = {};
+
+        for (ix in input_fields) {
+
+            // if the key was stored in the stored_input_fields dictionary, then write it to the selector
+            if (stored_input_fields.hasOwnProperty(input_fields[ix])) {
+                rs_set_selector_to_value('#id-signup_fields-' + input_fields[ix], stored_input_fields[input_fields[ix]]);
+            }
+        }
+
+
+
+        $("#id-enter_guest").button();
+        $("#id-enter_guest").addClass('cl-enter_guest-flash');
+        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 5000);
+        $("#id-enter_guest").addClass('cl-enter_guest-flash', 2000);
+        $("#id-enter_guest").removeClass('cl-enter_guest-flash', 2000);
+
+    });
+
+
+    function clear_fields_errors(fields_type, errors_dict) {
+        // fields_type is either signup_fields or login_fields
+
+        for (key in errors_dict) {
+            var input_field_id_selector = "#id-"+ fields_type + "-" + key;
+            $(input_field_id_selector).removeClass("cl-highlight_border");
+        }
+    }
+
+    function clear_both_registration_and_login_fields_errors() {
+            clear_fields_errors("login_fields", login_errors_dict);
+            $("#id-password-prompt").removeClass("cl-highlight_border");
+            $("#id-password-input").removeClass("cl-highlight_border");
+
+            clear_fields_errors("signup_fields" , registration_errors_dict);
+    }
+
+    function show_fields_errors(fields_type, errors_dict, extra_html) {
+        // fields_type is either signup_fields or login_fields
+
+        var error_html = '<ul>';
+        // loop over the objects in the errors_dict
+        for (key in errors_dict) {
+            var input_field_id_selector = "#id-" + fields_type + "-" + key;
+            $(input_field_id_selector).addClass("cl-highlight_border");
+            if (errors_dict[key]) {
+                error_html += '<li class="cl-indent">'+ errors_dict[key];
+            }
+        }
+        error_html += '</ul>';
+        error_html += extra_html;
+        $('#id-dialog_box_for_user_feedback').html(error_html);
+        $('#id-dialog_box_for_user_feedback').dialog({
+            width: 400,
+            modal: false,
+            position: {
+                my: "center",
+                at: "center",
+                of: "#id-over-image"
+            }
+        }).dialog('close').dialog('open');
+    }
+
+
+</script>
+        

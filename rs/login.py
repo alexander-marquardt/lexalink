@@ -97,6 +97,8 @@ def landing_page(request, is_admin_login = False):
         login_type = '' # default value required for first pass, since no request has yet taken place
         login_dict = None
         html_for_posted_values = ''
+
+        verification_values_dict = None
         
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
                                 
@@ -112,6 +114,8 @@ def landing_page(request, is_admin_login = False):
                 'unable_to_verify_username' : unable_to_verify_username}
             
                 error_list.append(message_for_client)
+                
+            verification_values_dict = login_utils.get_verification_vals_from_get(request)
                 
             # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
             user_already_registered = request.GET.get('already_registered', '') 
@@ -156,6 +160,7 @@ def landing_page(request, is_admin_login = False):
             'request' : request,
             'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
             'welcome_html': views.welcome_html(),
+            'verification_values_dict' : verification_values_dict,
             }, **constants.template_common_fields))
         body_main_html = my_template.render(context)
         
@@ -172,7 +177,7 @@ def landing_page(request, is_admin_login = False):
         return utils.return_and_report_internal_error(request)
 
 
-def store_authorization_info(request, login_dict, encrypted_password, password_salt):
+def store_authorization_info_and_send_email_wrapper(request, login_dict, encrypted_password, password_salt, currently_displayed_url):
 
     # Receives the user_login values and forces user to verify a registration code sent to their email address before
     # registration data is stored in the permanent data structures. 
@@ -205,14 +210,15 @@ def store_authorization_info(request, login_dict, encrypted_password, password_s
         dump_login_dict['password_verify'] = dump_login_dict['password'] 
         pickle.dump(dump_login_dict, pickled_login_get_dict_fake_file)        
         pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
-        (authorization_info_status, secret_verification_code) = login_utils.store_authorization_info_and_send_email(
+        (authorization_info_status) = login_utils.store_authorization_info_and_send_email(
+            currently_displayed_url, 
             username, email_address, encrypted_password, password_salt, pickled_login_get_dict, request.LANGUAGE_CODE)   
         pickled_login_get_dict_fake_file.close()
              
         if authorization_info_status != "OK":    
             error_reporting.log_exception(logging.error, error_message = authorization_info_status)  
 
-        return (authorization_info_status, secret_verification_code)
+        return authorization_info_status
 
     except:
         error_reporting.log_exception(logging.critical)   
@@ -438,8 +444,11 @@ def process_login(request, is_admin_login = False):
         return http.HttpResponseBadRequest(error_message)
                 
                 
-def process_registration(request):
+def process_registration(request, currently_displayed_url):
     # new user is signing up 
+    # We pass in the currently_displayed_url so that when the user registers, they will be directed back to
+    # the exact same page they were on when they initially signed up -- this could be almost any page
+    # since we now have pop-up dialogs that are shown overtop of the various pages.
     lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
     response_dict = {}
        
@@ -468,13 +477,12 @@ def process_registration(request):
         username = login_dict['username']
                     
         # if email address is given, make sure that it is valid
-        if login_dict['email_address'] and login_dict['email_address'] != "----":
-            # remove blank spaces from the email address -- to make it more likely to be acceptable
-            login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
-            login_dict['email_address'] = login_dict['email_address'].lower()
+        # remove blank spaces from the email address -- to make it more likely to be acceptable
+        login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
+        login_dict['email_address'] = login_dict['email_address'].lower()
+        email_address =  login_dict['email_address']
         
         (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
-        
         
         # Now check if username is already taken
         query = models.UserModel.query().filter(models.UserModel.username == username)
@@ -494,10 +502,10 @@ def process_registration(request):
             password_salt = uuid.uuid4().hex              
             # encrypt the password 
             encrypted_password = utils.new_passhash(login_dict['password'], password_salt)
-            (authorization_info_status, secret_verification_code) =  store_authorization_info(request, login_dict, encrypted_password, password_salt)
+            authorization_info_status =  store_authorization_info_and_send_email_wrapper(request, login_dict, encrypted_password, password_salt, currently_displayed_url)
             if authorization_info_status == 'OK':
                 response_dict['Registration_OK'] = {'username': username,
-                                                    'secret_verification_code' : secret_verification_code}
+                                                    'verification_email' :  email_address}
             else:
                 response_dict['Registration_Error'] = {'message': authorization_info_status}
         else:
@@ -655,7 +663,7 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
     return ("OK", owner_nid)
 
 
-def check_verification_and_authorize_user(request, username, secret_verification_code, is_ajax):
+def check_verification_and_authorize_user(request, username, secret_verification_code):
     # Note, this function is called directly as a URL from a user clicking on an email link OR
     # it is called from the user entering the verification_code in a popup dialog. 
     # We direct them to a web page after verification.
@@ -699,35 +707,30 @@ def check_verification_and_authorize_user(request, username, secret_verification
             
             # could happen if the user clicks on the link to authorize their account at some point after
             # we have erased the authorization info, or if the code really doesn't match
-            if not is_ajax:
-                warning_message = "Warning: User: %s Code %s  authorization_info not found" % (
-                    username, secret_verification_code)
-                error_reporting.log_exception(logging.error, error_message = warning_message)
-                destination_url = "/?unable_to_verify_user=%s" % username
-            else:
-                # We want to let the user know that the code they have entered is incorrect, without redirecting to 
-                # another page.
-                if authorization_status == "Incorrect code" :
-                    response_dict = {"Incorrect_code" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
-                        'warning_message' : ugettext("Invalid code")}
-                                     }
-                                     
-                elif authorization_status == "No authorization_info":
-                    response_dict = {"No_info_found" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
-                        "warning_message" : ugettext("Verification has expired. Please login with an existing account of signup for a new account")}
-                                     }
-                
-                json_response = simplejson.dumps(response_dict)
-                return http.HttpResponse(json_response, mimetype='text/javascript')    
+
+            # We want to let the user know that the code they have entered is incorrect, without redirecting to 
+            # another page.
+            if authorization_status == "Incorrect code" :
+                response_dict = {"Incorrect_code" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
+                    'warning_message' : ugettext("Invalid code")}
+                                 }
+                                 
+            elif authorization_status == "No authorization_info":
+                response_dict = {"No_info_found" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
+                    "warning_message" : ugettext("Verification has expired. Please login with an existing account of signup for a new account")}
+                                 }
+            else :
+                error_reporting.log_exception(logging.critical)  
+                response_dict = {"warning_message": ugettext("Internal error - this error has been logged, and will be investigated immediately")}
+            
+            json_response = simplejson.dumps(response_dict)
+            return http.HttpResponse(json_response, mimetype='text/javascript')    
         
     except: 
         destination_url = "/"
         error_reporting.log_exception(logging.critical)      
         
-    if not is_ajax:
-        http_response = http.HttpResponseRedirect(destination_url)
-        return http_response
-    else:
-        response_dict = {"User_Stored_Redirect_URL" : destination_url}
-        json_response = simplejson.dumps(response_dict)
-        return http.HttpResponse(json_response, mimetype='text/javascript')          
+
+    response_dict = {"User_Stored_Redirect_URL" : destination_url}
+    json_response = simplejson.dumps(response_dict)
+    return http.HttpResponse(json_response, mimetype='text/javascript')          

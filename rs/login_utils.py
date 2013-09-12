@@ -601,7 +601,7 @@ def email_address_already_has_account_registered(email_address):
         error_reporting.log_exception(logging.critical)   
         return False
     
-def send_verification_email(username, email_address, secret_verification_code, lang_code):
+def send_verification_email(currently_displayed_url, username, email_address, secret_verification_code, lang_code):
     
     try:
         if not email_address_already_has_account_registered(email_address) or email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
@@ -612,13 +612,16 @@ def send_verification_email(username, email_address, secret_verification_code, l
             message_html += u"<p>%s:<p>" % \
                    ugettext("To activate your account in %(app_name)s, click on the following link to verify your request") % \
                    {'app_name' : settings.APP_NAME }
-            message_html += """<a href=http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/>\
-    http://www.%(app_name)s.com/%(lang_code)s/rs/authenticate/%(username)s/%(secret_verification_code)s/</a>""" % \
-                {'lang_code': lang_code, 'app_name' : settings.APP_NAME, 
+            href = """http://www.%(app_name)s.com%(currently_displayed_url)s?show_verification=true&\
+verification_username=%(username)s&verification_email=%(email_address)s&secret_verification_code=%(secret_verification_code)s/
+            """ % \
+                {'currently_displayed_url' : currently_displayed_url, 
+                 'app_name' : settings.APP_NAME, 
                  'username' : username, 
+                 'email_address' : email_address,
                  'secret_verification_code' : secret_verification_code,
                  }
-            
+            message_html = "<a href=%(href)s>%(href)s</a>" % {'href' : href}
             message_html += u"<p>%s. " % ugettext("If clicking on the link appears not to work, you can copy and paste it into your browser")
                             
             return_val = "Code sent"                
@@ -658,7 +661,7 @@ def send_verification_email(username, email_address, secret_verification_code, l
     return return_val
 
     
-def store_authorization_info_and_send_email(username, email_address, encrypted_password, password_salt, pickled_login_get_dict, lang_code):
+def store_authorization_info_and_send_email(currently_displayed_url, username, email_address, encrypted_password, password_salt, pickled_login_get_dict, lang_code):
     # Writes a (hopefully temporary) object to the database, which will be accessed when the user verifies their account 
     # by clicking on a URL directly from their email -- note, this function saves us from sending
     # out super long URLs that get broken up by email systems and that would therefore cause problems -- instead, we store
@@ -727,17 +730,17 @@ def store_authorization_info_and_send_email(username, email_address, encrypted_p
         authorization_info.email_address = email_address
         authorization_info.creation_day = creation_day
         
-        code_sent_val = send_verification_email(username, email_address, secret_verification_code, lang_code)
+        logging.info("** Secret code for %s (%s) set to %s\n\n" % (username, email_address, secret_verification_code))
+        code_sent_val = send_verification_email(currently_displayed_url, username, email_address, secret_verification_code, lang_code)
         
         if code_sent_val == "Code sent":
-            # Only write the authorization_info structure if we send the user an email that *contains* registration information,
             authorization_info.put()
                         
-        return ("OK", secret_verification_code) # just means that no internal errors or violations occured.
+        return ("OK") # just means that no internal errors or violations occured.
     
     except:
         error_reporting.log_exception(logging.critical)   
-        return ('Unknown Error', secret_verification_code)
+        return ('Unknown Error')
         
 
 
@@ -757,7 +760,18 @@ def copy_principal_user_data_fields_into_ix_lists(userobject):
         error_reporting.log_exception(logging.critical, error_message = error_message)
 
 
+def get_verification_vals_from_get(request):
+
+    verification_vals_dict = {}
+
+    if request.GET.get("show_verification"):
+        verification_vals_dict['show_verification_dialog'] = True
+        verification_vals_dict['verification_username'] = request.GET.get("verification_username", '')
+        verification_vals_dict['secret_verification_code'] = request.GET.get("secret_verification_code", '')    
+        verification_vals_dict['verification_email'] = request.GET.get("verification_email", '')
            
+    return verification_vals_dict
+
 #############################################
 def setup_new_user_defaults_and_structures(userobject, username, lang_code):
     """ set sensible initial defaults for the profile details. 

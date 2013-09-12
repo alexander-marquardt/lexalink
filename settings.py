@@ -127,6 +127,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/rs/channel_support/'),
     re.compile(r'^/rs/admin/'),
     re.compile(r'^/rs/process_login/'),
+    re.compile(r'^/rs/process_registration/'),
     re.compile(r'^/rs/store_'),
     re.compile(r'^/rs/blobstore_photo_upload/'),
     re.compile(r'^/rs/sitemap/'),

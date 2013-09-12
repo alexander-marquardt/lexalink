@@ -1,7 +1,5 @@
 {% load i18n %}
 
-<div id="id-show_after_registration_dialog_box" style="display:none;"></div>
-
 <!-- The form submission does not have an "action" because we use javascript for the form submission -->
 <form method=POST id="id-submit-signup-form">
 
@@ -76,7 +74,7 @@
 
             clear_both_registration_and_login_fields_errors();
 
-            var submit_signup_form_url = "{% url login.process_registration %}";
+            var submit_signup_form_url = "/rs/process_registration/currently_displayed_url=" + window.location.pathname + "/";
             $(this).ajaxSubmit({
                 url: submit_signup_form_url,
                 type: 'post',
@@ -91,8 +89,8 @@
                         // verification dialog box, which they can enter their "verification_code" in order to activate
                         // t heir account.
                         var registration_ok_dict = post_response["Registration_OK"];
-                        self.location = window.location.pathname + "?show_verification=true&username="+ registration_ok_dict['username'] +
-                        "&secret_verification_code=" + registration_ok_dict['secret_verification_code'];
+                        self.location = window.location.pathname + "?show_verification=true&verification_username="+ registration_ok_dict['username'] +
+                        "&verification_email=" + registration_ok_dict['verification_email'];
 
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];

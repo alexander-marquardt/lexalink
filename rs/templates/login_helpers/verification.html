@@ -1,16 +1,14 @@
 {% load i18n %}
-{% if show_verification_dialog %}
-    <div id="id-show_verification_dialog_box" style="display:none;"></div>
-
-    <div id="id-show_verification_code_input" style="display:none;">
+{% if verification_values_dict %}
+    <div id="id-show_verification_dialog_box" style="display:none;">
         <!-- contains the html that will allow the user to enter in the verification code directly, as opposed to
              having to click on the link in the email -->
 
         <p><p>
-        {% blocktrans %}
-        We have sent an activation email to <strong>{{ registration_email_address }}</strong>
-        from  <em>{{ sender_support_email_address }}</em>.
 
+        {% blocktrans with verification_values_dict.verification_email as to_email%}
+        We have sent an activation email to <strong>{{ to_email }}</strong>
+        from  <em>{{ support_email_address }}</em>.
         {% endblocktrans %}
         <p><p>
         {% blocktrans with app_name as app_name %}
@@ -20,9 +18,12 @@
 
 
         <form method="POST" class="cl-submit-confirmation-code-form">
-            <input type="text"
-                   class="cl-default-verification-input-text cl-default-username_or_password-input-text-prompt cl-standard-textinput-width-px"
-                   maxlength=10 title='{% trans "Verification Code" %}' >
+            <input type="text" name="verification_username"
+                   class="cl-default-verification-input-text  cl-standard-textinput-width-px"
+                   maxlength=50 title='{% trans "Username" %}' value="{{ verification_values_dict.verification_username }}" >
+            <input type="text" name="secret_verification_code"
+                   class="cl-default-verification-input-text  cl-standard-textinput-width-px"
+                   maxlength=10 title='{% trans "Verification Code" %}' value="{{ verification_values_dict.secret_verification_code }}">
             <input class="cl-submit-verification-code-button" type="submit" value='{% trans "Activate account" %}!'>
         </form>
 
@@ -44,6 +45,20 @@
 
     <script type="text/javascript">
 
+    function show_default_input_text_prompt($this) {
+        if ($this.val() == "") {
+            $this.addClass("cl-gray-letters-text-prompt");
+            $this.val($this[0].title);
+        }
+    }
+
+    function remove_default_input_text_prompt($this){
+        if ($this.val() == $this[0].title) {
+            $this.val("");
+        }
+        $this.removeClass("cl-gray-letters-text-prompt");
+    }
+
     function handle_verification_code_input() {
         // This function will handle the submission of the user profile verification code.
         // Note: this form element is dynamically added to the DOM, and so we *must* use $(document).on.. as opposed
@@ -61,27 +76,24 @@
                 // We do not want this default behaviour.
                 // Make sure that the cursor is not inide the input box so that the user will see
                 // the text indicating that this is where they need to enter the verification code.
-                $("input.cl-default-verification-input-text").blur()
+                $("input.cl-default-verification-input-text").blur();
                 $(".cl-submit-verification-code-button").button();
+                $(".cl-default-verification-input-text").each(function() {
+                    show_default_input_text_prompt($(this));
+                });
             }
         }).dialog('close').dialog('open');
 
         $(document).on('focusin', "input.cl-default-verification-input-text", function() {
-            if ($(this).val() == $(this)[0].title) {
-                $(this).val("");
-            }
-            $(this).removeClass("cl-default-username_or_password-input-text-prompt");
+            remove_default_input_text_prompt($(this));
         });
         $(document).on('focusout', "input.cl-default-verification-input-text", function() {
-            if ($(this).val() == "") {
-                $(this).addClass("cl-default-username_or_password-input-text-prompt");
-                $(this).val($(this)[0].title);
-            }
+            show_default_input_text_prompt($(this));
         });
 
         $(document).on('submit', "form.cl-submit-confirmation-code-form", function(e) {
-            var username = $("#id-signup_fields-username").val();
-            var secret_code = $(this).find(".cl-default-verification-input-text").val();
+            var username = $(this).find(".cl-default-verification-input-text[name=username]").val();
+            var secret_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]").val();
             var submit_verification_code_url = "rs/check_verification_and_authorize_user/" + username + "/" + secret_code + "/";
             $(this).ajaxSubmit({
                 url: submit_verification_code_url,
