@@ -110,16 +110,18 @@ function handle_verification_code_input() {
             try {
                 $(".cl-warning-text-holder").html(''); // clear any old error message
                 var $username = $(this).find(".cl-default-verification-input-text[name=verification_username]");
-                var $secret_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]");
-                if (check_if_input_value_is_valid($username) && check_if_input_value_is_valid($secret_code)) {
+                var $secret_verification_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]");
+                if (check_if_input_value_is_valid($username) && check_if_input_value_is_valid($secret_verification_code)) {
                     // only attempt submission of username and secret code if it appears that they might be valid
                     var username = $username.val();
-                    var secret_code = $secret_code.val();
-                    var submit_verification_code_url = "rs/check_verification_and_authorize_user/" + username + "/" + secret_code + "?current_path=" + window.location.pathname;
-                    debugger;
+                    var secret_verification_code = $secret_verification_code.val();
+                    var submit_verification_code_url = "{% url login.check_verification_and_authorize_user %}" ;
+                    
                     $(this).ajaxSubmit({
                         url: submit_verification_code_url,
-                        type: 'get',
+                        data: {'username': username,
+                               'secret_verification_code': secret_verification_code,
+                               'current_path' : window.location.pathname},
                         dataType: "json",
                         clearForm: false,
                         cache: false,
@@ -137,12 +139,7 @@ function handle_verification_code_input() {
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             $(".cl-warning-text-holder").html('<strong><span class="cl-warning-text">Error</span></strong>');
-                            var error_html;
-                            if (jqXHR.responseText != undefined) {
-                                error_html = jqXHR.responseText;
-                            } else {
-                                error_html = "handle_verification_code_input - unknown error";
-                            }
+                            var error_html = "handle_verification_code_input - unknown error - see logs";
                             report_ajax_error(textStatus, errorThrown, error_html);
                         }
                     });

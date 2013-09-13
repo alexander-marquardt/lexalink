@@ -42,7 +42,7 @@ urlpatterns = patterns('',
     url(r'^rs/process_login/$', login.process_login, name="login.process_login"),
     url(r'^rs/admin/process_login/$', login.process_login, {'is_admin_login' : True}, name="login.admin_process_login"),
     
-    (r'^rs/process_registration/currently_displayed_url=(.*)/$', login.process_registration),
+    url(r'^rs/process_registration/$', login.process_registration, name="login.process_registration"),
             
     (r'^setlang/(?P<lang_code>[\w]{2})/$', lang_settings.set_language_and_redirect_back),    
     
@@ -111,8 +111,8 @@ urlpatterns = patterns('',
     (r'^rs/store_report_unacceptable_profile/(?P<display_uid>[\w|-]+)/', store_data.store_report_unacceptable_profile),
 
 
-    (r'^rs/check_verification_and_authorize_user/(?P<username>[\w|-]+)/(?P<secret_verification_code>[\w|-]+)/$',
-     login.check_verification_and_authorize_user),  
+    url(r'^rs/check_verification_and_authorize_user/$',
+     login.check_verification_and_authorize_user, name="login.check_verification_and_authorize_user"),  
     
     (r'^rs/store_send_mail_from_profile_checkbox_no/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', 
      messages.store_send_mail, {'text_post_identifier_string': 'send_mail_from_profile_checkbox_no'}),    

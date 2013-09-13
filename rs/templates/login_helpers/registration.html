@@ -74,10 +74,10 @@ function handle_user_registration_form() {
 
             clear_both_registration_and_login_fields_errors();
 
-            var submit_signup_form_url = "/rs/process_registration/currently_displayed_url=" + window.location.pathname + "/";
+            var submit_signup_form_url = "{% url login.process_registration %}";
             $(this).ajaxSubmit({
                 url: submit_signup_form_url,
-                type: 'post',
+                data: {'currently_displayed_url' : window.location.pathname},
                 dataType: "json",
                 clearForm: false,
                 cache: false,

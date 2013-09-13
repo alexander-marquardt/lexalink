@@ -128,22 +128,21 @@ IS_CYGWIN = False
 if 'HOSTNAME' in os.environ and os.environ['HOSTNAME'] == CYGWIN_HOSTNAME:
     # cygwin/windows
     logging.info("Running on Cygwin - DEBUG disabled")    
-    LOCAL = True
     DEBUG = False 
     IS_CYGWIN = True
+    TEMPLATE_DEBUG = False
     
-elif (os.environ.get('SERVER_SOFTWARE','').startswith('Development')):
+    
+elif ("alexandermarquardt" in os.environ.get('PWD','')):
     # we are running on the local/test server
-    logging.info("Running on Local - DEBUG enabled")
-    LOCAL = True
-    DEBUG = True 
+    logging.info("Running on local server %s" % os.environ.get('SERVER_SOFTWARE',''))
+    DEBUG = False  # Disable django debug messages - is easier to look at the log messages
+    TEMPLATE_DEBUG = True
+    TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'    
 
 else:
     # probably running on production server - disable all debugging and LOCAL outputs etc.
-    logging.info("Running on production server")
-    LOCAL = False
+    logging.info("Appears to be running on production server" )
     DEBUG = False
-    
-if DEBUG:
-    TEMPLATE_DEBUG = True
-    TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'
+    TEMPLATE_DEBUG = False
+

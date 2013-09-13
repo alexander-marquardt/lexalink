@@ -146,5 +146,3 @@ LOCALE_INDEPENDENT_PATHS = (
 )
 
 
-
-

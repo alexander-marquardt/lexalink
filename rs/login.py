@@ -445,7 +445,7 @@ def process_login(request, is_admin_login = False):
         return http.HttpResponseBadRequest(error_message)
                 
                 
-def process_registration(request, currently_displayed_url):
+def process_registration(request):
     # new user is signing up 
     # We pass in the currently_displayed_url so that when the user registers, they will be directed back to
     # the exact same page they were on when they initially signed up -- this could be almost any page
@@ -459,7 +459,8 @@ def process_registration(request, currently_displayed_url):
             error_reporting.log_exception(logging.critical, error_message = error_message)  
             return http.HttpResponseBadRequest(error_message)
         
-               
+        currently_displayed_url = request.POST.get('currently_displayed_url', None)
+        
         (login_allowed, message_for_client) = check_if_login_country_allowed(request)
         
         if not login_allowed:
@@ -468,9 +469,9 @@ def process_registration(request, currently_displayed_url):
         
         login_dict = login_utils.get_registration_dict_from_post(request)
                 
-        login_dict['country'] = request.REQUEST.get('country', '----')
-        login_dict['sub_region'] = request.REQUEST.get('sub_region', '----')
-        login_dict['region'] = request.REQUEST.get('region', '----')
+        login_dict['country'] = request.POST.get('country', '----')
+        login_dict['sub_region'] = request.POST.get('sub_region', '----')
+        login_dict['region'] = request.POST.get('region', '----')
         
         # re-write all user names to upper-case to prevent confusion
         # and amateur users from not being able to log in.
@@ -664,7 +665,7 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
     return ("OK", owner_nid)
 
 
-def check_verification_and_authorize_user(request, username, secret_verification_code):
+def check_verification_and_authorize_user(request):
     # Note, this function is called directly as a URL from a user clicking on an email link OR
     # it is called from the user entering the verification_code in a popup dialog. 
     # We direct them to a web page after verification.
@@ -676,7 +677,14 @@ def check_verification_and_authorize_user(request, username, secret_verification
     
     
     try:
-        current_path = request.GET.get("current_path", None)
+        if request.method != 'POST':
+            error_message = "check_verification_and_authorize_user was not called with POST data"
+            raise Exception(error_message)
+        
+        username = request.POST.get("username", None)
+        secret_verification_code = request.POST.get("secret_verification_code", None)
+        current_path = request.POST.get("current_path", None)
+        
         if current_path:
             locale, path = localeurl_utils.strip_path(current_path)  
             if path == "/":
