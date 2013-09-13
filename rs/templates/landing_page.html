@@ -73,7 +73,9 @@
             {% if not maintenance_shutdown_warning %}
 
             {% include "login_helpers/registration.html" %}
-            {% include "login_helpers/verification.html" %}
+            {% if verification_values_dict %}
+                {% include "login_helpers/verification.html" %}
+            {% endif %}
 
             {% endif %}
 

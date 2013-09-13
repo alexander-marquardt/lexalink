@@ -36,6 +36,7 @@ from django.utils import simplejson
 from django.core.validators import email_re
 from django.utils.translation import ugettext
 from django.core.urlresolvers import reverse
+from localeurl import utils as localeurl_utils
 
 try:
     from rs.proprietary import search_engine_overrides
@@ -658,8 +659,8 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
     # log information about this users login time, and IP address
     utils.update_ip_address_on_user_tracker(userobject.user_tracker)
 
-    logging.info("Registered/Logging in User: %s IP: %s country code: %s - re-directing to edit_profile_url: %s" % (
-        userobject.username, os.environ['REMOTE_ADDR'], request.META.get('HTTP_X_APPENGINE_COUNTRY', None), home_url))
+    logging.info("Registered/Logging in User: %s IP: %s country code: %s " % (
+        userobject.username, os.environ['REMOTE_ADDR'], request.META.get('HTTP_X_APPENGINE_COUNTRY', None)))
     return ("OK", owner_nid)
 
 
@@ -672,9 +673,19 @@ def check_verification_and_authorize_user(request, username, secret_verification
     # website, versus clicking on an email link), then instead of redirecting to the URL and rendering the page, we 
     # should just return a json object containing the URL, that the client-side javascript will then redirect to.
     
-    destination_url = "/"
+    
     
     try:
+        current_path = request.GET.get("current_path", None)
+        if current_path:
+            locale, path = localeurl_utils.strip_path(current_path)  
+            if path == "/":
+                destination_url = "/"
+            else:
+                destination_url = current_path
+        else:
+            destination_url = "/"
+            
         authorization_info = login_utils.query_authorization_info_for_username(username)
         if authorization_info:
             if authorization_info.secret_verification_code != secret_verification_code:
@@ -686,13 +697,18 @@ def check_verification_and_authorize_user(request, username, secret_verification
             authorization_status = "No authorization_info"
             
         if authorization_status == "Authorization OK":
+            
+            
             login_get_dict = pickle.load(StringIO.StringIO(authorization_info.pickled_login_get_dict))
             encrypted_password = authorization_info.encrypted_password
             password_salt = authorization_info.password_salt
             lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
             (store_user_status, owner_nid) = store_new_user_after_verify(request, lang_idx, login_get_dict, encrypted_password, password_salt)
             if store_user_status == "OK":
-                destination_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
+                if destination_url == "/":
+                    # if destination_url is not defined (ie. = "/"), then we will direct the user to edit their profile
+                    # otherwise, we just send the user to whatever destination_url we have already assigned.
+                    destination_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
             elif store_user_status == "Error":
                 destination_url = "/"
             elif store_user_status == "already_registered":
@@ -711,18 +727,18 @@ def check_verification_and_authorize_user(request, username, secret_verification
             # We want to let the user know that the code they have entered is incorrect, without redirecting to 
             # another page.
             if authorization_status == "Incorrect code" :
-                response_dict = {"Incorrect_code" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
-                    'warning_message' : ugettext("Invalid code")}
-                                 }
+                warning_message= ugettext("Incorrect code")
                                  
             elif authorization_status == "No authorization_info":
-                response_dict = {"No_info_found" : u'<br><strong></strong><span class="cl-warning-text">"%(warning_message)s"</span></strong>' % {
-                    "warning_message" : ugettext("Verification has expired. Please login with an existing account of signup for a new account")}
-                                 }
+                warning_message =  ugettext("Verification is invalid or expired")
+                                 
             else :
                 error_reporting.log_exception(logging.critical)  
-                response_dict = {"warning_message": ugettext("Internal error - this error has been logged, and will be investigated immediately")}
+                warning_message = ugettext("Internal error - this error has been logged, and will be investigated immediately")
             
+            response_dict = {"warning_html" : u'<strong><span class="cl-warning-text">%(warning_message)s</span></strong>' % {
+                'warning_message' : warning_message}
+                             }
             json_response = simplejson.dumps(response_dict)
             return http.HttpResponse(json_response, mimetype='text/javascript')    
         
@@ -730,7 +746,7 @@ def check_verification_and_authorize_user(request, username, secret_verification
         destination_url = "/"
         error_reporting.log_exception(logging.critical)      
         
-
+    logging.info("Verified user %s. Will be redirected by javascript client to to %s" % (username, destination_url))
     response_dict = {"User_Stored_Redirect_URL" : destination_url}
     json_response = simplejson.dumps(response_dict)
     return http.HttpResponse(json_response, mimetype='text/javascript')          

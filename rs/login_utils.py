@@ -612,16 +612,14 @@ def send_verification_email(currently_displayed_url, username, email_address, se
             message_html += u"<p>%s:<p>" % \
                    ugettext("To activate your account in %(app_name)s, click on the following link to verify your request") % \
                    {'app_name' : settings.APP_NAME }
-            href = """http://www.%(app_name)s.com%(currently_displayed_url)s?show_verification=true&\
-verification_username=%(username)s&verification_email=%(email_address)s&secret_verification_code=%(secret_verification_code)s/
-            """ % \
+            href = """http://www.%(app_name)s.com%(currently_displayed_url)s?show_verification=true&amp;\
+verification_username=%(username)s&amp;secret_verification_code=%(secret_verification_code)s""" % \
                 {'currently_displayed_url' : currently_displayed_url, 
                  'app_name' : settings.APP_NAME, 
                  'username' : username, 
-                 'email_address' : email_address,
                  'secret_verification_code' : secret_verification_code,
                  }
-            message_html = "<a href=%(href)s>%(href)s</a>" % {'href' : href}
+            message_html += href
             message_html += u"<p>%s. " % ugettext("If clicking on the link appears not to work, you can copy and paste it into your browser")
                             
             return_val = "Code sent"                

@@ -41,32 +41,32 @@
 <script type="text/javascript">
 
 
-    function handle_location_changes() {
-        // function to expand the locations menu as country and region are selected.
-        
-        var default_text = new Object();
-        default_text['region'] = '{% trans "Select Region" %}';
-        default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
-        default_text['not_available'] = '{% trans "Not Defined Yet" %}';
-        var id_prefix = "#id-signup_fields";
+function handle_location_changes() {
+    // function to expand the locations menu as country and region are selected.
 
-        var country_id = id_prefix + "-country";
-        var region_id = id_prefix + "-region";
-        var sub_region_id = id_prefix + "-sub_region";
+    var default_text = new Object();
+    default_text['region'] = '{% trans "Select Region" %}';
+    default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
+    default_text['not_available'] = '{% trans "Not Defined Yet" %}';
+    var id_prefix = "#id-signup_fields";
 
-        $("#id-signup_fields-region").hide();
-        $("#id-signup_fields-sub_region").hide();
+    var country_id = id_prefix + "-country";
+    var region_id = id_prefix + "-region";
+    var sub_region_id = id_prefix + "-sub_region";
 
-
-        load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
-    }
+    $("#id-signup_fields-region").hide();
+    $("#id-signup_fields-sub_region").hide();
 
 
+    load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
+}
 
 
-    function handle_user_registration_form() {
 
 
+function handle_user_registration_form() {
+
+    try {
         $("#id-submit-signup-form").submit(function(e) {
 
             // prevent double clicks from being processed.
@@ -120,13 +120,16 @@
             // e.preventDefault and e.stopPropagation
             return false;
         });
+    } catch(err) {
+        report_try_catch_error( err, "handle_verification_code_input");
     }
+}
 
     
-    $(document).ready(function() {
-        handle_location_changes();
-        handle_user_registration_form();
-    });
+$(document).ready(function() {
+    handle_location_changes();
+    handle_user_registration_form();
+});
 
 
 </script>

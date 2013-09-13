@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 18:24-0400\n"
+"POT-Creation-Date: 2013-09-12 18:56-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -265,7 +265,7 @@ msgstr "sitio para conocer gente y hacer amigos"
 
 #: rs/constants.py:452 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:128
+#: rs/templates/landing_page.html:130
 msgid "dating website to meet mature adults over 40 years old"
 msgstr "sitio web para conocer adultos mayores de 40 años"
 
@@ -2371,7 +2371,7 @@ msgstr ""
 
 #: rs/login_utils.py:189
 msgid "<strong>Username</strong> must not be more than %(max_len)s characters"
-msgstr "<strong>Nick</strong> no debe tener mas que %(mas_len)s carácteres."
+msgstr "<strong>Nick</strong> no debe tener mas que %(max_len)s carácteres."
 
 #: rs/login_utils.py:199
 #, python-format
@@ -2442,6 +2442,7 @@ msgstr ""
 "correo electrónico."
 
 #: rs/login_utils.py:719
+#, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
 "account for %(username)s. \n"
@@ -3980,7 +3981,7 @@ msgstr "En"
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:409 rs/templates/landing_page.html:86
+#: rs/utils.py:409 rs/templates/landing_page.html:88
 #: rs/templates/login_helpers/login.html:61
 msgid "Have you forgotten your password?"
 msgstr "¿Has olvidado tu contraseña?"
@@ -4112,11 +4113,11 @@ msgstr "es"
 #: rs/proprietary/search_engine_overrides.py:124
 #: rs/proprietary/templates/proprietary_ads/friend_build.html:30
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:100
+#: rs/templates/landing_page.html:102
 msgid "100 percent free"
 msgstr "100% gratis"
 
-#: rs/utils.py:1812 rs/templates/landing_page.html:135
+#: rs/utils.py:1812 rs/templates/landing_page.html:137
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
@@ -4124,7 +4125,7 @@ msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1814 rs/templates/landing_page.html:133
+#: rs/utils.py:1814 rs/templates/landing_page.html:135
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
@@ -4207,7 +4208,7 @@ msgstr ""
 "swinger. Intercambio de pareja."
 
 #: rs/proprietary/search_engine_overrides.py:75
-#: rs/templates/landing_page.html:112
+#: rs/templates/landing_page.html:114
 msgid "gay dating"
 msgstr "contactos para gays"
 
@@ -4762,39 +4763,39 @@ msgstr "¿Quieres mirar antes de registrarte?"
 msgid "Enter with a guest account"
 msgstr "Entra con una cuenta de invitado"
 
-#: rs/templates/landing_page.html:104
+#: rs/templates/landing_page.html:106
 msgid "online dating"
 msgstr "servicio de buscar pareja en linea"
 
-#: rs/templates/landing_page.html:108
+#: rs/templates/landing_page.html:110
 msgid "swinger contacts"
 msgstr "contactos para swingers y parejas liberales"
 
-#: rs/templates/landing_page.html:116
+#: rs/templates/landing_page.html:118
 msgid "language exchange"
 msgstr "intercambio de idiomas"
 
-#: rs/templates/landing_page.html:120
+#: rs/templates/landing_page.html:122
 msgid "meet friends"
 msgstr "conocer amigos"
 
-#: rs/templates/landing_page.html:124
+#: rs/templates/landing_page.html:126
 msgid "lesbian dating"
 msgstr "contactos para lesbianas"
 
-#: rs/templates/landing_page.html:133
+#: rs/templates/landing_page.html:135
 msgid "Free"
 msgstr "Gratis"
 
-#: rs/templates/landing_page.html:139
+#: rs/templates/landing_page.html:141
 msgid "Over 50 percent of our members are single"
 msgstr "Más del 50% de nuestros socios son solter@s"
 
-#: rs/templates/landing_page.html:144
+#: rs/templates/landing_page.html:146
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr "no permite ni tiene contenido explícito, pornográfico u obsceno"
 
-#: rs/templates/landing_page.html:153
+#: rs/templates/landing_page.html:155
 #, python-format
 msgid ""
 "\n"
@@ -4899,27 +4900,27 @@ msgstr "Elegir Sub-Región"
 msgid "Not Defined Yet"
 msgstr "Todavía No Definida"
 
-#: rs/templates/login_helpers/verification.html:9
-#, python-format
+#: rs/templates/login_helpers/verification.html:8
 msgid ""
 "\n"
-"        We have sent an activation email to <strong>%(to_email)s</strong>\n"
-"        from  <em>%(support_email_address)s</em>.\n"
-"        "
+"    We have sent an activation email to <strong>%(to_email)s</strong>\n"
+"    from  <em>%(support_email_address)s</em>.\n"
+"    "
 msgstr ""
 "\n"
-"Hemos enviado un correo electrónico para activar tu cuenta a <strong>%(to_email)s</strong>\n"
+"Hemos enviado un correo electrónico para activar tu cuenta a <strong>"
+"%(to_email)s</strong>\n"
 "desde <em>%(support_email_address)s</em>.\n"
 "       "
 
-#: rs/templates/login_helpers/verification.html:14
+#: rs/templates/login_helpers/verification.html:13
 msgid ""
 "\n"
-"        Once you receive the email from %(app_name)s, in order to activate "
-"your account, you can either enter the verification code from the\n"
-"        email in the input below, or you can directly click on the "
-"activation link included in the email.\n"
-"        "
+"    Once you receive the email from %(app_name)s, in order to activate your "
+"account, you can either enter the verification code from the\n"
+"    email in the input below, or you can directly click on the activation "
+"link included in the email.\n"
+"    "
 msgstr ""
 "\n"
 "Una vez que has recibido el correo electrónico desde %(app_name)s, para "
@@ -4928,28 +4929,28 @@ msgstr ""
 "el vínculo de activación incluido en el correo electrónico. \n"
 "    "
 
-#: rs/templates/login_helpers/verification.html:23
+#: rs/templates/login_helpers/verification.html:22
 msgid "Username"
 msgstr "Nick"
 
-#: rs/templates/login_helpers/verification.html:26
+#: rs/templates/login_helpers/verification.html:25
 msgid "Verification Code"
 msgstr "Codigo de verificación"
 
-#: rs/templates/login_helpers/verification.html:27
+#: rs/templates/login_helpers/verification.html:26
 msgid "Activate account"
 msgstr "Activar cuenta"
 
-#: rs/templates/login_helpers/verification.html:31
+#: rs/templates/login_helpers/verification.html:30
 msgid ""
 "\n"
-"            Normally you will receive an email in few seconds, but this can "
+"        Normally you will receive an email in few seconds, but this can "
 "sometimes take\n"
-"            up to 15 minutes. If you do not receive an email from us, please "
+"        up to 15 minutes. If you do not receive an email from us, please "
 "check your Spam folder.\n"
-"            If the message from %(app_name)s has been marked as Spam, please "
+"        If the message from %(app_name)s has been marked as Spam, please "
 "mark it as not Spam.\n"
-"        "
+"    "
 msgstr ""
 "\n"
 "Normalmente, recibirás un correo electrónico en pocos segundos, pero a veces "
@@ -4958,12 +4959,12 @@ msgstr ""
 "Spam por favor márcalo como no Spam.\n"
 "    "
 
-#: rs/templates/login_helpers/verification.html:39
+#: rs/templates/login_helpers/verification.html:38
 msgid ""
 "\n"
-"              If you have any problems or suggestions, send us a message at: "
+"          If you have any problems or suggestions, send us a message at: "
 "<strong>%(email)s</strong>.\n"
-"        "
+"    "
 msgstr ""
 "\n"
 "Si tienes algun problema o sugerencia, envíanos un mensaje a: <strong>"

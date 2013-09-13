@@ -111,7 +111,7 @@ urlpatterns = patterns('',
     (r'^rs/store_report_unacceptable_profile/(?P<display_uid>[\w|-]+)/', store_data.store_report_unacceptable_profile),
 
 
-    (r'^rs/ajax/check_verification_and_authorize_user/(?P<username>[\w|-]+)/(?P<secret_verification_code>[\w|-]+)/$',
+    (r'^rs/check_verification_and_authorize_user/(?P<username>[\w|-]+)/(?P<secret_verification_code>[\w|-]+)/$',
      login.check_verification_and_authorize_user),  
     
     (r'^rs/store_send_mail_from_profile_checkbox_no/(?P<to_uid>[\w|-]+)/(?P<captcha_bypass_string>[\w|-]+)/(?P<have_sent_messages_string>[\w|-]+)/$', 
@@ -211,7 +211,7 @@ urlpatterns = patterns('',
     # temporarily reduced the following error message to a warning, until we can come back and cleanup all possible
     # instances in which this URL might be called - it is currently generating too many errors in the log, and masking 
     # other, more serious, error messages.
-    (r'^rs/ajax/report_javascript_error/$', ajax.report_javascript_status, {'logging_function': logging.warning}), 
+    (r'^rs/ajax/report_javascript_error/$', ajax.report_javascript_status, {'logging_function': logging.error}), 
     (r'^rs/ajax/report_javascript_debugging_info/$', ajax.report_javascript_status, {'logging_function': logging.info}),        
     
     # calls for chat functionality

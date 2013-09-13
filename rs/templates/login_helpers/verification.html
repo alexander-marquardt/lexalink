@@ -1,11 +1,13 @@
 {% load i18n %}
-{% if verification_values_dict %}
-    <div id="id-show_verification_dialog_box" style="display:none;">
-        <!-- contains the html that will allow the user to enter in the verification code directly, as opposed to
-             having to click on the link in the email -->
 
-        <p><p>
 
+<div id="id-show_verification_dialog_box" style="display:none;">
+    <!-- contains the html that will allow the user to enter in the verification code directly, as opposed to
+         having to click on the link in the email -->
+
+    <p><p>
+
+    {% if verification_values_dict.verification_email %}
         {% blocktrans with verification_values_dict.verification_email as to_email%}
         We have sent an activation email to <strong>{{ to_email }}</strong>
         from  <em>{{ support_email_address }}</em>.
@@ -15,55 +17,67 @@
         Once you receive the email from {{ app_name }}, in order to activate your account, you can either enter the verification code from the
         email in the input below, or you can directly click on the activation link included in the email.
         {% endblocktrans %}
+    {% endif %}
 
 
-        <form method="POST" class="cl-submit-confirmation-code-form">
-            <input type="text" name="verification_username"
-                   class="cl-default-verification-input-text  cl-standard-textinput-width-px"
-                   maxlength=50 title='{% trans "Username" %}' value="{{ verification_values_dict.verification_username }}" >
-            <input type="text" name="secret_verification_code"
-                   class="cl-default-verification-input-text  cl-standard-textinput-width-px"
-                   maxlength=10 title='{% trans "Verification Code" %}' value="{{ verification_values_dict.secret_verification_code }}">
-            <input class="cl-submit-verification-code-button" type="submit" value='{% trans "Activate account" %}!'>
-        </form>
+    <form method="POST" class="cl-submit-confirmation-code-form">
+        <input type="text" name="verification_username"
+               class="cl-default-verification-input-text  cl-standard-textinput-width-px"
+               maxlength=50 title='{% trans "Username" %}' value="{{ verification_values_dict.verification_username }}" >
+        <input type="text" name="secret_verification_code"
+               class="cl-default-verification-input-text  cl-standard-textinput-width-px"
+               maxlength=10 title='{% trans "Verification Code" %}' value="{{ verification_values_dict.secret_verification_code }}">
+        <input class="cl-submit-verification-code-button" type="submit" value='{% trans "Activate account" %}!'>
+    </form>
+    <div class="cl-warning-text-holder"></div>
 
-        <p><p><em>**
-        {% blocktrans with app_name as app_name %}
-            Normally you will receive an email in few seconds, but this can sometimes take
-            up to 15 minutes. If you do not receive an email from us, please check your Spam folder.
-            If the message from {{ app_name }} has been marked as Spam, please mark it as not Spam.
-        {% endblocktrans %}
-        </em>
+    {% if verification_values_dict.verification_email %}
+    <p><p><em>**
+    {% blocktrans with app_name as app_name %}
+        Normally you will receive an email in few seconds, but this can sometimes take
+        up to 15 minutes. If you do not receive an email from us, please check your Spam folder.
+        If the message from {{ app_name }} has been marked as Spam, please mark it as not Spam.
+    {% endblocktrans %}
+    </em>
+    {% endif %}
 
-        <p><p>
-        {% blocktrans with support_email_address as email%}
-              If you have any problems or suggestions, send us a message at: <strong>{{ email }}</strong>.
-        {% endblocktrans %}
-        <p><p>
-    </div>
+    <p><p>
+    {% blocktrans with support_email_address as email%}
+          If you have any problems or suggestions, send us a message at: <strong>{{ email }}</strong>.
+    {% endblocktrans %}
+    <p><p>
+</div>
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-    function show_default_input_text_prompt($this) {
-        if ($this.val() == "") {
-            $this.addClass("cl-gray-letters-text-prompt");
-            $this.val($this[0].title);
-        }
+function show_default_input_text_prompt($this) {
+    if ($this.val() == "") {
+        $this.addClass("cl-gray-letters-text-prompt");
+        $this.val($this[0].title);
     }
+}
 
-    function remove_default_input_text_prompt($this){
-        if ($this.val() == $this[0].title) {
-            $this.val("");
-        }
-        $this.removeClass("cl-gray-letters-text-prompt");
+function remove_default_input_text_prompt($this){
+    if ($this.val() == $this[0].title) {
+        $this.val("");
     }
+    $this.removeClass("cl-gray-letters-text-prompt");
+}
 
-    function handle_verification_code_input() {
-        // This function will handle the submission of the user profile verification code.
-        // Note: this form element is dynamically added to the DOM, and so we *must* use $(document).on.. as opposed
-        // to selecting the element directly.
+function check_if_input_value_is_valid($this) {
+    if ($this.val() == $this[0].title || $this.val() == '') {
+        return false; // not valid
+    } else {
+        return true; // true, it is valid
+    }
+}
 
+function handle_verification_code_input() {
+    // This function will handle the submission of the user profile verification code.
+    // Note: this form element is dynamically added to the DOM, and so we *must* use $(document).on.. as opposed
+    // to selecting the element directly.
+    try {
         $('#id-show_verification_dialog_box').dialog({
             width: 500,
             modal: true,
@@ -92,41 +106,66 @@
         });
 
         $(document).on('submit', "form.cl-submit-confirmation-code-form", function(e) {
-            var username = $(this).find(".cl-default-verification-input-text[name=username]").val();
-            var secret_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]").val();
-            var submit_verification_code_url = "rs/check_verification_and_authorize_user/" + username + "/" + secret_code + "/";
-            $(this).ajaxSubmit({
-                url: submit_verification_code_url,
-                type: 'get',
-                dataType: "json",
-                clearForm: false,
-                cache: false,
-                success:  function(post_response) {
-                    if ("User_Stored_Redirect_URL" in post_response) {
-                        // redirect to the pased-in URL
-                        self.location = post_response["User_Stored_Redirect_URL"];
-                    } else if ("Incorrect_code" in post_response) {
-                        $(this).after(post_response["Incorrect_code"]);
-                    } else if ("No_info_found" in post_response) {
 
-                    } else {
-                        var readable_object = JSON.stringify(post_response);
-                        var error_html = "handle_verification_code_input - unknown json response: " + readable_object;
-                        report_ajax_error("NA", "NA",  error_html);
-                    }
+            try {
+                $(".cl-warning-text-holder").html(''); // clear any old error message
+                var $username = $(this).find(".cl-default-verification-input-text[name=verification_username]");
+                var $secret_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]");
+                if (check_if_input_value_is_valid($username) && check_if_input_value_is_valid($secret_code)) {
+                    // only attempt submission of username and secret code if it appears that they might be valid
+                    var username = $username.val();
+                    var secret_code = $secret_code.val();
+                    var submit_verification_code_url = "rs/check_verification_and_authorize_user/" + username + "/" + secret_code + "?current_path=" + window.location.pathname;
+                    debugger;
+                    $(this).ajaxSubmit({
+                        url: submit_verification_code_url,
+                        type: 'get',
+                        dataType: "json",
+                        clearForm: false,
+                        cache: false,
+                        success:  function(post_response) {
+                            if ("User_Stored_Redirect_URL" in post_response) {
+                                // redirect to the pased-in URL
+                                self.location = post_response["User_Stored_Redirect_URL"];
+                            } else if ("warning_html" in post_response) {
+                                $(".cl-warning-text-holder").html(post_response["warning_html"]);
+                            } else {
+                                var readable_object = JSON.stringify(post_response);
+                                var error_html = "handle_verification_code_input - unknown json response: " + readable_object;
+                                report_ajax_error("NA", "NA",  error_html);
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            $(".cl-warning-text-holder").html('<strong><span class="cl-warning-text">Error</span></strong>');
+                            var error_html;
+                            if (jqXHR.responseText != undefined) {
+                                error_html = jqXHR.responseText;
+                            } else {
+                                error_html = "handle_verification_code_input - unknown error";
+                            }
+                            report_ajax_error(textStatus, errorThrown, error_html);
+                        }
+                    });
+                } else {
+                    $(".cl-warning-text-holder").html('<strong><span class="cl-warning-text">' +
+                            $('#id-common_translations-invalid-input').html() + '</span></strong>');
                 }
-            });
+            } catch(err) {
+                report_try_catch_error( err, "handle_verification_code_input");
+            }
 
             // prevent normal page navigation upon form submission - this is the same as calling
             // e.preventDefault and e.stopPropagation
             return false;
         });
-
+    } catch(err) {
+        report_try_catch_error( err, "handle_verification_code_input");      
     }
 
-    $(document).ready(function() {
-       handle_verification_code_input();
-    });
+}
 
-    </script>
-{% endif %} 
+$(document).ready(function() {
+   handle_verification_code_input();
+});
+
+</script>
