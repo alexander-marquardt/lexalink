@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-09-13-1726'
+VERSION_ID = '2013-09-13-1947'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
 USE_TIME_STAMPED_STATIC_FILES = False
@@ -47,7 +47,7 @@ ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhe
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
 TESTING_FORTUMO_PAYMENTS = False
-BUILD_STAGING = True # forces upload to staging server as opposed to the real server
+BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 # The following variable reates to the flash/video conference code, which is almost done, but not activated and
 # without any current plans for additional coding hours to get it to release quality. 

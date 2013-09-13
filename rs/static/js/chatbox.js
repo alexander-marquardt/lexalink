@@ -345,7 +345,7 @@ var initJqueryUiChatbox = function($){
 
                             return false;
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox._create.click()");
+                            report_try_catch_error( err, "initJqueryUiChatbox._create.click()", "warning");
                         }
                         return false; // prevent jslint warning
                     })

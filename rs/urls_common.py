@@ -208,11 +208,10 @@ urlpatterns = patterns('',
     (r'^rs/ajax/accept_photo_rules', ajax.accept_photo_rules), 
     (r'^rs/ajax/check_if_photo_rules_to_be_shown', ajax.check_if_photo_rules_to_be_shown), 
     
-    # temporarily reduced the following error message to a warning, until we can come back and cleanup all possible
-    # instances in which this URL might be called - it is currently generating too many errors in the log, and masking 
-    # other, more serious, error messages.
-    (r'^rs/ajax/report_javascript_error/$', ajax.report_javascript_status, {'logging_function': logging.error}), 
-    (r'^rs/ajax/report_javascript_debugging_info/$', ajax.report_javascript_status, {'logging_function': logging.info}),        
+    (r'^rs/ajax/report_javascript_error/critical/$', ajax.report_javascript_status, {'logging_function': logging.critical}),            
+    (r'^rs/ajax/report_javascript_error/error/$', ajax.report_javascript_status, {'logging_function': logging.error}), 
+    (r'^rs/ajax/report_javascript_error/warning/$', ajax.report_javascript_status, {'logging_function': logging.warning}),        
+    (r'^rs/ajax/report_javascript_error/info/$', ajax.report_javascript_status, {'logging_function': logging.info}),        
     
     # calls for chat functionality
     (r'^rs/channel_support/post_message/[\w|-]+/$', channel_support.post_message),

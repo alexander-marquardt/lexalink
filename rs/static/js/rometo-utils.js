@@ -99,15 +99,16 @@ function sufficient_time_has_passed_since_last_search(milliseconds_to_pass) {
 }
 
 
-function report_javascript_error_on_server(status_text) {
+function report_javascript_error_on_server(status_text, warning_level) {
     // This function will POST the given error_text to the server, which will write the message
     // to the error logs.
+    // warning_level: [info, warning, error, critical]
 
     var printTrace = printStackTrace().join("\n\n");
     status_text = status_text + "\n\n" + printTrace;
     $.ajax({
         type: 'post',
-        url:  "/rs/ajax/report_javascript_error/",
+        url:  "/rs/ajax/report_javascript_error/" + warning_level + "/",
         data: {'status_text' : status_text},
         success: function(response) {
         }
@@ -117,20 +118,6 @@ function report_javascript_error_on_server(status_text) {
     //if (debugging_enabled)
         // Disable this alert - is annoying and not currently needed
         //alert("Error: " + status_text);
-}
-
-function report_javascript_debugging_info_on_server(status_text) {
-    // This function will POST the given error_text to the server, which will write the message
-    // to the error logs.
-    if (debugging_enabled) {
-        $.ajax({
-            type: 'post',
-            url:  "/rs/ajax/report_javascript_debugging_info/",
-            data: {'status_text' : status_text},
-            success: function(response) {
-            }
-        });
-    }
 }
 
 
@@ -161,18 +148,23 @@ function rs_set_selector_to_value(selector_id, selected_value) {
     }
 }
 
-function report_try_catch_error(err, calling_function_name) {
+function report_try_catch_error(err, calling_function_name, warning_level) {
+    // make sure warning_level is set to a default value of "error"
+    warning_level = warning_level || "error";
+
     // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
 
     var error_text = "\nTry/Catch Error\nCalling function: " + calling_function_name + "\nError message: " + err.message +  "\n\n" ;
-    report_javascript_error_on_server(error_text);
+    report_javascript_error_on_server(error_text, warning_level);
 }
 
-function report_ajax_error(textStatus, errorThrown, calling_function_name) {
+function report_ajax_error(textStatus, errorThrown, calling_function_name, warning_level) {
+    // make sure warning_level is set to a default value of "error"
+    warning_level = warning_level || "error";
     // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
 
     var error_text = "\nAjax Error\nCalling function: " + calling_function_name + "\ntextStatus: " + textStatus + "\nerrorThrown: " + errorThrown +  "\n\n";
-    report_javascript_error_on_server(error_text);
+    report_javascript_error_on_server(error_text, warning_level);
 }
 
 function show_spinner(object_to_set, object_name, live_static_dir) {

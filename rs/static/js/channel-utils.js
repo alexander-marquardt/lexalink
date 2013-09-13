@@ -391,7 +391,7 @@ var chan_utils = new function () {
                     });
                 }
             } catch(err) {
-                report_try_catch_error( err, "poll_server_for_status_and_new_messages");
+                report_try_catch_error( err, "poll_server_for_status_and_new_messages", "warning");
             }
         };
 
@@ -469,7 +469,7 @@ var chan_utils = new function () {
                 chatboxManager.changeBoxtitle("main", new_main_title);
                 $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
             } catch(err) {
-                report_try_catch_error( err, "execute_go_offline_on_client");
+                report_try_catch_error( err, "execute_go_offline_on_client", "warning");
             }
         };
 
@@ -561,7 +561,7 @@ var chan_utils = new function () {
                     }
                 });
             } catch(err) {
-                report_try_catch_error( err, "create_new_box_entry_on_server");
+                report_try_catch_error( err, "create_new_box_entry_on_server", "warning");
             }
         };
 
