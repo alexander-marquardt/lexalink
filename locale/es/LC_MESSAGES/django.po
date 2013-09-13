@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 18:56-0400\n"
+"POT-Creation-Date: 2013-09-13 18:28-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -99,7 +99,7 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:730 rs/forms.py:1056 rs/login.py:724 rs/messages.py:518
+#: rs/ajax.py:730 rs/forms.py:1056 rs/login.py:734 rs/messages.py:518
 #: rs/rendering.py:417 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -535,10 +535,10 @@ msgid "April"
 msgstr "abril"
 
 #: rs/constants.py:706
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:155
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:354
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:164
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:363
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:853
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:372
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:862
 msgid "May"
 msgstr "mayo"
 
@@ -2324,44 +2324,26 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr "Todos Los Países"
 
-#: rs/login.py:111
-#, python-format
-msgid ""
-"We are unable verify/authorize the account for "
-"%(unable_to_verify_username)s. \n"
-"                This can happen if you have already verified your acount. If "
-"the account %(unable_to_verify_username)s is \n"
-"                yours, then you can directly enter with your \"Nick\" and "
-"your password in the boxes above."
-msgstr ""
-"No podemos verifificar/autorizar la cuenta para "
-"%(unable_to_verify_username)s. Este puede pasar si ya has verificado esta "
-"cuenta una vez. Si la cuenta %(unable_to_verify_username)s es tuya, puedes "
-"entrar directamente con tu \"Nick\" y contraseña en las casillas arriba. "
-
-#: rs/login.py:124
-#, python-format
+#: rs/login.py:114
 msgid ""
 "\n"
 "                Your account has been correctly registered. You can enter "
-"using your username: %(username)s\n"
+"using your username: <strong>%(username)s</strong>\n"
 "                and the password that you entered when you created your "
 "account."
 msgstr ""
 "\n"
 "Tu cuenta ha sido registrada correctamente. Puedes entrar directamente con "
-"tu \"Nick\": %(username)s y la contraseña que elegiste cuando creaste tu "
+"tu Nick: <strong>%(username)s</strong> y la contraseña que elegiste cuando creaste tu "
 "cuenta."
 
-#: rs/login.py:715
-msgid "Invalid code"
-msgstr ""
+#: rs/login.py:727
+msgid "Incorrect code"
+msgstr "Código incorrecto"
 
-#: rs/login.py:720
-msgid ""
-"Verification has expired. Please login with an existing account of signup "
-"for a new account"
-msgstr ""
+#: rs/login.py:730
+msgid "Verification code is invalid or expired"
+msgstr "Código de verificación es inválido o ha caducado"
 
 #: rs/login_utils.py:177
 #, python-format
@@ -2370,6 +2352,7 @@ msgstr ""
 "<strong>Contraseña</strong> no debe tener mas que %(max_len)s carácteres"
 
 #: rs/login_utils.py:189
+#, python-format
 msgid "<strong>Username</strong> must not be more than %(max_len)s characters"
 msgstr "<strong>Nick</strong> no debe tener mas que %(max_len)s carácteres."
 
@@ -2398,11 +2381,15 @@ msgstr "Verificación de tu dirección de correo electrónico"
 #: rs/login_utils.py:613
 #, python-format
 msgid ""
-"To activate your account in %(app_name)s, click on the following link to "
-"verify your request"
+"To activate your account in %(app_name)s, enter the verification code when "
+"prompted,                    or click on the following link."
 msgstr ""
-"Para activar tu cuenta en %(app_name)s, haz clic en el siguiente vínculo "
-"para confirmar tu solicitud"
+"Para activar tu cuenta en %(app_name)s, introduzca el código de verificación "
+"cuando se te solicite, o haz click en el siguiente enlace."
+
+#: rs/login_utils.py:616 rs/templates/login_helpers/verification.html:32
+msgid "Verification code"
+msgstr "Codigo de verificación"
 
 #: rs/login_utils.py:625
 msgid ""
@@ -4332,134 +4319,135 @@ msgid "100 percent free contacts for swingers"
 msgstr "100% gratis - contactos para swingers y parejas liberales"
 
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:39
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:172
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:283
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:437
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:444
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:454
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:461
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:181
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:292
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:446
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:453
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:463
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:470
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:477
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:485
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:493
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:500
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:507
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:514
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:521
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:528
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:535
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:479
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:486
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:494
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:502
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:509
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:516
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:523
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:530
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:537
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:544
 msgid "Oct"
 msgstr "oct"
 
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:46
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:68
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:178
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:185
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:193
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:201
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:290
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:544
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:551
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:558
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:566
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:817
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:69
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:77
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:187
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:194
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:202
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:210
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:299
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:553
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:560
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:567
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:575
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:826
 msgid "Sep"
 msgstr "sep"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:76
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:84
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:92
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:100
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:108
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:209
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:217
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:85
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:93
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:101
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:109
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:117
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:218
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:226
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:234
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:299
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:306
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:314
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:321
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:329
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:337
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:345
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:235
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:243
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:308
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:315
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:323
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:330
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:338
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:346
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:354
 msgid "Aug"
 msgstr "ago"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:116
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:124
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:132
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:140
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:148
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:242
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:248
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:573
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:581
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:588
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:595
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:865
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:870
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:125
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:133
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:141
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:149
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:157
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:251
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:257
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:582
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:590
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:597
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:604
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:874
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:879
 msgid "Jul"
 msgstr "jul"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:163
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:269
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:276
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:875
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:172
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:278
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:285
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:884
 msgid "Jan"
 msgstr "ene"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:255
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:262
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:264
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:271
 msgid "Feb"
 msgstr "feb"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:373
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:380
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:387
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:395
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:403
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:382
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:389
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:396
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:404
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:412
 msgid "Mar"
 msgstr "mar"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:411
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:421
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:429
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:420
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:430
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:438
 msgid "Nov"
 msgstr "nov"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:603
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:610
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:617
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:624
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:632
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:612
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:619
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:626
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:633
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:641
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:649
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:650
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:658
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:666
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:673
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:680
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:687
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:694
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:701
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:708
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:715
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:722
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:729
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:737
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:744
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:751
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:758
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:765
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:772
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:780
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:787
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:667
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:675
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:682
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:689
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:696
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:703
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:710
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:717
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:724
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:731
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:738
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:746
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:753
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:760
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:767
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:774
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:781
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:789
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:796
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:824
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:846
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:805
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:833
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:855
 msgid "Jun"
 msgstr "jun"
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:859
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:868
 msgid "Apr"
 msgstr "abr"
 
@@ -4819,6 +4807,10 @@ msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr "No has escrito un mensaje. Tienes que escribir algo antes de enviar."
 
+#: rs/templates/common_helpers/common_translations.html:12
+msgid "Invalid input"
+msgstr "Entrada no válida"
+
 #: rs/templates/common_helpers/footer.html:39
 msgid "Terms and conditions"
 msgstr "Términos y condiciones de uso"
@@ -4900,12 +4892,13 @@ msgstr "Elegir Sub-Región"
 msgid "Not Defined Yet"
 msgstr "Todavía No Definida"
 
-#: rs/templates/login_helpers/verification.html:8
+#: rs/templates/login_helpers/verification.html:11
+#, python-format
 msgid ""
 "\n"
-"    We have sent an activation email to <strong>%(to_email)s</strong>\n"
-"    from  <em>%(support_email_address)s</em>.\n"
-"    "
+"        We have sent an activation email to <strong>%(to_email)s</strong>\n"
+"        from  <em>%(support_email_address)s</em>.\n"
+"        "
 msgstr ""
 "\n"
 "Hemos enviado un correo electrónico para activar tu cuenta a <strong>"
@@ -4913,14 +4906,15 @@ msgstr ""
 "desde <em>%(support_email_address)s</em>.\n"
 "       "
 
-#: rs/templates/login_helpers/verification.html:13
+#: rs/templates/login_helpers/verification.html:16
+#, python-format
 msgid ""
 "\n"
-"    Once you receive the email from %(app_name)s, in order to activate your "
-"account, you can either enter the verification code from the\n"
-"    email in the input below, or you can directly click on the activation "
-"link included in the email.\n"
-"    "
+"        Once you receive the email from %(app_name)s, in order to activate "
+"your account, you can either enter the verification code from the\n"
+"        email in the input below, or you can directly click on the "
+"activation link included in the email.\n"
+"        "
 msgstr ""
 "\n"
 "Una vez que has recibido el correo electrónico desde %(app_name)s, para "
@@ -4929,19 +4923,20 @@ msgstr ""
 "el vínculo de activación incluido en el correo electrónico. \n"
 "    "
 
-#: rs/templates/login_helpers/verification.html:22
+#: rs/templates/login_helpers/verification.html:26
 msgid "Username"
 msgstr "Nick"
 
-#: rs/templates/login_helpers/verification.html:25
-msgid "Verification Code"
-msgstr "Codigo de verificación"
+#: rs/templates/login_helpers/verification.html:29
+msgid "Code"
+msgstr "Código"
 
-#: rs/templates/login_helpers/verification.html:26
+#: rs/templates/login_helpers/verification.html:35
 msgid "Activate account"
 msgstr "Activar cuenta"
 
-#: rs/templates/login_helpers/verification.html:30
+#: rs/templates/login_helpers/verification.html:43
+#, python-format
 msgid ""
 "\n"
 "        Normally you will receive an email in few seconds, but this can "
@@ -4959,7 +4954,8 @@ msgstr ""
 "Spam por favor márcalo como no Spam.\n"
 "    "
 
-#: rs/templates/login_helpers/verification.html:38
+#: rs/templates/login_helpers/verification.html:52
+#, python-format
 msgid ""
 "\n"
 "          If you have any problems or suggestions, send us a message at: "
@@ -5473,6 +5469,20 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid ""
+#~ "We are unable verify/authorize the account for "
+#~ "%(unable_to_verify_username)s. \n"
+#~ "                This can happen if you have already verified your acount. "
+#~ "If the account %(unable_to_verify_username)s is \n"
+#~ "                yours, then you can directly enter with your \"Nick\" and "
+#~ "your password in the boxes above."
+#~ msgstr ""
+#~ "No podemos verifificar/autorizar la cuenta para "
+#~ "%(unable_to_verify_username)s. Este puede pasar si ya has verificado esta "
+#~ "cuenta una vez. Si la cuenta %(unable_to_verify_username)s es tuya, "
+#~ "puedes entrar directamente con tu \"Nick\" y contraseña en las casillas "
+#~ "arriba. "
 
 #~ msgid "We have sent an activation email to"
 #~ msgstr "Hemos enviado un correo electrónico para activar tu cuenta a"

@@ -104,26 +104,15 @@ def landing_page(request, is_admin_login = False):
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
                                 
         if request.method == 'GET':
-            # the following information is used for telling the user that the emailed link that they have clicked on was unable to be
-            # authorized. 
-            # unable_to_verify_user GET value contains the username that we were unable to find in the authorization info data struct.
-            unable_to_verify_username = request.GET.get('unable_to_verify_user', '') 
-            if (unable_to_verify_username):
-                message_for_client = ugettext("""We are unable verify/authorize the account for %(unable_to_verify_username)s. 
-                This can happen if you have already verified your acount. If the account %(unable_to_verify_username)s is 
-                yours, then you can directly enter with your "Nick" and your password in the boxes above.""") % {
-                'unable_to_verify_username' : unable_to_verify_username}
-            
-                error_list.append(message_for_client)
                 
             verification_values_dict = login_utils.get_verification_vals_from_get(request)
                 
             # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
-            user_already_registered = request.GET.get('already_registered', '') 
+            user_already_registered = request.GET.get('username_already_registered', '') 
             if (user_already_registered):
-                username = request.GET.get('username_email', '') 
+                username = request.GET.get('already_registered_username', '') 
                 message_for_client = ugettext("""
-                Your account has been correctly registered. You can enter using your username: %(username)s
+                Your account has been correctly registered. You can enter using your username: <strong>%(username)s</strong>
                 and the password that you entered when you created your account.""") % {'username' : username}
   
                 error_list.append(message_for_client)   
@@ -555,7 +544,7 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         userobject = q.get()
         if userobject:
             # user is already authorized -- send back to login
-            return ("already_registered", None)       
+            return ("username_already_registered", None)       
         
         # make sure that the user name is not already registered. (this should not happen
         # under normal circumstances, but could possibly happen if someone is hacking our system or if two users have gone through
@@ -719,8 +708,8 @@ def check_verification_and_authorize_user(request):
                     destination_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
             elif store_user_status == "Error":
                 destination_url = "/"
-            elif store_user_status == "already_registered":
-                destination_url = '/?already_registered=True&username_email=%s' % username
+            elif store_user_status == "username_already_registered":
+                destination_url = '/?username_already_registered=True&already_registered_username=%s' % username
             else:
                 destination_url = "/"                
                 error_reporting.log_exception(logging.critical, error_message = "unknown status %s returned from store_new_user_after_verify" % status)   
@@ -738,7 +727,7 @@ def check_verification_and_authorize_user(request):
                 warning_message= ugettext("Incorrect code")
                                  
             elif authorization_status == "No authorization_info":
-                warning_message =  ugettext("Verification is invalid or expired")
+                warning_message =  ugettext("Verification code is invalid or expired")
                                  
             else :
                 error_reporting.log_exception(logging.critical)  

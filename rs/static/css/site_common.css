@@ -455,6 +455,11 @@ table.cl-float-right {
         float: right;
 }
 
+.cl-verification-input td {
+    padding: 5px;
+    font-size: 14px;
+}
+
 .cl-nobold {
     font-weight: normal;
 }

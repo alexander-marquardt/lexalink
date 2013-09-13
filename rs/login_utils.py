@@ -609,9 +609,11 @@ def send_verification_email(currently_displayed_url, username, email_address, se
             subject = ugettext("Verification of your email and registration")  
     
             message_html = u"<p>%s, " % ugettext("Hello %(username)s") % {'username': username}
-            message_html += u"<p>%s:<p>" % \
-                   ugettext("To activate your account in %(app_name)s, click on the following link to verify your request") % \
+            message_html += u"<p>%s<p>" % \
+                   ugettext("To activate your account in %(app_name)s, enter the verification code when prompted, \
+                   or click on the following link.") % \
                    {'app_name' : settings.APP_NAME }
+            message_html += "<p>%s: <strong>%s</strong><p>" % (ugettext("Verification code"), secret_verification_code)
             href = """http://www.%(app_name)s.com%(currently_displayed_url)s?show_verification=true&amp;\
 verification_username=%(username)s&amp;secret_verification_code=%(secret_verification_code)s""" % \
                 {'currently_displayed_url' : currently_displayed_url, 
