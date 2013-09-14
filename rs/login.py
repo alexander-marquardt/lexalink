@@ -197,7 +197,6 @@ def store_authorization_info_and_send_email_wrapper(request, login_dict, encrypt
         dump_login_dict = login_dict.copy()
         # remove the password from the login_dict before pickling it so that we don't have un-encrypted passwords stored in the database.
         dump_login_dict['password'] = "Unencrypted password is not stored - you should be using the encrypted_password field"
-        dump_login_dict['password_verify'] = dump_login_dict['password'] 
         pickle.dump(dump_login_dict, pickled_login_get_dict_fake_file)        
         pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
         (authorization_info_status) = login_utils.store_authorization_info_and_send_email(
@@ -567,8 +566,6 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         # Cleanup the login_dict before passing it in to the UserModel
         if 'login_type' in login_dict:
             del login_dict['login_type']
-        if 'password_verify' in login_dict:
-            del login_dict['password_verify']
         
         # passing in the login_dict to the following declaration will copy the values into the user object.
         userobject = models.UserModel(**login_dict)

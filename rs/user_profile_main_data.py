@@ -67,7 +67,7 @@ class UserSpec():
         else:
             assert(0)
             
-    signup_fields_to_display_in_order =  principal_user_data + ['email_address', 'password', 'password_verify', ]
+    signup_fields_to_display_in_order =  principal_user_data + ['email_address', 'password' ]
     principal_signup_fields =  principal_user_data
     #define fields that will show up in the "simple" search bar on the users main page
     
@@ -349,7 +349,6 @@ class UserSpec():
         
 
     signup_email_address_label_tuple = ugettext_tuple(ugettext('Email Address (Confidential)'))
-    signup_password_verify_label_tuple = ugettext_tuple(ugettext('Verify Password'))
     signup_password_label_tuple = ugettext_tuple(ugettext('Password'))
     signup_username_label_tuple = ugettext_tuple(ugettext('Username (Visible To Others)'))
     
@@ -432,13 +431,7 @@ class UserSpec():
          'choices':      None,
          'options':      [],
          'input_type':   u'password'},
-                         
-        'password_verify': 
-        {'label':        signup_password_verify_label_tuple,
-         'choices':      None,
-         'options':      [],
-         'input_type':   u'password'},
-        
+                        
         'email_address': 
         {'label':        signup_email_address_label_tuple,
          'choices':      None,

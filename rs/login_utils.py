@@ -170,13 +170,10 @@ def error_check_signup_parameters(login_dict, lang_idx):
                 
         if login_dict['password'] == "----":
             error_dict['password'] = u"%s" % constants.ErrorMessages.password_required
-        elif login_dict['password'] != login_dict["password_verify"]:
-            error_dict['password_verify'] = u"%s" % constants.ErrorMessages.passwords_not_match
             
-        if len(login_dict["password_verify"]) > constants.MAX_TEXT_INPUT_LEN:
-            error_dict['password_verify'] = u"%s" % ugettext("<strong>Password</strong> must not be more than %(max_len)s characters") % {
+        if len(login_dict["password"]) > constants.MAX_TEXT_INPUT_LEN:
+            error_dict['password'] = u"%s" % ugettext("<strong>Password</strong> must not be more than %(max_len)s characters") % {
                 'max_len' : constants.MAX_TEXT_INPUT_LEN}
-            
             
         # Verify that the username only contains acceptable characters 
         # This is not really necessary, but prevents people from entering strange names.
