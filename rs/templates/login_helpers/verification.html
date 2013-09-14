@@ -27,7 +27,7 @@
         <td>{{ verification_values_dict.verification_username }}</td>
         <tr>
         <td class="cl-td-right-align"><strong>{% trans "Code" %}:</strong></td>
-        <td><input type="text" name="secret_verification_code"
+        <td><input type="text" name="secret_verification_code"  autocomplete="off"
                class="cl-default-verification-input-text  cl-standard-textinput-width-px"
                maxlength=10 title='{% trans "Verification code" %}' value="{{ verification_values_dict.secret_verification_code }}">
         </td>
@@ -102,6 +102,15 @@ function handle_verification_code_input() {
                 $(".cl-default-verification-input-text").each(function() {
                     show_default_input_text_prompt($(this));
                 });
+
+                $(document).keydown(function(e) {
+                    // if the user presses enter while the modal dialog box is open, consider this the same
+                    // as clicking on the submit button
+                    if (e.keyCode == $.ui.keyCode.ENTER) {
+                        $(this).find("form.cl-submit-confirmation-code-form").trigger('submit');
+                        return false;                        
+                    }
+            })
             }
         }).dialog('close').dialog('open');
 

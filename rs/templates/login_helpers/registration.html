@@ -74,8 +74,8 @@ function show_terms_and_conditions_and_redirect_to_verification(registration_ok_
                 // page, as this indicates that they have accepted the terms. 
                 if (e.keyCode == $.ui.keyCode.ENTER) {
                     redirect_to_verification(registration_ok_dict);
+                    return false;
                 }
-                return false;
             })
         }
     });
