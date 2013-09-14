@@ -42,7 +42,8 @@
 
 <script type="text/javascript">
 
-function show_terms_and_conditions(registration_ok_dict){
+function show_terms_and_conditions_and_redirect_to_verification(registration_ok_dict){
+    // Make theuser accept the terms and conditions before continuing with the registration process.
     $('#id-show_accept_terms_dialog_box').dialog({
         width: 500,
         modal: true,
@@ -109,9 +110,9 @@ function handle_user_registration_form() {
                     if ("Registration_OK" in post_response) {
                         // re-direct to the current page that the user is viewing, but this time they will be shown the
                         // verification dialog box, which they can enter their "verification_code" in order to activate
-                        // t heir account.
+                        // their account.
                         var registration_ok_dict = post_response["Registration_OK"];
-                        show_terms_and_conditions(registration_ok_dict);
+                        show_terms_and_conditions_and_redirect_to_verification(registration_ok_dict);
 
                     } else if ("Registration_Error" in post_response) {
                         registration_errors_dict = post_response["Registration_Error"];
