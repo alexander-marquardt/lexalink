@@ -247,6 +247,8 @@ urlpatterns = patterns('',
     # add an extra logout so that you don't have to be logged in as an admin in order to log out.
     (r'^rs/admin_logout', admin.admin_logout),
     (r'^rs/admin/logout', admin.admin_logout),
+    (r'^rs/admin/login', admin.admin_login),
+    
     (r'^rs/admin/review_public_photos_bookmark/(?P<what_to_show>[\w|-]+)/(?P<bookmark>[\w|-]+)/$',admin.review_photos),
     (r'^rs/admin/review_public_photos/(?P<what_to_show>[\w|-]+)/$',admin.review_photos),
     (r'^rs/admin/review_public_photos/$',admin.review_photos, {'what_to_show':'show_all'}),

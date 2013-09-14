@@ -59,7 +59,12 @@ def admin_logout(request):
         
     return HttpResponse(generated_html) 
     
-
+def admin_login(request):
+    
+    generated_html = "Logged in"
+    return HttpResponse(generated_html)
+    
+    
 def review_photos(request, is_private=False, what_to_show = "show_new", bookmark = ''):
     # this is a maintenance program, that will run through all uploaded photos in the system for
     # easy viewing and maintenance.
