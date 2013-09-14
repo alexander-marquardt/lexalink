@@ -116,13 +116,14 @@ function handle_verification_code_input() {
 
             try {
                 $(".cl-warning-text-holder").html(''); // clear any old error message
+                var allow_empty_code = "{{ verification_values_dict.allow_empty_code }}";
                 var $secret_verification_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]");
-                if (check_if_input_value_is_valid($secret_verification_code)) {
+                if (allow_empty_code || check_if_input_value_is_valid($secret_verification_code)) {
                     // only attempt submission of username and secret code if it appears that they might be valid
                     var username = "{{ verification_values_dict.verification_username }}";
                     var secret_verification_code = $secret_verification_code.val();
                     var submit_verification_code_url = "{% url login.check_verification_and_authorize_user %}" ;
-                    
+
                     $(this).ajaxSubmit({
                         url: submit_verification_code_url,
                         data: {'username': username,

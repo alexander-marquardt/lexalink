@@ -767,6 +767,7 @@ def get_verification_vals_from_get(request):
         verification_vals_dict['verification_username'] = request.GET.get("verification_username", '')
         verification_vals_dict['secret_verification_code'] = request.GET.get("secret_verification_code", '')    
         verification_vals_dict['verification_email'] = request.GET.get("verification_email", '')
+        verification_vals_dict['allow_empty_code'] = request.GET.get("allow_empty_code", '')
            
     return verification_vals_dict
 

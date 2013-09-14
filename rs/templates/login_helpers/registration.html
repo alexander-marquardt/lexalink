@@ -45,8 +45,14 @@
 
 function redirect_to_verification(registration_ok_dict){
     // once thtey have accepted the terms, then we redirect them to the verification page.
+    var empty_code_get_str = '';
+    if ("allow_empty_code" in registration_ok_dict) {
+        // this is used for bypassing the client-side check to ensure that a non-empty value has been
+        // entered into the secret_verification_code input.
+        empty_code_get_str = "&allow_empty_code=true";
+    }
     self.location = window.location.pathname + "?show_verification=true&verification_username="+ registration_ok_dict['username'] +
-        "&verification_email=" + registration_ok_dict['verification_email'];
+        "&verification_email=" + registration_ok_dict['verification_email'] + empty_code_get_str;
 }
 
 function show_terms_and_conditions_and_redirect_to_verification(registration_ok_dict){

@@ -1820,3 +1820,21 @@ def get_why_to_register():
         
         
     return why_to_register
+
+
+def is_exempt_user():
+    
+    # We have a list of users that have extra privileges for setting up accounts and other things.
+    # If the user is logged into a google account, and their google email address matches an email in
+    # this list, then they are "exempt" from  certain restrictions such as inputting password, 
+    # email address, etc.
+    
+    is_privileged = False
+    try:
+        if users.User().email() in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
+            is_privileged = True
+    except:
+        pass
+    
+    return is_privileged
+    

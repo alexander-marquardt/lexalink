@@ -467,17 +467,16 @@ def process_registration(request):
         login_dict['username'] = login_dict['username'].upper()
         username = login_dict['username']
                     
-        try:
-            # setup default email_address and password for administrator testing
-            if login_dict['email_address'] == "----" and users.User().email() in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
-                # for testing and debugging, we allow developers to bypass the check on the email address, and
-                # we just assign their google email address to this field automatically (if it is empty)
-                login_dict['email_address'] = users.User().email()
-                
-            if login_dict['password'] == "----" and users.User().email() in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
-                login_dict['password'] = constants.DEFAULT_PROFILE_PASSWORD
-        except:
-            pass
+        # setup default email_address for develoepr testing
+        if login_dict['email_address'] == "----" and utils.is_exempt_user():
+            # for testing and debugging, we allow developers to bypass the check on the email address, and
+            # we just assign their google email address to this field automatically (if it is empty)
+            login_dict['email_address'] = users.User().email()
+            
+        if login_dict['password'] == "----" and utils.is_exempt_user():
+            # setup default password for developer testing
+            login_dict['password'] = constants.DEFAULT_PROFILE_PASSWORD
+
                     
         # if email address is given, make sure that it is valid
         # remove blank spaces from the email address -- to make it more likely to be acceptable
@@ -510,6 +509,8 @@ def process_registration(request):
             if authorization_info_status == 'OK':
                 response_dict['Registration_OK'] = {'username': username,
                                                     'verification_email' :  email_address}
+                if utils.is_exempt_user():
+                    response_dict['Registration_OK']['allow_empty_code'] = "true"
             else:
                 response_dict['Registration_Error'] = {'message': authorization_info_status}
         else:
@@ -698,6 +699,10 @@ def check_verification_and_authorize_user(request):
         if authorization_info:
             if authorization_info.secret_verification_code != secret_verification_code:
                 authorization_status = "Incorrect code" 
+                if secret_verification_code and utils.is_exempt_user():
+                    # if the secret_verification_code is empty, and this is an exempt (admin) user then
+                    # we continue with the registration process
+                    authorization_status = "Authorization OK"
             else:
                 # secret codes match
                 authorization_status = "Authorization OK" # User has sucessfully authorized their account
