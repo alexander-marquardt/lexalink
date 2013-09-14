@@ -267,6 +267,11 @@
         }).dialog('close').dialog('open');
     }
 
+    function close_dialog_box_for_user_feedback(){
+        if ($('#id-dialog_box_for_user_feedback').is(':data(dialog)')) {
+            $('#id-dialog_box_for_user_feedback').dialog('close');
+        }
+    }
 
 </script>
         

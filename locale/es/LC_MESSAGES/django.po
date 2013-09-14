@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 18:28-0400\n"
+"POT-Creation-Date: 2013-09-13 23:17-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -99,7 +99,7 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:730 rs/forms.py:1056 rs/login.py:734 rs/messages.py:518
+#: rs/ajax.py:730 rs/forms.py:1056 rs/login.py:731 rs/messages.py:518
 #: rs/rendering.py:417 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -620,7 +620,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: rs/email_utils.py:230 rs/email_utils.py:290 rs/email_utils.py:368
-#: rs/email_utils.py:645 rs/login_utils.py:611 rs/login_utils.py:637
+#: rs/email_utils.py:645 rs/login_utils.py:608 rs/login_utils.py:634
 #, python-format
 msgid "Hello %(username)s"
 msgstr "Hola %(username)s"
@@ -657,7 +657,7 @@ msgstr "Sí,estoy seguro que quiero eliminar el perfil de %(username)s"
 msgid "Are you sure you want to eliminate your account?"
 msgstr "¿Estás seguro que quieres eliminar tu perfil?"
 
-#: rs/email_utils.py:300 rs/login_utils.py:483
+#: rs/email_utils.py:300 rs/login_utils.py:480
 msgid "Error - Not authorized"
 msgstr "Error - No autorizado"
 
@@ -2325,6 +2325,7 @@ msgid "All Countries"
 msgstr "Todos Los Países"
 
 #: rs/login.py:114
+#, python-format
 msgid ""
 "\n"
 "                Your account has been correctly registered. You can enter "
@@ -2334,51 +2335,51 @@ msgid ""
 msgstr ""
 "\n"
 "Tu cuenta ha sido registrada correctamente. Puedes entrar directamente con "
-"tu Nick: <strong>%(username)s</strong> y la contraseña que elegiste cuando creaste tu "
-"cuenta."
+"tu Nick: <strong>%(username)s</strong> y la contraseña que elegiste cuando "
+"creaste tu cuenta."
 
-#: rs/login.py:727
+#: rs/login.py:724
 msgid "Incorrect code"
 msgstr "Código incorrecto"
 
-#: rs/login.py:730
+#: rs/login.py:727
 msgid "Verification code is invalid or expired"
 msgstr "Código de verificación es inválido o ha caducado"
 
-#: rs/login_utils.py:177
+#: rs/login_utils.py:175
 #, python-format
 msgid "<strong>Password</strong> must not be more than %(max_len)s characters"
 msgstr ""
 "<strong>Contraseña</strong> no debe tener mas que %(max_len)s carácteres"
 
-#: rs/login_utils.py:189
+#: rs/login_utils.py:186
 #, python-format
 msgid "<strong>Username</strong> must not be more than %(max_len)s characters"
 msgstr "<strong>Nick</strong> no debe tener mas que %(max_len)s carácteres."
 
-#: rs/login_utils.py:199
+#: rs/login_utils.py:196
 #, python-format
 msgid "<strong>%(field_label)s</strong> must be selected"
 msgstr "Tienes que seleccionar <strong>%(field_label)s</strong>"
 
-#: rs/login_utils.py:391
+#: rs/login_utils.py:388
 msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
-#: rs/login_utils.py:454 rs/login_utils.py:486 rs/views.py:402
+#: rs/login_utils.py:451 rs/login_utils.py:483 rs/views.py:402
 msgid "You have exited"
 msgstr "Has salido"
 
-#: rs/login_utils.py:481
+#: rs/login_utils.py:478
 #, python-format
 msgid "Profile %(username)s has already been deleted, or never existed"
 msgstr "El perfil de %(username)s ya ha sido eliminado o no existía"
 
-#: rs/login_utils.py:609
+#: rs/login_utils.py:606
 msgid "Verification of your email and registration"
 msgstr "Verificación de tu dirección de correo electrónico"
 
-#: rs/login_utils.py:613
+#: rs/login_utils.py:610
 #, python-format
 msgid ""
 "To activate your account in %(app_name)s, enter the verification code when "
@@ -2387,11 +2388,11 @@ msgstr ""
 "Para activar tu cuenta en %(app_name)s, introduzca el código de verificación "
 "cuando se te solicite, o haz click en el siguiente enlace."
 
-#: rs/login_utils.py:616 rs/templates/login_helpers/verification.html:32
+#: rs/login_utils.py:613 rs/templates/login_helpers/verification.html:32
 msgid "Verification code"
 msgstr "Codigo de verificación"
 
-#: rs/login_utils.py:625
+#: rs/login_utils.py:622
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
@@ -2399,11 +2400,11 @@ msgstr ""
 "Si al hacer clic en el vínculo parece que no funciona, cópialo y pégalo en "
 "una ventana nueva del navegador"
 
-#: rs/login_utils.py:636
+#: rs/login_utils.py:633
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:639
+#: rs/login_utils.py:636
 #, python-format
 msgid ""
 "\n"
@@ -2417,7 +2418,7 @@ msgstr ""
 "que ya tienes una cuenta registrada. Si deseas registrar una cuenta nueva, "
 "por favor, elimina la cuenta vieja. "
 
-#: rs/login_utils.py:688
+#: rs/login_utils.py:685
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2428,7 +2429,7 @@ msgstr ""
 "enviar otro a la misma cuenta hasta mañana - por favor registrate con otro "
 "correo electrónico."
 
-#: rs/login_utils.py:719
+#: rs/login_utils.py:716
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -3813,114 +3814,110 @@ msgid "Email Address (Confidential)"
 msgstr "Correo&nbsp;Electrónico&nbsp;(Confidencial)"
 
 #: rs/user_profile_main_data.py:352
-msgid "Verify Password"
-msgstr "Verificar&nbsp;Contraseña"
-
-#: rs/user_profile_main_data.py:353
 msgid "Password"
 msgstr "Contraseña"
 
-#: rs/user_profile_main_data.py:354
+#: rs/user_profile_main_data.py:353
 msgid "Username (Visible To Others)"
 msgstr "Nick&nbsp;/&nbsp;Nombre&nbsp;(Visible&nbsp;A&nbsp;Otros)"
 
-#: rs/user_profile_main_data.py:357
+#: rs/user_profile_main_data.py:356
 msgid "I Am"
 msgstr "Soy"
 
-#: rs/user_profile_main_data.py:358
+#: rs/user_profile_main_data.py:357
 msgid "My Age"
 msgstr "Mi Edad"
 
-#: rs/user_profile_main_data.py:360
+#: rs/user_profile_main_data.py:359
 msgid "I Am / We Are"
 msgstr "Soy / Somos"
 
-#: rs/user_profile_main_data.py:361
+#: rs/user_profile_main_data.py:360
 msgid "My / Our Age (Average)"
 msgstr "Mi / Nuestra Edad (Promedia)"
 
-#: rs/user_profile_main_data.py:364
+#: rs/user_profile_main_data.py:363
 msgid "Sub Region"
 msgstr "Sub&nbsp;Región"
 
-#: rs/user_profile_main_data.py:365 rs/user_profile_main_data.py:551
+#: rs/user_profile_main_data.py:364 rs/user_profile_main_data.py:544
 msgid "Region"
 msgstr "Región"
 
-#: rs/user_profile_main_data.py:368
+#: rs/user_profile_main_data.py:367
 msgid "My Relationship Status"
 msgstr "Mi&nbsp;Estado&nbsp;Actual"
 
-#: rs/user_profile_main_data.py:370
+#: rs/user_profile_main_data.py:369
 msgid "My / Our Relationship Status"
 msgstr "Mi / Nuestro Estado"
 
-#: rs/user_profile_main_data.py:372
+#: rs/user_profile_main_data.py:371
 msgid "Type Of Relationship"
 msgstr "Tipo&nbsp;De&nbsp;Relación"
 
-#: rs/user_profile_main_data.py:374 rs/user_profile_main_data.py:581
+#: rs/user_profile_main_data.py:373 rs/user_profile_main_data.py:574
 msgid "Language That I Want To Practice"
 msgstr "Quiero&nbsp;Practicar"
 
-#: rs/user_profile_main_data.py:375
+#: rs/user_profile_main_data.py:374
 msgid "My Native Language"
 msgstr "Mi&nbsp;Idioma&nbsp;Materno"
 
-#: rs/user_profile_main_data.py:550
+#: rs/user_profile_main_data.py:543
 msgid "Country"
 msgstr "País"
 
-#: rs/user_profile_main_data.py:552
+#: rs/user_profile_main_data.py:545
 msgid "Sub region"
 msgstr "Sub&nbsp;región"
 
-#: rs/user_profile_main_data.py:553
+#: rs/user_profile_main_data.py:546
 msgid "Sex"
 msgstr "Sexo"
 
-#: rs/user_profile_main_data.py:554 rs/user_profile_main_data.py:584
+#: rs/user_profile_main_data.py:547 rs/user_profile_main_data.py:577
 msgid "Age"
 msgstr "Edad"
 
-#: rs/user_profile_main_data.py:555 rs/user_profile_main_data.py:585
+#: rs/user_profile_main_data.py:548 rs/user_profile_main_data.py:578
 msgid "Order"
 msgstr "Ordenar"
 
-#: rs/user_profile_main_data.py:558
+#: rs/user_profile_main_data.py:551
 msgid "I Would Like To See"
 msgstr "Yo&nbsp;Quiero&nbsp;Ver"
 
-#: rs/user_profile_main_data.py:560
+#: rs/user_profile_main_data.py:553
 msgid "That Are Interested In"
 msgstr "Que&nbsp;Están&nbsp;Buscando"
 
-#: rs/user_profile_main_data.py:562
+#: rs/user_profile_main_data.py:555
 msgid "That Prefer"
 msgstr "Que&nbsp;Prefieren"
 
-#: rs/user_profile_main_data.py:563
+#: rs/user_profile_main_data.py:556
 msgid "Their Age"
 msgstr "Su&nbsp;Edad"
 
-#: rs/user_profile_main_data.py:565
+#: rs/user_profile_main_data.py:558
 msgid "Relationship Status"
 msgstr "Estado"
 
-#: rs/user_profile_main_data.py:567
+#: rs/user_profile_main_data.py:560
 msgid "Looking For"
 msgstr "Busco A"
 
-#: rs/user_profile_main_data.py:582
+#: rs/user_profile_main_data.py:575
 msgid "In Exchange For (I Speak)"
 msgstr "A&nbsp;Cambio&nbsp;De&nbsp;(Yo&nbsp;Hablo)"
 
-#: rs/user_profile_main_data.py:583
+#: rs/user_profile_main_data.py:576
 msgid "With People That Are"
 msgstr "Con&nbsp;Personas&nbsp;Que&nbsp;Son"
 
-#: rs/user_profile_main_data.py:715 rs/user_profile_main_data.py:716
+#: rs/user_profile_main_data.py:708 rs/user_profile_main_data.py:709
 msgid "Any Language"
 msgstr "Cualquier&nbsp;idioma"
 
@@ -4867,27 +4864,31 @@ msgstr ""
 "Afirmo que tengo %(age)s años y que he leído y acepto los términos y "
 "condiciones de uso y la política de privacidad de %(app_name)s"
 
-#: rs/templates/login_helpers/registration.html:20
+#: rs/templates/login_helpers/registration.html:10
+msgid "I agree"
+msgstr "Estoy de acuerdo"
+
+#: rs/templates/login_helpers/registration.html:21
 msgid "Register here"
 msgstr "Regístrate aquí"
 
-#: rs/templates/login_helpers/registration.html:23
+#: rs/templates/login_helpers/registration.html:24
 msgid "it only takes 30 seconds"
 msgstr "en 30 segundos está hecho"
 
-#: rs/templates/login_helpers/registration.html:32
+#: rs/templates/login_helpers/registration.html:33
 msgid " Register me"
 msgstr "Me Registro"
 
-#: rs/templates/login_helpers/registration.html:48
+#: rs/templates/login_helpers/registration.html:68
 msgid "Select Region"
 msgstr "Elegir Región"
 
-#: rs/templates/login_helpers/registration.html:49
+#: rs/templates/login_helpers/registration.html:69
 msgid "Select Sub-Region"
 msgstr "Elegir Sub-Región"
 
-#: rs/templates/login_helpers/registration.html:50
+#: rs/templates/login_helpers/registration.html:70
 #: rs/templates/user_main_helpers/search_inline_javascript.html:42
 msgid "Not Defined Yet"
 msgstr "Todavía No Definida"
@@ -5469,6 +5470,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "Verify Password"
+#~ msgstr "Verificar&nbsp;Contraseña"
 
 #~ msgid ""
 #~ "We are unable verify/authorize the account for "

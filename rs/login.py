@@ -97,7 +97,6 @@ def landing_page(request, is_admin_login = False):
         error_list = [] # used for containing error messages to be presented to user in a friendly format
         login_type = '' # default value required for first pass, since no request has yet taken place
         login_dict = None
-        html_for_posted_values = ''
 
         verification_values_dict = None
         
@@ -140,7 +139,6 @@ def landing_page(request, is_admin_login = False):
             'LANGUAGES' : settings.LANGUAGES,                
             'html_for_signup': html_for_signup,
             'login_type' : login_type, 
-            'html_for_previously_posted_values' : html_for_posted_values,
             'is_admin_login': is_admin_login,
             'maintenance_soon_warning': maintenance_soon_warning,
             'maintenance_shutdown_warning': maintenance_shutdown_warning,
