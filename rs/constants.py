@@ -742,9 +742,6 @@ else:
     
 admin_address = sender_address
 
-# Add the support email address as an "exempt" (admin) email address - if these email addresses are used for registering an account
-# then limits on the number of accounts that can be registered per email address will be ignored.
-REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET.add(support_email_address)
 
 ## END Administrator/Site Email Addresses
 ###################################################

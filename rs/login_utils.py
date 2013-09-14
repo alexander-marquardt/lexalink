@@ -690,7 +690,8 @@ def store_authorization_info_and_send_email(currently_displayed_url, username, e
         
         ip_address_registration_count = check_authorization_info_for_ip_address_registrations_today(creation_day, ip_address)
         if ip_address_registration_count >= constants.MAX_REGISTRATIONS_SINGLE_IP and \
-           ip_address not in constants.REGISTRATION_EXEMPT_IP_ADDRESS_SET:
+           ip_address not in constants.REGISTRATION_EXEMPT_IP_ADDRESS_SET and \
+           email_address not in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
             error_message="Exceeded registrations allowed on IP: %s" % (ip_address)
             error_reporting.log_exception(logging.critical, error_message=error_message)  
             email_utils.send_admin_alert_email(error_message, subject="%s - IP %s registration exceeded" % (settings.APP_NAME, ip_address))

@@ -1,15 +1,16 @@
 {% load i18n %}
 
+
+<div class="cl-show_accept_terms_dialog_box" style="display:none;">
+    {% blocktrans with app_name as app_name and minimum_registration_age as age %}
+    I confirm that I am {{ age }} or older and that I have read and accept the <a class="cl-dialog_anchor"
+    href="/en/rs/terms/" target="_blank"> terms and conditions</a> for using {{ app_name }}
+    {% endblocktrans %}
+    <br><br><div class="cl-center-text"><input type="button" value='{% trans "I agree" %}' class="cl-accept-terms"></div>
+</div>
+        
 <!-- The form submission does not have an "action" because we use javascript for the form submission -->
 <form method=POST id="id-submit-signup-form">
-
-    <div id="id-show_accept_terms_dialog_box" style="display:none;">
-        {% blocktrans with app_name as app_name and minimum_registration_age as age %}
-        I confirm that I am {{ age }} or older and that I have read and accept the <a class="cl-dialog_anchor"
-        href="/en/rs/terms/" target="_blank"> terms and conditions</a> for using {{ app_name }}
-        {% endblocktrans %}
-        <br><br><div class="cl-center-text"><input type="button" value='{% trans "I agree" %}' class="cl-accept-terms"></div>
-    </div>
 
     <input type=hidden name=login_type value=signup_fields>
 
@@ -42,9 +43,15 @@
 
 <script type="text/javascript">
 
+function redirect_to_verification(registration_ok_dict){
+    // once thtey have accepted the terms, then we redirect them to the verification page.
+    self.location = window.location.pathname + "?show_verification=true&verification_username="+ registration_ok_dict['username'] +
+        "&verification_email=" + registration_ok_dict['verification_email'];
+}
+
 function show_terms_and_conditions_and_redirect_to_verification(registration_ok_dict){
     // Make theuser accept the terms and conditions before continuing with the registration process.
-    $('#id-show_accept_terms_dialog_box').dialog({
+    $('.cl-show_accept_terms_dialog_box').dialog({
         width: 500,
         modal: true,
         position: {
@@ -54,9 +61,15 @@ function show_terms_and_conditions_and_redirect_to_verification(registration_ok_
         open: function(event, ui) {
             $(".cl-accept-terms").button();
             $(document).on('click', ".cl-accept-terms", function() {
-                // once thtey have accepted the terms, then we redirect them to the verification page.
-                self.location = window.location.pathname + "?show_verification=true&verification_username="+ registration_ok_dict['username'] +
-                                "&verification_email=" + registration_ok_dict['verification_email'];
+                redirect_to_verification(registration_ok_dict);
+            });
+            $(document).keydown(function(e) {
+                // if the user presses enter while the modal dialog box is open, then redirect to the verification
+                // page, as this indicates that they have accepted the terms. 
+                if (e.keyCode == $.ui.keyCode.ENTER) {
+                    redirect_to_verification(registration_ok_dict);
+                }
+                return false;
             })
         }
     });

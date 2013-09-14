@@ -28,6 +28,9 @@
 import uuid
 import settings
 import logging, StringIO, pickle, datetime, os
+
+from google.appengine.api import users
+
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
 from rs import store_data, channel_support, lang_settings
 from rs import models, error_reporting, messages
@@ -464,12 +467,25 @@ def process_registration(request):
         login_dict['username'] = login_dict['username'].upper()
         username = login_dict['username']
                     
+        try:
+            # setup default email_address and password for administrator testing
+            if login_dict['email_address'] == "----" and users.User().email() in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
+                # for testing and debugging, we allow developers to bypass the check on the email address, and
+                # we just assign their google email address to this field automatically (if it is empty)
+                login_dict['email_address'] = users.User().email()
+                
+            if login_dict['password'] == "----" and users.User().email() in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
+                login_dict['password'] = constants.DEFAULT_PROFILE_PASSWORD
+        except:
+            pass
+                    
         # if email address is given, make sure that it is valid
         # remove blank spaces from the email address -- to make it more likely to be acceptable
         login_dict['email_address'] = login_dict['email_address'].replace(' ', '')
         login_dict['email_address'] = login_dict['email_address'].lower()
         email_address =  login_dict['email_address']
-        
+            
+
         (error_dict) = login_utils.error_check_signup_parameters(login_dict, lang_idx)
         
         # Now check if username is already taken
