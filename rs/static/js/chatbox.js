@@ -748,7 +748,7 @@ var chatboxManager = function() {
                 }
                 
             } catch(err) {
-                report_try_catch_error( err, "initJqueryUiChatbox.resize_boxes_if_necessary()");
+                report_try_catch_error( err, "initJqueryUiChatbox.resize_boxes_if_necessary()", "warning");
             }
         };
 
@@ -1029,7 +1029,7 @@ var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
             chan_utils.initialize_main_and_group_boxes_on_server();
         }
     } catch(err) {
-        report_try_catch_error( err, "setupContactsAndGroupsBoxes");
+        report_try_catch_error( err, "setupContactsAndGroupsBoxes", "warning");
     }
 };
 

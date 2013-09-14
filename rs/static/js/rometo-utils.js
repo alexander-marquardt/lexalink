@@ -150,7 +150,7 @@ function rs_set_selector_to_value(selector_id, selected_value) {
 
 function report_try_catch_error(err, calling_function_name, warning_level) {
     // make sure warning_level is set to a default value of "error"
-    warning_level = warning_level || "error";
+    warning_level = warning_level || "warning";
 
     // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
 
@@ -160,7 +160,7 @@ function report_try_catch_error(err, calling_function_name, warning_level) {
 
 function report_ajax_error(textStatus, errorThrown, calling_function_name, warning_level) {
     // make sure warning_level is set to a default value of "error"
-    warning_level = warning_level || "error";
+    warning_level = warning_level || "warning";
     // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
 
     var error_text = "\nAjax Error\nCalling function: " + calling_function_name + "\ntextStatus: " + textStatus + "\nerrorThrown: " + errorThrown +  "\n\n";
@@ -937,7 +937,13 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                 }
                 $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + error_string + '!<br></div>');
                 reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
-                report_ajax_error(textStatus, errorThrown, "submit_send_mail");
+                var warning_level;
+                if (errorThrown == "timeout") {
+                    warning_level = "warning"
+                } else {
+                    warning_level = "error"
+                }
+                report_ajax_error(textStatus, errorThrown, "submit_send_mail", warning_level);
             }
         });
     } catch(err) {

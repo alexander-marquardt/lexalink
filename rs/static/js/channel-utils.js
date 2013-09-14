@@ -503,7 +503,7 @@ var chan_utils = new function () {
                 catch_window_resize_events();
                 
             } catch(err) {
-                report_try_catch_error( err, "execute_go_online_on_client");
+                report_try_catch_error( err, "execute_go_online_on_client", "warning");
             }
         };
 
@@ -669,7 +669,7 @@ var chan_utils = new function () {
             try {
                 poll_server_for_status_and_new_messages();
             } catch(err) {
-                report_try_catch_error( err, "call_poll_server_for_status_and_new_messages");
+                report_try_catch_error( err, "call_poll_server_for_status_and_new_messages", "warning");
             }
         };
 
