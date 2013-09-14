@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 23:17-0400\n"
+"POT-Creation-Date: 2013-09-13 23:53-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -99,7 +99,7 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:730 rs/forms.py:1056 rs/login.py:731 rs/messages.py:518
+#: rs/ajax.py:730 rs/forms.py:1056 rs/login.py:729 rs/messages.py:518
 #: rs/rendering.py:417 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
@@ -2324,7 +2324,7 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr "Todos Los Países"
 
-#: rs/login.py:114
+#: rs/login.py:113
 #, python-format
 msgid ""
 "\n"
@@ -2338,11 +2338,11 @@ msgstr ""
 "tu Nick: <strong>%(username)s</strong> y la contraseña que elegiste cuando "
 "creaste tu cuenta."
 
-#: rs/login.py:724
+#: rs/login.py:722
 msgid "Incorrect code"
 msgstr "Código incorrecto"
 
-#: rs/login.py:727
+#: rs/login.py:725
 msgid "Verification code is invalid or expired"
 msgstr "Código de verificación es inválido o ha caducado"
 
@@ -4857,38 +4857,41 @@ msgstr "Entrar"
 msgid ""
 "\n"
 "        I confirm that I am %(age)s or older and that I have read and accept "
-"the terms and conditions for using %(app_name)s\n"
+"the <a class=\"cl-dialog_anchor\"\n"
+"        href=\"/en/rs/terms/\" target=\"_blank\"> terms and conditions</a> "
+"for using %(app_name)s\n"
 "        "
 msgstr ""
 "\n"
-"Afirmo que tengo %(age)s años y que he leído y acepto los términos y "
-"condiciones de uso y la política de privacidad de %(app_name)s"
+"Afirmo que tengo %(age)s años y que he leído y acepto los <a class=\"cl-"
+"dialog_anchor\" href=\"/es/rs/terms/\" target=\"_blank\"> términos y "
+"condiciones</a> de uso de %(app_name)s"
 
-#: rs/templates/login_helpers/registration.html:10
+#: rs/templates/login_helpers/registration.html:11
 msgid "I agree"
 msgstr "Estoy de acuerdo"
 
-#: rs/templates/login_helpers/registration.html:21
+#: rs/templates/login_helpers/registration.html:22
 msgid "Register here"
 msgstr "Regístrate aquí"
 
-#: rs/templates/login_helpers/registration.html:24
+#: rs/templates/login_helpers/registration.html:25
 msgid "it only takes 30 seconds"
 msgstr "en 30 segundos está hecho"
 
-#: rs/templates/login_helpers/registration.html:33
+#: rs/templates/login_helpers/registration.html:34
 msgid " Register me"
 msgstr "Me Registro"
 
-#: rs/templates/login_helpers/registration.html:68
+#: rs/templates/login_helpers/registration.html:69
 msgid "Select Region"
 msgstr "Elegir Región"
 
-#: rs/templates/login_helpers/registration.html:69
+#: rs/templates/login_helpers/registration.html:70
 msgid "Select Sub-Region"
 msgstr "Elegir Sub-Región"
 
-#: rs/templates/login_helpers/registration.html:70
+#: rs/templates/login_helpers/registration.html:71
 #: rs/templates/user_main_helpers/search_inline_javascript.html:42
 msgid "Not Defined Yet"
 msgstr "Todavía No Definida"
@@ -4933,8 +4936,8 @@ msgid "Code"
 msgstr "Código"
 
 #: rs/templates/login_helpers/verification.html:35
-msgid "Activate account"
-msgstr "Activar cuenta"
+msgid "Activate account!"
+msgstr "¡Activar cuenta!"
 
 #: rs/templates/login_helpers/verification.html:43
 #, python-format
