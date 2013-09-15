@@ -17,8 +17,8 @@ way to fit your requirements.
  * background which contains the left side of the image.
  */
 
-#rs-nav {padding:0; margin:0; list-style:none; height:24px;  position:relative; z-index:500; font-family:arial, verdana, sans-serif;}
-#rs-nav li {position:relative; z-index:200;}
+#rs-nav {padding:0; margin:0; list-style:none; height:24px;  position:relative; z-index:50; font-family:arial, verdana, sans-serif;}
+#rs-nav li {position:relative; z-index:20;}
 #rs-nav li.top {display:block; float:left; height:20px; }
 #rs-nav li.top-right {display:block; float:right; height:20px; }
 #rs-nav li span.no_link {text-decoration:none; font-size:13px; font-weight:bold; line-height:22px; padding:0 24px 0 6px;}
@@ -30,7 +30,7 @@ way to fit your requirements.
 /* Default list styling */
 /* The following rule moves the sub-menus way off the screen (ie. hidden) so that they will not be seen until the menu is clicked.  */
 #rs-nav li ul
-{position:absolute; left:-9999px; top:-9999px; padding:3px; border-width: 0px 2px 2px 2px; border-style: solid; white-space:nowrap; width:180px; height:auto; list-style:none; z-index:300;}
+{position:absolute; left:-9999px; top:-9999px; padding:3px; border-width: 0px 2px 2px 2px; border-style: solid; white-space:nowrap; width:180px; height:auto; list-style:none; z-index:30;}
 
 #rs-nav li ul.cl-show_sub
 {left:1px; top:24px;}
@@ -42,7 +42,7 @@ way to fit your requirements.
 {display:block; font-size:13px; height:18px; width:178px; line-height:18px; text-indent:5px; text-decoration:none; }
 
 #rs-nav li ul.cl-show_sub ul.cl-show_sub
-{left:180px; top:-4px; padding:3px; white-space:nowrap; width:180px; z-index:400; height:auto;}
+{left:180px; top:-4px; padding:3px; white-space:nowrap; width:180px; z-index:40; height:auto;}
 
 
 
