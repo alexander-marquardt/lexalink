@@ -26,7 +26,7 @@
 ################################################################################
 -->
 
-        
+<div id="id-navigation-menu">
 <ul id="rs-nav">
     {% if text_override_for_navigation_bar %}
         <li class="top">
@@ -57,7 +57,7 @@
                 {% endif %}
                 </span></a>
                 <ul class="sub">
-			        <li>
+                    <li>
                         <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
                             {% trans "All (messages - override)" %}
                         </a>
@@ -125,7 +125,7 @@
         {% endif %}
     {% endif %}
 </ul>  
-
+</div>
 
 {% include "user_main_helpers/test_vip_benefits_dialog.html" %}
 

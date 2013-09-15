@@ -43,116 +43,107 @@ $(document).ready(function() {
 </script>
 
     <!-- Space for the navigation buttons-->
-    <div class="cl-clear" id="id-debugging-main-1a"></div>
     <div class="grid_12 cl-content-background">
     {% include "user_main_helpers/menubar.html" %}
-    </div>
     <!-- end .grid_12 navigation container-->
 
 
-    {% if search_bar %}
+        {% if search_bar %}
         <!-- the following code is used for displaying the search bar. -->
         <div class="cl-clear" id="id-debugging-main-1b"></div>
-        <div class="grid_12 cl-center-text cl-content-background">
+        <div class="cl-center-text">
             <div id="id-search-container" class="cl-center-text cl-gray-box">
                 {% include "user_main_helpers/simple_search_form.html" %}
             </div>
             <!-- end searchcontainer-->
         </div>
         <!-- end grid12 omega -->
-    {% endif %}
+        {% endif %}
 
 
         <!-- the following contains the main window, where search results and other information will be
-    displayed to the user -->
-        <div class="cl-clear" id="id-debugging-main-2"></div>
-        <div class="grid_12 cl-content-background">
-            <div class="grid_custom cl-grid_760px alpha omega">
-                <div class="grid_9 cl-prefix_40px alpha omega" id="id-main-content-div">
+             displayed to the user -->
+        <div class="grid_custom cl-grid_760px alpha omega">
+            <div class="grid_9 cl-prefix_40px alpha omega" id="id-main-content-div">
 
-                    <!-- the following will print a warning to enable JS, if it is not enabled. If JS is
-          working, then this warning will be removed by the JS -->
-                    <noscript>
-                        <div id="id-only-show-if-no-js" class="cl-color-text cl-center-text">
-                            <br><br>
-                            <strong>{% trans "You must enable JavaScript to view this page" %}!</strong>
-                            <br><br>
-                        </div>
-                    </noscript>
-
-                    {% if general_information_data_fields.settings_debug_flag %}
-                        <div class="cl-color-text cl-center-text">
-                            <strong>Django DEBUG enabled!!!!</strong>
-                        </div>
-                    {% endif %}
-
-                    {% ifequal live_static_dir "rs/static" %}
-                        <div class="cl-color-text cl-center-text">
-                            <strong>Accessing non time-stamped static files - this is not suitable for live version!!!!</strong>
-                        </div>
-                    {% endifequal %}
-
-
-
-                    {% if general_information_data_fields.maintenance_soon_warning %}
-                        {{ general_information_data_fields.maintenance_soon_warning|safe }}
-                    {% endif %}
-
-                    {% if general_information_data_fields.maintenance_shutdown_warning %}
-                        {{ general_information_data_fields.maintenance_shutdown_warning|safe }}
-
-                    {% else %}
-                        {% if generated_html %}
-                            {{ generated_html|safe }}
-                        {% endif %}
-
-
-                        {% if guest_user_data_fields.show_social_buttons %}
-                            <div class="grid_9 alpha omega  cl-center-text">
-                            {% include "common_helpers/facebook_like.html" %}
-                            <br><br>
-                            </div>
-
-                        {% endif %}
-
-                        {% if guest_user_data_fields.why_to_register %}
-                            <div class="cl-clear" id="id-debugging-main-3"></div>
-                            <div class="grid_9 alpha omega cl-divider-line"></div>
-                            <br>{{ guest_user_data_fields.unregistered_user_welcome_text|safe }}
-                            <br>{{ guest_user_data_fields.why_to_register|safe }}
-                            <div class="cl-clear"></div>
-                        {% endif %}
-                    {% endif %}
-
-                    {% if guest_user_data_fields.registered_user_bool %}
-                    <br><br>
-                    <div class="grid_9 alpha omega cl-divider-line"></div>
-                    <div class="grid_9 alpha omega">
-                        {% include "user_main_helpers/become_a_vip.html" %}
+                <!-- the following will print a warning to enable JS, if it is not enabled. If JS is
+      working, then this warning will be removed by the JS -->
+                <noscript>
+                    <div id="id-only-show-if-no-js" class="cl-color-text cl-center-text">
+                        <br><br>
+                        <strong>{% trans "You must enable JavaScript to view this page" %}!</strong>
+                        <br><br>
                     </div>
+                </noscript>
+
+                {% if general_information_data_fields.settings_debug_flag %}
+                    <div class="cl-color-text cl-center-text">
+                        <strong>Django DEBUG enabled!!!!</strong>
+                    </div>
+                {% endif %}
+
+                {% ifequal live_static_dir "rs/static" %}
+                    <div class="cl-color-text cl-center-text">
+                        <strong>Accessing non time-stamped static files - this is not suitable for live version!!!!</strong>
+                    </div>
+                {% endifequal %}
+
+
+
+                {% if general_information_data_fields.maintenance_soon_warning %}
+                    {{ general_information_data_fields.maintenance_soon_warning|safe }}
+                {% endif %}
+
+                {% if general_information_data_fields.maintenance_shutdown_warning %}
+                    {{ general_information_data_fields.maintenance_shutdown_warning|safe }}
+
+                {% else %}
+                    {% if generated_html %}
+                        {{ generated_html|safe }}
                     {% endif %}
 
 
+                    {% if guest_user_data_fields.show_social_buttons %}
+                        <div class="grid_9 alpha omega  cl-center-text">
+                        {% include "common_helpers/facebook_like.html" %}
+                        <br><br>
+                        </div>
+
+                    {% endif %}
+
+                    {% if guest_user_data_fields.why_to_register %}
+                        <div class="cl-clear" id="id-debugging-main-3"></div>
+                        <div class="grid_9 alpha omega cl-divider-line"></div>
+                        <br>{{ guest_user_data_fields.unregistered_user_welcome_text|safe }}
+                        <br>{{ guest_user_data_fields.why_to_register|safe }}
+                        <div class="cl-clear"></div>
+                    {% endif %}
+                {% endif %}
+
+                {% if guest_user_data_fields.registered_user_bool %}
+                <br><br>
+                <div class="grid_9 alpha omega cl-divider-line"></div>
+                <div class="grid_9 alpha omega">
+                    {% include "user_main_helpers/become_a_vip.html" %}
                 </div>
-                <!-- end .grid_9 id-main-content-div -->
+                {% endif %}
+
+
+            </div>
+            <!-- end .grid_9 id-main-content-div -->
 
 
 
-                <div class="cl-clear" id="id-debugging-main-4"></div>
-                {% include "advertising/horizontal_ad.html" %}
-            </div> <!-- end grid_custom -->
+            <div class="cl-clear" id="id-debugging-main-4"></div>
+            {% include "advertising/horizontal_ad.html" %}
+        </div> <!-- end grid_custom -->
 
 
-            {% include "advertising/sidebar.html" %}
+        {% include "advertising/sidebar.html" %}
 
 
-        </div>
-        <!-- end .grid_12 -->
-
-
-
-        <div class="cl-clear" id="id-debugging-main-5"></div>
         {% include "common_helpers/footer.html" %}
+    </div> <!-- end cl-content-background  -->
 
         
     <div class="grid_12 cl-height_100px" id="id-height_chatbox_override"><br></div><!-- extra space so that footer is not covered by chatboxes -->
