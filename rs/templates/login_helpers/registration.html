@@ -55,7 +55,9 @@ function redirect_to_verification(registration_ok_dict){
         "&verification_email=" + registration_ok_dict['verification_email'] + empty_code_get_str;
 }
 
-function show_terms_and_conditions_and_redirect_to_verification(registration_ok_dict){
+var terms_and_conditions_have_been_accepted =  false;
+
+function show_terms_and_conditions() {
     // Make theuser accept the terms and conditions before continuing with the registration process.
     $('.cl-show_accept_terms_dialog_box').dialog({
         width: 500,
@@ -65,20 +67,21 @@ function show_terms_and_conditions_and_redirect_to_verification(registration_ok_
             at: "center"
         },
         open: function(event, ui) {
+
+            // remove focus from the links in the dialog box, otherwise when the user presses enter the
+            // link is opened.
+            $('.ui-dialog a').blur();
+            
             $(".cl-accept-terms").button();
             $(document).on('click', ".cl-accept-terms", function() {
-                redirect_to_verification(registration_ok_dict);
-            });
-            $(document).keydown(function(e) {
-                // if the user presses enter while the modal dialog box is open, then redirect to the verification
-                // page, as this indicates that they have accepted the terms. 
-                if (e.keyCode == $.ui.keyCode.ENTER) {
-                    redirect_to_verification(registration_ok_dict);
-                    return false;
-                }
+                terms_and_conditions_have_been_accepted = true;
+                $(this).closest(".ui-dialog-content").dialog("close");
+                // trigger a submit on the  the form since we interrupted the previous submission
+                // with this dialog box.
+                $("#id-submit-signup-form").submit();
             })
         }
-    });
+    })
 }
 
 
@@ -108,55 +111,61 @@ function handle_location_changes() {
 function handle_user_registration_form() {
 
     try {
+        $('#id-submit-signup-button').button();
         $("#id-submit-signup-form").submit(function(e) {
 
-            close_dialog_box_for_user_feedback();
-            // prevent double clicks from being processed.
-            $('#id-submit-signup-button').attr('disabled', 'disabled');
+            if (!terms_and_conditions_have_been_accepted) {
+                show_terms_and_conditions();
+            }
+            else {
+                close_dialog_box_for_user_feedback();
+                // prevent double clicks from being processed.
+                $('#id-submit-signup-button').attr('disabled', 'disabled');
 
-            clear_both_registration_and_login_fields_errors();
+                clear_both_registration_and_login_fields_errors();
 
-            var submit_signup_form_url = "{% url login.process_registration %}";
-            $(this).ajaxSubmit({
-                url: submit_signup_form_url,
-                data: {'currently_displayed_url' : window.location.pathname},
-                dataType: "json",
-                clearForm: false,
-                cache: false,
-                success:  function(post_response) {
-                    $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
+                var submit_signup_form_url = "{% url login.process_registration %}";
+                $(this).ajaxSubmit({
+                    url: submit_signup_form_url,
+                    data: {'currently_displayed_url' : window.location.pathname},
+                    dataType: "json",
+                    clearForm: false,
+                    cache: false,
+                    success:  function(post_response) {
+                        $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
 
-                    if ("Registration_OK" in post_response) {
-                        // re-direct to the current page that the user is viewing, but this time they will be shown the
-                        // verification dialog box, which they can enter their "verification_code" in order to activate
-                        // their account.
-                        var registration_ok_dict = post_response["Registration_OK"];
-                        show_terms_and_conditions_and_redirect_to_verification(registration_ok_dict);
+                        if ("Registration_OK" in post_response) {
+                            // re-direct to the current page that the user is viewing, but this time they will be shown the
+                            // verification dialog box, which they can enter their "verification_code" in order to activate
+                            // their account.
+                            var registration_ok_dict = post_response["Registration_OK"];
+                            redirect_to_verification(registration_ok_dict);
 
-                    } else if ("Registration_Error" in post_response) {
-                        registration_errors_dict = post_response["Registration_Error"];
-                        show_fields_errors("signup_fields", registration_errors_dict, '');
+                        } else if ("Registration_Error" in post_response) {
+                            registration_errors_dict = post_response["Registration_Error"];
+                            show_fields_errors("signup_fields", registration_errors_dict, '');
 
-                    } else {
-                        var readable_object = JSON.stringify(post_response);
-                        var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
-                        report_ajax_error("NA", error_html, "handle_user_registration_form - success", "error");
-                        show_fields_errors("signup_fields", [], error_html);
+                        } else {
+                            var readable_object = JSON.stringify(post_response);
+                            var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
+                            report_ajax_error("NA", error_html, "handle_user_registration_form - success", "error");
+                            show_fields_errors("signup_fields", [], error_html);
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
+
+                        var error_html;
+                        if (jqXHR.responseText != undefined) {
+                            error_html = jqXHR.responseText;
+                        } else {
+                            error_html = "handle_user_registration_form - unknown error";
+                        }
+                        show_fields_errors("login_fields", [], error_html);
+                        report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - error", "error");
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
-                    
-                    var error_html;
-                    if (jqXHR.responseText != undefined) {
-                        error_html = jqXHR.responseText;
-                    } else {
-                        error_html = "handle_user_registration_form - unknown error";
-                    }
-                    show_fields_errors("login_fields", [], error_html);
-                    report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - error", "error");
-                }
-            });
+                });
+            }
             // prevent normal page navigation upon form submission - this is the same as calling
             // e.preventDefault and e.stopPropagation
             return false;
