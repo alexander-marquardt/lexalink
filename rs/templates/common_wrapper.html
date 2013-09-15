@@ -36,12 +36,8 @@
 
         // check if we are running an old version of IE (before version 8.0)
         var lt_ie8 = false;
-        var rmsie = /(msie) ([\w.]+)/;
-        //var rchrome_frame = /chromeframe/;
-        var useragent_lower_case = navigator.userAgent.toLowerCase();
-        var lt_ie8_match = rmsie.exec(useragent_lower_case);
+
         var remove_chatboxes = false;
-        //var chrome_frame_match = rchrome_frame.exec(useragent_lower_case);
 
         var href = location.href;
         var pathname = location.pathname;
@@ -59,6 +55,11 @@
 
 
     </script>
+    <!--[if lt IE 8]>
+      <script type="text/javascript">
+        var lt_ie8=true;
+      </script>
+    <![endif]-->
 
     <!-- force check to see if page has been updated -->
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
