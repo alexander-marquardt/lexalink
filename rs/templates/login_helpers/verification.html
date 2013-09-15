@@ -95,22 +95,14 @@ function handle_verification_code_input() {
             open: function(event, ui) {
                 // By default jquery-ui puts the cursor in the first input inside the dialog.
                 // We do not want this default behaviour.
-                // Make sure that the cursor is not inide the input box so that the user will see
+                // Make sure that the cursor is not inside the input box so that the user will see
                 // the text indicating that this is where they need to enter the verification code.
                 $("input.cl-default-verification-input-text").blur();
                 $(".cl-submit-verification-code-button").button();
                 $(".cl-default-verification-input-text").each(function() {
                     show_default_input_text_prompt($(this));
-                });
 
-                $(document).keydown(function(e) {
-                    // if the user presses enter while the modal dialog box is open, consider this the same
-                    // as clicking on the submit button
-                    if (e.keyCode == $.ui.keyCode.ENTER) {
-                        $(this).find("form.cl-submit-confirmation-code-form").trigger('submit');
-                        return false;                        
-                    }
-            })
+                });
             }
         }).dialog('close').dialog('open');
 
@@ -123,11 +115,17 @@ function handle_verification_code_input() {
 
         $(document).on('submit', "form.cl-submit-confirmation-code-form", function(e) {
 
+
             try {
                 $(".cl-warning-text-holder").html(''); // clear any old error message
                 var allow_empty_code = "{{ verification_values_dict.allow_empty_code }}";
                 var $secret_verification_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]");
+
                 if (allow_empty_code || check_if_input_value_is_valid($secret_verification_code)) {
+                    // prevent double clicks from being processed.
+                    var $this_submit = $(this).find(':submit');
+                    $this_submit.attr('disabled', 'disabled');
+
                     // only attempt submission of username and secret code if it appears that they might be valid
                     var username = "{{ verification_values_dict.verification_username }}";
                     var secret_verification_code = $secret_verification_code.val();
@@ -142,6 +140,7 @@ function handle_verification_code_input() {
                         clearForm: false,
                         cache: false,
                         success:  function(post_response) {
+                            $this_submit.removeAttr('disabled'); // re-enable click on submit
                             if ("User_Stored_Redirect_URL" in post_response) {
                                 // redirect to the pased-in URL
                                 self.location = post_response["User_Stored_Redirect_URL"];
@@ -154,6 +153,7 @@ function handle_verification_code_input() {
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
+                            $this_submit.removeAttr('disabled'); // re-enable click on submit
                             $(".cl-warning-text-holder").html('<strong><span class="cl-warning-text">Error</span></strong>');
                             var error_html = "handle_verification_code_input - unknown error - see logs";
                             report_ajax_error(textStatus, errorThrown, "handle_verification_code_input - error", "error");

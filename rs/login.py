@@ -699,9 +699,12 @@ def check_verification_and_authorize_user(request):
         if authorization_info:
             if authorization_info.secret_verification_code != secret_verification_code:
                 authorization_status = "Incorrect code" 
-                if secret_verification_code and utils.is_exempt_user():
-                    # if the secret_verification_code is empty, and this is an exempt (admin) user then
-                    # we continue with the registration process
+                if utils.is_exempt_user() and not secret_verification_code:
+                    # If this is an exempt (admin) user and he has left the input empty, then for testing
+                    # purposes, we continue with the registration process. Note: that in order to submit an "empty"
+                    # string from the client side, the user must actually press the Enter key inside the text box -
+                    # otherwise if the user presses the submit button, then the text box will contain the text 
+                    # "Verification code" which will not work.
                     authorization_status = "Authorization OK"
             else:
                 # secret codes match
