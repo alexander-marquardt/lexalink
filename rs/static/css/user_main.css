@@ -194,6 +194,10 @@ td.cl-photo-options-label-td
 	padding-right: 10px;
 }
 
+table.cl-alternate-row-colors tr:nth-child(even) {
+    background-color: #eee;
+}
+
 
 .cl-photo-img 
 { 

@@ -189,7 +189,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             batch = q.fetch(PAGESIZE + 1)
         
             generated_html += """
-            <table>
+            <table class="cl-alternate-row-colors">
             <tr>""" 
     
             num_in_current_row = 0
