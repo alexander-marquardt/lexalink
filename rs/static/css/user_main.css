@@ -190,12 +190,29 @@ td.cl-photo-options-label-td
 	text-align: right;
 	padding-right: 10px;
 }
+
+
 .cl-photo-img 
 { 
 	vertical-align: middle;
 	margin-right: auto;
 	margin-left: auto;
 }
+
+td.cl-td-photo-review-cell
+{
+	vertical-align: bottom;
+	margin-right: auto;
+	margin-left: auto;
+    border: 1px solid #bbb;
+    border-bottom: 8px solid #bbb;
+    padding: 5px;
+}
+
+table.cl-no-margin {
+    margin: 0;
+}
+
 td.cl-mark_conversation-td 
 {
 	vertical-align: top;

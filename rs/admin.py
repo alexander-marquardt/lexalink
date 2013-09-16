@@ -93,7 +93,6 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         num_photos_marked_private = 0
         num_photos_approved = 0
         num_photos_reviewed = 0
-        num_photos_unapproved = 0
     
         if request.method == 'POST': 
             
@@ -172,8 +171,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         generated_html += 'Deleted %d photos<br>\n' % num_photos_deleted
         generated_html += 'Marked private %d photos<br>\n' % num_photos_marked_private
         generated_html += 'Approved %d photos<br>\n' % num_photos_approved
-        generated_html += 'Reviewed %d photos<br><br><br>\n' % num_photos_reviewed
-        generated_html += 'Un-Approved %d photos<br>\n' % num_photos_unapproved
+        generated_html += 'Reviewed %d photos<br>\n' % num_photos_reviewed
         
         # since we use this function for both deleting/approving, as well as displaying the photos -- we need a "final" pass
         # to process prviously marked photos -- this is indicated by the "final_pass" bookmark.
@@ -226,15 +224,18 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
                     fancybox_title = "Admin view - these un-reviewed photos should *not* have watermarks"
                     status_html += '<span style="color:red">Not Reviewed</span><br>'
                 
-                generated_html += '<td>%s<br><a href="%s">%s</a><br>%s<br>' % (status_html, profile_href, photo_parentobject.username, 
-                                                                         creation_datetime_formatted)
-                
-                generated_html += """<table><tr><td class = "img_min_height"><a class="%s" rel=%s href="%s" title="%s"><img class = "%s" src = "%s"><br></td></tr></table>\n""" % (
+                generated_html += '<td class="cl-td-photo-review-cell">%s' % (status_html)
+
+                generated_html += """<table class="cl-no-margin"><tr><td class = "cl-bottom">
+                <a class = "%s" rel=%s href="%s" title="%s">
+                <img src = "%s"><br></td></tr></table>\n""" % (
                     "cl-fancybox-profile-gallery", "cl-gallery1", 
-                    url_for_large_photo, fancybox_title, 'cl-photo-img', url_for_photo)        
+                    url_for_large_photo, fancybox_title, url_for_photo)        
                 
-                
+                generated_html += '%s<br>' % creation_datetime_formatted
+                generated_html += """<a href="%s">%s</a><br>""" % (profile_href, photo_parentobject.username,)
                 generated_html += '<input type = "checkbox" name=delete_photo value="%s"> Delete <br>\n' %( photo_object_key_str)
+                
                 
                 if not is_private:
                     # it is marked as "public"
@@ -302,11 +303,6 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             </form><br>\n"""
           
         post_footer_html += """    
-        <style type="text/css">
-        .img_min_height {
-        height: %(image_height)spx;
-        }   
-        </style>
         
         <script type="text/javascript">
         $(document).ready(function() {
@@ -317,6 +313,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             
         html_to_render = continue_html + post_header_html + generated_html + post_footer_html
     
+
         user = users.get_current_user()
         
         if user:
@@ -325,6 +322,13 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             html_to_render += '<a href=/rs/admin/review_private_photos/show_all/>Review all private photos</a><br>\n'       
             html_to_render += '<a href=/rs/admin/review_private_photos/show_new/>Review new private photos</a><br>\n'       
             html_to_render += '<br>Welcome %s: <a href=\"%s\">sign out</a><br><br><br>' % (user.nickname(), users.create_logout_url("/"))
+            
+            # show the photo rules for the current site to the administrator, so they don't forget    
+            template = loader.get_template("user_main_helpers/photo_rules.html")
+            context = Context(constants.template_common_fields)
+            photo_rules_html = "%s" % template.render(context)
+            html_to_render += photo_rules_html    
+                    
             
             for build_name in constants.app_name_dict.keys():
                 domain_name = constants.domain_name_dict[build_name]
@@ -335,14 +339,8 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         else:
             html_to_render = "Error: user not logged in!!!!"
             
-        # show the photo rules for the current site to the administrator, so they don't forget    
-        template = loader.get_template("user_main_helpers/photo_rules.html")
+
         
-        
-        context = Context(constants.template_common_fields)
-        photo_rules_html = "<br><br>%s" % template.render(context)
-        
-        html_to_render += photo_rules_html
         return  rendering.render_main_html(request, html_to_render, show_search_box = False, enable_ads = False,)
     
     except:
