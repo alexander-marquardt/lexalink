@@ -464,7 +464,7 @@ def process_registration(request):
         
         # re-write all user names to upper-case to prevent confusion
         # and amateur users from not being able to log in.
-        login_dict['username'] = login_dict['username'].upper()
+        login_dict['username'] = login_dict['username'].upper().replace(' ', '')
         username = login_dict['username']
                     
         # setup default email_address for develoepr testing
@@ -685,6 +685,10 @@ def check_verification_and_authorize_user(request):
         username = request.POST.get("username", None)
         secret_verification_code = request.POST.get("secret_verification_code", None)
         current_path = request.POST.get("current_path", None)
+        
+        # remove spaces from verificaiton code - if use copies and pastes it incorrectly
+        # it might have a space before or after.
+        secret_verification_code = secret_verification_code.replace(' ' , '')
         
         if current_path:
             locale, path = localeurl_utils.strip_path(current_path)  
