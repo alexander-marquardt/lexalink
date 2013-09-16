@@ -565,6 +565,11 @@ td.cl-registration-big-prompt-td {
         background-color: transparent;
 }
 
+/* change default search border button since it is on a black background it needs to be darker */
+.cl-search-button {
+    border: 1px solid #999;
+}
+
 
 .cl-highlight_border {
     border: solid 3px #FF0000;
