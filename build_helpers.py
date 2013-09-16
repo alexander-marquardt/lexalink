@@ -302,29 +302,8 @@ def setup_my_local_environment():
             shutil.copytree(pwd + "/rs/proprietary/static/img/gay_build_menubar/", site_configuration.LIVE_STATIC_DIR + "/img/gay_build_menubar/")
             copy_file_to_folder(pwd + "/rs/proprietary/static/js/*", site_configuration.LIVE_STATIC_DIR + "/js/")
         
-        # Modify the jquery.fancybox file so that AlphaImageLoader files use the correct path to the
-        # image files -- this is necessary because relative paths do not work correctly inside of the AlphaImageLoader call
-        alpha_image_loader_pattern = re.compile(r'(.*)(rs/static/img)(.*)')
-        orig = site_configuration.LIVE_STATIC_DIR + "/css/jquery.fancybox-1.3.4.css"
-        modified = src + ".new"
-        orig_file = codecs.open(orig, encoding='ascii')
-        modified_file = codecs.open(modified, 'w', encoding='ascii')
-        for line in orig_file:
-            match_alpha_image_loader_pattern = alpha_image_loader_pattern.match(line)
-            if match_alpha_image_loader_pattern:
-                modified_file.write("%s%s%s\n" % (match_alpha_image_loader_pattern.group(1),
-                                             site_configuration.LIVE_STATIC_DIR + "/img", 
-                                             match_alpha_image_loader_pattern.group(3)))
-            else:
-                modified_file.write(line)
-                
-        orig_file.close()
-        modified_file.close()
-        
-        # over-write the source file since it is no longer needed, and was a copy of the original anyway
-        # move the destination over the source
-        shutil.move(modified, orig)
-        
+                        
+  
         
 def generate_time_stamped_static_files():   
     # create the "combined" css and js files 
