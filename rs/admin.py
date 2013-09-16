@@ -38,7 +38,7 @@ from django.utils.translation import ugettext
 import settings 
 
 import error_reporting, logging
-import models, utils, sharding, constants, store_data, login_utils
+import models, utils, sharding, constants, store_data, login_utils, rendering
 from rs import profile_utils
 
 from django.http import HttpResponseRedirect
@@ -73,8 +73,8 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
     try:
         PhotoModel = models.PhotoModel
             
-        PAGESIZE = 16 # total number of photos per page (how many to fetch in the query)
-        PAGEWIDTH = 8 # number of photos per row
+        PAGESIZE = 24 # total number of photos per page (how many to fetch in the query)
+        PAGEWIDTH = 6 # number of photos per row
         
         continue_html =  generated_html = post_footer_html = post_header_html = ''
            
@@ -295,33 +295,25 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
                 # deletion, this call can be to either the private or the public photos code.
                 href = "/rs/admin/review_private_photos_bookmark/%s/final_pass/" % (what_to_show)
                 
-                
-            post_header_html = """
-            <head>
-            <style type="text/css">
-            .img_min_height {
-            height: %(image_height)spx;
-            }
-            </style>
-            <link rel="stylesheet" href="/%(live_static_dir)s/css/jquery.fancybox-1.3.4.css" type="text/css" media="screen">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-            <script type="text/javascript" src="/%(live_static_dir)s/js/rometo-utils.js"></script>
     
-            <script type="text/javascript" src="/%(live_static_dir)s/js/jquery.fancybox-1.3.4.js"></script>
-    
-            <script type="text/javascript">
-            $(document).ready(function() {
-            fancybox_setup($("a.cl-fancybox-profile-gallery"));
-            });
-            </script>
-            </head>
-            """ % {'live_static_dir': settings.LIVE_STATIC_DIR, 'image_height' : constants.MEDIUM_IMAGE_Y}
-    
-            post_header_html += '<form method = "POST" action = "%s">' % href
+            post_header_html = '<form method = "POST" action = "%s">' % href
             post_footer_html = """
             <input type=submit  alt="" value="Process Marked Photos">
             </form><br>\n"""
           
+        post_footer_html += """    
+        <style type="text/css">
+        .img_min_height {
+        height: %(image_height)spx;
+        }   
+        </style>
+        
+        <script type="text/javascript">
+        $(document).ready(function() {
+        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+        });
+        </script>
+        """ % {'image_height' : constants.MEDIUM_IMAGE_Y}
             
         html_to_render = continue_html + post_header_html + generated_html + post_footer_html
     
@@ -345,10 +337,14 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             
         # show the photo rules for the current site to the administrator, so they don't forget    
         template = loader.get_template("user_main_helpers/photo_rules.html")
+        
+        
         context = Context(constants.template_common_fields)
         photo_rules_html = "<br><br>%s" % template.render(context)
         
         html_to_render += photo_rules_html
+        return  rendering.render_main_html(request, html_to_render, show_search_box = False, enable_ads = False,)
+    
     except:
         error_reporting.log_exception(logging.critical)  
         html_to_render = "Critical error - check logs"
