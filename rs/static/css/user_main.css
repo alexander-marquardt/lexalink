@@ -52,7 +52,10 @@ table#id-search-table, table#id-search-by-name-table
 	margin-bottom: 0px;
 	margin-left: auto;
 	margin-right: auto;
+}
 
+table#id-search-table td {
+    padding: 3px;
 }
 
 .cl-refine-search {
