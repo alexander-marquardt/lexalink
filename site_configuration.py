@@ -29,10 +29,10 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-09-16-2000'
+VERSION_ID = '2013-09-16-2339'
 
 # The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_TIME_STAMPED_STATIC_FILES = True
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 

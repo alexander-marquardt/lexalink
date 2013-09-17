@@ -442,6 +442,7 @@ class UserSpec():
     
     
     if settings.BUILD_NAME != 'language_build' and settings.BUILD_NAME != "friend_build":
+        
         custom_signup_fields =  {            
 
             # At some point in the future, this could (possibly) be made into a checkbox, so as to allow
@@ -468,6 +469,7 @@ class UserSpec():
     
     else:
         if settings.BUILD_NAME == 'language_build':
+            
             custom_signup_fields = {
                 
                 'important_languages_list': 
