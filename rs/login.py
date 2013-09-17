@@ -686,6 +686,8 @@ def check_verification_and_authorize_user(request):
         secret_verification_code = request.POST.get("secret_verification_code", None)
         current_path = request.POST.get("current_path", None)
         
+        logging.info("username: %s entered code: %s" % (username, secret_verification_code))
+        
         # remove spaces from verificaiton code - if use copies and pastes it incorrectly
         # it might have a space before or after.
         secret_verification_code = secret_verification_code.replace(' ' , '')
