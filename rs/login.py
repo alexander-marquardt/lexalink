@@ -97,7 +97,7 @@ def landing_page(request, is_admin_login = False):
     
     try:
                 
-        error_list = [] # used for containing error messages to be presented to user in a friendly format
+        error_dict = {} # used for containing error messages to be presented to user in a friendly format
         login_type = '' # default value required for first pass, since no request has yet taken place
         login_dict = None
 
@@ -117,7 +117,7 @@ def landing_page(request, is_admin_login = False):
                 Your account has been correctly registered. You can enter using your username: <strong>%(username)s</strong>
                 and the password that you entered when you created your account.""") % {'username' : username}
   
-                error_list.append(message_for_client)   
+                error_dict['already_registered_username'] = message_for_client
                                     
         # The following two calls generate the table rows required for displaying the login
         # note that this is a reference to the class, *not* to an instance (object) of the class. This is because
@@ -138,6 +138,8 @@ def landing_page(request, is_admin_login = False):
         meta_info['keywords_description'] =  meta_info['page_title']
         
         my_template = template.loader.get_template('landing_page.html')
+        
+        error_dict_json =  simplejson.dumps(error_dict)
         context = template.Context (dict({   
             'LANGUAGES' : settings.LANGUAGES,                
             'html_for_signup': html_for_signup,
@@ -146,7 +148,7 @@ def landing_page(request, is_admin_login = False):
             'maintenance_soon_warning': maintenance_soon_warning,
             'maintenance_shutdown_warning': maintenance_shutdown_warning,
             'link_to_hide': 'login',
-            'errors': error_list,
+            'error_dict_json': error_dict_json,
             'minimum_registration_age' : constants.minimum_registration_age,
             'request' : request,
             'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,

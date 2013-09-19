@@ -90,9 +90,7 @@
             </div>
 
 
-            <div id="id-over-image" class="grid_6">{% include "login_helpers/landing_page_errors.html" %}</div>
-
-
+            <div id="id-over-image" class="grid_6"></div>
 
             <div class="grid_6 alpha cl-center-text cl-text-large-format cl-login-text">
                 <br><br>
@@ -184,8 +182,6 @@
 
 <script type="text/javascript">
 
-    var login_errors_dict = [];
-    var registration_errors_dict = [];
 
 
     $(document).ready(function() {
@@ -208,13 +204,18 @@
         }
 
 
-
         $("#id-enter_guest").button();
         $("#id-enter_guest").addClass('cl-enter_guest-flash');
         $("#id-enter_guest").removeClass('cl-enter_guest-flash', 5000);
         $("#id-enter_guest").addClass('cl-enter_guest-flash', 2000);
         $("#id-enter_guest").removeClass('cl-enter_guest-flash', 2000);
 
+
+        var errors_dict = {{ error_dict_json|safe }};
+        if (! $.isEmptyObject(errors_dict)) {
+            var forgot_password_html = '<div class="cl-right-text"><a class="cl-dialog_anchor" href="{% url reset_password %}">{% trans "Have you forgotten your password?" %}</a></div>';
+            show_fields_errors("field_type-NA", errors_dict, forgot_password_html);
+        }
     });
 
 

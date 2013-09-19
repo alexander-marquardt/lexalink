@@ -43,143 +43,146 @@
 
 <script type="text/javascript">
 
-function redirect_to_verification(registration_ok_dict){
-    // once thtey have accepted the terms, then we redirect them to the verification page.
-    var empty_code_get_str = '';
-    if ("allow_empty_code" in registration_ok_dict) {
-        // this is used for bypassing the client-side check to ensure that a non-empty value has been
-        // entered into the secret_verification_code input.
-        empty_code_get_str = "&allow_empty_code=true";
-    }
-    self.location = window.location.pathname + "?show_verification=true&verification_username="+ registration_ok_dict['username'] +
-        "&verification_email=" + registration_ok_dict['verification_email'] + empty_code_get_str;
-}
+    var registration_errors_dict = [];
+    var terms_and_conditions_have_been_accepted =  false;
+        
 
-var terms_and_conditions_have_been_accepted =  false;
-
-function show_terms_and_conditions() {
-    // Make theuser accept the terms and conditions before continuing with the registration process.
-    $('.cl-show_accept_terms_dialog_box').dialog({
-        width: 500,
-        modal: true,
-        position: {
-            my: "center",
-            at: "center"
-        },
-        open: function(event, ui) {
-
-            // remove focus from the links in the dialog box, otherwise when the user presses enter the
-            // link is opened.
-            $('.ui-dialog a').blur();
-            
-            $(".cl-accept-terms").button();
-            $(document).on('click', ".cl-accept-terms", function() {
-                terms_and_conditions_have_been_accepted = true;
-                $(this).closest(".ui-dialog-content").dialog("close");
-                // trigger a submit on the  the form since we interrupted the previous submission
-                // with this dialog box.
-                $("#id-submit-signup-form").submit();
-            })
+    function redirect_to_verification(registration_ok_dict){
+        // once thtey have accepted the terms, then we redirect them to the verification page.
+        var empty_code_get_str = '';
+        if ("allow_empty_code" in registration_ok_dict) {
+            // this is used for bypassing the client-side check to ensure that a non-empty value has been
+            // entered into the secret_verification_code input.
+            empty_code_get_str = "&allow_empty_code=true";
         }
-    })
-}
-
-
-function handle_location_changes() {
-    // function to expand the locations menu as country and region are selected.
-
-    var default_text = new Object();
-    default_text['region'] = '{% trans "Select Region" %}';
-    default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
-    default_text['not_available'] = '{% trans "Not Defined Yet" %}';
-    var id_prefix = "#id-signup_fields";
-
-    var country_id = id_prefix + "-country";
-    var region_id = id_prefix + "-region";
-    var sub_region_id = id_prefix + "-sub_region";
-
-    $("#id-signup_fields-region").hide();
-    $("#id-signup_fields-sub_region").hide();
-
-
-    load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
-}
-
-
-
-
-function handle_user_registration_form() {
-
-    try {
-        $('#id-submit-signup-button').button();
-        $("#id-submit-signup-form").submit(function(e) {
-
-            if (!terms_and_conditions_have_been_accepted) {
-                show_terms_and_conditions();
-            }
-            else {
-                close_dialog_box_for_user_feedback();
-                // prevent double clicks from being processed.
-                $('#id-submit-signup-button').attr('disabled', 'disabled');
-
-                clear_both_registration_and_login_fields_errors();
-
-                var submit_signup_form_url = "{% url login.process_registration %}";
-                $(this).ajaxSubmit({
-                    url: submit_signup_form_url,
-                    data: {'currently_displayed_url' : window.location.pathname},
-                    dataType: "json",
-                    clearForm: false,
-                    cache: false,
-                    success:  function(post_response) {
-                        $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
-
-                        if ("Registration_OK" in post_response) {
-                            // re-direct to the current page that the user is viewing, but this time they will be shown the
-                            // verification dialog box, which they can enter their "verification_code" in order to activate
-                            // their account.
-                            var registration_ok_dict = post_response["Registration_OK"];
-                            redirect_to_verification(registration_ok_dict);
-
-                        } else if ("Registration_Error" in post_response) {
-                            registration_errors_dict = post_response["Registration_Error"];
-                            show_fields_errors("signup_fields", registration_errors_dict, '');
-
-                        } else {
-                            var readable_object = JSON.stringify(post_response);
-                            var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
-                            report_ajax_error("NA", error_html, "handle_user_registration_form - success", "error");
-                            show_fields_errors("signup_fields", [], error_html);
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
-
-                        var error_html;
-                        if (jqXHR.responseText != undefined) {
-                            error_html = jqXHR.responseText;
-                        } else {
-                            error_html = "handle_user_registration_form - unknown error";
-                        }
-                        show_fields_errors("login_fields", [], error_html);
-                        report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - error", "error");
-                    }
-                });
-            }
-            // prevent normal page navigation upon form submission - this is the same as calling
-            // e.preventDefault and e.stopPropagation
-            return false;
-        });
-    } catch(err) {
-        report_try_catch_error( err, "handle_verification_code_input", "error");
+        self.location = window.location.pathname + "?show_verification=true&verification_username="+ registration_ok_dict['username'] +
+            "&verification_email=" + registration_ok_dict['verification_email'] + empty_code_get_str;
     }
-}
 
-    
-$(document).ready(function() {
-    handle_location_changes();
-    handle_user_registration_form();
-});
+
+    function show_terms_and_conditions() {
+        // Make theuser accept the terms and conditions before continuing with the registration process.
+        $('.cl-show_accept_terms_dialog_box').dialog({
+            width: 500,
+            modal: true,
+            position: {
+                my: "center",
+                at: "center"
+            },
+            open: function(event, ui) {
+
+                // remove focus from the links in the dialog box, otherwise when the user presses enter the
+                // link is opened.
+                $('.ui-dialog a').blur();
+
+                $(".cl-accept-terms").button();
+                $(document).on('click', ".cl-accept-terms", function() {
+                    terms_and_conditions_have_been_accepted = true;
+                    $(this).closest(".ui-dialog-content").dialog("close");
+                    // trigger a submit on the  the form since we interrupted the previous submission
+                    // with this dialog box.
+                    $("#id-submit-signup-form").submit();
+                })
+            }
+        })
+    }
+
+
+    function handle_location_changes() {
+        // function to expand the locations menu as country and region are selected.
+
+        var default_text = new Object();
+        default_text['region'] = '{% trans "Select Region" %}';
+        default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
+        default_text['not_available'] = '{% trans "Not Defined Yet" %}';
+        var id_prefix = "#id-signup_fields";
+
+        var country_id = id_prefix + "-country";
+        var region_id = id_prefix + "-region";
+        var sub_region_id = id_prefix + "-sub_region";
+
+        $("#id-signup_fields-region").hide();
+        $("#id-signup_fields-sub_region").hide();
+
+
+        load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
+    }
+
+
+
+
+    function handle_user_registration_form() {
+
+        try {
+            $('#id-submit-signup-button').button();
+            $("#id-submit-signup-form").submit(function(e) {
+
+                if (!terms_and_conditions_have_been_accepted) {
+                    show_terms_and_conditions();
+                }
+                else {
+                    close_dialog_box_for_user_feedback();
+                    // prevent double clicks from being processed.
+                    $('#id-submit-signup-button').attr('disabled', 'disabled');
+
+                    clear_both_registration_and_login_fields_errors();
+
+                    var submit_signup_form_url = "{% url login.process_registration %}";
+                    $(this).ajaxSubmit({
+                        url: submit_signup_form_url,
+                        data: {'currently_displayed_url' : window.location.pathname},
+                        dataType: "json",
+                        clearForm: false,
+                        cache: false,
+                        success:  function(post_response) {
+                            $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
+
+                            if ("Registration_OK" in post_response) {
+                                // re-direct to the current page that the user is viewing, but this time they will be shown the
+                                // verification dialog box, which they can enter their "verification_code" in order to activate
+                                // their account.
+                                var registration_ok_dict = post_response["Registration_OK"];
+                                redirect_to_verification(registration_ok_dict);
+
+                            } else if ("Registration_Error" in post_response) {
+                                registration_errors_dict = post_response["Registration_Error"];
+                                show_fields_errors("signup_fields", registration_errors_dict, '');
+
+                            } else {
+                                var readable_object = JSON.stringify(post_response);
+                                var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
+                                report_ajax_error("NA", error_html, "handle_user_registration_form - success", "error");
+                                show_fields_errors("signup_fields", [], error_html);
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            $('#id-submit-signup-button').removeAttr('disabled'); // enable submit button
+
+                            var error_html;
+                            if (jqXHR.responseText != undefined) {
+                                error_html = jqXHR.responseText;
+                            } else {
+                                error_html = "handle_user_registration_form - unknown error";
+                            }
+                            show_fields_errors("login_fields", [], error_html);
+                            report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - error", "error");
+                        }
+                    });
+                }
+                // prevent normal page navigation upon form submission - this is the same as calling
+                // e.preventDefault and e.stopPropagation
+                return false;
+            });
+        } catch(err) {
+            report_try_catch_error( err, "handle_verification_code_input", "error");
+        }
+    }
+
+
+    $(document).ready(function() {
+        handle_location_changes();
+        handle_user_registration_form();
+    });
 
 
 </script>
