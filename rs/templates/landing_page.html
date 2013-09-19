@@ -218,54 +218,6 @@
     });
 
 
-    function clear_fields_errors(fields_type, errors_dict) {
-        // fields_type is either signup_fields or login_fields
-
-        for (key in errors_dict) {
-            var input_field_id_selector = "#id-"+ fields_type + "-" + key;
-            $(input_field_id_selector).removeClass("cl-highlight_border");
-        }
-    }
-
-    function clear_both_registration_and_login_fields_errors() {
-            clear_fields_errors("login_fields", login_errors_dict);
-            $("#id-password-prompt").removeClass("cl-highlight_border");
-            $("#id-password-input").removeClass("cl-highlight_border");
-
-            clear_fields_errors("signup_fields" , registration_errors_dict);
-    }
-
-    function show_fields_errors(fields_type, errors_dict, extra_html) {
-        // fields_type is either signup_fields or login_fields
-
-        var error_html = '<ul>';
-        // loop over the objects in the errors_dict
-        for (key in errors_dict) {
-            var input_field_id_selector = "#id-" + fields_type + "-" + key;
-            $(input_field_id_selector).addClass("cl-highlight_border");
-            if (errors_dict[key]) {
-                error_html += '<li class="cl-indent">'+ errors_dict[key];
-            }
-        }
-        error_html += '</ul>';
-        error_html += extra_html;
-        $('#id-dialog_box_for_user_feedback').html(error_html);
-        $('#id-dialog_box_for_user_feedback').dialog({
-            width: 400,
-            modal: false,
-            position: {
-                my: "center",
-                at: "center",
-                of: "#id-over-image"
-            }
-        }).dialog('close').dialog('open');
-    }
-
-    function close_dialog_box_for_user_feedback(){
-        if ($('#id-dialog_box_for_user_feedback').is(':data(dialog)')) {
-            $('#id-dialog_box_for_user_feedback').dialog('close');
-        }
-    }
 
 </script>
         

@@ -1,10 +1,5 @@
 {% load i18n %}
 
-{% if is_admin_login %}
-    <form id="id-login_form" method=POST action="{% url login.admin_process_login %}">
-{% else %}
-    <form id="id-login_form" method=POST action="{% url login.process_login %}">
-{% endif %}
 
         <table id="id-horiz-bar-table"> <!-- outer table -->
             <tr> <!-- container row -->
@@ -27,34 +22,34 @@
                     {% trans "Are you already registered? Enter here:" %}&nbsp;</td>
                 {% endif %}
 
-
                 <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
-                    <input type="text"
+
+                    {% if is_admin_login %}
+                    <form id="id-login_form" method=POST action="{% url login.admin_process_login %}">
+                    {% else %}
+                    <form id="id-login_form" method=POST action="{% url login.process_login %}">
+                    {% endif %}
+                        <input type="text"
                            class="defaultText cl-gray-letters-text-prompt cl-nick-textinput-width-px"
                            title='{% trans "username or email"%}'
                            id="id-login_fields-username_email" name="username_email" maxlength=50>
+                        <!-- need to define two boxes for the password - but only one will be shown at a time -
+               required for showing text prompt in the input box -->
+                        <input type="text" class="cl-gray-letters-text-prompt cl-narrow-textinput-width-px"
+                               value='{% trans "password" %}' id="id-password-prompt"
+                               name="password-prompt" maxlength=50>
+                        <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
+                               name="password" maxlength=50>
+                        <input id="id-submit-login-button" type="submit" class="cl-small-login-button"
+                               value='{% trans "Enter" %}!'>
+                    </form>
+                    
                 </td>
-                <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
-
-                    <!-- need to define two boxes for the password - but only one will be shown at a time -
-           required for showing text prompt in the input box -->
-                    <input type="text" class="cl-gray-letters-text-prompt cl-narrow-textinput-width-px"
-                           value='{% trans "password" %}' id="id-password-prompt"
-                           name="password-prompt" maxlength=50>
-                    <input type="password" class="cl-narrow-textinput-width-px" id="id-password-input"
-                           name="password" maxlength=50>
-                </td>
-                <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field ">
-                    <input id="id-submit-login-button" type="submit" class="cl-small-login-button"
-                           value='{% trans "Enter" %}!'>
-                </td>
-
 
                 <!-- the following rows push the table up from the bottom-->
             </tr>
         </table>
         <!-- end outer table -->
-    </form>
 
      <div id="id-forgot-password" style="display:none;"><div  class="cl-right-text" >
         <a class="cl-dialog_anchor" href="{% url reset_password %}">
