@@ -29,10 +29,14 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-09-16-2339'
+VERSION_ID = '2013-09-18-xxx'
 
-# The following must be set to True before uploading - can be set to False for debugging js/css as modifications are made
-USE_TIME_STAMPED_STATIC_FILES = True
+# The following must be set to True before uploading - this will combine and minimize javascript 
+# and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will
+# mask any changes that are made to jss/css between server restarts -- therefore this value 
+# should be set to False for developing/debugging js/css on the local development server (the original
+# js/css files would be accessed instead of the combined/minimized js/css files).
+USE_TIME_STAMPED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -47,7 +51,7 @@ ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhe
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
 TESTING_FORTUMO_PAYMENTS = False
-BUILD_STAGING = True # forces upload to staging server as opposed to the real server
+BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 # The following variable reates to the flash/video conference code, which is almost done, but not activated and
 # without any current plans for additional coding hours to get it to release quality. 
