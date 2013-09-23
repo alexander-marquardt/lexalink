@@ -202,9 +202,10 @@ def store_authorization_info_and_send_email_wrapper(request, login_dict, encrypt
         dump_login_dict['password'] = "Unencrypted password is not stored - you should be using the encrypted_password field"
         pickle.dump(dump_login_dict, pickled_login_get_dict_fake_file)        
         pickled_login_get_dict = pickled_login_get_dict_fake_file.getvalue()
-        (authorization_info_status) = login_utils.store_authorization_info_and_send_email(
-            currently_displayed_url, 
-            username, email_address, encrypted_password, password_salt, pickled_login_get_dict, request.LANGUAGE_CODE)   
+        authorization_info_status = login_utils.store_authorization_info_and_send_email(
+            currently_displayed_url, username, email_address, encrypted_password, password_salt, 
+            pickled_login_get_dict, request.LANGUAGE_CODE)   
+        
         pickled_login_get_dict_fake_file.close()
              
         if authorization_info_status != "OK":    
@@ -770,7 +771,7 @@ def check_verification_and_authorize_user(request):
         destination_url = "/"
         error_reporting.log_exception(logging.critical)      
         
-    logging.info("Verified user %s. Will be redirected by javascript client to to %s" % (username, destination_url))
+    logging.info('Username:"%s". Will be redirected by javascript client to to %s' % (username, destination_url))
     response_dict = {"User_Stored_Redirect_URL" : destination_url}
     json_response = simplejson.dumps(response_dict)
     return http.HttpResponse(json_response, mimetype='text/javascript')          

@@ -686,7 +686,7 @@ def store_authorization_info_and_send_email(currently_displayed_url, username, e
                 'email_address' : email_address}
             error_reporting.log_exception(logging.error, error_message=error_message)  
             
-            return (error_message, secret_verification_code)
+            return error_message
         
         ip_address_registration_count = check_authorization_info_for_ip_address_registrations_today(creation_day, ip_address)
         if ip_address_registration_count >= constants.MAX_REGISTRATIONS_SINGLE_IP and \
@@ -695,7 +695,7 @@ def store_authorization_info_and_send_email(currently_displayed_url, username, e
             error_message="Exceeded registrations allowed on IP: %s" % (ip_address)
             error_reporting.log_exception(logging.critical, error_message=error_message)  
             email_utils.send_admin_alert_email(error_message, subject="%s - IP %s registration exceeded" % (settings.APP_NAME, ip_address))
-            return (error_message, secret_verification_code)
+            return error_message
         
         # the following is just a warning (even though I report it as an error so that I don't miss it)
         # We allow the registration to proceede
