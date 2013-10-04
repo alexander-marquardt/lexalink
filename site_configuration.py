@@ -70,11 +70,11 @@ if os.path.isdir('rs/proprietary'):
         # the build name.
         
         BUILD_NAME = 'discrete_build'     # originally used for RomanceSecreto.com
-        #BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
+        BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
         #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
         #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
-        #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
-        #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
+        BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
+        BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
         #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
         #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     
@@ -135,6 +135,7 @@ if 'HOSTNAME' in os.environ and os.environ['HOSTNAME'] == CYGWIN_HOSTNAME:
     DEBUG = False 
     IS_CYGWIN = True
     TEMPLATE_DEBUG = False
+    DEVELOPMENT_SERVER = True
     
     
 elif ("alexandermarquardt" in os.environ.get('PWD','')):
@@ -143,10 +144,12 @@ elif ("alexandermarquardt" in os.environ.get('PWD','')):
     DEBUG = False  # Disable django debug messages - is easier to look at the log messages
     TEMPLATE_DEBUG = True
     TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'    
+    DEVELOPMENT_SERVER = True
 
 else:
     # probably running on production server - disable all debugging and LOCAL outputs etc.
     logging.info("Appears to be running on production server" )
     DEBUG = False
     TEMPLATE_DEBUG = False
+    DEVELOPMENT_SERVER = False
 

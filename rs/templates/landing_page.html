@@ -52,120 +52,117 @@
 
 
     <div class="grid_12 cl-main-background">
-        <div class="grid_6 alpha cl-center-text cl-text-large-format cl-background-gradient cl-login-text">
-            {% if maintenance_soon_warning %}
-                {{ maintenance_soon_warning|safe }}
-            {% endif %}
+        <div id="id-left-and-right-registration">
+            <div class="grid_6 alpha cl-center-text cl-text-large-format cl-background-gradient cl-login-text">
+                {% if maintenance_soon_warning %}
+                    {{ maintenance_soon_warning|safe }}
+                {% endif %}
 
-            {% if maintenance_shutdown_warning %}
-                {{ maintenance_shutdown_warning|safe }}
-            {% endif %}
+                {% if maintenance_shutdown_warning %}
+                    {{ maintenance_shutdown_warning|safe }}
+                {% endif %}
 
 
-            <br>
-            {% trans "Do you want to look around before registering?" %}<br>
-            <a id="id-enter_guest" class="ui-state-default cl-enter_guest" href="{% url search_gen %}?query_order=unique_last_login"
-               rel="address:{% url search_gen %}?query_order=unique_last_login">
-                {% trans "Enter with a guest account" %}
-            </a>
-            <br><br>
-
-            {% if not maintenance_shutdown_warning %}
-
-            {% include "login_helpers/registration.html" %}
-            {% if verification_values_dict %}
-                {% include "login_helpers/verification.html" %}
-            {% endif %}
-
-            {% endif %}
-
-        </div>
-        <div class="grid_6 alpha omega cl-background-image cl-login-text">
-
-            <br>
-            <div class="grid_6 alpha omega cl-right-text cl-text-12pt-format cl-forgot-password-block">
-                <a href="{% url reset_password %}">
-                    {% trans "Have you forgotten your password?" %}
+                <br>
+                {% trans "Do you want to look around before registering?" %}<br>
+                <a id="id-enter_guest" class="ui-state-default cl-enter_guest" href="{% url search_gen %}?query_order=unique_last_login"
+                   rel="address:{% url search_gen %}?query_order=unique_last_login">
+                    {% trans "Enter with a guest account" %}
                 </a>
-            </div>
-
-
-            <div id="id-over-image" class="grid_6"></div>
-
-            <div class="grid_6 alpha cl-center-text cl-text-large-format cl-login-text">
                 <br><br>
 
+                {% if not maintenance_shutdown_warning %}
 
-                {% if SITE_IS_TOTALLY_FREE %}
-                    {% trans "100 percent free" %}
+                {% include "login_helpers/registration.html" %}
+                {% if verification_values_dict %}
+                    {% include "login_helpers/verification.html" %}
                 {% endif %}
 
-                {% if build_name == "single_build" %}
-                    {%trans "online dating" %}.
-                {% endif %}
-
-                {% if build_name == "swinger_build" %}
-                    {%trans "swinger contacts" %}.
-                {% endif %}
-
-                {% if build_name == "gay_build" %}
-                    {%trans "gay dating" %}.
-                {% endif %}
-
-                {% if build_name == "language_build" %}
-                     {% trans "language exchange" %}.
-                {% endif %}
-
-                {% if build_name == "friend_build" %}
-                    - {% trans "meet friends" %}.
-                {% endif %}
-
-                {% if build_name == "lesbian_build" %}
-                    {%trans "lesbian dating" %}.
-                {% endif %}
-
-                {% if build_name == "mature_build" %}
-                    {%trans "dating website to meet mature adults over 40 years old" %}.
-                {% endif %}
-
-
-                {% if not SITE_IS_TOTALLY_FREE %}
-                    {% trans "Free" %} - {% trans "chat and messages included" %}<br><br>
-                {% else %}
-                    {% trans "We never ask for your credit card or any other form of payment" %}<br><br>
-                {% endif %}
-
-                {% ifequal app_name "RomanceSecreto" %}
-                    {% trans "Over 50 percent of our members are single" %}<br><br>
-                {% endifequal %}
-
-
-                {% if ADULT_ORIENTED_SITE %}
-                    {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
                 {% endif %}
 
             </div>
+            <div class="grid_6 alpha omega cl-background-image cl-login-text">
 
+                <br>
+                <div class="grid_6 alpha omega cl-right-text cl-text-12pt-format cl-forgot-password-block">
+                    <a href="{% url reset_password %}">
+                        {% trans "Have you forgotten your password?" %}
+                    </a>
+                </div>
+
+
+                <div id="id-over-image" class="grid_6"></div>
+
+                <div class="grid_6 alpha cl-center-text cl-text-large-format cl-login-text">
+                    <br><br>
+
+
+                    {% if SITE_IS_TOTALLY_FREE %}
+                        {% trans "100 percent free" %}
+                    {% endif %}
+
+                    {% if build_name == "single_build" %}
+                        {%trans "online dating" %}.
+                    {% endif %}
+
+                    {% if build_name == "swinger_build" %}
+                        {%trans "swinger contacts" %}.
+                    {% endif %}
+
+                    {% if build_name == "gay_build" %}
+                        {%trans "gay dating" %}.
+                    {% endif %}
+
+                    {% if build_name == "language_build" %}
+                         {% trans "language exchange" %}.
+                    {% endif %}
+
+                    {% if build_name == "friend_build" %}
+                        - {% trans "meet friends" %}.
+                    {% endif %}
+
+                    {% if build_name == "lesbian_build" %}
+                        {%trans "lesbian dating" %}.
+                    {% endif %}
+
+                    {% if build_name == "mature_build" %}
+                        {%trans "dating website to meet mature adults over 40 years old" %}.
+                    {% endif %}
+
+
+                    {% if not SITE_IS_TOTALLY_FREE %}
+                        {% trans "Free" %} - {% trans "chat and messages included" %}<br><br>
+                    {% else %}
+                        {% trans "We never ask for your credit card or any other form of payment" %}<br><br>
+                    {% endif %}
+
+                    {% ifequal app_name "RomanceSecreto" %}
+                        {% trans "Over 50 percent of our members are single" %}<br><br>
+                    {% endifequal %}
+
+
+                    {% if ADULT_ORIENTED_SITE %}
+                        {{ app_name }} {% trans "does not permit or contain explicit, pornograpic, or obscene content" %}
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+            <br><br><br>
+
+
+
+            {% if build_name == "friend_build" %}
+                <div class="grid_10 cl-prefix_10px alpha omega" id="id-main-content-div">
+                {{ welcome_html }}
+                </div>
+            {% endif %}
 
         </div>
-        
-        <br><br><br>
-
-
-
-        {% if build_name == "friend_build" %}
-            <div class="grid_10 cl-prefix_10px alpha omega" id="id-main-content-div">
-            {{ welcome_html }}
-            </div>
-        {% endif %}
-    </div>
-
-
-    <div class="cl-clear"></div>
-    <div class="grid_12 cl-main-background">
+        <div class="cl-clear"></div>
         <br><br><br><br><br>
-
-        <div class="grid_12 alpha omega cl-footer-divider-line"></div>
+        
     </div>
     <!-- end grid_12 -->
 

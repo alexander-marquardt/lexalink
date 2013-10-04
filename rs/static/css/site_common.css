@@ -158,11 +158,6 @@ a:hover {text-decoration: underline; color:#EB485D ; outline: none; } /* #EB485D
 .fancybox-title-float a:hover {text-decoration: underline; color: #E3BCDD; } /* soft RED */
 
 
-.cl-footer {
-    padding: 3px 0px 8px 0px;
-}
-
-
 p {
 	overflow: hidden;
 	padding: 0;
@@ -255,7 +250,10 @@ font-weight: bold;
     display: block;
 }
 
-
+#id-footer
+{
+	height: 22px;
+}
 
 .underline {text-decoration: underline}
 
