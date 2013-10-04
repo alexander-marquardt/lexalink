@@ -544,23 +544,26 @@ table.center {
 
 td#id-td-horizontal-bar-first-cell
 {
-	width: 300px;
+    white-space: nowrap;
 	text-align: left;
 	font-size: 20px;
 	vertical-align: middle;
-	padding-left: 30px;
+	padding-left: 10px;
 }
 
 td#id-td-horizontal-bar-second-cell
 {
-	width: 320px;
+    width: 100%;
 	text-align: right;
 	font-size: 16px;
 	vertical-align: middle;
+    text-align: right;
 }
 
 td.cl-td-horizontal-bar-input-field {
+    white-space: nowrap;
 	vertical-align: middle;
+    text-align: right;
 }
 
 

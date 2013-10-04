@@ -16,13 +16,15 @@
                 {% endif %}
 
                 <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
-                {% if build_name == "lesbian_build" %}
-                    {% trans "Are you already registered (female)? Enter here:" %}&nbsp;</td>
-                {% else %}
-                    {% trans "Are you already registered? Enter here:" %}&nbsp;</td>
-                {% endif %}
+                    {% if build_name == "lesbian_build" %}
+                        {% trans "Are you already registered (female)? Enter here:" %}&nbsp;
+                    {% else %}
+                        {% trans "Are you already registered? Enter here:" %}&nbsp;
+                    {% endif %}
+                </td>
 
                 <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
+
 
                     {% if is_admin_login %}
                     <form id="id-login_form" method=POST action="{% url login.admin_process_login %}">

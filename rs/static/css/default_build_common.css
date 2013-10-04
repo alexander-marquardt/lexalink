@@ -109,23 +109,6 @@ table#id-horiz-bar-table
 	color: white;
 }
 
-td#id-td-horizontal-bar-first-cell
-{
-	width: 310px;
-	text-align: left;
-	font-size: 20px;
-	vertical-align: middle;
-	padding-left: 30px;
-}
-
-td#id-td-horizontal-bar-second-cell
-{
-	width: 310px;
-	text-align: right;
-	font-size: 16px;
-	vertical-align: middle;
-}
-
 #id-over-image {
     height: 320px;
     display: block;
