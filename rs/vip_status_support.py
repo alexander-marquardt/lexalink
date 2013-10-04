@@ -382,15 +382,20 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
 def manually_remove_paid_status(request, username):
   
   try:
+    username = username.upper()
     q = UserModel.query()
-    q = q.filter(UserModel.username == username.upper())
+    q = q.filter(UserModel.username == username)
     userobject = q.get()
     
-    userobject.client_paid_status_expiry = datetime.datetime.now()
-    userobject.client_paid_status = None
-    utils.put_userobject(userobject)
-        
-    return http.HttpResponse("Done")
+    if userobject:
+      
+      userobject.client_paid_status_expiry = datetime.datetime.now()
+      userobject.client_paid_status = None
+      utils.put_userobject(userobject)
+          
+      return http.HttpResponse("Removed paid status from user: %s" % username)
+    else:
+      return http.HttpResponse("User %s does not exist - cannot remove paid status" % username)
   
   except:
     error_reporting.log_exception(logging.critical)

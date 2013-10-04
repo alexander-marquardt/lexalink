@@ -431,9 +431,12 @@ def run_query_to_take_action_on_profiles(request, action_to_take, query_key, que
 
     for userobject in userobject_batch:  
         try:
-            info_message = u"** %s %s userobject<br>\n" % (action_to_take, userobject.username)
-            info_message += u"%s" % login_utils.take_action_on_account_and_generate_response(
-                request, userobject, action_to_take, reason_for_profile_removal, new_password, new_email_address, return_html_or_text = "text")
+            if utils.get_client_paid_status(userobject):
+                info_message = u"*** CANNOT DELETE userobject for %s since it is a VIP (paid) account. Manually remove VIP status before deletion" % userobject.username
+            else:
+                info_message = u"** %s %s userobject<br>\n" % (action_to_take, userobject.username)
+                info_message += u"%s" % login_utils.take_action_on_account_and_generate_response(
+                    request, userobject, action_to_take, reason_for_profile_removal, new_password, new_email_address, return_html_or_text = "text")
             
             generated_html += info_message
             logging.info(info_message)                    

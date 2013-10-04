@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-09-18-xxx'
+VERSION_ID = '2013-10-04-1549'
 
 # The following must be set to True before uploading - this will combine and minimize javascript 
 # and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will
@@ -70,11 +70,11 @@ if os.path.isdir('rs/proprietary'):
         # the build name.
         
         BUILD_NAME = 'discrete_build'     # originally used for RomanceSecreto.com
-        BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
+        #BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
         #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
         #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
-        BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
-        BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
+        #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
+        #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
         #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
         #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     
