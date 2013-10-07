@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-10-07-1007'
+VERSION_ID = '2013-10-07-1245'
 
 # The following must be set to True before uploading - this will combine and minimize javascript 
 # and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will

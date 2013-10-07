@@ -73,15 +73,17 @@
                         <td class="cl-info-td"><a href="{% url views.press %}" rel="address:{% url views.press %}">{% trans "Press" %}</a></td>
                     {% endifequal %}
 
-
-                    {% if not primary_user_presentation_data_fields.username or general_information_data_fields.show_login_link_override %}
-                    <!-- if the user is logged in, don't bother showing the register/enter button -->
-                        {% ifnotequal general_information_data_fields.link_to_hide "login" %}
-                            <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
-                                                        align="middle" alt=""></td>
-                            <td class="cl-info-td cl-info-100px-width-td" align="center"><a href="/">
-                                {% trans "Register / Enter" %}</a></td>
-                        {% endifnotequal %}
+                    {% if not general_information_data_fields.is_landing_page %}
+                        <!-- don't show the login link on the landing page -->
+                        {% if not primary_user_presentation_data_fields.username or general_information_data_fields.show_login_link_override %}
+                        <!-- if the user is logged in, don't bother showing the register/enter button -->
+                            {% ifnotequal general_information_data_fields.link_to_hide "login" %}
+                                <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
+                                                            align="middle" alt=""></td>
+                                <td class="cl-info-td cl-info-100px-width-td" align="center"><a href="/">
+                                    {% trans "Register / Enter" %}</a></td>
+                            {% endifnotequal %}
+                        {% endif %}
                     {% endif %}
 
 

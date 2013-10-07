@@ -137,6 +137,9 @@ def landing_page(request, is_admin_login = False):
         meta_info['content_description'] =  meta_info['page_title']
         meta_info['keywords_description'] =  meta_info['page_title']
         
+        general_information_data_fields = {}
+        general_information_data_fields['is_landing_page'] = True
+        
         my_template = template.loader.get_template('landing_page.html')
         
         error_dict_json =  simplejson.dumps(error_dict)
@@ -154,6 +157,7 @@ def landing_page(request, is_admin_login = False):
             'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
             'welcome_html': views.welcome_html(),
             'verification_values_dict' : verification_values_dict,
+            'general_information_data_fields': general_information_data_fields,
             }, **constants.template_common_fields))
         body_main_html = my_template.render(context)
         
