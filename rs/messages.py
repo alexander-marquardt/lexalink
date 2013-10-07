@@ -57,9 +57,9 @@ def initialize_and_store_spam_tracker(current_spam_tracker):
     
             spam_tracker = models.SpamMailStructures()
     
-            spam_tracker.datetime_first_mail_sent_today  = datetime.datetime.now()
+            spam_tracker.datetime_first_mail_sent_in_window  = datetime.datetime.now()
             
-            spam_tracker.num_mails_sent_today = 0
+            spam_tracker.num_mails_sent_in_window = 0
             spam_tracker.num_mails_sent_total = 0
             
             spam_tracker.num_times_reported_as_spammer_total = 0
@@ -460,37 +460,40 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                                                                               sender_userobject.client_paid_status)
             if not is_allowed:
                 
-                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets)
+                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets, sender_userobject.client_paid_status)
                 error_reporting.log_exception(logging.warning, error_message=error_message)  
                 return http.HttpResponse(error_message)                    
               
             spam_tracker_modified = False
             # don't count messages that are sent to previous contacts in the spam statistics
             if have_sent_messages_string == "have_not_had_contact":
-                if spam_tracker.datetime_first_mail_sent_today + datetime.timedelta(
-                    hours = constants.WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES - constants.RESET_MAIL_LEEWAY) <  datetime.datetime.now():
-                    
-                    spam_tracker.datetime_first_mail_sent_today  = datetime.datetime.now()
-                    spam_tracker.num_mails_sent_today = 0
-                    
-                # Make sure they don't exceed the number of new contacts allowed in a single day. This condition could
-                # occur if they open a bunch of windows to different profiles before using their message quota, and then attempting
-                # to send messages to each user. 
+                
                 
                 if not sender_userobject.client_paid_status:
-                    num_emails_per_day = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                    num_messages_allowed_in_window = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                    window_hours_for_new_people_messages = constants.VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES
                 else:
                     # VIP member has extra messages allocated
-                    num_emails_per_day = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
-                                
-            
-                if spam_tracker.num_mails_sent_today >= num_emails_per_day:
-                    error_message = "You have already sent messages to %(num)s new contacts." % {'num': num_emails_per_day}
+                    num_messages_allowed_in_window = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                    window_hours_for_new_people_messages = constants.GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES
+                    
+                if spam_tracker.datetime_first_mail_sent_in_window + datetime.timedelta(
+                    hours = window_hours_for_new_people_messages - constants.RESET_MAIL_LEEWAY) <  datetime.datetime.now():
+                    
+                    spam_tracker.datetime_first_mail_sent_in_window  = datetime.datetime.now()
+                    spam_tracker.num_mails_sent_in_window = 0
+                    
+                # Make sure they don't exceed the number of new contacts allowed in a single given time window. This condition could
+                # occur if they open a bunch of windows to different profiles before using their message quota, and then attempting
+                # to send messages to each user. 
+
+                if spam_tracker.num_mails_sent_in_window >= num_messages_allowed_in_window:
+                    error_message = "You have already sent messages to %(num)s new contacts." % {'num': num_messages_allowed_in_window}
                     error_reporting.log_exception(logging.warning, error_message=error_message)  
                     return http.HttpResponse(error_message)                 
                                     
                 # only count the message in the spam tracker if it is to a new person
-                spam_tracker.num_mails_sent_today += 1
+                spam_tracker.num_mails_sent_in_window += 1
                 spam_tracker_modified = True
                 
             # count all messages sent, for statistical reporting of the percentage of times this person 

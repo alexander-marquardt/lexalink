@@ -65,7 +65,9 @@ else:
     
     
 # Define the number of new people that the user can send messages to in a given time window. 
-WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
+VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
+GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 72 # X hours before the counters will be reset
+
 if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
@@ -85,7 +87,7 @@ else:
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 5
     
 # If the users are "chat friends" then they can send more messages between them in time window period. 
-VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
+VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 15 
     
 RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
     
@@ -579,24 +581,34 @@ class ErrorMessages():
     email_address_invalid = ugettext_lazy("The <strong>Email Address</strong> is not valid")
 
     @classmethod
-    def num_messages_to_other_in_time_window(cls, txt_for_when_quota_resets):
+    def num_messages_to_other_in_time_window(cls, txt_for_when_quota_resets, vip_status):
         
         if SHOW_VIP_UPGRADE_OPTION:
             or_if_vip_member_txt = ugettext_lazy(" or if you are a %(vip_member)s") % {'vip_member' : vip_member_anchor % vip_member_txt}
         else:
             or_if_vip_member_txt = ''
             
-        return ugettext_lazy("""You can only send %(guest_num)s messages to each member in a single %(hours)s-hour period. 
-        However, if the other user is a "chat friend" of yours%(or_if_vip_member_txt)s, then you can send them %(chat_friend_num)s messages in a single 
-        %(hours)s-hour period. <br><br>You can send more messages to this member %(txt_for_when_quota_resets)s, and since you have now
-        had contact with this member, future messages to this member will not be counted
-        against your quota for contacting other members.""") % \
-               {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
-                'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
-                'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
-                'or_if_vip_member_txt' : or_if_vip_member_txt,
-                'txt_for_when_quota_resets' : txt_for_when_quota_resets
-                }
+        generated_html = ''
+            
+        if not vip_status:
+            generated_html += ugettext_lazy("""You can only send %(guest_num)s messages to each member in a single %(hours)s-hour period. 
+            However, if the other user is a "chat friend" of yours%(or_if_vip_member_txt)s, then you can send them %(chat_friend_num)s messages in a single 
+            %(hours)s-hour period.<br><br>""") % \
+                   {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                    'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
+                    'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
+                    'or_if_vip_member_txt' : or_if_vip_member_txt,}
+        else:
+            generated_html += ugettext_lazy("""As a VIP member, you can send up to %(vip_num)s messages to each member in a single %(hours)s 
+            hour period. You have now reached this limit.<br><br>""") % {
+                'vip_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                'hours' : NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER}
+                    
+        generated_html += ugettext_lazy("""You can send more messages to this member %(txt_for_when_quota_resets)s.""") % {
+                    'txt_for_when_quota_resets' : txt_for_when_quota_resets
+                    }
+        
+        return generated_html
     
 
 
@@ -759,7 +771,9 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'live_proprietary_static_dir': site_configuration.LIVE_PROPRIETARY_STATIC_DIR,  
                           'proprietary_static_dir_exists': site_configuration.PROPRIETARY_STATIC_DIR_EXISTS,
                           'guest_num_new_people_messages_allowed_in_window': GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
+                          'guest_window_hours' : GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES,
                           'vip_num_new_people_messages_allowed_in_window' : VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
+                          'vip_window_hours' : VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES,
                           'STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                           'CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                           'NUMER_OF_DAYS_PROFILE_VIEWS_STORED' : NUMER_OF_DAYS_PROFILE_VIEWS_STORED,

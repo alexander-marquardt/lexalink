@@ -52,11 +52,11 @@ class SpamMailStructures(ndb.Model):
     new message beyond the limit. Note: we only count messages sent to new contacts.
     """
     
-    datetime_first_mail_sent_today  = ndb.DateTimeProperty(indexed = False) 
+    datetime_first_mail_sent_in_window  = ndb.DateTimeProperty(indexed = False, default = datetime.datetime.min) 
     
     # this only counts number of messages sent to new contacts. This is used for limiting the number
     # of new contacts that can be messaged in a given time limit.
-    num_mails_sent_today = ndb.IntegerProperty(default = 0, indexed = False) 
+    num_mails_sent_in_window = ndb.IntegerProperty(default = 0, indexed = False) 
     
     # count number of messages sent in total, including multiple count for multiple messages sent to
     # the same user.

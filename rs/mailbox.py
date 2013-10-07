@@ -362,7 +362,7 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
                 textarea_section_name, to_uid, captcha_bypass_string, have_sent_messages_object,
                 spam_statistics_string)
         else:
-            generated_html += u"<div>%s</div>" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets)
+            generated_html += u"<div>%s</div>" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets, vip_status)
     except:
         error_reporting.log_exception(logging.critical)
     

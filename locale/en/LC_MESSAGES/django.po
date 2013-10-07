@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-05 12:29-0400\n"
+"POT-Creation-Date: 2013-10-07 12:20-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,29 +24,29 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:373
+#: rs/admin.py:372
 #, python-format
 msgid ""
 "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
 "approximately %(shutdown_time)s minutes for maintenance"
 msgstr ""
 
-#: rs/admin.py:390
+#: rs/admin.py:389
 #, python-format
 msgid ""
 "We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
 "for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
 msgstr ""
 
-#: rs/ajax.py:505 rs/html_container.py:247
+#: rs/ajax.py:508 rs/html_container.py:247
 msgid "Your description"
 msgstr ""
 
-#: rs/ajax.py:515
+#: rs/ajax.py:518
 msgid "Close"
 msgstr ""
 
-#: rs/ajax.py:544
+#: rs/ajax.py:547
 #, python-format
 msgid ""
 "\n"
@@ -55,46 +55,46 @@ msgid ""
 "    that your email address has been correctly stored."
 msgstr ""
 
-#: rs/ajax.py:671
+#: rs/ajax.py:674
 msgid "Greeting sent"
 msgstr ""
 
-#: rs/ajax.py:673
+#: rs/ajax.py:676
 msgid "Wink sent"
 msgstr ""
 
-#: rs/ajax.py:678
+#: rs/ajax.py:681
 msgid "Is favorite"
 msgstr ""
 
-#: rs/ajax.py:679
+#: rs/ajax.py:682
 msgid "Kiss sent"
 msgstr ""
 
-#: rs/ajax.py:680
+#: rs/ajax.py:683
 msgid "Has accsess to your private profile"
 msgstr ""
 
-#: rs/ajax.py:681
+#: rs/ajax.py:684
 msgid "Is blocked (new messages automatically deleted)"
 msgstr ""
 
-#: rs/ajax.py:685
+#: rs/ajax.py:688
 msgid "You are waiting for a confirmation of your chat request"
 msgstr ""
 
-#: rs/ajax.py:686
+#: rs/ajax.py:689
 msgid "You have received a chat request"
 msgstr ""
 
-#: rs/ajax.py:687
+#: rs/ajax.py:690
 msgid ""
 "You are connected, and will see this person in your chat list when they are "
 "online"
 msgstr ""
 
-#: rs/ajax.py:727 rs/forms.py:1059 rs/messages.py:518 rs/rendering.py:418
-#: rs/utils.py:1506
+#: rs/ajax.py:730 rs/forms.py:1056 rs/login.py:762 rs/messages.py:521
+#: rs/rendering.py:417 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -123,7 +123,7 @@ msgstr ""
 msgid "Languages I speak"
 msgstr ""
 
-#: rs/callbacks_from_html.py:121 rs/login_utils.py:881
+#: rs/callbacks_from_html.py:121
 msgid "Email"
 msgstr ""
 
@@ -139,21 +139,16 @@ msgstr ""
 msgid "Modify my password"
 msgstr ""
 
-#: rs/callbacks_from_html.py:227 rs/callbacks_from_html.py:237
+#: rs/callbacks_from_html.py:229 rs/callbacks_from_html.py:237
 #, python-format
 msgid "%(num)s new person"
 msgid_plural "%(num)s new people"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/callbacks_from_html.py:231
-#, python-format
-msgid "You have sent messages to %(num_new_people_txt)s"
-msgstr ""
-
 #: rs/callbacks_from_html.py:233
 #, python-format
-msgid "and your quota will be reset %s"
+msgid "Your quota will be reset %s"
 msgstr ""
 
 #: rs/callbacks_from_html.py:242
@@ -173,7 +168,7 @@ msgstr ""
 msgid ""
 "\n"
 "                        As a VIP Member, you %(are_allowed_to_contact)s.\n"
-"                        %(people_in_the_past)s. %(sent)s.\n"
+"                        %(people_in_the_past)s. %(will_be_reset)s.\n"
 "                        "
 msgstr ""
 
@@ -182,11 +177,11 @@ msgstr ""
 msgid ""
 "\n"
 "                        You %(are_allowed_to_contact)s.\n"
-"                        %(people_in_the_past)s. %(sent)s.\n"
+"                        %(people_in_the_past)s. %(will_be_reset)s.\n"
 "                        "
 msgstr ""
 
-#: rs/callbacks_from_html.py:263
+#: rs/callbacks_from_html.py:264
 #, python-format
 msgid ""
 "If you wish to increase this limit, please consider becoming a %(vip_member)s"
@@ -200,347 +195,358 @@ msgstr ""
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
-#: rs/constants.py:216
+#: rs/constants.py:224
 #: rs/templates/user_main_helpers/translation_helper.html:44
 msgid "(Active)"
 msgstr ""
 
-#: rs/constants.py:217
+#: rs/constants.py:225
 #: rs/templates/user_main_helpers/translation_helper.html:51
 msgid "(Idle)"
 msgstr ""
 
-#: rs/constants.py:218
+#: rs/constants.py:226
 #: rs/templates/user_main_helpers/translation_helper.html:58
 msgid "(Away)"
 msgstr ""
 
-#: rs/constants.py:219
+#: rs/constants.py:227
 msgid "(Offline)"
 msgstr ""
 
-#: rs/constants.py:421
+#: rs/constants.py:429
 msgid "confidential dating website"
 msgstr ""
 
-#: rs/constants.py:426
+#: rs/constants.py:434
 msgid "serious dating website"
 msgstr ""
 
-#: rs/constants.py:429
+#: rs/constants.py:437
 msgid "website to learn languages and meet people"
 msgstr ""
 
-#: rs/constants.py:432
+#: rs/constants.py:440
 msgid "lesbian dating website"
 msgstr ""
 
-#: rs/constants.py:436
+#: rs/constants.py:444
 msgid "gay dating website"
 msgstr ""
 
-#: rs/constants.py:440
+#: rs/constants.py:448
 msgid "swingers website"
 msgstr ""
 
-#: rs/constants.py:444
+#: rs/constants.py:452
 msgid "website to meet people and make friends"
 msgstr ""
 
-#: rs/constants.py:447 rs/proprietary/search_engine_overrides.py:81
+#: rs/constants.py:455 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/login.html:285
+#: rs/templates/landing_page.html:129
 msgid "dating website to meet mature adults over 40 years old"
 msgstr ""
 
-#: rs/constants.py:560
+#: rs/constants.py:568
 msgid "VIP member"
 msgstr ""
 
-#: rs/constants.py:567
+#: rs/constants.py:575
 msgid ""
-"Username needs at least 3 characters and can only contain letters and "
-"numbers. Additionally, it may not contain any spaces."
+"<strong>Username</strong> can only contain letters and numbers, and must not "
+"contain spaces."
 msgstr ""
 
-#: rs/constants.py:569
-msgid "Password required"
+#: rs/constants.py:576
+msgid "<strong>Username</strong> needs at least 3 characters."
 msgstr ""
 
-#: rs/constants.py:570
+#: rs/constants.py:577
+msgid "<strong>Password</strong> required"
+msgstr ""
+
+#: rs/constants.py:578
 msgid ""
-"Password may only contain letters and numbers, and cannot contain spaces."
+"The <strong>Password</strong> and the <strong>Verification Password</strong> "
+"must be the same."
 msgstr ""
 
-#: rs/constants.py:571
-msgid "The password and the verification must be the same."
-msgstr ""
-
-#: rs/constants.py:572
-msgid "The username that you have selected is not available."
-msgstr ""
-
-#: rs/constants.py:573
-msgid "Username/email + password is incorrect"
-msgstr ""
-
-#: rs/constants.py:574
-msgid "The email address is not valid"
+#: rs/constants.py:579
+msgid "The <strong>Username</strong> that you have selected is not available."
 msgstr ""
 
 #: rs/constants.py:580
+msgid "<strong>Username/email + Password</strong> is incorrect"
+msgstr ""
+
+#: rs/constants.py:581
+msgid "The <strong>Email Address</strong> is not valid"
+msgstr ""
+
+#: rs/constants.py:587
 #, python-format
 msgid " or if you are a %(vip_member)s"
 msgstr ""
 
-#: rs/constants.py:584
+#: rs/constants.py:594
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member in a single "
 "%(hours)s-hour period. \n"
-"        However, if the other user is a \"chat friend\" of yours"
+"            However, if the other user is a \"chat friend\" of yours"
 "%(or_if_vip_member_txt)s, then you can send them %(chat_friend_num)s "
 "messages in a single \n"
-"        %(hours)s-hour period. <br><br>You can send more messages to this "
-"member %(txt_for_when_quota_resets)s, and since you have now\n"
-"        had contact with this member, future messages to this member will "
-"not be counted\n"
-"        against your quota for contacting other members."
+"            %(hours)s-hour period.<br><br>"
 msgstr ""
 
-#: rs/constants.py:619
+#: rs/constants.py:602
+#, python-format
+msgid ""
+"As a VIP member, you can send up to %(vip_num)s messages to each member in a "
+"single %(hours)s \n"
+"            hour period. You have now reached this limit.<br><br>"
+msgstr ""
+
+#: rs/constants.py:607
+#, python-format
+msgid ""
+"You can send more messages to this member %(txt_for_when_quota_resets)s."
+msgstr ""
+
+#: rs/constants.py:636
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:621
+#: rs/constants.py:638
 msgid "sent (singular)"
 msgstr "sent"
 
-#: rs/constants.py:622
+#: rs/constants.py:639
 msgid "received (singluar)"
 msgstr "received"
 
-#: rs/constants.py:623
+#: rs/constants.py:640
 msgid "saved (singular)"
 msgstr "saved"
 
-#: rs/constants.py:624
+#: rs/constants.py:641
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:630 rs/messages.py:367
+#: rs/constants.py:647 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "sent"
 
-#: rs/constants.py:630
+#: rs/constants.py:647
 msgid "Sent (plural)"
 msgstr "Sent"
 
-#: rs/constants.py:631
+#: rs/constants.py:648
 msgid "received (plural)"
 msgstr "received"
 
-#: rs/constants.py:631
+#: rs/constants.py:648
 msgid "Received (plural)"
 msgstr "Received"
 
-#: rs/constants.py:632
+#: rs/constants.py:649
 msgid "saved (plural)"
 msgstr "saved"
 
-#: rs/constants.py:632
+#: rs/constants.py:649
 msgid "Saved (plural)"
 msgstr "Saved"
 
-#: rs/constants.py:633
+#: rs/constants.py:650
 msgid "confirmed (plural)"
 msgstr "confirmed"
 
-#: rs/constants.py:633
+#: rs/constants.py:650
 msgid "Confirmed (plural)"
 msgstr "Confirmed"
 
-#: rs/constants.py:638
+#: rs/constants.py:655
 msgid "sent (plural feminine)"
 msgstr "sent"
 
-#: rs/constants.py:638
+#: rs/constants.py:655
 msgid "Sent (plural feminine)"
 msgstr "Sent"
 
-#: rs/constants.py:639
+#: rs/constants.py:656
 msgid "received (plural feminine)"
 msgstr "received"
 
-#: rs/constants.py:639
+#: rs/constants.py:656
 msgid "Received (plural feminine)"
 msgstr "Received"
 
-#: rs/constants.py:640
+#: rs/constants.py:657
 msgid "saved (plural feminine)"
 msgstr "saved"
 
-#: rs/constants.py:640
+#: rs/constants.py:657
 msgid "Saved (plural feminine)"
 msgstr "Saved"
 
-#: rs/constants.py:641
+#: rs/constants.py:658
 msgid "confirmed (plural feminine)"
 msgstr "confirmed"
 
-#: rs/constants.py:641
+#: rs/constants.py:658
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmed"
 
-#: rs/constants.py:646
+#: rs/constants.py:663
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:647
+#: rs/constants.py:664
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:648
+#: rs/constants.py:665
 msgid "Greeting"
 msgstr ""
 
-#: rs/constants.py:650
+#: rs/constants.py:667
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:651
+#: rs/constants.py:668
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:652
+#: rs/constants.py:669
 msgid "Wink"
 msgstr ""
 
-#: rs/constants.py:655
+#: rs/constants.py:672
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:657
+#: rs/constants.py:674
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:658
+#: rs/constants.py:675
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:659
+#: rs/constants.py:676
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:660
+#: rs/constants.py:677
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:665
+#: rs/constants.py:682
 msgid "My favorite"
 msgstr ""
 
-#: rs/constants.py:667
+#: rs/constants.py:684
 msgid "Kiss"
 msgstr ""
 
-#: rs/constants.py:668
+#: rs/constants.py:685
 msgid "Key"
 msgstr ""
 
-#: rs/constants.py:669
+#: rs/constants.py:686
 msgid "Chat friend"
 msgstr "Chat friends"
 
-#: rs/constants.py:670
+#: rs/constants.py:687
 msgid "Blocked (singular)"
 msgstr "Blocked"
 
-#: rs/constants.py:674
+#: rs/constants.py:691
 msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:675
+#: rs/constants.py:692
 msgid "Chat requests received"
 msgstr ""
 
-#: rs/constants.py:676
+#: rs/constants.py:693
 msgid "Chat connections confirmed"
 msgstr ""
 
-#: rs/constants.py:680
+#: rs/constants.py:697
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:682
+#: rs/constants.py:699
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:683
+#: rs/constants.py:700
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:684
+#: rs/constants.py:701
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:685
+#: rs/constants.py:702
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:698
+#: rs/constants.py:715
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:699
+#: rs/constants.py:716
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:700
+#: rs/constants.py:717
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:701
+#: rs/constants.py:718
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:702
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:149
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:348
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:357
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:847
+#: rs/constants.py:719
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:164
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:363
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:372
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:862
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:703
+#: rs/constants.py:720
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:704
+#: rs/constants.py:721
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:705
+#: rs/constants.py:722
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:706
+#: rs/constants.py:723
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:707
+#: rs/constants.py:724
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:708
+#: rs/constants.py:725
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:709
+#: rs/constants.py:726
 msgid "December"
 msgstr ""
 
-#: rs/contacts.py:174
+#: rs/contacts.py:173
 #, python-format
 msgid "You do not have any \"%(title)s\" yet"
 msgstr ""
@@ -562,11 +568,11 @@ msgid "Last entrance"
 msgstr ""
 
 #: rs/display_profiles_summary.py:317 rs/display_profiles_summary.py:329
-#: rs/mailbox.py:993
+#: rs/mailbox.py:990
 msgid "Next"
 msgstr ""
 
-#: rs/email_utils.py:64 rs/email_utils.py:650
+#: rs/email_utils.py:64 rs/email_utils.py:646
 msgid "Cheers"
 msgstr ""
 
@@ -580,12 +586,12 @@ msgstr ""
 msgid "Someone with the IP address: %(remoteip)s has requested this."
 msgstr ""
 
-#: rs/email_utils.py:225 rs/reset_password.py:83
+#: rs/email_utils.py:225 rs/reset_password.py:80
 msgid "New password"
 msgstr ""
 
 #: rs/email_utils.py:230 rs/email_utils.py:290 rs/email_utils.py:368
-#: rs/email_utils.py:649 rs/login_utils.py:654 rs/login_utils.py:677
+#: rs/email_utils.py:645 rs/login_utils.py:614 rs/login_utils.py:640
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
@@ -618,7 +624,7 @@ msgstr ""
 msgid "Are you sure you want to eliminate your account?"
 msgstr ""
 
-#: rs/email_utils.py:300 rs/login_utils.py:513
+#: rs/email_utils.py:300 rs/login_utils.py:486
 msgid "Error - Not authorized"
 msgstr ""
 
@@ -645,116 +651,107 @@ msgid ""
 "and directly modifying your profile"
 msgstr ""
 
-#: rs/email_utils.py:419 rs/templates/login.html:232
-#: rs/templates/login.html.py:238
-msgid "Have you forgotten your password?"
-msgstr ""
-
-#: rs/email_utils.py:422 rs/email_utils.py:448
-msgid "Here"
-msgstr ""
-
-#: rs/email_utils.py:423
-msgid "you can request a new password"
-msgstr ""
-
-#: rs/email_utils.py:425 rs/user_profile_details.py:226
+#: rs/email_utils.py:421 rs/user_profile_details.py:226
 msgid "Email notification settings"
 msgstr ""
 
-#: rs/email_utils.py:426
+#: rs/email_utils.py:422
 msgid "You have currently selected"
 msgstr "You have currently selected"
 
-#: rs/email_utils.py:428
+#: rs/email_utils.py:424
 msgid ""
 "You can change this option by clicking on one of the options below, or by "
 "directly modifying \"My profile\" in"
 msgstr ""
 
-#: rs/email_utils.py:439
+#: rs/email_utils.py:435
 msgid "Option"
 msgstr ""
 
-#: rs/email_utils.py:444
+#: rs/email_utils.py:440
 msgid "Would you like to eliminate the profile of"
 msgstr "Would you like to eliminate the profile of"
 
-#: rs/email_utils.py:450
+#: rs/email_utils.py:444 rs/utils.py:412
+msgid "Here"
+msgstr ""
+
+#: rs/email_utils.py:446
 msgid "you can eliminate it"
 msgstr "you can eliminate it"
 
-#: rs/email_utils.py:515
+#: rs/email_utils.py:511
 msgid "violet"
 msgstr ""
 
-#: rs/email_utils.py:517
+#: rs/email_utils.py:513
 msgid "gray"
 msgstr ""
 
-#: rs/email_utils.py:519
+#: rs/email_utils.py:515
 msgid "green"
 msgstr ""
 
-#: rs/email_utils.py:572
+#: rs/email_utils.py:568
 #, python-format
 msgid "You have <strong>%(num_mail)s new/unread message</strong> "
 msgid_plural "You have <strong>%(num_mail)s new/unread messages</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/email_utils.py:581
+#: rs/email_utils.py:577
 msgid "You can read your messages after entering in"
 msgstr ""
 
-#: rs/email_utils.py:583 rs/email_utils.py:628
+#: rs/email_utils.py:579 rs/email_utils.py:624
 #, python-format
 msgid ""
 "by clicking on \"%(field)s\" in the %(bar_color)s bar just below the logo of "
 "%(app_name)s"
 msgstr ""
 
-#: rs/email_utils.py:584 rs/templates/user_main_helpers/menubar.html:54
+#: rs/email_utils.py:580 rs/templates/user_main_helpers/menubar.html:54
 msgid "Messages"
 msgstr ""
 
-#: rs/email_utils.py:585
+#: rs/email_utils.py:581
 msgid ""
 "You can mark the new messages as \"read\" by opening (clicking on) each "
 "message, or by marking the checkbox beside multiple messages and clicking "
 "\"Mark as read\""
 msgstr ""
 
-#: rs/email_utils.py:605
+#: rs/email_utils.py:601
 msgid "Additionally, you have received"
 msgstr ""
 
-#: rs/email_utils.py:607
+#: rs/email_utils.py:603
 msgid "You have received"
 msgstr ""
 
-#: rs/email_utils.py:620
+#: rs/email_utils.py:616
 msgid "and"
 msgstr ""
 
-#: rs/email_utils.py:626
+#: rs/email_utils.py:622
 #, python-format
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr ""
 
-#: rs/email_utils.py:629 rs/menubar.py:102 rs/profile_utils.py:100
+#: rs/email_utils.py:625 rs/menubar.py:102 rs/profile_utils.py:100
 msgid "Contacts"
 msgstr ""
 
-#: rs/email_utils.py:635
+#: rs/email_utils.py:631
 msgid "New messages and new contacts"
 msgstr ""
 
-#: rs/email_utils.py:638
+#: rs/email_utils.py:634
 msgid "New messages"
 msgstr ""
 
-#: rs/email_utils.py:641
+#: rs/email_utils.py:637
 msgid "New contacts"
 msgstr ""
 
@@ -806,68 +803,68 @@ msgstr ""
 msgid "No primary photo"
 msgstr ""
 
-#: rs/forms.py:850
+#: rs/forms.py:847
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
 msgstr ""
 
-#: rs/forms.py:851
+#: rs/forms.py:848
 msgid "inside the \"captcha\""
 msgstr ""
 
-#: rs/forms.py:907
+#: rs/forms.py:904
 msgid "Remove report"
 msgstr ""
 
-#: rs/forms.py:909
+#: rs/forms.py:906
 msgid "Report this profile"
 msgstr ""
 
-#: rs/forms.py:1008
+#: rs/forms.py:1005
 msgid "Sent correctly"
 msgstr ""
 
-#: rs/forms.py:1009
+#: rs/forms.py:1006
 msgid "Not sent, try again"
 msgstr ""
 
-#: rs/forms.py:1026
+#: rs/forms.py:1023
 msgid "Before sending it!"
 msgstr ""
 
-#: rs/forms.py:1027
+#: rs/forms.py:1024
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
 "\"Hey babe, what's up\". If not, your profile may be marked as sending spam."
 msgstr ""
 
-#: rs/forms.py:1041
+#: rs/forms.py:1038
 msgid "Send message"
 msgstr ""
 
-#: rs/forms.py:1104
+#: rs/forms.py:1101
 msgid "Verify"
 msgstr ""
 
-#: rs/forms.py:1165 rs/forms.py:1246
+#: rs/forms.py:1162 rs/forms.py:1243
 msgid "Search Box"
 msgstr ""
 
-#: rs/forms.py:1166
+#: rs/forms.py:1163
 msgid "Specify the profiles that you would like to see"
 msgstr ""
 
-#: rs/forms.py:1211 rs/forms.py:1243
+#: rs/forms.py:1208 rs/forms.py:1240
 msgid "Search"
 msgstr ""
 
-#: rs/forms.py:1238
+#: rs/forms.py:1235
 msgid "Username to search for"
 msgstr ""
 
-#: rs/forms.py:1247
+#: rs/forms.py:1244
 msgid "Specify the username that you would like to see"
 msgstr ""
 
@@ -2275,74 +2272,88 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr ""
 
-#: rs/login.py:138
+#: rs/login.py:116
 #, python-format
 msgid ""
 "\n"
-"                    The account for %(username)s has been correctlly "
-"registered. You can enter using your \"Nick\" %(username)s\n"
-"                    and password"
+"                Your account has been correctly registered. You can enter "
+"using your username: <strong>%(username)s</strong>\n"
+"                and the password that you entered when you created your "
+"account."
 msgstr ""
 
-#: rs/login.py:337
+#: rs/login.py:755
+msgid "Incorrect code"
+msgstr ""
+
+#: rs/login.py:758
+msgid "Verification code is invalid or expired"
+msgstr ""
+
+#: rs/login_utils.py:176
 #, python-format
-msgid ""
-"We are unable verify/authorize the account for "
-"%(unable_to_verify_username)s. \n"
-"                This can happen if you have already verified your acount. If "
-"the account %(unable_to_verify_username)s is \n"
-"                yours, then you can directly enter with your \"Nick\" and "
-"your password in the boxes above."
+msgid "<strong>Password</strong> must not be more than %(max_len)s characters"
 msgstr ""
 
-#: rs/login_utils.py:218
-msgid "is not valid"
+#: rs/login_utils.py:187
+#, python-format
+msgid "<strong>Username</strong> must not be more than %(max_len)s characters"
 msgstr ""
 
-#: rs/login_utils.py:421
+#: rs/login_utils.py:197
+#, python-format
+msgid "<strong>%(field_label)s</strong> must be selected"
+msgstr ""
+
+#: rs/login_utils.py:390
 msgid "We have deleted the profile of"
 msgstr ""
 
-#: rs/login_utils.py:484 rs/login_utils.py:516 rs/views.py:402
+#: rs/login_utils.py:457 rs/login_utils.py:489 rs/views.py:402
 msgid "You have exited"
 msgstr ""
 
-#: rs/login_utils.py:511
-msgid "Profile does not exist"
+#: rs/login_utils.py:484
+#, python-format
+msgid "Profile %(username)s has already been deleted, or never existed"
 msgstr ""
 
-#: rs/login_utils.py:652
+#: rs/login_utils.py:612
 msgid "Verification of your email and registration"
 msgstr ""
 
-#: rs/login_utils.py:656
+#: rs/login_utils.py:616
 #, python-format
 msgid ""
-"To activate your account in %(app_name)s, click on the following link to "
-"verify your request"
+"To activate your account in %(app_name)s, enter the verification code when "
+"prompted,                    or click on the following link."
 msgstr ""
 
-#: rs/login_utils.py:665
+#: rs/login_utils.py:619 rs/templates/login_helpers/verification.html:32
+msgid "Verification code"
+msgstr ""
+
+#: rs/login_utils.py:628
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:676
+#: rs/login_utils.py:639
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:679
+#: rs/login_utils.py:642
 #, python-format
 msgid ""
 "\n"
-"                           Unfortunately we are unable to register your new "
-"account in %(app_name)s, since you already have an account registered.\n"
-"                           If you wish to register a new account, please "
+"                               Unfortunately we are unable to register your "
+"new account in %(app_name)s, since you already have an account registered.\n"
+"                               If you wish to register a new account, please "
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:723
+#: rs/login_utils.py:691
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2350,53 +2361,12 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:738
+#: rs/login_utils.py:723
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
 "account for %(username)s. \n"
-"                               We cannot send another activation message for "
-"this account."
-msgstr ""
-
-#: rs/login_utils.py:822
-msgid "We have sent an activation email to"
-msgstr ""
-
-#: rs/login_utils.py:823
-msgid "from"
-msgstr ""
-
-#: rs/login_utils.py:828
-#, python-format
-msgid ""
-"Normally you will receive an email in few minutes, but this can sometimes "
-"take\n"
-"        up to a half hour. If you do not receive an email from us, please "
-"check your Spam folder. \n"
-"        If the message from %(app_name)s has been marked as Spam, please "
-"mark it as not Spam so that you can recieve \n"
-"        future emails from us without any problems."
-msgstr ""
-
-#: rs/login_utils.py:838
-msgid "If you have any problems or suggestions, send us a message at"
-msgstr ""
-
-#: rs/login_utils.py:878
-msgid "If the email address "
-msgstr ""
-
-#: rs/login_utils.py:878
-msgid "is not correct, re-enter it here"
-msgstr ""
-
-#: rs/login_utils.py:881
-msgid "Change email address"
-msgstr ""
-
-#: rs/login_utils.py:884
-msgid "Registering"
+"            We cannot send another activation message for this account."
 msgstr ""
 
 #: rs/mailbox.py:273 rs/mailbox.py:778
@@ -2444,11 +2414,11 @@ msgstr ""
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:809 rs/mailbox.py:977
+#: rs/mailbox.py:809 rs/mailbox.py:974
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:815 rs/mailbox.py:975
+#: rs/mailbox.py:815 rs/mailbox.py:972
 msgid "Delete"
 msgstr ""
 
@@ -2476,29 +2446,29 @@ msgstr ""
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:970
+#: rs/mailbox.py:967
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:970 rs/templates/user_main_helpers/menubar.html:62
+#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:62
 msgid "All (messages - override)"
 msgstr "All"
 
-#: rs/mailbox.py:970
+#: rs/mailbox.py:967
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:1010
+#: rs/mailbox.py:1007
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:1012
+#: rs/mailbox.py:1009
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:1013
+#: rs/mailbox.py:1010
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -2536,23 +2506,23 @@ msgid ""
 "allowed     to send more messages."
 msgstr ""
 
-#: rs/messages.py:548
+#: rs/messages.py:551
 msgid "\"wink\" or a \"kiss\""
 msgstr ""
 
-#: rs/messages.py:549
+#: rs/messages.py:552
 msgid "winks, kisses,"
 msgstr ""
 
-#: rs/messages.py:551
+#: rs/messages.py:554
 msgid "\"greeting\""
 msgstr ""
 
-#: rs/messages.py:552
+#: rs/messages.py:555
 msgid "greetings"
 msgstr ""
 
-#: rs/messages.py:555
+#: rs/messages.py:558
 #, python-format
 msgid ""
 "Welcome to %(app_name)s, and good luck with your search! %(replacement1)s "
@@ -2597,7 +2567,7 @@ msgstr ""
 "\n"
 "Welcome to %(app_name)s, and good luck!  "
 
-#: rs/messages.py:576
+#: rs/messages.py:579
 #, python-format
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr ""
@@ -2640,33 +2610,22 @@ msgstr ""
 "in order to contact other users.</em> <strong>Remember that %(app_name)s is "
 "free!</strong><br><br>"
 
-#: rs/reset_password.py:68
+#: rs/reset_password.py:70
 msgid "Enter your email address"
 msgstr ""
 
-#: rs/reset_password.py:69
+#: rs/reset_password.py:71
 msgid "Send"
 msgstr ""
 
-#: rs/reset_password.py:71
+#: rs/reset_password.py:73
 #, python-format
 msgid ""
 "When you click on \"Send\", you will receive an email from <em>"
 "%(sender_email)s</em> with your new password."
 msgstr ""
 
-#: rs/reset_password.py:74
-#, python-format
-msgid ""
-"\n"
-"** This only works if you have previously registered your email address. If "
-"you did not register an\n"
-"email address, then it is not possible to recover your account.<br><br>\n"
-"If you have a problem or a suggestion, send us an email to <strong>"
-"%(sender_email)s.</strong>"
-msgstr ""
-
-#: rs/reset_password.py:156
+#: rs/reset_password.py:155
 #, python-format
 msgid ""
 "\n"
@@ -2676,19 +2635,19 @@ msgid ""
 "confirm if the email address is registered or not.</em>"
 msgstr ""
 
-#: rs/reset_password.py:167
+#: rs/reset_password.py:166
 #, python-format
 msgid "%(email_address)s is not a valid email address"
 msgstr ""
 
-#: rs/reset_password.py:169
+#: rs/reset_password.py:168
 #, python-format
 msgid ""
 "If you have a problem or suggestion, please send us a message at: <strong>"
 "%(support_email_address)s</strong>."
 msgstr ""
 
-#: rs/reset_password.py:173
+#: rs/reset_password.py:172
 msgid "Finished"
 msgstr ""
 
@@ -2767,7 +2726,7 @@ msgstr "For: %(relationship_status)s"
 msgid "Showing results for"
 msgstr ""
 
-#: rs/store_data.py:1013
+#: rs/store_data.py:1011
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -2776,7 +2735,7 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:1019
+#: rs/store_data.py:1017
 #, python-format
 msgid ""
 "\n"
@@ -2788,7 +2747,7 @@ msgid ""
 "chat friends."
 msgstr ""
 
-#: rs/store_data.py:1047
+#: rs/store_data.py:1045
 #, python-format
 msgid ""
 "\n"
@@ -2798,7 +2757,7 @@ msgid ""
 "member."
 msgstr ""
 
-#: rs/store_data.py:1055
+#: rs/store_data.py:1053
 #: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:34
 msgid "See VIP benefits"
 msgstr ""
@@ -3496,472 +3455,478 @@ msgstr ""
 msgid "Verify new password"
 msgstr ""
 
-#: rs/user_profile_main_data.py:78
+#: rs/user_profile_main_data.py:75
 msgid "Not Important"
 msgstr ""
 
-#: rs/user_profile_main_data.py:79
+#: rs/user_profile_main_data.py:76
 msgid "Anything"
 msgstr ""
 
-#: rs/user_profile_main_data.py:80
+#: rs/user_profile_main_data.py:77
 #: rs/templates/user_main_helpers/search_inline_javascript.html:40
 #: rs/templates/user_main_helpers/search_inline_javascript.html:41
 msgid "Show All"
 msgstr ""
 
-#: rs/user_profile_main_data.py:83
+#: rs/user_profile_main_data.py:80
 msgid "All People"
 msgstr ""
 
-#: rs/user_profile_main_data.py:85
+#: rs/user_profile_main_data.py:82
 msgid "All Lesbian Types"
 msgstr ""
 
-#: rs/user_profile_main_data.py:94 rs/user_profile_main_data.py:111
-#: rs/user_profile_main_data.py:168 rs/user_profile_main_data.py:189
-#: rs/user_profile_main_data.py:202
+#: rs/user_profile_main_data.py:91 rs/user_profile_main_data.py:108
+#: rs/user_profile_main_data.py:165 rs/user_profile_main_data.py:186
+#: rs/user_profile_main_data.py:199
 msgid "Female"
 msgstr ""
 
-#: rs/user_profile_main_data.py:95 rs/user_profile_main_data.py:112
-#: rs/user_profile_main_data.py:169 rs/user_profile_main_data.py:190
-#: rs/user_profile_main_data.py:203
+#: rs/user_profile_main_data.py:92 rs/user_profile_main_data.py:109
+#: rs/user_profile_main_data.py:166 rs/user_profile_main_data.py:187
+#: rs/user_profile_main_data.py:200
 msgid "Male"
 msgstr ""
 
-#: rs/user_profile_main_data.py:96 rs/user_profile_main_data.py:110
+#: rs/user_profile_main_data.py:93 rs/user_profile_main_data.py:107
 msgid "Swinger (Couple)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:97 rs/user_profile_main_data.py:113
-#: rs/user_profile_main_data.py:133
+#: rs/user_profile_main_data.py:94 rs/user_profile_main_data.py:110
+#: rs/user_profile_main_data.py:130
 msgid "Transvestite / Transgendered"
 msgstr ""
 
-#: rs/user_profile_main_data.py:102 rs/user_profile_main_data.py:121
-#: rs/user_profile_main_data.py:173 rs/user_profile_main_data.py:194
-#: rs/user_profile_main_data.py:206
+#: rs/user_profile_main_data.py:99 rs/user_profile_main_data.py:118
+#: rs/user_profile_main_data.py:170 rs/user_profile_main_data.py:191
+#: rs/user_profile_main_data.py:203
 msgid "Females"
 msgstr ""
 
-#: rs/user_profile_main_data.py:103 rs/user_profile_main_data.py:122
-#: rs/user_profile_main_data.py:174 rs/user_profile_main_data.py:195
-#: rs/user_profile_main_data.py:207
+#: rs/user_profile_main_data.py:100 rs/user_profile_main_data.py:119
+#: rs/user_profile_main_data.py:171 rs/user_profile_main_data.py:192
+#: rs/user_profile_main_data.py:204
 msgid "Males"
 msgstr ""
 
-#: rs/user_profile_main_data.py:104 rs/user_profile_main_data.py:120
+#: rs/user_profile_main_data.py:101 rs/user_profile_main_data.py:117
 msgid "Swingers (Couples)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:105 rs/user_profile_main_data.py:123
-#: rs/user_profile_main_data.py:143
+#: rs/user_profile_main_data.py:102 rs/user_profile_main_data.py:120
+#: rs/user_profile_main_data.py:140
 msgid "Transvestites / Transgendered"
 msgstr ""
 
-#: rs/user_profile_main_data.py:114 rs/user_profile_main_data.py:134
+#: rs/user_profile_main_data.py:111 rs/user_profile_main_data.py:131
 msgid "Other (Details In Profile)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:124 rs/user_profile_main_data.py:144
+#: rs/user_profile_main_data.py:121 rs/user_profile_main_data.py:141
 msgid "Others (Details In Profile)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:129
+#: rs/user_profile_main_data.py:126
 msgid "Active Gay"
 msgstr ""
 
-#: rs/user_profile_main_data.py:130
+#: rs/user_profile_main_data.py:127
 msgid "Passive Gay"
 msgstr ""
 
-#: rs/user_profile_main_data.py:131
+#: rs/user_profile_main_data.py:128
 msgid "Versatile Gay"
 msgstr ""
 
-#: rs/user_profile_main_data.py:132
+#: rs/user_profile_main_data.py:129
 msgid "Bisexual"
 msgstr ""
 
-#: rs/user_profile_main_data.py:139
+#: rs/user_profile_main_data.py:136
 msgid "Active Gays"
 msgstr ""
 
-#: rs/user_profile_main_data.py:140
+#: rs/user_profile_main_data.py:137
 msgid "Passive Gays"
 msgstr ""
 
-#: rs/user_profile_main_data.py:141
+#: rs/user_profile_main_data.py:138
 msgid "Versatile Gays"
 msgstr ""
 
-#: rs/user_profile_main_data.py:142
+#: rs/user_profile_main_data.py:139
 msgid "Bisexuals"
 msgstr ""
 
-#: rs/user_profile_main_data.py:153 rs/user_profile_main_data.py:160
+#: rs/user_profile_main_data.py:150 rs/user_profile_main_data.py:157
 msgid "Single"
 msgstr ""
 
-#: rs/user_profile_main_data.py:154 rs/user_profile_main_data.py:161
+#: rs/user_profile_main_data.py:151 rs/user_profile_main_data.py:158
 msgid "Attached"
 msgstr ""
 
-#: rs/user_profile_main_data.py:155 rs/user_profile_main_data.py:162
+#: rs/user_profile_main_data.py:152 rs/user_profile_main_data.py:159
 msgid "Married"
 msgstr ""
 
-#: rs/user_profile_main_data.py:156 rs/user_profile_main_data.py:191
+#: rs/user_profile_main_data.py:153 rs/user_profile_main_data.py:188
 msgid "Prefer Not To Say"
 msgstr ""
 
-#: rs/user_profile_main_data.py:163
+#: rs/user_profile_main_data.py:160
 msgid "Secret"
 msgstr ""
 
-#: rs/user_profile_main_data.py:179 rs/user_profile_main_data.py:227
+#: rs/user_profile_main_data.py:176 rs/user_profile_main_data.py:224
 msgid "Friendship"
 msgstr ""
 
-#: rs/user_profile_main_data.py:180 rs/user_profile_main_data.py:228
+#: rs/user_profile_main_data.py:177 rs/user_profile_main_data.py:225
 msgid "Dating"
 msgstr ""
 
-#: rs/user_profile_main_data.py:181 rs/user_profile_main_data.py:229
+#: rs/user_profile_main_data.py:178 rs/user_profile_main_data.py:226
 msgid "Long Term Relationship"
 msgstr ""
 
-#: rs/user_profile_main_data.py:196
+#: rs/user_profile_main_data.py:193
 msgid "People Who Don't Specify"
 msgstr ""
 
-#: rs/user_profile_main_data.py:212
+#: rs/user_profile_main_data.py:209
 msgid "Femme (Feminine Lesbian)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:213
+#: rs/user_profile_main_data.py:210
 msgid "Bisexual Lesbian"
 msgstr ""
 
-#: rs/user_profile_main_data.py:214
+#: rs/user_profile_main_data.py:211
 msgid "Butch (Masculine Lesbian)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:215
+#: rs/user_profile_main_data.py:212
 msgid "Unlabeled Lesbian"
 msgstr ""
 
-#: rs/user_profile_main_data.py:219
+#: rs/user_profile_main_data.py:216
 msgid "Femmes (Feminine Lesbians)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:220
+#: rs/user_profile_main_data.py:217
 msgid "Bisexual Lesbians"
 msgstr ""
 
-#: rs/user_profile_main_data.py:221
+#: rs/user_profile_main_data.py:218
 msgid "Butches (Masculine Lesbians)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:222
+#: rs/user_profile_main_data.py:219
 msgid "Unlabeled Lesbians"
 msgstr ""
 
-#: rs/user_profile_main_data.py:230
+#: rs/user_profile_main_data.py:227
 msgid "Physical Relationship"
 msgstr ""
 
-#: rs/user_profile_main_data.py:326
+#: rs/user_profile_main_data.py:323
 msgid "Completed Profiles First"
 msgstr ""
 
-#: rs/user_profile_main_data.py:327
+#: rs/user_profile_main_data.py:324
 msgid "Recent Logins First"
 msgstr ""
 
-#: rs/user_profile_main_data.py:337
+#: rs/user_profile_main_data.py:334
 msgid "I Am Currently In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:339
+#: rs/user_profile_main_data.py:336
 msgid "I / We Live In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:341
+#: rs/user_profile_main_data.py:338
 msgid "I Live In"
 msgstr ""
 
-#: rs/user_profile_main_data.py:346
+#: rs/user_profile_main_data.py:343
 msgid "I Prefer"
 msgstr ""
 
-#: rs/user_profile_main_data.py:348
+#: rs/user_profile_main_data.py:345
 msgid "I / We Would Like To Meet"
 msgstr "I&nbsp;/We&nbsp;Would&nbsp;Like&nbsp;To&nbsp;Meet"
 
-#: rs/user_profile_main_data.py:350
+#: rs/user_profile_main_data.py:347
 msgid "I Would Like To Meet"
 msgstr ""
 
-#: rs/user_profile_main_data.py:354
+#: rs/user_profile_main_data.py:351
 msgid "Email Address (Confidential)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:355
-msgid "Verify Password"
-msgstr ""
-
-#: rs/user_profile_main_data.py:356
+#: rs/user_profile_main_data.py:352
 msgid "Password"
 msgstr ""
 
-#: rs/user_profile_main_data.py:357
+#: rs/user_profile_main_data.py:353
 msgid "Username (Visible To Others)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:360
+#: rs/user_profile_main_data.py:356
 msgid "I Am"
 msgstr ""
 
-#: rs/user_profile_main_data.py:361
+#: rs/user_profile_main_data.py:357
 msgid "My Age"
 msgstr ""
 
-#: rs/user_profile_main_data.py:363
+#: rs/user_profile_main_data.py:359
 msgid "I Am / We Are"
 msgstr ""
 
-#: rs/user_profile_main_data.py:364
+#: rs/user_profile_main_data.py:360
 msgid "My / Our Age (Average)"
 msgstr "My&nbsp;/&nbsp;Our&nbsp;Age&nbsp;(Average)"
 
-#: rs/user_profile_main_data.py:367
+#: rs/user_profile_main_data.py:363
 msgid "Sub Region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:368 rs/user_profile_main_data.py:554
+#: rs/user_profile_main_data.py:364 rs/user_profile_main_data.py:546
 msgid "Region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:371
+#: rs/user_profile_main_data.py:367
 msgid "My Relationship Status"
 msgstr "My&nbsp;Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:373
+#: rs/user_profile_main_data.py:369
 msgid "My / Our Relationship Status"
 msgstr "My&nbsp;/&nbsp;Our&nbsp;Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:375
+#: rs/user_profile_main_data.py:371
 msgid "Type Of Relationship"
 msgstr "Type&nbsp;Of&nbsp;Relationship"
 
-#: rs/user_profile_main_data.py:377 rs/user_profile_main_data.py:584
+#: rs/user_profile_main_data.py:373 rs/user_profile_main_data.py:576
 msgid "Language That I Want To Practice"
 msgstr ""
 
-#: rs/user_profile_main_data.py:378
+#: rs/user_profile_main_data.py:374
 msgid "My Native Language"
 msgstr "My&nbsp;Native&nbsp;Language"
 
-#: rs/user_profile_main_data.py:553
+#: rs/user_profile_main_data.py:545
 msgid "Country"
 msgstr "Country"
 
-#: rs/user_profile_main_data.py:555
+#: rs/user_profile_main_data.py:547
 msgid "Sub region"
 msgstr ""
 
-#: rs/user_profile_main_data.py:556
+#: rs/user_profile_main_data.py:548
 msgid "Sex"
 msgstr ""
 
-#: rs/user_profile_main_data.py:557 rs/user_profile_main_data.py:587
+#: rs/user_profile_main_data.py:549 rs/user_profile_main_data.py:579
 msgid "Age"
 msgstr ""
 
-#: rs/user_profile_main_data.py:558 rs/user_profile_main_data.py:588
+#: rs/user_profile_main_data.py:550 rs/user_profile_main_data.py:580
 msgid "Order"
 msgstr ""
 
-#: rs/user_profile_main_data.py:561
+#: rs/user_profile_main_data.py:553
 msgid "I Would Like To See"
 msgstr "I&nbsp;Would&nbsp;Like&nbsp;To&nbsp;See"
 
-#: rs/user_profile_main_data.py:563
+#: rs/user_profile_main_data.py:555
 msgid "That Are Interested In"
 msgstr "That&nbsp;Are&nbsp;Interested&nbsp;In"
 
-#: rs/user_profile_main_data.py:565
+#: rs/user_profile_main_data.py:557
 msgid "That Prefer"
 msgstr "That&nbsp;Prefer"
 
-#: rs/user_profile_main_data.py:566
+#: rs/user_profile_main_data.py:558
 msgid "Their Age"
 msgstr "Their&nbsp;Age"
 
-#: rs/user_profile_main_data.py:568
+#: rs/user_profile_main_data.py:560
 msgid "Relationship Status"
 msgstr "Relationship&nbsp;Status"
 
-#: rs/user_profile_main_data.py:570
+#: rs/user_profile_main_data.py:562
 msgid "Looking For"
 msgstr "Looking&nbsp;For"
 
-#: rs/user_profile_main_data.py:585
+#: rs/user_profile_main_data.py:577
 msgid "In Exchange For (I Speak)"
 msgstr ""
 
-#: rs/user_profile_main_data.py:586
+#: rs/user_profile_main_data.py:578
 msgid "With People That Are"
 msgstr ""
 
-#: rs/user_profile_main_data.py:718 rs/user_profile_main_data.py:719
+#: rs/user_profile_main_data.py:710 rs/user_profile_main_data.py:711
 msgid "Any Language"
 msgstr ""
 
-#: rs/utils.py:137
+#: rs/utils.py:136
 msgid "and other (languages)..."
 msgstr "and others..."
 
-#: rs/utils.py:213
+#: rs/utils.py:212
 msgid "I am"
 msgstr ""
 
-#: rs/utils.py:214
+#: rs/utils.py:213
 msgid "Preference"
 msgstr ""
 
-#: rs/utils.py:215
+#: rs/utils.py:214
 msgid "Relationship status"
 msgstr "Relationship&nbsp;status"
 
-#: rs/utils.py:216
+#: rs/utils.py:215
 msgid "I fluently speak"
 msgstr ""
 
-#: rs/utils.py:217
+#: rs/utils.py:216
 msgid "I want to practice"
 msgstr ""
 
-#: rs/utils.py:218
+#: rs/utils.py:217
 msgid "Looking for"
 msgstr "Looking&nbsp;for"
 
-#: rs/utils.py:219
+#: rs/utils.py:218
 msgid "My age"
 msgstr ""
 
-#: rs/utils.py:220
+#: rs/utils.py:219
 msgid "My price"
 msgstr ""
 
-#: rs/utils.py:223
+#: rs/utils.py:222
 msgid "In location"
 msgstr ""
 
-#: rs/utils.py:225
+#: rs/utils.py:224
 msgid "I am currently in"
 msgstr ""
 
-#: rs/utils.py:498 rs/vip_sms_payment_structures.py:94
+#: rs/utils.py:409 rs/templates/landing_page.html:89
+#: rs/templates/landing_page.html.py:213
+#: rs/templates/login_helpers/login.html:58
+msgid "Have you forgotten your password?"
+msgstr ""
+
+#: rs/utils.py:413
+msgid "you can request a new password"
+msgstr ""
+
+#: rs/utils.py:519 rs/vip_sms_payment_structures.py:94
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:511
+#: rs/utils.py:532
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:526
+#: rs/utils.py:547
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:541
+#: rs/utils.py:562
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:558
+#: rs/utils.py:579
 msgid "ago (capitalize if first word)"
 msgstr "ago"
 
-#: rs/utils.py:560
+#: rs/utils.py:581
 msgid "ago"
 msgstr ""
 
-#: rs/utils.py:564
+#: rs/utils.py:585
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr ""
 
-#: rs/utils.py:569
+#: rs/utils.py:590
 msgid "In"
 msgstr ""
 
-#: rs/utils.py:571
+#: rs/utils.py:592
 msgid "in"
 msgstr ""
 
-#: rs/utils.py:993
+#: rs/utils.py:1014
 msgid "Interested in:"
 msgstr ""
 
-#: rs/utils.py:996
+#: rs/utils.py:1017
 msgid ", and"
 msgstr ""
 
-#: rs/utils.py:1446
+#: rs/utils.py:1467
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to "
 "%(support_email_address)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1452
+#: rs/utils.py:1473
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1457
+#: rs/utils.py:1478
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1464
+#: rs/utils.py:1485
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1471
+#: rs/utils.py:1492
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils.py:1769
+#: rs/utils.py:1791
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr ""
 
-#: rs/utils.py:1790 rs/utils.py:1792
+#: rs/utils.py:1812 rs/utils.py:1814
 msgid "is"
 msgstr ""
 
-#: rs/utils.py:1790 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1812 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -3976,23 +3941,23 @@ msgstr ""
 #: rs/proprietary/search_engine_overrides.py:124
 #: rs/proprietary/templates/proprietary_ads/friend_build.html:30
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/login.html:257
+#: rs/templates/landing_page.html:101
 msgid "100 percent free"
 msgstr "100% free"
 
-#: rs/utils.py:1790 rs/templates/login.html:292
+#: rs/utils.py:1812 rs/templates/landing_page.html:136
 msgid "We never ask for your credit card or any other form of payment"
 msgstr ""
 
-#: rs/utils.py:1792
+#: rs/utils.py:1814
 msgid "free"
 msgstr ""
 
-#: rs/utils.py:1792 rs/templates/login.html:290
+#: rs/utils.py:1814 rs/templates/landing_page.html:134
 msgid "chat and messages included"
 msgstr ""
 
-#: rs/utils.py:1795
+#: rs/utils.py:1817
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -4062,7 +4027,8 @@ msgstr ""
 msgid "classy contacts for swingers. Swinging lifestyle. Partner swapping."
 msgstr ""
 
-#: rs/proprietary/search_engine_overrides.py:75 rs/templates/login.html:269
+#: rs/proprietary/search_engine_overrides.py:75
+#: rs/templates/landing_page.html:113
 msgid "gay dating"
 msgstr ""
 
@@ -4160,7 +4126,6 @@ msgid ""
 "       to over 100,000 unique visitors.\n"
 "    <p>For more information, please contact: <b>%(support_email_address)s</"
 "b>.\n"
-"    "
 msgstr ""
 
 #: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:14
@@ -4177,133 +4142,135 @@ msgid "100 percent free contacts for swingers"
 msgstr "100% free contacts for swingers"
 
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:39
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:166
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:277
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:431
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:438
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:448
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:455
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:464
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:471
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:181
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:292
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:446
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:453
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:463
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:470
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:479
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:487
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:486
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:494
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:501
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:508
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:515
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:522
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:529
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:502
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:509
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:516
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:523
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:530
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:537
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:544
 msgid "Oct"
 msgstr ""
 
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:46
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:172
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:179
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:69
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:77
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:187
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:195
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:284
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:538
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:545
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:552
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:194
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:202
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:210
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:299
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:553
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:560
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:811
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:567
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:575
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:826
 msgid "Sep"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:70
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:78
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:86
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:94
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:102
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:203
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:211
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:220
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:228
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:293
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:300
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:85
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:93
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:101
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:109
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:117
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:218
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:226
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:235
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:243
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:308
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:315
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:323
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:331
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:339
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:330
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:338
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:346
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:354
 msgid "Aug"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:110
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:118
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:126
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:134
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:142
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:236
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:242
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:567
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:575
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:125
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:133
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:141
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:149
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:157
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:251
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:257
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:582
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:589
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:859
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:864
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:590
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:597
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:604
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:874
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:879
 msgid "Jul"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:157
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:263
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:270
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:869
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:172
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:278
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:285
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:884
 msgid "Jan"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:249
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:256
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:264
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:271
 msgid "Feb"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:367
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:374
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:381
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:382
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:389
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:397
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:396
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:404
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:412
 msgid "Mar"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:405
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:415
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:423
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:420
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:430
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:438
 msgid "Nov"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:597
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:604
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:611
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:618
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:612
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:619
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:626
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:635
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:643
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:652
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:660
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:633
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:641
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:650
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:658
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:667
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:674
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:681
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:688
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:695
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:702
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:709
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:716
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:723
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:675
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:682
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:689
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:696
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:703
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:710
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:717
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:724
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:731
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:738
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:745
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:752
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:759
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:766
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:746
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:753
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:760
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:767
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:774
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:781
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:790
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:818
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:840
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:789
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:796
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:805
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:833
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:855
 msgid "Jun"
 msgstr ""
 
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:853
+#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:868
 msgid "Apr"
 msgstr ""
 
@@ -4313,14 +4280,6 @@ msgstr ""
 
 #: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:11
 msgid "See you soon!"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:15
-#, python-format
-msgid ""
-"\n"
-"    If you like %(app_name)s click here:\n"
-"    "
 msgstr ""
 
 #: rs/proprietary/templates/proprietary_html_content/welcome_message.html:6
@@ -4530,83 +4489,47 @@ msgstr ""
 msgid "Send us an email at:"
 msgstr ""
 
-#: rs/templates/login.html:134
-msgid "Free confidential dating"
-msgstr ""
-
-#: rs/templates/login.html:140
-msgid "100 percent free everything included"
-msgstr "100% free - everything included"
-
-#: rs/templates/login.html:146
-msgid "Are you already registered (female)? Enter here:"
-msgstr "Are you already registered? Enter here:"
-
-#: rs/templates/login.html:148
-msgid "Are you already registered? Enter here:"
-msgstr ""
-
-#: rs/templates/login.html:155
-msgid "username or email"
-msgstr ""
-
-#: rs/templates/login.html:163
-msgid "password"
-msgstr ""
-
-#: rs/templates/login.html:170
-msgid "Enter"
-msgstr ""
-
-#: rs/templates/login.html:202
+#: rs/templates/landing_page.html:67
 msgid "Do you want to look around before registering?"
 msgstr ""
 
-#: rs/templates/login.html:205
+#: rs/templates/landing_page.html:70
 msgid "Enter with a guest account"
 msgstr ""
 
-#: rs/templates/login.html:261
+#: rs/templates/landing_page.html:105
 msgid "online dating"
 msgstr ""
 
-#: rs/templates/login.html:265
+#: rs/templates/landing_page.html:109
 msgid "swinger contacts"
 msgstr ""
 
-#: rs/templates/login.html:273
+#: rs/templates/landing_page.html:117
 msgid "language exchange"
 msgstr ""
 
-#: rs/templates/login.html:277
+#: rs/templates/landing_page.html:121
 msgid "meet friends"
 msgstr ""
 
-#: rs/templates/login.html:281
+#: rs/templates/landing_page.html:125
 msgid "lesbian dating"
 msgstr ""
 
-#: rs/templates/login.html:290
+#: rs/templates/landing_page.html:134
 msgid "Free"
 msgstr ""
 
-#: rs/templates/login.html:296
+#: rs/templates/landing_page.html:140
 msgid "Over 50 percent of our members are single"
 msgstr "Over 50% of our members are single"
 
-#: rs/templates/login.html:301
+#: rs/templates/landing_page.html:145
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr ""
 
-#: rs/templates/login.html:310
-#, python-format
-msgid ""
-"\n"
-"            If you like %(app_name)s click here:\n"
-"            "
-msgstr ""
-
-#: rs/templates/main_container.html:78
+#: rs/templates/main_container.html:74
 msgid "You must enable JavaScript to view this page"
 msgstr ""
 
@@ -4619,7 +4542,11 @@ msgid ""
 "You have not written a message. You must write something before sending it."
 msgstr ""
 
-#: rs/templates/common_helpers/footer.html:39
+#: rs/templates/common_helpers/common_translations.html:12
+msgid "Invalid input"
+msgstr ""
+
+#: rs/templates/common_helpers/footer.html:15
 msgid "Terms and conditions"
 msgstr ""
 
@@ -4635,42 +4562,126 @@ msgstr ""
 msgid "Register / Enter"
 msgstr ""
 
-#: rs/templates/login_helpers/login_errors.html:33
-msgid "There is a problem"
+#: rs/templates/login_helpers/login.html:8
+msgid "Free confidential dating"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:35
+#: rs/templates/login_helpers/login.html:14
+msgid "100 percent free everything included"
+msgstr "100% free - everything included"
+
+#: rs/templates/login_helpers/login.html:20
+msgid "Are you already registered (female)? Enter here:"
+msgstr "Are you already registered? Enter here:"
+
+#: rs/templates/login_helpers/login.html:22
+msgid "Are you already registered? Enter here:"
+msgstr ""
+
+#: rs/templates/login_helpers/login.html:36
+msgid "username or email"
+msgstr ""
+
+#: rs/templates/login_helpers/login.html:41
+msgid "password"
+msgstr ""
+
+#: rs/templates/login_helpers/login.html:46
+msgid "Enter"
+msgstr ""
+
+#: rs/templates/login_helpers/registration.html:5
 #, python-format
 msgid ""
 "\n"
-"            I confirm that I am %(age)s or older and that I have read and "
-"accept the terms and conditions for using %(app_name)s\n"
-"            "
+"    I confirm that I am %(age)s or older and that I have read and accept the "
+"<a class=\"cl-dialog_anchor\"\n"
+"    href=\"/en/rs/terms/\" target=\"_blank\"> terms and conditions</a> for "
+"using %(app_name)s\n"
+"    "
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:49
+#: rs/templates/login_helpers/registration.html:9
+msgid "I agree"
+msgstr ""
+
+#: rs/templates/login_helpers/registration.html:23
 msgid "Register here"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:52
+#: rs/templates/login_helpers/registration.html:26
 msgid "it only takes 30 seconds"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:61
+#: rs/templates/login_helpers/registration.html:35
 msgid " Register me"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:79
+#: rs/templates/login_helpers/registration.html:95
 msgid "Select Region"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:80
+#: rs/templates/login_helpers/registration.html:96
 msgid "Select Sub-Region"
 msgstr ""
 
-#: rs/templates/login_helpers/right_login_table.html:81
+#: rs/templates/login_helpers/registration.html:97
 #: rs/templates/user_main_helpers/search_inline_javascript.html:42
 msgid "Not Defined Yet"
+msgstr ""
+
+#: rs/templates/login_helpers/verification.html:11
+#, python-format
+msgid ""
+"\n"
+"        We have sent an activation email to <strong>%(to_email)s</strong>\n"
+"        from  <em>%(support_email_address)s</em>.\n"
+"        "
+msgstr ""
+
+#: rs/templates/login_helpers/verification.html:16
+#, python-format
+msgid ""
+"\n"
+"        Once you receive the email from %(app_name)s, in order to activate "
+"your account, you can either enter the verification code from the\n"
+"        email in the input below, or you can directly click on the "
+"activation link included in the email.\n"
+"        "
+msgstr ""
+
+#: rs/templates/login_helpers/verification.html:26
+msgid "Username"
+msgstr ""
+
+#: rs/templates/login_helpers/verification.html:29
+msgid "Code"
+msgstr ""
+
+#: rs/templates/login_helpers/verification.html:35
+msgid "Activate account!"
+msgstr ""
+
+#: rs/templates/login_helpers/verification.html:43
+#, python-format
+msgid ""
+"\n"
+"        Normally you will receive an email in few seconds, but this can "
+"sometimes take\n"
+"        up to 15 minutes. If you do not receive an email from us, please "
+"check your Spam folder.\n"
+"        If the message from %(app_name)s has been marked as Spam, please "
+"mark it as not Spam.\n"
+"    "
+msgstr ""
+
+#: rs/templates/login_helpers/verification.html:52
+#, python-format
+msgid ""
+"\n"
+"          If you have any problems or suggestions, send us a message at: "
+"<strong>%(email)s</strong>.\n"
+"    "
 msgstr ""
 
 #: rs/templates/user_main_helpers/become_a_vip.html:37
@@ -5083,11 +5094,13 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                vip_message_quota %(vip)s %(free)s"
+"                vip_message_quota %(vip_messages)s %(vip_hours)s "
+"%(guest_messages)s %(guest_hours)s "
 msgstr ""
 "\n"
-"Increased message quota that allows you to contact %(vip)s new people per "
-"day (versus %(free)s for non-VIP members)."
+"Increased message quota that allows you to contact %(vip_messages)s new "
+"people every %(vip_hours)s hours (versus %(guest_messages)s every "
+"%(guest_hours)s hours for non-VIP members)."
 
 #: rs/templates/user_main_helpers/vip_benefits.html:8
 #, python-format
@@ -5134,6 +5147,14 @@ msgstr ""
 "You can modify your contact email address whenever you like (versus non VIP "
 "members which must permanently use the email address that they registered "
 "with)."
+
+#~ msgid ""
+#~ "\n"
+#~ "                vip_message_quota %(vip)s %(free)s"
+#~ msgstr ""
+#~ "\n"
+#~ "Increased message quota that allows you to contact %(vip)s new people per "
+#~ "day (versus %(free)s for non-VIP members)."
 
 #~ msgid ""
 #~ "Before you can contact other members, you must write a description of "
