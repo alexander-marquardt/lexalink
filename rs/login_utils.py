@@ -57,6 +57,7 @@ import models
 import localizations, user_profile_main_data, user_profile_details, online_presence_support
 import rendering
 import gaesessions
+from rs import profile_utils
 
 #############################################
 
@@ -374,7 +375,8 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
     
     try:
         remoteip  = os.environ['REMOTE_ADDR']
-        
+        profile_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user=False)
+        linked_username = """<a href="%s">%s</a>""" % (profile_href, userobject.username,)
         
         def txn(user_key):
             # run in transaction to prevent conflicts with other writes to the userobject.
@@ -385,25 +387,24 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
         
                 # The following html is multi-lingual because this branch can be executed by a user call, and the return value
                 # will be displayed as html to the user. 
-                html_for_delete_account = u"<p>%s %s.</p>" % (ugettext("We have deleted the profile of"), userobject.username)
+                html_for_action_on_account = u"%s %s.<br>" % (ugettext("We have deleted the profile of"), linked_username)
                 userobject.reason_for_profile_removal = reason_for_profile_removal
                 
             elif action_to_take == "undelete": 
                 userobject.user_is_marked_for_elimination = False
 
-                html_for_delete_account = u"<p>%s %s.</p>" % ("We have un-deleted the profile of",
-                    userobject.username)
+                html_for_action_on_account = u"%s %s.<br>" % ("We have un-deleted the profile of",
+                    linked_username)
                 userobject.reason_for_profile_removal = None
                 
                 
             elif action_to_take == "reset":
-                # Reset access to this profile. This requires setting a new password as well as a new email address since
-                # these values were previously removed.
+                # Reset access to this profile. This requires setting a new password as well as a new email address 
                 if not new_email_address:
-                    html_for_delete_account = u"<p>You must pass in an email address to enable account. /rs/admin/action/reset/name/[name_val]/[email_val]/[password_val]/</p>"
+                    html_for_action_on_account = u"You must pass in an email address to enable account. /rs/admin/action/reset/name/[name_val]/[email_val]/[password_val]/<br>"
                 else:
-                    html_for_delete_account = u"<p>We have reset access to %s. New email is %s and new password is %s</p>"  % (
-                        userobject.username, new_email_address, new_password)     
+                    html_for_action_on_account = u"We have reset access to %s. New email is %s and new password is %s<br>"  % (
+                        linked_username, new_email_address, new_password)     
                     
                     # Note: eventually , we may consider storing the original email_address and hashed-password in a seperate data structure
                     # in case we wan the ability to roll-back  profiles that we have "reset" to their original owners. Not a priority right
@@ -414,20 +415,25 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                     if new_email_address in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
                         userobject.email_options[0] = 'only_password_recovery'
                     else:
+                        html_for_action_on_account += """<p>WARNING, the email address you have set is not in 
+                        REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET: %s. This means that notification emails will be sent
+                        to %s</p>""" % (constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET, new_email_address)
                         userobject.email_options[0] = 'daily_notification_of_new_messages'
                         
             elif action_to_take == "set_password":
                 if not new_password:
-                    html_for_delete_account = "<p>You need to pass in a password. /rs/admin/action/set_password/name/[name_val]/[new_password]/</p>"
+                    html_for_action_on_account = "You need to pass in a password. /rs/admin/action/set_password/name/[name_val]/[new_password]/<br>"
                 else:
-                    html_for_delete_account = u"<p>We set new password for %s to %s</p>" % (userobject.username, new_password)                
+                    html_for_action_on_account = u"We set new password for %s to %s<br>" % (linked_username, new_password)                
                     userobject.password = utils.new_passhash(new_password, userobject.password_salt)
+            elif action_to_take == "list":
+                html_for_action_on_account = u"%s<br>" % linked_username
             else: 
-                html_for_delete_account = u'<p>Error: unknown action_to_take: %s</p>' % action_to_take
+                html_for_action_on_account = u'Error: unknown action_to_take %s on user %s<br>' % (action_to_take, linked_username)
             
             utils.put_userobject(userobject)
             
-            return html_for_delete_account
+            return html_for_action_on_account
     
             
         # mark the userobject for elimination -- do in a transaction to ensure that there are no conflicts!

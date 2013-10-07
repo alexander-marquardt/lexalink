@@ -72,6 +72,7 @@ if SHOW_VIP_UPGRADE_OPTION:
 else:
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 8
     
+# if this member is VIP, then they will be allowed to send messages to more people in the "window"
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
     

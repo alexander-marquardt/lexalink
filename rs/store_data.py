@@ -1240,8 +1240,10 @@ def store_report_unacceptable_profile(request, display_uid):
         if count_unacceptable_profile.count >= NUM_REPORTS_FOR_UNACCEPTABLE_PROFILE:
             displayed_profile = utils_top_level.get_object_from_string(display_uid)
             error_message = """Profile %s has been reported as unacceptable %s times<br>
-            Most recent report by: %s who has reported %s profiles as unacceptable.<br>""" \
-                          % (displayed_profile.username, count_unacceptable_profile.count, sender_userobject.username, count_reporting_profile.count)
+            Most recent report by: %s who has reported %s profiles as unacceptable.<br>
+            Admin view: %s""" \
+                          % (displayed_profile.username, count_unacceptable_profile.count, sender_userobject.username, 
+                             count_reporting_profile.count, utils.generate_profile_information_for_administrator(displayed_profile, True))
             email_utils.send_admin_alert_email(error_message, subject = "%s Unacceptable profile" % settings.APP_NAME)
             logging.error(error_message)
             

@@ -418,7 +418,6 @@ def count_clients(request):
 def run_query_to_take_action_on_profiles(request, action_to_take, query_key, query_value, reason_for_profile_removal, new_password, new_email_address):
 
     PAGESIZE = 100 # don't make this much more than 100 or we start overusing memory and get errors   
-    generated_html = ''
     
     q= models.UserModel.query().filter(models.UserModel._properties[query_key] == query_value)
     userobject_batch = q.fetch(PAGESIZE)
@@ -429,22 +428,21 @@ def run_query_to_take_action_on_profiles(request, action_to_take, query_key, que
         logging.info(info_message)
         return info_message
 
+    info_message = "<p>%s-ing %s objects<br><br></p>" % (action_to_take, len(userobject_batch))
     for userobject in userobject_batch:  
         try:
-            if utils.get_client_paid_status(userobject):
-                info_message = u"*** CANNOT DELETE userobject for %s since it is a VIP (paid) account. Manually remove VIP status before deletion" % userobject.username
+            if utils.get_client_paid_status(userobject) and action_to_take == "delete":
+                info_message += u"*** CANNOT DELETE userobject for %s since it is a VIP (paid) account. Manually remove VIP status before deletion" % userobject.username
             else:
-                info_message = u"** %s %s userobject<br>\n" % (action_to_take, userobject.username)
                 info_message += u"%s" % login_utils.take_action_on_account_and_generate_response(
                     request, userobject, action_to_take, reason_for_profile_removal, new_password, new_email_address, return_html_or_text = "text")
             
-            generated_html += info_message
             logging.info(info_message)                    
                 
         except:
             error_reporting.log_exception(logging.critical)  
         
-    return generated_html
+    return info_message
         
         
 def batch_take_action_on_profiles(request, action_to_take, field_for_action, val_for_query, reason_for_profile_removal = None, new_password = None,
@@ -453,12 +451,12 @@ def batch_take_action_on_profiles(request, action_to_take, field_for_action, val
     
     """ This function scans the database for profiles that need to be fixed
     
-    action_to_take: "delete", "undelete", "set_password" , "reset"
+    action_to_take: "delete", "undelete", "set_password" , "reset", "list"
         delete: means that the profile will have its "user_is_marked_for_elimination" set to True - this will prevent it from showing up in queries, and
                 will eventually be removed from the database
         undelete: un-does a delete by marking user_is_marked_for_elimination to False
         disable: sets the user password to a secret value, and clears the email address
-        enable: sets the user password to a new value, and sets the email_address to a passed-in value.
+        reset: sets the user password to a new value, and sets the email_address to a passed-in value.
         
     field_for_action: "name", "ip", "email"
     val_for_query: if field_for_acion is "email", this is the email address, if field_for_action is "name" this is the name, etc.
@@ -474,16 +472,20 @@ def batch_take_action_on_profiles(request, action_to_take, field_for_action, val
         val_for_query = val_for_query.replace(' ', '')
         
         if field_for_action == "ip":
+            generated_html += "<p>Query by registration_ip_address: %s<br></p>" % val_for_query
             generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'registration_ip_address', val_for_query, 
                                                                    reason_for_profile_removal, new_password, new_email_address)
+            generated_html += "<p>Query by last_login_ip_address: %s<br></p>" % val_for_query            
             generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'last_login_ip_address', val_for_query, 
                                                                    reason_for_profile_removal, new_password, new_email_address)
         elif field_for_action == "name":
             val_for_query = val_for_query.upper()
+            generated_html += "<p>Query by name: %s</p>" % val_for_query
             generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'username', val_for_query, 
                                                                    reason_for_profile_removal, new_password, new_email_address)
         elif field_for_action == "email":
             val_for_query = val_for_query.lower()
+            generated_html += "<p>Query by email: %s</p>" % val_for_query
             generated_html += run_query_to_take_action_on_profiles(request, action_to_take, 'email_address', val_for_query, 
                                                                    reason_for_profile_removal, new_password, new_email_address)            
         else:
