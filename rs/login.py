@@ -186,12 +186,12 @@ def get_registration_html(request):
         
         generated_html = """
         <br><br>
-        <div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>
-        <br><br>
+        <div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>
         <div class="cl-clear"></div>
-        <div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>""" % {
-                                          'registration_html' : registration_html,
-                                          'signup_html' : signup_html}
+        <div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>
+        """ % {
+                        'registration_html' : registration_html,
+                        'signup_html' : signup_html}
         
         return http.HttpResponse(generated_html)
     except:

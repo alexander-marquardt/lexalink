@@ -98,10 +98,8 @@
                         }
                     });
 
-                    // remove the background color from the "already registered" text
-                    $('#id-show-registration-and-login').find('.cl-horiz-bar-div').removeClass('cl-horiz-bar-div');
-                    // set the "already registered" text to dark gray
-                    $('#id-show-registration-and-login').find('.cl-td-horizontal-bar').css({'color': '#333333'});
+
+                    $('#id-show-registration-and-login').css({'padding' : "0px"});
                     $('#id-show-registration-and-login').dialog('open');
 
                     var background_img = $('#rs-nav').css('background-image');
