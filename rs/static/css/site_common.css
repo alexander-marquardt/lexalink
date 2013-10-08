@@ -282,14 +282,19 @@ font-weight: bold;
 	width: 80px;
 	height: 12px;
 	vertical-align: text-bottom;
-	font-size: 11px;
 }
+
 .cl-nick-textinput-width-px {
 	width: 133px;
 	height: 12px;
 	vertical-align: text-bottom;
-	font-size: 11px;
 }
+
+.cl-textinput-font-size {
+    font-size: 12px !important;
+}
+
+
 
 .cl-standard-textinput-width-px {
 	width: 140px;
@@ -402,6 +407,10 @@ font-weight: bold;
 	background-color: rgb(253, 253, 253);
 	border-width:1px;
 	border-color: #D3D3D3;
+}
+.cl-horiz-bar-div
+{
+    display: inline-block;
 }
 
 table#id-horiz-bar-table {

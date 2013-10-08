@@ -67,12 +67,9 @@ a {text-decoration: none; color:#950808;}
 .info-link-footer-format a:hover {text-decoration: underline; color: #EB485D; font-weight: normal;} /* soft RED */
 
 
-table#id-horiz-bar-table
+.cl-horiz-bar-div
 {
     background: url(../img/default_build/navbar_background.png) left repeat-x;
-	width: 940px;
-	/*height: 30px;*/
-
 }
 
 

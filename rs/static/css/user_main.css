@@ -544,6 +544,7 @@ table.center {
 
 td#id-td-horizontal-bar-first-cell
 {
+    width: 99%;
     white-space: nowrap;
 	text-align: left;
 	font-size: 20px;
@@ -553,7 +554,8 @@ td#id-td-horizontal-bar-first-cell
 
 td#id-td-horizontal-bar-second-cell
 {
-    width: 100%;
+    width: auto;
+    white-space: nowrap;
 	text-align: right;
 	font-size: 16px;
 	vertical-align: middle;

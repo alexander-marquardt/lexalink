@@ -43,6 +43,8 @@ urlpatterns = patterns('',
     url(r'^rs/admin/process_login/$', login.process_login, {'is_admin_login' : True}, name="login.admin_process_login"),
     
     url(r'^rs/process_registration/$', login.process_registration, name="login.process_registration"),
+    
+    (r'^rs/get_registration_html/$', login.get_registration_html),
             
     (r'^setlang/(?P<lang_code>[\w]{2})/$', lang_settings.set_language_and_redirect_back),    
     

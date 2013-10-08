@@ -174,6 +174,29 @@ def landing_page(request, is_admin_login = False):
         return utils.return_and_report_internal_error(request)
 
 
+def get_registration_html(request):
+    
+    try:
+        signup_template = template.loader.get_template('login_helpers/registration.html')
+        html_for_signup = forms.MyHTMLLoginGenerator.as_table_rows(localizations.input_field_lang_idx[request.LANGUAGE_CODE], 'signup_fields')
+        context = template.Context (dict({'html_for_signup': html_for_signup}, **constants.template_common_fields))
+        registration_html = signup_template.render(context)
+        
+        login_template = template.loader.get_template('login_helpers/login.html')
+        context =  template.Context (dict({'hide_site_tagline' : True}, **constants.template_common_fields))
+        signup_html = login_template.render(context)
+        
+        generated_html = """<div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>
+        <div class="cl-clear"></div>
+        <div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>""" % {
+                                          'registration_html' : registration_html,
+                                          'signup_html' : signup_html}
+        
+        return http.HttpResponse(generated_html)
+    except:
+        return utils.return_and_report_internal_error(request)
+                
+
 def store_authorization_info_and_send_email_wrapper(request, login_dict, encrypted_password, password_salt, currently_displayed_url):
 
     # Receives the user_login values and forces user to verify a registration code sent to their email address before
