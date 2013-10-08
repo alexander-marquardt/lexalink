@@ -1141,7 +1141,7 @@ function clear_both_registration_and_login_fields_errors() {
         clear_fields_errors("signup_fields" , registration_errors_dict);
 }
 
-function show_fields_errors(fields_type, errors_dict, extra_html) {
+function show_fields_errors(fields_type, errors_dict, extra_html, where_to_place_dialog) {
     // fields_type is either signup_fields or login_fields
 
     var error_html = '<ul>';
@@ -1162,7 +1162,7 @@ function show_fields_errors(fields_type, errors_dict, extra_html) {
         position: {
             my: "center",
             at: "center",
-            of: "#id-over-image"
+            of: where_to_place_dialog
         }
     }).dialog('close').dialog('open');
 }

@@ -3,7 +3,7 @@
         <div class="cl-horiz-bar-div">
         <table id="id-horiz-bar-table"> <!-- outer table -->
             <tr> <!-- container row -->
-                {% if not hide_site_tagline %}
+                {% if not is_popup_login_registration %}
                     {% if build_name == "discrete_build" %}
                     <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
                         {% trans "Free confidential dating" %}.
@@ -67,7 +67,7 @@
 <script type="text/javascript">
     var login_errors_dict = [];
 
-    function handle_registered_login_form() {
+    function handle_registered_login_form(location_where_to_show_errors) {
 
 
         $("#id-login_form").submit(function(e) {
@@ -105,7 +105,7 @@
                             $("#id-password-input").addClass("cl-highlight_border");
                         }
 
-                        show_fields_errors("login_fields", login_errors_dict, extra_html);
+                        show_fields_errors("login_fields", login_errors_dict, extra_html,  location_where_to_show_errors);
 
                         if ($('#id-login_fields-username_email').val() == '') {
                             // if the username field has not been entered, show the default text
@@ -115,7 +115,7 @@
                         var readable_object = JSON.stringify(post_response);
                         var error_html =  "handle_user_registration_form - unknown json response object: " + readable_object
                         report_ajax_error("NA", error_html, "handle_registered_login_form - success", "error");
-                        show_fields_errors("login_fields", [], error_html);
+                        show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -127,7 +127,7 @@
                         error_html = "handle_registered_login_form - unknown error";
                     }
                     report_ajax_error(textStatus, errorThrown, "handle_registered_login_form - error", "error");
-                    show_fields_errors("login_fields", [], error_html);
+                    show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
 
                 }
             });
@@ -171,8 +171,15 @@
 
 
     $(document).ready(function() {       
-        handle_registered_login_form();
         handle_login_inputs();
+
+        // the main registration page will show the error dialog in a different location than the "popup"
+        // registration dialog box.
+        {% if not is_popup_login_registration %}
+            handle_registered_login_form("#id-over-image");
+        {% else %}
+            handle_registered_login_form("#id-show-registration-and-login");
+        {% endif %}
     });
 
 

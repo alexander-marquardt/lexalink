@@ -150,3 +150,29 @@ def get_additional_description_from_sex_and_preference(sex_key_val, preference_k
         
         
     return additional_description    
+
+
+def get_verification_vals_from_get(request):
+
+    verification_vals_dict = {}
+
+    if request.GET.get("show_verification"):
+        verification_vals_dict['show_verification_dialog'] = True
+        verification_vals_dict['verification_username'] = request.GET.get("verification_username", '')
+        verification_vals_dict['secret_verification_code'] = request.GET.get("secret_verification_code", '')    
+        verification_vals_dict['verification_email'] = request.GET.get("verification_email", '')
+        verification_vals_dict['allow_empty_code'] = request.GET.get("allow_empty_code", '')
+           
+    return verification_vals_dict
+
+def check_if_user_already_registered_passed_in(request):
+    # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
+    message_for_client = None
+    user_already_registered = request.GET.get('username_already_registered', '') 
+    if (user_already_registered):
+        username = request.GET.get('already_registered_username', '') 
+        message_for_client = ugettext("""
+        Your account has been correctly registered. You can enter using your username: <strong>%(username)s</strong>
+        and the password that you entered when you created your account.""") % {'username' : username}
+
+    return message_for_client

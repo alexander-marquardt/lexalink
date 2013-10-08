@@ -144,6 +144,8 @@ function handle_verification_code_input() {
                             if ("User_Stored_Redirect_URL" in post_response) {
                                 // redirect to the pased-in URL
                                 self.location = post_response["User_Stored_Redirect_URL"];
+                            } else if ("username_deleted"  in post_response) {
+                                 $(".cl-warning-text-holder").html('<strong><span class="cl-warning-text">'+post_response["username_deleted"]+'</span></strong>');
                             } else if ("warning_html" in post_response) {
                                 $(".cl-warning-text-holder").html(post_response["warning_html"]);
                             } else {

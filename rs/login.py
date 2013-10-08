@@ -33,7 +33,7 @@ from google.appengine.api import users
 
 from rs import utils, localizations, login_utils, forms, admin, constants, views, common_data_structs, user_profile_main_data
 from rs import store_data, channel_support, lang_settings
-from rs import models, error_reporting, messages
+from rs import models, error_reporting, messages, utils_top_level
 from django import template, shortcuts, http
 from django.utils import simplejson
 from django.core.validators import email_re
@@ -106,19 +106,11 @@ def landing_page(request, is_admin_login = False):
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
                                 
         if request.method == 'GET':
+            verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
+            already_registered_message = utils_top_level.check_if_user_already_registered_passed_in(request)
+            if already_registered_message:
+                error_dict['already_registered_username'] = already_registered_message
                 
-            verification_values_dict = login_utils.get_verification_vals_from_get(request)
-                
-            # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
-            user_already_registered = request.GET.get('username_already_registered', '') 
-            if (user_already_registered):
-                username = request.GET.get('already_registered_username', '') 
-                message_for_client = ugettext("""
-                Your account has been correctly registered. You can enter using your username: <strong>%(username)s</strong>
-                and the password that you entered when you created your account.""") % {'username' : username}
-  
-                error_dict['already_registered_username'] = message_for_client
-                                    
         # The following two calls generate the table rows required for displaying the login
         # note that this is a reference to the class, *not* to an instance (object) of the class. This is because
         # we do not want to re-generate a new object for each unique login (this would make caching
@@ -179,16 +171,25 @@ def get_registration_html(request):
     try:
         signup_template = template.loader.get_template('login_helpers/registration.html')
         html_for_signup = forms.MyHTMLLoginGenerator.as_table_rows(localizations.input_field_lang_idx[request.LANGUAGE_CODE], 'signup_fields')
-        context = template.Context (dict({'html_for_signup': html_for_signup}, **constants.template_common_fields))
+        context = template.Context (dict({
+            'html_for_signup': html_for_signup, 
+            'minimum_registration_age' : constants.minimum_registration_age,
+            'is_popup_login_registration' : True,
+            }, **constants.template_common_fields))
         registration_html = signup_template.render(context)
         
         login_template = template.loader.get_template('login_helpers/login.html')
-        context =  template.Context (dict({'hide_site_tagline' : True}, **constants.template_common_fields))
+        context =  template.Context (dict({
+            'is_popup_login_registration' : True
+            }, **constants.template_common_fields))
         signup_html = login_template.render(context)
         
-        generated_html = """<div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>
+        generated_html = """
+        <br><br>
+        <div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>
+        <br><br>
         <div class="cl-clear"></div>
-        <div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>""" % {
+        <div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>""" % {
                                           'registration_html' : registration_html,
                                           'signup_html' : signup_html}
         
@@ -497,15 +498,17 @@ def process_registration(request):
         login_dict['username'] = login_dict['username'].upper().replace(' ', '')
         username = login_dict['username']
                     
-        # setup default email_address for develoepr testing
+        # setup default email_address for developer testing
         if login_dict['email_address'] == "----" and utils.is_exempt_user():
             # for testing and debugging, we allow developers to bypass the check on the email address, and
             # we just assign their google email address to this field automatically (if it is empty)
             login_dict['email_address'] = users.User().email()
+            logging.warning("\n**** Warning: Setting registration email address to %s\n" % login_dict['email_address'])
             
         if login_dict['password'] == "----" and utils.is_exempt_user():
             # setup default password for developer testing
             login_dict['password'] = constants.DEFAULT_PROFILE_PASSWORD
+            logging.warning("\n**** Warning: Setting registration password to %s\n" % login_dict['password'])
 
                     
         # if email address is given, make sure that it is valid
@@ -578,10 +581,9 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         login_dict['username'] = login_dict['username'].upper()
         username = login_dict['username']
         password = encrypted_password
-        # if the username is already registered, and the password is the correct password
-        # for the given username, then do not add another user into the database. 
-        # Re-direct the user to their home page. This could happen if the user clicks on the registration
-        # link more than one time.
+        # if the username is already registered, then do not add another user into the database. 
+        # Re-direct the user to to the login screen and indicate that they must enter in their 
+        # username and password to login.
         q = models.UserModel.query().order(-models.UserModel.last_login_string)
         q = q.filter(models.UserModel.username == username)
         q = q.filter(models.UserModel.user_is_marked_for_elimination == False)
@@ -589,6 +591,15 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         if userobject:
             # user is already authorized -- send back to login
             return ("username_already_registered", None)       
+        
+        q = models.UserModel.query().order(-models.UserModel.last_login_string)
+        q = q.filter(models.UserModel.username == username)
+        q = q.filter(models.UserModel.user_is_marked_for_elimination == True)
+        userobject = q.get()
+        if userobject:
+            # user has been deleted - return the userobject so that we can later provide 
+            # additional information about why this userobject was deleted
+            return ("username_deleted", userobject)  
         
         # make sure that the user name is not already registered. (this should not happen
         # under normal circumstances, but could possibly happen if someone is hacking our system or if two users have gone through
@@ -658,8 +669,6 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         # send the user a welcome email and key and wink from Alex
         messages.welcome_new_user(request)
     
-        owner_uid = userobject.key.urlsafe()
-        owner_nid = userobject.key.id()
     except:
         # if there is any failure in the signup process, clean up all the data stored, and send the user back to the login page with the data that they
         # previously entered.
@@ -693,7 +702,7 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
 
     logging.info("Registered/Logging in User: %s IP: %s country code: %s " % (
         userobject.username, os.environ['REMOTE_ADDR'], request.META.get('HTTP_X_APPENGINE_COUNTRY', None)))
-    return ("OK", owner_nid)
+    return ("OK", userobject)
 
 
 def check_verification_and_authorize_user(request):
@@ -755,16 +764,20 @@ def check_verification_and_authorize_user(request):
             encrypted_password = authorization_info.encrypted_password
             password_salt = authorization_info.password_salt
             lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-            (store_user_status, owner_nid) = store_new_user_after_verify(request, lang_idx, login_get_dict, encrypted_password, password_salt)
+            (store_user_status, userobject) = store_new_user_after_verify(request, lang_idx, login_get_dict, encrypted_password, password_salt)
             if store_user_status == "OK":
                 if destination_url == "/":
                     # if destination_url is not defined (ie. = "/"), then we will direct the user to edit their profile
                     # otherwise, we just send the user to whatever destination_url we have already assigned.
-                    destination_url = reverse("edit_profile_url", kwargs={'display_nid' : owner_nid})  
+                    destination_url = reverse("edit_profile_url", kwargs={'display_nid' : userobject.key.id()})  
             elif store_user_status == "Error":
                 destination_url = "/"
             elif store_user_status == "username_already_registered":
                 destination_url = '/?username_already_registered=True&already_registered_username=%s' % username
+            elif store_user_status == "username_deleted":
+                response_dict = {"username_deleted" : utils.get_removed_user_reason_html(userobject)}
+                json_response = simplejson.dumps(response_dict)
+                return http.HttpResponse(json_response, mimetype='text/javascript')                                     
             else:
                 destination_url = "/"                
                 error_reporting.log_exception(logging.critical, error_message = "unknown status %s returned from store_new_user_after_verify" % status)   

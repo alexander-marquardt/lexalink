@@ -98,6 +98,12 @@ $(document).ready(function() {
                     {{ general_information_data_fields.maintenance_shutdown_warning|safe }}
 
                 {% else %}
+                    {% if verification_values_dict %}
+                        <!-- handle user registration popup account verification -->
+                        {% include "login_helpers/verification.html" %}
+                    {% endif %}
+
+
                     {% if generated_html %}
                         {{ generated_html|safe }}
                     {% endif %}

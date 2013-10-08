@@ -29,11 +29,6 @@
 
 {% include "common_helpers/logo_banner.html" %}
         
-
-<div id="id-dialog_box_for_user_feedback" style="display:none;"></div>
-
-
-
 <!-- pass in any values that were previously entered so that we can fill in the appropriate fields
      -->
 {% if html_for_previously_posted_values %}
@@ -73,10 +68,10 @@
 
                 {% if not maintenance_shutdown_warning %}
 
-                {% include "login_helpers/registration.html" %}
-                {% if verification_values_dict %}
-                    {% include "login_helpers/verification.html" %}
-                {% endif %}
+                    {% include "login_helpers/registration.html" %}
+                    {% if verification_values_dict %}
+                        {% include "login_helpers/verification.html" %}
+                    {% endif %}
 
                 {% endif %}
 
@@ -211,7 +206,7 @@
         var errors_dict = {{ error_dict_json|safe }};
         if (! $.isEmptyObject(errors_dict)) {
             var forgot_password_html = '<div class="cl-right-text"><a class="cl-dialog_anchor" href="{% url reset_password %}">{% trans "Have you forgotten your password?" %}</a></div>';
-            show_fields_errors("field_type-NA", errors_dict, forgot_password_html);
+            show_fields_errors("field_type-NA", errors_dict, forgot_password_html, "#id-over-image");
         }
     });
 

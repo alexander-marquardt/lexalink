@@ -41,6 +41,7 @@ from forms import FormUtils
 import constants, text_fields, time, chat_support, localizations, common_data_structs, channel_support, online_presence_support
 import online_presence_support, menubar
 from rs.import_search_engine_overrides import *
+from rs import utils_top_level
 
 
 if settings.BUILD_NAME == "friend_build":
@@ -265,7 +266,12 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             for_sale_sub_menu_options_html = "Not used - only for friend_build"
             to_buy_sub_menu_options_html = "Not used - only for friend_build"
                         
-        
+                        
+        if request.method == 'GET':
+            # Handle user registration/verification popup if necessary
+            verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
+
+                
         # Information for users that are signed in with an account
         primary_user_presentation_data_fields = {}
         primary_user_presentation_data_fields['username'] = username
@@ -391,6 +397,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 'refined_links_html' : refined_links_html,
                 'updated_meta_info': meta_info,  
                 'hide_logo_banner_links' : hide_logo_banner_links,
+                'verification_values_dict' : verification_values_dict,
                 'request' : request,
                 'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
                 'purchase_buttons' : purchase_buttons,

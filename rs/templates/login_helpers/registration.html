@@ -111,7 +111,7 @@
 
 
 
-    function handle_user_registration_form() {
+    function handle_user_registration_form(location_where_to_show_errors) {
 
         try {
             $('#id-submit-signup-button').button();
@@ -146,13 +146,13 @@
 
                             } else if ("Registration_Error" in post_response) {
                                 registration_errors_dict = post_response["Registration_Error"];
-                                show_fields_errors("signup_fields", registration_errors_dict, '');
+                                show_fields_errors("signup_fields", registration_errors_dict, '', location_where_to_show_errors);
 
                             } else {
                                 var readable_object = JSON.stringify(post_response);
                                 var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
                                 report_ajax_error("NA", error_html, "handle_user_registration_form - success", "error");
-                                show_fields_errors("signup_fields", [], error_html);
+                                show_fields_errors("signup_fields", [], error_html, location_where_to_show_errors);
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -164,7 +164,7 @@
                             } else {
                                 error_html = "handle_user_registration_form - unknown error";
                             }
-                            show_fields_errors("login_fields", [], error_html);
+                            show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
                             report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - error", "error");
                         }
                     });
@@ -181,7 +181,14 @@
 
     $(document).ready(function() {
         handle_location_changes();
-        handle_user_registration_form();
+
+        // the main registration page will show the error dialog in a different location than the "popup"
+        // registration dialog box.
+        {% if not is_popup_login_registration %}
+            handle_user_registration_form("#id-over-image");
+        {% else %}
+            handle_user_registration_form("#id-show-registration-and-login");
+        {% endif %}
     });
 
 

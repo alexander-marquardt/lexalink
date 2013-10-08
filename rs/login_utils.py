@@ -764,18 +764,7 @@ def copy_principal_user_data_fields_into_ix_lists(userobject):
         error_reporting.log_exception(logging.critical, error_message = error_message)
 
 
-def get_verification_vals_from_get(request):
 
-    verification_vals_dict = {}
-
-    if request.GET.get("show_verification"):
-        verification_vals_dict['show_verification_dialog'] = True
-        verification_vals_dict['verification_username'] = request.GET.get("verification_username", '')
-        verification_vals_dict['secret_verification_code'] = request.GET.get("secret_verification_code", '')    
-        verification_vals_dict['verification_email'] = request.GET.get("verification_email", '')
-        verification_vals_dict['allow_empty_code'] = request.GET.get("allow_empty_code", '')
-           
-    return verification_vals_dict
 
 #############################################
 def setup_new_user_defaults_and_structures(userobject, username, lang_code):
