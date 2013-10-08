@@ -945,14 +945,8 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
             edit = ''
             
         generated_html = u"""
-        <!--[if lt IE  7]>
-        <textarea id="id-%(edit)s%(section_name)s-%(section_name)s" class="cl-standard-textarea-ie6" 
-        name = %(section_name)s rows = %(text_area_rows)s tabindex=1></textarea>
-        <![endif]-->
-        <!--[if !lt IE 7]><!-->
         <textarea id="id-%(edit)s%(section_name)s-%(section_name)s" class="cl-standard-textarea" 
         name = %(section_name)s rows = %(text_area_rows)s tabindex=1></textarea>
-        <!--<![endif]-->
         <div class="cl-clear"></div>
         """  % { "section_name": section_name, 'text_area_rows': num_rows, 'edit' : edit}      
         return generated_html
