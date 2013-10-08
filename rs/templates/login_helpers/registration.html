@@ -130,8 +130,8 @@
                     var submit_signup_form_url = "{% url login.process_registration %}";
                     $(this).ajaxSubmit({
                         url: submit_signup_form_url,
-                        data: {'currently_displayed_url' : window.location.pathname},
-                        dataType: "json",
+                        data: {'currently_displayed_url' : window.location.pathname}, // posted data
+                        dataType: "json", // response type
                         clearForm: false,
                         cache: false,
                         success:  function(post_response) {

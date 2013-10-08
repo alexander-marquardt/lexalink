@@ -86,6 +86,7 @@
             var submit_form_url = $("#id-login_form").attr('action');
             $(this).ajaxSubmit({url: submit_form_url,
                 dataType: "json",
+                data: {'current_path' : window.location.pathname},
                 clearForm: false,
                 cache: false,
                 success:  function(post_response) {

@@ -277,6 +277,10 @@ def process_login(request, is_admin_login = False):
         login_dict = {'username_email' : request.POST.get('username_email', '----'),
                       'password' : request.POST.get('password', '----'),
                       }
+        
+
+                    
+        
         for key in login_dict.keys():
             if not login_dict[key]: login_dict[key] = "----" 
             
@@ -443,12 +447,25 @@ def process_login(request, is_admin_login = False):
             search_preferences = userobject.search_preferences2.get()
             lang_code = search_preferences.lang_code
             assert(lang_settings.set_language_in_session(request, lang_code))
-            # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
-            # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
-            redirect_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
-                    'lang_code': lang_code, 'owner_nid':owner_nid}                        
-        
-            response_dict['Login_OK_Redirect_URL'] = redirect_url
+            
+            current_path = request.POST.get('current_path', None)
+            if current_path:
+                locale, path = localeurl_utils.strip_path(current_path)  
+                if path == "/":
+                    # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
+                    # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
+                    destination_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
+                        'lang_code': lang_code, 'owner_nid':owner_nid}  
+                else:
+                    destination_url = current_path
+            else:
+                #  This is an error condition that should not occur if the client-side javascript is behaving properly
+                error_reporting.log_exception(logging.critical, error_message = "process_login did not receive a current_path value")  
+                # Send them to the search results page so that they have something interesting to look at (since they may or may not 
+                # now be logged in, we don't want to leave them sitting on the landing page)
+                destination_url = reverse('search_gen')           
+                                  
+            response_dict['Login_OK_Redirect_URL'] = destination_url
         else:
             assert(error_dict)
             # there were errors - report them
