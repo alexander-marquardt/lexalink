@@ -1028,12 +1028,11 @@ function handle_submit_send_mail_button(section_name, to_uid, captcha_bypass_str
 }
 
 
-function show_registration_on_submit_send_mail_button(section_name) {
+function show_registration_dialog_on_click(section_name) {
     var submit_button_id = "#id-submit-" + section_name;
     $(submit_button_id).click(function() {
         show_registration_and_login();
     });
-    mouseover_button_handler($(submit_button_id));
 }
 
 function submit_verify_captcha(section_name, submit_button_id, captcha_div_id) {

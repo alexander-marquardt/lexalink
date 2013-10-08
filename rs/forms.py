@@ -931,7 +931,7 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
         
         
     @classmethod
-    def get_standard_textarea_html(cls, section_name, num_rows, add_edit_to_id = False):
+    def get_standard_textarea_html(cls, section_name, num_rows, add_edit_to_id = False, show_registration_dialog_on_click_send=False):
         
         # Note the "strange" naming convention for the textarea -- this is done to keep it consistent with
         # previously existing javascript code. In other cases, a submit button can post multiple fields, but
@@ -944,11 +944,26 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
         else:
             edit = ''
             
+        entity_id = "id-%(edit)s%(section_name)s-%(section_name)s" % {"section_name": section_name, 'edit' : edit}
         generated_html = u"""
-        <textarea id="id-%(edit)s%(section_name)s-%(section_name)s" class="cl-standard-textarea" 
+        <textarea id="%(entity_id)s" class="cl-standard-textarea" 
         name = %(section_name)s rows = %(text_area_rows)s tabindex=1></textarea>
         <div class="cl-clear"></div>
-        """  % { "section_name": section_name, 'text_area_rows': num_rows, 'edit' : edit}      
+        """  % { "section_name": section_name, 'text_area_rows': num_rows, 'entity_id' :entity_id}   
+        
+        if show_registration_dialog_on_click_send:
+            # If the user clicks inside the textarea, show them the registration popup box   
+            generated_html += u"""
+            <script type="text/javascript" language="javascript">                
+            $(document).ready(function(){
+                $("#%(entity_id)s").focus(function(){
+                    show_registration_and_login();
+                    $("#%(entity_id)s").blur();
+                });
+            });
+                                
+            </script> """ % {'entity_id': entity_id}            
+        
         return generated_html
         
     @classmethod
@@ -1016,8 +1031,9 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
                 generated_html += u"""
                 <script type="text/javascript" language="javascript">                
                     $(document).ready(function(){
-                        show_registration_on_submit_send_mail_button("%(section_name)s");
+                        show_registration_dialog_on_click("%(section_name)s");
                         $("#id-show-ajax-spinner-captcha").hide();
+                        mouseover_button_handler($("#id-submit-%(section_name)s"));
                     });
                     
                 </script> """ % {"section_name": section_name,}
@@ -1028,8 +1044,10 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
             <form id="id-%(section_name)s-form" method="POST">
             """ % { "section_name": section_name}
 
-            generated_html += cls.get_standard_textarea_html(section_name, MAIL_TEXTAREA_ROWS)
-    
+            generated_html += cls.get_standard_textarea_html(section_name, MAIL_TEXTAREA_ROWS, show_registration_dialog_on_click_send = True)
+
+                
+                
             # Tell user to think before sending the message!
             if not have_sent_messages_object:
                 generated_html += u"""
