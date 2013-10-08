@@ -959,7 +959,8 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
         
     @classmethod
     def define_html_for_mail_textarea(cls, section_name, to_uid, captcha_bypass_string, 
-                                      have_sent_messages_object, spam_statistics_string = '', ):
+                                      have_sent_messages_object, spam_statistics_string = '', 
+                                      show_registration_dialog_on_click_send = False):
         
         # Text and associated javascript for displaying the textarea, and for handling the click on
         # the send button. To date, section_name will be either "send_mail", or 
@@ -980,6 +981,8 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
         #
         # have_sent_messages_object: if these users have previously had contact, then do NOT count
         #            this message in their daily quota. 
+        # show_registration_dialog_on_click_send: If the user is not logged in, then if they click on the send button they will
+        #            be shown a dialog box that allows them to register.
         
         try:
         
@@ -998,22 +1001,32 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
             else:
                 have_sent_messages_string = "have_not_had_contact"
                 
-            generated_html += u"""
-            <script type="text/javascript" language="javascript">
-                $(document).ready(function(){
-                
-                // handle the button submission
-                handle_submit_send_mail_button("%(section_name)s", "%(to_uid)s", "%(captcha_bypass_string)s", \
-                "%(have_sent_messages_string)s", "%(success_status_string)s", "%(error_status_string)s");
-    
-                $("#id-show-ajax-spinner-captcha").hide();
-            });
-            </script> """ % {"section_name": section_name, "to_uid": to_uid, 
-                             "captcha_bypass_string": captcha_bypass_string, 
-                             "have_sent_messages_string": have_sent_messages_string,
-                             "success_status_string": ugettext("Sent correctly"),
-                             "error_status_string": ugettext("Not sent, try again")}
-    
+            if not show_registration_dialog_on_click_send:
+                generated_html += u"""
+                <script type="text/javascript" language="javascript">
+                    $(document).ready(function(){
+                    
+                    // handle the button submission
+                    handle_submit_send_mail_button("%(section_name)s", "%(to_uid)s", "%(captcha_bypass_string)s", \
+                    "%(have_sent_messages_string)s", "%(success_status_string)s", "%(error_status_string)s");
+        
+                    $("#id-show-ajax-spinner-captcha").hide();
+                });
+                </script> """ % {"section_name": section_name, "to_uid": to_uid, 
+                                 "captcha_bypass_string": captcha_bypass_string, 
+                                 "have_sent_messages_string": have_sent_messages_string,
+                                 "success_status_string": ugettext("Sent correctly"),
+                                 "error_status_string": ugettext("Not sent, try again")}
+            else:
+                # we show a registration dialog popup when an un-registered user attempts to send a message
+                generated_html += u"""
+                <script type="text/javascript" language="javascript">                
+                    $(document).ready(function(){
+                        show_registration_on_submit_send_mail_button("%(section_name)s");
+                        $("#id-show-ajax-spinner-captcha").hide();
+                    });
+                    
+                </script> """ % {"section_name": section_name,}
     
             # The "edit" section will be shown when the appropriate link is clicked. 
             generated_html += u"""

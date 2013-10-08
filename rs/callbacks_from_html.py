@@ -281,7 +281,8 @@ class MyHTMLCallbackGenerator():
                 # no userobject - this is probably a user that is just browsing. Show the textbox input, but they cannot send messages
                 # until after they have registered.
                 generated_html = FormUtils.define_html_for_mail_textarea(
-                    u"send_mail_from_profile_checkbox_no", self.display_uid, captcha_bypass_string="dummy", have_sent_messages_object = None)
+                    u"send_mail_from_profile_checkbox_no", self.display_uid, captcha_bypass_string="dummy", 
+                    have_sent_messages_object = None, show_registration_dialog_on_click_send = True)
               
             return generated_html
         except:
