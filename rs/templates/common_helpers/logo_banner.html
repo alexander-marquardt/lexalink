@@ -53,7 +53,11 @@
                         {% ifnotequal general_information_data_fields.link_to_hide "login" %}
                             <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
                                                         align="middle" alt=""></td>
-                            <td class="cl-info-td cl-info-100px-width-td" align="center"><a id="id-register-enter-href"href="#">
+                            {% if general_information_data_fields.register_enter_click_sends_to_landing %}
+                                <td class="cl-info-td cl-info-100px-width-td" align="center"><a id="id-register_enter_click_sends_to_landing-href" href="/">
+                            {% else %}
+                                <td class="cl-info-td cl-info-100px-width-td" align="center"><a id="id-register-enter-href" href="#">
+                            {% endif %}
                                 {% trans "Register / Enter" %}</a></td>
                         {% endifnotequal %}
                     {% endif %}

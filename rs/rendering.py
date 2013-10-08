@@ -179,7 +179,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                      show_search_box = True, text_override_for_navigation_bar = '', hide_page_from_webcrawler = False,
                      enable_ads = True, show_login_link_override = False, hide_why_to_register = False,
                      do_not_try_to_dynamically_load_search_values = False, render_wrapper_only = False, 
-                     hide_logo_banner_links = False, remove_chatboxes = False):
+                     hide_logo_banner_links = False, remove_chatboxes = False, register_enter_click_sends_to_landing = False):
     
     # function that takes care of defining a lot of the common code that needs to be defined before rendering one of the 
     # "main" views. 
@@ -307,6 +307,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['for_sale_sub_menu_options_html'] = for_sale_sub_menu_options_html
         general_information_data_fields['to_buy_sub_menu_options_html'] = to_buy_sub_menu_options_html
         general_information_data_fields['link_to_hide'] = link_to_hide
+        general_information_data_fields['register_enter_click_sends_to_landing'] = register_enter_click_sends_to_landing 
         general_information_data_fields['show_login_link_override'] = show_login_link_override
         general_information_data_fields['path_info'] = request.path_info
 

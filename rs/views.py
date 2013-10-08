@@ -404,7 +404,8 @@ def logout(request, html_for_delete_account = ''):
                                               text_override_for_navigation_bar = nav_bar_text, 
                                               show_login_link_override = True,
                                               do_not_try_to_dynamically_load_search_values = True,
-                                              remove_chatboxes = True)
+                                              remove_chatboxes = True,
+                                              register_enter_click_sends_to_landing = True)
         
         login_utils.clear_old_session(request)
         
