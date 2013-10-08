@@ -663,7 +663,6 @@ def load_send_mail(request, other_uid):
     return HttpResponse(generated_html)
     
 
-@ajax_call_requires_login
 def get_initiate_contact_settings(request, display_uid):
     # Gets the status for contact settings that have already been applied, and also returns
     # the date that the contact was last made.
@@ -693,15 +692,22 @@ def get_initiate_contact_settings(request, display_uid):
         userobject = utils_top_level.get_userobject_from_request(request) 
         response_dict = {}
         
-        userobject_key = userobject.key
-        display_userobject_key = ndb.Key(urlsafe = display_uid)
-        initiate_contact_object = utils.get_initiate_contact_object(userobject_key, display_userobject_key)
+        if userobject:
+            userobject_key = userobject.key
+            display_userobject_key = ndb.Key(urlsafe = display_uid)
+            initiate_contact_object = utils.get_initiate_contact_object(userobject_key, display_userobject_key)
+        else:
+            initiate_contact_object = None
         
         for action in possible_actions:
             action_stored  = action + "_stored"
             action_stored_date = action + "_stored_date"
             action_remove = "remove_" + action
-            action_value = getattr(initiate_contact_object, action_stored, '')
+            if initiate_contact_object:
+                action_value = getattr(initiate_contact_object, action_stored, '')
+            else:
+                action_value = None
+                
             if action_value:
                 if action != "chat_friend":
                     response_dict[action_stored] = '<span class="cl-icon-active-color-text">%s</span><br>' % action_verb_dict[action]

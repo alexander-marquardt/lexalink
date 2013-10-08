@@ -460,7 +460,7 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
         %(contact_table)s
         </div>
         </div>
-        """ % {'contact_table' : FormUtils.contact_table(to_uid)}
+        """ % {'contact_table' : FormUtils.contact_table(to_uid, from_uid)}
         
         generated_html += u'<div class="grid_9 alpha omega" >' # outer-container
     

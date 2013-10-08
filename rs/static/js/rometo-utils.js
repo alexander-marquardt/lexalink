@@ -777,28 +777,74 @@ function getJSON_initiate_contact_settings(uid) {
 }
 
 
-function handle_click_on_contact_icon(section_name, uid) {
+function  show_registration_and_login() {
+    $.ajax({
+        type: 'get',
+        url:  '/rs/get_registration_html/',
+        success: function(html_response) {
+            $('#id-show-registration-and-login').html(html_response);
+            $('#id-show-registration-and-login').dialog({
+                modal: true,
+                width: 'auto',
+                position: {
+                    my: "center",
+                    at: "center"
+                },
+                show: ('fade', 500)
+            });
+
+
+            $('#id-show-registration-and-login').css({'padding' : "0px"});
+            $('#id-show-registration-and-login').dialog('open');
+
+            var background_img = $('#rs-nav').css('background-image');
+            var background_color = $("<h1>foo</h1>").hide().appendTo("body").css('color');
+            // set the background image on the dialog titlebar to be the same as the navigation bar
+            $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-image': background_img });
+            // hide the background color of the titlebar and remove the border - basically we are over-riding the default
+            // jquery UI default values to match the color scheme of the current site.
+            $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-color': '#FFF' });
+            $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'border': '0px' });
+        },
+        error: function () {
+
+        },
+        complete: function() {
+
+        }
+    });
+}
+
+function handle_click_on_contact_icon(section_name, uid, show_registration_dialog_when_clicked) {
 
     try {
         var submit_button_id = "#id-submit-" + section_name;
-        $(submit_button_id).click(function() {
-            $.ajax({
-                type: 'post',
-                url:  "/rs/store_initiate_contact/" + uid + "/",
-                data: { 'section_name' : section_name},
-                success: function(data) {
-                    if (data == "OK") {
-                        getJSON_initiate_contact_settings(uid);
-                    } else {
-                        $("#id-contact_icon").html(data);
-                        $("#id-contact_icon").dialog();
-                    }
-                },
-                complete: function () {}
-            });
 
-            // prevent scrolling to the top of the page when html is updated
-            return false;
+
+        $(submit_button_id).click(function() {
+            if (!show_registration_dialog_when_clicked) {
+                $.ajax({
+                    type: 'post',
+                    url:  "/rs/store_initiate_contact/" + uid + "/",
+                    data: { 'section_name' : section_name},
+                    success: function(data) {
+                        if (data == "OK") {
+                            getJSON_initiate_contact_settings(uid);
+                        } else {
+                            $("#id-contact_icon").html(data);
+                            $("#id-contact_icon").dialog();
+                        }
+                    },
+                    complete: function () {}
+                });
+
+                // prevent scrolling to the top of the page when html is updated
+                return false;
+            }
+            else {
+                show_registration_and_login();
+                return false;
+            }
         });
     } catch (err) {
         report_try_catch_error( err, "handle_click_on_contact_icon");
@@ -923,9 +969,9 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
 
                 } else {
                     // unknown status returned.
-                    $(submit_button_id).before('<div id="id-submit_send_mail-status"><br>' + "unkonwn error. html_response: " + html_response + '<br></div>');
+                    $(submit_button_id).before('<div id="id-submit_send_mail-status"><br>' + html_response + '<br></div>');
                     reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
-                    report_ajax_error(textStatus, errorThrown, "submit_send_mail - unknown html response: " + html_response);
+                    report_ajax_error('', '', "submit_send_mail - unknown html response: " + html_response);
                 }
 
             },

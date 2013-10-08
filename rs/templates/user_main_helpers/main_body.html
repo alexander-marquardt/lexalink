@@ -180,11 +180,9 @@
 
 {% if not primary_user_profile_data_fields.is_primary_user %}
 
-    {% if registered_user_bool %}
-        <!-- add a gray divider -->
-        <div class="grid_9 alpha omega cl-divider-line"></div>
-        {% include "user_main_helpers/view_other_profile_extra_stuff.html" %}
-    {% endif %}
+    <!-- add a gray divider -->
+    <div class="grid_9 alpha omega cl-divider-line"></div>
+    {% include "user_main_helpers/view_other_profile_extra_stuff.html" %}
 
 {% endif %}
 

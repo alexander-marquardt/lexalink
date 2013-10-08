@@ -67,21 +67,30 @@ class FormUtils():
    
     
     @classmethod
-    def contact_table(cls, display_uid):
+    def contact_table(cls, display_uid, owner_uid):
         
         generated_html = ''
         
+        if owner_uid:
+            #  show_registration_dialog_when_clicked = false
+            last_parameters_passed_to_handle_click = '"%(display_uid)s", false);' %  {'display_uid' : display_uid,}
+        else:
+            #  show_registration_dialog_when_clicked = true
+            last_parameters_passed_to_handle_click = '"%(display_uid)s", true);' %  {'display_uid' : display_uid,}
+            
         generated_html += """<script type="text/javascript" language="javascript">
         $(document).ready(function(){
-            handle_click_on_contact_icon("favorite", "%(display_uid)s");
-            handle_click_on_contact_icon("wink", "%(display_uid)s");
-            handle_click_on_contact_icon("kiss", "%(display_uid)s");
-            handle_click_on_contact_icon("key", "%(display_uid)s");
-            handle_click_on_contact_icon("chat_friend", "%(display_uid)s");
-            handle_click_on_contact_icon("blocked", "%(display_uid)s");
+            handle_click_on_contact_icon("favorite", %(last_parameters_passed_to_handle_click)s
+            handle_click_on_contact_icon("wink", %(last_parameters_passed_to_handle_click)s
+            handle_click_on_contact_icon("kiss", %(last_parameters_passed_to_handle_click)s
+            handle_click_on_contact_icon("key", %(last_parameters_passed_to_handle_click)s
+            handle_click_on_contact_icon("chat_friend", %(last_parameters_passed_to_handle_click)s
+            handle_click_on_contact_icon("blocked", %(last_parameters_passed_to_handle_click)s
             getJSON_initiate_contact_settings("%(display_uid)s", '');
         });
-        </script>""" % {'display_uid' : display_uid}
+        </script>""" % {'display_uid' : display_uid,
+                        'last_parameters_passed_to_handle_click' : last_parameters_passed_to_handle_click
+                        }
         
         generated_html += u"""
         <table id="id-contact-table">

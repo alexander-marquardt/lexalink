@@ -88,40 +88,8 @@
 
         
         $('#id-register-enter-href').click(function(){
-            $.ajax({
-                type: 'get',
-                url:  '/rs/get_registration_html/',
-                success: function(html_response) {
-                    $('#id-show-registration-and-login').html(html_response);
-                    $('#id-show-registration-and-login').dialog({
-                        modal: true,
-                        width: 'auto',
-                        position: {
-                            my: "center",
-                            at: "center"
-                        }
-                    });
+            show_registration_and_login();
 
-
-                    $('#id-show-registration-and-login').css({'padding' : "0px"});
-                    $('#id-show-registration-and-login').dialog('open');
-
-                    var background_img = $('#rs-nav').css('background-image');
-                    var background_color = $("<h1>foo</h1>").hide().appendTo("body").css('color');
-                    // set the background image on the dialog titlebar to be the same as the navigation bar
-                    $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-image': background_img });
-                    // hide the background color of the titlebar and remove the border - basically we are over-riding the default
-                    // jquery UI default values to match the color scheme of the current site.
-                    $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-color': '#FFF' });
-                    $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'border': '0px' }); 
-                },
-                error: function () {
-
-                },
-                complete: function() {
-
-                }
-            });
         })
         
      </script>

@@ -32,12 +32,14 @@
 
 <!-- disable sending of contact for fake users -->
 
+{% if registered_user_bool %}
+    <div class="grid_9 alpha omega" id="id-display-send_mail_from_profile_checkbox_no-section">
+        {% if viewed_profile_data_fields.html_for_mail_history_summary %}
+        {{ viewed_profile_data_fields.html_for_mail_history_summary|safe }}
+        {% endif %}
+    </div> <!-- grid_9 -->
+{% endif %}
 
-<div class="grid_9 alpha omega" id="id-display-send_mail_from_profile_checkbox_no-section">
-    {% if viewed_profile_data_fields.html_for_mail_history_summary %}
-    {{ viewed_profile_data_fields.html_for_mail_history_summary|safe }}
-    {% endif %}
-</div> <!-- grid_9 -->
 
 <div class="grid_9 alpha omega">&nbsp;</div> <!-- spacer -->
 
