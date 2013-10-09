@@ -247,8 +247,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         (maintenance_soon_warning, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
         
         
-        unregistered_user_welcome_text = ugettext("""You must register with %(app_name)s to contact other users""") % {
-            'app_name' : settings.APP_NAME}    
+        unregistered_user_welcome_text = ugettext("""You must register to contact other users""") 
         
         # add in the generated region and sub-region menus
         country_code = request.GET.get('country', '----')

@@ -156,8 +156,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             
             # This is probably a guest that is just looking
             # at the site (hasn't logged in) -- just tell them to login
-            unregistered_user_welcome_text = ugettext("You must register with %(app_name)s to contact other users") % {
-                'app_name' : settings.APP_NAME}
+            unregistered_user_welcome_text = ugettext("You must register to contact other users") 
     
             unregistered_user_welcome_text = "%s <em>%s</em><br><br>" % (unregistered_user_welcome_text, text_fields.cookies_not_enabled_text)
 

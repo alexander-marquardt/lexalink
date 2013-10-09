@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-09 11:11-0400\n"
+"POT-Creation-Date: 2013-10-09 11:45-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -100,7 +100,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:819 rs/messages.py:521
-#: rs/rendering.py:425 rs/utils.py:1527
+#: rs/rendering.py:424 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -2365,7 +2365,7 @@ msgstr "Tienes que seleccionar <strong>%(field_label)s</strong>"
 msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
-#: rs/login_utils.py:457 rs/login_utils.py:489 rs/views.py:402
+#: rs/login_utils.py:457 rs/login_utils.py:489 rs/views.py:401
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -2687,12 +2687,11 @@ msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
 #: rs/rendering.py:250 rs/views.py:159
-#, python-format
-msgid "You must register with %(app_name)s to contact other users"
+msgid "You must register to contact other users"
 msgstr ""
-"<em>Tienes que <a href=\"/\">registrarte o entrar </a> con tu cuenta "
-"personal para contactar con otros usuarios.</em> <strong>Recuerda que "
-"%(app_name)s es gratis!</strong><br><br>"
+"<em>Tienes que <a class=\"cl-register-enter-href\" href=\"#\">registrarte o "
+"entrar </a> con tu cuenta personal para contactar con otros usuarios.</em> "
+"<br><br>"
 
 #: rs/reset_password.py:70
 msgid "Enter your email address"
@@ -4117,11 +4116,12 @@ msgstr "chatear y enviar mensajes incluido"
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
-"<li>%(is_free_text)s.<li>Para registrarte necesitas menos de 30 segundos."
-"<li>Después de registrarte, puedes enviar mensajes inmediatamente y "
-"contactar con cualquier usuario de %(app_name)s.com.<li>%(app_name)s.com "
-"respeta tu privacidad. Tu perfil tiene un área pública y un área privada. "
-"Sólo los socios que invites pueden ver tus fotos privadas."
+"<li class=\"cl-indent\">%(is_free_text)s.<li class=\"cl-indent\">Para "
+"registrarte necesitas menos de 30 segundos.<li class=\"cl-indent\">Después "
+"de registrarte, puedes enviar mensajes inmediatamente y contactar con "
+"cualquier usuario de %(app_name)s.com.<li class=\"cl-indent\">%(app_name)s."
+"com respeta tu privacidad. Tu perfil tiene un área pública y un área "
+"privada. Sólo los socios que invites pueden ver tus fotos privadas."
 
 #: rs/utils_top_level.py:141
 msgid "Gay men"
@@ -4132,7 +4132,7 @@ msgid "Lesbians"
 msgstr "Lesbianas"
 
 #: rs/utils_top_level.py:174
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "        Your account has been correctly registered. You can enter using your "
@@ -4144,7 +4144,7 @@ msgstr ""
 "tu Nick: <strong>%(username)s</strong> y la contraseña que elegiste cuando "
 "creaste tu cuenta."
 
-#: rs/views.py:376
+#: rs/views.py:375
 msgid "terms.html"
 msgstr "terminos.html"
 
@@ -4474,7 +4474,23 @@ msgstr "¡Hasta pronto!"
 msgid "About %(app_name)s"
 msgstr "Sobre %(app_name)s"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:12
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:11
+#, python-format
+msgid "Advantages of %(app_name)s.com versus other sites:"
+msgstr "Ventajas de %(app_name)s.com con respecto a otros sitios:"
+
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:16
+#, python-format
+msgid ""
+"\n"
+"    %(app_name)s.com is a %(site_type)s, that is different than any\n"
+"    other websites that you may have seen. "
+msgstr ""
+"\n"
+"%(app_name)s.com es un %(site_type)s, que es diferente de cualquier otro "
+"sitio que hayas visto. "
+
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:25
 #, python-format
 msgid ""
 "\n"
@@ -4493,7 +4509,7 @@ msgstr ""
 "pareja y *no* es una agencia de compañía. Los miembros de %(app_name)s.com "
 "están buscando diversión, amistad y compañeros de actividades."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:21
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:34
 #, python-format
 msgid ""
 "\n"
@@ -4504,7 +4520,7 @@ msgstr ""
 "¿Cuánto cuesta utilizar %(app_name)s?\n"
 "    "
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:26
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:39
 #, python-format
 msgid ""
 "\n"
@@ -4515,7 +4531,7 @@ msgstr ""
 "%(app_name)s es gratis.\n"
 "            "
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:32
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:45
 #, python-format
 msgid ""
 "\n"
@@ -4526,7 +4542,7 @@ msgstr ""
 "¿Para qué se utiliza %(app_name)s.com?\n"
 "    "
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:38
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:51
 #, python-format
 msgid ""
 "\n"
@@ -4539,7 +4555,7 @@ msgstr ""
 "tipo de actividades de amigos, tales como:\n"
 "    "
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:44
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:57
 msgid ""
 "A person that travels to a new city for business or for a vacation could "
 "contact someone to show them around the city."
@@ -4547,7 +4563,7 @@ msgstr ""
 "Una persona que viaja a una nueva ciudad por trabajo o para unas vacaciones "
 "podría contactar a alguien para ensenarles la ciudad."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:45
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:58
 msgid ""
 "Someone with an extra ticket to a sporting event could ask someone to go "
 "with them instead of going alone."
@@ -4555,7 +4571,7 @@ msgstr ""
 "Una persona con una entrada extra para un evento deportivo podría contratar "
 "a alguien para ir con él en vez de ir solo."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:46
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:59
 msgid ""
 "A member could meet someone outside of their normal social circle to talk to "
 "for personal advice."
@@ -4563,7 +4579,7 @@ msgstr ""
 "Un miembro podría conocer alguien fuera de su círculo social normal para "
 "asesoramiento personal o para pedir consejo."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:47
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:60
 msgid ""
 "A person who wants to see a new movie or check out a cool restaurant could "
 "find someone to go with them."
@@ -4571,7 +4587,7 @@ msgstr ""
 "Una persona que quiere ver una película nueva o probar un restaurante de "
 "moda podría encontrar a alguien para ir con él."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:48
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:61
 msgid ""
 "Instead of hiring a personal trainer for going to the gym, one could find a "
 "partner to accompany them."
@@ -4579,19 +4595,19 @@ msgstr ""
 "En lugar de contratar a un entrenador personal para ir al gimnasio, puedes "
 "encontrar a alguien para que te acompañe."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:49
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:62
 msgid "Find a friend to go salsa dancing."
 msgstr "Encontrar a un amigo para ir a bailar salsa"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:50
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:63
 msgid "And many more friendly activities - it is up to you!"
 msgstr "Y muchas más actividades de amigos- todo depende de ti!"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:57
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:70
 msgid "How can I contact people?"
 msgstr "¿Cómo puedo contactar con la gente?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:61
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:74
 #, python-format
 msgid ""
 "\n"
@@ -4616,7 +4632,7 @@ msgstr ""
 "chat entre dos personas, así como unirte a cualquiera de los muchos grupos "
 "de chat diferentes que están disponibles."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:71
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:84
 #, python-format
 msgid ""
 "\n"
@@ -4633,7 +4649,7 @@ msgstr ""
 "perfil, más probable será que recibas respuestas de los demás miembros de "
 "%(app_name)s."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:79
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:92
 #, python-format
 msgid ""
 "\n"
@@ -4646,11 +4662,11 @@ msgstr ""
 "bloqueará en %(app_name)s.\n"
 "    "
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:87
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:100
 msgid "You are in control:"
 msgstr "Tú controlas lo que sucede aquí:"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:89
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:102
 msgid ""
 "\n"
 "    Please be open and honest with the other members about what kind of "
@@ -4668,7 +4684,7 @@ msgstr ""
 "todos los detalles antes de encontraros, para estas seguros de como pasareis "
 "vuestro tiempo juntos."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:95
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:108
 #, python-format
 msgid ""
 "\n"
@@ -4685,28 +4701,12 @@ msgstr ""
 "actividades de amistad. Los miembros que violen el espíritu de FriendBazaar "
 "serán eliminados y bloqueados."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:105
-#, python-format
-msgid "Advantages of %(app_name)s.com versus other sites:"
-msgstr "Ventajas de %(app_name)s.com con respecto a otros sitios:"
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:111
-#, python-format
-msgid ""
-"\n"
-"    %(app_name)s.com is a %(site_type)s, that is different than any\n"
-"    other websites that you may have seen. "
-msgstr ""
-"\n"
-"%(app_name)s.com es un %(site_type)s, que es diferente de cualquier otro "
-"sitio que hayas visto. "
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:124
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:119
 #, python-format
 msgid "How can %(app_name)s be free?"
 msgstr "¿Por qué %(app_name)s es gratuito?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:125
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:120
 msgid ""
 "This website survives from VIP memberships - however, most of our members "
 "are perfectly happy with the totally free membership option."
@@ -4714,16 +4714,16 @@ msgstr ""
 "Este sitio sobrevive de los miembros VIP - sin embargo, la mayoría de "
 "nuestros miembros están contentos usando la funcionalidad gratuita."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:128
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:123
 msgid "VIP benefits"
 msgstr "Los beneficios VIP"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:133
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:128
 #, python-format
 msgid "Quality control in %(app_name)s.com"
 msgstr "La Política de Control de Calidad de %(app_name)s.com"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:134
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:129
 msgid ""
 "To help us control the quality of our website, each profile will have a "
 "reporting button that will\n"
@@ -4734,11 +4734,11 @@ msgstr ""
 "botón que permitirá a nuestros socios informarnos de perfiles que puedan ser "
 "considerados como no aceptables."
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:137
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:132
 msgid "Would you like more information?"
 msgstr "¿Quieres más información?"
 
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:139
+#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:134
 msgid "Send us an email at:"
 msgstr "Envíanos un correo electrónico a:"
 
@@ -5466,6 +5466,13 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#, fuzzy
+#~ msgid "You must register with %(app_name)s to contact other users"
+#~ msgstr ""
+#~ "<em>Tienes que <a class=\"cl-register-enter-href\" href=\"#\">registrarte "
+#~ "o entrar </a> con tu cuenta personal para contactar con otros usuarios.</"
+#~ "em> <br><br>"
 
 #~ msgid "You have sent messages to %(num_new_people_txt)s"
 #~ msgstr "Ya has enviado mensajes a %(num_new_people_txt)s"
