@@ -466,7 +466,9 @@ function set_search_values_to_data(data, id_prefix, default_text, hide_field_if_
         for (var field in data) {
             if (field != 'region_options_html' && field != 'sub_region_options_html' && field != 'for_sale_sub_menu_options_html' && field != 'to_buy_sub_menu_options_html') {
                 var id_name = id_prefix + "-" + field;
-                rs_set_selector_to_value(id_name, data[field]);
+                if (data[field] != "----") {
+                    rs_set_selector_to_value(id_name, data[field]);
+                }
             }
         }
     } catch(err) {
