@@ -104,10 +104,14 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             
             delete_photo_list_of_keys_strs = request.POST.getlist('delete_photo')
             for photo_key_str in delete_photo_list_of_keys_strs:
-                # delete the photo and recompute the photo-based offsets            
-                store_options_for_photo_key(photo_key_str, review_action_dict = {'delete' : photo_key_str})
-                num_photos_deleted += 1
-                
+                try:
+                    # delete the photo and recompute the photo-based offsets            
+                    store_options_for_photo_key(photo_key_str, review_action_dict = {'delete' : photo_key_str})
+                    num_photos_deleted += 1
+                except:
+                    # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
+                    error_reporting.log_exception(logging.error)   
+                    
             mark_private_photo_list_of_keys_strs = request.POST.getlist('mark_private_photo')
             for photo_key_str in mark_private_photo_list_of_keys_strs:
                 try:
@@ -118,7 +122,6 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
                 except:
                     # if it fails because it was just deleted, then ignore it - need to get the error type and write a seperate except
                     error_reporting.log_exception(logging.error)            
-                
                 
             def approve_or_unapprove_photo(photo_key_str, is_approved):
                 
