@@ -616,7 +616,7 @@ def send_verification_email(currently_displayed_url, username, email_address, se
                    ugettext("To activate your account in %(app_name)s, enter the verification code when prompted, \
                    or click on the following link.") % \
                    {'app_name' : settings.APP_NAME }
-            message_html += "<p>%s: <strong>%s</strong><p>" % (ugettext("Verification code"), secret_verification_code)
+            message_html += "<p>%s: %s<p>" % (ugettext("Verification code"), secret_verification_code)
             href = """http://www.%(app_name)s.com%(currently_displayed_url)s?show_verification=true&amp;\
 verification_username=%(username)s&amp;secret_verification_code=%(secret_verification_code)s""" % \
                 {'currently_displayed_url' : currently_displayed_url, 
@@ -696,12 +696,12 @@ def store_authorization_info_and_send_email(currently_displayed_url, username, e
         
         ip_address_registration_count = check_authorization_info_for_ip_address_registrations_today(creation_day, ip_address)
         if ip_address_registration_count >= constants.MAX_REGISTRATIONS_SINGLE_IP and \
-           ip_address not in constants.REGISTRATION_EXEMPT_IP_ADDRESS_SET and \
-           email_address not in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
-            error_message="Exceeded registrations allowed on IP: %s" % (ip_address)
+            ip_address not in constants.REGISTRATION_EXEMPT_IP_ADDRESS_SET and \
+            email_address not in constants.REGISTRATION_EXEMPT_EMAIL_ADDRESSES_SET:
+            error_message="Exceeded registrations allowed on IP: %s. Username %s email_address %s not registered." % (ip_address, username, email_address)
             error_reporting.log_exception(logging.critical, error_message=error_message)  
             email_utils.send_admin_alert_email(error_message, subject="%s - IP %s registration exceeded" % (settings.APP_NAME, ip_address))
-            return error_message
+            return "OK" # Don't inform the user of this error - they are hacking our system and don't need any extra help
         
         # the following is just a warning (even though I report it as an error so that I don't miss it)
         # We allow the registration to proceede
