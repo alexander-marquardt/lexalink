@@ -1044,7 +1044,7 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
             <form id="id-%(section_name)s-form" method="POST">
             """ % { "section_name": section_name}
 
-            generated_html += cls.get_standard_textarea_html(section_name, MAIL_TEXTAREA_ROWS, show_registration_dialog_on_click_send = True)
+            generated_html += cls.get_standard_textarea_html(section_name, MAIL_TEXTAREA_ROWS, show_registration_dialog_on_click_send=show_registration_dialog_on_click_send)
 
                 
                 
