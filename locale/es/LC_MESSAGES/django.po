@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-09 11:45-0400\n"
+"POT-Creation-Date: 2013-10-09 11:50-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -174,7 +174,7 @@ msgstr ""
 "usar tu cuota"
 
 #: rs/callbacks_from_html.py:249
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "                            As a VIP Member, you "
@@ -187,7 +187,7 @@ msgstr ""
 "%(will_be_reset)s."
 
 #: rs/callbacks_from_html.py:256
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "                            You %(are_allowed_to_contact)s.\n"
@@ -5467,7 +5467,6 @@ msgstr ""
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
 
-#, fuzzy
 #~ msgid "You must register with %(app_name)s to contact other users"
 #~ msgstr ""
 #~ "<em>Tienes que <a class=\"cl-register-enter-href\" href=\"#\">registrarte "
