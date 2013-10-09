@@ -36,20 +36,6 @@
 {% endif %}
 
 
-{% if unregistered_user_welcome_text %}
-<div class="grid_2 alpha"><strong>¡Bienvenido!</strong></div>
-<div class="grid_7 omega">
-    <div class="cl-color-text">
-        {{ unregistered_user_welcome_text|safe }}
-    </div>
-
-</div> <!-- grid_7 -->
-<div class="grid_9 alpha omega cl-divider-line"></div>
-{% endif %}
-
-
-
-
 <!-- WELCCOME SECTION -->
 {% if primary_user_profile_data_fields.display_welcome_section %}
 <div class="grid_2 alpha"><strong>¡{% trans "Welcome" %}!</strong></div>
