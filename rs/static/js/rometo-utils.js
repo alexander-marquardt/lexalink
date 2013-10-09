@@ -789,11 +789,12 @@ function  show_registration_and_login(additional_text) {
             $('#id-show-registration-and-login').dialog({
                 modal: true,
                 width: 'auto',
+                show: {effect: 'fade',
+                       duration: 300},
                 position: {
                     my: "center",
                     at: "center"
-                },
-                show: ('fade', 500)
+                }
             });
 
 
