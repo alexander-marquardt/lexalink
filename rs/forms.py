@@ -73,12 +73,14 @@ class FormUtils():
         
         if owner_uid:
             #  show_registration_dialog_when_clicked = false
-            last_parameters_passed_to_handle_click = '"%(display_uid)s", false);' %  {'display_uid' : display_uid,}
+            last_parameters_passed_to_handle_click = u'"%(display_uid)s", false, "");' %  {'display_uid' : display_uid,}
         else:
             #  show_registration_dialog_when_clicked = true
-            last_parameters_passed_to_handle_click = '"%(display_uid)s", true);' %  {'display_uid' : display_uid,}
+            last_parameters_passed_to_handle_click = u'"%(display_uid)s", true, "%(registration_prompt_text)s");' %  {
+                'display_uid' : display_uid,
+                'registration_prompt_text' : constants.MUST_REGISTER_TO_SEND_MESSAGES_MSG}
             
-        generated_html += """<script type="text/javascript" language="javascript">
+        generated_html += u"""<script type="text/javascript" language="javascript">
         $(document).ready(function(){
             handle_click_on_contact_icon("favorite", %(last_parameters_passed_to_handle_click)s
             handle_click_on_contact_icon("wink", %(last_parameters_passed_to_handle_click)s
@@ -957,12 +959,13 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
             <script type="text/javascript" language="javascript">                
             $(document).ready(function(){
                 $("#%(entity_id)s").focus(function(){
-                    show_registration_and_login();
+                    show_registration_and_login('%(notification_txt)s');
                     $("#%(entity_id)s").blur();
                 });
             });
                                 
-            </script> """ % {'entity_id': entity_id}            
+            </script> """ % {'entity_id': entity_id,
+                             'notification_txt' : constants.MUST_REGISTER_TO_SEND_MESSAGES_MSG}            
         
         return generated_html
         
@@ -1031,12 +1034,14 @@ other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR,
                 generated_html += u"""
                 <script type="text/javascript" language="javascript">                
                     $(document).ready(function(){
-                        show_registration_dialog_on_click("%(section_name)s");
+                        show_registration_dialog_on_click("%(section_name)s", "%(registration_prompt_text)s");
                         $("#id-show-ajax-spinner-captcha").hide();
                         mouseover_button_handler($("#id-submit-%(section_name)s"));
                     });
                     
-                </script> """ % {"section_name": section_name,}
+                </script> """ % {"section_name": section_name,
+                                 "registration_prompt_text" : constants.MUST_REGISTER_TO_SEND_MESSAGES_MSG,
+                                 }
     
             # The "edit" section will be shown when the appropriate link is clicked. 
             generated_html += u"""

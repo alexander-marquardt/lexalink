@@ -777,12 +777,15 @@ function getJSON_initiate_contact_settings(uid) {
 }
 
 
-function  show_registration_and_login() {
+function  show_registration_and_login(additional_text) {
     $.ajax({
         type: 'get',
         url:  '/rs/get_registration_html/',
         success: function(html_response) {
-            $('#id-show-registration-and-login').html(html_response);
+            if (additional_text) {
+                additional_text = "<br>" + additional_text;
+            }
+            $('#id-show-registration-and-login').html("<div class='cl-center-text'><span style='display:inline-block;'><div class='grid_6 cl-text-14pt-format'>" + additional_text + "</div></span></div>" + html_response);
             $('#id-show-registration-and-login').dialog({
                 modal: true,
                 width: 'auto',
@@ -815,7 +818,7 @@ function  show_registration_and_login() {
     });
 }
 
-function handle_click_on_contact_icon(section_name, uid, show_registration_dialog_when_clicked) {
+function handle_click_on_contact_icon(section_name, uid, show_registration_dialog_when_clicked, registration_prompt_text) {
 
     try {
         var submit_button_id = "#id-submit-" + section_name;
@@ -842,7 +845,7 @@ function handle_click_on_contact_icon(section_name, uid, show_registration_dialo
                 return false;
             }
             else {
-                show_registration_and_login();
+                show_registration_and_login(registration_prompt_text);
                 return false;
             }
         });
@@ -1028,10 +1031,10 @@ function handle_submit_send_mail_button(section_name, to_uid, captcha_bypass_str
 }
 
 
-function show_registration_dialog_on_click(section_name) {
+function show_registration_dialog_on_click(section_name, registration_prompt_text) {
     var submit_button_id = "#id-submit-" + section_name;
     $(submit_button_id).click(function() {
-        show_registration_and_login();
+        show_registration_and_login(registration_prompt_text);
     });
 }
 
