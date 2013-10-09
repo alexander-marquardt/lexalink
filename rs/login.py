@@ -451,7 +451,7 @@ def process_login(request, is_admin_login = False):
             current_path = request.POST.get('current_path', None)
             if current_path:
                 locale, path = localeurl_utils.strip_path(current_path)  
-                if path == "/":
+                if path == "/" or path == "/rs/admin/login/":
                     # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
                     # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
                     destination_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
