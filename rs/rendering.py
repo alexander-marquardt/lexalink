@@ -266,11 +266,9 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             to_buy_sub_menu_options_html = "Not used - only for friend_build"
                         
                         
-        if request.method == 'GET':
-            # Handle user registration/verification popup if necessary
-            verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
+        # Handle user registration/verification popup if necessary
+        verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
 
-                
         # Information for users that are signed in with an account
         primary_user_presentation_data_fields = {}
         primary_user_presentation_data_fields['username'] = username
