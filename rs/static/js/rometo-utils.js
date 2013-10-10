@@ -803,7 +803,6 @@ function  show_registration_and_login(additional_text) {
             });
 
 
-            $('#id-show-registration-and-login').css({'padding' : "0px"});
             $('#id-show-registration-and-login').dialog('open');
 
             var background_img = $('#rs-nav').css('background-image');
