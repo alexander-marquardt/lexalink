@@ -66,13 +66,16 @@ else:
     
 # Define the number of new people that the user can send messages to in a given time window. 
 VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
-GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 72 # X hours before the counters will be reset
 
 if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
+    GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 72 # X hours before the counters will be reset
+    
 else:
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 8
+    GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
+    
     
 # if this member is VIP, then they will be allowed to send messages to more people in the "window"
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
@@ -84,10 +87,10 @@ if SHOW_VIP_UPGRADE_OPTION:
     # VIP purchase is available - this user should pay if they want to send more messages.
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 2 # can only send X messages to another user in a window period
 else:
-    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 5
+    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 6
     
 # If the users are "chat friends" then they can send more messages between them in time window period. 
-VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 15 
+VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
     
 RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
     

@@ -469,13 +469,13 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
             if have_sent_messages_string == "have_not_had_contact":
                 
                 
-                if not sender_userobject.client_paid_status:
-                    num_messages_allowed_in_window = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
-                    window_hours_for_new_people_messages = constants.VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES
-                else:
+                if sender_userobject.client_paid_status:
                     # VIP member has extra messages allocated
                     num_messages_allowed_in_window = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
-                    window_hours_for_new_people_messages = constants.GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES
+                    window_hours_for_new_people_messages = constants.VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES                    
+                else:
+                    num_messages_allowed_in_window = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
+                    window_hours_for_new_people_messages = constants.GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES                    
                     
                 if spam_tracker.datetime_first_mail_sent_in_window + datetime.timedelta(
                     hours = window_hours_for_new_people_messages - constants.RESET_MAIL_LEEWAY) <  datetime.datetime.now():
