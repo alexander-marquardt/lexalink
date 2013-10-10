@@ -1,62 +1,59 @@
 {% load i18n %}
 
-        <div class="cl-horiz-bar-div">
-        <table id="id-horiz-bar-table"> <!-- outer table -->
-            <tr> <!-- container row -->
-                {% if not is_popup_login_registration %}
-                    {% if build_name == "discrete_build" %}
-                    <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                        {% trans "Free confidential dating" %}.
-                    </td>
-                    {% endif %}
+    {% if is_admin_login %}
+    <form id="id-login_form" method=POST action="{% url login.admin_process_login %}">
+    {% else %}
+    <form id="id-login_form" method=POST action="{% url login.process_login %}">
+    {% endif %}
 
-                    {% if SITE_IS_TOTALLY_FREE %}
-                    <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-first-cell">
-                        {% trans "100 percent free everything included" %}.
-                    </td>
-                    {% endif %}
+    <div class="cl-horiz-bar-div">
+        {% if not is_popup_login_registration %}
+            {% if build_name == "discrete_build" %}
+            <div class="cl-horizontal-bar-sub-div" id="id-div-horizontal-bar-first-cell">
+                {% trans "Free confidential dating" %}.
+            </div>
+            {% endif %}
+
+            {% if SITE_IS_TOTALLY_FREE %}
+            <div class="cl-horizontal-bar-sub-div" id="id-div-horizontal-bar-first-cell">
+                {% trans "100 percent free everything included" %}.
+            </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="cl-div-horizontal-bar-login-cells">
+            <div class="cl-horizontal-bar-sub-div" id="id-div-horizontal-bar-second-cell">
+                &nbsp;
+                {% if build_name == "lesbian_build" %}
+                    {% trans "Are you already registered (female)? Enter here:" %}
+                {% else %}
+                    {% trans "Are you already registered? Enter here:" %}
                 {% endif %}
+                &nbsp;
+            </div>
 
-                <td class="cl-td-horizontal-bar" id="id-td-horizontal-bar-second-cell">
-                    &nbsp;
-                    {% if build_name == "lesbian_build" %}
-                        {% trans "Are you already registered (female)? Enter here:" %}
-                    {% else %}
-                        {% trans "Are you already registered? Enter here:" %}
-                    {% endif %}
-                    &nbsp;
-                </td>
-
-                <td class="cl-td-horizontal-bar cl-td-horizontal-bar-input-field">
+            <div class="cl-horizontal-bar-sub-div cl-div-horizontal-bar-input-field">
 
 
-                    {% if is_admin_login %}
-                    <form id="id-login_form" method=POST action="{% url login.admin_process_login %}">
-                    {% else %}
-                    <form id="id-login_form" method=POST action="{% url login.process_login %}">
-                    {% endif %}
-                        <input type="text"
-                           class="defaultText cl-gray-letters-text-prompt cl-nick-textinput-width-px cl-textinput-font-size"
-                           title='{% trans "username or email"%}'
-                           id="id-login_fields-username_email" name="username_email" maxlength=50>
-                        <!-- need to define two boxes for the password - but only one will be shown at a time -
-               required for showing text prompt in the input box -->
-                        <input type="text" class="cl-gray-letters-text-prompt cl-narrow-textinput-width-px cl-textinput-font-size"
-                               value='{% trans "password" %}' id="id-password-prompt"
-                               name="password-prompt" maxlength=50>
-                        <input type="password" class="cl-narrow-textinput-width-px cl-textinput-font-size" id="id-password-input"
-                               name="password" maxlength=50>
-                        <input id="id-submit-login-button" type="submit" class="cl-small-login-button"
-                               value='{% trans "Enter" %}!'>
-                    </form>
-                    
-                </td>
 
-                <!-- the following rows push the table up from the bottom-->
-            </tr>
-        </table>
+                    <input type="text"
+                       class="defaultText cl-gray-letters-text-prompt cl-nick-textinput-width-px cl-textinput-font-size"
+                       title='{% trans "username or email"%}'
+                       id="id-login_fields-username_email" name="username_email" maxlength=50>
+                    <!-- need to define two boxes for the password - but only one will be shown at a time -
+           required for showing text prompt in the input box -->
+                    <input type="text" class="cl-gray-letters-text-prompt cl-narrow-textinput-width-px cl-textinput-font-size"
+                           value='{% trans "password" %}' id="id-password-prompt"
+                           name="password-prompt" maxlength=50>
+                    <input type="password" class="cl-narrow-textinput-width-px cl-textinput-font-size" id="id-password-input"
+                           name="password" maxlength=50>
+                    <input id="id-submit-login-button" type="submit" class="cl-small-login-button"
+                           value='{% trans "Enter" %}!'>
+            </div>
         </div>
-        <!-- end outer table -->
+    </div>
+    </form>
+
 
      <div id="id-forgot-password" style="display:none;"><div  class="cl-right-text" >
         <a class="cl-dialog_anchor" href="{% url reset_password %}">

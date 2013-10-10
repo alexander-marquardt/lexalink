@@ -525,34 +525,44 @@ td.cl-td-left-align
 	vertical-align: text-top;
 }
 
+.cl-horiz-bar-div
+{
+    display: inline-block;
+    margin-bottom: 0px;
+    vertical-align: middle;
+    height: 28px;
+    width: 100%;
 
-td.cl-td-horizontal-bar {
+}
+
+.cl-horizontal-bar-sub-div {
 	font-size: 100%;
 	vertical-align: middle;
 	font-size: 20px;
-	height: 28px;
-	padding: 0px;
     color: white;
+    display: inline-block;
+    height: 100%
 }
-
-
 
 table.center {
     margin-left:auto;
     margin-right:auto;
 }
 
-td#id-td-horizontal-bar-first-cell
+#id-div-horizontal-bar-first-cell
 {
-    width: 99%;
     white-space: nowrap;
 	text-align: left;
 	font-size: 20px;
 	vertical-align: middle;
-	padding-left: 10px;
+    padding: 6px 0px 4px 10px;
 }
 
-td#id-td-horizontal-bar-second-cell
+.cl-div-horizontal-bar-login-cells {
+    float: right;
+}
+
+#id-div-horizontal-bar-second-cell
 {
     width: auto;
     white-space: nowrap;
@@ -560,12 +570,17 @@ td#id-td-horizontal-bar-second-cell
 	font-size: 16px;
 	vertical-align: middle;
     text-align: right;
+    padding: 0px 0px 5px 0px;
+
 }
 
-td.cl-td-horizontal-bar-input-field {
+
+.cl-div-horizontal-bar-input-field {
     white-space: nowrap;
 	vertical-align: middle;
     text-align: right;
+    padding: 4px 0px 6px 0px;
+    
 }
 
 

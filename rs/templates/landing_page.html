@@ -38,15 +38,9 @@
 
 
     <div class="cl-clear"></div>
-    <div class="grid_12">
-
-        {% include "login_helpers/login.html" %}
-    </div>
-        
-    <div class="cl-clear"></div>
-
 
     <div class="grid_12 cl-main-background">
+        {% include "login_helpers/login.html" %}
         <div id="id-left-and-right-registration">
             <div class="grid_6 alpha cl-center-text cl-text-large-format cl-background-gradient cl-login-text">
                 {% if maintenance_soon_warning %}

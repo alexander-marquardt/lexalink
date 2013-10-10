@@ -408,15 +408,7 @@ font-weight: bold;
 	border-width:1px;
 	border-color: #D3D3D3;
 }
-.cl-horiz-bar-div
-{
-    display: inline-block;
-}
 
-table#id-horiz-bar-table {
-	table-layout: auto;
-	margin-bottom: 0px;
-}
 table#id-nav-table
 {
 	table-layout: fixed; 

@@ -663,7 +663,7 @@ function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
 }
 
 function mouseover_button_handler(button_object) {
-    // defines changes in button appearance when mouse is over
+    // defines changes in button appearance when mouse is over   
     button_object.button();
 }
 
@@ -791,6 +791,7 @@ function  show_registration_and_login(additional_text) {
             $('#id-show-registration-and-login').dialog({
                 modal: true,
                 width: 'auto',
+                height: 'auto',
                 show: {effect: 'fade',
                        duration: 300},
                 position: {
