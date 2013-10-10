@@ -560,6 +560,7 @@ table.center {
 
 .cl-div-horizontal-bar-login-cells {
     float: right;
+    white-space: nowrap;
 }
 
 #id-div-horizontal-bar-second-cell
@@ -571,7 +572,6 @@ table.center {
 	vertical-align: middle;
     text-align: right;
     padding: 0px 0px 5px 0px;
-
 }
 
 
@@ -579,10 +579,12 @@ table.center {
     white-space: nowrap;
 	vertical-align: middle;
     text-align: right;
-    padding: 4px 0px 6px 0px;
-    
+    padding: 4px 10px 6px 0px;    
 }
 
+.cl-small-login-button {
+    font-size: 11px !important;
+}
 
 td.cl-registration-big-prompt-td {
 	font-size: 18pt;

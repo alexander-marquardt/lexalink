@@ -787,17 +787,19 @@ function  show_registration_and_login(additional_text) {
             if (additional_text) {
                 additional_text = "<br>" + additional_text;
             }
-            $('#id-show-registration-and-login').html("<div class='cl-center-text'><span style='display:inline-block;'><div class='grid_6 cl-text-14pt-format'>" + additional_text + "</div></span></div>" + html_response);
+            $('#id-show-registration-and-login').html("<div class='cl-center-text'><span style='display:inline-block;'><div class='grid_6 cl-text-14pt-format'>" +
+                    additional_text + "</div></span></div>" +
+                    "<div>" + html_response + "</div>");
             $('#id-show-registration-and-login').dialog({
                 modal: true,
-                width: 'auto',
-                height: 'auto',
                 show: {effect: 'fade',
                        duration: 300},
                 position: {
                     my: "center",
                     at: "center"
-                }
+                },
+                width: 'auto',
+                height: 'auto'
             });
 
 
