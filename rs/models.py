@@ -692,9 +692,7 @@ class PhotoModel(ndb.Model):
     # only show photos that have not previously reviewed.
     has_been_reviewed = ndb.BooleanProperty(default = True)
     
-    # Note: "creation_date" refers to the last time that the photo was updated -- including
-    # changing from private to public.
-    creation_date = ndb.DateTimeProperty(auto_now=True) 
+    creation_date = ndb.DateTimeProperty(auto_now_add=True) 
     
     # the following provides a link from the Photos to the user. This will create 
     # backlinks in the user model, that can be used to show the photos.
