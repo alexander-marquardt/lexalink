@@ -451,7 +451,7 @@ def process_login(request, is_admin_login = False):
             current_path = request.POST.get('current_path', None)
             if current_path:
                 locale, path = localeurl_utils.strip_path(current_path)  
-                if path == "/" or path == "/rs/admin/login/":
+                if path in constants.URLS_THAT_NEED_REDIRECT_AFTER_ENTRY:
                     # Note: we "manually" set the language in the URL on purpose, because we need to guarantee that the language
                     # stored in the profile, session and URL are consistent (so that the user can change it if it is not correct)
                     destination_url = "/%(lang_code)s/edit_profile/%(owner_nid)s/" % {
@@ -727,9 +727,7 @@ def check_verification_and_authorize_user(request):
     # it is called from the user entering the verification_code in a popup dialog. 
     # We direct them to a web page after verification.
     #
-    # If is_ajax is true (which it should be if the user has entered the secret_verification_code directly from the 
-    # website, versus clicking on an email link), then instead of redirecting to the URL and rendering the page, we 
-    # should just return a json object containing the URL, that the client-side javascript will then redirect to.
+    # We return a json object containing the URL that the client-side javascript will then redirect to.
     
     
     
@@ -750,7 +748,7 @@ def check_verification_and_authorize_user(request):
         
         if current_path:
             locale, path = localeurl_utils.strip_path(current_path)  
-            if path == "/":
+            if path in constants.URLS_THAT_NEED_REDIRECT_AFTER_ENTRY:
                 destination_url = "/"
             else:
                 destination_url = current_path
