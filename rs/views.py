@@ -381,7 +381,7 @@ def terms(request):
         error_reporting.log_exception(logging.critical)
       
 
-def logout(request, html_for_delete_account = ''):
+def logout(request):
     # Closes the user session, and displays the logout page.
        
     try: 
