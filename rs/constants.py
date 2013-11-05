@@ -64,10 +64,12 @@ else:
     minimum_registration_age = 18
     
     
-# if the user attempts to register from one of the following URLs then after registration, they will be directed
-# to a different page (instead of just showing the page that they activated the registration box on).
+# if the user attempts to register from one of the following URLs then during the secret code verification step they will be directed
+# to a different page (instead of the default behaviour of showing the page that they activated the registration box on). 
+# As of Nov 5 2013, members will be directed to the "edit_profile" page if they have registered from one of the
+# following urls.
 URLS_THAT_NEED_REDIRECT_AFTER_ENTRY = set(["/", "/rs/admin/login/", "/rs/submit_email_for_reset_password/",
-                                           "/rs/welcome/", "/rs/press/"])
+                                           "/rs/welcome/", "/rs/press/", "/rs/delete_account/"])
 
 
 # Define the number of new people that the user can send messages to in a given time window. 

@@ -457,7 +457,8 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
             nav_bar_text = ugettext("You have exited")
             response = rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = nav_bar_text, 
                                                            hide_page_from_webcrawler = True,
-                                                           show_search_box = False, hide_why_to_register = True)
+                                                           show_search_box = False, hide_why_to_register = True,
+                                                           register_enter_click_sends_to_landing = True)
             return response
         else:
             return html_for_delete_account

@@ -80,7 +80,8 @@ def reset_password(request, email_address=''):
     navigation_text = "%s - %s" % (settings.APP_NAME, ugettext("New password"))
     return rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = navigation_text, 
                                       hide_page_from_webcrawler = True,
-                                      show_search_box = False, hide_why_to_register = True)
+                                      show_search_box = False, hide_why_to_register = True,
+                                      register_enter_click_sends_to_landing = True)
 
 
 
