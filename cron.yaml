@@ -13,7 +13,7 @@ cron:
 
 - description: Backup Database
   url: /rs/admin/backup_database/
-  schedule: every 96 hours # every 4 days
+  schedule: every 360 hours # every 15 days
 
 - description: Remove old EmailAuthorizationModel objects
   url: /rs/admin/remove_old_email_authorization_model/
