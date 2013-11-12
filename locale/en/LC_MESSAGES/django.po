@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 13:38-0500\n"
+"POT-Creation-Date: 2013-11-12 17:58-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,8 +93,8 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:817 rs/messages.py:521
-#: rs/rendering.py:422 rs/utils.py:1527
+#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:831 rs/messages.py:521
+#: rs/rendering.py:424 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -245,7 +245,7 @@ msgstr ""
 
 #: rs/constants.py:466 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:118
+#: rs/templates/landing_page.html:117
 msgid "dating website to meet mature adults over 40 years old"
 msgstr ""
 
@@ -317,207 +317,207 @@ msgstr ""
 
 #: rs/constants.py:626
 msgid ""
-"You must register for a <strong>free account</strong> or log into your "
-"account (below) in order to contact our members. "
+"You must register for a <strong>free account</strong> in order to contact "
+"our members. "
 msgstr ""
 
-#: rs/constants.py:652
+#: rs/constants.py:651
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:654
+#: rs/constants.py:653
 msgid "sent (singular)"
 msgstr "sent"
 
-#: rs/constants.py:655
+#: rs/constants.py:654
 msgid "received (singluar)"
 msgstr "received"
 
-#: rs/constants.py:656
+#: rs/constants.py:655
 msgid "saved (singular)"
 msgstr "saved"
 
-#: rs/constants.py:657
+#: rs/constants.py:656
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:663 rs/messages.py:367
+#: rs/constants.py:662 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "sent"
 
-#: rs/constants.py:663
+#: rs/constants.py:662
 msgid "Sent (plural)"
 msgstr "Sent"
 
-#: rs/constants.py:664
+#: rs/constants.py:663
 msgid "received (plural)"
 msgstr "received"
 
-#: rs/constants.py:664
+#: rs/constants.py:663
 msgid "Received (plural)"
 msgstr "Received"
 
-#: rs/constants.py:665
+#: rs/constants.py:664
 msgid "saved (plural)"
 msgstr "saved"
 
-#: rs/constants.py:665
+#: rs/constants.py:664
 msgid "Saved (plural)"
 msgstr "Saved"
 
-#: rs/constants.py:666
+#: rs/constants.py:665
 msgid "confirmed (plural)"
 msgstr "confirmed"
 
-#: rs/constants.py:666
+#: rs/constants.py:665
 msgid "Confirmed (plural)"
 msgstr "Confirmed"
 
-#: rs/constants.py:671
+#: rs/constants.py:670
 msgid "sent (plural feminine)"
 msgstr "sent"
 
-#: rs/constants.py:671
+#: rs/constants.py:670
 msgid "Sent (plural feminine)"
 msgstr "Sent"
 
-#: rs/constants.py:672
+#: rs/constants.py:671
 msgid "received (plural feminine)"
 msgstr "received"
 
-#: rs/constants.py:672
+#: rs/constants.py:671
 msgid "Received (plural feminine)"
 msgstr "Received"
 
-#: rs/constants.py:673
+#: rs/constants.py:672
 msgid "saved (plural feminine)"
 msgstr "saved"
 
-#: rs/constants.py:673
+#: rs/constants.py:672
 msgid "Saved (plural feminine)"
 msgstr "Saved"
 
-#: rs/constants.py:674
+#: rs/constants.py:673
 msgid "confirmed (plural feminine)"
 msgstr "confirmed"
 
-#: rs/constants.py:674
+#: rs/constants.py:673
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmed"
 
-#: rs/constants.py:679
+#: rs/constants.py:678
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:680
+#: rs/constants.py:679
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:681
+#: rs/constants.py:680
 msgid "Greeting"
 msgstr ""
 
-#: rs/constants.py:683
+#: rs/constants.py:682
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:684
+#: rs/constants.py:683
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:685
+#: rs/constants.py:684
 msgid "Wink"
 msgstr ""
 
-#: rs/constants.py:688
+#: rs/constants.py:687
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:689
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:691
+#: rs/constants.py:690
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:692
+#: rs/constants.py:691
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:693
+#: rs/constants.py:692
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:698
+#: rs/constants.py:697
 msgid "My favorite"
 msgstr ""
 
-#: rs/constants.py:700
+#: rs/constants.py:699
 msgid "Kiss"
 msgstr ""
 
-#: rs/constants.py:701
+#: rs/constants.py:700
 msgid "Key"
 msgstr ""
 
-#: rs/constants.py:702
+#: rs/constants.py:701
 msgid "Chat friend"
 msgstr "Chat friends"
 
-#: rs/constants.py:703
+#: rs/constants.py:702
 msgid "Blocked (singular)"
 msgstr "Blocked"
 
-#: rs/constants.py:707
+#: rs/constants.py:706
 msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:708
+#: rs/constants.py:707
 msgid "Chat requests received"
 msgstr ""
 
-#: rs/constants.py:709
+#: rs/constants.py:708
 msgid "Chat connections confirmed"
 msgstr ""
 
-#: rs/constants.py:713
+#: rs/constants.py:712
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:715
+#: rs/constants.py:714
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:716
+#: rs/constants.py:715
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:717
+#: rs/constants.py:716
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:718
+#: rs/constants.py:717
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:731
+#: rs/constants.py:730
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:732
+#: rs/constants.py:731
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:733
+#: rs/constants.py:732
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:734
+#: rs/constants.py:733
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:735
+#: rs/constants.py:734
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:164
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:363
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:372
@@ -525,31 +525,31 @@ msgstr ""
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:736
+#: rs/constants.py:735
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:737
+#: rs/constants.py:736
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:738
+#: rs/constants.py:737
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:739
+#: rs/constants.py:738
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:740
+#: rs/constants.py:739
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:741
+#: rs/constants.py:740
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:742
+#: rs/constants.py:741
 msgid "December"
 msgstr ""
 
@@ -2279,11 +2279,11 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr ""
 
-#: rs/login.py:810
+#: rs/login.py:824
 msgid "Incorrect code"
 msgstr ""
 
-#: rs/login.py:813
+#: rs/login.py:827
 msgid "Verification code is invalid or expired"
 msgstr ""
 
@@ -3815,8 +3815,8 @@ msgstr ""
 msgid "I am currently in"
 msgstr ""
 
-#: rs/utils.py:409 rs/templates/landing_page.html:78
-#: rs/templates/landing_page.html.py:202
+#: rs/utils.py:409 rs/templates/landing_page.html:77
+#: rs/templates/landing_page.html.py:201
 #: rs/templates/login_helpers/login.html:60
 msgid "Have you forgotten your password?"
 msgstr ""
@@ -3937,11 +3937,11 @@ msgstr ""
 #: rs/proprietary/search_engine_overrides.py:124
 #: rs/proprietary/templates/proprietary_ads/friend_build.html:30
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:90
+#: rs/templates/landing_page.html:89
 msgid "100 percent free"
 msgstr "100% free"
 
-#: rs/utils.py:1812 rs/templates/landing_page.html:125
+#: rs/utils.py:1812 rs/templates/landing_page.html:124
 msgid "We never ask for your credit card or any other form of payment"
 msgstr ""
 
@@ -3949,7 +3949,7 @@ msgstr ""
 msgid "free"
 msgstr ""
 
-#: rs/utils.py:1814 rs/templates/landing_page.html:123
+#: rs/utils.py:1814 rs/templates/landing_page.html:122
 msgid "chat and messages included"
 msgstr ""
 
@@ -3972,7 +3972,7 @@ msgstr ""
 msgid "Lesbians"
 msgstr ""
 
-#: rs/utils_top_level.py:174
+#: rs/utils_top_level.py:186
 #, python-format
 msgid ""
 "\n"
@@ -4034,7 +4034,7 @@ msgid "classy contacts for swingers. Swinging lifestyle. Partner swapping."
 msgstr ""
 
 #: rs/proprietary/search_engine_overrides.py:75
-#: rs/templates/landing_page.html:102
+#: rs/templates/landing_page.html:101
 msgid "gay dating"
 msgstr ""
 
@@ -4499,39 +4499,39 @@ msgstr ""
 msgid "Do you want to look around before registering?"
 msgstr ""
 
-#: rs/templates/landing_page.html:59
+#: rs/templates/landing_page.html:58
 msgid "Enter with a guest account"
 msgstr ""
 
-#: rs/templates/landing_page.html:94
+#: rs/templates/landing_page.html:93
 msgid "online dating"
 msgstr ""
 
-#: rs/templates/landing_page.html:98
+#: rs/templates/landing_page.html:97
 msgid "swinger contacts"
 msgstr ""
 
-#: rs/templates/landing_page.html:106
+#: rs/templates/landing_page.html:105
 msgid "language exchange"
 msgstr ""
 
-#: rs/templates/landing_page.html:110
+#: rs/templates/landing_page.html:109
 msgid "meet friends"
 msgstr ""
 
-#: rs/templates/landing_page.html:114
+#: rs/templates/landing_page.html:113
 msgid "lesbian dating"
 msgstr ""
 
-#: rs/templates/landing_page.html:123
+#: rs/templates/landing_page.html:122
 msgid "Free"
 msgstr ""
 
-#: rs/templates/landing_page.html:129
+#: rs/templates/landing_page.html:128
 msgid "Over 50 percent of our members are single"
 msgstr "Over 50% of our members are single"
 
-#: rs/templates/landing_page.html:134
+#: rs/templates/landing_page.html:133
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr ""
 
@@ -4564,14 +4564,12 @@ msgstr ""
 msgid "Press"
 msgstr ""
 
-#: rs/templates/common_helpers/logo_banner.html:61
+#: rs/templates/common_helpers/logo_banner.html:62
 msgid "Register / Enter"
 msgstr ""
 
 #: rs/templates/common_helpers/logo_banner.html:89
-msgid ""
-"Register for a new <strong>free account</strong> or log into your previously "
-"registered account below."
+msgid "Register for a new <strong>free account</strong> below."
 msgstr ""
 
 #: rs/templates/login_helpers/login.html:13

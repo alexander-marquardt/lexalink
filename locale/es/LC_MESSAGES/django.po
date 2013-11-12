@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 13:38-0500\n"
+"POT-Creation-Date: 2013-11-12 17:58-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -99,8 +99,8 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:817 rs/messages.py:521
-#: rs/rendering.py:422 rs/utils.py:1527
+#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:831 rs/messages.py:521
+#: rs/rendering.py:424 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -261,7 +261,7 @@ msgstr "sitio para conocer gente y hacer amigos"
 
 #: rs/constants.py:466 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:118
+#: rs/templates/landing_page.html:117
 msgid "dating website to meet mature adults over 40 years old"
 msgstr "sitio web para conocer adultos mayores de 40 años"
 
@@ -345,209 +345,209 @@ msgstr "Puedes enviar más mensajes a este socio %(txt_for_when_quota_resets)s."
 
 #: rs/constants.py:626
 msgid ""
-"You must register for a <strong>free account</strong> or log into your "
-"account (below) in order to contact our members. "
+"You must register for a <strong>free account</strong> in order to contact "
+"our members. "
 msgstr ""
-"Tienes que registrarte para una <strong>cuenta gratuita</strong> o entrar en "
-"tu cuenta (debajo) para ponerte en contacto con nuestros miembros."
+"Tienes que registrarte para una <strong>cuenta gratuita</strong> "
+"para ponerte en contacto con nuestros miembros."
 
-#: rs/constants.py:652
+#: rs/constants.py:651
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:654
+#: rs/constants.py:653
 msgid "sent (singular)"
 msgstr "enviado"
 
-#: rs/constants.py:655
+#: rs/constants.py:654
 msgid "received (singluar)"
 msgstr "recibido"
 
-#: rs/constants.py:656
+#: rs/constants.py:655
 msgid "saved (singular)"
 msgstr "guardado"
 
-#: rs/constants.py:657
+#: rs/constants.py:656
 msgid "confirmed (singular)"
 msgstr "confirmado"
 
-#: rs/constants.py:663 rs/messages.py:367
+#: rs/constants.py:662 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "enviados"
 
-#: rs/constants.py:663
+#: rs/constants.py:662
 msgid "Sent (plural)"
 msgstr "Enviados"
 
-#: rs/constants.py:664
+#: rs/constants.py:663
 msgid "received (plural)"
 msgstr "recibidos"
 
-#: rs/constants.py:664
+#: rs/constants.py:663
 msgid "Received (plural)"
 msgstr "Recibidos"
 
-#: rs/constants.py:665
+#: rs/constants.py:664
 msgid "saved (plural)"
 msgstr "guardados"
 
-#: rs/constants.py:665
+#: rs/constants.py:664
 msgid "Saved (plural)"
 msgstr "Guardados"
 
-#: rs/constants.py:666
+#: rs/constants.py:665
 msgid "confirmed (plural)"
 msgstr "confirmados"
 
-#: rs/constants.py:666
+#: rs/constants.py:665
 msgid "Confirmed (plural)"
 msgstr "Confirmados"
 
-#: rs/constants.py:671
+#: rs/constants.py:670
 msgid "sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:671
+#: rs/constants.py:670
 msgid "Sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:672
+#: rs/constants.py:671
 msgid "received (plural feminine)"
 msgstr "recibidas"
 
-#: rs/constants.py:672
+#: rs/constants.py:671
 msgid "Received (plural feminine)"
 msgstr "Recibidas"
 
-#: rs/constants.py:673
+#: rs/constants.py:672
 msgid "saved (plural feminine)"
 msgstr "guardadas"
 
-#: rs/constants.py:673
+#: rs/constants.py:672
 msgid "Saved (plural feminine)"
 msgstr "Guardadas"
 
-#: rs/constants.py:674
+#: rs/constants.py:673
 msgid "confirmed (plural feminine)"
 msgstr "confirmadas"
 
-#: rs/constants.py:674
+#: rs/constants.py:673
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmadas"
 
-#: rs/constants.py:679
+#: rs/constants.py:678
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:680
+#: rs/constants.py:679
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:681
+#: rs/constants.py:680
 msgid "Greeting"
 msgstr "Saludo"
 
-#: rs/constants.py:683
+#: rs/constants.py:682
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:684
+#: rs/constants.py:683
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:685
+#: rs/constants.py:684
 msgid "Wink"
 msgstr "Guiño"
 
-#: rs/constants.py:688
+#: rs/constants.py:687
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:690
+#: rs/constants.py:689
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:691
+#: rs/constants.py:690
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:692
+#: rs/constants.py:691
 msgid "Chat friends"
 msgstr "Chats amigos"
 
-#: rs/constants.py:693
+#: rs/constants.py:692
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:698
+#: rs/constants.py:697
 msgid "My favorite"
 msgstr "Mi Favorito"
 
-#: rs/constants.py:700
+#: rs/constants.py:699
 msgid "Kiss"
 msgstr "Beso"
 
-#: rs/constants.py:701
+#: rs/constants.py:700
 msgid "Key"
 msgstr "Llave"
 
-#: rs/constants.py:702
+#: rs/constants.py:701
 msgid "Chat friend"
 msgstr "Amigo de chat"
 
-#: rs/constants.py:703
+#: rs/constants.py:702
 msgid "Blocked (singular)"
 msgstr "Bloqueado"
 
-#: rs/constants.py:707
+#: rs/constants.py:706
 msgid "Chat requests sent"
 msgstr "Chats amigos pedidos"
 
-#: rs/constants.py:708
+#: rs/constants.py:707
 msgid "Chat requests received"
 msgstr "Chats amigos recibidos"
 
-#: rs/constants.py:709
+#: rs/constants.py:708
 msgid "Chat connections confirmed"
 msgstr "Chats amigos confirmados"
 
-#: rs/constants.py:713
+#: rs/constants.py:712
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:715
+#: rs/constants.py:714
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:716
+#: rs/constants.py:715
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:717
+#: rs/constants.py:716
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:718
+#: rs/constants.py:717
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automáticamente)"
 
-#: rs/constants.py:731
+#: rs/constants.py:730
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:732
+#: rs/constants.py:731
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:733
+#: rs/constants.py:732
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:734
+#: rs/constants.py:733
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:735
+#: rs/constants.py:734
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:164
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:363
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:372
@@ -555,31 +555,31 @@ msgstr "abril"
 msgid "May"
 msgstr "mayo"
 
-#: rs/constants.py:736
+#: rs/constants.py:735
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:737
+#: rs/constants.py:736
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:738
+#: rs/constants.py:737
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:739
+#: rs/constants.py:738
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:740
+#: rs/constants.py:739
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:741
+#: rs/constants.py:740
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:742
+#: rs/constants.py:741
 msgid "December"
 msgstr "diciembre"
 
@@ -2337,11 +2337,11 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr "Todos Los Países"
 
-#: rs/login.py:810
+#: rs/login.py:824
 msgid "Incorrect code"
 msgstr "Código incorrecto"
 
-#: rs/login.py:813
+#: rs/login.py:827
 msgid "Verification code is invalid or expired"
 msgstr "Código de verificación es inválido o ha caducado"
 
@@ -3963,8 +3963,8 @@ msgstr "En"
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:409 rs/templates/landing_page.html:78
-#: rs/templates/landing_page.html.py:202
+#: rs/utils.py:409 rs/templates/landing_page.html:77
+#: rs/templates/landing_page.html.py:201
 #: rs/templates/login_helpers/login.html:60
 msgid "Have you forgotten your password?"
 msgstr "¿Has olvidado tu contraseña?"
@@ -4096,11 +4096,11 @@ msgstr "es"
 #: rs/proprietary/search_engine_overrides.py:124
 #: rs/proprietary/templates/proprietary_ads/friend_build.html:30
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:90
+#: rs/templates/landing_page.html:89
 msgid "100 percent free"
 msgstr "100% gratis"
 
-#: rs/utils.py:1812 rs/templates/landing_page.html:125
+#: rs/utils.py:1812 rs/templates/landing_page.html:124
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
@@ -4108,7 +4108,7 @@ msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1814 rs/templates/landing_page.html:123
+#: rs/utils.py:1814 rs/templates/landing_page.html:122
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
@@ -4131,7 +4131,7 @@ msgstr "Hombres gays"
 msgid "Lesbians"
 msgstr "Lesbianas"
 
-#: rs/utils_top_level.py:174
+#: rs/utils_top_level.py:186
 #, python-format
 msgid ""
 "\n"
@@ -4205,7 +4205,7 @@ msgstr ""
 "swinger. Intercambio de pareja."
 
 #: rs/proprietary/search_engine_overrides.py:75
-#: rs/templates/landing_page.html:102
+#: rs/templates/landing_page.html:101
 msgid "gay dating"
 msgstr "contactos para gays"
 
@@ -4746,39 +4746,39 @@ msgstr "Envíanos un correo electrónico a:"
 msgid "Do you want to look around before registering?"
 msgstr "¿Quieres mirar antes de registrarte?"
 
-#: rs/templates/landing_page.html:59
+#: rs/templates/landing_page.html:58
 msgid "Enter with a guest account"
 msgstr "Entra con una cuenta de invitado"
 
-#: rs/templates/landing_page.html:94
+#: rs/templates/landing_page.html:93
 msgid "online dating"
 msgstr "servicio de buscar pareja en linea"
 
-#: rs/templates/landing_page.html:98
+#: rs/templates/landing_page.html:97
 msgid "swinger contacts"
 msgstr "contactos para swingers y parejas liberales"
 
-#: rs/templates/landing_page.html:106
+#: rs/templates/landing_page.html:105
 msgid "language exchange"
 msgstr "intercambio de idiomas"
 
-#: rs/templates/landing_page.html:110
+#: rs/templates/landing_page.html:109
 msgid "meet friends"
 msgstr "conocer amigos"
 
-#: rs/templates/landing_page.html:114
+#: rs/templates/landing_page.html:113
 msgid "lesbian dating"
 msgstr "contactos para lesbianas"
 
-#: rs/templates/landing_page.html:123
+#: rs/templates/landing_page.html:122
 msgid "Free"
 msgstr "Gratis"
 
-#: rs/templates/landing_page.html:129
+#: rs/templates/landing_page.html:128
 msgid "Over 50 percent of our members are single"
 msgstr "Más del 50% de nuestros socios son solter@s"
 
-#: rs/templates/landing_page.html:134
+#: rs/templates/landing_page.html:133
 msgid "does not permit or contain explicit, pornograpic, or obscene content"
 msgstr "no permite ni tiene contenido explícito, pornográfico u obsceno"
 
@@ -4811,17 +4811,14 @@ msgstr "Sobre"
 msgid "Press"
 msgstr "Prensa"
 
-#: rs/templates/common_helpers/logo_banner.html:61
+#: rs/templates/common_helpers/logo_banner.html:62
 msgid "Register / Enter"
 msgstr "Regístrate / Entrar"
 
 #: rs/templates/common_helpers/logo_banner.html:89
-msgid ""
-"Register for a new <strong>free account</strong> or log into your previously "
-"registered account below."
+msgid "Register for a new <strong>free account</strong> below."
 msgstr ""
-"Registrate para una <strong>cuenta gratuita</strong> o entra en tu cuenta "
-"previamente registrada debajo. "
+"Registrate para una <strong>cuenta gratuita</strong> debajo."
 
 #: rs/templates/login_helpers/login.html:13
 msgid "Free confidential dating"

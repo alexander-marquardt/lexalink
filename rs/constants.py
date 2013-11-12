@@ -624,8 +624,7 @@ class ErrorMessages():
 
 # The following variable is passed to javascript as a text string, and therefore must *not* contain any line breaks.
 MUST_REGISTER_TO_SEND_MESSAGES_MSG = ugettext_lazy("""\
-You must register for a <strong>free account</strong> or log into your \
-account (below) in order to contact our members. \
+You must register for a <strong>free account</strong> in order to contact our members. \
 """)
 
 ############################################

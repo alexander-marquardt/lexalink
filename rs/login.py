@@ -187,24 +187,27 @@ def get_registration_html(request):
             'minimum_registration_age' : constants.minimum_registration_age,
             'is_popup_login_registration' : True,
             }, **constants.template_common_fields))
-        registration_html = signup_template.render(context)
+        signup_html = signup_template.render(context)
         
         login_template = template.loader.get_template('login_helpers/login.html')
         context =  template.Context (dict({
             'is_popup_login_registration' : True
             }, **constants.template_common_fields))
-        signup_html = login_template.render(context)
+        login_html = login_template.render(context)
         
-        generated_html = """
-        <br><br>
-        <div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>
-        <div class="cl-clear"></div>
-        <div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>
-        """ % {
-                        'registration_html' : registration_html,
-                        'signup_html' : signup_html}
+        #generated_html = """
+        #<div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>
+        #<div class="cl-clear"></div>       
+        #<div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>
+        #""" % {
+                        #'registration_html' : registration_html,
+                        #'signup_html' : signup_html}
         
-        return http.HttpResponse(generated_html)
+        response_dict = { 'signup_html' : signup_html,
+                        'login_html' : login_html}
+    
+        json_response = simplejson.dumps(response_dict)
+        return http.HttpResponse(json_response, mimetype='text/javascript')      
     except:
         return utils.return_and_report_internal_error(request)
                 

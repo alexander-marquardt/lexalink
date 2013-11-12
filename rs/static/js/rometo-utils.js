@@ -780,16 +780,33 @@ function getJSON_initiate_contact_settings(uid) {
 
 
 function  show_registration_and_login(additional_text) {
+
     $.ajax({
         type: 'get',
         url:  '/rs/get_registration_html/',
-        success: function(html_response) {
-            if (additional_text) {
-                additional_text = "<br>" + additional_text;
+        dataType: 'json', // response type
+        success: function(json_response) {
+
+            $('#id-show-registration-and-login').html("<div class='cl-center-text'><span style='display:inline-block;'>" +
+                "<div id='id-inner-registration-and-login' class='grid_6 cl-text-14pt-format'>" +
+                "</div></span></div>");
+
+            if ("login_html" in json_response && json_response.login_html) {
+                $('#id-show-registration-and-login').append(json_response.login_html);
             }
-            $('#id-show-registration-and-login').html("<div class='cl-center-text'><span style='display:inline-block;'><div class='grid_6 cl-text-14pt-format'>" +
-                    additional_text + "</div></span></div>" +
-                    "<div>" + html_response + "</div>");
+
+            if (additional_text) {
+                $('#id-show-registration-and-login').append("<div class='cl-center-text'><span style='display:inline-block;'>" +
+                    "<div id='id-inner-registration-and-login' class='grid_6 cl-text-14pt-format'>" +
+                    additional_text + "<br><br></div></span></div>");
+            }
+
+            if ("signup_html" in json_response && json_response.signup_html) {
+                $('#id-show-registration-and-login').append("<div class='cl-center-text'><span style='display:inline-block;'>" +
+                    json_response.signup_html + "</span></div>");
+            }
+
+            $('#id-show-registration-and-login').find(".cl-registration_html-additional_text").html(additional_text);
             $('#id-show-registration-and-login').dialog({
                 modal: true,
                 show: {effect: 'fade',
@@ -805,20 +822,16 @@ function  show_registration_and_login(additional_text) {
 
             $('#id-show-registration-and-login').dialog('open');
 
-            var background_img = $('#rs-nav').css('background-image');
-            var background_color = $("<h1>foo</h1>").hide().appendTo("body").css('color');
             // set the background image on the dialog titlebar to be the same as the navigation bar
-            $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-image': background_img });
+            $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-image': 'none' });
             // hide the background color of the titlebar and remove the border - basically we are over-riding the default
             // jquery UI default values to match the color scheme of the current site.
             $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-color': '#FFF' });
             $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'border': '0px' });
         },
         error: function () {
-
         },
         complete: function() {
-
         }
     });
 }
