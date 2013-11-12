@@ -90,14 +90,19 @@ def check_if_login_country_allowed(request):
         
     return (login_allowed, message_for_client)
 
+
+
+
 def landing_page(request, is_admin_login = False):
     # displays the information for allowing the user to log in. Also, processes the post information
     # from login attempts.
     # 
     
     try:
-        
         redirect_to_search_results = reverse('search_gen')   + "?query_order=unique_last_login"   
+        for key in request.GET:
+            value = request.GET[key]
+            redirect_to_search_results += "&%s=%s" % (key, value)
         return http.HttpResponseRedirect(redirect_to_search_results)  
         
     
