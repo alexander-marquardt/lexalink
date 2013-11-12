@@ -19,6 +19,7 @@
 
             <table class="center" > <!-- registration table -->
 
+                <tr><td>&nbsp;</td></tr>
                 <tr>
                     <td class="cl-registration-big-prompt-td">{% trans "Register here" %}</td>
                 </tr>
@@ -33,6 +34,14 @@
                 <tr>
                     <td></td>
                     <td><input id="id-submit-signup-button" type="submit" value='{% trans " Register me" %}!'>
+                    </td>
+                </tr>
+                <tr><td>&nbsp;</td></tr>
+                <tr>
+                    <td class="cl-registration-very-small-prompt-td" colspan="2">{% blocktrans %}
+                        * A valid email address is required to verify your account. We do not send Spam, and you are
+                        in control of notifications that you may wish to receive.
+                        {% endblocktrans %}
                     </td>
                 </tr>
             </table>

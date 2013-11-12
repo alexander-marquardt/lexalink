@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 12:43-0500\n"
+"POT-Creation-Date: 2013-11-12 13:38-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -3808,8 +3808,8 @@ msgid "I Would Like To Meet"
 msgstr "Me&nbsp;Gustaría&nbsp;Conocer"
 
 #: rs/user_profile_main_data.py:351
-msgid "Email Address (Confidential)"
-msgstr "Correo&nbsp;Electrónico&nbsp;(Confidencial)"
+msgid "Email Address* (Confidential)"
+msgstr "Correo&nbsp;Electrónico*&nbsp;(Confidencial)"
 
 #: rs/user_profile_main_data.py:352
 msgid "Password"
@@ -4870,27 +4870,41 @@ msgstr ""
 msgid "I agree"
 msgstr "Estoy de acuerdo"
 
-#: rs/templates/login_helpers/registration.html:23
+#: rs/templates/login_helpers/registration.html:24
 msgid "Register here"
 msgstr "Regístrate aquí"
 
-#: rs/templates/login_helpers/registration.html:26
+#: rs/templates/login_helpers/registration.html:27
 msgid "it only takes 30 seconds"
 msgstr "en 30 segundos está hecho"
 
-#: rs/templates/login_helpers/registration.html:35
+#: rs/templates/login_helpers/registration.html:36
 msgid " Register me"
 msgstr "Me Registro"
 
-#: rs/templates/login_helpers/registration.html:95
+#: rs/templates/login_helpers/registration.html:41
+msgid ""
+"\n"
+"                        * A valid email address is required to verify your "
+"account. We do not send Spam, and you are\n"
+"                        in control of notifications that you may wish to "
+"receive.\n"
+"                        "
+msgstr ""
+"\n"
+"Se requiere una dirección de correo electronico válido para verificar tu "
+"cuenta. No enviamos spam, y estarás en control de las notificaciones quieras "
+"recibir."
+
+#: rs/templates/login_helpers/registration.html:104
 msgid "Select Region"
 msgstr "Elegir Región"
 
-#: rs/templates/login_helpers/registration.html:96
+#: rs/templates/login_helpers/registration.html:105
 msgid "Select Sub-Region"
 msgstr "Elegir Sub-Región"
 
-#: rs/templates/login_helpers/registration.html:97
+#: rs/templates/login_helpers/registration.html:106
 #: rs/templates/user_main_helpers/search_inline_javascript.html:42
 msgid "Not Defined Yet"
 msgstr "Todavía No Definida"

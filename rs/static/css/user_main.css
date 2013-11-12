@@ -490,9 +490,15 @@ div#id-show_spinner_while_loading
     text-align: center;
 }
 
+.cl-login-fields-background td.cl-registration-very-small-prompt-td
+{
+	font-size: 9pt;
+    text-align: center;
+}
+
 .cl-login-fields-background td
 {
-	padding: 5px;
+	padding: 3px;
     font-size: 14px;
 }
 

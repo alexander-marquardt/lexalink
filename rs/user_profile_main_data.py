@@ -348,7 +348,7 @@ class UserSpec():
 
         
 
-    signup_email_address_label_tuple = ugettext_tuple(ugettext('Email Address (Confidential)'))
+    signup_email_address_label_tuple = ugettext_tuple(ugettext('Email Address* (Confidential)'))
     signup_password_label_tuple = ugettext_tuple(ugettext('Password'))
     signup_username_label_tuple = ugettext_tuple(ugettext('Username (Visible To Others)'))
     
