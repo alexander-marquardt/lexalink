@@ -86,7 +86,7 @@
         // Javascript that will pop-up registration/login when the user clicks on the register/login link
         $(document).ready(function() {
             $('.cl-register-enter-href').click(function(){
-                show_registration_and_login("");
+                show_registration_and_login("{% trans 'Register for a new <strong>free account</strong> or log into your previously registered account below.'%}");
                 return false; // prevent default 
             })
         });
