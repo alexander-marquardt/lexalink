@@ -104,6 +104,9 @@ $(document).ready(function() {
                     {% endif %}
 
 
+
+
+
                     {% if generated_html %}
                         {{ generated_html|safe }}
                     {% endif %}
@@ -152,6 +155,13 @@ $(document).ready(function() {
     <script type="text/javascript">
         // Google Analystics tracking code - "_trackEvent" is the pageview event,
         _gaq.push(['_trackPageview']);
+
+        {% if general_information_data_fields.show_enter_login_popup %}
+            $(document).ready(function() {
+                show_default_registration_and_login_popup();
+            });
+        {% endif %}
+
     </script>
 
 

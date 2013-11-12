@@ -268,6 +268,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                         
         # Handle user registration/verification popup if necessary
         verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
+        show_enter_login_popup = utils_top_level.get_show_enter_login_popup_from_get(request)
 
         # Information for users that are signed in with an account
         primary_user_presentation_data_fields = {}
@@ -307,7 +308,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['register_enter_click_sends_to_landing'] = register_enter_click_sends_to_landing 
         general_information_data_fields['show_login_link_override'] = show_login_link_override
         general_information_data_fields['path_info'] = request.path_info
-
+        general_information_data_fields['show_enter_login_popup'] = show_enter_login_popup
+ 
 
         purchase_buttons = utils.render_purchase_buttons(request, username, owner_nid)
         

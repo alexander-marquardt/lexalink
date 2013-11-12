@@ -4892,7 +4892,7 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"Se requiere una dirección de correo electronico válido para verificar tu "
+"* Se requiere una dirección de correo electronico válido para verificar tu "
 "cuenta. No enviamos spam, y estarás en control de las notificaciones quieras "
 "recibir."
 

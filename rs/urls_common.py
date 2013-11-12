@@ -77,9 +77,6 @@ urlpatterns = patterns('',
     
     url(r'^search/$', search_results.generate_search_results, name="search_gen"),
     url(r'^search_by_name/$', search_results.generate_search_results, {'type_of_search' : 'by_name'}, name="search_by_name_gen"),
-    # The following is a old version of the above URL - eventually we should depreciate it entirely.
-    # url(r'^rs/generate_search_results/$', search_results.generate_search_results, name="generate_search_results"),
-    url(r'^rs/generate_search_results/$', search_results.permanent_search_query_redirect, name="generate_search_results"),
     
     url(r'^show_profile_views/$', track_viewers.generate_html_for_profile_views, name = 'show_profile_views'),
     url(r'^show_contacts/(?P<contact_type>\w+)/(?P<sent_or_received>\w+)/$', 
@@ -327,7 +324,7 @@ urlpatterns = patterns('',
     (r'^rs/admin/fix_items_sub_batch/$', batch_jobs.fix_items_sub_batch),
     
     
-    url(r'^rs/admin/login/$', login.landing_page, {'is_admin_login': True}, name="login.admin_landing_page"),
+    url(r'^rs/admin/login/$', login.old_landing_page, {'is_admin_login': True}, name="login.admin_landing_page"),
       
     (r'^rs/admin/count_clients/$', admin.count_clients),
     

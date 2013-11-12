@@ -54,7 +54,8 @@
                             <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
                                                         align="middle" alt=""></td>
                             {% if general_information_data_fields.register_enter_click_sends_to_landing %}
-                                <td class="cl-info-td cl-info-100px-width-td" align="center"><a id="id-register_enter_click_sends_to_landing-href" href="/">
+                                <td class="cl-info-td cl-info-100px-width-td" align="center"><a id="id-register_enter_click_sends_to_landing-href"
+                                href="{% url search_gen %}?query_order=unique_last_login&show_enter_login_popup=true">
                             {% else %}
                                 <td class="cl-info-td cl-info-100px-width-td" align="center"><a class="cl-register-enter-href" href="#">
                             {% endif %}
@@ -83,11 +84,16 @@
 
 
     <script type="text/javascript">
+
+        function show_default_registration_and_login_popup() {
+            show_registration_and_login("{% trans 'Register for a new <strong>free account</strong> or log into your previously registered account below.'%}");
+        }
+
         // Javascript that will pop-up registration/login when the user clicks on the register/login link
         $(document).ready(function() {
             $('.cl-register-enter-href').click(function(){
-                show_registration_and_login("{% trans 'Register for a new <strong>free account</strong> or log into your previously registered account below.'%}");
-                return false; // prevent default 
+                show_default_registration_and_login_popup();
+                return false; // prevent default
             })
         });
      </script>

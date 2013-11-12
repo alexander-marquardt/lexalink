@@ -96,7 +96,18 @@ def landing_page(request, is_admin_login = False):
     # 
     
     try:
-                
+        
+        redirect_to_search_results = reverse('search_gen')   + "?query_order=unique_last_login"   
+        return http.HttpResponseRedirect(redirect_to_search_results)  
+        
+    
+    except: 
+        return utils.return_and_report_internal_error(request)        
+        
+
+def old_landing_page(request, is_admin_login = False):
+    
+    try:
         error_dict = {} # used for containing error messages to be presented to user in a friendly format
         login_type = '' # default value required for first pass, since no request has yet taken place
         login_dict = None

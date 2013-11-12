@@ -165,6 +165,18 @@ def get_verification_vals_from_get(request):
            
     return verification_vals_dict
 
+
+
+def get_show_enter_login_popup_from_get(request):
+
+    enter_login_vals_dict = {}
+
+    if request.GET.get("show_enter_login_popup", False):
+        return True
+    else:
+        return False
+           
+
 def check_if_user_already_registered_passed_in(request):
     # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
     message_for_client = None
