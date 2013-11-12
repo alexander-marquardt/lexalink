@@ -511,7 +511,8 @@ def send_new_message_notification_email(request):
             bar_color = ugettext("violet")
         elif  settings.BUILD_NAME == "gay_build":
             bar_color = ugettext("gray")
-        elif settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
+        elif settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build" or \
+             settings.BUILD_NAME == "mature_build":
             bar_color = ugettext("green")
         else:
             raise Exception("Unknown build")        

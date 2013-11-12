@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-10-29-1137'
+VERSION_ID = '2013-11-12-1148'
 
 # The following must be set to True before uploading - this will combine and minimize javascript 
 # and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will
@@ -61,7 +61,7 @@ FLASH_FILES_DIR = "bin-release" # Generally the flash bin-debug version is the m
 
 # this is used by the batch uploader to automatically change the name of the build that we will configure and upload. 
 # If this is set to a value, then this value will indicate the current site. 
-BATCH_BUILD_NAME = 'discrete_build'
+BATCH_BUILD_NAME = ''
 
 if os.path.isdir('rs/proprietary'):
     if BATCH_BUILD_NAME == '':
@@ -76,7 +76,7 @@ if os.path.isdir('rs/proprietary'):
         #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
         #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
         #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
-        #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
+        BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     
     else:
         BUILD_NAME = BATCH_BUILD_NAME
