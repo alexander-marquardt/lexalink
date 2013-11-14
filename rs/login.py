@@ -185,12 +185,15 @@ def old_landing_page(request, is_admin_login = False):
 def get_registration_html(request):
     
     try:
+        http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+        http_country_code = "CA"        
         signup_template = template.loader.get_template('login_helpers/registration.html')
         html_for_signup = forms.MyHTMLLoginGenerator.as_table_rows(localizations.input_field_lang_idx[request.LANGUAGE_CODE], 'signup_fields')
         context = template.Context (dict({
             'html_for_signup': html_for_signup, 
             'minimum_registration_age' : constants.minimum_registration_age,
             'is_popup_login_registration' : True,
+            'http_country_code' : http_country_code,
             }, **constants.template_common_fields))
         signup_html = signup_template.render(context)
         
@@ -199,15 +202,8 @@ def get_registration_html(request):
             'is_popup_login_registration' : True
             }, **constants.template_common_fields))
         login_html = login_template.render(context)
-        
-        #generated_html = """
-        #<div class="cl-center-text"><span style="display:inline-block">%(signup_html)s</span></div>
-        #<div class="cl-clear"></div>       
-        #<div class="cl-center-text"><span style="display:inline-block">%(registration_html)s</span></div>
-        #""" % {
-                        #'registration_html' : registration_html,
-                        #'signup_html' : signup_html}
-        
+                
+
         response_dict = { 'signup_html' : signup_html,
                         'login_html' : login_html}
     
