@@ -103,84 +103,15 @@ def landing_page(request, is_admin_login = False):
         for key in request.GET:
             value = request.GET[key]
             redirect_to_search_results += "&%s=%s" % (key, value)
+        if is_admin_login:
+            redirect_to_search_results += "&is_admin=true&show_registration_login_popup=true"
+            
         return http.HttpResponseRedirect(redirect_to_search_results)  
         
     
     except: 
         return utils.return_and_report_internal_error(request)        
         
-
-def old_landing_page(request, is_admin_login = False):
-    
-    try:
-        error_dict = {} # used for containing error messages to be presented to user in a friendly format
-        login_type = '' # default value required for first pass, since no request has yet taken place
-        login_dict = None
-
-        verification_values_dict = None
-        
-        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-                                
-        if request.method == 'GET':
-            verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
-            already_registered_message = utils_top_level.check_if_user_already_registered_passed_in(request)
-            if already_registered_message:
-                error_dict['already_registered_username'] = already_registered_message
-                
-        # The following two calls generate the table rows required for displaying the login
-        # note that this is a reference to the class, *not* to an instance (object) of the class. This is because
-        # we do not want to re-generate a new object for each unique login (this would make caching
-        # difficult).
-        html_for_signup = forms.MyHTMLLoginGenerator.as_table_rows(localizations.input_field_lang_idx[request.LANGUAGE_CODE], 'signup_fields')
-        
-        # This code is used for generating maintenance warning messages. 
-        (maintenance_soon_warning, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
-            
-        meta_info = {}
-        if settings.SEO_OVERRIDES_ENABLED:
-            meta_info['page_title'] = search_engine_overrides.get_main_page_title()
-        else:
-            meta_info['page_title'] = ''
-            
-        meta_info['content_description'] =  meta_info['page_title']
-        meta_info['keywords_description'] =  meta_info['page_title']
-        
-        general_information_data_fields = {}
-        general_information_data_fields['is_landing_page'] = True
-        
-        my_template = template.loader.get_template('landing_page.html')
-        
-        error_dict_json =  simplejson.dumps(error_dict)
-        context = template.Context (dict({   
-            'LANGUAGES' : settings.LANGUAGES,                
-            'html_for_signup': html_for_signup,
-            'login_type' : login_type, 
-            'is_admin_login': is_admin_login,
-            'maintenance_soon_warning': maintenance_soon_warning,
-            'maintenance_shutdown_warning': maintenance_shutdown_warning,
-            'link_to_hide': 'login',
-            'error_dict_json': error_dict_json,
-            'minimum_registration_age' : constants.minimum_registration_age,
-            'request' : request,
-            'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
-            'welcome_html': views.welcome_html(),
-            'verification_values_dict' : verification_values_dict,
-            'general_information_data_fields': general_information_data_fields,
-            }, **constants.template_common_fields))
-        body_main_html = my_template.render(context)
-        
-
-        http_response = shortcuts.render_to_response("common_wrapper.html", dict({   
-            'meta_info': meta_info,
-            'wrapper_data_fields' : common_data_structs.wrapper_data_fields,
-            'body_main_html' : body_main_html,
-        }, **constants.template_common_fields))
-
-        return http_response
-    
-    except: 
-        return utils.return_and_report_internal_error(request)
-
 
 def get_registration_html(request):
     
@@ -262,7 +193,7 @@ def store_authorization_info_and_send_email_wrapper(request, login_dict, encrypt
     
 
 
-def process_login(request, is_admin_login = False):
+def process_login(request):
     
     # Note that this function can be called from a POST or a GET (URL-passing in login parameters), 
     # or on initial loading without POST information.
@@ -272,6 +203,8 @@ def process_login(request, is_admin_login = False):
     # that have previously been entered (such as a username)
     # 
     try:
+        is_admin_login = users.is_current_user_admin()
+        
         response_dict = {}
         error_dict = {}
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]

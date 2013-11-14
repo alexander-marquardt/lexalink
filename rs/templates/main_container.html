@@ -156,7 +156,7 @@ $(document).ready(function() {
         // Google Analystics tracking code - "_trackEvent" is the pageview event,
         _gaq.push(['_trackPageview']);
 
-        {% if general_information_data_fields.show_enter_login_popup %}
+        {% if general_information_data_fields.show_registration_login_popup %}
             $(document).ready(function() {
                 show_default_registration_and_login_popup();
             });

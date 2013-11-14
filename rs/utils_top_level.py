@@ -167,11 +167,11 @@ def get_verification_vals_from_get(request):
 
 
 
-def get_show_enter_login_popup_from_get(request):
+def get_show_registration_login_popup_from_get(request):
 
     enter_login_vals_dict = {}
 
-    if request.GET.get("show_enter_login_popup", False):
+    if request.GET.get("show_registration_login_popup", False):
         return True
     else:
         return False
