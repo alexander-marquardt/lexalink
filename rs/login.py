@@ -93,18 +93,15 @@ def check_if_login_country_allowed(request):
 
 
 
-def landing_page(request, is_admin_login = False):
-    # displays the information for allowing the user to log in. Also, processes the post information
-    # from login attempts.
-    # 
+def landing_page(request):
+    # Redirects to search results, and adds a get parameter to indicate that  the registration/enter 
+    # dialog should be shown to the user. 
     
     try:
         redirect_to_search_results = reverse('search_gen')   + "?query_order=unique_last_login"   
         for key in request.GET:
             value = request.GET[key]
             redirect_to_search_results += "&%s=%s" % (key, value)
-        if is_admin_login:
-            redirect_to_search_results += "&is_admin=true&show_registration_login_popup=true"
             
         return http.HttpResponseRedirect(redirect_to_search_results)  
         
@@ -203,6 +200,8 @@ def process_login(request):
     # that have previously been entered (such as a username)
     # 
     try:
+        # If this is an administrator (as defined by the admins in the Google App Engine console), then the user
+        # will have extra privelidges such as not having to enter a password to enter into an account. 
         is_admin_login = users.is_current_user_admin()
         
         response_dict = {}

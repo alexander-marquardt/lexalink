@@ -40,7 +40,6 @@ urlpatterns = patterns('',
     (r'^$', login.landing_page),
     (r'^/$', login.landing_page),     
     url(r'^rs/process_login/$', login.process_login, name="login.process_login"),
-    url(r'^rs/admin/process_login/$', login.process_login, {'is_admin_login' : True}, name="login.admin_process_login"),
     
     url(r'^rs/process_registration/$', login.process_registration, name="login.process_registration"),
     
