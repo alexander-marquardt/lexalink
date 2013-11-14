@@ -404,7 +404,8 @@ def logout(request):
                                               show_login_link_override = True,
                                               do_not_try_to_dynamically_load_search_values = True,
                                               remove_chatboxes = True,
-                                              register_enter_click_sends_to_landing = True)
+                                              register_enter_click_sends_to_landing = True,
+                                              this_is_a_logout = True)
         
         login_utils.clear_old_session(request)
         

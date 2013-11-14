@@ -28,103 +28,128 @@
 
 <div id="id-navigation-menu">
 <ul id="rs-nav">
-    {% if text_override_for_navigation_bar %}
-        <li class="top">
-            <span class="no_link">{{ text_override_for_navigation_bar }}</span>
-        </li>
+
     
-    {% else %}
-        {% if not guest_user_data_fields.registered_user_bool %}
+    {% if not guest_user_data_fields.registered_user_bool or general_information_data_fields.this_is_a_logout %}
+        {% if text_override_for_navigation_bar %}
             <li class="top">
-                <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "with a guest account" %}</span>
+                <span class="no_link">{{ text_override_for_navigation_bar }}</span>
             </li>
-    
         {% else %}
-
             <li class="top">
-                <a href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}" class="top_link">
-                    <span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span>
-                </a>
+                <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "as a guest" %}</span>
             </li>
+        {% endif %}
+
+        <li class="top-right">
+            {% if general_information_data_fields.register_enter_click_sends_to_landing %}
+               <a id="id-register_enter_click_sends_to_landing-href" class="top_link"
+                href="{% url search_gen %}?query_order=unique_last_login&show_enter_login_popup=true">
+            {% else %}
+                <a class="cl-register-enter-href top_link" href="#">
+            {% endif %}
+
+                <span class="cl-blinking-registration">{% trans "Register / Enter" %}</span>
+            </a>
+        </li>
+
+        <script>
+        $(document).ready(function() {
+
+            function flash_between_light_and_dark (num_times_to_flash) {
+               for (idx=0; idx < num_times_to_flash; idx ++) {
+                    $(".cl-blinking-registration").addClass('cl-enter_guest-dark', 500);
+                    $(".cl-blinking-registration").removeClass('cl-enter_guest-dark', 500);
+               }
+            }
+            flash_between_light_and_dark(2);
+        });
+        </script>
+
+    {% else %} <!-- registered user logged in -->
+
+        <li class="top">
+            <a href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}" class="top_link">
+                <span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span>
+            </a>
+        </li>
 
 
+        <li class="top">
+            <a href="#" class="top_link">
+            <span class="down">
+            {% trans "Messages" %}
+            {% if primary_user_presentation_data_fields.owner_message_count %}
+                [{{ primary_user_presentation_data_fields.owner_message_count }} {% trans "unread" %}]
+            {% endif %}
+            </span></a>
+            <ul class="sub">
+                <li>
+                    <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                        {% trans "All (messages - override)" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                        {% trans "Unread (plural - override)" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url generate_mailbox mailbox_name='favorites' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                        {% trans "Favorites" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url generate_mailbox mailbox_name='received' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                        {% trans "Received (plural - override)" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url generate_mailbox mailbox_name='sent' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                        {% trans "Sent (plural - override)" %}
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        {{ primary_user_presentation_data_fields.contacts_dropdown_html|safe }}
+
+        <li class="top">
+            <a href="{% url show_profile_views %}" class="top_link">
+                <span>{% trans "Profile views" %}
+                {% if primary_user_presentation_data_fields.num_profile_views_since_last_check %}
+                    [{{ primary_user_presentation_data_fields.num_profile_views_since_last_check }} {% trans "new" %}]
+                {% endif %}
+                </span>
+            </a>
+        </li>
+
+
+        {% if SHOW_VIP_UPGRADE_OPTION %}
             <li class="top">
                 <a href="#" class="top_link">
-                <span class="down">
-                {% trans "Messages" %}
-                {% if primary_user_presentation_data_fields.owner_message_count %}
-                    [{{ primary_user_presentation_data_fields.owner_message_count }} {% trans "unread" %}]
-                {% endif %}
-                </span></a>
+                    <span class="down">
+                    {% trans "More" %}
+                    </span>
+                </a>
                 <ul class="sub">
                     <li>
-                        <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                            {% trans "All (messages - override)" %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                            {% trans "Unread (plural - override)" %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url generate_mailbox mailbox_name='favorites' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                            {% trans "Favorites" %} 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url generate_mailbox mailbox_name='received' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                            {% trans "Received (plural - override)" %}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url generate_mailbox mailbox_name='sent' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
-                            {% trans "Sent (plural - override)" %}
+                        <a id="id-show_online_status_menu_element" class ="cl-stay_on_current_page" href="#">
+                            {% trans "View others online status" %}
                         </a>
                     </li>
                 </ul>
             </li>
-
-            {{ primary_user_presentation_data_fields.contacts_dropdown_html|safe }}
-    
-            <li class="top">
-                <a href="{% url show_profile_views %}" class="top_link">
-                    <span>{% trans "Profile views" %}
-                    {% if primary_user_presentation_data_fields.num_profile_views_since_last_check %}
-                        [{{ primary_user_presentation_data_fields.num_profile_views_since_last_check }} {% trans "new" %}]
-                    {% endif %}
-                    </span>
-                </a>
-            </li>
-
-
-            {% if SHOW_VIP_UPGRADE_OPTION %}
-                <li class="top">
-                    <a href="#" class="top_link">
-                        <span class="down">
-                        {% trans "More" %}
-                        </span>
-                    </a>
-                    <ul class="sub">
-                        <li>
-                            <a id="id-show_online_status_menu_element" class ="cl-stay_on_current_page" href="#">
-                                {% trans "View others online status" %}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            {% endif %}
-
-
-            <li class="top-right">
-                <a href="{% url views.logout %}"
-                rel="address:{% url views.logout %}"
-                class="top_link"><span>{% trans "Exit" %}</span></a>
-            </li>
-
         {% endif %}
+
+
+        <li class="top-right">
+            <a href="{% url views.logout %}"
+            class="top_link"><span>{% trans "Exit" %}</span></a>
+        </li>
+
     {% endif %}
-</ul>  
+</ul>
 </div>
 
 {% include "user_main_helpers/test_vip_benefits_dialog.html" %}
@@ -207,5 +232,27 @@ $(document).ready(function() {
     });
 
 });
-    
+
 </script>
+
+{% if not general_information_data_fields.is_landing_page %}
+    <!-- place holder for the dialog popup for registration/login -->
+    <div id="id-show-registration-and-login" style="display:none;">
+    </div>
+
+
+    <script type="text/javascript">
+
+        function show_default_registration_and_login_popup() {
+            show_registration_and_login("{% trans 'Register for a new <strong>free account</strong> below.'%}");
+        }
+
+        // Javascript that will pop-up registration/login when the user clicks on the register/login link
+        $(document).ready(function() {
+            $('.cl-register-enter-href').click(function(){
+                show_default_registration_and_login_popup();
+                return false; // prevent default
+            })
+        });
+     </script>
+{% endif %}

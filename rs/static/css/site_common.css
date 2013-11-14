@@ -501,3 +501,11 @@ li.cl-indent {
 .cl-payment_tabs .ui-tabs, .cl-payment_tabs .ui-tabs-panel, .cl-payment_tabs .ui-tabs-active {
     background: #f9f9f9;
 }
+
+.cl-enter_guest-light {
+    color: #FFF;
+}
+
+.cl-enter_guest-dark {
+    color: #666;
+}

@@ -179,7 +179,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                      show_search_box = True, text_override_for_navigation_bar = '', hide_page_from_webcrawler = False,
                      enable_ads = True, show_login_link_override = False, hide_why_to_register = False,
                      do_not_try_to_dynamically_load_search_values = False, render_wrapper_only = False, 
-                     hide_logo_banner_links = False, remove_chatboxes = False, register_enter_click_sends_to_landing = False):
+                     hide_logo_banner_links = False, remove_chatboxes = False, register_enter_click_sends_to_landing = False,
+                     this_is_a_logout = False):
     
     # function that takes care of defining a lot of the common code that needs to be defined before rendering one of the 
     # "main" views. 
@@ -309,6 +310,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['show_login_link_override'] = show_login_link_override
         general_information_data_fields['path_info'] = request.path_info
         general_information_data_fields['show_enter_login_popup'] = show_enter_login_popup
+        general_information_data_fields['this_is_a_logout'] = this_is_a_logout
  
 
         purchase_buttons = utils.render_purchase_buttons(request, username, owner_nid)

@@ -4747,8 +4747,8 @@ msgid "Do you want to look around before registering?"
 msgstr "¿Quieres mirar antes de registrarte?"
 
 #: rs/templates/landing_page.html:58
-msgid "Enter with a guest account"
-msgstr "Entra con una cuenta de invitado"
+msgid "Enter as a guest"
+msgstr "Entra como invitado"
 
 #: rs/templates/landing_page.html:93
 msgid "online dating"
@@ -5099,8 +5099,8 @@ msgid "You have entered in"
 msgstr "Has entrado en"
 
 #: rs/templates/user_main_helpers/menubar.html:39
-msgid "with a guest account"
-msgstr "con una cuenta de invitado"
+msgid "as a guest"
+msgstr "como invitado"
 
 #: rs/templates/user_main_helpers/menubar.html:46
 msgid "My Profile"

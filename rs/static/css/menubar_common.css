@@ -21,11 +21,10 @@ way to fit your requirements.
 #rs-nav li {position:relative; z-index:20;}
 #rs-nav li.top {display:block; float:left; height:20px; }
 #rs-nav li.top-right {display:block; float:right; height:20px; }
-#rs-nav li span.no_link {text-decoration:none; font-size:13px; font-weight:bold; line-height:22px; padding:0 24px 0 6px;}
-#rs-nav li a.top_link {display:block; float:left; height:24px; line-height:22px; text-decoration:none; font-size:13px; font-weight:bold; padding:0 0 0 6px; cursor:pointer;}
+#rs-nav li span.no_link {color:#DDD; text-decoration:none; font-size:13px; font-weight:bold; line-height:22px; padding:0 24px 0 6px;}
+#rs-nav li a.top_link {color:#DDD; display:block; float:left; height:24px; line-height:22px; text-decoration:none; font-size:13px; font-weight:bold; padding:0 0px 0 6px; cursor:pointer;}
 #rs-nav li a.top_link span {float:left; display:block; padding:0 24px 0 6px; height:20px;}
 #rs-nav li a.top_link span.down {float:left; display:block; padding:0 24px 0 6px; height:30px;}
-
 
 /* Default list styling */
 /* The following rule moves the sub-menus way off the screen (ie. hidden) so that they will not be seen until the menu is clicked.  */

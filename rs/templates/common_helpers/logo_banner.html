@@ -46,25 +46,6 @@
                     <td class="cl-info-td"><a href="{% url views.press %}" rel="address:{% url views.press %}">{% trans "Press" %}</a></td>
                 {% endifequal %}
 
-                {% if not general_information_data_fields.is_landing_page %}
-                    <!-- don't show the login link on the landing page -->
-                    {% if not primary_user_presentation_data_fields.username or general_information_data_fields.show_login_link_override %}
-                    <!-- if the user is logged in, don't bother showing the register/enter button -->
-                        {% ifnotequal general_information_data_fields.link_to_hide "login" %}
-                            <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
-                                                        align="middle" alt=""></td>
-                            {% if general_information_data_fields.register_enter_click_sends_to_landing %}
-                                <td class="cl-info-td cl-info-100px-width-td" align="center"><a id="id-register_enter_click_sends_to_landing-href"
-                                href="{% url search_gen %}?query_order=unique_last_login&show_enter_login_popup=true">
-                            {% else %}
-                                <td class="cl-info-td cl-info-100px-width-td" align="center"><a class="cl-register-enter-href" href="#">
-                            {% endif %}
-                                {% trans "Register / Enter" %}</a></td>
-                        {% endifnotequal %}
-                    {% endif %}
-                {% endif %}
-
-
             </tr>
         </table>
 
@@ -76,25 +57,3 @@
 <!-- end banner container div -->
 <div class="cl-clear"></div>
 
-
-{% if not general_information_data_fields.is_landing_page %}
-    <!-- place holder for the dialog popup for registration/login -->
-    <div id="id-show-registration-and-login" style="display:none;">
-    </div>
-
-
-    <script type="text/javascript">
-
-        function show_default_registration_and_login_popup() {
-            show_registration_and_login("{% trans 'Register for a new <strong>free account</strong> below.'%}");
-        }
-
-        // Javascript that will pop-up registration/login when the user clicks on the register/login link
-        $(document).ready(function() {
-            $('.cl-register-enter-href').click(function(){
-                show_default_registration_and_login_popup();
-                return false; // prevent default
-            })
-        });
-     </script>
-{% endif %}
