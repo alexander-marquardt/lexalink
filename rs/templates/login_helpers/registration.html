@@ -100,19 +100,14 @@
     function handle_location_changes() {
         // function to expand the locations menu as country and region are selected.
 
-        var default_text = new Object();
+        var default_text = {};
         default_text['region'] = '{% trans "Select Region" %}';
         default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
         default_text['not_available'] = '{% trans "Not Defined Yet" %}';
         var id_prefix = "#id-signup_fields";
 
-        var country_id = id_prefix + "-country";
-        var region_id = id_prefix + "-region";
-        var sub_region_id = id_prefix + "-sub_region";
-
         $("#id-signup_fields-region").hide();
         $("#id-signup_fields-sub_region").hide();
-
 
         load_location_settings_on_change(id_prefix, default_text, true, "{{ live_static_dir }}")
     }
@@ -189,7 +184,11 @@
 
 
     $(document).ready(function() {
+        var internal_country_code;
+
         handle_location_changes();
+        internal_country_code = "{{ http_country_code }}"  + ",,";
+        rs_set_selector_to_value('#id-signup_fields-country', internal_country_code);
 
         // the main registration page will show the error dialog in a different location than the "popup"
         // registration dialog box.

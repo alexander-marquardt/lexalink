@@ -138,9 +138,7 @@ function rs_set_selector_to_value(selector_id, selected_value) {
             /*this is the old way of doing it - and seems to work even if selected_value not found*/
         }
 
-        // in case other menu items need to be reset when we change the value of this dropdown, we trigger
-        // a "change" event.
-        //$(selector_id).trigger('change');
+        $(selector_id).change(); // trigger a change event so that sub-menus will be loaded
     }
     catch(ex) {
         /* this is primarily intended for ie6 */
