@@ -154,6 +154,10 @@
 
 {% include "user_main_helpers/test_vip_benefits_dialog.html" %}
 
+<!-- place holder for the dialog popup for registration/login -->
+<div id="id-show-registration-and-login" style="display:none;"></div>
+<div id="id-show-loading-spinner" style="display:none;"></div>
+
 
 <script type="text/javascript">
 
@@ -233,26 +237,16 @@ $(document).ready(function() {
 
 });
 
-</script>
 
-{% if not general_information_data_fields.is_landing_page %}
-    <!-- place holder for the dialog popup for registration/login -->
-    <div id="id-show-registration-and-login" style="display:none;">
-    </div>
+function show_default_registration_and_login_popup() {
+    show_registration_and_login("{% trans 'Register for a new <strong>free account</strong> below.'%}");
+}
 
-
-    <script type="text/javascript">
-
-        function show_default_registration_and_login_popup() {
-            show_registration_and_login("{% trans 'Register for a new <strong>free account</strong> below.'%}");
-        }
-
-        // Javascript that will pop-up registration/login when the user clicks on the register/login link
-        $(document).ready(function() {
-            $('.cl-register-enter-href').click(function(){
-                show_default_registration_and_login_popup();
-                return false; // prevent default
-            })
-        });
-     </script>
-{% endif %}
+// Javascript that will pop-up registration/login when the user clicks on the register/login link
+$(document).ready(function() {
+    $('.cl-register-enter-href').click(function(){
+        show_default_registration_and_login_popup();
+        return false; // prevent default
+    })
+});
+ </script>

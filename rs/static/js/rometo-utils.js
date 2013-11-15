@@ -777,8 +777,19 @@ function getJSON_initiate_contact_settings(uid) {
 }
 
 
-function  show_registration_and_login(additional_text) {
+function show_registration_and_login(additional_text) {
 
+    // prevent double clicks from being processed
+    if (show_registration_and_login.already_clicked == 'undefined' || !show_registration_and_login.already_clicked) {
+        show_registration_and_login.already_clicked = true;
+    } else {
+        // we have already clicked and waiting for the dialog to be loaded before allowing another click
+        // to be processed
+        return;
+    }
+
+
+    $('#id-show-loading-spinner').show()
     $.ajax({
         type: 'get',
         url:  '/rs/get_registration_html/',
@@ -833,6 +844,8 @@ function  show_registration_and_login(additional_text) {
             $('#id-show-registration-and-login').dialog();
         },
         complete: function() {
+            show_registration_and_login.already_clicked = false;
+            $('#id-show-loading-spinner').hide();
         }
     });
 }

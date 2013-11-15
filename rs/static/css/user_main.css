@@ -457,9 +457,8 @@ table.cl-pay-instructions td {
 
 
 
-div#id-show_spinner_while_loading
+div#id-show-loading-spinner
 {
-    display: none;
     width:100px;
     height: 100px;
     position: fixed;
@@ -468,7 +467,6 @@ div#id-show_spinner_while_loading
     background:url(../img/large-ajax-loader.gif) no-repeat center;
     text-align:center;
     padding:10px;
-    font:normal 16px Tahoma, Geneva, sans-serif;
     border:0px;
     margin-left: -50px;
     margin-top: -50px;
