@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 17:58-0500\n"
+"POT-Creation-Date: 2013-11-14 19:16-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -99,8 +99,8 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:831 rs/messages.py:521
-#: rs/rendering.py:424 rs/utils.py:1527
+#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:764 rs/messages.py:521
+#: rs/rendering.py:426 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -261,7 +261,6 @@ msgstr "sitio para conocer gente y hacer amigos"
 
 #: rs/constants.py:466 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:117
 msgid "dating website to meet mature adults over 40 years old"
 msgstr "sitio web para conocer adultos mayores de 40 años"
 
@@ -348,8 +347,8 @@ msgid ""
 "You must register for a <strong>free account</strong> in order to contact "
 "our members. "
 msgstr ""
-"Tienes que registrarte para una <strong>cuenta gratuita</strong> "
-"para ponerte en contacto con nuestros miembros."
+"Tienes que registrarte para una <strong>cuenta gratuita</strong> para "
+"ponerte en contacto con nuestros miembros."
 
 #: rs/constants.py:651
 msgid "only the last"
@@ -765,7 +764,7 @@ msgstr ""
 "haciendo clic en \"%(field)s\" en la barra %(bar_color)s justo debajo del "
 "logo de %(app_name)s"
 
-#: rs/email_utils.py:581 rs/templates/user_main_helpers/menubar.html:54
+#: rs/email_utils.py:581 rs/templates/user_main_helpers/menubar.html:81
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -2337,11 +2336,11 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr "Todos Los Países"
 
-#: rs/login.py:824
+#: rs/login.py:757
 msgid "Incorrect code"
 msgstr "Código incorrecto"
 
-#: rs/login.py:827
+#: rs/login.py:760
 msgid "Verification code is invalid or expired"
 msgstr "Código de verificación es inválido o ha caducado"
 
@@ -2522,7 +2521,7 @@ msgstr "No tienes mensajes en este buzón"
 msgid "Select"
 msgstr "Seleccionar"
 
-#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:62
+#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:89
 msgid "All (messages - override)"
 msgstr "Todos"
 
@@ -2552,7 +2551,7 @@ msgstr ""
 "especificado en tu descripción, márcalo como spam sin responder."
 
 #: rs/menubar.py:10 rs/menubar.py:92
-#: rs/templates/user_main_helpers/menubar.html:94
+#: rs/templates/user_main_helpers/menubar.html:121
 msgid "new"
 msgstr "nuevos"
 
@@ -2686,7 +2685,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/rendering.py:250 rs/views.py:159
+#: rs/rendering.py:251 rs/views.py:159
 msgid "You must register to contact other users"
 msgstr ""
 "<em>Tienes que <a class=\"cl-register-enter-href\" href=\"#\">registrarte o "
@@ -3963,9 +3962,7 @@ msgstr "En"
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:409 rs/templates/landing_page.html:77
-#: rs/templates/landing_page.html.py:201
-#: rs/templates/login_helpers/login.html:60
+#: rs/utils.py:409 rs/templates/login_helpers/login.html:57
 msgid "Have you forgotten your password?"
 msgstr "¿Has olvidado tu contraseña?"
 
@@ -4096,11 +4093,10 @@ msgstr "es"
 #: rs/proprietary/search_engine_overrides.py:124
 #: rs/proprietary/templates/proprietary_ads/friend_build.html:30
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-#: rs/templates/landing_page.html:89
 msgid "100 percent free"
 msgstr "100% gratis"
 
-#: rs/utils.py:1812 rs/templates/landing_page.html:124
+#: rs/utils.py:1812
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
@@ -4108,7 +4104,7 @@ msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1814 rs/templates/landing_page.html:122
+#: rs/utils.py:1814
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
@@ -4205,7 +4201,6 @@ msgstr ""
 "swinger. Intercambio de pareja."
 
 #: rs/proprietary/search_engine_overrides.py:75
-#: rs/templates/landing_page.html:101
 msgid "gay dating"
 msgstr "contactos para gays"
 
@@ -4742,46 +4737,6 @@ msgstr "¿Quieres más información?"
 msgid "Send us an email at:"
 msgstr "Envíanos un correo electrónico a:"
 
-#: rs/templates/landing_page.html:56
-msgid "Do you want to look around before registering?"
-msgstr "¿Quieres mirar antes de registrarte?"
-
-#: rs/templates/landing_page.html:58
-msgid "Enter as a guest"
-msgstr "Entra como invitado"
-
-#: rs/templates/landing_page.html:93
-msgid "online dating"
-msgstr "servicio de buscar pareja en linea"
-
-#: rs/templates/landing_page.html:97
-msgid "swinger contacts"
-msgstr "contactos para swingers y parejas liberales"
-
-#: rs/templates/landing_page.html:105
-msgid "language exchange"
-msgstr "intercambio de idiomas"
-
-#: rs/templates/landing_page.html:109
-msgid "meet friends"
-msgstr "conocer amigos"
-
-#: rs/templates/landing_page.html:113
-msgid "lesbian dating"
-msgstr "contactos para lesbianas"
-
-#: rs/templates/landing_page.html:122
-msgid "Free"
-msgstr "Gratis"
-
-#: rs/templates/landing_page.html:128
-msgid "Over 50 percent of our members are single"
-msgstr "Más del 50% de nuestros socios son solter@s"
-
-#: rs/templates/landing_page.html:133
-msgid "does not permit or contain explicit, pornograpic, or obscene content"
-msgstr "no permite ni tiene contenido explícito, pornográfico u obsceno"
-
 #: rs/templates/main_container.html:74
 msgid "You must enable JavaScript to view this page"
 msgstr "Tienes que habilitar JavaScript para usar esta pagina"
@@ -4811,40 +4766,31 @@ msgstr "Sobre"
 msgid "Press"
 msgstr "Prensa"
 
-#: rs/templates/common_helpers/logo_banner.html:62
-msgid "Register / Enter"
-msgstr "Regístrate / Entrar"
-
-#: rs/templates/common_helpers/logo_banner.html:89
-msgid "Register for a new <strong>free account</strong> below."
-msgstr ""
-"Registrate para una <strong>cuenta gratuita</strong> debajo."
-
-#: rs/templates/login_helpers/login.html:13
+#: rs/templates/login_helpers/login.html:9
 msgid "Free confidential dating"
 msgstr "Contactos confidenciales. Gratis"
 
-#: rs/templates/login_helpers/login.html:19
+#: rs/templates/login_helpers/login.html:15
 msgid "100 percent free everything included"
 msgstr "100% gratis - todo incluido"
 
-#: rs/templates/login_helpers/login.html:28
+#: rs/templates/login_helpers/login.html:24
 msgid "Are you already registered (female)? Enter here:"
 msgstr "¿Ya estás registrada? Entra aquí:"
 
-#: rs/templates/login_helpers/login.html:30
+#: rs/templates/login_helpers/login.html:26
 msgid "Are you already registered? Enter here:"
 msgstr "¿Ya estás registrado? Entra aquí:"
 
-#: rs/templates/login_helpers/login.html:41
+#: rs/templates/login_helpers/login.html:38
 msgid "username or email"
 msgstr "nick o correo electrónico"
 
-#: rs/templates/login_helpers/login.html:46
+#: rs/templates/login_helpers/login.html:43
 msgid "password"
 msgstr "contraseña"
 
-#: rs/templates/login_helpers/login.html:51
+#: rs/templates/login_helpers/login.html:48
 msgid "Enter"
 msgstr "Entrar"
 
@@ -5094,53 +5040,61 @@ msgstr ""
 "Si quieres eliminar tu perfil/cuenta, haz click en el link en la izquierda "
 "(Cuidado: no podrás entrar nunca más con la misma cuenta)."
 
-#: rs/templates/user_main_helpers/menubar.html:39
+#: rs/templates/user_main_helpers/menubar.html:40
 msgid "You have entered in"
 msgstr "Has entrado en"
 
-#: rs/templates/user_main_helpers/menubar.html:39
+#: rs/templates/user_main_helpers/menubar.html:40
 msgid "as a guest"
 msgstr "como invitado"
 
-#: rs/templates/user_main_helpers/menubar.html:46
+#: rs/templates/user_main_helpers/menubar.html:52
+msgid "Register / Enter"
+msgstr "Regístrate / Entrar"
+
+#: rs/templates/user_main_helpers/menubar.html:73
 msgid "My Profile"
 msgstr "Mi Perfil"
 
-#: rs/templates/user_main_helpers/menubar.html:56
+#: rs/templates/user_main_helpers/menubar.html:83
 msgid "unread"
 msgstr "no leídos"
 
-#: rs/templates/user_main_helpers/menubar.html:67
+#: rs/templates/user_main_helpers/menubar.html:94
 msgid "Unread (plural - override)"
 msgstr "No leídos"
 
-#: rs/templates/user_main_helpers/menubar.html:72
+#: rs/templates/user_main_helpers/menubar.html:99
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: rs/templates/user_main_helpers/menubar.html:77
+#: rs/templates/user_main_helpers/menubar.html:104
 msgid "Received (plural - override)"
 msgstr "Recibidos"
 
-#: rs/templates/user_main_helpers/menubar.html:82
+#: rs/templates/user_main_helpers/menubar.html:109
 msgid "Sent (plural - override)"
 msgstr "Enviados"
 
-#: rs/templates/user_main_helpers/menubar.html:92
+#: rs/templates/user_main_helpers/menubar.html:119
 msgid "Profile views"
 msgstr "Visitas a tu perfil"
 
-#: rs/templates/user_main_helpers/menubar.html:105
+#: rs/templates/user_main_helpers/menubar.html:132
 msgid "More"
 msgstr "Más"
 
-#: rs/templates/user_main_helpers/menubar.html:111
+#: rs/templates/user_main_helpers/menubar.html:138
 msgid "View others online status"
 msgstr "Mostrar estados de conexión"
 
-#: rs/templates/user_main_helpers/menubar.html:122
+#: rs/templates/user_main_helpers/menubar.html:148
 msgid "Exit"
 msgstr "Salir"
+
+#: rs/templates/user_main_helpers/menubar.html:247
+msgid "Register for a new <strong>free account</strong> below."
+msgstr "Registrate para una <strong>cuenta gratuita</strong> debajo."
 
 #: rs/templates/user_main_helpers/paypal_purchase_form.html:23
 msgid "VIP Membership"
@@ -5403,6 +5357,10 @@ msgstr "Video llamada"
 msgid "Group members"
 msgstr "Miembros del Grupo"
 
+#: rs/templates/user_main_helpers/translation_helper.html:99
+msgid "Unknown error - Please reload the page and try again"
+msgstr "Error desconocido - Por favor, actualice la página y vuelva a intentar"
+
 #: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:52
 #, python-format
 msgid ""
@@ -5485,6 +5443,36 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "Do you want to look around before registering?"
+#~ msgstr "¿Quieres mirar antes de registrarte?"
+
+#~ msgid "Enter as a guest"
+#~ msgstr "Entra como invitado"
+
+#~ msgid "online dating"
+#~ msgstr "servicio de buscar pareja en linea"
+
+#~ msgid "swinger contacts"
+#~ msgstr "contactos para swingers y parejas liberales"
+
+#~ msgid "language exchange"
+#~ msgstr "intercambio de idiomas"
+
+#~ msgid "meet friends"
+#~ msgstr "conocer amigos"
+
+#~ msgid "lesbian dating"
+#~ msgstr "contactos para lesbianas"
+
+#~ msgid "Free"
+#~ msgstr "Gratis"
+
+#~ msgid "Over 50 percent of our members are single"
+#~ msgstr "Más del 50% de nuestros socios son solter@s"
+
+#~ msgid "does not permit or contain explicit, pornograpic, or obscene content"
+#~ msgstr "no permite ni tiene contenido explícito, pornográfico u obsceno"
 
 #~ msgid "You must register with %(app_name)s to contact other users"
 #~ msgstr ""

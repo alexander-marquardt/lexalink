@@ -827,7 +827,10 @@ function  show_registration_and_login(additional_text) {
             $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-color': '#FFF' });
             $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'border': '0px' });
         },
-        error: function () {
+        error: function(jqXHR, textStatus, errorThrown) {
+            report_ajax_error(textStatus, errorThrown, "show_registration_and_login", "error");
+            $('#id-show-registration-and-login').html($("#id-unknown-error-reload-page").html());
+            $('#id-show-registration-and-login').dialog();
         },
         complete: function() {
         }
