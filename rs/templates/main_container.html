@@ -158,8 +158,8 @@ $(document).ready(function() {
 
         {% if general_information_data_fields.show_registration_login_popup %}
             $(document).ready(function() {
-                var message = "{{ general_information_data_fields.message_for_client }}";
-                var activate_account_passed_in_username = "{{ general_information_data_fields.activate_account_passed_in_username }}";
+                var message = "{{ general_information_data_fields.message_for_client|safe }}";
+                var activate_account_passed_in_username = "{{ general_information_data_fields.activate_account_passed_in_username|safe }}";
                 show_default_registration_and_login_popup(message, activate_account_passed_in_username);
             });
         {% endif %}

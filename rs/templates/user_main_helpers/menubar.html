@@ -256,7 +256,7 @@ function show_default_registration_and_login_popup(message, optional_passed_in_u
 // Javascript that will pop-up registration/login when the user clicks on the register/login link
 $(document).ready(function() {
     $('.cl-register-enter-href').click(function(){
-        show_default_registration_and_login_popup("{% trans 'Register for a new <strong>free account</strong> below.'%}");
+        show_default_registration_and_login_popup("{{ general_information_data_fields.message_for_client|safe }}");
         return false; // prevent default
     })
 });

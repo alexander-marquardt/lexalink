@@ -849,7 +849,7 @@ function show_registration_and_login(additional_text, optional_passed_in_usernam
             show_registration_and_login.already_clicked = false;
             $('#id-show-loading-spinner').hide();
 
-            if (optional_passed_in_username != "undefined") {
+            if (optional_passed_in_username != "undefined" && optional_passed_in_username) {
                 $('#id-login_fields-username_email').val(optional_passed_in_username);
                 $('#id-login_fields-username_email').focus();
             }

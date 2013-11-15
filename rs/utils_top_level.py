@@ -184,4 +184,7 @@ def check_if_user_already_registered_passed_in(request):
     if username:
         message_for_client = ugettext("""Your account has been correctly registered. You can enter using your username and password that you selected when you created your account (above).""") % {'username' : username}
 
+    else:
+        message_for_client = ugettext('Register for a new <strong>free account</strong> below.')
+        
     return (username, message_for_client)
