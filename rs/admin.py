@@ -295,9 +295,13 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             """
             
             if href == '':
-                # note, since this is a final call, and it is only for processing the photos that we have marked for
-                # deletion, this call can be to either the private or the public photos code.
-                href = "/rs/admin/review_private_photos_bookmark/%s/final_pass/" % (what_to_show)
+                if not is_private:
+                    # note, since this is a final call, and it is only for processing the photos that we have marked for
+                    # deletion, this call can be to either the private or the public photos code.
+                    href = "/rs/admin/review_public_photos_bookmark/%s/final_pass/" % (what_to_show)
+                else:
+                    href = "/rs/admin/review_private_photos_bookmark/%s/final_pass/" % (what_to_show)
+                    
                 
     
             post_header_html = '<form method = "POST" action = "%s">' % href
@@ -343,8 +347,13 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
             html_to_render = "Error: user not logged in!!!!"
             
 
-        
-        return  rendering.render_main_html(request, html_to_render, show_search_box = False, enable_ads = False,)
+        if not is_private:
+            text_override_for_navigation_bar = "Public Photos"
+        else:
+            text_override_for_navigation_bar = "Private Photos"
+            
+        return  rendering.render_main_html(request, html_to_render, text_override_for_navigation_bar = text_override_for_navigation_bar, 
+                                           show_search_box = False, enable_ads = False,)
     
     except:
         error_reporting.log_exception(logging.critical)  
