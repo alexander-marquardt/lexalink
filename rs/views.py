@@ -49,7 +49,7 @@ from user_profile_main_data import UserSpec
 from models import UserSearchPreferences2
 from login_utils import *
 from utils import get_new_contact_count_sum, return_time_difference_in_friendly_format, requires_login
-import mailbox 
+import mailbox , search_results
 import debugging
 import admin, mailbox, login_utils, channel_support
 import email_utils, utils_top_level, sitemaps
@@ -385,32 +385,13 @@ def logout(request):
     # Closes the user session, and displays the logout page.
        
     try: 
-        try:
-            owner_uid =  request.session['userobject_str']
-            userobject = utils_top_level.get_userobject_from_request(request)  
-            # mark the user presence as OFFLINE (if another session is logged into a different browser, this will be
-            # over-written to reflect the status in the other session as soon as that session pings the server with its status)
-            online_presence_support.update_online_status(owner_uid, constants.OnlinePresence.OFFLINE)            
 
-        except:
-            userobject = None
-        
-        template = loader.select_template(["proprietary_html_content/goodbye_message.html", "common_helpers/default_goodbye_message.html"])
-        context = Context(constants.template_common_fields)
-        generated_html = template.render(context)
-        nav_bar_text = ugettext("You have exited")
-        response = rendering.render_main_html(request, generated_html, userobject,
-                                              text_override_for_navigation_bar = nav_bar_text, 
-                                              show_login_link_override = True,
-                                              do_not_try_to_dynamically_load_search_values = True,
-                                              remove_chatboxes = True,
-                                              register_enter_click_sends_to_landing = True,
-                                              this_is_a_logout = True)
+        response = search_results.generate_search_results(request, type_of_search = "normal", this_is_a_logout = True, 
+                            text_override_for_navigation_bar = ugettext("You have exited"),
+                            register_enter_click_sends_to_landing = True,)
         
         login_utils.clear_old_session(request)
-        
 
-        
         response.delete_cookie(settings.SESSION_COOKIE_NAME)
         return response
     except:

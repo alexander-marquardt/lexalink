@@ -29,14 +29,14 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-11-14-2321'
+VERSION_ID = '2013-11-14-2354'
 
 # The following must be set to True before uploading - this will combine and minimize javascript 
 # and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_TIME_STAMPED_STATIC_FILES = True
+USE_TIME_STAMPED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 

@@ -63,8 +63,17 @@
                }
             }
             flash_between_light_and_dark(3);
+
+            {% if SHOW_VIP_UPGRADE_OPTION %}
+                {% if general_information_data_fields.this_is_a_logout and guest_user_data_fields.registered_user_bool %}
+                    show_all_vip_benefits_dialog();
+                {% endif %}
+            {% endif %}
+
         });
         </script>
+
+
 
     {% else %} <!-- registered user logged in -->
 
@@ -152,7 +161,9 @@
 </ul>
 </div>
 
-{% include "user_main_helpers/test_vip_benefits_dialog.html" %}
+{% if SHOW_VIP_UPGRADE_OPTION %}
+    {% include "user_main_helpers/test_vip_benefits_dialog.html" %}
+{% endif %}
 
 <!-- place holder for the dialog popup for registration/login -->
 <div id="id-show-registration-and-login" style="display:none;"></div>
