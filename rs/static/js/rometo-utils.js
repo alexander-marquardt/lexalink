@@ -777,7 +777,7 @@ function getJSON_initiate_contact_settings(uid) {
 }
 
 
-function show_registration_and_login(additional_text) {
+function show_registration_and_login(additional_text, optional_passed_in_username) {
 
     // prevent double clicks from being processed
     if (show_registration_and_login.already_clicked == 'undefined' || !show_registration_and_login.already_clicked) {
@@ -831,6 +831,8 @@ function show_registration_and_login(additional_text) {
 
             $('#id-show-registration-and-login').dialog('open');
 
+
+
             // set the background image on the dialog titlebar to be the same as the navigation bar
             $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'background-image': 'none' });
             // hide the background color of the titlebar and remove the border - basically we are over-riding the default
@@ -846,6 +848,11 @@ function show_registration_and_login(additional_text) {
         complete: function() {
             show_registration_and_login.already_clicked = false;
             $('#id-show-loading-spinner').hide();
+
+            if (optional_passed_in_username != "undefined") {
+                $('#id-login_fields-username_email').val(optional_passed_in_username);
+                $('#id-login_fields-username_email').focus();
+            }
         }
     });
 }

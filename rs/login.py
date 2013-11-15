@@ -734,7 +734,7 @@ def check_verification_and_authorize_user(request):
             elif store_user_status == "Error":
                 destination_url = "/"
             elif store_user_status == "username_already_registered":
-                destination_url = '/?username_already_registered=True&already_registered_username=%s' % username
+                destination_url = '/?already_registered_username=%s&show_registration_login_popup=true' % username
             elif store_user_status == "username_deleted":
                 response_dict = {"username_deleted" : utils.get_removed_user_reason_html(userobject)}
                 json_response = simplejson.dumps(response_dict)

@@ -270,6 +270,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         # Handle user registration/verification popup if necessary
         verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
         show_registration_login_popup = utils_top_level.get_show_registration_login_popup_from_get(request)
+        (activate_account_passed_in_username, message_for_client) = utils_top_level.check_if_user_already_registered_passed_in(request)
 
         # Information for users that are signed in with an account
         primary_user_presentation_data_fields = {}
@@ -310,6 +311,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['show_login_link_override'] = show_login_link_override
         general_information_data_fields['path_info'] = request.path_info
         general_information_data_fields['show_registration_login_popup'] = show_registration_login_popup
+        general_information_data_fields['activate_account_passed_in_username'] = activate_account_passed_in_username
+        general_information_data_fields['message_for_client'] = message_for_client
         general_information_data_fields['this_is_a_logout'] = this_is_a_logout
  
 

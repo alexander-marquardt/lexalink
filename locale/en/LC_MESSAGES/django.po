@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-14 19:16-0500\n"
+"POT-Creation-Date: 2013-11-15 12:43-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,14 +24,14 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:375
+#: rs/admin.py:384
 #, python-format
 msgid ""
 "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
 "approximately %(shutdown_time)s minutes for maintenance"
 msgstr ""
 
-#: rs/admin.py:392
+#: rs/admin.py:401
 #, python-format
 msgid ""
 "We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
@@ -93,8 +93,8 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:764 rs/messages.py:521
-#: rs/rendering.py:426 rs/utils.py:1527
+#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:763 rs/messages.py:521
+#: rs/rendering.py:429 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -717,7 +717,7 @@ msgid ""
 "%(app_name)s"
 msgstr ""
 
-#: rs/email_utils.py:581 rs/templates/user_main_helpers/menubar.html:81
+#: rs/email_utils.py:581 rs/templates/user_main_helpers/menubar.html:90
 msgid "Messages"
 msgstr ""
 
@@ -2278,11 +2278,11 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr ""
 
-#: rs/login.py:757
+#: rs/login.py:756
 msgid "Incorrect code"
 msgstr ""
 
-#: rs/login.py:760
+#: rs/login.py:759
 msgid "Verification code is invalid or expired"
 msgstr ""
 
@@ -2305,7 +2305,7 @@ msgstr ""
 msgid "We have deleted the profile of"
 msgstr ""
 
-#: rs/login_utils.py:457 rs/login_utils.py:490 rs/views.py:401
+#: rs/login_utils.py:457 rs/login_utils.py:490 rs/views.py:390
 msgid "You have exited"
 msgstr ""
 
@@ -2446,7 +2446,7 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:89
+#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:98
 msgid "All (messages - override)"
 msgstr "All"
 
@@ -2472,7 +2472,7 @@ msgid ""
 msgstr ""
 
 #: rs/menubar.py:10 rs/menubar.py:92
-#: rs/templates/user_main_helpers/menubar.html:121
+#: rs/templates/user_main_helpers/menubar.html:130
 msgid "new"
 msgstr ""
 
@@ -2717,7 +2717,7 @@ msgstr "Relationship status: %(relationship_status)s"
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:439
+#: rs/search_results.py:441
 msgid "Showing results for"
 msgstr ""
 
@@ -3968,13 +3968,11 @@ msgstr ""
 msgid "Lesbians"
 msgstr ""
 
-#: rs/utils_top_level.py:186
-#, python-format
+#: rs/utils_top_level.py:185
 msgid ""
-"\n"
-"        Your account has been correctly registered. You can enter using your "
-"username: <strong>%(username)s</strong>\n"
-"        and the password that you entered when you created your account."
+"Your account has been correctly registered. You can enter using your "
+"username and password that you selected when you created your account "
+"(above)."
 msgstr ""
 
 #: rs/views.py:375
@@ -4778,47 +4776,47 @@ msgstr ""
 msgid "Register / Enter"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:73
+#: rs/templates/user_main_helpers/menubar.html:82
 msgid "My Profile"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:83
+#: rs/templates/user_main_helpers/menubar.html:92
 msgid "unread"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:94
+#: rs/templates/user_main_helpers/menubar.html:103
 msgid "Unread (plural - override)"
 msgstr "Unread"
 
-#: rs/templates/user_main_helpers/menubar.html:99
+#: rs/templates/user_main_helpers/menubar.html:108
 msgid "Favorites"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:104
+#: rs/templates/user_main_helpers/menubar.html:113
 msgid "Received (plural - override)"
 msgstr "Received"
 
-#: rs/templates/user_main_helpers/menubar.html:109
+#: rs/templates/user_main_helpers/menubar.html:118
 msgid "Sent (plural - override)"
 msgstr "Sent"
 
-#: rs/templates/user_main_helpers/menubar.html:119
+#: rs/templates/user_main_helpers/menubar.html:128
 msgid "Profile views"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:132
+#: rs/templates/user_main_helpers/menubar.html:141
 msgid "More"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:138
+#: rs/templates/user_main_helpers/menubar.html:147
 msgid "View others online status"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:148
+#: rs/templates/user_main_helpers/menubar.html:157
 msgid "Exit"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:247
+#: rs/templates/user_main_helpers/menubar.html:259
 msgid "Register for a new <strong>free account</strong> below."
 msgstr ""
 
@@ -5049,7 +5047,7 @@ msgid "Group members"
 msgstr ""
 
 #: rs/templates/user_main_helpers/translation_helper.html:99
-msgid "Unknown Error - Please reload the page and try again"
+msgid "Unknown error - Please reload the page and try again"
 msgstr ""
 
 #: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:52

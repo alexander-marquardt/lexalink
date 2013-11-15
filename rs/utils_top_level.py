@@ -180,11 +180,8 @@ def get_show_registration_login_popup_from_get(request):
 def check_if_user_already_registered_passed_in(request):
     # this is a callback from the routines that store the user profile when an email authorization link is clicked on.
     message_for_client = None
-    user_already_registered = request.GET.get('username_already_registered', '') 
-    if (user_already_registered):
-        username = request.GET.get('already_registered_username', '') 
-        message_for_client = ugettext("""
-        Your account has been correctly registered. You can enter using your username: <strong>%(username)s</strong>
-        and the password that you entered when you created your account.""") % {'username' : username}
+    username = request.GET.get('already_registered_username', '') 
+    if username:
+        message_for_client = ugettext("""Your account has been correctly registered. You can enter using your username and password that you selected when you created your account (above).""") % {'username' : username}
 
-    return message_for_client
+    return (username, message_for_client)

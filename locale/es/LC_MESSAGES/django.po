@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-14 19:16-0500\n"
+"POT-Creation-Date: 2013-11-15 12:43-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:375
+#: rs/admin.py:384
 #, python-format
 msgid ""
 "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
@@ -29,7 +29,7 @@ msgstr ""
 "En %(minutes_to_shutdown)s minutos estamos cerrando %(app_name)s.com por un "
 "período de aproximadamente %(shutdown_time)s minutos para el mantenimiento"
 
-#: rs/admin.py:392
+#: rs/admin.py:401
 #, python-format
 msgid ""
 "We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
@@ -99,8 +99,8 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:764 rs/messages.py:521
-#: rs/rendering.py:426 rs/utils.py:1527
+#: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:763 rs/messages.py:521
+#: rs/rendering.py:429 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -764,7 +764,7 @@ msgstr ""
 "haciendo clic en \"%(field)s\" en la barra %(bar_color)s justo debajo del "
 "logo de %(app_name)s"
 
-#: rs/email_utils.py:581 rs/templates/user_main_helpers/menubar.html:81
+#: rs/email_utils.py:581 rs/templates/user_main_helpers/menubar.html:90
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -2336,11 +2336,11 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr "Todos Los Países"
 
-#: rs/login.py:757
+#: rs/login.py:756
 msgid "Incorrect code"
 msgstr "Código incorrecto"
 
-#: rs/login.py:760
+#: rs/login.py:759
 msgid "Verification code is invalid or expired"
 msgstr "Código de verificación es inválido o ha caducado"
 
@@ -2364,7 +2364,7 @@ msgstr "Tienes que seleccionar <strong>%(field_label)s</strong>"
 msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
-#: rs/login_utils.py:457 rs/login_utils.py:490 rs/views.py:401
+#: rs/login_utils.py:457 rs/login_utils.py:490 rs/views.py:390
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -2521,7 +2521,7 @@ msgstr "No tienes mensajes en este buzón"
 msgid "Select"
 msgstr "Seleccionar"
 
-#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:89
+#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:98
 msgid "All (messages - override)"
 msgstr "Todos"
 
@@ -2551,7 +2551,7 @@ msgstr ""
 "especificado en tu descripción, márcalo como spam sin responder."
 
 #: rs/menubar.py:10 rs/menubar.py:92
-#: rs/templates/user_main_helpers/menubar.html:121
+#: rs/templates/user_main_helpers/menubar.html:130
 msgid "new"
 msgstr "nuevos"
 
@@ -2813,7 +2813,7 @@ msgstr "Estado: %(relationship_status)s"
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "Para: %(relationship_status)s"
 
-#: rs/search_results.py:439
+#: rs/search_results.py:441
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
@@ -4127,18 +4127,14 @@ msgstr "Hombres gays"
 msgid "Lesbians"
 msgstr "Lesbianas"
 
-#: rs/utils_top_level.py:186
-#, python-format
+#: rs/utils_top_level.py:185
 msgid ""
-"\n"
-"        Your account has been correctly registered. You can enter using your "
-"username: <strong>%(username)s</strong>\n"
-"        and the password that you entered when you created your account."
+"Your account has been correctly registered. You can enter using your "
+"username and password that you selected when you created your account "
+"(above)."
 msgstr ""
-"\n"
 "Tu cuenta ha sido registrada correctamente. Puedes entrar directamente con "
-"tu Nick: <strong>%(username)s</strong> y la contraseña que elegiste cuando "
-"creaste tu cuenta."
+"tu Nick y la contraseña que elegiste cuando creaste tu cuenta (arriba)."
 
 #: rs/views.py:375
 msgid "terms.html"
@@ -5052,47 +5048,47 @@ msgstr "como invitado"
 msgid "Register / Enter"
 msgstr "Regístrate / Entrar"
 
-#: rs/templates/user_main_helpers/menubar.html:73
+#: rs/templates/user_main_helpers/menubar.html:82
 msgid "My Profile"
 msgstr "Mi Perfil"
 
-#: rs/templates/user_main_helpers/menubar.html:83
+#: rs/templates/user_main_helpers/menubar.html:92
 msgid "unread"
 msgstr "no leídos"
 
-#: rs/templates/user_main_helpers/menubar.html:94
+#: rs/templates/user_main_helpers/menubar.html:103
 msgid "Unread (plural - override)"
 msgstr "No leídos"
 
-#: rs/templates/user_main_helpers/menubar.html:99
+#: rs/templates/user_main_helpers/menubar.html:108
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: rs/templates/user_main_helpers/menubar.html:104
+#: rs/templates/user_main_helpers/menubar.html:113
 msgid "Received (plural - override)"
 msgstr "Recibidos"
 
-#: rs/templates/user_main_helpers/menubar.html:109
+#: rs/templates/user_main_helpers/menubar.html:118
 msgid "Sent (plural - override)"
 msgstr "Enviados"
 
-#: rs/templates/user_main_helpers/menubar.html:119
+#: rs/templates/user_main_helpers/menubar.html:128
 msgid "Profile views"
 msgstr "Visitas a tu perfil"
 
-#: rs/templates/user_main_helpers/menubar.html:132
+#: rs/templates/user_main_helpers/menubar.html:141
 msgid "More"
 msgstr "Más"
 
-#: rs/templates/user_main_helpers/menubar.html:138
+#: rs/templates/user_main_helpers/menubar.html:147
 msgid "View others online status"
 msgstr "Mostrar estados de conexión"
 
-#: rs/templates/user_main_helpers/menubar.html:148
+#: rs/templates/user_main_helpers/menubar.html:157
 msgid "Exit"
 msgstr "Salir"
 
-#: rs/templates/user_main_helpers/menubar.html:247
+#: rs/templates/user_main_helpers/menubar.html:259
 msgid "Register for a new <strong>free account</strong> below."
 msgstr "Registrate para una <strong>cuenta gratuita</strong> debajo."
 
