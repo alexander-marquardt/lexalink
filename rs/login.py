@@ -114,7 +114,6 @@ def get_registration_html(request):
     
     try:
         http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-        http_country_code = "CA"        
         signup_template = template.loader.get_template('login_helpers/registration.html')
         html_for_signup = forms.MyHTMLLoginGenerator.as_table_rows(localizations.input_field_lang_idx[request.LANGUAGE_CODE], 'signup_fields')
         context = template.Context (dict({
