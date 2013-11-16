@@ -54,7 +54,7 @@ import utils, utils_top_level, channel_support, chat_support
 import forms
 import error_reporting
 import models
-import localizations, user_profile_main_data, user_profile_details, online_presence_support
+import localizations, user_profile_main_data, user_profile_details, online_presence_support, search_results
 import rendering
 import gaesessions
 from rs import profile_utils
@@ -455,10 +455,14 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
             
             generated_html = template.render(context)
             nav_bar_text = ugettext("You have exited")
-            response = rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = nav_bar_text, 
-                                                           hide_page_from_webcrawler = True,
-                                                           show_search_box = False, hide_why_to_register = True,
-                                                           register_enter_click_sends_to_landing = True)
+            
+            response = search_results.generate_search_results(request, 
+                                                              type_of_search="normal", 
+                                                              register_enter_click_sends_to_landing=True, 
+                                                              hide_page_from_webcrawler=True,
+                                                              text_override_for_navigation_bar = nav_bar_text,  
+                                                              extra_html_above_results = generated_html)
+
             return response
         else:
             return html_for_delete_account
@@ -488,9 +492,15 @@ def delete_userobject_with_name_and_security_hash(request, username, hash_of_cre
                 
             generated_html += u'</div>'
             nav_bar_text = ugettext("You have exited")
-            http_response = rendering.render_main_html(request, generated_html, text_override_for_navigation_bar = nav_bar_text, 
-                                                       hide_page_from_webcrawler = True,
-                                                       show_search_box = True, hide_why_to_register = True)
+            
+            
+            http_response = search_results.generate_search_results(request, 
+                                                             type_of_search="normal", 
+                                                             register_enter_click_sends_to_landing=True, 
+                                                             hide_page_from_webcrawler=True,
+                                                             text_override_for_navigation_bar = nav_bar_text,
+                                                             extra_html_above_results = generated_html)            
+
             error_message = "Error: unable to delete username: %s hash_of_creation_date: %s" % (
                 username, hash_of_creation_date)
             error_reporting.log_exception(logging.error, error_message=error_message)  

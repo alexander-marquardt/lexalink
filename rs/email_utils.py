@@ -284,18 +284,16 @@ def delete_userobject_confirmation(request, username, hash_of_creation_date):
                 </script>
         
                 <div class="cl-text-large-format ">"""
-                
-                button_text = ugettext("Yes, I am sure I want to eliminate the profile of %(username)s") % {'username' : username }
-                
+                                
                 generated_html += u"<p><p>%s," % ugettext("Hello %(username)s") % {'username': username}
                 generated_html += u"<p><p>%s<p>" % ugettext("Are you sure you want to eliminate your account?")
                 href = "/rs/do_delete/%(username)s/%(hash_of_creation_date)s/" % {'username':username, 'hash_of_creation_date': hash_of_creation_date,}
                 generated_html += u"""<form action="%(href)s" method="post" rel="form-address:%(href)s">
                 <input type="submit" value="%(button_text)s" class="cl-submit">
-                <input type=button class="cl-cancel" id="id-cancel-delete_profile" value="Cancelar">
+                <input type=button class="cl-cancel" id="id-cancel-delete_profile" value="%(cancel_text)s">
                 </form>
                 </div>
-                """ % {'href': href, 'button_text' : button_text }
+                """ % {'href': href, 'button_text' : ugettext("Yes"), 'cancel_text': ugettext("No") }
             else:
                 generated_html = ugettext("Error - Not authorized")
                 error_message = "Error: unable to show account *delete confirmation* to username: %s hash_of_creation_date: %s" % (
@@ -310,9 +308,12 @@ def delete_userobject_confirmation(request, username, hash_of_creation_date):
         
         # Note: we render the userobject, even though the user is not logged in -- this is not a security risk, since they cannot 
         # view emails or send messages etc. 
-        return rendering.render_main_html(request, generated_html,
-                                          link_to_hide = '', hide_page_from_webcrawler = True, 
-                                          hide_why_to_register = True)
+        
+        return search_results.generate_search_results(request, 
+                                               type_of_search="normal", 
+                                               register_enter_click_sends_to_landing=True, 
+                                               hide_page_from_webcrawler=True,
+                                               extra_html_above_results = generated_html)  
 
     except:
         error_reporting.log_exception(logging.error)
