@@ -60,6 +60,9 @@
         $("#id-simple-search-form").submit(function() {
 
             if (sufficient_time_has_passed_since_last_search(1000)) {
+                // show "loading" icon
+                $('#id-show-loading-spinner').show();
+
                 // if values are not selected, don't submit them - and also has the added benefit of graying-out these values when submit is pressed
                 $(this).find('select option[value=""]').attr("disabled", "disabled");
                 $(this).find('select option[value="----"]').attr("disabled", "disabled");
@@ -70,6 +73,10 @@
                 return false; // prevent the form submission
             }
 
+        });
+
+        $('#id-search-by-name-form').submit(function() {
+            $('#id-show-loading-spinner').show();
         });
     });
 

@@ -1276,7 +1276,7 @@ class MyHTMLSearchBarGenerator():
             text_input = '<input type="text" class="cl-standard-textinput-width-px" id="id-%s" name="%s" maxlength=%s>' % (
                 section_name, section_name, constants.MAX_USERNAME_LEN)
             generated_html += u'<td class="cl-search-td-left-align" >%s</td>\n' % text_input; num_columns += 1            
-            generated_html += u'<td>&nbsp;&nbsp;&nbsp;<input type=submit value="%s" class="cl-search-button" id="id-submit-search"></td>' % (ugettext("Search"))
+            generated_html += u'<td>&nbsp;&nbsp;&nbsp;<input type=submit value="%s" class="cl-search-button" id="id-submit-search_by_name"></td>' % (ugettext("Search"))
             generated_html += u'%s</tr>\n' % (MyHTMLSearchBarGenerator.search_tbl_last_col); num_columns += 1
                                                 
             search_box_txt = ugettext("Search Box")
