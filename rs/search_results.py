@@ -351,7 +351,9 @@ def loosen_search_criteria(search_vals_dict):
 #####################################
 def generate_search_results(request, type_of_search = "normal", this_is_a_logout = False, 
                             text_override_for_navigation_bar = None,
-                            register_enter_click_sends_to_landing = False):
+                            register_enter_click_sends_to_landing = False,
+                            extra_html_above_results = '',
+                            hide_page_from_webcrawler = False):
     # Code that is responsible for the main part of generating search results. This includes code 
     # for keeping track of bookmarks (required in order to remember which page of search resluts 
     # we are showing), for keeping track of the number of results returned from queries, for
@@ -567,15 +569,17 @@ def generate_search_results(request, type_of_search = "normal", this_is_a_logout
         generated_html_close_form = display_profiles_summary.generate_summary_html_close_form()
     
             
-        generated_html =  generated_html_top + generated_html_open_form + generated_html_hidden_variables + \
+        generated_html =  extra_html_above_results + generated_html_top + generated_html_open_form + generated_html_hidden_variables + \
         generated_html_top_next_button + generated_html_body + generated_html_bottom_next_button + generated_html_close_form
+        
         
         return rendering.render_main_html(request, generated_html, viewer_userobject, page_title = generated_title, 
                                           refined_links_html = refined_links_html, show_social_buttons = True,
                                           page_meta_description = generated_meta_description, 
                                           this_is_a_logout = this_is_a_logout, 
                                           text_override_for_navigation_bar= text_override_for_navigation_bar,
-                                          register_enter_click_sends_to_landing = register_enter_click_sends_to_landing)
+                                          register_enter_click_sends_to_landing = register_enter_click_sends_to_landing,
+                                          hide_page_from_webcrawler = hide_page_from_webcrawler)
 
     except:
         error_reporting.log_exception(logging.critical)

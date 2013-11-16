@@ -332,12 +332,10 @@ def change_notification_settings(request, subscription_option, username, hash_of
         put_userobject(userobject)
         return userobject
 
-    previous_language = translation.get_language() # remember the original language, so we can set it back when we finish 
 
     try:
         # make sure that the subscription_option that is passed in is a valid option
         userobject = utils.get_active_userobject_from_username(username)
-        translation.activate(userobject.search_preferences2.get().lang_code)
         
         # get the user language settings from the userobject
         try:
@@ -380,14 +378,18 @@ modifying your profile") % {'link_to_build' : link_to_build() }
     except:
         error_reporting.log_exception(logging.critical)
         generated_html = "Error - unable to update notification settings"
-        
-    finally:
-        translation.activate(previous_language)
+
         
     # Note: we render the information, even though the user is not logged in -- this is not a security risk, since they cannot 
     # view emails or send messages etc. 
-    return rendering.render_main_html(request, generated_html, link_to_hide = '', 
-                                      hide_page_from_webcrawler = True, hide_why_to_register = True)
+    
+    response = search_results.generate_search_results(request, 
+                                                     type_of_search="normal", 
+                                                     register_enter_click_sends_to_landing=True, 
+                                                     hide_page_from_webcrawler=True,
+                                                     extra_html_above_results = generated_html)
+    
+    return response;
 
 
 def get_notification_control_html(userobject):
