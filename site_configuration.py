@@ -29,7 +29,7 @@ import os, datetime, logging
 
 from rs.private_data import *
 
-VERSION_ID = '2013-11-15-xxxx'
+VERSION_ID = '2013-11-15-xxx'
 
 # The following must be set to True before uploading - this will combine and minimize javascript 
 # and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will
@@ -107,7 +107,7 @@ else:
 
 if BUILD_STAGING:
     # we are uploading the code for the "discrete_build" website to a staging appid - this is used for debugging the code
-    # in the actual AppEngine (in-the-cloud) environment without uploading it to the live server. 
+    # in the actual AppEngine (in-the-cloud) environment . 
     app_id_dict[BUILD_NAME] = staging_appid, 
     
 if TESTING_PAYPAL_SANDBOX:

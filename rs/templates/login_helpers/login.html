@@ -70,6 +70,10 @@
             // prevent double clicks from being processed.
             $('#id-submit-login-button').attr('disabled', 'disabled');
 
+            // show spinning loading icon
+            $('#id-show-loading-spinner').show();
+
+
             clear_both_registration_and_login_fields_errors();
 
             if ($('#id-login_fields-username_email').val() == $('#id-login_fields-username_email')[0].title) {
@@ -125,6 +129,9 @@
                     report_ajax_error(textStatus, errorThrown, "handle_registered_login_form - error", "error");
                     show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
 
+                },
+                complete: function() {
+                    $('#id-show-loading-spinner').hide();
                 }
             });
             // prevent normal page navigation upon form submission - this is the same as calling

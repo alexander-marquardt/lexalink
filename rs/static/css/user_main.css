@@ -470,7 +470,7 @@ div#id-show-loading-spinner
     border:0px;
     margin-left: -50px;
     margin-top: -50px;
-    z-index:100;
+    z-index:5000;
     overflow: auto;
 }
 

@@ -118,6 +118,10 @@ function handle_verification_code_input() {
 
             try {
                 $(".cl-warning-text-holder").html(''); // clear any old error message
+
+                // indicate that the next page is loading
+                $('#id-show-loading-spinner').show();
+
                 var allow_empty_code = "{{ verification_values_dict.allow_empty_code }}";
                 var $secret_verification_code = $(this).find(".cl-default-verification-input-text[name=secret_verification_code]");
 
@@ -159,6 +163,9 @@ function handle_verification_code_input() {
                             $(".cl-warning-text-holder").html('<strong><span class="cl-warning-text">Error</span></strong>');
                             var error_html = "handle_verification_code_input - unknown error - see logs";
                             report_ajax_error(textStatus, errorThrown, "handle_verification_code_input - error", "error");
+                        },
+                        complete: function() {
+                            $('#id-show-loading-spinner').hide();
                         }
                     });
                 } else {

@@ -789,7 +789,7 @@ function show_registration_and_login(additional_text, optional_passed_in_usernam
     }
 
 
-    $('#id-show-loading-spinner').show()
+    $('#id-show-loading-spinner').show();
     $.ajax({
         type: 'get',
         url:  '/rs/get_registration_html/',

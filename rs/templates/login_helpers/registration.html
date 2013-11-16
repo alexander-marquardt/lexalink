@@ -125,6 +125,9 @@
                     show_terms_and_conditions();
                 }
                 else {
+                    // indicate that the next page is loading
+                    $('#id-show-loading-spinner').show();
+
                     close_dialog_box_for_user_feedback();
                     // prevent double clicks from being processed.
                     $('#id-submit-signup-button').attr('disabled', 'disabled');
@@ -170,7 +173,11 @@
                             }
                             show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
                             report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - error", "error");
+                        },
+                        complete: function() {
+                            $('#id-show-loading-spinner').hide();
                         }
+
                     });
                 }
                 // prevent normal page navigation upon form submission - this is the same as calling
