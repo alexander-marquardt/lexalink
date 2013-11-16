@@ -1239,7 +1239,11 @@ function clear_both_registration_and_login_fields_errors() {
 function show_fields_errors(fields_type, errors_dict, extra_html, where_to_place_dialog) {
     // fields_type is either signup_fields or login_fields
 
-    var error_html = '<ul>';
+    // dummy input to take the autofocus away from the "have you forgot password" link, otherwise it
+    // automatically follows the link on enter
+    var error_html = '<input type="hidden" autofocus="autofocus" />';
+    error_html += '<ul>';
+
     // loop over the objects in the errors_dict
     for (key in errors_dict) {
         var input_field_id_selector = "#id-" + fields_type + "-" + key;
