@@ -66,9 +66,14 @@
 
 <div class="grid_9 alpha omega">
     <div class="grid_2 alpha">
-        {% blocktrans with viewed_profile_data_fields.display_username as viewed_profile_name %}
-        <strong>Options to contact {{ viewed_profile_name }}</strong><br>(Click on the icon to activate or to remove
-        the associated action):{% endblocktrans %}
+        <!-- only show contact section for non-eliminated profiles -->
+        {% if not viewed_profile_data_fields.account_has_been_removed_message %}
+            <strong>{% blocktrans with viewed_profile_data_fields.display_username as viewed_profile_name %}
+                Options to contact {{ viewed_profile_name }}{% endblocktrans %}</strong>
+            <br>
+        {% endif %}
+
+        ({% blocktrans %}Click on the icon to activate or to remove the associated action{% endblocktrans %}):
         <br>
         
     </div>

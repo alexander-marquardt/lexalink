@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-15 12:43-0500\n"
+"POT-Creation-Date: 2013-12-13 01:42-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,7 +94,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:736 rs/forms.py:1095 rs/login.py:763 rs/messages.py:521
-#: rs/rendering.py:429 rs/utils.py:1527
+#: rs/rendering.py:425 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -215,81 +215,81 @@ msgstr ""
 msgid "(Offline)"
 msgstr ""
 
-#: rs/constants.py:440
+#: rs/constants.py:446
 msgid "confidential dating website"
 msgstr ""
 
-#: rs/constants.py:445
+#: rs/constants.py:451
 msgid "serious dating website"
 msgstr ""
 
-#: rs/constants.py:448
+#: rs/constants.py:454
 msgid "website to learn languages and meet people"
 msgstr ""
 
-#: rs/constants.py:451
+#: rs/constants.py:457
 msgid "lesbian dating website"
 msgstr ""
 
-#: rs/constants.py:455
+#: rs/constants.py:461
 msgid "gay dating website"
 msgstr ""
 
-#: rs/constants.py:459
+#: rs/constants.py:465
 msgid "swingers website"
 msgstr ""
 
-#: rs/constants.py:463
+#: rs/constants.py:469
 msgid "website to meet people and make friends"
 msgstr ""
 
-#: rs/constants.py:466 rs/proprietary/search_engine_overrides.py:81
+#: rs/constants.py:472 rs/proprietary/search_engine_overrides.py:81
 #: rs/proprietary/templates/proprietary_ads/mature_build.html:14
 msgid "dating website to meet mature adults over 40 years old"
 msgstr ""
 
-#: rs/constants.py:579
+#: rs/constants.py:585
 msgid "VIP member"
 msgstr ""
 
-#: rs/constants.py:586
+#: rs/constants.py:592
 msgid ""
 "<strong>Username</strong> can only contain letters and numbers, and must not "
 "contain spaces."
 msgstr ""
 
-#: rs/constants.py:587
+#: rs/constants.py:593
 msgid "<strong>Username</strong> needs at least 3 characters."
 msgstr ""
 
-#: rs/constants.py:588
+#: rs/constants.py:594
 msgid "<strong>Password</strong> required"
 msgstr ""
 
-#: rs/constants.py:589
+#: rs/constants.py:595
 msgid ""
 "The <strong>Password</strong> and the <strong>Verification Password</strong> "
 "must be the same."
 msgstr ""
 
-#: rs/constants.py:590
+#: rs/constants.py:596
 msgid "The <strong>Username</strong> that you have selected is not available."
 msgstr ""
 
-#: rs/constants.py:591
+#: rs/constants.py:597
 msgid "<strong>Username/email + Password</strong> is incorrect"
 msgstr ""
 
-#: rs/constants.py:592
+#: rs/constants.py:598
 msgid "The <strong>Email Address</strong> is not valid"
 msgstr ""
 
-#: rs/constants.py:598
+#: rs/constants.py:604
 #, python-format
 msgid " or if you are a %(vip_member)s"
 msgstr ""
 
-#: rs/constants.py:605
+#: rs/constants.py:611
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member in a single "
@@ -300,7 +300,7 @@ msgid ""
 "            %(hours)s-hour period.<br><br>"
 msgstr ""
 
-#: rs/constants.py:613
+#: rs/constants.py:619
 #, python-format
 msgid ""
 "As a VIP member, you can send up to %(vip_num)s messages to each member in a "
@@ -308,215 +308,215 @@ msgid ""
 "            hour period. You have now reached this limit.<br><br>"
 msgstr ""
 
-#: rs/constants.py:618
+#: rs/constants.py:624
 #, python-format
 msgid ""
 "You can send more messages to this member %(txt_for_when_quota_resets)s."
 msgstr ""
 
-#: rs/constants.py:626
+#: rs/constants.py:632
 msgid ""
 "You must register for a <strong>free account</strong> in order to contact "
 "our members. "
 msgstr ""
 
-#: rs/constants.py:651
+#: rs/constants.py:657
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:653
+#: rs/constants.py:659
 msgid "sent (singular)"
 msgstr "sent"
 
-#: rs/constants.py:654
+#: rs/constants.py:660
 msgid "received (singluar)"
 msgstr "received"
 
-#: rs/constants.py:655
+#: rs/constants.py:661
 msgid "saved (singular)"
 msgstr "saved"
 
-#: rs/constants.py:656
+#: rs/constants.py:662
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:662 rs/messages.py:367
+#: rs/constants.py:668 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "sent"
 
-#: rs/constants.py:662
+#: rs/constants.py:668
 msgid "Sent (plural)"
 msgstr "Sent"
 
-#: rs/constants.py:663
+#: rs/constants.py:669
 msgid "received (plural)"
 msgstr "received"
 
-#: rs/constants.py:663
+#: rs/constants.py:669
 msgid "Received (plural)"
 msgstr "Received"
 
-#: rs/constants.py:664
+#: rs/constants.py:670
 msgid "saved (plural)"
 msgstr "saved"
 
-#: rs/constants.py:664
+#: rs/constants.py:670
 msgid "Saved (plural)"
 msgstr "Saved"
 
-#: rs/constants.py:665
+#: rs/constants.py:671
 msgid "confirmed (plural)"
 msgstr "confirmed"
 
-#: rs/constants.py:665
+#: rs/constants.py:671
 msgid "Confirmed (plural)"
 msgstr "Confirmed"
 
-#: rs/constants.py:670
+#: rs/constants.py:676
 msgid "sent (plural feminine)"
 msgstr "sent"
 
-#: rs/constants.py:670
+#: rs/constants.py:676
 msgid "Sent (plural feminine)"
 msgstr "Sent"
 
-#: rs/constants.py:671
+#: rs/constants.py:677
 msgid "received (plural feminine)"
 msgstr "received"
 
-#: rs/constants.py:671
+#: rs/constants.py:677
 msgid "Received (plural feminine)"
 msgstr "Received"
 
-#: rs/constants.py:672
+#: rs/constants.py:678
 msgid "saved (plural feminine)"
 msgstr "saved"
 
-#: rs/constants.py:672
+#: rs/constants.py:678
 msgid "Saved (plural feminine)"
 msgstr "Saved"
 
-#: rs/constants.py:673
+#: rs/constants.py:679
 msgid "confirmed (plural feminine)"
 msgstr "confirmed"
 
-#: rs/constants.py:673
+#: rs/constants.py:679
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmed"
 
-#: rs/constants.py:678
+#: rs/constants.py:684
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:679
+#: rs/constants.py:685
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:680
+#: rs/constants.py:686
 msgid "Greeting"
 msgstr ""
 
-#: rs/constants.py:682
+#: rs/constants.py:688
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:683
+#: rs/constants.py:689
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:684
+#: rs/constants.py:690
 msgid "Wink"
 msgstr ""
 
-#: rs/constants.py:687
+#: rs/constants.py:693
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:689
+#: rs/constants.py:695
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:696
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:691
+#: rs/constants.py:697
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:692
+#: rs/constants.py:698
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:697
+#: rs/constants.py:703
 msgid "My favorite"
 msgstr ""
 
-#: rs/constants.py:699
+#: rs/constants.py:705
 msgid "Kiss"
 msgstr ""
 
-#: rs/constants.py:700
+#: rs/constants.py:706
 msgid "Key"
 msgstr ""
 
-#: rs/constants.py:701
+#: rs/constants.py:707
 msgid "Chat friend"
 msgstr "Chat friends"
 
-#: rs/constants.py:702
+#: rs/constants.py:708
 msgid "Blocked (singular)"
 msgstr "Blocked"
 
-#: rs/constants.py:706
+#: rs/constants.py:712
 msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:707
+#: rs/constants.py:713
 msgid "Chat requests received"
 msgstr ""
 
-#: rs/constants.py:708
+#: rs/constants.py:714
 msgid "Chat connections confirmed"
 msgstr ""
 
-#: rs/constants.py:712
+#: rs/constants.py:718
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:714
+#: rs/constants.py:720
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:715
+#: rs/constants.py:721
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:716
+#: rs/constants.py:722
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:717
+#: rs/constants.py:723
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:730
+#: rs/constants.py:736
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:731
+#: rs/constants.py:737
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:732
+#: rs/constants.py:738
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:733
+#: rs/constants.py:739
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:734
+#: rs/constants.py:740
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:164
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:363
 #: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:372
@@ -524,31 +524,31 @@ msgstr ""
 msgid "May"
 msgstr ""
 
-#: rs/constants.py:735
+#: rs/constants.py:741
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:736
+#: rs/constants.py:742
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:737
+#: rs/constants.py:743
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:738
+#: rs/constants.py:744
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:739
+#: rs/constants.py:745
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:740
+#: rs/constants.py:746
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:741
+#: rs/constants.py:747
 msgid "December"
 msgstr ""
 
@@ -573,12 +573,12 @@ msgstr ""
 msgid "Last entrance"
 msgstr ""
 
-#: rs/display_profiles_summary.py:317 rs/display_profiles_summary.py:329
+#: rs/display_profiles_summary.py:318 rs/display_profiles_summary.py:330
 #: rs/mailbox.py:990
 msgid "Next"
 msgstr ""
 
-#: rs/email_utils.py:64 rs/email_utils.py:647
+#: rs/email_utils.py:64 rs/email_utils.py:650
 msgid "Cheers"
 msgstr ""
 
@@ -596,8 +596,8 @@ msgstr ""
 msgid "New password"
 msgstr ""
 
-#: rs/email_utils.py:230 rs/email_utils.py:290 rs/email_utils.py:368
-#: rs/email_utils.py:646 rs/login_utils.py:615 rs/login_utils.py:641
+#: rs/email_utils.py:230 rs/email_utils.py:288 rs/email_utils.py:367
+#: rs/email_utils.py:649 rs/login_utils.py:625 rs/login_utils.py:651
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
@@ -621,143 +621,146 @@ msgid ""
 "in the administrative section of your profile"
 msgstr ""
 
-#: rs/email_utils.py:288
-#, python-format
-msgid "Yes, I am sure I want to eliminate the profile of %(username)s"
-msgstr ""
-
-#: rs/email_utils.py:291
+#: rs/email_utils.py:289
 msgid "Are you sure you want to eliminate your account?"
 msgstr ""
 
-#: rs/email_utils.py:300 rs/login_utils.py:487
+#: rs/email_utils.py:296
+msgid "Yes"
+msgstr ""
+
+#: rs/email_utils.py:296
+msgid "No"
+msgstr ""
+
+#: rs/email_utils.py:298 rs/login_utils.py:491
 msgid "Error - Not authorized"
 msgstr ""
 
-#: rs/email_utils.py:309
+#: rs/email_utils.py:307
 #, python-format
 msgid "Nick: %(username)s not found - have you already deleted it?"
 msgstr ""
 
-#: rs/email_utils.py:369
+#: rs/email_utils.py:368
 msgid "We have changed your notification options to"
 msgstr ""
 
-#: rs/email_utils.py:374
+#: rs/email_utils.py:373
 #, python-format
 msgid ""
 "Error: we have not been able to change the notification options for "
 "%(username)s"
 msgstr ""
 
-#: rs/email_utils.py:376
+#: rs/email_utils.py:375
 #, python-format
 msgid ""
 "You can change your notification settings by entering into %(link_to_build)s "
 "and directly modifying your profile"
 msgstr ""
 
-#: rs/email_utils.py:421 rs/user_profile_details.py:226
+#: rs/email_utils.py:424 rs/user_profile_details.py:226
 msgid "Email notification settings"
 msgstr ""
 
-#: rs/email_utils.py:422
+#: rs/email_utils.py:425
 msgid "You have currently selected"
 msgstr "You have currently selected"
 
-#: rs/email_utils.py:424
+#: rs/email_utils.py:427
 msgid ""
 "You can change this option by clicking on one of the options below, or by "
 "directly modifying \"My profile\" in"
 msgstr ""
 
-#: rs/email_utils.py:435
+#: rs/email_utils.py:438
 msgid "Option"
 msgstr ""
 
-#: rs/email_utils.py:440
+#: rs/email_utils.py:443
 msgid "Would you like to eliminate the profile of"
 msgstr "Would you like to eliminate the profile of"
 
-#: rs/email_utils.py:444 rs/utils.py:412
+#: rs/email_utils.py:447 rs/utils.py:412
 msgid "Here"
 msgstr ""
 
-#: rs/email_utils.py:446
+#: rs/email_utils.py:449
 msgid "you can eliminate it"
 msgstr "you can eliminate it"
 
-#: rs/email_utils.py:511
+#: rs/email_utils.py:514
 msgid "violet"
 msgstr ""
 
-#: rs/email_utils.py:513
+#: rs/email_utils.py:516
 msgid "gray"
 msgstr ""
 
-#: rs/email_utils.py:516
+#: rs/email_utils.py:519
 msgid "green"
 msgstr ""
 
-#: rs/email_utils.py:569
+#: rs/email_utils.py:572
 #, python-format
 msgid "You have <strong>%(num_mail)s new/unread message</strong> "
 msgid_plural "You have <strong>%(num_mail)s new/unread messages</strong>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/email_utils.py:578
+#: rs/email_utils.py:581
 msgid "You can read your messages after entering in"
 msgstr ""
 
-#: rs/email_utils.py:580 rs/email_utils.py:625
+#: rs/email_utils.py:583 rs/email_utils.py:628
 #, python-format
 msgid ""
 "by clicking on \"%(field)s\" in the %(bar_color)s bar just below the logo of "
 "%(app_name)s"
 msgstr ""
 
-#: rs/email_utils.py:581 rs/templates/user_main_helpers/menubar.html:90
+#: rs/email_utils.py:584 rs/templates/user_main_helpers/menubar.html:90
 msgid "Messages"
 msgstr ""
 
-#: rs/email_utils.py:582
+#: rs/email_utils.py:585
 msgid ""
 "You can mark the new messages as \"read\" by opening (clicking on) each "
 "message, or by marking the checkbox beside multiple messages and clicking "
 "\"Mark as read\""
 msgstr ""
 
-#: rs/email_utils.py:602
+#: rs/email_utils.py:605
 msgid "Additionally, you have received"
 msgstr ""
 
-#: rs/email_utils.py:604
+#: rs/email_utils.py:607
 msgid "You have received"
 msgstr ""
 
-#: rs/email_utils.py:617
+#: rs/email_utils.py:620
 msgid "and"
 msgstr ""
 
-#: rs/email_utils.py:623
+#: rs/email_utils.py:626
 #, python-format
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr ""
 
-#: rs/email_utils.py:626 rs/menubar.py:102 rs/profile_utils.py:100
+#: rs/email_utils.py:629 rs/menubar.py:102 rs/profile_utils.py:100
 msgid "Contacts"
 msgstr ""
 
-#: rs/email_utils.py:632
+#: rs/email_utils.py:635
 msgid "New messages and new contacts"
 msgstr ""
 
-#: rs/email_utils.py:635
+#: rs/email_utils.py:638
 msgid "New messages"
 msgstr ""
 
-#: rs/email_utils.py:638
+#: rs/email_utils.py:641
 msgid "New contacts"
 msgstr ""
 
@@ -2305,41 +2308,41 @@ msgstr ""
 msgid "We have deleted the profile of"
 msgstr ""
 
-#: rs/login_utils.py:457 rs/login_utils.py:490 rs/views.py:390
+#: rs/login_utils.py:457 rs/login_utils.py:494 rs/views.py:390
 msgid "You have exited"
 msgstr ""
 
-#: rs/login_utils.py:485
+#: rs/login_utils.py:489
 #, python-format
 msgid "Profile %(username)s has already been deleted, or never existed"
 msgstr ""
 
-#: rs/login_utils.py:613
+#: rs/login_utils.py:623
 msgid "Verification of your email and registration"
 msgstr ""
 
-#: rs/login_utils.py:617
+#: rs/login_utils.py:627
 #, python-format
 msgid ""
 "To activate your account in %(app_name)s, enter the verification code when "
 "prompted,                    or click on the following link."
 msgstr ""
 
-#: rs/login_utils.py:620 rs/templates/login_helpers/verification.html:32
+#: rs/login_utils.py:630 rs/templates/login_helpers/verification.html:32
 msgid "Verification code"
 msgstr ""
 
-#: rs/login_utils.py:629
+#: rs/login_utils.py:639
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:640
+#: rs/login_utils.py:650
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:643
+#: rs/login_utils.py:653
 #, python-format
 msgid ""
 "\n"
@@ -2349,7 +2352,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:692
+#: rs/login_utils.py:702
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2357,7 +2360,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:724
+#: rs/login_utils.py:734
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2598,7 +2601,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:251 rs/views.py:159
+#: rs/rendering.py:247 rs/views.py:159
 msgid "You must register to contact other users"
 msgstr ""
 "<em>You must <a class=\"cl-register-enter-href\" href=\"#\">register or "
@@ -2717,7 +2720,7 @@ msgstr "Relationship status: %(relationship_status)s"
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:441
+#: rs/search_results.py:443
 msgid "Showing results for"
 msgstr ""
 
@@ -3975,6 +3978,10 @@ msgid ""
 "(above)."
 msgstr ""
 
+#: rs/utils_top_level.py:188
+msgid "Register for a new <strong>free account</strong> below."
+msgstr ""
+
 #: rs/views.py:375
 msgid "terms.html"
 msgstr ""
@@ -4816,10 +4823,6 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
-#: rs/templates/user_main_helpers/menubar.html:259
-msgid "Register for a new <strong>free account</strong> below."
-msgstr ""
-
 #: rs/templates/user_main_helpers/paypal_purchase_form.html:23
 msgid "VIP Membership"
 msgstr ""
@@ -5058,13 +5061,19 @@ msgid ""
 "page:"
 msgstr ""
 
-#: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:69
-#, python-format
+#: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:71
+#, fuzzy, python-format
 msgid ""
 "\n"
-"        <strong>Options to contact %(viewed_profile_name)s</strong><br>"
-"(Click on the icon to activate or to remove\n"
-"        the associated action):"
+"                Options to contact %(viewed_profile_name)s"
+msgstr ""
+"\n"
+"                An increased limit on the number of \"chat friends\" to "
+"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
+"friends\" you can send unlimited chat messages. "
+
+#: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:76
+msgid "Click on the icon to activate or to remove the associated action"
 msgstr ""
 
 #: rs/templates/user_main_helpers/vip_benefits.html:6
