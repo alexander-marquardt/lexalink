@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 01:50-0500\n"
+"POT-Creation-Date: 2013-12-13 02:07-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -632,7 +632,7 @@ msgid "New password"
 msgstr "Contraseña nueva"
 
 #: rs/email_utils.py:230 rs/email_utils.py:288 rs/email_utils.py:367
-#: rs/email_utils.py:649 rs/login_utils.py:625 rs/login_utils.py:651
+#: rs/email_utils.py:649 rs/login_utils.py:625 rs/login_utils.py:652
 #, python-format
 msgid "Hello %(username)s"
 msgstr "Hola %(username)s"
@@ -2382,19 +2382,20 @@ msgid "Verification of your email and registration"
 msgstr "Verificación de tu dirección de correo electrónico"
 
 #: rs/login_utils.py:627
-#, python-format
-msgid ""
-"To activate your account in %(app_name)s, enter the verification code when "
-"prompted,                    or click on the following link."
+msgid "To activate your account in %(app_name)s click on the following link"
 msgstr ""
-"Para activar tu cuenta en %(app_name)s, introduzca el código de verificación "
-"cuando se te solicite, o haz click en el siguiente enlace."
+"Para activar tu cuenta en %(app_name)s haz click en el siguiente enlace"
 
-#: rs/login_utils.py:630 rs/templates/login_helpers/verification.html:32
+#: rs/login_utils.py:636 rs/templates/login_helpers/verification.html:32
 msgid "Verification code"
 msgstr "Codigo de verificación"
 
-#: rs/login_utils.py:639
+#: rs/login_utils.py:637
+#, python-format
+msgid "Your verificaiton code is), %(secret_verification_code)s"
+msgstr ""
+
+#: rs/login_utils.py:640
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
@@ -2402,11 +2403,11 @@ msgstr ""
 "Si al hacer clic en el vínculo parece que no funciona, cópialo y pégalo en "
 "una ventana nueva del navegador"
 
-#: rs/login_utils.py:650
+#: rs/login_utils.py:651
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:653
+#: rs/login_utils.py:654
 #, python-format
 msgid ""
 "\n"
@@ -2420,7 +2421,7 @@ msgstr ""
 "que ya tienes una cuenta registrada. Si deseas registrar una cuenta nueva, "
 "por favor, elimina la cuenta vieja. "
 
-#: rs/login_utils.py:702
+#: rs/login_utils.py:703
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2431,7 +2432,7 @@ msgstr ""
 "enviar otro a la misma cuenta hasta mañana - por favor registrate con otro "
 "correo electrónico."
 
-#: rs/login_utils.py:734
+#: rs/login_utils.py:735
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -5445,6 +5446,9 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#~ msgid "Your verification code is"
+#~ msgstr "Tu código de verificación es"
 
 #~ msgid "Yes, I am sure I want to eliminate the profile of %(username)s"
 #~ msgstr "Sí,estoy seguro que quiero eliminar el perfil de %(username)s"
