@@ -713,7 +713,8 @@ def display_conversation_summary(request, have_sent_messages_object,
             
             generated_html += u'<div class="grid_9 alpha omega">' # internal grid_9            
             generated_html += '<div class="grid_2 alpha ">\n'
-            generated_html += u'<strong>%s</strong>\n' % ugettext("Message history (click on the message text to see more detailed history)")
+            generated_html += u'<strong>%s</strong>\n' % ugettext("Message history")
+            generated_html += u'(%s)\n' % ugettext("click on the message text to see more detailed history")
             generated_html += u'</div> <!-- end grid2 -->\n'
             generated_html += u'<div class="grid_7 omega" >\n'
             # this is a bit strange -- the folloing div is necessary to allow us to draw a border a without 

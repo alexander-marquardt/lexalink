@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 01:42-0500\n"
+"POT-Creation-Date: 2013-12-13 01:50-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -574,7 +574,7 @@ msgid "Last entrance"
 msgstr ""
 
 #: rs/display_profiles_summary.py:318 rs/display_profiles_summary.py:330
-#: rs/mailbox.py:990
+#: rs/mailbox.py:991
 msgid "Next"
 msgstr ""
 
@@ -2368,7 +2368,7 @@ msgid ""
 "            We cannot send another activation message for this account."
 msgstr ""
 
-#: rs/mailbox.py:273 rs/mailbox.py:778
+#: rs/mailbox.py:273 rs/mailbox.py:779
 msgid "From"
 msgstr ""
 
@@ -2405,69 +2405,72 @@ msgid "New (mail)"
 msgstr "New"
 
 #: rs/mailbox.py:716
-msgid ""
-"Message history (click on the message text to see more detailed history)"
+msgid "Message history"
 msgstr ""
 
-#: rs/mailbox.py:783
+#: rs/mailbox.py:717
+msgid "click on the message text to see more detailed history"
+msgstr ""
+
+#: rs/mailbox.py:784
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:809 rs/mailbox.py:974
+#: rs/mailbox.py:810 rs/mailbox.py:975
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:815 rs/mailbox.py:972
+#: rs/mailbox.py:816 rs/mailbox.py:973
 msgid "Delete"
 msgstr ""
 
-#: rs/mailbox.py:819
+#: rs/mailbox.py:820
 msgid "Move to sent mailbox"
 msgstr ""
 
-#: rs/mailbox.py:822
+#: rs/mailbox.py:823
 msgid "Move to received mailbox"
 msgstr ""
 
-#: rs/mailbox.py:828
+#: rs/mailbox.py:829
 msgid "Mark as spam"
 msgstr ""
 
-#: rs/mailbox.py:841
+#: rs/mailbox.py:842
 msgid "Favorite"
 msgstr ""
 
-#: rs/mailbox.py:844
+#: rs/mailbox.py:845
 msgid "Add to your favorites"
 msgstr ""
 
-#: rs/mailbox.py:907
+#: rs/mailbox.py:908
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:967
+#: rs/mailbox.py:968
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:967 rs/templates/user_main_helpers/menubar.html:98
+#: rs/mailbox.py:968 rs/templates/user_main_helpers/menubar.html:98
 msgid "All (messages - override)"
 msgstr "All"
 
-#: rs/mailbox.py:967
+#: rs/mailbox.py:968
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:1007
+#: rs/mailbox.py:1008
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:1009
+#: rs/mailbox.py:1010
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:1010
+#: rs/mailbox.py:1011
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
