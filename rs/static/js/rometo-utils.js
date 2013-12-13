@@ -304,7 +304,7 @@ function load_location_settings_on_change(id_prefix, default_text, hide_field_if
 
             var country_val = $(country_id).val();
 
-            if (country_val == "----") {
+            if (!country_val || country_val == "----") {
                 $(region_id).html('<option value="----">' + default_text['region']);
 
             } else {
@@ -325,7 +325,6 @@ function load_location_settings_on_change(id_prefix, default_text, hide_field_if
         });
 
         $(region_id).on("change.location_settings_on_change", function() {
-            var country_val = $(country_id).val();
             var region_val = $(region_id).val();
 
             if (region_val != '----') {
