@@ -327,7 +327,7 @@ function load_location_settings_on_change(id_prefix, default_text, hide_field_if
         $(region_id).on("change.location_settings_on_change", function() {
             var region_val = $(region_id).val();
 
-            if (region_val != '----') {
+            if (region_val && region_val != '----') {
                 // if the region has been selected, load sub-regions
                 load_selector_options(sub_region_id, region_val, default_text['sub_region'], hide_field_if_not_defined, "----",
                         default_text['not_available'], live_static_dir, "/rs/ajax/get_location_options/");
