@@ -1,10 +1,12 @@
 # Mac files
 *.DS_Store
+Thumbs.db
 
 # project files that are re-generated and therfore no need to backup
 index.yaml
 rs/static/auto-generated*
 *.pyc
+
 
 # Environment for the WingIDE environment that I use
 Wing_project.wpr
