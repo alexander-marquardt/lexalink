@@ -32,7 +32,7 @@ rs/templates/video_phone_symlink*
 
 # The following directories contain "proprietary" files that should not be distributed or checked
 # in to the main git codebase.
-rs/proprietary/
+proprietary/
 
 # Ignore Regions data - don't want this backed up
 Regions
