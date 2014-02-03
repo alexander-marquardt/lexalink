@@ -170,19 +170,19 @@ module.exports = function (grunt) {
             }
         },
 
-//        // Renames files for browser caching purposes
-//        rev: {
-//            dist: {
-//                files: {
-//                    src: [
-//                        '<%= yeoman.dist %>/scripts/{,*/}*.js',
-//                        '<%= yeoman.dist %>/styles/{,*/}*.css',
-//                        '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}',
-//                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
-//                    ]
-//                }
-//            }
-//        },
+        // Renames files for browser caching purposes
+        rev: {
+            dist: {
+                files: {
+                    src: [
+                        '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                        '<%= yeoman.dist %>/styles/{,*/}*.css',
+                        '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}',
+                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
+                    ]
+                }
+            }
+        },
 
         // Reads HTML for usemin blocks to enable smart builds that automatically
         // concat, minify and revision files. Creates configurations in memory so
@@ -245,29 +245,29 @@ module.exports = function (grunt) {
         // By default, your `index.html`'s <!-- Usemin block --> will take care of
         // minification. These next options are pre-configured if you do not wish
         // to use the Usemin blocks.
-        cssmin: {
-             dist: {
+//        cssmin: {
+//             dist: {
 //                 files: {
 //                     '<%= yeoman.dist %>/styles/main.css': [
 //                         '.tmp/styles/{,*/}*.css',
 //                         '<%= yeoman.app %>/styles/{,*/}*.css'
 //                     ]
 //                 }
-             }
-        },
+//             }
+//        },
         // Uglify is used for minifying the javascript
-        uglify: {
-            options: {
-                mangle: false // allow/disallow changes to variable and function names
-            },
-            dist: {
-                files: {
-                    '<%= yeoman.dist %>/scripts/scripts.js': [
-                         '<%= yeoman.dist %>/scripts/scripts.js'
-                    ]
-                }
-            }
-        },
+//        uglify: {
+//            options: {
+//                mangle: false // allow/disallow changes to variable and function names
+//            },
+//            dist: {
+//                files: {
+//                    '<%= yeoman.dist %>/scripts/scripts.js': [
+//                         '<%= yeoman.dist %>/scripts/scripts.js'
+//                    ]
+//                }
+//            }
+//        },
         // concat: {
         //     dist: {}
         // },
@@ -363,7 +363,7 @@ module.exports = function (grunt) {
         'cssmin',
         'uglify',
         'copy:dist',
-        //'rev',
+        'rev',
         'usemin',
         'htmlmin'
     ]);

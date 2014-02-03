@@ -28,7 +28,7 @@
 
     <!-- Start CSS Imports here -->
     <!-- the following line is used by grunt-usemin to detect which css it should combine -->
-    <!-- build:css /styles/combined_css.css-->
+    <!-- build:css /styles/combined.min.css-->
     <link rel="stylesheet" href="/app/styles/reset.css">
     <link rel="stylesheet" href="/app/styles/960.css">
     <link rel="stylesheet" href="/app/styles/jquery-ui-1.10.3.custom.css">
@@ -65,22 +65,19 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
 
-    {% ifequal live_static_dir "rs/static" %}
-    <script type="text/javascript" src="/app/scripts/js/stacktrace.js"></script>
-    <script type="text/javascript" src="/app/scripts/js/rometo-utils.js"></script>
-    <script type="text/javascript" src="/app/scripts/js/jquery.json.js"></script>
-    <script type="text/javascript" src="/app/scripts/js/jquery.idle.js"></script>
-<script type="text/javascript" src="/app/scripts/js/jquery.fancybox-2.1.5.js"></script>
-    <script type="text/javascript" src="/app/scripts/js/jquery.form.js"></script>
-    <script type="text/javascript" src="/app/scripts/js/chatbox.js"></script>
-    <script type="text/javascript" src="/app/scripts/js/channel-utils.js"></script>
-    <script type="text/javascript" src="/app/scripts/js/chat.js"></script>
+    <!-- the following line is used by grunt-usemin to detect which css it should combine -->
+    <!-- build:js /scripts/combined.min.js-->
+    <script type="text/javascript" src="/app/scripts/stacktrace.js"></script>
+    <script type="text/javascript" src="/app/scripts/rometo-utils.js"></script>
+    <script type="text/javascript" src="/app/scripts/jquery.json.js"></script>
+    <script type="text/javascript" src="/app/scripts/jquery.idle.js"></script>
+    <script type="text/javascript" src="/app/scripts/jquery.fancybox-2.1.5.js"></script>
+    <script type="text/javascript" src="/app/scripts/jquery.form.js"></script>
+    <script type="text/javascript" src="/app/scripts/chatbox.js"></script>
+    <script type="text/javascript" src="/app/scripts/channel-utils.js"></script>
+    <script type="text/javascript" src="/app/scripts/chat.js"></script>
+    <!-- endbuild -->
 
-    {% else %}
-    <!-- use the combined js -->
-    <script type="text/javascript" src="/app/styles/js/combined_js.min.js"></script>
-
-    {% endifequal %}
 
 
     <script type="text/javascript">
