@@ -189,7 +189,7 @@ module.exports = function (grunt) {
         // additional tasks can operate on them
         useminPrepare: {
             options: {
-                root: '<%= yeoman.root %>',
+                root: '<%= yeoman.app %>',
                 dest: '<%= yeoman.dist %>'
             },
             html: '<%= yeoman.app %>/html/import_main_css_and_js.html'
