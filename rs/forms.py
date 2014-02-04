@@ -106,10 +106,10 @@ class FormUtils():
             
             generated_html += u"""<td class="cl-contact-td">
             <a id="id-submit-%(section_name)s" href="#id-submit-%(section_name)s">
-            <img src="/%(static_dir)s/images/%(build_name)s/%(image_name)s" align=middle alt="">
+            <img src="/images/%(build_name)s/%(image_name)s" align=middle alt="">
             </a>
             </td>""" % {'section_name': icon, 'image_name': constants.ContactIconText.icon_images[icon],
-                        'build_name' : settings.BUILD_NAME, "static_dir" : settings.LIVE_STATIC_DIR}
+                        'build_name' : settings.BUILD_NAME}
         
         generated_html += u"<tr>"
         for icon in list_of_contact_icons:
@@ -854,9 +854,9 @@ class FormUtils():
         generated_html = ''
         
         generated_html += u"""<div>%(instruction)s
-            <img src="/%(static_dir)s/images/captcha_reload.png" alt=''>%(inside)s.<br>
+            <img src="/images/captcha_reload.png" alt=''>%(inside)s.<br>
             </div>""" % {'instruction' : ugettext('If you cannot read the words in the "captcha", you can select \
-other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR, 'inside' : ugettext('inside the "captcha"')}
+other words by clicking on the symbol'),  'inside' : ugettext('inside the "captcha"')}
         
         # CAPTCHA ##########################
       
@@ -1081,12 +1081,12 @@ If not, your profile may be marked as sending spam.')}
             </form>
             
             <div id="id-show-ajax-spinner-captcha">
-            <img src="/%(static_dir)s/images/small-ajax-loader.gif" align=middle alt=''><br><br>
+            <img src="/images/small-ajax-loader.gif" align=middle alt=''><br><br>
             </div>       
             
             </div> <!-- id="id-edit-%(section_name)s-section" -->
             <div class="cl-clear"></div>
-            """ % {"static_dir" : settings.LIVE_STATIC_DIR, "section_name": section_name}
+            """ % {"section_name": section_name}
             
             return generated_html
 
@@ -1143,12 +1143,12 @@ If not, your profile may be marked as sending spam.')}
         </form>
         
         <div id="id-show-ajax-spinner-captcha">
-        <img src="/%(static_dir)s/images/small-ajax-loader.gif" align=middle alt=''><br><br>
+        <img src="/images/small-ajax-loader.gif" align=middle alt=''><br><br>
         </div>  
         
         </div> <!-- id="id-edit-%(section_name)s-section" -->
         <div class="cl-clear"></div>
-        """ % {"static_dir" : settings.LIVE_STATIC_DIR, "section_name": section_name}
+        """ % {"section_name": section_name}
         
         return generated_html
    

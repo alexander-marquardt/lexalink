@@ -62,14 +62,13 @@ class UserMainHTML():
                 handle_submit_button("%(section_name)s", "%(uid)s"%(disable_submit_on_enter)s);
                 handle_cancel_button("%(section_name)s", "%(uid)s");
                 // load the edit fields after "edit" link has been clicked.
-                handle_link_for_edit("%(section_name)s", "%(input_type)s", "%(uid)s", "%(live_static_dir)s");
+                handle_link_for_edit("%(section_name)s", "%(input_type)s", "%(uid)s");
             });
             
             </script>""" % {
                              "section_name": section_name,
                              "uid": uid, "input_type": input_type,
-                             'disable_submit_on_enter' : disable_submit_on_enter,
-                             "live_static_dir": settings.LIVE_STATIC_DIR})
+                             'disable_submit_on_enter' : disable_submit_on_enter})
         return generated_html
     
     @classmethod        

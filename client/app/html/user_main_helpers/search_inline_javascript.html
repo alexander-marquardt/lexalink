@@ -49,11 +49,11 @@
             var is_registered_user = false;
         {% endif %}
 
-        set_dropdown_options_and_settings(search_url, id_prefix, default_text, false, "{{ live_static_dir }}", is_registered_user);
-        load_location_settings_on_change(id_prefix, default_text, false, "{{ live_static_dir }}");
+        set_dropdown_options_and_settings(search_url, id_prefix, default_text, false, is_registered_user);
+        load_location_settings_on_change(id_prefix, default_text, false);
 
         {% if build_name == "friend_build" %}
-            load_for_sale_to_buy_on_change(id_prefix, default_text, "{{ live_static_dir }}");
+            load_for_sale_to_buy_on_change(id_prefix, default_text);
         {% endif %}
 
 

@@ -133,8 +133,8 @@ def show_contacts(request, contact_type, sent_or_received):
                                 
             image_name = constants.ContactIconText.icon_images[contact_type]
             image_html = """
-            <img src="/%s/images/%s/%s" align="left" style = "vertical-align=middle" alt="">  
-            """ % (settings.LIVE_STATIC_DIR, settings.BUILD_NAME, image_name)  
+            <img src="/images/%s/%s" align="left" style = "vertical-align=middle" alt="">  
+            """ % (settings.BUILD_NAME, image_name)  
                                 
             generated_html_before_form += u'<div class="cl-clear"></div>\n'
             generated_html_before_form += '<ul>\n'                                

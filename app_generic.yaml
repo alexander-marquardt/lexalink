@@ -38,9 +38,15 @@ handlers:
   
 - url: /scripts
   static_dir: client/app/scripts
+
+- url: /images
+  static_dir: client/app/images
   
 - url: /proprietary/styles
   static_dir: client/app/proprietary/styles
+
+- url: /proprietary/images
+  static_dir: client/app/proprietary/images
   
 - url: /rs/admin/.+
   script: djangoappengine.main.application

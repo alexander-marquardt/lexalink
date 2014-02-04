@@ -165,11 +165,11 @@ function report_ajax_error(textStatus, errorThrown, calling_function_name, warni
     report_javascript_error_on_server(error_text, warning_level);
 }
 
-function show_spinner(object_to_set, object_name, live_static_dir) {
+function show_spinner(object_to_set, object_name) {
     // for dynamically loaded dropdown menus, while loading the values we shrink the width and show a spinner beside the menu
 
     try{
-        object_to_set.after(' <img src="/' + live_static_dir + '/images/small-ajax-loader.gif" align="right "  id="id-' + object_name +  '-show-small-ajax-loader">');
+        object_to_set.after(' <img src="/images/small-ajax-loader.gif" align="right "  id="id-' + object_name +  '-show-small-ajax-loader">');
         object_to_set.removeClass('cl-standard-dropdown-width-px');
         object_to_set.addClass('cl-spinner-dropdown-width-px');
     } catch (err) {
@@ -193,7 +193,7 @@ function hide_spinner(object_to_set, object_name) {
 
 
 function load_selector_options(child_field_id, parent_field_val, default_option_text, hide_field_if_not_defined, selected_value,
-                               not_available_option_text, live_static_dir, ajax_base_url) {
+                               not_available_option_text, ajax_base_url) {
 
     // when the selector (drop-down menu) indicated by parent_field_id is modified, then load the child
     // selector based on the value selected
@@ -217,7 +217,7 @@ function load_selector_options(child_field_id, parent_field_val, default_option_
         $('#id-child-show-small-ajax-loader').remove();
 
         // show spinning icon while data is being loaded from server.
-        show_spinner( $(child_field_id), "child", live_static_dir);
+        show_spinner( $(child_field_id), "child");
 
         $.ajax({
             url: opt_url,
@@ -250,7 +250,7 @@ function load_selector_options(child_field_id, parent_field_val, default_option_
 }
 
 
-function handle_change_on_for_sale_to_buy(menu_id, sub_menu_id, default_text, live_static_dir) {
+function handle_change_on_for_sale_to_buy(menu_id, sub_menu_id, default_text) {
 
     try {
         $(menu_id).change(function() {
@@ -259,7 +259,7 @@ function handle_change_on_for_sale_to_buy(menu_id, sub_menu_id, default_text, li
                 $(sub_menu_id).html('<option value="----">' + default_text);
             } else {
                 load_selector_options(sub_menu_id, curr_menu_val, default_text, false, "----",
-                        "Not defined (this should never appear)", live_static_dir, "/rs/ajax/get_for_sale_to_buy_options/");
+                        "Not defined (this should never appear)", "/rs/ajax/get_for_sale_to_buy_options/");
             }
         });
     } catch(err) {
@@ -267,7 +267,7 @@ function handle_change_on_for_sale_to_buy(menu_id, sub_menu_id, default_text, li
     }
 }
 
-function load_for_sale_to_buy_on_change(id_prefix, default_text, live_static_dir) {
+function load_for_sale_to_buy_on_change(id_prefix, default_text) {
 
     try {
         var for_sale_id = id_prefix + "-for_sale";
@@ -275,8 +275,8 @@ function load_for_sale_to_buy_on_change(id_prefix, default_text, live_static_dir
         var to_buy_id = id_prefix + "-to_buy";
         var to_buy_sub_menu_id = id_prefix + "-to_buy_sub_menu";
 
-        handle_change_on_for_sale_to_buy(for_sale_id, for_sale_sub_menu_id, default_text['for_sale_sub_menu'], live_static_dir);
-        handle_change_on_for_sale_to_buy(to_buy_id, to_buy_sub_menu_id, default_text['to_buy_sub_menu'], live_static_dir);
+        handle_change_on_for_sale_to_buy(for_sale_id, for_sale_sub_menu_id, default_text['for_sale_sub_menu']);
+        handle_change_on_for_sale_to_buy(to_buy_id, to_buy_sub_menu_id, default_text['to_buy_sub_menu']);
     } catch(err) {
         report_try_catch_error( err, "load_for_sale_to_buy_on_change");
     }
@@ -285,7 +285,7 @@ function load_for_sale_to_buy_on_change(id_prefix, default_text, live_static_dir
 
 
 
-function load_location_settings_on_change(id_prefix, default_text, hide_field_if_not_defined, live_static_dir) {
+function load_location_settings_on_change(id_prefix, default_text, hide_field_if_not_defined) {
 
     // loads drop-down location menu values when the parent location is changed
 
@@ -310,7 +310,7 @@ function load_location_settings_on_change(id_prefix, default_text, hide_field_if
             } else {
                 // set the default value of the region selector to be the currently selected country.
                 load_selector_options(region_id, country_val, default_text['region'], hide_field_if_not_defined, "----",
-                        default_text['not_available'], live_static_dir, "/rs/ajax/get_location_options/");
+                        default_text['not_available'], "/rs/ajax/get_location_options/");
             }
 
             // since the country just changed, and the region was just modified, overwrite the sub_region dropdown to ensure
@@ -330,7 +330,7 @@ function load_location_settings_on_change(id_prefix, default_text, hide_field_if
             if (region_val && region_val != '----') {
                 // if the region has been selected, load sub-regions
                 load_selector_options(sub_region_id, region_val, default_text['sub_region'], hide_field_if_not_defined, "----",
-                        default_text['not_available'], live_static_dir, "/rs/ajax/get_location_options/");
+                        default_text['not_available'], "/rs/ajax/get_location_options/");
 
             }
             else {
@@ -473,7 +473,7 @@ function set_search_values_to_data(data, id_prefix, default_text, hide_field_if_
     }
 }
 
-function show_menus_as_loading(menu_name, id_prefix, live_static_dir) {
+function show_menus_as_loading(menu_name, id_prefix) {
 
     // helper function taht just modifies a dropdown menu to show a spinner beside it (for use while it is
     // being loaded for example)
@@ -483,13 +483,13 @@ function show_menus_as_loading(menu_name, id_prefix, live_static_dir) {
         // clear menu contents while it is loading
         $menu_obj.html('');
         // show spinner beside menu while it is being loaded
-        show_spinner($menu_obj, menu_name, live_static_dir);
+        show_spinner($menu_obj, menu_name);
     } catch(err) {
         report_try_catch_error( err, "show_menus_as_loading");
     }
 }
 
-function JSON_set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined, live_static_dir) {
+function JSON_set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined) {
 
     //
     // - action -  is the path to execute the script which will return JSON data
@@ -500,10 +500,10 @@ function JSON_set_dropdown_options_and_settings(action, id_prefix, default_text,
 
 
     try {
-        show_menus_as_loading('region', id_prefix, live_static_dir);
-        show_menus_as_loading('sub_region', id_prefix, live_static_dir);
-        show_menus_as_loading('for_sale_sub_menu', id_prefix, live_static_dir);
-        show_menus_as_loading('to_buy_sub_menu', id_prefix, live_static_dir);
+        show_menus_as_loading('region', id_prefix);
+        show_menus_as_loading('sub_region', id_prefix);
+        show_menus_as_loading('for_sale_sub_menu', id_prefix);
+        show_menus_as_loading('to_buy_sub_menu', id_prefix);
 
 
         $.getJSON(action, function(data) {
@@ -548,7 +548,7 @@ function set_values_on_data_object(data_object, fields_list) {
     }
 }
 
-function set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined, live_static_dir, is_registered_user) {
+function set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined, is_registered_user) {
 
     var fields_list = ['sex', 'age', 'preference', 'relationship_status', 'language_to_learn', 'language_to_teach',
     'country', 'region', 'sub_region', 'for_sale', 'to_buy',
@@ -574,7 +574,7 @@ function set_dropdown_options_and_settings(action, id_prefix, default_text, hide
             // a search results page (ie. click on "My profile"). Eventually, we should try to pass all search settings data directly in
             // the HTML as opposed to ajax calls.
             if (is_registered_user) {
-                JSON_set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined, live_static_dir);
+                JSON_set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined);
             } else {
                 set_values_on_data_object_to_undefined(data_object, fields_list);
                 set_search_values_to_data(data_object, id_prefix, default_text, hide_field_if_not_defined);
@@ -603,7 +603,7 @@ function fancybox_setup(jquery_obj) {
     $('img').bind("contextmenu", function(e){ return false; });
 }
 
-function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
+function handle_link_for_edit(section_name, input_type, uid) {
     // this code is responsible for re-loading the current section with input fields for
     // edit. this is in response to the user clicking on the edit button. the code here is highly coupled
     // to the server-side code that generates the html. any modifications must be done in both server and client side.
@@ -647,8 +647,8 @@ function handle_link_for_edit(section_name, input_type, uid, live_static_dir) {
                 else { // signup_fields are treated specially since the location requires dynamically loaded drop-down menus
                     // note - DO NOT combine the following line with the var declaration, or the rnd value will never change
                     signup_fields_url = "/rs/ajax/get_signup_fields_settings/" + uid + "/" + rnd() + "/";
-                    JSON_set_dropdown_options_and_settings(signup_fields_url, id_prefix, default_text, true, live_static_dir);
-                    load_location_settings_on_change(id_prefix, default_text, true, live_static_dir);
+                    JSON_set_dropdown_options_and_settings(signup_fields_url, id_prefix, default_text, true);
+                    load_location_settings_on_change(id_prefix, default_text, true);
 
                 }
             });
