@@ -27,7 +27,7 @@
 
 
     <!-- Start CSS Imports here -->
-    <!-- the following line is used by grunt-usemin to detect which css it should combine -->
+    <!-- the following line is used by grunt-usemin to detect which css it should combine this block into -->
     <!-- build:css /styles/combined.min.css-->
     <link rel="stylesheet" href="/styles/reset.css">
     <link rel="stylesheet" href="/styles/960.css">
@@ -37,14 +37,14 @@
     <link rel="stylesheet" href="/styles/site_common.css">
     <link rel="stylesheet" href="/styles/user_main.css">
     <link rel="stylesheet" href="/styles/menubar_common.css">
-    <link rel="stylesheet" href="/proprietary/styles/Discrete_common.css">
+    <link rel="stylesheet" href="/proprietary/styles/discrete_build_common.css">
 
-    <link rel="stylesheet" href="/styles/css/proprietary_common.css">
+    <link rel="stylesheet" href="/proprietary/styles/proprietary_common.css">
 
     <!-- endbuild -->
 
     {% if build_name == 'discrete_build' or build_name == 'lesbian_build' or build_name == 'swinger_build' or build_name == 'single_build' %}
-        <link rel="stylesheet" href="/proprietary/styles/css/discrete_build_menubar.css">
+        <link rel="stylesheet" href="/proprietary/styles/discrete_build_menubar.css">
 
     {% else %}
         {% if build_name == "language_build" or build_name == "mature_build" %}
@@ -65,7 +65,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
 
-    <!-- the following line is used by grunt-usemin to detect which css it should combine -->
+    <!-- the following line is used by grunt-usemin to detect which css it should combine this block into -->
     <!-- build:js /scripts/combined.min.js-->
     <script type="text/javascript" src="/scripts/stacktrace.js"></script>
     <script type="text/javascript" src="/scripts/rometo-utils.js"></script>

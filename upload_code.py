@@ -37,7 +37,7 @@ import site_configuration
 def check_site_configuration():
     # make sure that site_configuration file doesn't have any declarations that will cause problems when uploaded.
     
-    if not site_configuration.USE_TIME_STAMPED_STATIC_FILES:
+    if not site_configuration.USE_COMPRESSED_STATIC_FILES:
         sys.stderr.write("************* Error *************\n")
         sys.stderr.write("You are attempting upload code with an incorrectly configured static directory\n")
         sys.stderr.write('Please modify site_configuration.USE_TIME_STAMPED_STATIC_FILES to True\n\n')

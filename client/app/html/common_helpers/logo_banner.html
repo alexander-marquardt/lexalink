@@ -8,9 +8,9 @@
         {% endif %}
 
         {% if proprietary_static_dir_exists %}
-        <img src="/{{ live_proprietary_static_dir }}/img/{{build_name}}/{{ build_name }}.png" align="middle" alt="{{ build_name }}.com">
+        <img src="/{{ live_proprietary_static_dir }}/images/{{build_name}}/{{ build_name }}.png" align="middle" alt="{{ build_name }}.com">
         {% else %}
-        <img src="/{{ live_static_dir }}/img/Default/default_logo.png" align="middle" alt="{{ build_name }}.com">
+        <img src="/{{ live_static_dir }}/images/Default/default_logo.png" align="middle" alt="{{ build_name }}.com">
         {% endif %}
 
         {% if not primary_user_presentation_data_fields.username %}
@@ -41,7 +41,7 @@
                     {% trans "About" %} {{ app_name }}</a></td>
 
                 {% ifequal app_name "RomanceSecreto" %}
-                    <td class="cl-info-td"><img src="/{{ live_static_dir }}/img/info_divider.png"
+                    <td class="cl-info-td"><img src="/{{ live_static_dir }}/images/info_divider.png"
                                                 align="middle" alt=""></td>
                     <td class="cl-info-td"><a href="{% url views.press %}" rel="address:{% url views.press %}">{% trans "Press" %}</a></td>
                 {% endifequal %}

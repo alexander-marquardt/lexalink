@@ -36,7 +36,7 @@ VERSION_ID = '2014-01-23-1437'
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_TIME_STAMPED_STATIC_FILES = False
+USE_COMPRESSED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -89,21 +89,21 @@ DOMAIN_NAME = domain_name_dict[BUILD_NAME]
 ANALYTICS_ID = analytics_id_dict[BUILD_NAME]
 
 # In order to avoid browser (and possibly) server side caching of static files when we update new versions,
-# we define a new static directory which will contain all of the static files for the project. This is simply
-# a VERSION_ID-stamped copy of the static directory.
+# we distribute css/js files which contain a unique hash identifier appended to the name. This is 
+# done by the node.js/grunt build system, which is externally called. 
 # For development, it may sometimes be desirable to directly use the source static dir as opposed to a copy of 
 # the static dir, so that we don't have to re-start the server every time a change to a static file is made. In
 # these cases, we will un-comment the *second* LIVE_STATIC_DIR declaration below.
-if USE_TIME_STAMPED_STATIC_FILES:
-    LIVE_STATIC_DIR = "rs/static/auto-generated-" + VERSION_ID
+if USE_COMPRESSED_STATIC_FILES:
+    LIVE_STATIC_DIR = "client/dist"
     
     # use the same diretory for the "proprietary" files, since they will have been copied into the same
     # directory by the build scripts.
-    LIVE_PROPRIETARY_STATIC_DIR = "rs/static/auto-generated-" + VERSION_ID
+    LIVE_PROPRIETARY_STATIC_DIR = "client/dist/proprietary"
 else:
-    # This will cause the code to directly access the static files, as opposed to accessing a VERSION_ID-stamped copy
-    LIVE_STATIC_DIR = "rs/static"
-    LIVE_PROPRIETARY_STATIC_DIR = "rs/proprietary/static"
+    # This will cause the code to directly access the static files, as opposed to accessing concatenated/minified/uglified copies
+    LIVE_STATIC_DIR = "client/app"
+    LIVE_PROPRIETARY_STATIC_DIR = "client/app/proprietary"
 
 if BUILD_STAGING:
     # we are uploading the code for the "discrete_build" website to a staging appid - this is used for debugging the code

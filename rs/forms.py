@@ -106,7 +106,7 @@ class FormUtils():
             
             generated_html += u"""<td class="cl-contact-td">
             <a id="id-submit-%(section_name)s" href="#id-submit-%(section_name)s">
-            <img src="/%(static_dir)s/img/%(build_name)s/%(image_name)s" align=middle alt="">
+            <img src="/%(static_dir)s/images/%(build_name)s/%(image_name)s" align=middle alt="">
             </a>
             </td>""" % {'section_name': icon, 'image_name': constants.ContactIconText.icon_images[icon],
                         'build_name' : settings.BUILD_NAME, "static_dir" : settings.LIVE_STATIC_DIR}
@@ -854,7 +854,7 @@ class FormUtils():
         generated_html = ''
         
         generated_html += u"""<div>%(instruction)s
-            <img src="/%(static_dir)s/img/captcha_reload.png" alt=''>%(inside)s.<br>
+            <img src="/%(static_dir)s/images/captcha_reload.png" alt=''>%(inside)s.<br>
             </div>""" % {'instruction' : ugettext('If you cannot read the words in the "captcha", you can select \
 other words by clicking on the symbol'), 'static_dir': settings.LIVE_STATIC_DIR, 'inside' : ugettext('inside the "captcha"')}
         
@@ -1081,7 +1081,7 @@ If not, your profile may be marked as sending spam.')}
             </form>
             
             <div id="id-show-ajax-spinner-captcha">
-            <img src="/%(static_dir)s/img/small-ajax-loader.gif" align=middle alt=''><br><br>
+            <img src="/%(static_dir)s/images/small-ajax-loader.gif" align=middle alt=''><br><br>
             </div>       
             
             </div> <!-- id="id-edit-%(section_name)s-section" -->
@@ -1143,7 +1143,7 @@ If not, your profile may be marked as sending spam.')}
         </form>
         
         <div id="id-show-ajax-spinner-captcha">
-        <img src="/%(static_dir)s/img/small-ajax-loader.gif" align=middle alt=''><br><br>
+        <img src="/%(static_dir)s/images/small-ajax-loader.gif" align=middle alt=''><br><br>
         </div>  
         
         </div> <!-- id="id-edit-%(section_name)s-section" -->

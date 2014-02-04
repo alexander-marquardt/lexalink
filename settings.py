@@ -103,12 +103,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 # corresponding output. Helps a lot with print-debugging.
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
-ADMIN_MEDIA_PREFIX = '/media/admin/'
+#ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 ROOT_PATH = os.path.dirname(__file__)
 TEMPLATE_DIRS = (
-    os.path.join(ROOT_PATH, r'rs/templates'),
-    os.path.join(ROOT_PATH, r'rs/proprietary/templates'), 
+    os.path.join(ROOT_PATH, r'client/app/html'),
+    os.path.join(ROOT_PATH, r'client/app/proprietary/html'), 
 )
 ROOT_URLCONF = 'urls'
 
@@ -138,8 +138,6 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/bing_site_auth/'),
     re.compile(r'^/paypal/ipn/'),
     re.compile(r'^/rs/apply_unused_vip_credits/'),
-    re.compile(r'^/videochat_server/'),
-    re.compile(r'^/videochat_window/'),
     re.compile(r'^/rs/set_show_online_status_trial/'),
     re.compile(r'^/robots.txt'), 
     re.compile(r'^/_ah/'), 
