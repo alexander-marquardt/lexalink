@@ -666,7 +666,7 @@ def display_conversation_summary(request, have_sent_messages_object,
         else:
             summary_table = ''
                         
-        icon_html = '<td class="cl-first-mail-icon-td"><img src="/images/%(icon)s" align=middle alt=""><br>%(status)s</td>' \
+        icon_html = '<td class="cl-first-mail-icon-td"><img src="/unversioned_images/%(icon)s" align=middle alt=""><br>%(status)s</td>' \
                   % {'icon': mail_icon, 'status' : mail_status}
         
         # add in the checkbox for marking messages for management (deletion, spam, etc.)
@@ -806,26 +806,26 @@ def display_conversation_summary(request, have_sent_messages_object,
             
         if not have_sent_messages_object.message_chain_has_been_read:
             # allow user to mark message as read
-            img_html = '<img src="%s" align=middle alt="Read">' % "/images/checkmark.png" 
+            img_html = '<img src="%s" align=middle alt="Read">' % "/unversioned_images/checkmark.png" 
             generated_html += mailbox_magage_html("read", have_sent_messages_key_str, img_html, ugettext("Mark as read"), new_row_html)  
             
         if have_sent_messages_object.mailbox_to_display_this_contact_messages != "trash" and\
            have_sent_messages_object.mailbox_to_display_this_contact_messages != "spam":
             # allow user to mark  this message as trash
-            img_html = '<img src="%s" align=middle alt="Delete">' % "/images/mark_trash_mail.png" 
+            img_html = '<img src="%s" align=middle alt="Delete">' % "/unversioned_images/mark_trash_mail.png" 
             generated_html += mailbox_magage_html("trash", have_sent_messages_key_str,  img_html, ugettext("Delete"), new_row_html)
         else: # it is either trash or Spam -- allow the user to move it back to the normal mailbox
             if have_sent_messages_object.owner_is_sender: # show icon to move to "sent" mail
-                img_html = '<img src="%s" align=middle alt="Sent">' % "/images/mailbox.png" 
+                img_html = '<img src="%s" align=middle alt="Sent">' % "/unversioned_images/mailbox.png" 
                 status = ugettext("Move to sent mailbox")
             else:
-                img_html = '<img src="%s" align=middle alt="Sent">' % "/images/mailbox.png" 
+                img_html = '<img src="%s" align=middle alt="Sent">' % "/unversioned_images/mailbox.png" 
                 status = ugettext("Move to received mailbox")
             generated_html += mailbox_magage_html("inbox", have_sent_messages_key_str, img_html, status, new_row_html)
 
         if not have_sent_messages_object.owner_is_sender and have_sent_messages_object.mailbox_to_display_this_contact_messages != "spam":
             # allow user to mark  this message as spam
-            img_html = '<img src="%s" align=middle alt="Spam">' % "/images/mark_spam_mail.png"
+            img_html = '<img src="%s" align=middle alt="Spam">' % "/unversioned_images/mark_spam_mail.png"
             generated_html += mailbox_magage_html("spam", have_sent_messages_key_str, img_html, ugettext("Mark as spam"), new_row_html)
             
         
@@ -838,10 +838,10 @@ def display_conversation_summary(request, have_sent_messages_object,
         if show_checkbox_beside_summary:
 
             if have_sent_messages_object.other_is_favorite:
-                fav_image = "/images/star_selected.png" 
+                fav_image = "/unversioned_images/star_selected.png" 
                 favorite_status = ugettext("Favorite")
             else:
-                fav_image = "/images/star_not_selected.png" 
+                fav_image = "/unversioned_images/star_not_selected.png" 
                 favorite_status = ugettext("Add to your favorites")
             img_html = '<img src="%s" align=middle alt=''>' % fav_image
 

@@ -42,6 +42,9 @@ handlers:
 - url: /images
   static_dir: client/app/images
   
+- url: /unversioned_images
+  static_dir: client/app/unversioned_images
+  
 - url: /proprietary/styles
   static_dir: client/app/proprietary/styles
 

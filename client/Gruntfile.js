@@ -206,12 +206,20 @@ module.exports = function (grunt) {
 
 //        // The following *-min tasks produce minified files in the dist folder
         imagemin: {
-            dist: {
+            images: {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>/images',
                     src: '{,*/}*.{gif,jpeg,jpg,png}',
                     dest: '<%= yeoman.dist %>/images'
+                }]
+            },
+            proprietary_images: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/proprietary/images',
+                    src: '{,*/}*.{gif,jpeg,jpg,png}',
+                    dest: '<%= yeoman.dist %>/proprietary/images'
                 }]
             }
         },
@@ -280,7 +288,8 @@ module.exports = function (grunt) {
                     dot: true,
                     cwd: '<%= yeoman.app %>',
                     dest: '<%= yeoman.dist %>',
-                    src:'**'
+                    // images are copied by the imagemin, and styles are copied by the step below
+                    src:['**', '!styles/**', '!proprietary/styles/**', '!images/**', '!proprietary/images/**']
 //                    src: [
 //                        '*.{ico,png,txt}',
 //                        '.htaccess',
@@ -297,6 +306,13 @@ module.exports = function (grunt) {
                 cwd: '<%= yeoman.app %>/styles',
                 dest: '.tmp/styles/',
                 src: '{,*/}*.css'
+            },
+            proprietary_styles: {
+                expand: true,
+                dot: true,
+                cwd: '<%= yeoman.app %>/proprietary/styles',
+                dest: '.tmp/proprietary/styles/',
+                src: '{,*/}*.css'
             }
         },
 
@@ -305,13 +321,16 @@ module.exports = function (grunt) {
         // Run some tasks in parallel to speed up build process
         concurrent: {
             server: [
-                'copy:styles'
+                'copy:styles',
+                'copy:proprietary_styles'
             ],
             test: [
-                'copy:styles'
+                'copy:styles',
+                'copy:proprietary_styles'
             ],
             dist: [
                 'copy:styles',
+                'copy:proprietary_styles',
                 'imagemin'
                 //'svgmin'
             ]
