@@ -107,8 +107,8 @@ TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 ROOT_PATH = os.path.dirname(__file__)
 TEMPLATE_DIRS = (
-    os.path.join(ROOT_PATH, r'client/app/html'),
-    os.path.join(ROOT_PATH, r'client/app/proprietary/html'), 
+    os.path.join(ROOT_PATH, LIVE_STATIC_DIR + r'/html'),
+    os.path.join(ROOT_PATH, LIVE_PROPRIETARY_STATIC_DIR + r'/html'), 
 )
 ROOT_URLCONF = 'urls'
 

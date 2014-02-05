@@ -108,14 +108,6 @@ def setup_my_local_environment():
     src_file.close()
     dst_file.close()
           
-  
-        
-def generate_time_stamped_static_files():   
-    # create the "combined" css and js files 
-    logging.info("Running generate_time_stamped_static_files")        
-    
-    create_combined_static_file("import_main_css_and_js.html", "combined_css", "css")        
-    create_combined_static_file("import_main_css_and_js.html", "combined_js", "js")     
     
 def print_warning(txt):
     sys.stderr.write("\n************* WARNING *************\n")
