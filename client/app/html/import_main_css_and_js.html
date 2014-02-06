@@ -36,29 +36,13 @@
     <link rel="stylesheet" href="/styles/site_common.css">
     <link rel="stylesheet" href="/styles/user_main.css">
     <link rel="stylesheet" href="/styles/menubar_common.css">
-    <link rel="stylesheet" href="/proprietary/styles/discrete_build_common.css">
-
+    <link rel="stylesheet" href="/proprietary/styles/{{ build_name_used_for_menubar }}_menubar.css">
+    <link rel="stylesheet" href="/proprietary/styles/{{ build_name }}_common.css">
     <link rel="stylesheet" href="/proprietary/styles/proprietary_common.css">
-
     <!-- endbuild -->
-
-    {% if build_name == 'discrete_build' or build_name == 'lesbian_build' or build_name == 'swinger_build' or build_name == 'single_build' %}
-        <link rel="stylesheet" href="/proprietary/styles/discrete_build_menubar.css">
-
-    {% else %}
-        {% if build_name == "language_build" or build_name == "mature_build" %}
-            <link rel="stylesheet" href="/proprietary/styles/language_build_menubar.css">
-        {% else %}
-            <link rel="stylesheet" href="/proprietary/styles/{{ build_name }}_menubar.css">
-        {% endif %}
-
-    {% endif %}
-
 
     <!-- Start JavaScript Imports here -->
     <!--Note: to ensure that css is loaded in parallel, javascript must come after css defs-->
-
-
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

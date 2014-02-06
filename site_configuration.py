@@ -122,6 +122,14 @@ if BUILD_NAME == 'friend_build':
     SHUTDOWN_DURATION = 0 # minutes
 else:
     SHUTDOWN_DURATION = 0
+
+if BUILD_NAME == 'discrete_build' or BUILD_NAME == 'lesbian_build' or BUILD_NAME == 'swinger_build' or BUILD_NAME == 'single_build':
+    BUILD_NAME_USED_FOR_MENUBAR = 'discrete_build'
+elif BUILD_NAME == 'language_build' or BUILD_NAME == 'mature_build':
+    BUILD_NAME_USED_FOR_MENUBAR = 'language_build'
+else:
+    BUILD_NAME_USED_FOR_MENUBAR = BUILD_NAME
+    
     
 # For some reason that I have not yet investigated, settings.py is called multiple times, and the environment changes 
 # between calls, so that in some cases "SERVER_SOFTWARE" is available, and in other cases 'LOGNAME' is available.

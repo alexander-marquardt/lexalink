@@ -782,6 +782,7 @@ admin_address = sender_address
         
         
 template_common_fields = {'build_name': site_configuration.BUILD_NAME,
+                          'build_name_used_for_menubar' : site_configuration.BUILD_NAME_USED_FOR_MENUBAR,
                           'app_name' : site_configuration.APP_NAME,
                           'domain_name' : site_configuration.DOMAIN_NAME,
                           'support_email_address' : support_email_address,
