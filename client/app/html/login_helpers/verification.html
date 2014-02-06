@@ -29,10 +29,10 @@
         <td class="cl-td-right-align"><strong>{% trans "Code" %}:</strong></td>
         <td><input type="text" name="secret_verification_code"  autocomplete="off"
                class="cl-default-verification-input-text  cl-standard-textinput-width-px"
-               maxlength=10 title='{% trans "Verification code" %}' value="{{ verification_values_dict.secret_verification_code }}">
+               maxlength=10 title="{% trans 'Verification code' %}" value="{{ verification_values_dict.secret_verification_code }}">
         </td>
         <tr>
-        <td></td><td><input class="cl-submit-verification-code-button" type="submit" value='{% trans "Activate account!" %}'></td>
+        <td></td><td><input class="cl-submit-verification-code-button" type="submit" value="{% trans 'Activate account!' %}"></td>
     </table>
     </form>
     </div>

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 02:07-0500\n"
+"POT-Creation-Date: 2014-02-05 20:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,6 +14,1455 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: client/app/html/main_container.html:74
+#: client/dist/html/main_container.html:74
+msgid "You must enable JavaScript to view this page"
+msgstr ""
+
+#: client/app/html/common_helpers/common_translations.html:4
+#: client/dist/html/common_helpers/common_translations.html:4
+msgid "Captcha is incorrect, try again"
+msgstr ""
+
+#: client/app/html/common_helpers/common_translations.html:8
+#: client/dist/html/common_helpers/common_translations.html:8
+msgid ""
+"You have not written a message. You must write something before sending it."
+msgstr ""
+
+#: client/app/html/common_helpers/common_translations.html:12
+#: client/dist/html/common_helpers/common_translations.html:12
+msgid "Invalid input"
+msgstr ""
+
+#: client/app/html/common_helpers/footer.html:15
+#: client/dist/html/common_helpers/footer.html:15
+msgid "Terms and conditions"
+msgstr ""
+
+#: client/app/html/common_helpers/logo_banner.html:41
+#: client/dist/html/common_helpers/logo_banner.html:41
+msgid "About"
+msgstr ""
+
+#: client/app/html/common_helpers/logo_banner.html:46
+#: client/dist/html/common_helpers/logo_banner.html:46
+msgid "Press"
+msgstr ""
+
+#: client/app/html/login_helpers/login.html:9
+#: client/dist/html/login_helpers/login.html:9
+msgid "Free confidential dating"
+msgstr ""
+
+#: client/app/html/login_helpers/login.html:15
+#: client/dist/html/login_helpers/login.html:15
+msgid "100 percent free everything included"
+msgstr "100% free - everything included"
+
+#: client/app/html/login_helpers/login.html:24
+#: client/dist/html/login_helpers/login.html:24
+msgid "Are you already registered (female)? Enter here:"
+msgstr "Are you already registered? Enter here:"
+
+#: client/app/html/login_helpers/login.html:26
+#: client/dist/html/login_helpers/login.html:26
+msgid "Are you already registered? Enter here:"
+msgstr ""
+
+#: client/app/html/login_helpers/login.html:38
+#: client/dist/html/login_helpers/login.html:38
+msgid "username or email"
+msgstr ""
+
+#: client/app/html/login_helpers/login.html:43
+#: client/dist/html/login_helpers/login.html:43
+msgid "password"
+msgstr ""
+
+#: client/app/html/login_helpers/login.html:48
+#: client/dist/html/login_helpers/login.html:48
+msgid "Enter"
+msgstr ""
+
+#: client/app/html/login_helpers/login.html:57
+#: client/dist/html/login_helpers/login.html:57 rs/utils.py:409
+msgid "Have you forgotten your password?"
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:5
+#: client/dist/html/login_helpers/registration.html:5
+#, python-format
+msgid ""
+"\n"
+"    I confirm that I am %(age)s or older and that I have read and accept the "
+"<a class=\"cl-dialog_anchor\"\n"
+"    href=\"/en/rs/terms/\" target=\"_blank\"> terms and conditions</a> for "
+"using %(app_name)s\n"
+"    "
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:9
+#: client/dist/html/login_helpers/registration.html:9
+msgid "I agree"
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:24
+#: client/dist/html/login_helpers/registration.html:24
+msgid "Register here"
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:27
+#: client/dist/html/login_helpers/registration.html:27
+msgid "it only takes 30 seconds"
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:36
+#: client/dist/html/login_helpers/registration.html:36
+msgid " Register me"
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:41
+#: client/dist/html/login_helpers/registration.html:41
+msgid ""
+"\n"
+"                        * A valid email address is required to verify your "
+"account. We do not send Spam, and you are\n"
+"                        in control of notifications that you may wish to "
+"receive.\n"
+"                        "
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:104
+#: client/dist/html/login_helpers/registration.html:104
+msgid "Select Region"
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:105
+#: client/dist/html/login_helpers/registration.html:105
+msgid "Select Sub-Region"
+msgstr ""
+
+#: client/app/html/login_helpers/registration.html:106
+#: client/app/html/user_main_helpers/search_inline_javascript.html:42
+#: client/dist/html/login_helpers/registration.html:106
+#: client/dist/html/user_main_helpers/search_inline_javascript.html:42
+msgid "Not Defined Yet"
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:11
+#: client/dist/html/login_helpers/verification.html:11
+#, python-format
+msgid ""
+"\n"
+"        We have sent an activation email to <strong>%(to_email)s</strong>\n"
+"        from  <em>%(support_email_address)s</em>.\n"
+"        "
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:16
+#: client/dist/html/login_helpers/verification.html:16
+#, python-format
+msgid ""
+"\n"
+"        Once you receive the email from %(app_name)s, in order to activate "
+"your account, you can either enter the verification code from the\n"
+"        email in the input below, or you can directly click on the "
+"activation link included in the email.\n"
+"        "
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:26
+#: client/dist/html/login_helpers/verification.html:26
+msgid "Username"
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:29
+#: client/dist/html/login_helpers/verification.html:29
+msgid "Code"
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:32
+#: client/dist/html/login_helpers/verification.html:32 rs/login_utils.py:638
+msgid "Verification code"
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:35
+#: client/dist/html/login_helpers/verification.html:35
+msgid "Activate account!"
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:43
+#: client/dist/html/login_helpers/verification.html:43
+#, python-format
+msgid ""
+"\n"
+"        Normally you will receive an email in few seconds, but this can "
+"sometimes take\n"
+"        up to 15 minutes. If you do not receive an email from us, please "
+"check your Spam folder.\n"
+"        If the message from %(app_name)s has been marked as Spam, please "
+"mark it as not Spam.\n"
+"    "
+msgstr ""
+
+#: client/app/html/login_helpers/verification.html:52
+#: client/dist/html/login_helpers/verification.html:52
+#, python-format
+msgid ""
+"\n"
+"          If you have any problems or suggestions, send us a message at: "
+"<strong>%(email)s</strong>.\n"
+"    "
+msgstr ""
+
+#: client/app/html/user_main_helpers/become_a_vip.html:37
+#: client/dist/html/user_main_helpers/become_a_vip.html:37
+#, python-format
+msgid "If you like %(app_name)s, consider becoming a VIP member"
+msgstr ""
+
+#: client/app/html/user_main_helpers/become_a_vip.html:44
+#: client/dist/html/user_main_helpers/become_a_vip.html:44
+msgid "VIP benefits include"
+msgstr ""
+
+#: client/app/html/user_main_helpers/chat.html:40
+#: client/dist/html/user_main_helpers/chat.html:40
+msgid "Please enter the group name to create and join:"
+msgstr ""
+
+#: client/app/html/user_main_helpers/chat.html:47
+#: client/app/html/user_main_helpers/translation_helper.html:87
+#: client/dist/html/user_main_helpers/chat.html:47
+#: client/dist/html/user_main_helpers/translation_helper.html:87
+msgid "Create a group"
+msgstr ""
+
+#: client/app/html/user_main_helpers/fortumo_purchase_form.html:11
+#: client/app/html/user_main_helpers/paypal_purchase_form.html:33
+#: client/dist/html/user_main_helpers/fortumo_purchase_form.html:11
+#: client/dist/html/user_main_helpers/paypal_purchase_form.html:33
+msgid "Purchase"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:40
+#: client/dist/html/user_main_helpers/main_body.html:40
+msgid "Welcome"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:68
+#: client/dist/html/user_main_helpers/main_body.html:68
+msgid "My Profile (visible to the other members)"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:73
+#: client/dist/html/user_main_helpers/main_body.html:73
+#: rs/proprietary/my_sitemaps.py:159
+msgid "Profile of"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:92
+#: client/app/html/user_main_helpers/status.html:47
+#: client/dist/html/user_main_helpers/main_body.html:92
+#: client/dist/html/user_main_helpers/status.html:47
+msgid "Headline:"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:130
+#: client/dist/html/user_main_helpers/main_body.html:130
+msgid "Photos"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:134
+#: client/app/html/user_main_helpers/status.html:47
+#: client/dist/html/user_main_helpers/main_body.html:134
+#: client/dist/html/user_main_helpers/status.html:47 rs/html_container.py:100
+#: rs/html_container.py:137 rs/html_container.py:197
+msgid "edit"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:134
+#: client/dist/html/user_main_helpers/main_body.html:134
+msgid "upload"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:134
+#: client/dist/html/user_main_helpers/main_body.html:134
+msgid "photos"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:229
+#: client/app/html/user_main_helpers/main_body.html:284
+#: client/dist/html/user_main_helpers/main_body.html:229
+#: client/dist/html/user_main_helpers/main_body.html:284
+msgid "Last entrance:"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:247
+#: client/dist/html/user_main_helpers/main_body.html:247
+msgid "Activities that I am interested in"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:249
+#: client/dist/html/user_main_helpers/main_body.html:249
+#, python-format
+msgid "(a maximum of %(num)s activities may be selected)"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:315
+#: client/dist/html/user_main_helpers/main_body.html:315
+msgid "Administrative stuff (never displayed publicly)"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:323
+#: client/dist/html/user_main_helpers/main_body.html:323
+msgid "VIP Status"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:330
+#: client/dist/html/user_main_helpers/main_body.html:330
+#, python-format
+msgid ""
+"\n"
+"            You currently have VIP status that will expire %(expires)s."
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:333
+#: client/dist/html/user_main_helpers/main_body.html:333
+msgid "You currently do not have VIP status"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:357
+#: client/dist/html/user_main_helpers/main_body.html:357
+msgid "See my profile:"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:360
+#: client/app/html/user_main_helpers/main_body.html:383
+#: client/app/html/user_main_helpers/main_body.html:385
+#: client/dist/html/user_main_helpers/main_body.html:360
+#: client/dist/html/user_main_helpers/main_body.html:383
+#: client/dist/html/user_main_helpers/main_body.html:385
+msgid "click here"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:366
+#: client/dist/html/user_main_helpers/main_body.html:366
+msgid "If you want to see how your profile will appear."
+msgstr ""
+"If you want to see how your profile will appear from the perspective of "
+"other users, click on the link to the left."
+
+#: client/app/html/user_main_helpers/main_body.html:379
+#: client/dist/html/user_main_helpers/main_body.html:379
+msgid "Eliminate your profile:"
+msgstr ""
+
+#: client/app/html/user_main_helpers/main_body.html:383
+#: client/dist/html/user_main_helpers/main_body.html:383
+#, fuzzy
+msgid "Are you sure you want to eliminate your profile?"
+msgstr ""
+"If you want to eliminate your profile/account, click on the link to the "
+"left  (careful -- you will not be able to enter with the same account after "
+"it has been eliminated)."
+
+#: client/app/html/user_main_helpers/main_body.html:390
+#: client/dist/html/user_main_helpers/main_body.html:390
+msgid "If you want to eliminate your profile/account."
+msgstr ""
+"If you want to eliminate your profile/account, click on the link to the "
+"left  (careful -- you will not be able to enter with the same account after "
+"it has been eliminated)."
+
+#: client/app/html/user_main_helpers/menubar.html:40
+#: client/dist/html/user_main_helpers/menubar.html:40
+msgid "You have entered in"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:40
+#: client/dist/html/user_main_helpers/menubar.html:40
+msgid "as a guest"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:52
+#: client/dist/html/user_main_helpers/menubar.html:52
+msgid "Register / Enter"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:82
+#: client/dist/html/user_main_helpers/menubar.html:82
+msgid "My Profile"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:90
+#: client/dist/html/user_main_helpers/menubar.html:90 rs/email_utils.py:584
+msgid "Messages"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:92
+#: client/dist/html/user_main_helpers/menubar.html:92
+msgid "unread"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:98
+#: client/dist/html/user_main_helpers/menubar.html:98 rs/mailbox.py:968
+msgid "All (messages - override)"
+msgstr "All"
+
+#: client/app/html/user_main_helpers/menubar.html:103
+#: client/dist/html/user_main_helpers/menubar.html:103
+msgid "Unread (plural - override)"
+msgstr "Unread"
+
+#: client/app/html/user_main_helpers/menubar.html:108
+#: client/dist/html/user_main_helpers/menubar.html:108
+msgid "Favorites"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:113
+#: client/dist/html/user_main_helpers/menubar.html:113
+msgid "Received (plural - override)"
+msgstr "Received"
+
+#: client/app/html/user_main_helpers/menubar.html:118
+#: client/dist/html/user_main_helpers/menubar.html:118
+msgid "Sent (plural - override)"
+msgstr "Sent"
+
+#: client/app/html/user_main_helpers/menubar.html:128
+#: client/dist/html/user_main_helpers/menubar.html:128
+msgid "Profile views"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:130
+#: client/dist/html/user_main_helpers/menubar.html:130 rs/menubar.py:10
+#: rs/menubar.py:92
+msgid "new"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:141
+#: client/dist/html/user_main_helpers/menubar.html:141
+msgid "More"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:147
+#: client/dist/html/user_main_helpers/menubar.html:147
+msgid "View others online status"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:157
+#: client/dist/html/user_main_helpers/menubar.html:157
+msgid "Exit"
+msgstr ""
+
+#: client/app/html/user_main_helpers/paypal_purchase_form.html:23
+#: client/dist/html/user_main_helpers/paypal_purchase_form.html:23
+msgid "VIP Membership"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:3
+#: client/dist/html/user_main_helpers/photo_rules.html:3
+msgid "Rules:"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:5
+#: client/dist/html/user_main_helpers/photo_rules.html:5
+msgid ""
+"Photos that are not marked as private are public and visible to everyone"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:10
+#: client/app/html/user_main_helpers/photo_rules.html:13
+#: client/dist/html/user_main_helpers/photo_rules.html:10
+#: client/dist/html/user_main_helpers/photo_rules.html:13
+msgid "No nude photos in public"
+msgstr "Photos that contain nudity will not be approved as publicly viewable"
+
+#: client/app/html/user_main_helpers/photo_rules.html:11
+#: client/dist/html/user_main_helpers/photo_rules.html:11
+msgid "Allowed in private"
+msgstr "Private photos can be sensual but may not be pornographic"
+
+#: client/app/html/user_main_helpers/photo_rules.html:14
+#: client/dist/html/user_main_helpers/photo_rules.html:14
+msgid "Allowed in private no genitals"
+msgstr ""
+"Private photos can be sensual but may not be pornographic and must never be "
+"focused on the genital area"
+
+#: client/app/html/user_main_helpers/photo_rules.html:20
+#: client/dist/html/user_main_helpers/photo_rules.html:20
+msgid "No pornographic or nude photos allowed"
+msgstr ""
+"Your profile may not contain pornographic or nude photos under any "
+"circumstances (neither public or private photos)"
+
+#: client/app/html/user_main_helpers/photo_rules.html:24
+#: client/dist/html/user_main_helpers/photo_rules.html:24
+msgid "Only authorized people will have access to your private photos"
+msgstr ""
+"You can give access to your private photos by giving people your key. You "
+"will see a symbol of a key in each persons profile which you can click on"
+
+#: client/app/html/user_main_helpers/photo_rules.html:25
+#: client/dist/html/user_main_helpers/photo_rules.html:25
+msgid "Public photos may show up in search engines such as Google"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:27
+#: client/dist/html/user_main_helpers/photo_rules.html:27
+msgid "Read - command verb"
+msgstr "Read"
+
+#: client/app/html/user_main_helpers/photo_rules.html:28
+#: client/dist/html/user_main_helpers/photo_rules.html:28
+msgid "terms and conditions"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:29
+#: client/dist/html/user_main_helpers/photo_rules.html:29
+msgid "for the rules of"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:30
+#: client/dist/html/user_main_helpers/photo_rules.html:30
+msgid "Photos that do not follow the rules will be erased without notification"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos.html:10
+#: client/dist/html/user_main_helpers/photos.html:10
+msgid "I understand and accept these rules"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos.html:184
+#: client/dist/html/user_main_helpers/photos.html:184
+msgid "Save changes"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos.html:192
+#: client/dist/html/user_main_helpers/photos.html:192
+msgid "View photo upload rules"
+msgstr ""
+
+#: client/app/html/user_main_helpers/purchase_buttons.html:17
+#: client/dist/html/user_main_helpers/purchase_buttons.html:17
+msgid "Purchase VIP status with a credit card"
+msgstr ""
+
+#: client/app/html/user_main_helpers/purchase_buttons.html:23
+#: client/dist/html/user_main_helpers/purchase_buttons.html:23
+msgid ""
+"\n"
+"        Credit card payments are processed by PayPal, an eBay company, and "
+"one of the worlds largest online payment processors).\n"
+"        "
+msgstr ""
+
+#: client/app/html/user_main_helpers/purchase_buttons.html:29
+#: client/dist/html/user_main_helpers/purchase_buttons.html:29
+#, python-format
+msgid ""
+"To protect your privacy, if you choose to pay with credit card you will be "
+"billed\n"
+"            with a discrete name that cannot be easily linked to "
+"%(app_name)s.\n"
+"            "
+msgstr ""
+
+#: client/app/html/user_main_helpers/purchase_buttons.html:38
+#: client/dist/html/user_main_helpers/purchase_buttons.html:38
+msgid "Purchase VIP status with a PayPal account"
+msgstr ""
+
+#: client/app/html/user_main_helpers/purchase_buttons.html:50
+#: client/dist/html/user_main_helpers/purchase_buttons.html:50
+msgid "Purchase VIP status by sending an SMS from your mobile phone"
+msgstr ""
+
+#: client/app/html/user_main_helpers/search_inline_javascript.html:38
+#: client/dist/html/user_main_helpers/search_inline_javascript.html:38
+msgid "All Regions"
+msgstr ""
+
+#: client/app/html/user_main_helpers/search_inline_javascript.html:39
+#: client/dist/html/user_main_helpers/search_inline_javascript.html:39
+msgid "All Sub-Regions"
+msgstr ""
+
+#: client/app/html/user_main_helpers/search_inline_javascript.html:40
+#: client/app/html/user_main_helpers/search_inline_javascript.html:41
+#: client/dist/html/user_main_helpers/search_inline_javascript.html:40
+#: client/dist/html/user_main_helpers/search_inline_javascript.html:41
+#: rs/user_profile_main_data.py:77
+msgid "Show All"
+msgstr ""
+
+#: client/app/html/user_main_helpers/simple_search_form.html:40
+#: client/dist/html/user_main_helpers/simple_search_form.html:40
+msgid "Search By Name"
+msgstr ""
+
+#: client/app/html/user_main_helpers/simple_search_form.html:52
+#: client/dist/html/user_main_helpers/simple_search_form.html:52
+msgid "Standard Search"
+msgstr ""
+
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:8
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:8
+#, python-format
+msgid ""
+"\n"
+"            As a non-VIP (free) member of %(app_name)s, you are allowed to "
+"see other members online status for %(minutes)s minutes every %(reset)s "
+"hours.\n"
+"            "
+msgstr ""
+
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:14
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:14
+#, python-format
+msgid ""
+"\n"
+"            If you would like to use your free %(minutes)s minute quota now, "
+"please press the button below. If you prefer to wait until later,\n"
+"            just close this dialog box.\n"
+"            "
+msgstr ""
+
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:21
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:58
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:21
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:58
+msgid "Show online status"
+msgstr ""
+
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:27
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:27
+msgid ""
+"\n"
+"        VIP members are always shown the online status of other members.\n"
+"        "
+msgstr ""
+
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:34
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:34
+#: rs/store_data.py:1053
+msgid "See VIP benefits"
+msgstr ""
+
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:43
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:43
+#, python-format
+msgid ""
+"\n"
+"        You have already used your free %(minutes)s minute trial. Time to "
+"wait before your next trial:\n"
+"        "
+msgstr ""
+
+#: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:52
+#: client/dist/html/user_main_helpers/test_vip_benefits_dialog.html:52
+msgid ""
+"You are VIP member, therefore you are always shown the online status of "
+"other members"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:8
+#: client/dist/html/user_main_helpers/translation_helper.html:8
+msgid "It appears that your internet connection is not functioning correctly."
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:14
+#: client/dist/html/user_main_helpers/translation_helper.html:14
+#, python-format
+msgid ""
+"\n"
+"        Your session has closed - you must re-login to continue to use "
+"%(app_name)s.\n"
+"    "
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:22
+#: client/dist/html/user_main_helpers/translation_helper.html:22
+msgid "Close chat"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:26
+#: client/dist/html/user_main_helpers/translation_helper.html:26
+msgid "Open chat"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:31
+#: client/dist/html/user_main_helpers/translation_helper.html:31
+msgid "None of your contacts are logged into their chat at the moment"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:35
+#: client/dist/html/user_main_helpers/translation_helper.html:35
+msgid "There are no chat groups currently available. Why don't you create one?"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:40
+#: client/dist/html/user_main_helpers/translation_helper.html:40
+msgid "Online chat friends"
+msgstr "Chat friends"
+
+#: client/app/html/user_main_helpers/translation_helper.html:44
+#: client/dist/html/user_main_helpers/translation_helper.html:44
+#: rs/constants.py:235
+msgid "(Active)"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:51
+#: client/dist/html/user_main_helpers/translation_helper.html:51
+#: rs/constants.py:236
+msgid "(Idle)"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:58
+#: client/dist/html/user_main_helpers/translation_helper.html:58
+#: rs/constants.py:237
+msgid "(Away)"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:66
+#: client/dist/html/user_main_helpers/translation_helper.html:66
+msgid "Your chat is currently closed. You must open it to see your contacts."
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:71
+#: client/dist/html/user_main_helpers/translation_helper.html:71
+msgid "We are loading your online contact list. This may take a few moments."
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:75
+#: client/dist/html/user_main_helpers/translation_helper.html:75
+msgid "We are loading available chat groups. This may take a few moments."
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:79
+#: client/dist/html/user_main_helpers/translation_helper.html:79
+msgid "loading"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:83
+#: client/dist/html/user_main_helpers/translation_helper.html:83
+msgid "Chat groups"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:91
+#: client/dist/html/user_main_helpers/translation_helper.html:91
+msgid "Video call"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:95
+#: client/dist/html/user_main_helpers/translation_helper.html:95
+msgid "Group members"
+msgstr ""
+
+#: client/app/html/user_main_helpers/translation_helper.html:99
+#: client/dist/html/user_main_helpers/translation_helper.html:99
+msgid "Unknown error - Please reload the page and try again"
+msgstr ""
+
+#: client/app/html/user_main_helpers/view_other_profile_extra_stuff.html:52
+#: client/dist/html/user_main_helpers/view_other_profile_extra_stuff.html:52
+#, python-format
+msgid ""
+"\n"
+"                Send %(viewed_profile_name)s a message without leaving this "
+"page:"
+msgstr ""
+
+#: client/app/html/user_main_helpers/view_other_profile_extra_stuff.html:71
+#: client/dist/html/user_main_helpers/view_other_profile_extra_stuff.html:71
+#, fuzzy, python-format
+msgid ""
+"\n"
+"                Options to contact %(viewed_profile_name)s"
+msgstr ""
+"\n"
+"                An increased limit on the number of \"chat friends\" to "
+"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
+"friends\" you can send unlimited chat messages. "
+
+#: client/app/html/user_main_helpers/view_other_profile_extra_stuff.html:76
+#: client/dist/html/user_main_helpers/view_other_profile_extra_stuff.html:76
+msgid "Click on the icon to activate or to remove the associated action"
+msgstr ""
+
+#: client/app/html/user_main_helpers/vip_benefits.html:6
+#: client/dist/html/user_main_helpers/vip_benefits.html:6
+#, python-format
+msgid ""
+"\n"
+"                vip_message_quota %(vip_messages)s %(vip_hours)s "
+"%(guest_messages)s %(guest_hours)s "
+msgstr ""
+"\n"
+"Increased message quota that allows you to contact %(vip_messages)s new "
+"people every %(vip_hours)s hours (versus %(guest_messages)s every "
+"%(guest_hours)s hours for non-VIP members)."
+
+#: client/app/html/user_main_helpers/vip_benefits.html:8
+#: client/dist/html/user_main_helpers/vip_benefits.html:8
+#, python-format
+msgid "Online status benefits %(app_name)s"
+msgstr ""
+"You will see the online status (Active, Idle, Away, or Offline) of all "
+"%(app_name)s members."
+
+#: client/app/html/user_main_helpers/vip_benefits.html:9
+#: client/dist/html/user_main_helpers/vip_benefits.html:9
+#, python-format
+msgid ""
+"\n"
+"            You will see all of the other %(app_name)s members that have "
+"viewed your profile over the past %(days)s days. \n"
+"            "
+msgstr ""
+
+#: client/app/html/user_main_helpers/vip_benefits.html:12
+#: client/dist/html/user_main_helpers/vip_benefits.html:12
+#, python-format
+msgid ""
+"\n"
+"                vip_chat_friends %(vip)s %(free)s"
+msgstr ""
+"\n"
+"                An increased limit on the number of \"chat friends\" to "
+"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
+"friends\" you can send unlimited chat messages. "
+
+#: client/app/html/user_main_helpers/vip_benefits.html:14
+#: client/dist/html/user_main_helpers/vip_benefits.html:14
+#, python-format
+msgid ""
+"\n"
+"                vip_repeat_message_quota %(cf_num_messages)s "
+"%(std_num_messages)s"
+msgstr ""
+"\n"
+"You will be allowed to send %(cf_num_messages)s messages per day to each "
+"person that you have already had contact with (versus %(std_num_messages)s "
+"messages per day for non VIP members)."
+
+#: client/app/html/user_main_helpers/vip_benefits.html:16
+#: client/dist/html/user_main_helpers/vip_benefits.html:16
+msgid "You can update your email address"
+msgstr ""
+"You can modify your contact email address whenever you like (versus non VIP "
+"members which must permanently use the email address that they registered "
+"with)."
+
+#: client/app/proprietary/html/proprietary_ads/advertising_info_inner.html:5
+#: client/app/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:5
+#: client/dist/proprietary/html/proprietary_ads/advertising_info_inner.html:5
+#: client/dist/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:5
+msgid "Place your advertisement here"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/advertising_info_inner.html:6
+#: client/app/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:6
+#: client/dist/proprietary/html/proprietary_ads/advertising_info_inner.html:6
+#: client/dist/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:6
+msgid "100€ for 1 month"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/advertising_info_inner.html:10
+#: client/app/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:9
+#: client/dist/proprietary/html/proprietary_ads/advertising_info_inner.html:10
+#: client/dist/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:9
+msgid "More information"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/discrete_build.html:9
+#: client/dist/proprietary/html/proprietary_ads/discrete_build.html:9
+msgid "Looking for romance? A lover? Love?"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/friend_build.html:15
+#: client/dist/proprietary/html/proprietary_ads/friend_build.html:15
+msgid "Meet new friends"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/friend_build.html:30
+#: client/app/proprietary/html/proprietary_ads/mature_build.html:14
+#: client/dist/proprietary/html/proprietary_ads/friend_build.html:30
+#: client/dist/proprietary/html/proprietary_ads/mature_build.html:14
+#: rs/utils.py:1812 rs/proprietary/search_engine_overrides.py:63
+#: rs/proprietary/search_engine_overrides.py:66
+#: rs/proprietary/search_engine_overrides.py:69
+#: rs/proprietary/search_engine_overrides.py:72
+#: rs/proprietary/search_engine_overrides.py:75
+#: rs/proprietary/search_engine_overrides.py:78
+#: rs/proprietary/search_engine_overrides.py:81
+#: rs/proprietary/search_engine_overrides.py:106
+#: rs/proprietary/search_engine_overrides.py:109
+#: rs/proprietary/search_engine_overrides.py:112
+#: rs/proprietary/search_engine_overrides.py:115
+#: rs/proprietary/search_engine_overrides.py:118
+#: rs/proprietary/search_engine_overrides.py:124
+msgid "100 percent free"
+msgstr "100% free"
+
+#: client/app/proprietary/html/proprietary_ads/gay_build.html:16
+#: client/dist/proprietary/html/proprietary_ads/gay_build.html:16
+msgid "100 percent free gay dating"
+msgstr "100% free gay dating"
+
+#: client/app/proprietary/html/proprietary_ads/language_build.html:15
+#: client/dist/proprietary/html/proprietary_ads/language_build.html:15
+msgid "Practice languages and meet people from all around the world"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/language_build.html:23
+#: client/dist/proprietary/html/proprietary_ads/language_build.html:23
+msgid "100 percent free language exchange"
+msgstr "100% free language exchange"
+
+#: client/app/proprietary/html/proprietary_ads/lesbian_build.html:9
+#: client/dist/proprietary/html/proprietary_ads/lesbian_build.html:9
+msgid "100 percent free lesbian dating"
+msgstr "100% free lesbian dating"
+
+#: client/app/proprietary/html/proprietary_ads/mature_build.html:14
+#: client/dist/proprietary/html/proprietary_ads/mature_build.html:14
+#: rs/constants.py:472 rs/proprietary/search_engine_overrides.py:81
+msgid "dating website to meet mature adults over 40 years old"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/more_advertising_info_dialog.html:6
+#: client/dist/proprietary/html/proprietary_ads/more_advertising_info_dialog.html:6
+#, python-format
+msgid ""
+"\n"
+"    <p>In a single month, your advertisement will be shown on over half a "
+"million unique page views\n"
+"       to over 100,000 unique visitors.\n"
+"    <p>For more information, please contact: <b>%(support_email_address)s</"
+"b>.\n"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/more_advertising_info_dialog.html:14
+#: client/dist/proprietary/html/proprietary_ads/more_advertising_info_dialog.html:14
+#, python-format
+msgid "Advertise on %(app_name)s"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_ads/single_build.html:9
+#: client/dist/proprietary/html/proprietary_ads/single_build.html:9
+msgid "100 percent free dating for singles"
+msgstr "100% free dating for singles"
+
+#: client/app/proprietary/html/proprietary_ads/swinger_build.html:15
+#: client/dist/proprietary/html/proprietary_ads/swinger_build.html:15
+msgid "100 percent free contacts for swingers"
+msgstr "100% free contacts for swingers"
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:39
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:181
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:292
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:446
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:453
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:463
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:470
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:479
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:486
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:494
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:502
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:509
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:516
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:523
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:530
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:537
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:544
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:39
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:181
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:292
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:446
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:453
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:463
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:470
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:479
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:486
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:494
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:502
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:509
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:516
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:523
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:530
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:537
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:544
+msgid "Oct"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:46
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:69
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:77
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:187
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:194
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:202
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:210
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:299
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:553
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:560
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:567
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:575
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:826
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:46
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:69
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:77
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:187
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:194
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:202
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:210
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:299
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:553
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:560
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:567
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:575
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:826
+msgid "Sep"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:85
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:93
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:101
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:109
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:117
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:218
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:226
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:235
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:243
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:308
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:315
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:323
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:330
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:338
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:346
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:354
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:85
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:93
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:101
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:109
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:117
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:218
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:226
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:235
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:243
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:308
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:315
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:323
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:330
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:338
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:346
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:354
+msgid "Aug"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:125
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:133
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:141
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:149
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:157
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:251
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:257
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:582
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:590
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:597
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:604
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:874
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:879
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:125
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:133
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:141
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:149
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:157
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:251
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:257
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:582
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:590
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:597
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:604
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:874
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:879
+msgid "Jul"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:164
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:363
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:372
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:862
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:164
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:363
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:372
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:862
+#: rs/constants.py:740
+msgid "May"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:172
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:278
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:285
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:884
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:172
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:278
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:285
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:884
+msgid "Jan"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:264
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:271
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:264
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:271
+msgid "Feb"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:382
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:389
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:396
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:404
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:412
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:382
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:389
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:396
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:404
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:412
+msgid "Mar"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:420
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:430
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:438
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:420
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:430
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:438
+msgid "Nov"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:612
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:619
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:626
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:633
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:641
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:650
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:658
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:667
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:675
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:682
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:689
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:696
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:703
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:710
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:717
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:724
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:731
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:738
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:746
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:753
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:760
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:767
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:774
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:781
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:789
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:796
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:805
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:833
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:855
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:612
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:619
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:626
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:633
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:641
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:650
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:658
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:667
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:675
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:682
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:689
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:696
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:703
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:710
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:717
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:724
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:731
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:738
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:746
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:753
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:760
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:767
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:774
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:781
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:789
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:796
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:805
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:833
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:855
+msgid "Jun"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:868
+#: client/dist/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:868
+msgid "Apr"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/goodbye_message.html:10
+#: client/dist/proprietary/html/proprietary_html_content/goodbye_message.html:10
+msgid "Thanks for using"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/goodbye_message.html:11
+#: client/dist/proprietary/html/proprietary_html_content/goodbye_message.html:11
+msgid "See you soon!"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:6
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:6
+#, python-format
+msgid "About %(app_name)s"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:11
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:11
+#, python-format
+msgid "Advantages of %(app_name)s.com versus other sites:"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:16
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:16
+#, python-format
+msgid ""
+"\n"
+"    %(app_name)s.com is a %(site_type)s, that is different than any\n"
+"    other websites that you may have seen. "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:25
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:25
+#, python-format
+msgid ""
+"\n"
+"    %(app_name)s.com is a  website designed to help you to meet platonic "
+"friends who are interested in the same activities\n"
+"    as yourself. %(app_name)s.com is *not* a dating website and is *not* an "
+"escort agency. Members of\n"
+"    %(app_name)s.com are looking for fun, friendship, and activity "
+"partners.\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:34
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:34
+#, python-format
+msgid ""
+"\n"
+"    How much does it cost to use %(app_name)s?\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:39
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:39
+#, python-format
+msgid ""
+"\n"
+"    %(app_name)s.com is free.\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:45
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:45
+#, python-format
+msgid ""
+"\n"
+"    How are people using %(app_name)s.com?\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:51
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:51
+#, python-format
+msgid ""
+"\n"
+"    People are using %(app_name)s.com to meet new people for all kinds of "
+"friendly activities such as:\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:57
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:57
+msgid ""
+"A person that travels to a new city for business or for a vacation could "
+"contact someone to show them around the city."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:58
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:58
+msgid ""
+"Someone with an extra ticket to a sporting event could ask someone to go "
+"with them instead of going alone."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:59
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:59
+msgid ""
+"A member could meet someone outside of their normal social circle to talk to "
+"for personal advice."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:60
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:60
+msgid ""
+"A person who wants to see a new movie or check out a cool restaurant could "
+"find someone to go with them."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:61
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:61
+msgid ""
+"Instead of hiring a personal trainer for going to the gym, one could find a "
+"partner to accompany them."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:62
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:62
+msgid "Find a friend to go salsa dancing."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:63
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:63
+msgid "And many more friendly activities - it is up to you!"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:70
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:70
+msgid "How can I contact people?"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:74
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:74
+#, python-format
+msgid ""
+"\n"
+"    <em>After you are registered</em>, each profile that you view will "
+"display a message text box that allows you to send a private message\n"
+"    to the owner of the profile. Your account will also include a mailbox "
+"that you can use to track messages that you have sent\n"
+"    and received from other members.\n"
+"    Additionally, for registered users, %(app_name)s includes a free instant "
+"messaging system that allows you\n"
+"    to have one-on-one chat conversations, as well as to join any of the "
+"many different chat groups that are available.\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:84
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:84
+#, python-format
+msgid ""
+"\n"
+"    Some members are very popular and do not have time to respond to all of "
+"the messages that they receive. The\n"
+"    more information and photos that you put into your profile, the more "
+"likely it is that you will receive responses\n"
+"    from the other members of %(app_name)s.\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:92
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:92
+#, python-format
+msgid ""
+"\n"
+"    Members that are found to be harassing other members will be eliminated "
+"and banned from %(app_name)s.\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:100
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:100
+msgid "You are in control:"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:102
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:102
+msgid ""
+"\n"
+"    Please be open and honest with the other members about what kind of "
+"activities you are comfortable with, and\n"
+"    what kind of activities you are not comfortable with. To ensure that "
+"everyone has a good time,\n"
+"    you should discuss everything before meeting to be clear about how your "
+"time together will be spent</p>\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:108
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:108
+#, python-format
+msgid ""
+"\n"
+"    Please keep in mind that %(app_name)s is *not* a dating site and is "
+"*not* an escort agency,\n"
+"    and all meetings are for friendly activities only. Members that violate "
+"the spirit of %(app_name)s will be\n"
+"    eliminated and banned.\n"
+"    "
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:119
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:119
+#, python-format
+msgid "How can %(app_name)s be free?"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:120
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:120
+msgid ""
+"This website survives from VIP memberships - however, most of our members "
+"are perfectly happy with the totally free membership option."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:123
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:123
+msgid "VIP benefits"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:128
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:128
+#, python-format
+msgid "Quality control in %(app_name)s.com"
+msgstr "The quality control policy in %(app_name)s.com"
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:129
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:129
+msgid ""
+"To help us control the quality of our website, each profile will have a "
+"reporting button that will\n"
+"    allow you to inform us of any profiles that might be considered "
+"unacceptable."
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:132
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:132
+msgid "Would you like more information?"
+msgstr ""
+
+#: client/app/proprietary/html/proprietary_html_content/welcome_message.html:134
+#: client/dist/proprietary/html/proprietary_html_content/welcome_message.html:134
+msgid "Send us an email at:"
+msgstr ""
+
+#: client/dist/html/import_main_css_and_js.html:27
+msgid " Are you sure you want to eliminate your profile?"
+msgstr ""
+"If you want to eliminate your profile/account, click on the link to the "
+"left  (careful -- you will not be able to enter with the same account after "
+"it has been eliminated)."
 
 #: djangotoolbox/tests.py:620 djangotoolbox/tests.py:632
 #: djangotoolbox/tests.py:634
@@ -38,7 +1487,7 @@ msgid ""
 "for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
 msgstr ""
 
-#: rs/ajax.py:508 rs/html_container.py:247
+#: rs/ajax.py:508 rs/html_container.py:246
 msgid "Your description"
 msgstr ""
 
@@ -196,21 +1645,6 @@ msgstr ""
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
-#: rs/constants.py:235
-#: rs/templates/user_main_helpers/translation_helper.html:44
-msgid "(Active)"
-msgstr ""
-
-#: rs/constants.py:236
-#: rs/templates/user_main_helpers/translation_helper.html:51
-msgid "(Idle)"
-msgstr ""
-
-#: rs/constants.py:237
-#: rs/templates/user_main_helpers/translation_helper.html:58
-msgid "(Away)"
-msgstr ""
-
 #: rs/constants.py:238
 msgid "(Offline)"
 msgstr ""
@@ -241,11 +1675,6 @@ msgstr ""
 
 #: rs/constants.py:469
 msgid "website to meet people and make friends"
-msgstr ""
-
-#: rs/constants.py:472 rs/proprietary/search_engine_overrides.py:81
-#: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-msgid "dating website to meet mature adults over 40 years old"
 msgstr ""
 
 #: rs/constants.py:585
@@ -516,14 +1945,6 @@ msgstr ""
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:740
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:164
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:363
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:372
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:862
-msgid "May"
-msgstr ""
-
 #: rs/constants.py:741
 msgid "June"
 msgstr ""
@@ -597,7 +2018,7 @@ msgid "New password"
 msgstr ""
 
 #: rs/email_utils.py:230 rs/email_utils.py:288 rs/email_utils.py:367
-#: rs/email_utils.py:649 rs/login_utils.py:625 rs/login_utils.py:652
+#: rs/email_utils.py:649 rs/login_utils.py:625 rs/login_utils.py:651
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
@@ -718,10 +2139,6 @@ msgstr ""
 msgid ""
 "by clicking on \"%(field)s\" in the %(bar_color)s bar just below the logo of "
 "%(app_name)s"
-msgstr ""
-
-#: rs/email_utils.py:584 rs/templates/user_main_helpers/menubar.html:90
-msgid "Messages"
 msgstr ""
 
 #: rs/email_utils.py:585
@@ -1357,45 +2774,39 @@ msgstr ""
 msgid "Other (details in profile)"
 msgstr ""
 
-#: rs/html_container.py:90
+#: rs/html_container.py:89
 msgid "Save"
 msgstr ""
 
-#: rs/html_container.py:90
+#: rs/html_container.py:89
 msgid "Cancel"
 msgstr ""
 
-#: rs/html_container.py:101 rs/html_container.py:138 rs/html_container.py:198
-#: rs/templates/user_main_helpers/main_body.html:135
-#: rs/templates/user_main_helpers/status.html:47
-msgid "edit"
-msgstr ""
-
-#: rs/html_container.py:104
+#: rs/html_container.py:103
 msgid "You have only written"
 msgstr ""
 
-#: rs/html_container.py:104 rs/html_container.py:105 rs/html_container.py:108
+#: rs/html_container.py:103 rs/html_container.py:104 rs/html_container.py:107
 msgid "characters"
 msgstr ""
 
-#: rs/html_container.py:105
+#: rs/html_container.py:104
 msgid "You must write at least"
 msgstr ""
 
-#: rs/html_container.py:106
+#: rs/html_container.py:105
 msgid "Please click on"
 msgstr ""
 
-#: rs/html_container.py:106
+#: rs/html_container.py:105
 msgid "to improve your description"
 msgstr ""
 
-#: rs/html_container.py:108
+#: rs/html_container.py:107
 msgid "You have written"
 msgstr ""
 
-#: rs/html_container.py:141 rs/html_container.py:148 rs/html_container.py:154
+#: rs/html_container.py:140 rs/html_container.py:147 rs/html_container.py:153
 #, python-format
 msgid ""
 "%(no_publicity_text)s %(customized_text)s %(no_sex_no_dating)s "
@@ -1416,14 +2827,14 @@ msgstr ""
 "\n"
 "*** Your description must not contain explicit or obscene language. ***"
 
-#: rs/html_container.py:142 rs/html_container.py:149
+#: rs/html_container.py:141 rs/html_container.py:148
 msgid "No publicity text"
 msgstr ""
 "It is not permitted to put publicity for services or telephone numbers in "
 "your description. On the other hand, you can send and receive private "
 "messages (for free) to any members that you would like to contact."
 
-#: rs/html_container.py:143
+#: rs/html_container.py:142
 msgid "Dating specific text"
 msgstr ""
 "- A description of what kind of person you would like to meet, and a "
@@ -1432,7 +2843,7 @@ msgstr ""
 "to talk or meet with people, and what kind of a relationship would you like "
 "to have."
 
-#: rs/html_container.py:150
+#: rs/html_container.py:149
 msgid "Language-exchange specific text"
 msgstr ""
 "- A description of your abilities in the language that you would like to "
@@ -1441,7 +2852,7 @@ msgstr ""
 "- Any experiences you have had with foreign cultures such as travelling or "
 "meeting people from other countries"
 
-#: rs/html_container.py:156
+#: rs/html_container.py:155
 msgid "Friend specific text"
 msgstr ""
 "- Experience that you have in meeting friends on the internet.\n"
@@ -1450,7 +2861,7 @@ msgstr ""
 "- When are you free to meet with people, and what are your expectations\n"
 "- What activities you would like to try"
 
-#: rs/html_container.py:157
+#: rs/html_container.py:156
 #, python-format
 msgid ""
 "Please keep in mind that %(app_name)s is *not* a dating site and is *not* an "
@@ -1458,11 +2869,11 @@ msgid ""
 "that violate the spirit of %(app_name)s will be eliminated and banned."
 msgstr ""
 
-#: rs/html_container.py:171
+#: rs/html_container.py:170
 msgid "Has not written a description"
 msgstr ""
 
-#: rs/html_container.py:245
+#: rs/html_container.py:244
 #, python-format
 msgid "Write a descripion about yourself %(num_chars)s %(num_lines)s"
 msgstr ""
@@ -2326,26 +3737,17 @@ msgstr ""
 msgid "To activate your account in %(app_name)s click on the following link"
 msgstr ""
 
-#: rs/login_utils.py:636 rs/templates/login_helpers/verification.html:32
-msgid "Verification code"
-msgstr ""
-
-#: rs/login_utils.py:637
-#, python-format
-msgid "Your verificaiton code is), %(secret_verification_code)s"
-msgstr ""
-
-#: rs/login_utils.py:640
+#: rs/login_utils.py:639
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:651
+#: rs/login_utils.py:650
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:654
+#: rs/login_utils.py:653
 #, python-format
 msgid ""
 "\n"
@@ -2355,7 +3757,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:703
+#: rs/login_utils.py:702
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2363,7 +3765,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:735
+#: rs/login_utils.py:734
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2455,10 +3857,6 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:968 rs/templates/user_main_helpers/menubar.html:98
-msgid "All (messages - override)"
-msgstr "All"
-
 #: rs/mailbox.py:968
 msgid "None (messages - override)"
 msgstr "None"
@@ -2478,11 +3876,6 @@ msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
 "without responding."
-msgstr ""
-
-#: rs/menubar.py:10 rs/menubar.py:92
-#: rs/templates/user_main_helpers/menubar.html:130
-msgid "new"
 msgstr ""
 
 #: rs/menubar.py:38
@@ -2759,11 +4152,6 @@ msgid ""
 "to %(max_requests)s, \n"
 "                                        you could consider becoming a VIP "
 "member."
-msgstr ""
-
-#: rs/store_data.py:1053
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:34
-msgid "See VIP benefits"
 msgstr ""
 
 #: rs/text_fields.py:36
@@ -3467,12 +4855,6 @@ msgstr ""
 msgid "Anything"
 msgstr ""
 
-#: rs/user_profile_main_data.py:77
-#: rs/templates/user_main_helpers/search_inline_javascript.html:40
-#: rs/templates/user_main_helpers/search_inline_javascript.html:41
-msgid "Show All"
-msgstr ""
-
 #: rs/user_profile_main_data.py:80
 msgid "All People"
 msgstr ""
@@ -3823,10 +5205,6 @@ msgstr ""
 msgid "I am currently in"
 msgstr ""
 
-#: rs/utils.py:409 rs/templates/login_helpers/login.html:57
-msgid "Have you forgotten your password?"
-msgstr ""
-
 #: rs/utils.py:413
 msgid "you can request a new password"
 msgstr ""
@@ -3928,24 +5306,6 @@ msgstr ""
 msgid "is"
 msgstr ""
 
-#: rs/utils.py:1812 rs/proprietary/search_engine_overrides.py:63
-#: rs/proprietary/search_engine_overrides.py:66
-#: rs/proprietary/search_engine_overrides.py:69
-#: rs/proprietary/search_engine_overrides.py:72
-#: rs/proprietary/search_engine_overrides.py:75
-#: rs/proprietary/search_engine_overrides.py:78
-#: rs/proprietary/search_engine_overrides.py:81
-#: rs/proprietary/search_engine_overrides.py:106
-#: rs/proprietary/search_engine_overrides.py:109
-#: rs/proprietary/search_engine_overrides.py:112
-#: rs/proprietary/search_engine_overrides.py:115
-#: rs/proprietary/search_engine_overrides.py:118
-#: rs/proprietary/search_engine_overrides.py:124
-#: rs/proprietary/templates/proprietary_ads/friend_build.html:30
-#: rs/proprietary/templates/proprietary_ads/mature_build.html:14
-msgid "100 percent free"
-msgstr "100% free"
-
 #: rs/utils.py:1812
 msgid "We never ask for your credit card or any other form of payment"
 msgstr ""
@@ -4006,11 +5366,6 @@ msgstr ""
 
 #: rs/vip_paypal_structures.py:63
 msgid "year"
-msgstr ""
-
-#: rs/proprietary/my_sitemaps.py:159
-#: rs/templates/user_main_helpers/main_body.html:74
-msgid "Profile of"
 msgstr ""
 
 #: rs/proprietary/search_engine_overrides.py:60
@@ -4089,1056 +5444,6 @@ msgstr ""
 #: rs/proprietary/search_engine_overrides.py:303
 msgid "Refine your search results"
 msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:5
-#: rs/proprietary/templates/proprietary_ads/bottom_advertising_info_inner.html:5
-msgid "Place your advertisement here"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:6
-#: rs/proprietary/templates/proprietary_ads/bottom_advertising_info_inner.html:6
-msgid "100€ for 1 month"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/advertising_info_inner.html:10
-#: rs/proprietary/templates/proprietary_ads/bottom_advertising_info_inner.html:9
-msgid "More information"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/discrete_build.html:9
-msgid "Looking for romance? A lover? Love?"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/friend_build.html:15
-msgid "Meet new friends"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/gay_build.html:16
-msgid "100 percent free gay dating"
-msgstr "100% free gay dating"
-
-#: rs/proprietary/templates/proprietary_ads/language_build.html:15
-msgid "Practice languages and meet people from all around the world"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/language_build.html:23
-msgid "100 percent free language exchange"
-msgstr "100% free language exchange"
-
-#: rs/proprietary/templates/proprietary_ads/lesbian_build.html:9
-msgid "100 percent free lesbian dating"
-msgstr "100% free lesbian dating"
-
-#: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:6
-#, python-format
-msgid ""
-"\n"
-"    <p>In a single month, your advertisement will be shown on over half a "
-"million unique page views\n"
-"       to over 100,000 unique visitors.\n"
-"    <p>For more information, please contact: <b>%(support_email_address)s</"
-"b>.\n"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/more_advertising_info_dialog.html:14
-#, python-format
-msgid "Advertise on %(app_name)s"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_ads/single_build.html:9
-msgid "100 percent free dating for singles"
-msgstr "100% free dating for singles"
-
-#: rs/proprietary/templates/proprietary_ads/swinger_build.html:15
-msgid "100 percent free contacts for swingers"
-msgstr "100% free contacts for swingers"
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:39
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:181
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:292
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:446
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:453
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:463
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:470
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:479
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:486
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:494
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:502
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:509
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:516
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:523
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:530
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:537
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:544
-msgid "Oct"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:46
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:69
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:77
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:187
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:194
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:202
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:210
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:299
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:553
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:560
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:567
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:575
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:826
-msgid "Sep"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:85
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:93
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:101
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:109
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:117
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:218
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:226
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:235
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:243
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:308
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:315
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:323
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:330
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:338
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:346
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:354
-msgid "Aug"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:125
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:133
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:141
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:149
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:157
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:251
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:257
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:582
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:590
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:597
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:604
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:874
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:879
-msgid "Jul"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:172
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:278
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:285
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:884
-msgid "Jan"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:264
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:271
-msgid "Feb"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:382
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:389
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:396
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:404
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:412
-msgid "Mar"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:420
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:430
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:438
-msgid "Nov"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:612
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:619
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:626
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:633
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:641
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:650
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:658
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:667
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:675
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:682
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:689
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:696
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:703
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:710
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:717
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:724
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:731
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:738
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:746
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:753
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:760
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:767
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:774
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:781
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:789
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:796
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:805
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:833
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:855
-msgid "Jun"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/RomanceSecreto_press.html:868
-msgid "Apr"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:10
-msgid "Thanks for using"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/goodbye_message.html:11
-msgid "See you soon!"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:6
-#, python-format
-msgid "About %(app_name)s"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:11
-#, python-format
-msgid "Advantages of %(app_name)s.com versus other sites:"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:16
-#, python-format
-msgid ""
-"\n"
-"    %(app_name)s.com is a %(site_type)s, that is different than any\n"
-"    other websites that you may have seen. "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:25
-#, python-format
-msgid ""
-"\n"
-"    %(app_name)s.com is a  website designed to help you to meet platonic "
-"friends who are interested in the same activities\n"
-"    as yourself. %(app_name)s.com is *not* a dating website and is *not* an "
-"escort agency. Members of\n"
-"    %(app_name)s.com are looking for fun, friendship, and activity "
-"partners.\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:34
-#, python-format
-msgid ""
-"\n"
-"    How much does it cost to use %(app_name)s?\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:39
-#, python-format
-msgid ""
-"\n"
-"    %(app_name)s.com is free.\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:45
-#, python-format
-msgid ""
-"\n"
-"    How are people using %(app_name)s.com?\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:51
-#, python-format
-msgid ""
-"\n"
-"    People are using %(app_name)s.com to meet new people for all kinds of "
-"friendly activities such as:\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:57
-msgid ""
-"A person that travels to a new city for business or for a vacation could "
-"contact someone to show them around the city."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:58
-msgid ""
-"Someone with an extra ticket to a sporting event could ask someone to go "
-"with them instead of going alone."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:59
-msgid ""
-"A member could meet someone outside of their normal social circle to talk to "
-"for personal advice."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:60
-msgid ""
-"A person who wants to see a new movie or check out a cool restaurant could "
-"find someone to go with them."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:61
-msgid ""
-"Instead of hiring a personal trainer for going to the gym, one could find a "
-"partner to accompany them."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:62
-msgid "Find a friend to go salsa dancing."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:63
-msgid "And many more friendly activities - it is up to you!"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:70
-msgid "How can I contact people?"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:74
-#, python-format
-msgid ""
-"\n"
-"    <em>After you are registered</em>, each profile that you view will "
-"display a message text box that allows you to send a private message\n"
-"    to the owner of the profile. Your account will also include a mailbox "
-"that you can use to track messages that you have sent\n"
-"    and received from other members.\n"
-"    Additionally, for registered users, %(app_name)s includes a free instant "
-"messaging system that allows you\n"
-"    to have one-on-one chat conversations, as well as to join any of the "
-"many different chat groups that are available.\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:84
-#, python-format
-msgid ""
-"\n"
-"    Some members are very popular and do not have time to respond to all of "
-"the messages that they receive. The\n"
-"    more information and photos that you put into your profile, the more "
-"likely it is that you will receive responses\n"
-"    from the other members of %(app_name)s.\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:92
-#, python-format
-msgid ""
-"\n"
-"    Members that are found to be harassing other members will be eliminated "
-"and banned from %(app_name)s.\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:100
-msgid "You are in control:"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:102
-msgid ""
-"\n"
-"    Please be open and honest with the other members about what kind of "
-"activities you are comfortable with, and\n"
-"    what kind of activities you are not comfortable with. To ensure that "
-"everyone has a good time,\n"
-"    you should discuss everything before meeting to be clear about how your "
-"time together will be spent</p>\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:108
-#, python-format
-msgid ""
-"\n"
-"    Please keep in mind that %(app_name)s is *not* a dating site and is "
-"*not* an escort agency,\n"
-"    and all meetings are for friendly activities only. Members that violate "
-"the spirit of %(app_name)s will be\n"
-"    eliminated and banned.\n"
-"    "
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:119
-#, python-format
-msgid "How can %(app_name)s be free?"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:120
-msgid ""
-"This website survives from VIP memberships - however, most of our members "
-"are perfectly happy with the totally free membership option."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:123
-msgid "VIP benefits"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:128
-#, python-format
-msgid "Quality control in %(app_name)s.com"
-msgstr "The quality control policy in %(app_name)s.com"
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:129
-msgid ""
-"To help us control the quality of our website, each profile will have a "
-"reporting button that will\n"
-"    allow you to inform us of any profiles that might be considered "
-"unacceptable."
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:132
-msgid "Would you like more information?"
-msgstr ""
-
-#: rs/proprietary/templates/proprietary_html_content/welcome_message.html:134
-msgid "Send us an email at:"
-msgstr ""
-
-#: rs/templates/main_container.html:74
-msgid "You must enable JavaScript to view this page"
-msgstr ""
-
-#: rs/templates/common_helpers/common_translations.html:4
-msgid "Captcha is incorrect, try again"
-msgstr ""
-
-#: rs/templates/common_helpers/common_translations.html:8
-msgid ""
-"You have not written a message. You must write something before sending it."
-msgstr ""
-
-#: rs/templates/common_helpers/common_translations.html:12
-msgid "Invalid input"
-msgstr ""
-
-#: rs/templates/common_helpers/footer.html:15
-msgid "Terms and conditions"
-msgstr ""
-
-#: rs/templates/common_helpers/logo_banner.html:41
-msgid "About"
-msgstr ""
-
-#: rs/templates/common_helpers/logo_banner.html:46
-msgid "Press"
-msgstr ""
-
-#: rs/templates/login_helpers/login.html:9
-msgid "Free confidential dating"
-msgstr ""
-
-#: rs/templates/login_helpers/login.html:15
-msgid "100 percent free everything included"
-msgstr "100% free - everything included"
-
-#: rs/templates/login_helpers/login.html:24
-msgid "Are you already registered (female)? Enter here:"
-msgstr "Are you already registered? Enter here:"
-
-#: rs/templates/login_helpers/login.html:26
-msgid "Are you already registered? Enter here:"
-msgstr ""
-
-#: rs/templates/login_helpers/login.html:38
-msgid "username or email"
-msgstr ""
-
-#: rs/templates/login_helpers/login.html:43
-msgid "password"
-msgstr ""
-
-#: rs/templates/login_helpers/login.html:48
-msgid "Enter"
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:5
-#, python-format
-msgid ""
-"\n"
-"    I confirm that I am %(age)s or older and that I have read and accept the "
-"<a class=\"cl-dialog_anchor\"\n"
-"    href=\"/en/rs/terms/\" target=\"_blank\"> terms and conditions</a> for "
-"using %(app_name)s\n"
-"    "
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:9
-msgid "I agree"
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:24
-msgid "Register here"
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:27
-msgid "it only takes 30 seconds"
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:36
-msgid " Register me"
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:41
-msgid ""
-"\n"
-"                        * A valid email address is required to verify your "
-"account. We do not send Spam, and you are\n"
-"                        in control of notifications that you may wish to "
-"receive.\n"
-"                        "
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:104
-msgid "Select Region"
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:105
-msgid "Select Sub-Region"
-msgstr ""
-
-#: rs/templates/login_helpers/registration.html:106
-#: rs/templates/user_main_helpers/search_inline_javascript.html:42
-msgid "Not Defined Yet"
-msgstr ""
-
-#: rs/templates/login_helpers/verification.html:11
-#, python-format
-msgid ""
-"\n"
-"        We have sent an activation email to <strong>%(to_email)s</strong>\n"
-"        from  <em>%(support_email_address)s</em>.\n"
-"        "
-msgstr ""
-
-#: rs/templates/login_helpers/verification.html:16
-#, python-format
-msgid ""
-"\n"
-"        Once you receive the email from %(app_name)s, in order to activate "
-"your account, you can either enter the verification code from the\n"
-"        email in the input below, or you can directly click on the "
-"activation link included in the email.\n"
-"        "
-msgstr ""
-
-#: rs/templates/login_helpers/verification.html:26
-msgid "Username"
-msgstr ""
-
-#: rs/templates/login_helpers/verification.html:29
-msgid "Code"
-msgstr ""
-
-#: rs/templates/login_helpers/verification.html:35
-msgid "Activate account!"
-msgstr ""
-
-#: rs/templates/login_helpers/verification.html:43
-#, python-format
-msgid ""
-"\n"
-"        Normally you will receive an email in few seconds, but this can "
-"sometimes take\n"
-"        up to 15 minutes. If you do not receive an email from us, please "
-"check your Spam folder.\n"
-"        If the message from %(app_name)s has been marked as Spam, please "
-"mark it as not Spam.\n"
-"    "
-msgstr ""
-
-#: rs/templates/login_helpers/verification.html:52
-#, python-format
-msgid ""
-"\n"
-"          If you have any problems or suggestions, send us a message at: "
-"<strong>%(email)s</strong>.\n"
-"    "
-msgstr ""
-
-#: rs/templates/user_main_helpers/become_a_vip.html:37
-#, python-format
-msgid "If you like %(app_name)s, consider becoming a VIP member"
-msgstr ""
-
-#: rs/templates/user_main_helpers/become_a_vip.html:44
-msgid "VIP benefits include"
-msgstr ""
-
-#: rs/templates/user_main_helpers/chat.html:40
-msgid "Please enter the group name to create and join:"
-msgstr ""
-
-#: rs/templates/user_main_helpers/chat.html:47
-#: rs/templates/user_main_helpers/translation_helper.html:87
-msgid "Create a group"
-msgstr ""
-
-#: rs/templates/user_main_helpers/fortumo_purchase_form.html:11
-#: rs/templates/user_main_helpers/paypal_purchase_form.html:33
-msgid "Purchase"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:41
-msgid "Welcome"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:69
-msgid "My Profile (visible to the other members)"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:93
-#: rs/templates/user_main_helpers/status.html:47
-msgid "Headline:"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:131
-msgid "Photos"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:135
-msgid "upload"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:135
-msgid "photos"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:230
-#: rs/templates/user_main_helpers/main_body.html:285
-msgid "Last entrance:"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:248
-msgid "Activities that I am interested in"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:250
-#, python-format
-msgid "(a maximum of %(num)s activities may be selected)"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:316
-msgid "Administrative stuff (never displayed publicly)"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:324
-msgid "VIP Status"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:331
-#, python-format
-msgid ""
-"\n"
-"            You currently have VIP status that will expire %(expires)s."
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:334
-msgid "You currently do not have VIP status"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:358
-msgid "See my profile:"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:361
-#: rs/templates/user_main_helpers/main_body.html:385
-#: rs/templates/user_main_helpers/main_body.html:388
-msgid "click here"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:367
-msgid "If you want to see how your profile will appear."
-msgstr ""
-"If you want to see how your profile will appear from the perspective of "
-"other users, click on the link to the left."
-
-#: rs/templates/user_main_helpers/main_body.html:380
-msgid "Eliminate your profile:"
-msgstr ""
-
-#: rs/templates/user_main_helpers/main_body.html:384
-msgid " Are you sure you want to eliminate your profile?"
-msgstr ""
-"If you want to eliminate your profile/account, click on the link to the "
-"left  (careful -- you will not be able to enter with the same account after "
-"it has been eliminated)."
-
-#: rs/templates/user_main_helpers/main_body.html:394
-msgid "If you want to eliminate your profile/account."
-msgstr ""
-"If you want to eliminate your profile/account, click on the link to the "
-"left  (careful -- you will not be able to enter with the same account after "
-"it has been eliminated)."
-
-#: rs/templates/user_main_helpers/menubar.html:40
-msgid "You have entered in"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:40
-msgid "as a guest"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:52
-msgid "Register / Enter"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:82
-msgid "My Profile"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:92
-msgid "unread"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:103
-msgid "Unread (plural - override)"
-msgstr "Unread"
-
-#: rs/templates/user_main_helpers/menubar.html:108
-msgid "Favorites"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:113
-msgid "Received (plural - override)"
-msgstr "Received"
-
-#: rs/templates/user_main_helpers/menubar.html:118
-msgid "Sent (plural - override)"
-msgstr "Sent"
-
-#: rs/templates/user_main_helpers/menubar.html:128
-msgid "Profile views"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:141
-msgid "More"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:147
-msgid "View others online status"
-msgstr ""
-
-#: rs/templates/user_main_helpers/menubar.html:157
-msgid "Exit"
-msgstr ""
-
-#: rs/templates/user_main_helpers/paypal_purchase_form.html:23
-msgid "VIP Membership"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photo_rules.html:3
-msgid "Rules:"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photo_rules.html:5
-msgid ""
-"Photos that are not marked as private are public and visible to everyone"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photo_rules.html:10
-#: rs/templates/user_main_helpers/photo_rules.html:13
-msgid "No nude photos in public"
-msgstr "Photos that contain nudity will not be approved as publicly viewable"
-
-#: rs/templates/user_main_helpers/photo_rules.html:11
-msgid "Allowed in private"
-msgstr "Private photos can be sensual but may not be pornographic"
-
-#: rs/templates/user_main_helpers/photo_rules.html:14
-msgid "Allowed in private no genitals"
-msgstr ""
-"Private photos can be sensual but may not be pornographic and must never be "
-"focused on the genital area"
-
-#: rs/templates/user_main_helpers/photo_rules.html:20
-msgid "No pornographic or nude photos allowed"
-msgstr ""
-"Your profile may not contain pornographic or nude photos under any "
-"circumstances (neither public or private photos)"
-
-#: rs/templates/user_main_helpers/photo_rules.html:24
-msgid "Only authorized people will have access to your private photos"
-msgstr ""
-"You can give access to your private photos by giving people your key. You "
-"will see a symbol of a key in each persons profile which you can click on"
-
-#: rs/templates/user_main_helpers/photo_rules.html:25
-msgid "Public photos may show up in search engines such as Google"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photo_rules.html:27
-msgid "Read - command verb"
-msgstr "Read"
-
-#: rs/templates/user_main_helpers/photo_rules.html:28
-msgid "terms and conditions"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photo_rules.html:29
-msgid "for the rules of"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photo_rules.html:30
-msgid "Photos that do not follow the rules will be erased without notification"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photos.html:10
-msgid "I understand and accept these rules"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photos.html:184
-msgid "Save changes"
-msgstr ""
-
-#: rs/templates/user_main_helpers/photos.html:192
-msgid "View photo upload rules"
-msgstr ""
-
-#: rs/templates/user_main_helpers/purchase_buttons.html:17
-msgid "Purchase VIP status with a credit card"
-msgstr ""
-
-#: rs/templates/user_main_helpers/purchase_buttons.html:23
-msgid ""
-"\n"
-"        Credit card payments are processed by PayPal, an eBay company, and "
-"one of the worlds largest online payment processors).\n"
-"        "
-msgstr ""
-
-#: rs/templates/user_main_helpers/purchase_buttons.html:29
-#, python-format
-msgid ""
-"To protect your privacy, if you choose to pay with credit card you will be "
-"billed\n"
-"            with a discrete name that cannot be easily linked to "
-"%(app_name)s.\n"
-"            "
-msgstr ""
-
-#: rs/templates/user_main_helpers/purchase_buttons.html:38
-msgid "Purchase VIP status with a PayPal account"
-msgstr ""
-
-#: rs/templates/user_main_helpers/purchase_buttons.html:50
-msgid "Purchase VIP status by sending an SMS from your mobile phone"
-msgstr ""
-
-#: rs/templates/user_main_helpers/search_inline_javascript.html:38
-msgid "All Regions"
-msgstr ""
-
-#: rs/templates/user_main_helpers/search_inline_javascript.html:39
-msgid "All Sub-Regions"
-msgstr ""
-
-#: rs/templates/user_main_helpers/simple_search_form.html:40
-msgid "Search By Name"
-msgstr ""
-
-#: rs/templates/user_main_helpers/simple_search_form.html:52
-msgid "Standard Search"
-msgstr ""
-
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:8
-#, python-format
-msgid ""
-"\n"
-"            As a non-VIP (free) member of %(app_name)s, you are allowed to "
-"see other members online status for %(minutes)s minutes every %(reset)s "
-"hours.\n"
-"            "
-msgstr ""
-
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:14
-#, python-format
-msgid ""
-"\n"
-"            If you would like to use your free %(minutes)s minute quota now, "
-"please press the button below. If you prefer to wait until later,\n"
-"            just close this dialog box.\n"
-"            "
-msgstr ""
-
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:21
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:58
-msgid "Show online status"
-msgstr ""
-
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:27
-msgid ""
-"\n"
-"        VIP members are always shown the online status of other members.\n"
-"        "
-msgstr ""
-
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:43
-#, python-format
-msgid ""
-"\n"
-"        You have already used your free %(minutes)s minute trial. Time to "
-"wait before your next trial:\n"
-"        "
-msgstr ""
-
-#: rs/templates/user_main_helpers/test_vip_benefits_dialog.html:52
-msgid ""
-"You are VIP member, therefore you are always shown the online status of "
-"other members"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:8
-msgid "It appears that your internet connection is not functioning correctly."
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:14
-#, python-format
-msgid ""
-"\n"
-"        Your session has closed - you must re-login to continue to use "
-"%(app_name)s.\n"
-"    "
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:22
-msgid "Close chat"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:26
-msgid "Open chat"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:31
-msgid "None of your contacts are logged into their chat at the moment"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:35
-msgid "There are no chat groups currently available. Why don't you create one?"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:40
-msgid "Online chat friends"
-msgstr "Chat friends"
-
-#: rs/templates/user_main_helpers/translation_helper.html:66
-msgid "Your chat is currently closed. You must open it to see your contacts."
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:71
-msgid "We are loading your online contact list. This may take a few moments."
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:75
-msgid "We are loading available chat groups. This may take a few moments."
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:79
-msgid "loading"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:83
-msgid "Chat groups"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:91
-msgid "Video call"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:95
-msgid "Group members"
-msgstr ""
-
-#: rs/templates/user_main_helpers/translation_helper.html:99
-msgid "Unknown error - Please reload the page and try again"
-msgstr ""
-
-#: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:52
-#, python-format
-msgid ""
-"\n"
-"                Send %(viewed_profile_name)s a message without leaving this "
-"page:"
-msgstr ""
-
-#: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:71
-#, fuzzy, python-format
-msgid ""
-"\n"
-"                Options to contact %(viewed_profile_name)s"
-msgstr ""
-"\n"
-"                An increased limit on the number of \"chat friends\" to "
-"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
-"friends\" you can send unlimited chat messages. "
-
-#: rs/templates/user_main_helpers/view_other_profile_extra_stuff.html:76
-msgid "Click on the icon to activate or to remove the associated action"
-msgstr ""
-
-#: rs/templates/user_main_helpers/vip_benefits.html:6
-#, python-format
-msgid ""
-"\n"
-"                vip_message_quota %(vip_messages)s %(vip_hours)s "
-"%(guest_messages)s %(guest_hours)s "
-msgstr ""
-"\n"
-"Increased message quota that allows you to contact %(vip_messages)s new "
-"people every %(vip_hours)s hours (versus %(guest_messages)s every "
-"%(guest_hours)s hours for non-VIP members)."
-
-#: rs/templates/user_main_helpers/vip_benefits.html:8
-#, python-format
-msgid "Online status benefits %(app_name)s"
-msgstr ""
-"You will see the online status (Active, Idle, Away, or Offline) of all "
-"%(app_name)s members."
-
-#: rs/templates/user_main_helpers/vip_benefits.html:9
-#, python-format
-msgid ""
-"\n"
-"            You will see all of the other %(app_name)s members that have "
-"viewed your profile over the past %(days)s days. \n"
-"            "
-msgstr ""
-
-#: rs/templates/user_main_helpers/vip_benefits.html:12
-#, python-format
-msgid ""
-"\n"
-"                vip_chat_friends %(vip)s %(free)s"
-msgstr ""
-"\n"
-"                An increased limit on the number of \"chat friends\" to "
-"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
-"friends\" you can send unlimited chat messages. "
-
-#: rs/templates/user_main_helpers/vip_benefits.html:14
-#, python-format
-msgid ""
-"\n"
-"                vip_repeat_message_quota %(cf_num_messages)s "
-"%(std_num_messages)s"
-msgstr ""
-"\n"
-"You will be allowed to send %(cf_num_messages)s messages per day to each "
-"person that you have already had contact with (versus %(std_num_messages)s "
-"messages per day for non VIP members)."
-
-#: rs/templates/user_main_helpers/vip_benefits.html:16
-msgid "You can update your email address"
-msgstr ""
-"You can modify your contact email address whenever you like (versus non VIP "
-"members which must permanently use the email address that they registered "
-"with)."
 
 #~ msgid "Over 50 percent of our members are single"
 #~ msgstr "Over 50% of our members are single"

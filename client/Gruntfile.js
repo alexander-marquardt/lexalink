@@ -178,7 +178,8 @@ module.exports = function (grunt) {
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
                         '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}',
-                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
+                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*',
+                        '!<%= yeoman.dist %>/images/unversioned_images/**'
                     ]
                 }
             }
@@ -209,17 +210,17 @@ module.exports = function (grunt) {
             images: {
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>/images',
+                    cwd: '<%= yeoman.app %>/images/',
                     src: '{,*/}*.{gif,jpeg,jpg,png}',
-                    dest: '<%= yeoman.dist %>/images'
+                    dest: '<%= yeoman.dist %>/images/'
                 }]
             },
             proprietary_images: {
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>/proprietary/images',
+                    cwd: '<%= yeoman.app %>/proprietary/images/',
                     src: '{,*/}*.{gif,jpeg,jpg,png}',
-                    dest: '<%= yeoman.dist %>/proprietary/images'
+                    dest: '<%= yeoman.dist %>/proprietary/images/'
                 }]
             }
         },
@@ -244,7 +245,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.dist %>',
-                    src: '{,*/}*.html',
+                    src: 'html/**/*.html',
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -289,7 +290,7 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>',
                     dest: '<%= yeoman.dist %>',
                     // images are copied by the imagemin, and styles are copied by the step below
-                    src:['**', '!styles/**', '!proprietary/styles/**', '!images/**', '!proprietary/images/**']
+                    src:['**', '!styles/**', '!proprietary/styles/**', '!images/**', '!proprietary/images/**', '!proprietary/.git/**']
 //                    src: [
 //                        '*.{ico,png,txt}',
 //                        '.htaccess',
