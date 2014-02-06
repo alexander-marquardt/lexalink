@@ -6,7 +6,7 @@
     I confirm that I am {{ age }} or older and that I have read and accept the <a class="cl-dialog_anchor"
     href="/en/rs/terms/" target="_blank"> terms and conditions</a> for using {{ app_name }}
     {% endblocktrans %}
-    <br><br><div class="cl-center-text"><input type="button" value='{% trans "I agree" %}' class="cl-accept-terms"></div>
+    <br><br><div class="cl-center-text"><input type="button" value="{% trans 'I agree' %}" class="cl-accept-terms"></div>
 </div>
         
 <!-- The form submission does not have an "action" because we use javascript for the form submission -->
@@ -101,9 +101,9 @@
         // function to expand the locations menu as country and region are selected.
 
         var default_text = {};
-        default_text['region'] = '{% trans "Select Region" %}';
-        default_text['sub_region'] = '{% trans "Select Sub-Region" %}';
-        default_text['not_available'] = '{% trans "Not Defined Yet" %}';
+        default_text['region'] = "{% trans 'Select Region' %}";
+        default_text['sub_region'] = "{% trans 'Select Sub-Region' %}";
+        default_text['not_available'] = "{% trans 'Not Defined Yet' %}";
         var id_prefix = "#id-signup_fields";
 
         $("#id-signup_fields-region").hide();

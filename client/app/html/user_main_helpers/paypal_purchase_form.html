@@ -30,7 +30,7 @@
                 <p>
                 <!-- Note: since we currently have multiple paypal buttons defined on a single page (in pop-up menu, and at bottom of page)
                 we need to define each region as a class as opposed to assigning an id, since an id would not be unique -->
-                <input class="cl-paypal-purchase" type="submit" name="submit" value='{% trans "Purchase" %}'>
+                <input class="cl-paypal-purchase" type="submit" name="submit" value="{% trans 'Purchase' %}">
                 <p>
 
             {{ paypal_data.dropdown_options_hidden_fields|safe }}
