@@ -26,7 +26,7 @@ module.exports = function (grunt) {
             root: '.'
         },
 
-        build_settings: grunt.file.readJSON('build_setings_for_dist.json'),
+        build_settings: grunt.file.readJSON('build_settings.json'),
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {

@@ -40,7 +40,7 @@ def check_site_configuration():
     if not site_configuration.USE_COMPRESSED_STATIC_FILES:
         sys.stderr.write("************* Error *************\n")
         sys.stderr.write("You are attempting upload code with an incorrectly configured static directory\n")
-        sys.stderr.write('Please modify site_configuration.USE_TIME_STAMPED_STATIC_FILES to True\n\n')
+        sys.stderr.write('Please modify site_configuration.USE_COMPRESSED_STATIC_FILES to True\n\n')
         sys.stderr.write("Upload cancelled\n")
         sys.stderr.write("************* Exit *************\n\n")
         exit(1)
