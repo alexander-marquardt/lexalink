@@ -152,11 +152,11 @@ td.cl-photo-td-img
 	vertical-align: middle;
 	text-align: center;
     border: 2px solid #777777;
-    background: url(../images/med_photo_bg.png) repeat-x;
+    background: url(/images/med_photo_bg.png) repeat-x;
 }
 
 td#id-contact-table
-{ 
+{
 }
 td.cl-contact-td
 {
@@ -176,7 +176,7 @@ td.cl-photo-td-private-img
 	vertical-align: middle;
 	text-align: center;
     border: 2px solid #88167E;
-    background: url(../images/med_photo_bg.png) center repeat-x;
+    background: url(/images/med_photo_bg.png) center repeat-x;
 }
 
 
@@ -199,8 +199,8 @@ table.cl-alternate-row-colors tr:nth-child(even) {
 }
 
 
-.cl-photo-img 
-{ 
+.cl-photo-img
+{
 	vertical-align: middle;
 	margin-right: auto;
 	margin-left: auto;
@@ -220,7 +220,7 @@ table.cl-no-margin {
     margin: 0;
 }
 
-td.cl-mark_conversation-td 
+td.cl-mark_conversation-td
 {
 	vertical-align: top;
 }
@@ -259,13 +259,13 @@ td.cl-profile-photo-td-img
 {
 	height: 120px;
 	width: 120px;
-    
+
 	/*padding: 10px;*/
 	vertical-align: middle;
 	text-align: center;
     border: 2px solid #777777;
-    background: url(../images/med_photo_bg.png) center repeat-x;
-	/*background: url(../images/ProfilePhotoBackground.png) center no-repeat;*/
+    background: url(/images/med_photo_bg.png) center repeat-x;
+	/*background: url(/images/ProfilePhotoBackground.png) center no-repeat;*/
 }
 
 .cl-side-bar a { text-decoration: none; color: red; }
@@ -295,12 +295,12 @@ td.cl-profile-photo-td-img
 	padding-right: 10px;
 }
 
-.cl-right-align 
+.cl-right-align
 {
 	text-align: right;
 }
 
-.cl-center-align 
+.cl-center-align
 {
 	text-align: center;
 }
@@ -320,7 +320,7 @@ td.cl-profile-photo-td-img
 	width: 135px;
 }
 
-.cl-gray-box 
+.cl-gray-box
 {
 	border: 1px solid #bbb;
 	background: #eee;
@@ -389,7 +389,7 @@ td.cl-mail-header-td
 
 th.cl-search-box-header {
     text-align: center;
-    font-size: 13px;   
+    font-size: 13px;
 }
 
 td.cl-first-mail-icon-td
@@ -436,12 +436,12 @@ table.cl-mail-icon-table-120px
 }
 
 .cl-mail_seperator {
-	background: url(../images/mail_seperator.png) top center repeat-x;
+	background: url(/images/mail_seperator.png) top center repeat-x;
 }
 
 .cl-search_seperator {
 	height: 10px;
-	background: url(../images/mail_seperator.png) top center repeat-x;
+	background: url(/images/mail_seperator.png) top center repeat-x;
 }
 
 
@@ -464,7 +464,7 @@ div#id-show-loading-spinner
     position: fixed;
     top: 50%;
     left: 50%;
-    background:url(../images/large-ajax-loader.gif) no-repeat center;
+    background:url(/images/large-ajax-loader.gif) no-repeat center;
     text-align:center;
     padding:10px;
     border:0px;
@@ -583,7 +583,7 @@ table.center {
     white-space: nowrap;
 	vertical-align: middle;
     text-align: right;
-    padding: 4px 10px 6px 0px;    
+    padding: 4px 10px 6px 0px;
 }
 
 .cl-small-login-button {
@@ -630,16 +630,16 @@ td.cl-registration-big-prompt-td {
     padding: 0 7px 0 7px;
 }
 .cl-1-green_dot {
-    background: url(../images/1-green_dot_10px_10px.png) center center no-repeat;
+    background: url(/images/1-green_dot_10px_10px.png) center center no-repeat;
 }
 .cl-2-yellow_dot {
-    background: url(../images/2-yellow_dot_10px_10px.png) center center no-repeat;
+    background: url(/images/2-yellow_dot_10px_10px.png) center center no-repeat;
 }
 .cl-3-red_dot {
-    background: url(../images/3-red_dot_10px_10px.png) center center no-repeat;
+    background: url(/images/3-red_dot_10px_10px.png) center center no-repeat;
 }
 .cl-4-black_dot {
-    background: url(../images/4-black_dot_10px_10px.png) center center no-repeat;
+    background: url(/images/4-black_dot_10px_10px.png) center center no-repeat;
 }
 
 a.cl-dialog_anchor {text-decoration: underline; color:#000 ; outline: none; font-weight: bold; } /* #B857AB close to purple */

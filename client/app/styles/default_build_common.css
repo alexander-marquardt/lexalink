@@ -32,7 +32,7 @@
 
 
 body {
-        /*background: url(../images/white_background_with_shadow.png) top center repeat; */
+        /*background: url(/images/white_background_with_shadow.png) top center repeat; */
 	/*background: #ececec;*/
 	background: #FFEDEE
 }
@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .cl-shadow-container{
 	/* This defines the left and right shadows that outline the page - only works with white background*/
-	background: #fff url(../images/default_build/main_shadow_bg.gif) repeat-y;
+	background: #fff url(/images/default_build/main_shadow_bg.gif) repeat-y;
 	margin-bottom: 0px;
 }
 
@@ -54,7 +54,7 @@ a {text-decoration: none; color:#950808;}
 {
 	color: white;
 	height: 22px;
-        background: url(../images/default_build/navbar_background.png) left repeat-x;
+        background: url(/images/default_build/navbar_background.png) left repeat-x;
 
 }
 
@@ -69,17 +69,17 @@ a {text-decoration: none; color:#950808;}
 
 .cl-horiz-bar-div
 {
-    background: url(../images/default_build/navbar_background.png) left repeat-x;
+    background: url(/images/default_build/navbar_background.png) left repeat-x;
 }
 
 
 .cl-mail_seperator {
-	background: url(../images/default_build/mail_seperator.png) top center repeat-x;
+	background: url(/images/default_build/mail_seperator.png) top center repeat-x;
 }
 
 .cl-search_seperator {
 	height: 10px;
-	background: url(../images/default_build/mail_seperator.png) top center repeat-x;
+	background: url(/images/default_build/mail_seperator.png) top center repeat-x;
 }
 
 
@@ -93,12 +93,12 @@ a {text-decoration: none; color:#950808;}
 
 
 .cl-background-image {
-	background: url(../images/default_build/default_graphic.png) bottom center no-repeat;
+	background: url(/images/default_build/default_graphic.png) bottom center no-repeat;
 	height: 400px;
 }
 
 .cl-login-fields-background {
-	background: url(../images/default_build/registration_background.png) top center no-repeat;
+	background: url(/images/default_build/registration_background.png) top center no-repeat;
 }
 
 .cl-login-fields-background td
