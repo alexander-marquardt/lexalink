@@ -1081,7 +1081,7 @@ If not, your profile may be marked as sending spam.')}
             </form>
             
             <div id="id-show-ajax-spinner-captcha">
-            <img src="/images/small-ajax-loader.gif" align=middle alt=''><br><br>
+            <img src="/images/unversioned_images/small-ajax-loader.gif" align=middle alt=''><br><br>
             </div>       
             
             </div> <!-- id="id-edit-%(section_name)s-section" -->
@@ -1143,7 +1143,7 @@ If not, your profile may be marked as sending spam.')}
         </form>
         
         <div id="id-show-ajax-spinner-captcha">
-        <img src="/images/small-ajax-loader.gif" align=middle alt=''><br><br>
+        <img src="/images/unversioned_images/small-ajax-loader.gif" align=middle alt=''><br><br>
         </div>  
         
         </div> <!-- id="id-edit-%(section_name)s-section" -->
