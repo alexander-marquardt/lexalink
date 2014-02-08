@@ -177,7 +177,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>/images/',
-                    src: '{,*/}*.{gif,jpeg,jpg,png}',
+                    src: ['{,*/}*.{gif,jpeg,jpg,png}'],
                     dest: '<%= yeoman.dist %>/images/'
                 }]
             },
@@ -188,6 +188,20 @@ module.exports = function (grunt) {
                     src: '{,*/}*.{gif,jpeg,jpg,png}',
                     dest: '<%= yeoman.dist %>/proprietary/images/'
                 }]
+            },
+            css_images: {
+                expand: true,
+                dot: true,
+                cwd: '<%= yeoman.app %>',
+                dest: '<%= yeoman.dist %>',
+                src: ['styles/jquery-ui-1.10.3-images/**/*', 'styles/jquery-fancybox-2.1.5-images/**/*']
+            },
+            build_images: {
+                expand: true,
+                dot: true,
+                cwd: '<%= yeoman.app %>',
+                dest: '<%= yeoman.dist %>',
+                src: ['images/<%= build_settings.build_name %>/**/*']
             }
         },
 
@@ -242,6 +256,7 @@ module.exports = function (grunt) {
                 dest: '.tmp/proprietary/styles/',
                 src: '{,*/}*.css'
             }
+
         },
 
 
@@ -254,6 +269,7 @@ module.exports = function (grunt) {
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
                         '<%= yeoman.dist %>/proprietary/styles/{,*/}*.css',
                         '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}',
+                        '!<%= yeoman.dist %>/images/*_build/*.{gif,jpeg,jpg,png,webp}', //don't revision the *_build directory since files are accesed from python code.
                         '<%= yeoman.dist %>/styles/fonts/{,*/}*.*',
                         '!<%= yeoman.dist %>/images/unversioned_images/**'
                     ]
@@ -264,14 +280,6 @@ module.exports = function (grunt) {
 
         // Run some tasks in parallel to speed up build process
         concurrent: {
-            server: [
-                'copy:styles',
-                'copy:proprietary_styles'
-            ],
-            test: [
-                'copy:styles',
-                'copy:proprietary_styles'
-            ],
             dist: [
                 'copy:styles',
                 'copy:proprietary_styles',
@@ -309,15 +317,15 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build', [
-        'clean:dist',
+        'clean',
         'replace',
         'useminPrepare',
-        'concurrent:dist',
+        'copy',
+        'imagemin',
         'autoprefixer',
         'concat',
         'cssmin',
         'uglify',
-        'copy:dist',
         'rev',
         'usemin',
         'htmlmin'
