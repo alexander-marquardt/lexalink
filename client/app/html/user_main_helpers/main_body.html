@@ -1,4 +1,4 @@
-
+{% load i18n %}
 <!--
 ################################################################################
 # LexaLink Copyright information - do not remove this copyright notice
@@ -103,7 +103,7 @@
 
 
 <!------------------------------------------------------------>
-<!-- "signup fields" section - allow user to modify their initial signup settings 
+<!-- "signup fields" section - allow user to modify their initial signup settings
      such as sex, age, etc.. -->
 {{ html_for_main.signup_fields|safe }}
 
@@ -144,7 +144,7 @@
                 {{ html_for_main.profile_photo|safe }}
             </div>
         </div> <!-- end grid_2 -->
-        
+
         <div class="grid_7 omega">
             {% include "user_main_helpers/photos.html" %}
         </div> <!-- end grid10 omega -->
@@ -210,7 +210,7 @@
 
 
 {% if build_name != "friend_build" %}
-        
+
     {% if build_name != "language_build" %}
         {{ html_for_main.languages|safe }}
     {% endif %}
@@ -265,7 +265,7 @@
 
 
 {% endif %}
-        
+
 <!------------------------------------------------------------>
 <!-- "turn_ons" section -->
 {% if build_name == "discrete_build" or build_name == "lesbian_build" or build_name == "gay_build" or build_name == "swinger_build" %}
@@ -290,8 +290,8 @@
 {% endif %}
 
 <!--
-    <div class="cl-clear"></div> 
-    <div class="grid_2 alpha">   
+    <div class="cl-clear"></div>
+    <div class="grid_2 alpha">
         <strong>Previous entrance</strong>
     </div>
     <div class="grid_7 omega" >
@@ -337,7 +337,7 @@
     </div>
 </div> <!-- end grid10 omega -->
 {% endif %}
-        
+
 <div class="cl-clear"></div>
 <!------------------------------------------------------------>
 <!-- "email_address" section - allow user to enter email address if desired -->
@@ -385,6 +385,7 @@ essentially we just toggle a bit -->
     <a HREF="javascript:confirm_decision('Enable this profile?', '{% url undelete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
     {% endif %}
 
+</div>
 
 <div class="grid_7 omega">
     <div><p>{% trans "If you want to eliminate your profile/account." %}</p>
@@ -399,9 +400,9 @@ essentially we just toggle a bit -->
 
 <div class="cl-clear"></div>
 
-<!-- 
+<!--
 DEBUGGING INFO:
-{{ viewed_profile_data_fields.debugging_html }} 
+{{ viewed_profile_data_fields.debugging_html }}
 -->
 {% if not viewed_profile_data_fields.account_has_been_removed_message %}
 {% if not primary_user_profile_data_fields.is_primary_user %}
