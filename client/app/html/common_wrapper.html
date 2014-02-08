@@ -117,5 +117,10 @@
 
     <div id="id-dialog_box_for_user_feedback" style="display:none;"></div>
 
+    {% if not use_compressed_static_files %}
+    <!-- only enable livereload for development build -->
+    <script src="//localhost:35729/livereload.js"></script>
+    {% endif %}
+
 </body>
 </html>

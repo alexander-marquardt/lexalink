@@ -782,6 +782,7 @@ admin_address = sender_address
         
         
 template_common_fields = {'build_name': site_configuration.BUILD_NAME,
+                          'use_compressed_static_files': site_configuration.USE_COMPRESSED_STATIC_FILES,
                           'build_name_used_for_menubar' : site_configuration.BUILD_NAME_USED_FOR_MENUBAR,
                           'app_name' : site_configuration.APP_NAME,
                           'domain_name' : site_configuration.DOMAIN_NAME,
