@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         yeoman: {
             // Configurable paths
             app: 'app',
-            dist: 'dist',
+            dist: 'dist'
         },
 
         build_settings: grunt.file.readJSON('build_settings.json'),
