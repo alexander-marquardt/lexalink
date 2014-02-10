@@ -154,10 +154,10 @@ var chanUtils = new function () {
 
                     var keepOpenBoxesList = [];
 
-                    var conversationTrackerDict = jsonResponse.conversation_tracker;
+                    var conversationTrackerDict = jsonResponse["conversation_tracker"];
                     for (var otherUid in conversationTrackerDict) {
                         var arrayOfChatMsgTimeStrings = conversationTrackerDict[otherUid]["chat_msg_time_string_arr"];
-                        var chatbox_title = conversationTrackerDict[otherUid]["chatbox_title"];
+                        var chatboxTitle = conversationTrackerDict[otherUid]["chatbox_title"];
                         var chatboxMinimizedMaximized = conversationTrackerDict[otherUid]["chatbox_minimized_maximized"];
                         var typeOfConversation = conversationTrackerDict[otherUid]["type_of_conversation"];
                         var highlightBoxEnabled = true;
@@ -169,7 +169,7 @@ var chanUtils = new function () {
 
                             keepOpenBoxesList.push(otherUid);
 
-                            if (otherUid != "main" && otherUid != "groups") {
+                            if (otherUid !== "main" && otherUid !== "groups") {
 
                                 if (conversationTrackerDict[otherUid].hasOwnProperty('update_conversation')) {
 
@@ -186,19 +186,19 @@ var chanUtils = new function () {
 
                                     // calling addBox just makes sure that it exists. Since we just received notification of the existance of this
                                     // box from the server, it has *not* been "just_opened". 
-                                    var just_opened = false;
-                                    chatboxManager.addBox(otherUid, chatbox_title, true, true, false, typeOfConversation,
+                                    var justOpened = false;
+                                    chatboxManager.addBox(otherUid, chatboxTitle, true, true, false, typeOfConversation,
                                             conversationTrackerDict[otherUid]['nid'], conversationTrackerDict[otherUid]['url_description'],
-                                            just_opened);
+                                            justOpened);
 
                                     // load the message history into the chatbox
                                     for (var msgTimeIdx in arrayOfChatMsgTimeStrings) {
                                         var msgTimeStr = arrayOfChatMsgTimeStrings[msgTimeIdx];
-                                        var senderUsername = conversationTrackerDict[otherUid].sender_username_dict[msgTimeStr];
-                                        var chatMsgText = conversationTrackerDict[otherUid].chat_msg_text_dict[msgTimeStr];
+                                        var senderUsername = conversationTrackerDict[otherUid]["sender_username_dict"][msgTimeStr];
+                                        var chatMsgText = conversationTrackerDict[otherUid]["chat_msg_text_dict"][msgTimeStr];
                                         $("#" + otherUid).chatbox("option", "boxManager").addMsg(senderUsername, chatMsgText, highlightBoxEnabled);
 
-                                        if (typeOfConversation == "one_on_one") {
+                                        if (typeOfConversation === "one_on_one") {
                                             // we only start faster polling if a one_on_one message is received - since this is a direct communication
                                             // to the user, while group messages should not trigger faster polling.
                                             newOneOnOneMessageReceived = true;
@@ -210,9 +210,9 @@ var chanUtils = new function () {
 
 
                         if (chatboxMinimizedMaximized) {
-                            if (chatboxMinimizedMaximized == "minimized") {
+                            if (chatboxMinimizedMaximized === "minimized") {
                                 $("#"+ otherUid).chatbox("option", "boxManager").minimizeBox();
-                            } else if (chatboxMinimizedMaximized == "maximized") {
+                            } else if (chatboxMinimizedMaximized === "maximized") {
                                 $("#"+ otherUid).chatbox("option", "boxManager").maximizeBox();
                             } else {
                                 throw "chatbox_minimized_maximized value: " + chatboxMinimizedMaximized;
@@ -222,23 +222,23 @@ var chanUtils = new function () {
                     }
 
                     // close chat boxes that did not have the "keep_open" property set
-                    var currently_open_chatboxes = chatboxManager.showList;
-                    for (var idx = 0; idx < currently_open_chatboxes.length; idx ++) {
-                        var box_id = currently_open_chatboxes[idx];
+                    var currentlyOpenChatboxes = chatboxManager.showList;
+                    for (var idx = 0; idx < currentlyOpenChatboxes.length; idx ++) {
+                        var boxId = currentlyOpenChatboxes[idx];
 
-                        if ($.inArray(box_id, keepOpenBoxesList) == -1) {
+                        if ($.inArray(boxId, keepOpenBoxesList) === -1) {
 
-                            if ($("#" + box_id).chatbox("option", 'just_opened') !== true) {
+                            if ($("#" + boxId).chatbox("option", 'just_opened') !== true) {
                                 // we only check the "keep_open" value for boxes that were not just created,
                                 // since the keep_open property needs a few milliseconds to propagate through the server and
                                 // back to the client.
-                                chatboxManager.closeChatboxOnClient(box_id)
+                                chatboxManager.closeChatboxOnClient(boxId);
                             }
                             else {
                                 // we just received a "keep_open" confirmation for the newly created box, and therefore it is
                                 // no longer a "just_opened" box (the new chatbox has propagated through the server and
                                 // back to the client). change just_opened to false.
-                                $("#" + box_id).chatbox("option", 'just_opened', false)
+                                $("#" + boxId).chatbox("option", 'just_opened', false);
                             }
                         }
                     }
@@ -246,10 +246,10 @@ var chanUtils = new function () {
 
                 var message;
                 if (jsonResponse.hasOwnProperty('contacts_info_dict')) {
-                    if (!$.isEmptyObject(jsonResponse.contacts_info_dict)) {
+                    if (!$.isEmptyObject(jsonResponse["contacts_info_dict"])) {
 
-                        updateChatControlBox("main", jsonResponse.contacts_info_dict);
-                        updateUserChatBoxTitles(jsonResponse.contacts_info_dict);
+                        updateChatControlBox("main", jsonResponse["contacts_info_dict"]);
+                        updateUserChatBoxTitles(jsonResponse["contacts_info_dict"]);
                     }
                     else {
                         message = $("#id-no-contacts-text").text();
@@ -258,11 +258,11 @@ var chanUtils = new function () {
                 }
 
                 if (jsonResponse.hasOwnProperty('chat_groups_dict')) {
-                    if (!$.isEmptyObject(jsonResponse.chat_groups_dict)) {
+                    if (!$.isEmptyObject(jsonResponse["chat_groups_dict"])) {
 
-                        var chat_groups_dict = jsonResponse.chat_groups_dict;
-                        updateChatControlBox("groups", chat_groups_dict);
-                        updateGroupChatBoxTitles(chat_groups_dict);
+                        var chatGroupsDict = jsonResponse["chat_groups_dict"];
+                        updateChatControlBox("groups", chatGroupsDict);
+                        updateGroupChatBoxTitles(chatGroupsDict);
                     }
                     else {
                         message = $("#id-no-groups-text").text();
@@ -273,22 +273,22 @@ var chanUtils = new function () {
 
                 if (jsonResponse.hasOwnProperty('chat_group_members')) {
 
-                    for (var group_id in jsonResponse.chat_group_members) {
-                        var group_members_dict = jsonResponse.chat_group_members[group_id];
-                        var sorted_list_of_names_with_user_info = chanUtilsSelf.sort_user_or_groups_by_name("members", group_members_dict, true);
+                    for (var groupId in jsonResponse["chat_group_members"]) {
+                        var groupMembersDict = jsonResponse["chat_group_members"][groupId];
+                        var sortedListOfNamesWithUserInfo = chanUtilsSelf.sortUserOrGroupsByName("members", groupMembersDict, true);
 
-                        if (!chanUtilsSelf.listOfUsernamesInEachGroup.hasOwnProperty(group_id)) {
-                            chanUtilsSelf.listOfUsernamesInEachGroup[group_id] = sorted_list_of_names_with_user_info;
+                        if (!chanUtilsSelf.listOfUsernamesInEachGroup.hasOwnProperty(groupId)) {
+                            chanUtilsSelf.listOfUsernamesInEachGroup[groupId] = sortedListOfNamesWithUserInfo;
                         }
 
-                        if ( ! chanUtilsSelf.check_if_group_members_are_the_same(sorted_list_of_names_with_user_info, chanUtilsSelf.listOfUsernamesInEachGroup[group_id])) {
-                            chanUtilsSelf.listOfUsernamesInEachGroup[group_id] = sorted_list_of_names_with_user_info;
-                            $("#id-group_members-dialog-box-" + group_id).effect("highlight", {color:'#FFEEFF'}, 3000);
+                        if ( ! chanUtilsSelf.checkIfGroupMembersAreTheSame(sortedListOfNamesWithUserInfo, chanUtilsSelf.listOfUsernamesInEachGroup[groupId])) {
+                            chanUtilsSelf.listOfUsernamesInEachGroup[groupId] = sortedListOfNamesWithUserInfo;
+                            $("#id-group_members-dialog-box-" + groupId).effect("highlight", {color:'#FFEEFF'}, 3000);
                         }
 
-                        var display_list = chanUtilsSelf.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
-                        $("#id-group_members-dialog-box-contents-" + group_id).html(display_list);
-                        chanUtilsSelf.showListHoverDescriptions(group_id, group_members_dict);
+                        var displayList = chanUtilsSelf.displayAsListWithHrefs(groupId, sortedListOfNamesWithUserInfo, true);
+                        $("#id-group_members-dialog-box-contents-" + groupId).html(displayList);
+                        chanUtilsSelf.showListHoverDescriptions(groupId, groupMembersDict);
                     }
                 }
 
@@ -296,7 +296,7 @@ var chanUtils = new function () {
                 if (newOneOnOneMessageReceived) {
                     // reset the message polling delay to the initial value, since this user appears to now
                     // be involved in a conversation.
-                    chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.initialMessagePollingDelay);
+                    chanUtilsSelf.setMessagePollingTimeoutAndSchedulePoll(chanUtilsSelf.initialMessagePollingDelay);
                 }
             }
             catch(err) {
@@ -307,33 +307,33 @@ var chanUtils = new function () {
 
 
 
-        var generate_json_post_dict = function() {
+        var generateJsonPostDict = function() {
             
-            var current_time = (new Date().getTime());
+            var currentTime = (new Date().getTime());
             var listOfOpenChatGroupsMembersBoxesToPass = [];
             var getFriendsOnlineDict = "no";
             var getChatGroupsDict = "no";
 
-            if (current_time - chanUtilsSelf.timeToPassBeforeUpdatingListOfOpenChatGroupsMembersBoxes >
+            if (currentTime - chanUtilsSelf.timeToPassBeforeUpdatingListOfOpenChatGroupsMembersBoxes >
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes ) {
-                chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = current_time;
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = currentTime;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
                 listOfOpenChatGroupsMembersBoxesToPass = chanUtilsSelf.listOfOpenChatGroupsMembersBoxes;
             }
 
-            if (current_time - chanUtilsSelf.timeToPassBeforeUpdatingFriendsOnlineDict >
+            if (currentTime - chanUtilsSelf.timeToPassBeforeUpdatingFriendsOnlineDict >
                 chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict ) {
-                chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict = current_time;
+                chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict = currentTime;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
                 getFriendsOnlineDict = "yes";
             }
 
 
-            if (current_time - chanUtilsSelf.timeaToPassBeforeUpdatingChatGroupsDict >
+            if (currentTime - chanUtilsSelf.timeaToPassBeforeUpdatingChatGroupsDict >
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict ) {
-                chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = current_time;
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = currentTime;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
                 getChatGroupsDict = "yes";
@@ -347,10 +347,10 @@ var chanUtils = new function () {
             'getFriendsOnlineDict' : getFriendsOnlineDict,
             'getChatGroupsDict' : getChatGroupsDict};
 
-             return jsonPostDict;
-        }
+            return jsonPostDict;
+        };
 
-        var poll_server_for_status_and_new_messages = function () {
+        var pollServerForStatusAndNewMessages = function () {
 
             // polls the server for most recent chat messages - should re-schedule itself
             // on an exponentially declining schedule (exponentially increasing delay).
@@ -362,22 +362,22 @@ var chanUtils = new function () {
                     chanUtilsSelf.pollingIsLockedMutex = true;
 
 
-                    var list_of_open_chat_groups_members_boxes_to_pass = [];
+                    var listOfOpenChatGroupsMembersBoxesToPass = [];
 
-                    var json_post_dict = generate_json_post_dict();
-                    var json_stringified_post = $.toJSON(json_post_dict);
+                    var jsonPostDict = generateJsonPostDict();
+                    var jsonStringifiedPost = $.toJSON(jsonPostDict);
                     
 
                     $.ajax({
                         type: 'post',
                         url:  '/rs/channel_support/poll_server_for_status_and_new_messages/' + rnd() + "/",
                         contentType: 'json', // post data type
-                        data: json_stringified_post,
+                        data: jsonStringifiedPost,
                         dataType: 'json', // response type
-                        success: function(json_response) {
+                        success: function(jsonResponse) {
                             if (!chanUtilsSelf.sendingMessageIsLockedMutex) {
                                 // only process this json response if we are not currently processing a send_message call.
-                                processJsonMostRecentChatMessages(json_response);
+                                processJsonMostRecentChatMessages(jsonResponse);
                             }
                         },
                         error: function () {
@@ -385,7 +385,7 @@ var chanUtils = new function () {
                         },
                         complete: function() {
                             if (!chanUtilsSelf.blockFurtherPolling) {
-                                chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.currentMessagePollingDelay);
+                                chanUtilsSelf.setMessagePollingTimeoutAndSchedulePoll(chanUtilsSelf.currentMessagePollingDelay);
                             }
                             chanUtilsSelf.pollingIsLockedMutex = false;
                         }
@@ -402,7 +402,7 @@ var chanUtils = new function () {
         //*******************************
         /* Public function declarations */
 
-        this.set_message_polling_timeout_and_schedule_poll = function(current_message_polling_delay) {
+        this.setMessagePollingTimeoutAndSchedulePoll = function(currentMessagePollingDelay) {
 
             try {
 
@@ -413,43 +413,43 @@ var chanUtils = new function () {
 
                 clearTimeout(chanUtilsSelf.chatMessageTimeoutID);
 
-                if (chanUtilsSelf.userPresenceStatus == "user_presence_active") {
+                if (chanUtilsSelf.userPresenceStatus === "user_presence_active") {
                     // for active user sessions, make sure that the delay has not exceeded the maximum, since
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
-                    if (current_message_polling_delay > chanUtilsSelf.activePollingDelayCeiling ||
-                            chanUtilsSelf.chatBoxesStatus == "chat_disabled") {
-                        current_message_polling_delay = chanUtilsSelf.activePollingDelayCeiling;
+                    if (currentMessagePollingDelay > chanUtilsSelf.activePollingDelayCeiling ||
+                            chanUtilsSelf.chatBoxesStatus === "chat_disabled") {
+                        currentMessagePollingDelay = chanUtilsSelf.activePollingDelayCeiling;
                     } else {
-                        current_message_polling_delay = current_message_polling_delay * chanUtilsSelf.decayMultiplier;
+                        currentMessagePollingDelay = currentMessagePollingDelay * chanUtilsSelf.decayMultiplier;
                     }
-                    chanUtilsSelf.currentMessagePollingDelay = current_message_polling_delay;
+                    chanUtilsSelf.currentMessagePollingDelay = currentMessagePollingDelay;
                 }
                 
-                chanUtilsSelf.chatMessageTimeoutID = setTimeout(poll_server_for_status_and_new_messages, current_message_polling_delay);
+                chanUtilsSelf.chatMessageTimeoutID = setTimeout(pollServerForStatusAndNewMessages, currentMessagePollingDelay);
 
             } catch(err) {
-                reportTryCatchError( err, "set_message_polling_timeout_and_schedule_poll");
+                reportTryCatchError( err, "setMessagePollingTimeoutAndSchedulePoll");
             }
         };
 
 
-        this.set_focusin_polling_delay = function () {
+        this.setFocusinPollingDelay = function () {
             try {
                 // user has clicked the mouse (given focus) in the input for a chatbox
                 chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialInFocusPollingDelay;
                 chanUtilsSelf.decayMultiplier = chanUtilsSelf.focusinAndActiveDecayMultiplier;
             } catch(err) {
-                reportTryCatchError( err, "set_focusin_polling_delay");
+                reportTryCatchError( err, "setFocusinPollingDelay");
             }
         };
-        this.set_focusout_polling_delay = function () {
+        this.setFocusoutPollingDelay = function () {
             try {
                 // user has removed the focus from the chatbox input
                 chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay ;
                 chanUtilsSelf.decayMultiplier = chanUtilsSelf.focusoutAndActiveDecayMultiplier ;
             } catch(err) {
-                reportTryCatchError( err, "set_focusout_polling_delay");
+                reportTryCatchError( err, "setFocusoutPollingDelay");
             }
         };
 
@@ -460,15 +460,15 @@ var chanUtils = new function () {
                 // we only want a *single* interaction with the server when the user clicks the
                 // offline button. This function takes care of the rest of the functionality after
                 // server has been informed of the new status.
-                var offline_message = $('#id-chat-contact-main-box-disactivated-text').text();
-                var new_main_title = $('#id-chat-contact-title-disactivated-text').text();
+                var offlineMessage = $('#id-chat-contact-main-box-disactivated-text').text();
+                var newMainTitle = $('#id-chat-contact-title-disactivated-text').text();
                 $('#id-go-offline-button').hide();
                 $('#id-go-online-button').show();
                 chanUtilsSelf.chatBoxesStatus = "chat_disabled";
 
                 chatboxManager.closeAllChatBoxes();
-                chatboxManager.changeBoxtitle("main", new_main_title);
-                $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
+                chatboxManager.changeBoxtitle("main", newMainTitle);
+                $("#main").chatbox("option", "boxManager").refreshBox(offlineMessage);
             } catch(err) {
                 reportTryCatchError( err, "execute_go_offline_on_client", "warning");
             }
@@ -477,8 +477,8 @@ var chanUtils = new function () {
         this.executeGoOnlineOnClient = function () {
 
             try {
-                var new_main_title = $('#id-chat-contact-title-text').text();
-                var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
+                var newMainTitle = $('#id-chat-contact-title-text').text();
+                var loadingContactsMessage = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
                 chanUtilsSelf.userPresenceStatus = "user_presence_active";
@@ -486,25 +486,25 @@ var chanUtils = new function () {
 
                 chanUtilsSelf.start_polling();
                 //$("#main").chatbox("option", "boxManager").showChatboxContent();
-                chatboxManager.changeBoxtitle("main", new_main_title);
-                $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);
+                chatboxManager.changeBoxtitle("main", newMainTitle);
+                $("#main").chatbox("option", "boxManager").refreshBox(loadingContactsMessage);
 
 
-                var groups_box_id = "groups";
-                var type_of_conversation = "Not used/Not available";
-                var groups_box_title = $("id-chat-group-title-text").text();
-                var just_opened = true;
-                chatboxManager.addBox(groups_box_id, groups_box_title, false, false, false, type_of_conversation, '', '', just_opened);
+                var groupsBoxId = "groups";
+                var typeOfConversation = "Not used/Not available";
+                var groupsBoxTitle = $("id-chat-group-title-text").text();
+                var justOpened = true;
+                chatboxManager.addBox(groupsBoxId, groupsBoxTitle, false, false, false, typeOfConversation, '', '', justOpened);
                 var message = $("#id-chat-groups-box-loading-text").text();
                 $("#groups").chatbox("option", "boxManager").refreshBox(message);
 
                 // if the user is online, then we will check for resize events on the window, which can
                 // change the width of the chatboxes (this is not necessary if they are offline since they should
                 // not have chatboxes open)
-                catch_window_resize_events();
+                catchWindowResizeEvents();
                 
             } catch(err) {
-                reportTryCatchError( err, "execute_go_online_on_client", "warning");
+                reportTryCatchError( err, "executeGoOnlineOnClient", "warning");
             }
         };
 
@@ -519,15 +519,15 @@ var chanUtils = new function () {
 
 
         this.start_polling = function() {
-            // just a simple wrapper function for calling set_message_polling_timeout_and_schedule_poll
+            // just a simple wrapper function for calling setMessagePollingTimeoutAndSchedulePoll
             try {
                 if (chanUtilsSelf.chatBoxesStatus == "chat_enabled") {
                     chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay;
-                    poll_server_for_status_and_new_messages();
+                    pollServerForStatusAndNewMessages();
                 } else {
                     // if chatboxes are not enabled, we want to still poll in order to keep the userPresenceStatus up-to-date
                     // but we want to do it at a slower rate in order to waste less CPU resources.
-                    chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.activePollingDelayCeiling);
+                    chanUtilsSelf.setMessagePollingTimeoutAndSchedulePoll(chanUtilsSelf.activePollingDelayCeiling);
                 }
             
             } catch(err) {
@@ -542,7 +542,7 @@ var chanUtils = new function () {
 
             try {
 
-                var json_post_dict = generate_json_post_dict();
+                var json_post_dict = generateJsonPostDict();
                 json_post_dict = $.extend({'other_uid': box_id, 'type_of_conversation' : $("#" + box_id).chatbox("option", 'type_of_conversation')}, json_post_dict);
                 var json_stringified_post = $.toJSON(json_post_dict);
 
@@ -558,7 +558,7 @@ var chanUtils = new function () {
                         report_ajax_error(textStatus, errorThrown, "create_new_box_entry_on_server");  
                     },
                     complete: function () {
-                        chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.initialInFocusPollingDelay);
+                        chanUtilsSelf.setMessagePollingTimeoutAndSchedulePoll(chanUtilsSelf.initialInFocusPollingDelay);
                     }
                 });
             } catch(err) {
@@ -668,13 +668,13 @@ var chanUtils = new function () {
 
         this.call_poll_server_for_status_and_new_messages = function () {
             try {
-                poll_server_for_status_and_new_messages();
+                pollServerForStatusAndNewMessages();
             } catch(err) {
                 reportTryCatchError( err, "call_poll_server_for_status_and_new_messages", "warning");
             }
         };
 
-        this.sort_user_or_groups_by_name = function(box_name, users_or_groups_dict, sort_ascending) {
+        this.sortUserOrGroupsByName = function(box_name, users_or_groups_dict, sort_ascending) {
 
             // returns a 2D array containing [name, user_info_dict] pairs, and sorted by name
             // where user_info_dict is a dictionary with keys for 'username' and 'nid'
@@ -701,7 +701,7 @@ var chanUtils = new function () {
                         userOrGroupName = "[" + num_members_str + "] " + users_or_groups_dict[uid]['user_or_group_name'];
                     } else {
                         if (box_name != "main" &&  box_name != "members") {
-                            throw "Error in sort_user_or_groups_by_name";
+                            throw "Error in sortUserOrGroupsByName";
                         }
                         // this is the "main" box which contains list of contacts online
                         if (users_or_groups_dict[uid]['user_presence_status'] != "hidden_online_status") {
@@ -726,7 +726,7 @@ var chanUtils = new function () {
             return false; // prevent lint warnings
         };
 
-        this.check_if_group_members_are_the_same = function(array_one, array_two) {
+        this.checkIfGroupMembersAreTheSame = function(array_one, array_two) {
             // accepts two sorted arrays, that contain [name, uid] pairs that are sorted by name. Steps through, and
             // checks if they are identical.
 
@@ -857,7 +857,7 @@ var chanUtils = new function () {
                 });
 
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = 0; // this will force list to be displayed immediately
-                poll_server_for_status_and_new_messages(); // poll the server so that the list will be updated right away.
+                pollServerForStatusAndNewMessages(); // poll the server so that the list will be updated right away.
             } catch (err) {
                 reportTryCatchError( err, "open_group_members_dialog");
             }
@@ -928,7 +928,7 @@ var chanUtils = new function () {
                             }
 
                             // reset the message polling delay - we use the "in_focus" delay, since we know that the user is in the chatbox
-                            chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.initialInFocusPollingDelay);
+                            chanUtilsSelf.setMessagePollingTimeoutAndSchedulePoll(chanUtilsSelf.initialInFocusPollingDelay);
                         }
                     });
                 } else {

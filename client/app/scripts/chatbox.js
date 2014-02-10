@@ -489,7 +489,7 @@ var initJqueryUiChatbox = function($){
                     self.uiChatboxTitlebar.addClass('ui-state-focus');
                     self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
                     self.uiChatboxLog.scrollTop(self.uiChatboxLog.get(0).scrollHeight);
-                    chanUtils.set_focusin_polling_delay();
+                    chanUtils.setFocusinPollingDelay();
                     chanUtils.call_poll_server_for_status_and_new_messages();
                 }
 
@@ -524,7 +524,7 @@ var initJqueryUiChatbox = function($){
                         .focusout(function() {
                             self.uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
                             self.uiChatboxTitlebar.removeClass('ui-state-focus');
-                            chanUtils.set_focusout_polling_delay();
+                            chanUtils.setFocusoutPollingDelay();
                         });
                     }
 
@@ -547,14 +547,14 @@ var initJqueryUiChatbox = function($){
 
 
 
-var catch_window_resize_events = function () {
+var catchWindowResizeEvents = function () {
 
     try {
         $(window).resize(function() {
             chatboxManager.resize_boxes_if_necessary();
         });
     } catch(err) {
-        reportTryCatchError( err, "initJqueryUiChatbox.catch_window_resize_events()");
+        reportTryCatchError( err, "initJqueryUiChatbox.catchWindowResizeEvents()");
     }
 };
 
@@ -918,7 +918,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             // we are updating the list of chat friends
             sort_ascending = true;
         }
-        var sorted_list_of_names_with_info = chanUtils.sort_user_or_groups_by_name(box_name, dict_to_display, sort_ascending);
+        var sorted_list_of_names_with_info = chanUtils.sortUserOrGroupsByName(box_name, dict_to_display, sort_ascending);
         var display_list = chanUtils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
 
         $("#" + box_name).chatbox("option", "boxManager").refreshBox(display_list);
