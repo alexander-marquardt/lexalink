@@ -100,7 +100,7 @@ def close_chat_box(request):
             
         owner_uid = request.session['userobject_str']
         other_uid = request.POST.get('other_uid', '')
-        type_of_conversation = request.POST.get('type_of_conversation', '')
+        type_of_conversation = request.POST.get('typeOfConversation', '')
         assert (other_uid and type_of_conversation)
         
         if type_of_conversation == "group":
@@ -313,7 +313,7 @@ def poll_server_for_status_and_new_messages(request):
                         if other_uid != "main" and other_uid != "groups":
                             
                             type_of_conversation = open_conversation_object.type_of_conversation # "one_on_one" or "group"
-                            response_dict['conversation_tracker'][other_uid]["type_of_conversation"] = type_of_conversation
+                            response_dict['conversation_tracker'][other_uid]['typeOfConversation'] = type_of_conversation
                             
                             recent_chat_messages = chat_support.query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, type_of_conversation)
                             recent_chat_messages.reverse()
@@ -494,7 +494,7 @@ def open_new_chatbox(request):
             if request.method == 'POST':
                 json_post_data = simplejson.loads(request.raw_post_data)  
                 other_uid = json_post_data['other_uid']
-                type_of_conversation = json_post_data['type_of_conversation']            
+                type_of_conversation = json_post_data['typeOfConversation']            
                     
                 if other_uid != "main" and other_uid != "groups":
                     open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation)   
@@ -522,7 +522,7 @@ def store_create_new_group(request):
             assert('username' in request.session)
             sender_username = request.session['username']
                 
-            new_group_name = request.POST.get('create_new_group_name', None)
+            new_group_name = request.POST.get('createNewGroupName', None)
             # make sure that the group name is not too long (to prevent buffer overflow attacks, etc)
             new_group_name = new_group_name[:constants.MAX_CHARS_IN_GROUP_NAME]
             

@@ -165,7 +165,7 @@ function ChanUtils() {
                         var arrayOfChatMsgTimeStrings = conversationTrackerDict[otherUid]["chat_msg_time_string_arr"];
                         var chatboxTitle = conversationTrackerDict[otherUid]["chatbox_title"];
                         var chatboxMinimizedMaximized = conversationTrackerDict[otherUid]["chatbox_minimized_maximized"];
-                        var typeOfConversation = conversationTrackerDict[otherUid]["type_of_conversation"];
+                        var typeOfConversation = conversationTrackerDict[otherUid]["typeOfConversation"];
                         var highlightBoxEnabled = true;
 
 
@@ -546,7 +546,7 @@ function ChanUtils() {
             try {
 
                 var jsonPostDict = generateJsonPostDict();
-                jsonPostDict = $.extend({'other_uid': boxId, 'type_of_conversation' : $("#" + boxId).chatbox("option", 'type_of_conversation')}, jsonPostDict);
+                jsonPostDict = $.extend({'other_uid': boxId, 'typeOfConversation' : $("#" + boxId).chatbox("option", 'typeOfConversation')}, jsonPostDict);
                 var jsonStringifiedPost = $.toJSON(jsonPostDict);
 
                 $.ajax({
@@ -607,7 +607,7 @@ function ChanUtils() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/close_chat_box/' + rnd() + "/",
-                data: {'other_uid': boxId, 'type_of_conversation' : $("#" + boxId).chatbox("option", 'type_of_conversation')},
+                data: {'other_uid': boxId, 'typeOfConversation' : $("#" + boxId).chatbox("option", 'typeOfConversation')},
                 error: function(jqXHR, textStatus, errorThrown) {
                     reportAjaxError(textStatus, errorThrown, "closeChatboxOnServer");
                 }
@@ -887,7 +887,7 @@ function ChanUtils() {
 
                 if (!chanUtilsSelf.sendingMessageIsLockedMutex) {
                     chanUtilsSelf.sendingMessageIsLockedMutex = true;
-                    var typeOfConversation = $("#" + boxId).chatbox("option", 'type_of_conversation');
+                    var typeOfConversation = $("#" + boxId).chatbox("option", 'typeOfConversation');
 
                     // clear the string of the queued messages, since we are now processing the most
                     // up-to-date submission, which should contain all values from this string
