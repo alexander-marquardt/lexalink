@@ -138,8 +138,7 @@ module.exports = function (grunt) {
                   replacement: '<%= build_settings.build_name_used_for_menubar %>'
                 }
               ],
-              usePrefix: false,
-              prefix: '' // remove prefix
+              usePrefix: false
             },
 
             files: [
@@ -165,7 +164,7 @@ module.exports = function (grunt) {
                 assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images']
             },
             html: ['<%= yeoman.dist %>/html/**/*.html', '<%= yeoman.dist %>/proprietary/html/**/*.html'],
-            css: ['<%= yeoman.dist %>/styles/**/*.css']
+            css: ['<%= yeoman.dist %>/styles/**/*.css', '<%= yeoman.dist %>/proprietary/styles/**/*.css']
         },
 
 //        // The following *-min tasks produce minified files in the dist folder
@@ -286,33 +285,6 @@ module.exports = function (grunt) {
         }
     });
 
-
-    grunt.registerTask('serve', function (target) {
-        if (target === 'dist') {
-            return grunt.task.run(['build', 'connect:dist:keepalive']);
-        }
-
-        grunt.task.run([
-            'clean:server',
-            'autoprefixer',
-            'watch'
-        ]);
-    });
-
-    grunt.registerTask('test', function(target) {
-        if (target !== 'watch') {
-            grunt.task.run([
-                'clean:server',
-                'autoprefixer'
-            ]);
-        }
-
-        grunt.task.run([
-            'connect:test',
-            'mocha'
-        ]);
-    });
-
     grunt.registerTask('build', [
         'clean',
         'replace',
@@ -326,11 +298,5 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'htmlmin'
-    ]);
-
-    grunt.registerTask('default', [
-        'newer:jshint',
-        'test',
-        'build'
     ]);
 };
