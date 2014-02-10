@@ -409,13 +409,13 @@ def post_message(request):
         
         if request.method == 'POST':
             json_post_data = simplejson.loads(request.raw_post_data)
-            to_uid = json_post_data['to_uid']
+            to_uid = json_post_data['toUid']
             # for efficiency we pull username from post instead of reading from database, however this is a
             # potential security hole that could allow someone to (sort of) pretend to be another user.            
             # Remove this code immediately - just  waiting for current sessions to expire.
-            sender_username = json_post_data['sender_username']
+            sender_username = json_post_data['senderUsername']
             
-            type_of_conversation = json_post_data['type_of_conversation']
+            type_of_conversation = json_post_data['typeOfConversation']
             
         else:
             assert(False)       

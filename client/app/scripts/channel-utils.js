@@ -674,7 +674,7 @@ var chanUtils = new function () {
             }
         };
 
-        this.sortUserOrGroupsByName = function(box_name, users_or_groups_dict, sort_ascending) {
+        this.sortUserOrGroupsByName = function(boxName, usersOrGroupsDict, sortAscending) {
 
             // returns a 2D array containing [name, user_info_dict] pairs, and sorted by name
             // where user_info_dict is a dictionary with keys for 'username' and 'nid'
@@ -687,53 +687,53 @@ var chanUtils = new function () {
 
             try {
 
-                var sorted_list_of_names_with_uids = []; // 2D array that will contain [name, user_info_dict]
+                var sortedListOfNamesWithUids = []; // 2D array that will contain [name, user_info_dict]
 
-                for (var uid in users_or_groups_dict) {
-                    var user_or_group_info_dict = {};
-                    var online_status = undefined;
-                    user_or_group_info_dict['uid'] = uid;
-                    user_or_group_info_dict['nid'] = users_or_groups_dict[uid]['nid'];
-                    user_or_group_info_dict['url_description'] = users_or_groups_dict[uid]['url_description'];
-                    if (box_name === "groups") {
-                        var num_group_members = users_or_groups_dict[uid]['num_group_members'];
-                        var num_members_str = FormatNumberLength(num_group_members, 2);
-                        userOrGroupName = "[" + num_members_str + "] " + users_or_groups_dict[uid]['user_or_group_name'];
+                for (var uid in usersOrGroupsDict) {
+                    var userOrGroupInfoDict = {};
+                    var onlineStatus = undefined;
+                    userOrGroupInfoDict['uid'] = uid;
+                    userOrGroupInfoDict['nid'] = usersOrGroupsDict[uid]['nid'];
+                    userOrGroupInfoDict['url_description'] = usersOrGroupsDict[uid]['url_description'];
+                    if (boxName === "groups") {
+                        var numGroupMembers = usersOrGroupsDict[uid]['num_group_members'];
+                        var numMembersStr = FormatNumberLength(numGroupMembers, 2);
+                        userOrGroupName = "[" + numMembersStr + "] " + usersOrGroupsDict[uid]['user_or_group_name'];
                     } else {
-                        if (box_name != "main" &&  box_name != "members") {
+                        if (boxName != "main" &&  boxName != "members") {
                             throw "Error in sortUserOrGroupsByName";
                         }
                         // this is the "main" box which contains list of contacts online
-                        if (users_or_groups_dict[uid]['user_presence_status'] != "hidden_online_status") {
-                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_presence_status'] + '-image').html();
+                        if (usersOrGroupsDict[uid]['user_presence_status'] != "hidden_online_status") {
+                            onlineStatus = $('#id-chat-contact-title-' + usersOrGroupsDict[uid]['user_presence_status'] + '-image').html();
                         } else {
-                            online_status = '';
+                            onlineStatus = '';
                         }
-                        userOrGroupName = online_status + users_or_groups_dict[uid]['user_or_group_name'] ;
+                        userOrGroupName = onlineStatus + usersOrGroupsDict[uid]['user_or_group_name'] ;
                     }
-                    sorted_list_of_names_with_uids.push([userOrGroupName, user_or_group_info_dict]);
+                    sortedListOfNamesWithUids.push([userOrGroupName, userOrGroupInfoDict]);
                 }
 
-                if (sort_ascending) {
-                    sorted_list_of_names_with_uids.sort(function(a,b) { return a[0] < b[0] ? -1 : 1;});
+                if (sortAscending) {
+                    sortedListOfNamesWithUids.sort(function(a,b) { return a[0] < b[0] ? -1 : 1;});
                 } else {
-                    sorted_list_of_names_with_uids.sort(function(a,b) { return a[0] > b[0] ? -1 : 1;});                    
+                    sortedListOfNamesWithUids.sort(function(a,b) { return a[0] > b[0] ? -1 : 1;});
                 }
-                return sorted_list_of_names_with_uids;
+                return sortedListOfNamesWithUids;
             } catch(err) {
                 reportTryCatchError( err, "sort_group_members_by_name");
             }
             return false; // prevent lint warnings
         };
 
-        this.checkIfGroupMembersAreTheSame = function(array_one, array_two) {
+        this.checkIfGroupMembersAreTheSame = function(arrayOne, arrayTwo) {
             // accepts two sorted arrays, that contain [name, uid] pairs that are sorted by name. Steps through, and
             // checks if they are identical.
 
             try {
 
-                var len_array_one = array_one.length;
-                var len_array_two = array_two.length;
+                var len_array_one = arrayOne.length;
+                var len_array_two = arrayTwo.length;
 
                 if (len_array_one != len_array_two) {
                     // length of the arrays is different, so cannot be identical
@@ -742,7 +742,7 @@ var chanUtils = new function () {
                 else {
                     // loop over the arrays
                     for (var idx=0; idx < len_array_one; idx ++) {
-                        if (array_one[idx][0] != array_two[idx][0]) {
+                        if (arrayOne[idx][0] != arrayTwo[idx][0]) {
                             // arrays have different names - not the same
                             return false;
                         }
@@ -757,7 +757,7 @@ var chanUtils = new function () {
         };
 
 
-        this.displayAsListWithHrefs = function (box_name, sorted_list_of_names_with_user_info, include_href) {
+        this.displayAsListWithHrefs = function (boxName, sortedListOfNamesWithUserInfo, includeHref) {
 
             /* This code displays the list of users that are currently members of a group discussion. Each username
              * includes a hyberlink to the profile of the given user. 
@@ -765,18 +765,18 @@ var chanUtils = new function () {
 
             try {
 
-                var display_list = '<ul id="id-chatbox-' + box_name + '-list' + '" class = "ui-chatbox-ul">';
-                var array_length = sorted_list_of_names_with_user_info.length;
+                var display_list = '<ul id="id-chatbox-' + boxName + '-list' + '" class = "ui-chatbox-ul">';
+                var array_length = sortedListOfNamesWithUserInfo.length;
 
                 for (var idx=0; idx < array_length; idx ++) {
 
-                    var display_name = sorted_list_of_names_with_user_info[idx][0];
-                    var uid = sorted_list_of_names_with_user_info[idx][1]['uid'];
-                    var nid = sorted_list_of_names_with_user_info[idx][1]['nid'];
-                    var url_description = sorted_list_of_names_with_user_info[idx][1]['url_description'];
-                    if (include_href) {
-                        var href = "/" + template_presence_vars.language + "/profile/" + nid + "/" + url_description + "/";
-                        display_list += '<li><a id="dlist-' + box_name + '-' + nid + '" data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
+                    var display_name = sortedListOfNamesWithUserInfo[idx][0];
+                    var uid = sortedListOfNamesWithUserInfo[idx][1]['uid'];
+                    var nid = sortedListOfNamesWithUserInfo[idx][1]['nid'];
+                    var url_description = sortedListOfNamesWithUserInfo[idx][1]['url_description'];
+                    if (includeHref) {
+                        var href = "/" + templatePresenceVars.language + "/profile/" + nid + "/" + url_description + "/";
+                        display_list += '<li><a id="dlist-' + boxName + '-' + nid + '" data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + display_name + '</a>';
                     } else {
                         display_list += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-url_description="' + url_description + '" href = "#">' + display_name + '</a>';
                     }
@@ -790,14 +790,14 @@ var chanUtils = new function () {
             return false;  // prevent lint warnings
         };
 
-        this.showListHoverDescriptions = function(box_name, group_members_dict) {
+        this.showListHoverDescriptions = function(boxName, groupMembersDict) {
             try {
-                for (var uid in group_members_dict) {
-                    var nid = group_members_dict[uid]['nid'];
-                    var profile_title = group_members_dict[uid]['profile_title'];
+                for (var uid in groupMembersDict) {
+                    var nid = groupMembersDict[uid]['nid'];
+                    var profile_title = groupMembersDict[uid]['profile_title'];
                     // since the actual link is surrounded by a <li> declaration, and we want to show the title
                     // when any part of the <li> is hovered over, we select the parent of the anchor.
-                    $("#dlist-" +box_name + "-" + nid).parent().attr('title', profile_title);
+                    $("#dlist-" +boxName + "-" + nid).parent().attr('title', profile_title);
                 }
             } catch(err) {
                 reportTryCatchError( err, "showListHoverDescriptions");
@@ -805,13 +805,13 @@ var chanUtils = new function () {
         };
 
         
-        this.closeGroupMembersDialog = function(group_id) {
+        this.closeGroupMembersDialog = function(groupId) {
 
             try{
-                var idxOfGroupId = $.inArray(group_id, chanUtilsSelf.listOfOpenChatGroupsMembersBoxes);
+                var idxOfGroupId = $.inArray(groupId, chanUtilsSelf.listOfOpenChatGroupsMembersBoxes);
                 if (idxOfGroupId != -1) {
                     chanUtilsSelf.listOfOpenChatGroupsMembersBoxes.splice(idxOfGroupId, 1); // remove the element from the array
-                    $('#id-group_members-dialog-box-' + group_id).remove(); // remove the div that we dynamically added just for this dialog
+                    $('#id-group_members-dialog-box-' + groupId).remove(); // remove the div that we dynamically added just for this dialog
                 }
             } catch(err) {
                 reportTryCatchError( err, "closeGroupMembersDialog");
@@ -819,7 +819,7 @@ var chanUtils = new function () {
         };
 
 
-        this.open_group_members_dialog = function(group_id, box_title) {
+        this.open_group_members_dialog = function(groupId, boxTitle) {
 
             try {
 
@@ -827,32 +827,32 @@ var chanUtils = new function () {
 
                 // we dynamically create a new div, and we arbitrarily append it to the id-group_members-dialog-box div that is in the
                 // document already (since it doesn't really matter where the div is - it just has to exist).
-                if ($('#id-group_members-dialog-box-' + group_id).length === 0) {
+                if ($('#id-group_members-dialog-box-' + groupId).length === 0) {
                     // don't create the new div if it already existed
-                    $("#id-group_members-dialog-box").append('<div id="id-group_members-dialog-box-' + group_id + '"></div>');
+                    $("#id-group_members-dialog-box").append('<div id="id-group_members-dialog-box-' + groupId + '"></div>');
 
-                    if (!js_client_is_vip) {
+                    if (!jsClientIsVip) {
                         // if this client is not a VIP, then show them the option of viewing other members online status.
                         var show_online_status_text = $('#id-show_online_status_menu_element').text();
                         // ideally we would use a button instead of an anchor, however this will require a lot of work due to the fact that we have used a standard
                         // dialog box (not a chatbox), which means that the format, padding, borders, etc. is different than the chatboxes.
-                        $("#id-group_members-dialog-box-" + group_id).append('<div class="cl-left-text"><a class="cl-dialog_anchor" id="id-show_online_status_anchor" href="#">' + show_online_status_text + '</a></div><br>');
+                        $("#id-group_members-dialog-box-" + groupId).append('<div class="cl-left-text"><a class="cl-dialog_anchor" id="id-show_online_status_anchor" href="#">' + show_online_status_text + '</a></div><br>');
                         $('#id-show_online_status_anchor').click(function(){
                             return show_online_status_main_dialog();
                         });
                     }
 
-                    $("#id-group_members-dialog-box-" + group_id).append('<div id="id-group_members-dialog-box-contents-' + group_id + '"></div>');
+                    $("#id-group_members-dialog-box-" + groupId).append('<div id="id-group_members-dialog-box-contents-' + groupId + '"></div>');
                 }
 
-                chanUtilsSelf.listOfOpenChatGroupsMembersBoxes.push(group_id);
+                chanUtilsSelf.listOfOpenChatGroupsMembersBoxes.push(groupId);
                 
-                $("#id-group_members-dialog-box-" + group_id ).dialog({
+                $("#id-group_members-dialog-box-" + groupId ).dialog({
                     width: 200,
-                    title: box_title,
+                    title: boxTitle,
                     position: ['right', 'top'],
                     close: function(){
-                        chanUtilsSelf.closeGroupMembersDialog(group_id);
+                        chanUtilsSelf.closeGroupMembersDialog(groupId);
                     }
                 });
 
@@ -865,7 +865,7 @@ var chanUtils = new function () {
 
 
         // the following is a globally visible function declaration
-        this.send_message = function(box_id, msg) {
+        this.send_message = function(boxId, msg) {
             // user has sent a message from a chatbox in the current window - POST this message to the
             // server.
 
@@ -876,7 +876,7 @@ var chanUtils = new function () {
                 // if there is an error in sending a message, then don't clear out the ChatboxInputBox - instead, allow
                 // the user to just hit enter to re-send the message, as opposed to having to re-type it. This variable
                 // tracks if there was a problem sending the message.
-                var error_sending_message = false;
+                var errorSendingMessage = false;
 
                 // prevent polling while we are sending the message - we start polling again as soon as the ajax call is
                 // complete. This is necessary to (help to) prevent double-submission/reception at the same moment.
@@ -884,16 +884,16 @@ var chanUtils = new function () {
 
                 if (!chanUtilsSelf.sendingMessageIsLockedMutex) {
                     chanUtilsSelf.sendingMessageIsLockedMutex = true;
-                    var type_of_conversation = $("#" + box_id).chatbox("option", 'type_of_conversation');
+                    var typeOfConversation = $("#" + boxId).chatbox("option", 'type_of_conversation');
 
                     // clear the string of the queued messages, since we are now processing the most
                     // up-to-date submission, which should contain all values from this string
                     chanUtilsSelf.stringOfMessagesInQueue = '';
 
 
-                    var json_post_dict = {'to_uid' : box_id, 'message': msg,
-                    'sender_username': chanUtilsSelf.ownerUsername,
-                    'type_of_conversation' : type_of_conversation,
+                    var json_post_dict = {'toUid' : boxId, 'message': msg,
+                    'senderUsername': chanUtilsSelf.ownerUsername,
+                    'typeOfConversation' : typeOfConversation,
                     "lastUpdateTimeStringDict" : chanUtilsSelf.lastUpdateTimeStringDict,
                     "userPresenceStatus": chanUtilsSelf.userPresenceStatus};
 
@@ -904,18 +904,18 @@ var chanUtils = new function () {
                         contentType: 'json', // send type
                         data: $.toJSON(json_post_dict),
                         dataType: 'json', // response type
-                        success: function(json_response) {
-                            processJsonMostRecentChatMessages(json_response);
+                        success: function(jsonResponse) {
+                            processJsonMostRecentChatMessages(jsonResponse);
                         },
                         error: function () {
                             // report error message with original text (so that the user can copy/paste it to re-try
-                            $("#" + box_id).chatbox("option", "boxManager").addMsg("Error sending", msg, true);
+                            $("#" + boxId).chatbox("option", "boxManager").addMsg("Error sending", msg, true);
                             internetConnectionIsDown();
-                            error_sending_message = true;
+                            errorSendingMessage = true;
                             // because we may have asynchronously cleared the message out of the input box (if the code
                             // following this ajax call is executed before this error function is called), we re-write it
                             // here.
-                            $("#" + box_id).chatbox("option", "boxManager").setChatboxInputBox(msg);
+                            $("#" + boxId).chatbox("option", "boxManager").setChatboxInputBox(msg);
                         },
                         complete: function () {
                             
@@ -923,7 +923,7 @@ var chanUtils = new function () {
 
                             // finally, send messages that have been queued while waiting for the server to respond
                             if ( chanUtilsSelf.stringOfMessagesInQueue !== '') {
-                                chanUtilsSelf.send_message(box_id, chanUtilsSelf.stringOfMessagesInQueue);
+                                chanUtilsSelf.send_message(boxId, chanUtilsSelf.stringOfMessagesInQueue);
 
                             }
 
@@ -937,13 +937,13 @@ var chanUtils = new function () {
                     chanUtilsSelf.stringOfMessagesInQueue += msg + "\n";
 
                 }
-                if (! error_sending_message) {
+                if (! errorSendingMessage) {
                     // If an error in sending the message has been detected, then do not clear the InputBox -- however,
                     // due to the asynchronous nature of the ajax call, this code might be executed before an error is detected
                     // (meaning that error_sending_message might still be false, due to still waiting for error handler to run) --
                     // which means that we could possibly clear the InputBox even if a sending error has/will occured - however, if this
                     // happens, this is handled by the write of msg (therefore undoing the clear) to the InputBox done in the ajax error handler above.
-                    $("#" + box_id).chatbox("option", "boxManager").setChatboxInputBox('');
+                    $("#" + boxId).chatbox("option", "boxManager").setChatboxInputBox('');
                 }
             }
             catch(err) {
@@ -952,15 +952,15 @@ var chanUtils = new function () {
         };
 
         // the following is a globally visible function declaration
-        this.setup_and_channel_for_current_client = function(owner_uid, owner_username,
-                presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay,
-                presence_idle_timeout, presence_away_timeout, chat_is_disabled) {
+        this.setup_and_channel_for_current_client = function(ownerUid, ownerUsername,
+                presenceMaxActivePollingDelay, presenceIdlePollingDelay, presenceAwayPollingDelay,
+                presenceIdleTimeout, presenceAwayTimeout, chatIsDisabled) {
             // Sets up a "channel" (which is technically not a channel, but longer-term, we will use channels instead of polling)
 
             try {
-                initialization(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, presence_idle_timeout, presence_away_timeout);
+                initialization(ownerUid, ownerUsername, presenceMaxActivePollingDelay, presenceIdlePollingDelay, presenceAwayPollingDelay, presenceIdleTimeout, presenceAwayTimeout);
 
-                if (chat_is_disabled != "yes") {
+                if (chatIsDisabled != "yes") {
                     chanUtilsSelf.executeGoOnlineOnClient();
                 } else {
                     // user is offline

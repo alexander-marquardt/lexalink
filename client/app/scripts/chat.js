@@ -86,41 +86,42 @@ function handle_submit_create_new_group(section_name) {
 
 
 
-function launch_chatboxes(){
+
+function launchChatboxes(){
 
     try {
 
         // we need to make sure that we only launch the chatboxes once, even though this code might be called
         // multiple times.
-        if (typeof launch_chatboxes.chatboxes_launched == 'undefined')
-            launch_chatboxes.chatboxes_launched = false;
+        if (typeof launchChatboxes.chatboxes_launched == 'undefined')
+            launchChatboxes.chatboxes_launched = false;
 
-        if (!launch_chatboxes.chatboxes_launched) {
+        if (!launchChatboxes.chatboxes_launched) {
 
             handle_submit_create_new_group("create_new_group");
 
-            if (remove_chatboxes)
-                template_presence_vars.chat_is_disabled = "yes";
+            if (removeChatboxes)
+                templatePresenceVars.chat_is_disabled = "yes";
             
-            setupContactsAndGroupsBoxes(template_presence_vars.chat_is_disabled);
+            setupContactsAndGroupsBoxes(templatePresenceVars.chat_is_disabled);
 
             // Open the socket that will be used for communicating from the browser to the server.
             // Note: since all chat goes through the server, the same socket will be used for channeling
             // all chats that a given user is currently participating in.
             chanUtils.setup_and_channel_for_current_client(
-                    template_presence_vars.ownerUid,
-                    template_presence_vars.username,
-                    template_presence_vars.max_active_polling_delay,
-                    template_presence_vars.idle_polling_delay,
-                    template_presence_vars.away_polling_delay,
-                    template_presence_vars.inactivity_time_before_idle,
-                    template_presence_vars.inactivity_time_before_away,
-                    template_presence_vars.chat_is_disabled);
+                    templatePresenceVars.ownerUid,
+                    templatePresenceVars.username,
+                    templatePresenceVars.max_active_polling_delay,
+                    templatePresenceVars.idle_polling_delay,
+                    templatePresenceVars.away_polling_delay,
+                    templatePresenceVars.inactivity_time_before_idle,
+                    templatePresenceVars.inactivity_time_before_away,
+                    templatePresenceVars.chat_is_disabled);
 
-            launch_chatboxes.chatboxes_launched = true;
+            launchChatboxes.chatboxes_launched = true;
         }
     } catch(err) {
-        reportTryCatchError( err, "launch_chatboxes");
+        reportTryCatchError( err, "launchChatboxes");
     }
 }
 
