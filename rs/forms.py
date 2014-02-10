@@ -1081,12 +1081,12 @@ If not, your profile may be marked as sending spam.')}
             </form>
             
             <div id="id-show-ajax-spinner-captcha">
-            <img src="/images/unversioned_images/small-ajax-loader.gif" align=middle alt=''><br><br>
+            <img src="%(versioned_image_dir)s/small-ajax-loader.gif" align=middle alt=''><br><br>
             </div>       
             
             </div> <!-- id="id-edit-%(section_name)s-section" -->
             <div class="cl-clear"></div>
-            """ % {"section_name": section_name}
+            """ % {"section_name": section_name, 'versioned_image_dir' : settings.MANUALLY_VERSIONED_IMAGES_DIR}
             
             return generated_html
 
@@ -1143,12 +1143,12 @@ If not, your profile may be marked as sending spam.')}
         </form>
         
         <div id="id-show-ajax-spinner-captcha">
-        <img src="/images/unversioned_images/small-ajax-loader.gif" align=middle alt=''><br><br>
+        <img src="%(versioned_image_dir)s/small-ajax-loader.gif" align=middle alt=''><br><br>
         </div>  
         
         </div> <!-- id="id-edit-%(section_name)s-section" -->
         <div class="cl-clear"></div>
-        """ % {"section_name": section_name}
+        """ % {"section_name": section_name, 'versioned_image_dir' : settings.MANUALLY_VERSIONED_IMAGES_DIR}
         
         return generated_html
    

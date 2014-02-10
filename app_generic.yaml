@@ -39,12 +39,13 @@ handlers:
 - url: /scripts
   static_dir: STATIC_DIR/scripts
 
+# force browsers to load new images from the following directory, every time that we update to a new version.
+- url: MANUALLY_VERSIONED_IMAGES_DIR
+  static_dir: STATIC_DIR/images/manually_versioned_images
+    
 - url: /images
-  static_dir: STATIC_DIR/images
-  
-- url: /unversioned_images
-  static_dir: STATIC_DIR/unversioned_images
-  
+  static_dir: STATIC_DIR/images    
+
 - url: /proprietary/styles
   static_dir: PROPRIETARY_STATIC_DIR/styles
 

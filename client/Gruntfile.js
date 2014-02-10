@@ -267,7 +267,7 @@ module.exports = function (grunt) {
                         '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}',
                         '!<%= yeoman.dist %>/images/*_build/*.{gif,jpeg,jpg,png,webp}', //don't revision the *_build directory since files are accesed from python code.
                         '<%= yeoman.dist %>/styles/fonts/{,*/}*.*',
-                        '!<%= yeoman.dist %>/images/unversioned_images/**'
+                        '!<%= yeoman.dist %>/images/manually_versioned_images/**'
                     ]
                 }
             }

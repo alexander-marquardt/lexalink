@@ -68,6 +68,7 @@ def generate_app_yaml():
     static_dir_pattern = re.compile(r'(.+)(STATIC_DIR)(.*)')   
     proprietary_static_dir_pattern = re.compile(r'(.+)(PROPRIETARY_STATIC_DIR)(.*)')   
     appstat_middleware_pattern = re.compile(r'(- appstats:\s)(on|off)')
+    manually_versioned_images_dir_pattern = re.compile(r'(.+)(MANUALLY_VERSIONED_IMAGES_DIR)(.*)')   
     
     
     # generate the app.yaml file, based on the current site_configuration.
@@ -85,6 +86,7 @@ def generate_app_yaml():
         match_static_dir_pattern = static_dir_pattern.match(line)
         match_proprietary_static_dir_pattern = proprietary_static_dir_pattern.match(line)
         match_appstat_middleware_pattern = appstat_middleware_pattern.match(line)
+        match_versioned_images_dir_pattern = manually_versioned_images_dir_pattern.match(line)
         if match_app_id_pattern:
             logging.info("Replacing appid with %s" % site_configuration.app_id_dict[site_configuration.BUILD_NAME])
             dst_file.write("application: %s\n" % site_configuration.app_id_dict[site_configuration.BUILD_NAME])
@@ -99,8 +101,10 @@ def generate_app_yaml():
             line = "%s%s%s" % (match_static_dir_pattern.group(1), site_configuration.STATIC_DIR, match_static_dir_pattern.group(3))
             logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
-
-
+        elif match_versioned_images_dir_pattern:
+            line = "%s%s%s" % (match_versioned_images_dir_pattern.group(1), site_configuration.MANUALLY_VERSIONED_IMAGES_DIR, match_versioned_images_dir_pattern.group(3))
+            logging.info("Writing %s" % line)
+            dst_file.write("%s\n" % line)
         elif match_appstat_middleware_pattern:
             line = "%s%s" % (match_appstat_middleware_pattern.group(1), "on" if site_configuration.ENABLE_APPSTATS else "off")
             logging.info("Writing: %s" % line)

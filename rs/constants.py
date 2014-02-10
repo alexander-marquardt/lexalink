@@ -808,4 +808,5 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'SHOW_VIP_UPGRADE_OPTION' : SHOW_VIP_UPGRADE_OPTION,
                           'ADULT_ORIENTED_SITE' : ADULT_ORIENTED_SITE, 
                           'SITE_IS_TOTALLY_FREE' : SITE_IS_TOTALLY_FREE, 
+                          'MANUALLY_VERSIONED_IMAGES_DIR' : site_configuration.MANUALLY_VERSIONED_IMAGES_DIR
                           }        

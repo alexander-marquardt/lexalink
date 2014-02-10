@@ -94,16 +94,20 @@ ANALYTICS_ID = analytics_id_dict[BUILD_NAME]
 # For development, it may sometimes be desirable to directly use the source static dir as opposed to a copy of 
 # the static dir, so that we don't have to re-start the server every time a change to a static file is made. In
 # these cases, we will un-comment the *second* LIVE_STATIC_DIR declaration below.
-if USE_COMPRESSED_STATIC_FILES:
-    STATIC_DIR = "client/dist"
-    
+if USE_COMPRESSED_STATIC_FILES:    
     # use the same diretory for the "proprietary" files, since they will have been copied into the same
     # directory by the build scripts.
+    STATIC_DIR = "client/dist"
     PROPRIETARY_STATIC_DIR = "client/dist/proprietary"
 else:
     # This will cause the code to directly access the static files, as opposed to accessing concatenated/minified/uglified copies
     STATIC_DIR = "client/app"
     PROPRIETARY_STATIC_DIR = "client/app/proprietary"
+
+# Some images are accessed from python code, and therefore the grunt build scripts are not allowed to give them new hash identifier names when they change.
+# Therefore, we manually force a new path every time we upload the code so that the images will not be cached. This is a more brute force
+# than is desirable, and should be fixed at some point in the future.
+MANUALLY_VERSIONED_IMAGES_DIR = "/images/manually_versioned_images/" + VERSION_ID 
 
 if BUILD_STAGING:
     # we are uploading the code for the "discrete_build" website to a staging appid - this is used for debugging the code

@@ -169,7 +169,8 @@ function show_spinner(object_to_set, object_name) {
     // for dynamically loaded dropdown menus, while loading the values we shrink the width and show a spinner beside the menu
 
     try{
-        object_to_set.after(' <img src="/images/unversioned_images/small-ajax-loader.gif" align="right "  id="id-' + object_name +  '-show-small-ajax-loader">');
+        var spinner_image = manually_versioned_images_dir + "/small-ajax-loader.gif"
+        object_to_set.after(' <img src= "' + spinner_image  + '" align="right "  id="id-' + object_name +  '-show-small-ajax-loader">');
         object_to_set.removeClass('cl-standard-dropdown-width-px');
         object_to_set.addClass('cl-spinner-dropdown-width-px');
     } catch (err) {
