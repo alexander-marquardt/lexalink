@@ -101,17 +101,17 @@ var chanUtils = new function () {
         };
 
 
-        var internet_connection_is_down = function () {
+        var internetConnectionIsDown = function () {
             // this function is called if an ajax call fails (which indicates that the internet connection is down)
             try {
-                var warning_message = $("#id-internet-down-dialog").text();
-                $("#main").chatbox("option", "boxManager").refreshBox(warning_message);
+                var warningMessage = $("#id-internet-down-dialog").text();
+                $("#main").chatbox("option", "boxManager").refreshBox(warningMessage);
             } catch(err) {
                 reportTryCatchError( err, "internet_connection_is_down");
             }
         };
 
-        var internet_connection_is_up = function () {
+        var internetConnectionIsUp = function () {
             // Remove dialog box warning that internet is down.
         };
 
@@ -122,26 +122,26 @@ var chanUtils = new function () {
 
 
 
-        var process_json_most_recent_chat_messages = function(json_response) {
+        var processJsonMostRecentChatMessages = function(json_response) {
 
             try{
 
                 var new_one_on_one_message_received = false;
 
-                if ("session_status" in json_response && json_response.session_status == "session_expired_session") {
+                if ("session_status" in json_response && json_response["session_status"] == "session_expired_session") {
                     chanUtilsSelf.execute_go_offline_on_client();
                     chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("session_status" in json_response && json_response.session_status == "session_server_error") {
+                else if ("session_status" in json_response && json_response["session_status"] == "session_server_error") {
                     chanUtilsSelf.execute_go_offline_on_client();
                     chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("chatBoxesStatus" in json_response && json_response.chatBoxesStatus == "chat_disabled") {
+                else if ("chat_boxes_status" in json_response && json_response["chat_boxes_status"] == "chat_disabled") {
                     if (chanUtilsSelf.chatBoxesStatus != "chat_disabled") {
                         chanUtilsSelf.execute_go_offline_on_client();
                     }
                 }
-                else if ("chatBoxesStatus" in json_response && json_response.chatBoxesStatus == "chat_enabled") {
+                else if ("chat_boxes_status" in json_response && json_response["chat_boxes_status"] == "chat_enabled") {
                     if (chanUtilsSelf.chatBoxesStatus != "chat_enabled") {
                         /* chat is not currently enabled, but it should enabled based on the status received in the
                            json_response. Go online. */
@@ -300,7 +300,7 @@ var chanUtils = new function () {
                 }
             }
             catch(err) {
-                reportTryCatchError( err, "process_json_most_recent_chat_messages");
+                reportTryCatchError( err, "processJsonMostRecentChatMessages");
             }
         };
 
@@ -311,8 +311,8 @@ var chanUtils = new function () {
             
             var current_time = (new Date().getTime());
             var list_of_open_chat_groups_members_boxes_to_pass = [];
-            var get_friends_online_dict = "no";
-            var get_chat_groups_dict = "no";
+            var getFriendsOnlineDict = "no";
+            var getChatGroupsDict = "no";
 
             if (current_time - chanUtilsSelf.timeToPassBeforeUpdatingListOfOpenChatGroupsMembersBoxes >
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes ) {
@@ -327,7 +327,7 @@ var chanUtils = new function () {
                 chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict = current_time;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
-                get_friends_online_dict = "yes";
+                getFriendsOnlineDict = "yes";
             }
 
 
@@ -336,18 +336,18 @@ var chanUtils = new function () {
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = current_time;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
-                get_chat_groups_dict = "yes";
+                getChatGroupsDict = "yes";
             }
             
 
-            var json_post_dict = {"lastUpdateTimeStringDict" : chanUtilsSelf.lastUpdateTimeStringDict,
+            var jsonPostDict = {"lastUpdateTimeStringDict" : chanUtilsSelf.lastUpdateTimeStringDict,
             //'last_update_chat_message_id_dict' : chanUtilsSelf.last_update_chat_message_id_dict,
             "userPresenceStatus": chanUtilsSelf.userPresenceStatus,
             "listOfOpenChatGroupsMembersBoxes" :  list_of_open_chat_groups_members_boxes_to_pass,
-            'get_friends_online_dict' : get_friends_online_dict,
-            'get_chat_groups_dict' : get_chat_groups_dict};
+            'getFriendsOnlineDict' : getFriendsOnlineDict,
+            'getChatGroupsDict' : getChatGroupsDict};
 
-             return json_post_dict;
+             return jsonPostDict;
         }
 
         var poll_server_for_status_and_new_messages = function () {
@@ -377,11 +377,11 @@ var chanUtils = new function () {
                         success: function(json_response) {
                             if (!chanUtilsSelf.sendingMessageIsLockedMutex) {
                                 // only process this json response if we are not currently processing a send_message call.
-                                process_json_most_recent_chat_messages(json_response);
+                                processJsonMostRecentChatMessages(json_response);
                             }
                         },
                         error: function () {
-                            internet_connection_is_down();
+                            internetConnectionIsDown();
                         },
                         complete: function() {
                             if (!chanUtilsSelf.blockFurtherPolling) {
@@ -552,7 +552,7 @@ var chanUtils = new function () {
                     data:json_stringified_post,
                     dataType: 'json', // response type                    
                     success: function(json_response) {
-                        process_json_most_recent_chat_messages(json_response);
+                        processJsonMostRecentChatMessages(json_response);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         report_ajax_error(textStatus, errorThrown, "create_new_box_entry_on_server");  
@@ -660,7 +660,7 @@ var chanUtils = new function () {
 
         this.call_process_json_most_recent_chat_messages = function(json_response) {
             try {
-                process_json_most_recent_chat_messages(json_response);
+                processJsonMostRecentChatMessages(json_response);
             } catch(err) {
                 reportTryCatchError( err, "call_process_json_most_recent_chat_messages");
             }
@@ -683,6 +683,8 @@ var chanUtils = new function () {
             // in a chatgroup to the chatgroup name, before sorting -- this guarantees that more popular groups
             // are shown at the top of the list.
 
+            var userOrGroupName = undefined;
+
             try {
 
                 var sorted_list_of_names_with_uids = []; // 2D array that will contain [name, user_info_dict]
@@ -696,7 +698,7 @@ var chanUtils = new function () {
                     if (box_name === "groups") {
                         var num_group_members = users_or_groups_dict[uid]['num_group_members'];
                         var num_members_str = FormatNumberLength(num_group_members, 2);
-                        user_or_group_name = "[" + num_members_str + "] " + users_or_groups_dict[uid]['user_or_group_name'];
+                        userOrGroupName = "[" + num_members_str + "] " + users_or_groups_dict[uid]['user_or_group_name'];
                     } else {
                         if (box_name != "main" &&  box_name != "members") {
                             throw "Error in sort_user_or_groups_by_name";
@@ -707,9 +709,9 @@ var chanUtils = new function () {
                         } else {
                             online_status = '';
                         }
-                        user_or_group_name = online_status + users_or_groups_dict[uid]['user_or_group_name'] ;
+                        userOrGroupName = online_status + users_or_groups_dict[uid]['user_or_group_name'] ;
                     }
-                    sorted_list_of_names_with_uids.push([user_or_group_name, user_or_group_info_dict]);
+                    sorted_list_of_names_with_uids.push([userOrGroupName, user_or_group_info_dict]);
                 }
 
                 if (sort_ascending) {
@@ -902,12 +904,12 @@ var chanUtils = new function () {
                         data: $.toJSON(json_post_dict),
                         dataType: 'json', // response type
                         success: function(json_response) {
-                            process_json_most_recent_chat_messages(json_response);
+                            processJsonMostRecentChatMessages(json_response);
                         },
                         error: function () {
                             // report error message with original text (so that the user can copy/paste it to re-try
                             $("#" + box_id).chatbox("option", "boxManager").addMsg("Error sending", msg, true);
-                            internet_connection_is_down();
+                            internetConnectionIsDown();
                             error_sending_message = true;
                             // because we may have asynchronously cleared the message out of the input box (if the code
                             // following this ajax call is executed before this error function is called), we re-write it
