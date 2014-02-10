@@ -200,11 +200,11 @@ var initJqueryUiChatbox = function($){
                                     'id="id-go-offline-button">' + go_offline_text + '</button>'));
                             $('#id-go-offline-button').button();
                             $('#id-go-offline-button').click(function() {
-                                chanUtils.execute_go_offline_on_client();
+                                chanUtils.executeGoOfflineOnClient();
                                 $("#main").chatbox("option", "boxManager").hideChatboxContent();
 
                                 // the following interactions occur with the server, and so should only
-                                // occur once, and therefore we do not put them in the "execute_go_offline_on_client" function
+                                // occur once, and therefore we do not put them in the "executeGoOfflineOnClient" function
                                 chanUtils.close_all_chatboxes_on_server();
                                 chanUtils.update_chat_boxes_status_on_server("chat_disabled");
                                 return false;
@@ -218,7 +218,7 @@ var initJqueryUiChatbox = function($){
                             $('#id-go-online-button').hide();
                             $('#id-go-online-button').click(function() {
                                 chanUtils.update_chat_boxes_status_on_server("chat_enabled");
-                                chanUtils.execute_go_online_on_client();
+                                chanUtils.executeGoOnlineOnClient();
                                 return false;
                             });
 
@@ -664,7 +664,7 @@ var chatboxManager = function() {
             if ($("#" + box_id).chatbox("option", 'type_of_conversation') === 'group') {
                 // close the list of group members, so that we don't have people "spying" on who is in the group
                 // without actually being in the group themselves
-                chanUtils.close_group_members_dialog(box_id);
+                chanUtils.closeGroupMembersDialog(box_id);
             }
         }
 
@@ -1023,7 +1023,7 @@ var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
 
 
         if (chat_is_disabled == "yes") {
-            chanUtils.execute_go_offline_on_client();
+            chanUtils.executeGoOfflineOnClient();
         }
         else {
             chanUtils.initialize_main_and_group_boxes_on_server();

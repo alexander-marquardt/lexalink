@@ -116,45 +116,45 @@ var chanUtils = new function () {
         };
 
 
-        var session_is_open = function () {
+        var sessionIsOpen = function () {
             // able to connect to server and session is open. Remove dialog box.
         };
 
 
 
-        var processJsonMostRecentChatMessages = function(json_response) {
+        var processJsonMostRecentChatMessages = function(jsonResponse) {
 
             try{
 
-                var new_one_on_one_message_received = false;
+                var newOneOnOneMessageReceived = false;
 
-                if ("session_status" in json_response && json_response["session_status"] == "session_expired_session") {
-                    chanUtilsSelf.execute_go_offline_on_client();
+                if ("session_status" in jsonResponse && jsonResponse["session_status"] === "session_expired_session") {
+                    chanUtilsSelf.executeGoOfflineOnClient();
                     chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("session_status" in json_response && json_response["session_status"] == "session_server_error") {
-                    chanUtilsSelf.execute_go_offline_on_client();
+                else if ("session_status" in jsonResponse && jsonResponse["session_status"] === "session_server_error") {
+                    chanUtilsSelf.executeGoOfflineOnClient();
                     chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("chat_boxes_status" in json_response && json_response["chat_boxes_status"] == "chat_disabled") {
+                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === "chat_disabled") {
                     if (chanUtilsSelf.chatBoxesStatus != "chat_disabled") {
-                        chanUtilsSelf.execute_go_offline_on_client();
+                        chanUtilsSelf.executeGoOfflineOnClient();
                     }
                 }
-                else if ("chat_boxes_status" in json_response && json_response["chat_boxes_status"] == "chat_enabled") {
+                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === "chat_enabled") {
                     if (chanUtilsSelf.chatBoxesStatus != "chat_enabled") {
                         /* chat is not currently enabled, but it should enabled based on the status received in the
-                           json_response. Go online. */
-                        chanUtilsSelf.execute_go_online_on_client();
+                           jsonResponse. Go online. */
+                        chanUtilsSelf.executeGoOnlineOnClient();
                     }
                 }
 
-                if (json_response.hasOwnProperty('conversation_tracker')) {
+                if (jsonResponse.hasOwnProperty('conversation_tracker')) {
 
 
                     var keep_open_boxes_list = [];
 
-                    var conversation_tracker_dict = json_response.conversation_tracker;
+                    var conversation_tracker_dict = jsonResponse.conversation_tracker;
                     for (var other_uid in conversation_tracker_dict) {
                         var array_of_chat_msg_time_strings = conversation_tracker_dict[other_uid].chat_msg_time_string_arr;
                         var chatbox_title = conversation_tracker_dict[other_uid].chatbox_title;
@@ -201,7 +201,7 @@ var chanUtils = new function () {
                                         if (type_of_conversation == "one_on_one") {
                                             // we only start faster polling if a one_on_one message is received - since this is a direct communication
                                             // to the user, while group messages should not trigger faster polling.
-                                            new_one_on_one_message_received = true;
+                                            newOneOnOneMessageReceived = true;
                                         }
                                     }
                                 }
@@ -232,7 +232,7 @@ var chanUtils = new function () {
                                 // we only check the "keep_open" value for boxes that were not just created,
                                 // since the keep_open property needs a few milliseconds to propagate through the server and
                                 // back to the client.
-                                chatboxManager.close_chatbox_on_client(box_id)
+                                chatboxManager.closeChatboxOnClient(box_id)
                             }
                             else {
                                 // we just received a "keep_open" confirmation for the newly created box, and therefore it is
@@ -245,11 +245,11 @@ var chanUtils = new function () {
                 }
 
                 var message;
-                if (json_response.hasOwnProperty('contacts_info_dict')) {
-                    if (!$.isEmptyObject(json_response.contacts_info_dict)) {
+                if (jsonResponse.hasOwnProperty('contacts_info_dict')) {
+                    if (!$.isEmptyObject(jsonResponse.contacts_info_dict)) {
 
-                        updateChatControlBox("main", json_response.contacts_info_dict);
-                        updateUserChatBoxTitles(json_response.contacts_info_dict);
+                        updateChatControlBox("main", jsonResponse.contacts_info_dict);
+                        updateUserChatBoxTitles(jsonResponse.contacts_info_dict);
                     }
                     else {
                         message = $("#id-no-contacts-text").text();
@@ -257,10 +257,10 @@ var chanUtils = new function () {
                     }
                 }
 
-                if (json_response.hasOwnProperty('chat_groups_dict')) {
-                    if (!$.isEmptyObject(json_response.chat_groups_dict)) {
+                if (jsonResponse.hasOwnProperty('chat_groups_dict')) {
+                    if (!$.isEmptyObject(jsonResponse.chat_groups_dict)) {
 
-                        var chat_groups_dict = json_response.chat_groups_dict;
+                        var chat_groups_dict = jsonResponse.chat_groups_dict;
                         updateChatControlBox("groups", chat_groups_dict);
                         updateGroupChatBoxTitles(chat_groups_dict);
                     }
@@ -271,10 +271,10 @@ var chanUtils = new function () {
                 }
 
 
-                if (json_response.hasOwnProperty('chat_group_members')) {
+                if (jsonResponse.hasOwnProperty('chat_group_members')) {
 
-                    for (var group_id in json_response.chat_group_members) {
-                        var group_members_dict = json_response.chat_group_members[group_id];
+                    for (var group_id in jsonResponse.chat_group_members) {
+                        var group_members_dict = jsonResponse.chat_group_members[group_id];
                         var sorted_list_of_names_with_user_info = chanUtilsSelf.sort_user_or_groups_by_name("members", group_members_dict, true);
 
                         if (!chanUtilsSelf.listOfUsernamesInEachGroup.hasOwnProperty(group_id)) {
@@ -293,7 +293,7 @@ var chanUtils = new function () {
                 }
 
 
-                if (new_one_on_one_message_received) {
+                if (newOneOnOneMessageReceived) {
                     // reset the message polling delay to the initial value, since this user appears to now
                     // be involved in a conversation.
                     chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.initialMessagePollingDelay);
@@ -310,7 +310,7 @@ var chanUtils = new function () {
         var generate_json_post_dict = function() {
             
             var current_time = (new Date().getTime());
-            var list_of_open_chat_groups_members_boxes_to_pass = [];
+            var listOfOpenChatGroupsMembersBoxesToPass = [];
             var getFriendsOnlineDict = "no";
             var getChatGroupsDict = "no";
 
@@ -319,7 +319,7 @@ var chanUtils = new function () {
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = current_time;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
-                list_of_open_chat_groups_members_boxes_to_pass = chanUtilsSelf.listOfOpenChatGroupsMembersBoxes;
+                listOfOpenChatGroupsMembersBoxesToPass = chanUtilsSelf.listOfOpenChatGroupsMembersBoxes;
             }
 
             if (current_time - chanUtilsSelf.timeToPassBeforeUpdatingFriendsOnlineDict >
@@ -343,7 +343,7 @@ var chanUtils = new function () {
             var jsonPostDict = {"lastUpdateTimeStringDict" : chanUtilsSelf.lastUpdateTimeStringDict,
             //'last_update_chat_message_id_dict' : chanUtilsSelf.last_update_chat_message_id_dict,
             "userPresenceStatus": chanUtilsSelf.userPresenceStatus,
-            "listOfOpenChatGroupsMembersBoxes" :  list_of_open_chat_groups_members_boxes_to_pass,
+            "listOfOpenChatGroupsMembersBoxes" :  listOfOpenChatGroupsMembersBoxesToPass,
             'getFriendsOnlineDict' : getFriendsOnlineDict,
             'getChatGroupsDict' : getChatGroupsDict};
 
@@ -454,7 +454,7 @@ var chanUtils = new function () {
         };
 
 
-        this.execute_go_offline_on_client = function () {
+        this.executeGoOfflineOnClient = function () {
             try {
                 // note: some of the server interaction is handled in the chatbox functions, since
                 // we only want a *single* interaction with the server when the user clicks the
@@ -474,7 +474,7 @@ var chanUtils = new function () {
             }
         };
 
-        this.execute_go_online_on_client = function () {
+        this.executeGoOnlineOnClient = function () {
 
             try {
                 var new_main_title = $('#id-chat-contact-title-text').text();
@@ -704,8 +704,8 @@ var chanUtils = new function () {
                             throw "Error in sort_user_or_groups_by_name";
                         }
                         // this is the "main" box which contains list of contacts online
-                        if (users_or_groups_dict[uid]['userPresenceStatus'] != "hidden_online_status") {
-                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['userPresenceStatus'] + '-image').html();
+                        if (users_or_groups_dict[uid]['user_presence_status'] != "hidden_online_status") {
+                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_presence_status'] + '-image').html();
                         } else {
                             online_status = '';
                         }
@@ -805,18 +805,19 @@ var chanUtils = new function () {
         };
 
         
-        this.close_group_members_dialog = function(group_id) {
+        this.closeGroupMembersDialog = function(group_id) {
 
             try{
-                idx_of_group_id = $.inArray(group_id, chanUtilsSelf.listOfOpenChatGroupsMembersBoxes);
-                if (idx_of_group_id != -1) {
-                    chanUtilsSelf.listOfOpenChatGroupsMembersBoxes.splice(idx_of_group_id, 1); // remove the element from the array
+                var idxOfGroupId = $.inArray(group_id, chanUtilsSelf.listOfOpenChatGroupsMembersBoxes);
+                if (idxOfGroupId != -1) {
+                    chanUtilsSelf.listOfOpenChatGroupsMembersBoxes.splice(idxOfGroupId, 1); // remove the element from the array
                     $('#id-group_members-dialog-box-' + group_id).remove(); // remove the div that we dynamically added just for this dialog
                 }
             } catch(err) {
-                reportTryCatchError( err, "close_group_members_dialog");
+                reportTryCatchError( err, "closeGroupMembersDialog");
             }
         };
+
 
         this.open_group_members_dialog = function(group_id, box_title) {
 
@@ -851,7 +852,7 @@ var chanUtils = new function () {
                     title: box_title,
                     position: ['right', 'top'],
                     close: function(){
-                        chanUtilsSelf.close_group_members_dialog(group_id);
+                        chanUtilsSelf.closeGroupMembersDialog(group_id);
                     }
                 });
 
@@ -960,7 +961,7 @@ var chanUtils = new function () {
                 initialization(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, presence_idle_timeout, presence_away_timeout);
 
                 if (chat_is_disabled != "yes") {
-                    chanUtilsSelf.execute_go_online_on_client();
+                    chanUtilsSelf.executeGoOnlineOnClient();
                 } else {
                     // user is offline
                     var offline_message = $('#id-chat-contact-main-box-disactivated-text').text();
