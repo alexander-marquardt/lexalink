@@ -15,7 +15,7 @@
 /*var chatbox_gobals = new function() { // new instantiates an object
     chatbox_self = this;
 
-    chatbox_self.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
+    chatbox_self.chatboxIdleObject = chatboxManager.trackUserActivityForOnlineStatus();
 
 }*/
 
@@ -58,7 +58,7 @@ var initJqueryUiChatbox = function($){
                             // start bouncing (or whatever highlight we use), when it is already in the middle of bouncing.
                             this.highlightLock = false;
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox.init()");
+                            reportTryCatchError( err, "initJqueryUiChatbox.init()");
                         }
                     },
                     getBox: function() {
@@ -84,7 +84,7 @@ var initJqueryUiChatbox = function($){
                                 }
                             }
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox.addMsg()");
+                            reportTryCatchError( err, "initJqueryUiChatbox.addMsg()");
                         }
                     },
                     refreshBox: function(msg) {
@@ -95,7 +95,7 @@ var initJqueryUiChatbox = function($){
                             var box = self.elem.uiChatboxLog;
                             box.html(msg);
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox.refreshBox()");
+                            reportTryCatchError( err, "initJqueryUiChatbox.refreshBox()");
                         }
                     },
                     highlightBox: function() {
@@ -118,7 +118,7 @@ var initJqueryUiChatbox = function($){
                                 });
                             }
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox.highlightBox()");
+                            reportTryCatchError( err, "initJqueryUiChatbox.highlightBox()");
                         }
                     },
                     resizeWidth: function(width) {
@@ -186,7 +186,7 @@ var initJqueryUiChatbox = function($){
                                 box.scrollTop(box.get(0).scrollHeight);
                             }
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox._scrollToBottom()");
+                            reportTryCatchError( err, "initJqueryUiChatbox._scrollToBottom()");
                         }
                     },
 
@@ -227,7 +227,7 @@ var initJqueryUiChatbox = function($){
                                 $('#id-go-offline-button').css('width', self.elem.options.width);
                             }
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox.uiChatboxOnlineSelector()");
+                            reportTryCatchError( err, "initJqueryUiChatbox.uiChatboxOnlineSelector()");
                         }
                     },
 
@@ -244,7 +244,7 @@ var initJqueryUiChatbox = function($){
                                 return false;
                             });
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox.uiChatboxCreateGroupButton()");
+                            reportTryCatchError( err, "initJqueryUiChatbox.uiChatboxCreateGroupButton()");
                         }
                     },
 
@@ -261,7 +261,7 @@ var initJqueryUiChatbox = function($){
                                 chanUtils.open_group_members_dialog(group_id, box_title);
                             });
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox.uiChatboxShowGroupMembersButton()");
+                            reportTryCatchError( err, "initJqueryUiChatbox.uiChatboxShowGroupMembersButton()");
                         }
                     },
 
@@ -291,7 +291,7 @@ var initJqueryUiChatbox = function($){
                 try {
                     return this.uiChatbox;
                 } catch(err) {
-                    report_try_catch_error( err, "initJqueryUiChatbox.widget()");
+                    reportTryCatchError( err, "initJqueryUiChatbox.widget()");
                 }
                 return false; // prevent jslint warning
             },
@@ -345,7 +345,7 @@ var initJqueryUiChatbox = function($){
 
                             return false;
                         } catch(err) {
-                            report_try_catch_error( err, "initJqueryUiChatbox._create.click()", "warning");
+                            reportTryCatchError( err, "initJqueryUiChatbox._create.click()", "warning");
                         }
                         return false; // prevent jslint warning
                     })
@@ -392,7 +392,7 @@ var initJqueryUiChatbox = function($){
                     uiChatbox.show();
                     }
                 } catch(err) {
-                    report_try_catch_error( err, "initJqueryUiChatbox._create()");
+                    reportTryCatchError( err, "initJqueryUiChatbox._create()");
                 }
             },
 
@@ -421,7 +421,7 @@ var initJqueryUiChatbox = function($){
 
                     $.Widget.prototype._setOption.apply(this, arguments);
                 } catch(err) {
-                    report_try_catch_error( err, "initJqueryUiChatbox._setOption()");
+                    reportTryCatchError( err, "initJqueryUiChatbox._setOption()");
                 }
             },
 
@@ -434,7 +434,7 @@ var initJqueryUiChatbox = function($){
                         this.uiChatboxInputBox.css("width", (width - 4) + "px");
                     }
                 } catch(err) {
-                    report_try_catch_error( err, "initJqueryUiChatbox._setWidth()");
+                    reportTryCatchError( err, "initJqueryUiChatbox._setWidth()");
                 }
             },
 
@@ -472,7 +472,7 @@ var initJqueryUiChatbox = function($){
                     }
                     return uiChatboxTitlebarClose;
                 } catch(err) {
-                    report_try_catch_error( err, "AddEliminationToWidget");
+                    reportTryCatchError( err, "AddEliminationToWidget");
                 }
                 return false; // prevent jslint warning
             },
@@ -530,7 +530,7 @@ var initJqueryUiChatbox = function($){
 
                     return uiChatboxInput;
                 } catch (err) {
-                    report_try_catch_error( err, "AddChatboxInputToWidget");
+                    reportTryCatchError( err, "AddChatboxInputToWidget");
                 }
                 return false; // prevent jslint warning
             }
@@ -538,7 +538,7 @@ var initJqueryUiChatbox = function($){
 
         });
     } catch(err) {
-        report_try_catch_error( err, "initJqueryUiChatbox");
+        reportTryCatchError( err, "initJqueryUiChatbox");
     }
 
 }(jQuery);
@@ -554,7 +554,7 @@ var catch_window_resize_events = function () {
             chatboxManager.resize_boxes_if_necessary();
         });
     } catch(err) {
-        report_try_catch_error( err, "initJqueryUiChatbox.catch_window_resize_events()");
+        reportTryCatchError( err, "initJqueryUiChatbox.catch_window_resize_events()");
     }
 };
 
@@ -643,7 +643,7 @@ var chatboxManager = function() {
         };
 
 
-        var close_chatbox_on_client = function(box_id) {
+        var closeChatboxOnClient = function(box_id) {
             // we *do not* allow closing of the *main* box, and so this code does not currently handle this situation
             var idx = $.inArray(box_id, showList);
             if(idx != -1) {
@@ -657,7 +657,7 @@ var chatboxManager = function() {
                 resize_boxes_if_necessary();
             }
             else {
-                 report_javascript_error_on_server("close_chatbox_on_client error: " + box_id);
+                 report_javascript_error_on_server("closeChatboxOnClient error: " + box_id);
             }
 
 
@@ -672,12 +672,12 @@ var chatboxManager = function() {
 
             try{
                 // close button in the titlebar is clicked
-                close_chatbox_on_client(box_id);
+                closeChatboxOnClient(box_id);
 
                 chanUtils.close_chatbox_on_server(box_id);
 
             } catch(err) {
-                report_try_catch_error( err, "initJqueryUiChatbox.boxClosedCallback()");
+                reportTryCatchError( err, "initJqueryUiChatbox.boxClosedCallback()");
             }
         };
 
@@ -748,7 +748,7 @@ var chatboxManager = function() {
                 }
                 
             } catch(err) {
-                report_try_catch_error( err, "initJqueryUiChatbox.resize_boxes_if_necessary()", "warning");
+                reportTryCatchError( err, "initJqueryUiChatbox.resize_boxes_if_necessary()", "warning");
             }
         };
 
@@ -837,11 +837,11 @@ var chatboxManager = function() {
 
                 resize_boxes_if_necessary();
             } catch(err) {
-                report_try_catch_error( err, "initJqueryUiChatbox.addBox()");
+                reportTryCatchError( err, "initJqueryUiChatbox.addBox()");
             }
         };
 
-        var track_user_activity_for_online_status = function () {
+        var trackUserActivityForOnlineStatus = function () {
 
             try {
                 // setup the timers for detecting user online/idle status
@@ -880,7 +880,7 @@ var chatboxManager = function() {
                 return chatbox_idle_object;
 
             } catch(err) {
-                report_try_catch_error( err, "track_user_activity_for_online_status");
+                reportTryCatchError( err, "trackUserActivityForOnlineStatus");
             }
         };
 
@@ -891,12 +891,12 @@ var chatboxManager = function() {
             changeBoxtitle: changeBoxtitle,
             hyperlinkBoxtitle: hyperlinkBoxtitle,
             resize_boxes_if_necessary: resize_boxes_if_necessary,
-            track_user_activity_for_online_status: track_user_activity_for_online_status,
-            close_chatbox_on_client: close_chatbox_on_client,
+            trackUserActivityForOnlineStatus: trackUserActivityForOnlineStatus,
+            closeChatboxOnClient: closeChatboxOnClient,
             showList: showList
         };
     } catch(err) {
-        report_try_catch_error( err, "chatboxManager");
+        reportTryCatchError( err, "chatboxManager");
     }
 
 }();
@@ -954,7 +954,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
         // the height of the main box might have increased due to new contacts being added - scale it appropriately
         chatboxManager.resize_boxes_if_necessary();
     } catch(err) {
-        report_try_catch_error( err, "updateChatControlBox");
+        reportTryCatchError( err, "updateChatControlBox");
     }
 };
 
@@ -973,7 +973,7 @@ var updateUserChatBoxTitles = function(contacts_info_dict) {
             chatboxManager.changeBoxtitle(uid, chatbox_title);
         }
     } catch(err) {
-        report_try_catch_error( err, "updateUserChatBoxTitles");
+        reportTryCatchError( err, "updateUserChatBoxTitles");
     }
 };
 
@@ -993,7 +993,7 @@ var updateGroupChatBoxTitles = function(chat_groups_dict) {
             }
         }
     } catch(err) {
-        report_try_catch_error( err, "updateGroupChatBoxTitles");
+        reportTryCatchError( err, "updateGroupChatBoxTitles");
     }
 };
 
@@ -1029,7 +1029,7 @@ var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
             chanUtils.initialize_main_and_group_boxes_on_server();
         }
     } catch(err) {
-        report_try_catch_error( err, "setupContactsAndGroupsBoxes", "warning");
+        reportTryCatchError( err, "setupContactsAndGroupsBoxes", "warning");
     }
 };
 

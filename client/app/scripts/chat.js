@@ -52,7 +52,7 @@ function submit_create_new_group_post(section_name) {
             }
         });
     } catch(err) {
-        report_try_catch_error( err, "submit_create_new_group_post");
+        reportTryCatchError( err, "submit_create_new_group_post");
     }
 }
 
@@ -80,7 +80,7 @@ function handle_submit_create_new_group(section_name) {
 
         mouseover_button_handler($(submit_button_id));
     } catch(err) {
-        report_try_catch_error( err, "handle_submit_create_new_group");
+        reportTryCatchError( err, "handle_submit_create_new_group");
     }
 }
 
@@ -120,7 +120,7 @@ function launch_chatboxes(){
             launch_chatboxes.chatboxes_launched = true;
         }
     } catch(err) {
-        report_try_catch_error( err, "launch_chatboxes");
+        reportTryCatchError( err, "launch_chatboxes");
     }
 }
 

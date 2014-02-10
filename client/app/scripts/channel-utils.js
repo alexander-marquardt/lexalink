@@ -28,6 +28,7 @@
 /* Contains functions for setting up a real-time channel for communicating with the server
    Copyright Alexander Marquardt / Lexabit Inc. March 19 2012*/
 
+'use strict';
 
 
 var chanUtils = new function () {
@@ -92,10 +93,10 @@ var chanUtils = new function () {
                 chanUtilsSelf.timeaToPassBeforeUpdatingChatGroupsDict = 10 * 1000; // every 10 seconds
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = 0;
 
-                chanUtilsSelf.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
+                chanUtilsSelf.chatboxIdleObject = chatboxManager.trackUserActivityForOnlineStatus();
             }
             catch(err) {
-                report_try_catch_error( err, "initialization");
+                reportTryCatchError( err, "initialization");
             }
         };
 
@@ -106,7 +107,7 @@ var chanUtils = new function () {
                 var warning_message = $("#id-internet-down-dialog").text();
                 $("#main").chatbox("option", "boxManager").refreshBox(warning_message);
             } catch(err) {
-                report_try_catch_error( err, "internet_connection_is_down");
+                reportTryCatchError( err, "internet_connection_is_down");
             }
         };
 
@@ -299,7 +300,7 @@ var chanUtils = new function () {
                 }
             }
             catch(err) {
-                report_try_catch_error( err, "process_json_most_recent_chat_messages");
+                reportTryCatchError( err, "process_json_most_recent_chat_messages");
             }
         };
 
@@ -309,9 +310,9 @@ var chanUtils = new function () {
         var generate_json_post_dict = function() {
             
             var current_time = (new Date().getTime());
-            list_of_open_chat_groups_members_boxes_to_pass = [];
-            get_friends_online_dict = "no";
-            get_chat_groups_dict = "no";
+            var list_of_open_chat_groups_members_boxes_to_pass = [];
+            var get_friends_online_dict = "no";
+            var get_chat_groups_dict = "no";
 
             if (current_time - chanUtilsSelf.timeToPassBeforeUpdatingListOfOpenChatGroupsMembersBoxes >
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes ) {
@@ -391,7 +392,7 @@ var chanUtils = new function () {
                     });
                 }
             } catch(err) {
-                report_try_catch_error( err, "poll_server_for_status_and_new_messages", "warning");
+                reportTryCatchError( err, "poll_server_for_status_and_new_messages", "warning");
             }
         };
 
@@ -428,7 +429,7 @@ var chanUtils = new function () {
                 chanUtilsSelf.chatMessageTimeoutID = setTimeout(poll_server_for_status_and_new_messages, current_message_polling_delay);
 
             } catch(err) {
-                report_try_catch_error( err, "set_message_polling_timeout_and_schedule_poll");
+                reportTryCatchError( err, "set_message_polling_timeout_and_schedule_poll");
             }
         };
 
@@ -439,7 +440,7 @@ var chanUtils = new function () {
                 chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialInFocusPollingDelay;
                 chanUtilsSelf.decayMultiplier = chanUtilsSelf.focusinAndActiveDecayMultiplier;
             } catch(err) {
-                report_try_catch_error( err, "set_focusin_polling_delay");
+                reportTryCatchError( err, "set_focusin_polling_delay");
             }
         };
         this.set_focusout_polling_delay = function () {
@@ -448,7 +449,7 @@ var chanUtils = new function () {
                 chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay ;
                 chanUtilsSelf.decayMultiplier = chanUtilsSelf.focusoutAndActiveDecayMultiplier ;
             } catch(err) {
-                report_try_catch_error( err, "set_focusout_polling_delay");
+                reportTryCatchError( err, "set_focusout_polling_delay");
             }
         };
 
@@ -469,7 +470,7 @@ var chanUtils = new function () {
                 chatboxManager.changeBoxtitle("main", new_main_title);
                 $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
             } catch(err) {
-                report_try_catch_error( err, "execute_go_offline_on_client", "warning");
+                reportTryCatchError( err, "execute_go_offline_on_client", "warning");
             }
         };
 
@@ -503,7 +504,7 @@ var chanUtils = new function () {
                 catch_window_resize_events();
                 
             } catch(err) {
-                report_try_catch_error( err, "execute_go_online_on_client", "warning");
+                reportTryCatchError( err, "execute_go_online_on_client", "warning");
             }
         };
 
@@ -512,7 +513,7 @@ var chanUtils = new function () {
             try {
                 clearTimeout(chanUtilsSelf.chatMessageTimeoutID);
             } catch(err) {
-                report_try_catch_error( err, "stop_polling_server");
+                reportTryCatchError( err, "stop_polling_server");
             }
         };*/
 
@@ -530,7 +531,7 @@ var chanUtils = new function () {
                 }
             
             } catch(err) {
-                report_try_catch_error( err, "start_polling");
+                reportTryCatchError( err, "start_polling");
             }
         };
 
@@ -561,7 +562,7 @@ var chanUtils = new function () {
                     }
                 });
             } catch(err) {
-                report_try_catch_error( err, "create_new_box_entry_on_server", "warning");
+                reportTryCatchError( err, "create_new_box_entry_on_server", "warning");
             }
         };
 
@@ -661,7 +662,7 @@ var chanUtils = new function () {
             try {
                 process_json_most_recent_chat_messages(json_response);
             } catch(err) {
-                report_try_catch_error( err, "call_process_json_most_recent_chat_messages");
+                reportTryCatchError( err, "call_process_json_most_recent_chat_messages");
             }
         };
 
@@ -669,7 +670,7 @@ var chanUtils = new function () {
             try {
                 poll_server_for_status_and_new_messages();
             } catch(err) {
-                report_try_catch_error( err, "call_poll_server_for_status_and_new_messages", "warning");
+                reportTryCatchError( err, "call_poll_server_for_status_and_new_messages", "warning");
             }
         };
 
@@ -718,7 +719,7 @@ var chanUtils = new function () {
                 }
                 return sorted_list_of_names_with_uids;
             } catch(err) {
-                report_try_catch_error( err, "sort_group_members_by_name");
+                reportTryCatchError( err, "sort_group_members_by_name");
             }
             return false; // prevent lint warnings
         };
@@ -748,7 +749,7 @@ var chanUtils = new function () {
                 }
                 return true;
             } catch(err) {
-                report_try_catch_error( err, "check_if_group_members_are_the_same");
+                reportTryCatchError( err, "check_if_group_members_are_the_same");
             }
             return false;  // prevent lint warnings
         };
@@ -782,7 +783,7 @@ var chanUtils = new function () {
 
                 return display_list;
             } catch(err) {
-                report_try_catch_error( err, "displayAsListWithHrefs");
+                reportTryCatchError( err, "displayAsListWithHrefs");
             }
             return false;  // prevent lint warnings
         };
@@ -797,7 +798,7 @@ var chanUtils = new function () {
                     $("#dlist-" +box_name + "-" + nid).parent().attr('title', profile_title);
                 }
             } catch(err) {
-                report_try_catch_error( err, "showListHoverDescriptions");
+                reportTryCatchError( err, "showListHoverDescriptions");
             }
         };
 
@@ -811,7 +812,7 @@ var chanUtils = new function () {
                     $('#id-group_members-dialog-box-' + group_id).remove(); // remove the div that we dynamically added just for this dialog
                 }
             } catch(err) {
-                report_try_catch_error( err, "close_group_members_dialog");
+                reportTryCatchError( err, "close_group_members_dialog");
             }
         };
 
@@ -855,7 +856,7 @@ var chanUtils = new function () {
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = 0; // this will force list to be displayed immediately
                 poll_server_for_status_and_new_messages(); // poll the server so that the list will be updated right away.
             } catch (err) {
-                report_try_catch_error( err, "open_group_members_dialog");
+                reportTryCatchError( err, "open_group_members_dialog");
             }
         };
 
@@ -943,7 +944,7 @@ var chanUtils = new function () {
                 }
             }
             catch(err) {
-                report_try_catch_error( err, "send_message");
+                reportTryCatchError( err, "send_message");
             }
         };
 
@@ -967,11 +968,11 @@ var chanUtils = new function () {
                     chanUtilsSelf.start_polling();
                 }
             } catch (err) {
-                report_try_catch_error( err, "setup_and_channel_for_current_client");
+                reportTryCatchError( err, "setup_and_channel_for_current_client");
             }
         };
     }
     catch(err) {
-        report_try_catch_error( err, "chanUtils - outer class/object");
+        reportTryCatchError( err, "chanUtils - outer class/object");
     }
 };

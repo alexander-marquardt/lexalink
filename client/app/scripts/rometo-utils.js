@@ -58,7 +58,7 @@ function DoUnload() {
             f = null;
         }
     } catch(err) {
-        report_try_catch_error( err, "DoUnload");  
+        reportTryCatchError( err, "DoUnload");
     }
 }
 
@@ -146,7 +146,7 @@ function rs_set_selector_to_value(selector_id, selected_value) {
     }
 }
 
-function report_try_catch_error(err, calling_function_name, warning_level) {
+function reportTryCatchError(err, calling_function_name, warning_level) {
     // make sure warning_level is set to a default value of "error"
     warning_level = warning_level || "warning";
 
@@ -174,7 +174,7 @@ function show_spinner(object_to_set, object_name) {
         object_to_set.removeClass('cl-standard-dropdown-width-px');
         object_to_set.addClass('cl-spinner-dropdown-width-px');
     } catch (err) {
-        report_try_catch_error( err, "show_spinner");
+        reportTryCatchError( err, "show_spinner");
     }
 
 }
@@ -186,7 +186,7 @@ function hide_spinner(object_to_set, object_name) {
         object_to_set.removeClass('cl-spinner-dropdown-width-px');
         object_to_set.addClass('cl-standard-dropdown-width-px');
     } catch (err) {
-        report_try_catch_error( err, "hide_spinner");        
+        reportTryCatchError( err, "hide_spinner");
     }
 
 }
@@ -246,7 +246,7 @@ function load_selector_options(child_field_id, parent_field_val, default_option_
             }
         });
     } catch(err) {
-        report_try_catch_error( err, "load_selector_options");      
+        reportTryCatchError( err, "load_selector_options");
     }
 }
 
@@ -264,7 +264,7 @@ function handle_change_on_for_sale_to_buy(menu_id, sub_menu_id, default_text) {
             }
         });
     } catch(err) {
-        report_try_catch_error( err, "handle_change_on_for_sale_to_buy");
+        reportTryCatchError( err, "handle_change_on_for_sale_to_buy");
     }
 }
 
@@ -279,7 +279,7 @@ function load_for_sale_to_buy_on_change(id_prefix, default_text) {
         handle_change_on_for_sale_to_buy(for_sale_id, for_sale_sub_menu_id, default_text['for_sale_sub_menu']);
         handle_change_on_for_sale_to_buy(to_buy_id, to_buy_sub_menu_id, default_text['to_buy_sub_menu']);
     } catch(err) {
-        report_try_catch_error( err, "load_for_sale_to_buy_on_change");
+        reportTryCatchError( err, "load_for_sale_to_buy_on_change");
     }
 }
 
@@ -344,7 +344,7 @@ function load_location_settings_on_change(id_prefix, default_text, hide_field_if
             }
         });
     } catch(err) {
-        report_try_catch_error( err, "load_location_settings_on_change");
+        reportTryCatchError( err, "load_location_settings_on_change");
     }
 
     unloadFuncs.push([undo_func_load_location_settings_on_change, id_prefix]);
@@ -403,7 +403,7 @@ function getJSON_handler(action, id_prefix, field_type) {
             }
         );
     } catch(err) {
-        report_try_catch_error( err, "getJSON_handler");  
+        reportTryCatchError( err, "getJSON_handler");
     }
 }
 
@@ -423,7 +423,7 @@ function set_sub_menu(object_to_set, object_name, options_html, default_unselect
 
         hide_spinner(object_to_set, object_name);
     } catch (err) {
-        report_try_catch_error( err, "set_sub_menu");
+        reportTryCatchError( err, "set_sub_menu");
     }
 }
 
@@ -470,7 +470,7 @@ function set_search_values_to_data(data, id_prefix, default_text, hide_field_if_
             }
         }
     } catch(err) {
-        report_try_catch_error( err, "set_search_values_to_data");
+        reportTryCatchError( err, "set_search_values_to_data");
     }
 }
 
@@ -486,7 +486,7 @@ function show_menus_as_loading(menu_name, id_prefix) {
         // show spinner beside menu while it is being loaded
         show_spinner($menu_obj, menu_name);
     } catch(err) {
-        report_try_catch_error( err, "show_menus_as_loading");
+        reportTryCatchError( err, "show_menus_as_loading");
     }
 }
 
@@ -512,7 +512,7 @@ function JSON_set_dropdown_options_and_settings(action, id_prefix, default_text,
             set_search_values_to_data(data, id_prefix, default_text, hide_field_if_not_defined);
         });
     } catch(err) {
-        report_try_catch_error( err, "JSON_set_dropdown_options_and_settings");  
+        reportTryCatchError( err, "JSON_set_dropdown_options_and_settings");
     }
 }
 
@@ -529,7 +529,7 @@ function set_values_on_data_object_to_undefined(data_object, fields_list) {
             data_object[field_name] = "----";
         }
     } catch(err) {
-        report_try_catch_error( err, "set_values_on_data_object_to_undefined");  
+        reportTryCatchError( err, "set_values_on_data_object_to_undefined");
     }
 }
 
@@ -545,7 +545,7 @@ function set_values_on_data_object(data_object, fields_list) {
             data_object[field_name] = $("#id-passed_in_search-" + field_name).val();
         }
     } catch(err) {
-        report_try_catch_error( err, "set_values_on_data_object");
+        reportTryCatchError( err, "set_values_on_data_object");
     }
 }
 
@@ -582,7 +582,7 @@ function set_dropdown_options_and_settings(action, id_prefix, default_text, hide
             }
         }
     } catch(err) {
-        report_try_catch_error( err, "set_dropdown_options_and_settings");  
+        reportTryCatchError( err, "set_dropdown_options_and_settings");
     }
 }
 
@@ -656,7 +656,7 @@ function handle_link_for_edit(section_name, input_type, uid) {
             return false; // ensure that browser doesn't navigate to the href page!
         });
     } catch(err) {
-        report_try_catch_error( err, "handle_link_for_edit");
+        reportTryCatchError( err, "handle_link_for_edit");
     }
 }
 
@@ -685,7 +685,7 @@ function submit_post(section_name, uid) {
             $("#id-edit-" + section_name + "-section").hide();
         });
     } catch(err) {
-        report_try_catch_error( err, "submit_post");  
+        reportTryCatchError( err, "submit_post");
     }
 }
 
@@ -721,7 +721,7 @@ function handle_submit_button(section_name, uid, disable_submit_on_enter) {
 
         mouseover_button_handler(submit_button_obj);
     } catch(err) {
-        report_try_catch_error( err, "handle_submit_button");
+        reportTryCatchError( err, "handle_submit_button");
     }
 }
 
@@ -744,7 +744,7 @@ function handle_cancel_button(section_name, uid) {
         unloadFuncs.push([undo_func_handle_cancel_button, cancel_button_obj]);
         mouseover_button_handler($(cancel_button_id));
     } catch(err) {
-        report_try_catch_error( err, "handle_cancel_button");
+        reportTryCatchError( err, "handle_cancel_button");
     }
 }
 
@@ -772,7 +772,7 @@ function getJSON_initiate_contact_settings(uid) {
             }
         });
     } catch(err) {
-        report_try_catch_error( err, "getJSON_initiate_contact_settings");
+        reportTryCatchError( err, "getJSON_initiate_contact_settings");
     }
 }
 
@@ -889,7 +889,7 @@ function handle_click_on_contact_icon(section_name, uid, show_registration_dialo
             }
         });
     } catch (err) {
-        report_try_catch_error( err, "handle_click_on_contact_icon");
+        reportTryCatchError( err, "handle_click_on_contact_icon");
     }
 }
 
@@ -907,7 +907,7 @@ function reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_
         }
         hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
     } catch(err) {
-        report_try_catch_error( err, "reload_submit_and_recaptcha");
+        reportTryCatchError( err, "reload_submit_and_recaptcha");
     }
 }
 
@@ -1035,7 +1035,7 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
             }
         });
     } catch(err) {
-        report_try_catch_error( err, "submit_send_mail");
+        reportTryCatchError( err, "submit_send_mail");
     }
 }
 
@@ -1065,7 +1065,7 @@ function handle_submit_send_mail_button(section_name, to_uid, captcha_bypass_str
         });
         mouseover_button_handler($(submit_button_id));
     } catch(err) {
-        report_try_catch_error( err, "handle_submit_send_mail_button");
+        reportTryCatchError( err, "handle_submit_send_mail_button");
     }
 }
 
@@ -1112,7 +1112,7 @@ function submit_verify_captcha(section_name, submit_button_id, captcha_div_id) {
             }
         });
     } catch(err) {
-        report_try_catch_error( err, "submit_verify_captcha");
+        reportTryCatchError( err, "submit_verify_captcha");
     }
 }
 
@@ -1140,7 +1140,7 @@ function handle_verify_captcha(section_name) {
 
         mouseover_button_handler($(submit_button_id));
     } catch(err) {
-        report_try_catch_error( err, "handle_verify_captcha");
+        reportTryCatchError( err, "handle_verify_captcha");
     }
 }
 
@@ -1168,7 +1168,7 @@ function handle_click_on_update_message_action_icon(have_sent_messages_id, to_ui
             return false;
         });
     } catch (err) {
-        report_try_catch_error( err, "handle_click_on_update_message_action_icon");
+        reportTryCatchError( err, "handle_click_on_update_message_action_icon");
     }
 }
 
@@ -1203,7 +1203,7 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
         });
         mouseover_button_handler($(submit_button_id));
     } catch(err) {
-        report_try_catch_error( err, "handle_post_button_with_confirmation_of_result");
+        reportTryCatchError( err, "handle_post_button_with_confirmation_of_result");
     }
 }
 

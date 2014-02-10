@@ -173,7 +173,7 @@ function handle_verification_code_input() {
                             $('#id-common_translations-invalid-input').html() + '</span></strong>');
                 }
             } catch(err) {
-                report_try_catch_error( err, "handle_verification_code_input", "error");
+                reportTryCatchError( err, "handle_verification_code_input", "error");
             }
 
             // prevent normal page navigation upon form submission - this is the same as calling
@@ -181,7 +181,7 @@ function handle_verification_code_input() {
             return false;
         });
     } catch(err) {
-        report_try_catch_error( err, "handle_verification_code_input");      
+        reportTryCatchError( err, "handle_verification_code_input");
     }
 
 }
