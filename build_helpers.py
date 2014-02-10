@@ -162,13 +162,13 @@ def setup_build_settings_json():
     dst_file.close()
          
      
-def run_grunt(grunt_arg):
+def run_grunt(grunt_arg, subprocess_function):
     # run the node/grunt build scripts. These are responsible for minimizing/versioning/copying html/css/js files.
     setup_build_settings_json()
     
     os.chdir("client")
     pargs = ['grunt', grunt_arg]
-    process = subprocess.call(pargs,  stderr=subprocess.STDOUT)    
+    process = subprocess_function(pargs,  stderr=subprocess.STDOUT)    
     os.chdir("..")
     logging.info("Switched directory back to: %s" % os.getcwd())
     
@@ -187,7 +187,8 @@ def customize_files():
     if site_configuration.USE_COMPRESSED_STATIC_FILES:
         # only run the grunt build scripts if we are currently accessing the compressed static files. 
         # Otherwise, we are directly accessing the source static files, and minimizing would serve no purpose.
-        run_grunt('build')
-    else:
+        run_grunt('build', subprocess.call)
         
-        run_grunt('clean')
+    else:
+        run_grunt('clean', subprocess.call)
+        run_grunt('watch', subprocess.Popen)

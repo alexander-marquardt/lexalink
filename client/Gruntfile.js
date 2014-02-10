@@ -23,41 +23,39 @@ module.exports = function (grunt) {
             // Configurable paths
             app: 'app',
             dist: 'dist',
-            root: '.'
         },
 
         build_settings: grunt.file.readJSON('build_settings.json'),
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
-            js: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-                tasks: ['jshint'],
-                options: {
-                    livereload: true
-                }
-            },
-//            jstest: {
-//                files: ['test/spec/{,*/}*.js'],
-//                tasks: ['test:watch']
-//            },
             gruntfile: {
                 files: ['Gruntfile.js']
             },
-            styles: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
-            },
-            livereload: {
+            js: {
+                files: ['<%= yeoman.app %>/scripts/**/*.js'],
+                tasks: ['jshint'],
                 options: {
-                    livereload: true
-                    //livereload: '<%= connect.options.livereload %>'
-                },
-                files: [
-                    '<%= yeoman.app %>/{,*/}*.html',
-                    '.tmp/styles/{,*/}*.css',
-                    '<%= yeoman.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg,webp}'
-                ]
+                   livereload: true
+                }
+            },
+            styles: {
+                files: ['<%= yeoman.app %>/styles/**/*.css'],
+                options: {
+                   livereload: true
+                }
+            },
+            html: {
+                files: ['<%= yeoman.app %>/html/**/*.html'],
+                options: {
+                   livereload: true
+                }
+            },
+            images: {
+                files: ['<%= yeoman.app %>/images/**/*.{gif,jpeg,jpg,png,svg,webp}'],
+                options: {
+                   livereload: true
+                }
             }
         },
 
@@ -68,7 +66,7 @@ module.exports = function (grunt) {
                     dot: true,
                     src: [
                         '.tmp',
-                        '<%= yeoman.dist %>/*',
+                        '<%= yeoman.dist %>/*'
                     ]
                 }]
             },
@@ -84,8 +82,7 @@ module.exports = function (grunt) {
             all: [
                 'Gruntfile.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
-                '!<%= yeoman.app %>/scripts/vendor/*',
-                'test/spec/{,*/}*.js'
+                '!<%= yeoman.app %>/scripts/vendor/*'
             ]
         },
 
