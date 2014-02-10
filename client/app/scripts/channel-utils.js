@@ -37,16 +37,15 @@
 /* global reportAjaxError */
 /* global updateChatControlBox */
 /* global updateUserChatBoxTitles */
+/* global updateGroupChatBoxTitles */
 /* global  catchWindowResizeEvents */
 /* global formatNumberLength */
 /* global templatePresenceVars */
 /* global jsClientIsVip */
 /* global showOnlineStatusMainDialog */
-/* global chanUtils */
-/* global internetConnectionIsUp */
-/* global sessionIsOpen */
-/* global listOfOpenChatGroupsMembersBoxesToPass */
 
+/* Declare exported functions */
+/* exported chanUtils */
 
 function ChanUtils() {
     // Notice the "new" in the function declaration - this creates an object as opposed to a function or class.
@@ -127,16 +126,6 @@ function ChanUtils() {
                 reportTryCatchError( err, "internet_connection_is_down");
             }
         };
-
-        var internetConnectionIsUp = function () {
-            // Remove dialog box warning that internet is down.
-        };
-
-
-        var sessionIsOpen = function () {
-            // able to connect to server and session is open. Remove dialog box.
-        };
-
 
 
         var processJsonMostRecentChatMessages = function(jsonResponse) {
@@ -377,9 +366,6 @@ function ChanUtils() {
 
                 if (!chanUtilsSelf.pollingIsLockedMutex && !chanUtilsSelf.sendingMessageIsLockedMutex) {
                     chanUtilsSelf.pollingIsLockedMutex = true;
-
-
-                    var listOfOpenChatGroupsMembersBoxesToPass = [];
 
                     var jsonPostDict = generateJsonPostDict();
                     var jsonStringifiedPost = $.toJSON(jsonPostDict);
@@ -995,6 +981,6 @@ function ChanUtils() {
     catch(err) {
         reportTryCatchError( err, "chanUtils - outer class/object");
     }
-};
+}
 
 var chanUtils = new ChanUtils();
