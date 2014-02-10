@@ -162,9 +162,9 @@ module.exports = function (grunt) {
         // Performs rewrites based on rev and the useminPrepare configuration
         usemin: {
             options: {
-                assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images']
+                assetsDirs: ['<%= yeoman.dist %>']
             },
-            html: ['<%= yeoman.dist %>/**/*.html'],
+            html: ['<%= yeoman.dist %>/html/**/*.html'],
             css: ['<%= yeoman.dist %>/styles/**/*.css']
         },
 

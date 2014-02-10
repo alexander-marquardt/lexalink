@@ -27,29 +27,29 @@ handlers:
   login: admin
 
 - url: /favicon.ico
-  static_files: client/app/images/BUILD_NAME/favicon.ico
-  upload: client/app/images/BUILD_NAME/favicon.ico
+  static_files: STATIC_DIR/images/BUILD_NAME/favicon.ico
+  upload: STATIC_DIR/images/BUILD_NAME/favicon.ico
 
 
 # The static directory will contain CSS, JS, Images, etc. 
 
 - url: /styles
-  static_dir: client/app/styles
+  static_dir: STATIC_DIR/styles
   
 - url: /scripts
-  static_dir: client/app/scripts
+  static_dir: STATIC_DIR/scripts
 
 - url: /images
-  static_dir: client/app/images
+  static_dir: STATIC_DIR/images
   
 - url: /unversioned_images
-  static_dir: client/app/unversioned_images
+  static_dir: STATIC_DIR/unversioned_images
   
 - url: /proprietary/styles
-  static_dir: client/app/proprietary/styles
+  static_dir: PROPRIETARY_STATIC_DIR/styles
 
 - url: /proprietary/images
-  static_dir: client/app/proprietary/images
+  static_dir: PROPRIETARY_STATIC_DIR/images
   
 - url: /rs/admin/.+
   script: djangoappengine.main.application

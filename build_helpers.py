@@ -65,8 +65,8 @@ def generate_app_yaml():
     app_id_pattern = re.compile(r'application:.*')
     version_id_pattern = re.compile(r'version: yyyy-mm-dd-hhhh')
     #favicon_pattern = re.compile(r'(.+)(rs/static)(/img)(.*)(/favicon.ico)')
-    static_dir_pattern = re.compile(r'(.+)(client/app)(.*)')   
-    proprietary_static_dir_pattern = re.compile(r'(.+)(client/app/proprietary)(.*)')   
+    static_dir_pattern = re.compile(r'(.+)(STATIC_DIR)(.*)')   
+    proprietary_static_dir_pattern = re.compile(r'(.+)(PROPRIETARY_STATIC_DIR)(.*)')   
     appstat_middleware_pattern = re.compile(r'(- appstats:\s)(on|off)')
     
     
@@ -91,14 +91,15 @@ def generate_app_yaml():
         elif match_version_pattern:
             logging.info("Replacing version with %s" % site_configuration.VERSION_ID)
             dst_file.write("version: %s\n" % site_configuration.VERSION_ID )
-        elif match_static_dir_pattern:
-            line = "%s%s%s" % (match_static_dir_pattern.group(1), site_configuration.LIVE_STATIC_DIR, match_static_dir_pattern.group(3))
-            logging.info("Writing %s" % line)
-            dst_file.write("%s\n" % line)
         elif match_proprietary_static_dir_pattern:
-            line = "%s%s%s" % (match_proprietary_static_dir_pattern.group(1), site_configuration.LIVE_PROPRIETARY_STATIC_DIR, match_proprietary_static_dir_pattern.group(3))
+            line = "%s%s%s" % (match_proprietary_static_dir_pattern.group(1), site_configuration.PROPRIETARY_STATIC_DIR, match_proprietary_static_dir_pattern.group(3))
+            logging.info("Writing %s" % line)
+            dst_file.write("%s\n" % line)            
+        elif match_static_dir_pattern:
+            line = "%s%s%s" % (match_static_dir_pattern.group(1), site_configuration.STATIC_DIR, match_static_dir_pattern.group(3))
             logging.info("Writing %s" % line)
             dst_file.write("%s\n" % line)
+
 
         elif match_appstat_middleware_pattern:
             line = "%s%s" % (match_appstat_middleware_pattern.group(1), "on" if site_configuration.ENABLE_APPSTATS else "off")
