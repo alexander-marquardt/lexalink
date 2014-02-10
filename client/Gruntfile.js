@@ -25,7 +25,7 @@ module.exports = function (grunt) {
             dist: 'dist'
         },
 
-        build_settings: grunt.file.readJSON('build_settings.json'),
+        buildSettings: grunt.file.readJSON('build_settings.json'),
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
@@ -36,25 +36,25 @@ module.exports = function (grunt) {
                 files: ['<%= yeoman.app %>/scripts/**/*.js'],
                 tasks: ['jshint'],
                 options: {
-                   livereload: true
+                    livereload: true
                 }
             },
             styles: {
                 files: ['<%= yeoman.app %>/styles/**/*.css'],
                 options: {
-                   livereload: true
+                    livereload: true
                 }
             },
             html: {
                 files: ['<%= yeoman.app %>/html/**/*.html'],
                 options: {
-                   livereload: true
+                    livereload: true
                 }
             },
             images: {
                 files: ['<%= yeoman.app %>/images/**/*.{gif,jpeg,jpg,png,svg,webp}'],
                 options: {
-                   livereload: true
+                    livereload: true
                 }
             }
         },
@@ -126,25 +126,25 @@ module.exports = function (grunt) {
         // The following plugin is used for searching for and replacing text strings in various files.
         // For the moment, this is used to ensure that the proper build_name is used for different builds.
         replace: {
-          dist: {
-            options: {
-              patterns: [
-                {
-                  match: /{{\s*build_name\s*}}/g,
-                  replacement: '<%= build_settings.build_name %>'
+            dist: {
+                options: {
+                    patterns: [
+                        {
+                            match: /{{\s*build_name\s*}}/g,
+                            replacement: '<%= buildSettings.build_name %>'
+                        },
+                        {
+                            match: /{{\s*build_name_used_for_menubar\s*}}/g,
+                            replacement: '<%= buildSettings.build_name_used_for_menubar %>'
+                        }
+                    ],
+                    usePrefix: false
                 },
-                {
-                  match: /{{\s*build_name_used_for_menubar\s*}}/g,
-                  replacement: '<%= build_settings.build_name_used_for_menubar %>'
-                }
-              ],
-              usePrefix: false
-            },
 
-            files: [
-              {expand: true, flatten: true, src: ['<%= yeoman.app %>/html/import_main_css_and_js.html'], dest: './.tmp/'}
-            ]
-          }
+                files: [
+                    {expand: true, flatten: true, src: ['<%= yeoman.app %>/html/import_main_css_and_js.html'], dest: './.tmp/'}
+                ]
+            }
         },
 
         // Reads HTML for usemin blocks to enable smart builds that automatically
@@ -177,7 +177,7 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.dist %>/images/'
                 }]
             },
-            proprietary_images: {
+            proprietaryImages: {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>/proprietary/images/',
@@ -185,19 +185,19 @@ module.exports = function (grunt) {
                     dest: '<%= yeoman.dist %>/proprietary/images/'
                 }]
             },
-            css_images: {
+            cssImages: {
                 expand: true,
                 dot: true,
                 cwd: '<%= yeoman.app %>',
                 dest: '<%= yeoman.dist %>',
                 src: ['styles/jquery-ui-1.10.3-images/**/*', 'styles/jquery-fancybox-2.1.5-images/**/*']
             },
-            build_images: {
+            buildImages: {
                 expand: true,
                 dot: true,
                 cwd: '<%= yeoman.app %>',
                 dest: '<%= yeoman.dist %>',
-                src: ['images/<%= build_settings.build_name %>/**/*']
+                src: ['images/<%= buildSettings.build_name %>/**/*']
             }
         },
 
@@ -245,7 +245,7 @@ module.exports = function (grunt) {
                 dest: '.tmp/styles/',
                 src: '{,*/}*.css'
             },
-            proprietary_styles: {
+            proprietaryStyles: {
                 expand: true,
                 dot: true,
                 cwd: '<%= yeoman.app %>/proprietary/styles',
