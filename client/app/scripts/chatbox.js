@@ -258,7 +258,7 @@ var initJqueryUiChatbox = function($){
                                     'id="id-chat_group_members-button-' + group_id + '">' + chat_group_members_text + '</button>'));
                             $('#id-chat_group_members-button-' + group_id).button();
                             $('#id-chat_group_members-button-' + group_id).click(function(event) {
-                                chanUtils.open_group_members_dialog(group_id, box_title);
+                                chanUtils.openGroupMembersDialog(group_id, box_title);
                             });
                         } catch(err) {
                             reportTryCatchError( err, "initJqueryUiChatbox.uiChatboxShowGroupMembersButton()");
@@ -807,7 +807,7 @@ var chatboxManager = function() {
                         offset : offset_from_right,
                         just_opened : just_opened,
                         messageSent: function(box_id, msg, type_of_conversation) {
-                            chanUtils.send_message(box_id, msg, type_of_conversation);
+                            chanUtils.sendMessage(box_id, msg, type_of_conversation);
                         },
                         boxClosed : boxClosedCallback,
                         minimizeBoxWasClicked : minimizeBoxWasClickedCallback,
@@ -937,7 +937,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             } else if (box_name == "groups") {
                 type_of_conversation = "group";
                 // They have just opened a new chat window for a group discussion, so we want to show who is in the group
-                chanUtils.open_group_members_dialog(box_id, box_title);
+                chanUtils.openGroupMembersDialog(box_id, box_title);
 
             } else {
                 type_of_conversation = "Error in javascript - invalid box_name";

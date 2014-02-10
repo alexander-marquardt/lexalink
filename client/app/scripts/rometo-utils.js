@@ -1207,7 +1207,7 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
     }
 }
 
-function FormatNumberLength(num, length) {
+function formatNumberLength(num, length) {
     // funtion that takes a number, and a length, and prints out a string representation of that number
     // with leading blanks to ensure that the string is the desired length
     var r = "" + num;

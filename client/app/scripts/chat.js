@@ -108,7 +108,7 @@ function launchChatboxes(){
             // Open the socket that will be used for communicating from the browser to the server.
             // Note: since all chat goes through the server, the same socket will be used for channeling
             // all chats that a given user is currently participating in.
-            chanUtils.setup_and_channel_for_current_client(
+            chanUtils.setupAndChannelForCurrentClient(
                     templatePresenceVars.ownerUid,
                     templatePresenceVars.username,
                     templatePresenceVars.max_active_polling_delay,
