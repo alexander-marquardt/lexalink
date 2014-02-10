@@ -35,10 +35,10 @@ function submit_create_new_group_post(section_name) {
             url:  "/rs/store_" + section_name + "/",
             data: $("form#id-" + section_name + "-form").serialize(),
             success: function(response) {
-                //chan_utils.call_process_json_most_recent_chat_messages(json_response);
+                //chanUtils.call_process_json_most_recent_chat_messages(json_response);
                 $("#id-create-new-group-input").val('');
 
-                chan_utils.call_poll_server_for_status_and_new_messages();
+                chanUtils.call_poll_server_for_status_and_new_messages();
                 // make sure that the list of groups is shown after they create a new group
                 $("#groups").chatbox("option", "boxManager").maximizeBox();
             },
@@ -107,8 +107,8 @@ function launch_chatboxes(){
             // Open the socket that will be used for communicating from the browser to the server.
             // Note: since all chat goes through the server, the same socket will be used for channeling
             // all chats that a given user is currently participating in.
-            chan_utils.setup_and_channel_for_current_client(
-                    template_presence_vars.owner_uid,
+            chanUtils.setup_and_channel_for_current_client(
+                    template_presence_vars.ownerUid,
                     template_presence_vars.username,
                     template_presence_vars.max_active_polling_delay,
                     template_presence_vars.idle_polling_delay,

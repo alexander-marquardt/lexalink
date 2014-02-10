@@ -30,69 +30,69 @@
 
 
 
-var chan_utils = new function () {
+var chanUtils = new function () {
     // Notice the "new" in the function declaration - this creates an object as opposed to a function or class.
 
     try {
 
         //***********************************************************
         /* Variables that are visible to all methods in this object */
-        var chan_utils_self = this;
+        var chanUtilsSelf = this;
 
         //********************************
         /* Private function declarations */
 
-        var initialization = function(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, 
-                                      presence_idle_timeout, presence_away_timeout) {
+        var initialization = function(ownerUid, ownerUsername, presenceMaxActivePollingDelay, presenceIdlePollingDelay, presenceAwayPollingDelay,
+                                      presenceIdleTimeout, presenceAwayTimeout) {
             // initialize the dialog box that will be used for alerting the user to unknown conditions
 
             try {
 
-                chan_utils_self.owner_uid = owner_uid; // set the object variable to the passed in value (chan_utils_self refers to the chan_utils object)
-                chan_utils_self.owner_username = owner_username;
+                chanUtilsSelf.ownerUid = ownerUid; // set the object variable to the passed in value (chanUtilsSelf refers to the chanUtils object)
+                chanUtilsSelf.ownerUsername = ownerUsername;
 
-                chan_utils_self.initial_in_focus_polling_delay = 750; // when the chatbox input has focus, we poll at a fast speed (up until they go "idle" or leave focus)
-                chan_utils_self.initial_message_polling_delay = 2500; //how often to poll for new messages when focus is not in the chatbox input
-                chan_utils_self.active_polling_delay_ceiling = presence_max_active_polling_delay * 1000; // convert seconds to ms
+                chanUtilsSelf.initialInFocusPollingDelay = 750; // when the chatbox input has focus, we poll at a fast speed (up until they go "idle" or leave focus)
+                chanUtilsSelf.initialMessagePollingDelay = 2500; //how often to poll for new messages when focus is not in the chatbox input
+                chanUtilsSelf.activePollingDelayCeiling = presenceMaxActivePollingDelay * 1000; // convert seconds to ms
 
                 // Note, the decay multipliers are only used if the user is "active" (not "idle" or "away"). If they are "idle" or "away", a constant (slow) polling
                 // rate is currently used.
-                chan_utils_self.focusout_and_active_decay_multiplier = 1.5; // each re-schedule is X% slower than the last (when the focus is not in the chatbox)
-                chan_utils_self.decay_multiplier = chan_utils_self.focusout_and_active_decay_multiplier;
-                chan_utils_self.focusin_and_active_decay_multiplier = 1.1; // if the user has focus in the chatbox, we decay the polling frequency much less.
+                chanUtilsSelf.focusoutAndActiveDecayMultiplier = 1.5; // each re-schedule is X% slower than the last (when the focus is not in the chatbox)
+                chanUtilsSelf.decayMultiplier = chanUtilsSelf.focusoutAndActiveDecayMultiplier;
+                chanUtilsSelf.focusinAndActiveDecayMultiplier = 1.1; // if the user has focus in the chatbox, we decay the polling frequency much less.
 
-                chan_utils_self.presence_idle_polling_delay = presence_idle_polling_delay * 1000;
-                chan_utils_self.presence_away_polling_delay = presence_away_polling_delay * 1000;
-                chan_utils_self.current_message_polling_delay = chan_utils_self.initial_message_polling_delay;
+                chanUtilsSelf.presenceIdlePollingDelay = presenceIdlePollingDelay * 1000;
+                chanUtilsSelf.presenceAwayPollingDelay = presenceAwayPollingDelay * 1000;
+                chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay;
 
-                chan_utils_self.presence_idle_timeout = presence_idle_timeout * 1000;
-                chan_utils_self.presence_away_timeout = presence_away_timeout * 1000;
+                chanUtilsSelf.presenceIdleTimeout = presenceIdleTimeout * 1000;
+                chanUtilsSelf.presenceAwayTimeout = presenceAwayTimeout * 1000;
 
-                chan_utils_self.chat_message_timeoutID = null; // used for cancelling a re-scheduled poll for new messages
-                chan_utils_self.last_update_time_string_dict = {}; // shortcut for new Object() - uid is the key, and value is last update time
-                //chan_utils_self.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
+                chanUtilsSelf.chatMessageTimeoutID = null; // used for cancelling a re-scheduled poll for new messages
+                chanUtilsSelf.lastUpdateTimeStringDict = {}; // shortcut for new Object() - uid is the key, and value is last update time
+                //chanUtilsSelf.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
 
-                chan_utils_self.chat_boxes_status = "unknown"; // "chat_enabled" or "chat_disabled"
-                chan_utils_self.user_presence_status = "user_presence_active"; // should be "user_presence_active", "user_presence_idle", or "user_presence_away"
-                chan_utils_self.block_further_polling = false;
+                chanUtilsSelf.chatBoxesStatus = "unknown"; // "chat_enabled" or "chat_disabled"
+                chanUtilsSelf.userPresenceStatus = "user_presence_active"; // should be "user_presence_active", "user_presence_idle", or "user_presence_away"
+                chanUtilsSelf.blockFurtherPolling = false;
 
-                chan_utils_self.polling_is_locked_mutex = false; // use to ensure that we only have one polling request at a time - true when polling, false when free
-                chan_utils_self.sending_message_is_locked_mutex = false; // when we are sending a message, we prevent processing of polling responses
+                chanUtilsSelf.pollingIsLockedMutex = false; // use to ensure that we only have one polling request at a time - true when polling, false when free
+                chanUtilsSelf.sendingMessageIsLockedMutex = false; // when we are sending a message, we prevent processing of polling responses
                                                                // since the response to the send_message will be a duplicate/redundant
-                chan_utils_self.string_of_messages_in_queue = '';
+                chanUtilsSelf.stringOfMessagesInQueue = '';
 
-                chan_utils_self.list_of_open_chat_groups_members_boxes = [];
-                chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes = 20 * 1000; // every 20 seconds
-                chan_utils_self.last_time_we_updated_chat_groups_members_boxes = 0;
-                chan_utils_self.list_of_usernames_in_each_group = {}; // dictionary indexed by group_id, which contains lists of the usernames -- this is used for checking if list has changed so we can highlight it
+                chanUtilsSelf.listOfOpenChatGroupsMembersBoxes = [];
+                chanUtilsSelf.timeToPassBeforeUpdatingListOfOpenChatGroupsMembersBoxes = 20 * 1000; // every 20 seconds
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = 0;
+                chanUtilsSelf.listOfUsernamesInEachGroup = {}; // dictionary indexed by group_id, which contains lists of the usernames -- this is used for checking if list has changed so we can highlight it
 
-                chan_utils_self.time_to_pass_before_updating_friends_online_dict = 10 * 1000; // every 10 seconds
-                chan_utils_self.last_time_we_updated_friends_online_dict = 0;
+                chanUtilsSelf.timeToPassBeforeUpdatingFriendsOnlineDict = 10 * 1000; // every 10 seconds
+                chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict = 0;
                 
-                chan_utils_self.time_to_pass_before_updating_chat_groups_dict = 10 * 1000; // every 10 seconds
-                chan_utils_self.last_time_we_updated_chat_groups_dict = 0;
+                chanUtilsSelf.timeaToPassBeforeUpdatingChatGroupsDict = 10 * 1000; // every 10 seconds
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = 0;
 
-                chan_utils_self.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
+                chanUtilsSelf.chatbox_idle_object = chatboxManager.track_user_activity_for_online_status();
             }
             catch(err) {
                 report_try_catch_error( err, "initialization");
@@ -128,23 +128,23 @@ var chan_utils = new function () {
                 var new_one_on_one_message_received = false;
 
                 if ("session_status" in json_response && json_response.session_status == "session_expired_session") {
-                    chan_utils_self.execute_go_offline_on_client();
-                    chan_utils_self.block_further_polling = true;
+                    chanUtilsSelf.execute_go_offline_on_client();
+                    chanUtilsSelf.blockFurtherPolling = true;
                 }
                 else if ("session_status" in json_response && json_response.session_status == "session_server_error") {
-                    chan_utils_self.execute_go_offline_on_client();
-                    chan_utils_self.block_further_polling = true;
+                    chanUtilsSelf.execute_go_offline_on_client();
+                    chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_disabled") {
-                    if (chan_utils_self.chat_boxes_status != "chat_disabled") {
-                        chan_utils_self.execute_go_offline_on_client();
+                else if ("chatBoxesStatus" in json_response && json_response.chatBoxesStatus == "chat_disabled") {
+                    if (chanUtilsSelf.chatBoxesStatus != "chat_disabled") {
+                        chanUtilsSelf.execute_go_offline_on_client();
                     }
                 }
-                else if ("chat_boxes_status" in json_response && json_response.chat_boxes_status == "chat_enabled") {
-                    if (chan_utils_self.chat_boxes_status != "chat_enabled") {
+                else if ("chatBoxesStatus" in json_response && json_response.chatBoxesStatus == "chat_enabled") {
+                    if (chanUtilsSelf.chatBoxesStatus != "chat_enabled") {
                         /* chat is not currently enabled, but it should enabled based on the status received in the
                            json_response. Go online. */
-                        chan_utils_self.execute_go_online_on_client();
+                        chanUtilsSelf.execute_go_online_on_client();
                     }
                 }
 
@@ -172,7 +172,7 @@ var chan_utils = new function () {
 
                                 if (conversation_tracker_dict[other_uid].hasOwnProperty('update_conversation')) {
 
-                                    if (chan_utils_self.last_update_time_string_dict.hasOwnProperty(other_uid)) {
+                                    if (chanUtilsSelf.lastUpdateTimeStringDict.hasOwnProperty(other_uid)) {
                                         // the last_update_time_string_array has been previously loaded, and therefore
                                         // we want to highlight/bounce the box when a new message is received
                                         highlight_box_enabled = true;
@@ -181,7 +181,7 @@ var chan_utils = new function () {
                                         highlight_box_enabled = false;
                                     }
 
-                                    chan_utils_self.last_update_time_string_dict[other_uid] = conversation_tracker_dict[other_uid].last_update_time_string;
+                                    chanUtilsSelf.lastUpdateTimeStringDict[other_uid] = conversation_tracker_dict[other_uid]["last_update_time_string"];
 
                                     // calling addBox just makes sure that it exists. Since we just received notification of the existance of this
                                     // box from the server, it has *not* been "just_opened". 
@@ -274,20 +274,20 @@ var chan_utils = new function () {
 
                     for (var group_id in json_response.chat_group_members) {
                         var group_members_dict = json_response.chat_group_members[group_id];
-                        var sorted_list_of_names_with_user_info = chan_utils_self.sort_user_or_groups_by_name("members", group_members_dict, true);
+                        var sorted_list_of_names_with_user_info = chanUtilsSelf.sort_user_or_groups_by_name("members", group_members_dict, true);
 
-                        if (!chan_utils_self.list_of_usernames_in_each_group.hasOwnProperty(group_id)) {
-                            chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_user_info;
+                        if (!chanUtilsSelf.listOfUsernamesInEachGroup.hasOwnProperty(group_id)) {
+                            chanUtilsSelf.listOfUsernamesInEachGroup[group_id] = sorted_list_of_names_with_user_info;
                         }
 
-                        if ( ! chan_utils_self.check_if_group_members_are_the_same(sorted_list_of_names_with_user_info, chan_utils_self.list_of_usernames_in_each_group[group_id])) {
-                            chan_utils_self.list_of_usernames_in_each_group[group_id] = sorted_list_of_names_with_user_info;
+                        if ( ! chanUtilsSelf.check_if_group_members_are_the_same(sorted_list_of_names_with_user_info, chanUtilsSelf.listOfUsernamesInEachGroup[group_id])) {
+                            chanUtilsSelf.listOfUsernamesInEachGroup[group_id] = sorted_list_of_names_with_user_info;
                             $("#id-group_members-dialog-box-" + group_id).effect("highlight", {color:'#FFEEFF'}, 3000);
                         }
 
-                        var display_list = chan_utils_self.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
+                        var display_list = chanUtilsSelf.displayAsListWithHrefs(group_id, sorted_list_of_names_with_user_info, true);
                         $("#id-group_members-dialog-box-contents-" + group_id).html(display_list);
-                        chan_utils_self.showListHoverDescriptions(group_id, group_members_dict);
+                        chanUtilsSelf.showListHoverDescriptions(group_id, group_members_dict);
                     }
                 }
 
@@ -295,7 +295,7 @@ var chan_utils = new function () {
                 if (new_one_on_one_message_received) {
                     // reset the message polling delay to the initial value, since this user appears to now
                     // be involved in a conversation.
-                    chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_message_polling_delay);
+                    chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.initialMessagePollingDelay);
                 }
             }
             catch(err) {
@@ -313,36 +313,36 @@ var chan_utils = new function () {
             get_friends_online_dict = "no";
             get_chat_groups_dict = "no";
 
-            if (current_time - chan_utils_self.time_to_pass_before_updating_list_of_open_chat_groups_members_boxes >
-                chan_utils_self.last_time_we_updated_chat_groups_members_boxes ) {
-                chan_utils_self.last_time_we_updated_chat_groups_members_boxes = current_time;
+            if (current_time - chanUtilsSelf.timeToPassBeforeUpdatingListOfOpenChatGroupsMembersBoxes >
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes ) {
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = current_time;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
-                list_of_open_chat_groups_members_boxes_to_pass = chan_utils_self.list_of_open_chat_groups_members_boxes;
+                list_of_open_chat_groups_members_boxes_to_pass = chanUtilsSelf.listOfOpenChatGroupsMembersBoxes;
             }
 
-            if (current_time - chan_utils_self.time_to_pass_before_updating_friends_online_dict >
-                chan_utils_self.last_time_we_updated_friends_online_dict ) {
-                chan_utils_self.last_time_we_updated_friends_online_dict = current_time;
+            if (current_time - chanUtilsSelf.timeToPassBeforeUpdatingFriendsOnlineDict >
+                chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict ) {
+                chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict = current_time;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
                 get_friends_online_dict = "yes";
             }
 
 
-            if (current_time - chan_utils_self.time_to_pass_before_updating_chat_groups_dict >
-                chan_utils_self.last_time_we_updated_chat_groups_dict ) {
-                chan_utils_self.last_time_we_updated_chat_groups_dict = current_time;
+            if (current_time - chanUtilsSelf.timeaToPassBeforeUpdatingChatGroupsDict >
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict ) {
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = current_time;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
                 // groups that we want updated.
                 get_chat_groups_dict = "yes";
             }
             
 
-            var json_post_dict = {'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
-            //'last_update_chat_message_id_dict' : chan_utils_self.last_update_chat_message_id_dict,
-            'user_presence_status': chan_utils_self.user_presence_status,
-            'list_of_open_chat_groups_members_boxes' :  list_of_open_chat_groups_members_boxes_to_pass,
+            var json_post_dict = {"lastUpdateTimeStringDict" : chanUtilsSelf.lastUpdateTimeStringDict,
+            //'last_update_chat_message_id_dict' : chanUtilsSelf.last_update_chat_message_id_dict,
+            "userPresenceStatus": chanUtilsSelf.userPresenceStatus,
+            "listOfOpenChatGroupsMembersBoxes" :  list_of_open_chat_groups_members_boxes_to_pass,
             'get_friends_online_dict' : get_friends_online_dict,
             'get_chat_groups_dict' : get_chat_groups_dict};
 
@@ -357,8 +357,8 @@ var chan_utils = new function () {
             try {
                 // prevent multiple polls from happening at the same time
 
-                if (!chan_utils_self.polling_is_locked_mutex && !chan_utils_self.sending_message_is_locked_mutex) {
-                    chan_utils_self.polling_is_locked_mutex = true;
+                if (!chanUtilsSelf.pollingIsLockedMutex && !chanUtilsSelf.sendingMessageIsLockedMutex) {
+                    chanUtilsSelf.pollingIsLockedMutex = true;
 
 
                     var list_of_open_chat_groups_members_boxes_to_pass = [];
@@ -374,7 +374,7 @@ var chan_utils = new function () {
                         data: json_stringified_post,
                         dataType: 'json', // response type
                         success: function(json_response) {
-                            if (!chan_utils_self.sending_message_is_locked_mutex) {
+                            if (!chanUtilsSelf.sendingMessageIsLockedMutex) {
                                 // only process this json response if we are not currently processing a send_message call.
                                 process_json_most_recent_chat_messages(json_response);
                             }
@@ -383,10 +383,10 @@ var chan_utils = new function () {
                             internet_connection_is_down();
                         },
                         complete: function() {
-                            if (!chan_utils_self.block_further_polling) {
-                                chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.current_message_polling_delay);
+                            if (!chanUtilsSelf.blockFurtherPolling) {
+                                chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.currentMessagePollingDelay);
                             }
-                            chan_utils_self.polling_is_locked_mutex = false;
+                            chanUtilsSelf.pollingIsLockedMutex = false;
                         }
                     });
                 }
@@ -410,22 +410,22 @@ var chan_utils = new function () {
                 // we dramatically slow down the server polling - we can experimentally determine a good value
 
 
-                clearTimeout(chan_utils_self.chat_message_timeoutID);
+                clearTimeout(chanUtilsSelf.chatMessageTimeoutID);
 
-                if (chan_utils_self.user_presence_status == "user_presence_active") {
+                if (chanUtilsSelf.userPresenceStatus == "user_presence_active") {
                     // for active user sessions, make sure that the delay has not exceeded the maximum, since
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
-                    if (current_message_polling_delay > chan_utils_self.active_polling_delay_ceiling ||
-                            chan_utils_self.chat_boxes_status == "chat_disabled") {
-                        current_message_polling_delay = chan_utils_self.active_polling_delay_ceiling;
+                    if (current_message_polling_delay > chanUtilsSelf.activePollingDelayCeiling ||
+                            chanUtilsSelf.chatBoxesStatus == "chat_disabled") {
+                        current_message_polling_delay = chanUtilsSelf.activePollingDelayCeiling;
                     } else {
-                        current_message_polling_delay = current_message_polling_delay * chan_utils_self.decay_multiplier;
+                        current_message_polling_delay = current_message_polling_delay * chanUtilsSelf.decayMultiplier;
                     }
-                    chan_utils_self.current_message_polling_delay = current_message_polling_delay;
+                    chanUtilsSelf.currentMessagePollingDelay = current_message_polling_delay;
                 }
                 
-                chan_utils_self.chat_message_timeoutID = setTimeout(poll_server_for_status_and_new_messages, current_message_polling_delay);
+                chanUtilsSelf.chatMessageTimeoutID = setTimeout(poll_server_for_status_and_new_messages, current_message_polling_delay);
 
             } catch(err) {
                 report_try_catch_error( err, "set_message_polling_timeout_and_schedule_poll");
@@ -436,8 +436,8 @@ var chan_utils = new function () {
         this.set_focusin_polling_delay = function () {
             try {
                 // user has clicked the mouse (given focus) in the input for a chatbox
-                chan_utils_self.current_message_polling_delay = chan_utils_self.initial_in_focus_polling_delay;
-                chan_utils_self.decay_multiplier = chan_utils_self.focusin_and_active_decay_multiplier;
+                chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialInFocusPollingDelay;
+                chanUtilsSelf.decayMultiplier = chanUtilsSelf.focusinAndActiveDecayMultiplier;
             } catch(err) {
                 report_try_catch_error( err, "set_focusin_polling_delay");
             }
@@ -445,8 +445,8 @@ var chan_utils = new function () {
         this.set_focusout_polling_delay = function () {
             try {
                 // user has removed the focus from the chatbox input
-                chan_utils_self.current_message_polling_delay = chan_utils_self.initial_message_polling_delay ;
-                chan_utils_self.decay_multiplier = chan_utils_self.focusout_and_active_decay_multiplier ;
+                chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay ;
+                chanUtilsSelf.decayMultiplier = chanUtilsSelf.focusoutAndActiveDecayMultiplier ;
             } catch(err) {
                 report_try_catch_error( err, "set_focusout_polling_delay");
             }
@@ -463,7 +463,7 @@ var chan_utils = new function () {
                 var new_main_title = $('#id-chat-contact-title-disactivated-text').text();
                 $('#id-go-offline-button').hide();
                 $('#id-go-online-button').show();
-                chan_utils_self.chat_boxes_status = "chat_disabled";
+                chanUtilsSelf.chatBoxesStatus = "chat_disabled";
 
                 chatboxManager.closeAllChatBoxes();
                 chatboxManager.changeBoxtitle("main", new_main_title);
@@ -480,10 +480,10 @@ var chan_utils = new function () {
                 var loading_contacts_message = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
-                chan_utils_self.user_presence_status = "user_presence_active";
-                chan_utils_self.chat_boxes_status = "chat_enabled";
+                chanUtilsSelf.userPresenceStatus = "user_presence_active";
+                chanUtilsSelf.chatBoxesStatus = "chat_enabled";
 
-                chan_utils_self.start_polling();
+                chanUtilsSelf.start_polling();
                 //$("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", new_main_title);
                 $("#main").chatbox("option", "boxManager").refreshBox(loading_contacts_message);
@@ -510,7 +510,7 @@ var chan_utils = new function () {
 
         /*this.stop_polling_server = function() {
             try {
-                clearTimeout(chan_utils_self.chat_message_timeoutID);
+                clearTimeout(chanUtilsSelf.chatMessageTimeoutID);
             } catch(err) {
                 report_try_catch_error( err, "stop_polling_server");
             }
@@ -520,13 +520,13 @@ var chan_utils = new function () {
         this.start_polling = function() {
             // just a simple wrapper function for calling set_message_polling_timeout_and_schedule_poll
             try {
-                if (chan_utils_self.chat_boxes_status == "chat_enabled") {
-                    chan_utils_self.current_message_polling_delay = chan_utils_self.initial_message_polling_delay;
+                if (chanUtilsSelf.chatBoxesStatus == "chat_enabled") {
+                    chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay;
                     poll_server_for_status_and_new_messages();
                 } else {
-                    // if chatboxes are not enabled, we want to still poll in order to keep the user_presence_status up-to-date
+                    // if chatboxes are not enabled, we want to still poll in order to keep the userPresenceStatus up-to-date
                     // but we want to do it at a slower rate in order to waste less CPU resources.
-                    chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.active_polling_delay_ceiling);
+                    chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.activePollingDelayCeiling);
                 }
             
             } catch(err) {
@@ -557,7 +557,7 @@ var chan_utils = new function () {
                         report_ajax_error(textStatus, errorThrown, "create_new_box_entry_on_server");  
                     },
                     complete: function () {
-                        chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_in_focus_polling_delay);
+                        chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.initialInFocusPollingDelay);
                     }
                 });
             } catch(err) {
@@ -626,7 +626,7 @@ var chan_utils = new function () {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/update_chatbox_status_on_server/' + rnd() + "/",
-                data: {'chat_boxes_status' : new_chat_boxes_status},
+                data: {"chatBoxesStatus" : new_chat_boxes_status},
                 success: function (response) {
                     if (response == "session_expired_session") {
                         // if session is expired, reload the current page (which will kill the chatboxes and will
@@ -645,7 +645,7 @@ var chan_utils = new function () {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/update_user_presence_on_server/' + rnd() + "/",
-                data: {'user_presence_status': new_user_presence_status},
+                data: {"userPresenceStatus": new_user_presence_status},
                 success: function (response) {
                     if (response == "session_expired_session") {
                         location.reload();
@@ -701,8 +701,8 @@ var chan_utils = new function () {
                             throw "Error in sort_user_or_groups_by_name";
                         }
                         // this is the "main" box which contains list of contacts online
-                        if (users_or_groups_dict[uid]['user_presence_status'] != "hidden_online_status") {
-                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['user_presence_status'] + '-image').html();
+                        if (users_or_groups_dict[uid]['userPresenceStatus'] != "hidden_online_status") {
+                            online_status = $('#id-chat-contact-title-' + users_or_groups_dict[uid]['userPresenceStatus'] + '-image').html();
                         } else {
                             online_status = '';
                         }
@@ -805,9 +805,9 @@ var chan_utils = new function () {
         this.close_group_members_dialog = function(group_id) {
 
             try{
-                idx_of_group_id = $.inArray(group_id, chan_utils_self.list_of_open_chat_groups_members_boxes);
+                idx_of_group_id = $.inArray(group_id, chanUtilsSelf.listOfOpenChatGroupsMembersBoxes);
                 if (idx_of_group_id != -1) {
-                    chan_utils_self.list_of_open_chat_groups_members_boxes.splice(idx_of_group_id, 1); // remove the element from the array
+                    chanUtilsSelf.listOfOpenChatGroupsMembersBoxes.splice(idx_of_group_id, 1); // remove the element from the array
                     $('#id-group_members-dialog-box-' + group_id).remove(); // remove the div that we dynamically added just for this dialog
                 }
             } catch(err) {
@@ -841,18 +841,18 @@ var chan_utils = new function () {
                     $("#id-group_members-dialog-box-" + group_id).append('<div id="id-group_members-dialog-box-contents-' + group_id + '"></div>');
                 }
 
-                chan_utils_self.list_of_open_chat_groups_members_boxes.push(group_id);
+                chanUtilsSelf.listOfOpenChatGroupsMembersBoxes.push(group_id);
                 
                 $("#id-group_members-dialog-box-" + group_id ).dialog({
                     width: 200,
                     title: box_title,
                     position: ['right', 'top'],
                     close: function(){
-                        chan_utils_self.close_group_members_dialog(group_id);
+                        chanUtilsSelf.close_group_members_dialog(group_id);
                     }
                 });
 
-                chan_utils_self.last_time_we_updated_chat_groups_members_boxes = 0; // this will force list to be displayed immediately
+                chanUtilsSelf.lastTimeWeUpdatedChatGroupsMembersBoxes = 0; // this will force list to be displayed immediately
                 poll_server_for_status_and_new_messages(); // poll the server so that the list will be updated right away.
             } catch (err) {
                 report_try_catch_error( err, "open_group_members_dialog");
@@ -865,7 +865,7 @@ var chan_utils = new function () {
             // user has sent a message from a chatbox in the current window - POST this message to the
             // server.
 
-            chan_utils_self.user_presence_status = "user_presence_active";
+            chanUtilsSelf.userPresenceStatus = "user_presence_active";
 
             try {
 
@@ -876,22 +876,22 @@ var chan_utils = new function () {
 
                 // prevent polling while we are sending the message - we start polling again as soon as the ajax call is
                 // complete. This is necessary to (help to) prevent double-submission/reception at the same moment.
-                clearTimeout(chan_utils_self.chat_message_timeoutID);
+                clearTimeout(chanUtilsSelf.chatMessageTimeoutID);
 
-                if (!chan_utils_self.sending_message_is_locked_mutex) {
-                    chan_utils_self.sending_message_is_locked_mutex = true;
+                if (!chanUtilsSelf.sendingMessageIsLockedMutex) {
+                    chanUtilsSelf.sendingMessageIsLockedMutex = true;
                     var type_of_conversation = $("#" + box_id).chatbox("option", 'type_of_conversation');
 
                     // clear the string of the queued messages, since we are now processing the most
                     // up-to-date submission, which should contain all values from this string
-                    chan_utils_self.string_of_messages_in_queue = '';
+                    chanUtilsSelf.stringOfMessagesInQueue = '';
 
 
                     var json_post_dict = {'to_uid' : box_id, 'message': msg,
-                    'sender_username': chan_utils_self.owner_username,
+                    'sender_username': chanUtilsSelf.ownerUsername,
                     'type_of_conversation' : type_of_conversation,
-                    'last_update_time_string_dict' : chan_utils_self.last_update_time_string_dict,
-                    'user_presence_status': chan_utils_self.user_presence_status};
+                    "lastUpdateTimeStringDict" : chanUtilsSelf.lastUpdateTimeStringDict,
+                    "userPresenceStatus": chanUtilsSelf.userPresenceStatus};
 
 
                     $.ajax({
@@ -915,22 +915,22 @@ var chan_utils = new function () {
                         },
                         complete: function () {
                             
-                            chan_utils_self.sending_message_is_locked_mutex = false;
+                            chanUtilsSelf.sendingMessageIsLockedMutex = false;
 
                             // finally, send messages that have been queued while waiting for the server to respond
-                            if ( chan_utils_self.string_of_messages_in_queue !== '') {
-                                chan_utils_self.send_message(box_id, chan_utils_self.string_of_messages_in_queue);
+                            if ( chanUtilsSelf.stringOfMessagesInQueue !== '') {
+                                chanUtilsSelf.send_message(box_id, chanUtilsSelf.stringOfMessagesInQueue);
 
                             }
 
                             // reset the message polling delay - we use the "in_focus" delay, since we know that the user is in the chatbox
-                            chan_utils_self.set_message_polling_timeout_and_schedule_poll(chan_utils_self.initial_in_focus_polling_delay);
+                            chanUtilsSelf.set_message_polling_timeout_and_schedule_poll(chanUtilsSelf.initialInFocusPollingDelay);
                         }
                     });
                 } else {
                     // if the user is attempting to send too many messages at once (which would overload the server) -
                     // we queue these messages and will send them (as a single string) when the current ajax call enters into the "complete" branch.
-                    chan_utils_self.string_of_messages_in_queue += msg + "\n";
+                    chanUtilsSelf.stringOfMessagesInQueue += msg + "\n";
 
                 }
                 if (! error_sending_message) {
@@ -957,14 +957,14 @@ var chan_utils = new function () {
                 initialization(owner_uid, owner_username, presence_max_active_polling_delay, presence_idle_polling_delay, presence_away_polling_delay, presence_idle_timeout, presence_away_timeout);
 
                 if (chat_is_disabled != "yes") {
-                    chan_utils_self.execute_go_online_on_client();
+                    chanUtilsSelf.execute_go_online_on_client();
                 } else {
                     // user is offline
                     var offline_message = $('#id-chat-contact-main-box-disactivated-text').text();
                     $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
                     // even though the chat is disabled, we continue polling the server in order to keep the
-                    // user_presence_status up-to-date. 
-                    chan_utils_self.start_polling();
+                    // userPresenceStatus up-to-date.
+                    chanUtilsSelf.start_polling();
                 }
             } catch (err) {
                 report_try_catch_error( err, "setup_and_channel_for_current_client");
@@ -972,6 +972,6 @@ var chan_utils = new function () {
         };
     }
     catch(err) {
-        report_try_catch_error( err, "chan_utils - outer class/object");
+        report_try_catch_error( err, "chanUtils - outer class/object");
     }
 };

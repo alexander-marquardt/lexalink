@@ -153,7 +153,7 @@ def update_chatbox_status_on_server(request):
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-            chat_boxes_status = request.POST.get('chat_boxes_status', '')
+            chat_boxes_status = request.POST.get('chatBoxesStatus', '')
             assert(chat_boxes_status)
             update_chat_boxes_status(owner_uid, chat_boxes_status)
             response = "OK"
@@ -171,7 +171,7 @@ def update_user_presence_on_server(request):
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-            user_presence_status = request.POST.get('user_presence_status', '')
+            user_presence_status = request.POST.get('userPresenceStatus', '')
             assert(user_presence_status)
             online_presence_support.update_online_status(owner_uid, user_presence_status)
             response = "OK"
@@ -219,21 +219,21 @@ def poll_server_for_status_and_new_messages(request):
             if request.method == 'POST':
                 json_post_data = simplejson.loads(request.raw_post_data)
                 
-                last_update_time_string_dict = json_post_data['last_update_time_string_dict']
-                user_presence_status = json_post_data['user_presence_status']
+                last_update_time_string_dict = json_post_data['lastUpdateTimeStringDict']
+                user_presence_status = json_post_data['userPresenceStatus']
                 
-                if 'get_friends_online_dict' in json_post_data and json_post_data['get_friends_online_dict'] == 'yes':
+                if 'getFriendsOnlineDict' in json_post_data and json_post_data['getFriendsOnlineDict'] == 'yes':
                     get_friends_online_dict = True 
                 else: 
                     get_friends_online_dict = False
                 
-                if 'get_chat_groups_dict' in json_post_data and json_post_data['get_chat_groups_dict'] == 'yes':
+                if 'getChatGroupsDict' in json_post_data and json_post_data['getChatGroupsDict'] == 'yes':
                     get_chat_groups_dict = True 
                 else: 
                     get_chat_groups_dict = False                
                 
-                if 'list_of_open_chat_groups_members_boxes' in json_post_data:
-                    list_of_open_chat_groups_members_boxes_on_client = json_post_data['list_of_open_chat_groups_members_boxes']
+                if 'listOfOpenChatGroupsMembersBoxes' in json_post_data:
+                    list_of_open_chat_groups_members_boxes_on_client = json_post_data['listOfOpenChatGroupsMembersBoxes']
                 else:
                     list_of_open_chat_groups_members_boxes_on_client = []
             else:

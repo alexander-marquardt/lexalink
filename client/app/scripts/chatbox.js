@@ -200,13 +200,13 @@ var initJqueryUiChatbox = function($){
                                     'id="id-go-offline-button">' + go_offline_text + '</button>'));
                             $('#id-go-offline-button').button();
                             $('#id-go-offline-button').click(function() {
-                                chan_utils.execute_go_offline_on_client();
+                                chanUtils.execute_go_offline_on_client();
                                 $("#main").chatbox("option", "boxManager").hideChatboxContent();
 
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "execute_go_offline_on_client" function
-                                chan_utils.close_all_chatboxes_on_server();
-                                chan_utils.update_chat_boxes_status_on_server("chat_disabled");
+                                chanUtils.close_all_chatboxes_on_server();
+                                chanUtils.update_chat_boxes_status_on_server("chat_disabled");
                                 return false;
                             });
 
@@ -217,8 +217,8 @@ var initJqueryUiChatbox = function($){
                             $('#id-go-online-button').button();
                             $('#id-go-online-button').hide();
                             $('#id-go-online-button').click(function() {
-                                chan_utils.update_chat_boxes_status_on_server("chat_enabled");
-                                chan_utils.execute_go_online_on_client();
+                                chanUtils.update_chat_boxes_status_on_server("chat_enabled");
+                                chanUtils.execute_go_online_on_client();
                                 return false;
                             });
 
@@ -258,7 +258,7 @@ var initJqueryUiChatbox = function($){
                                     'id="id-chat_group_members-button-' + group_id + '">' + chat_group_members_text + '</button>'));
                             $('#id-chat_group_members-button-' + group_id).button();
                             $('#id-chat_group_members-button-' + group_id).click(function(event) {
-                                chan_utils.open_group_members_dialog(group_id, box_title);
+                                chanUtils.open_group_members_dialog(group_id, box_title);
                             });
                         } catch(err) {
                             report_try_catch_error( err, "initJqueryUiChatbox.uiChatboxShowGroupMembersButton()");
@@ -489,8 +489,8 @@ var initJqueryUiChatbox = function($){
                     self.uiChatboxTitlebar.addClass('ui-state-focus');
                     self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
                     self.uiChatboxLog.scrollTop(self.uiChatboxLog.get(0).scrollHeight);
-                    chan_utils.set_focusin_polling_delay();
-                    chan_utils.call_poll_server_for_status_and_new_messages();
+                    chanUtils.set_focusin_polling_delay();
+                    chanUtils.call_poll_server_for_status_and_new_messages();
                 }
 
                 try {
@@ -524,7 +524,7 @@ var initJqueryUiChatbox = function($){
                         .focusout(function() {
                             self.uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
                             self.uiChatboxTitlebar.removeClass('ui-state-focus');
-                            chan_utils.set_focusout_polling_delay();
+                            chanUtils.set_focusout_polling_delay();
                         });
                     }
 
@@ -625,9 +625,9 @@ var chatboxManager = function() {
                 $("#"+ box_id).chatbox("option", "boxManager").addCssToChatbox('opacity', opacity_val);
             }
 
-            var list_len = chan_utils.list_of_open_chat_groups_members_boxes.length;
+            var list_len = chanUtils.listOfOpenChatGroupsMembersBoxes.length;
             for (var i=0; i<list_len; i++) {
-                group_id = chan_utils.list_of_open_chat_groups_members_boxes[i];
+                group_id = chanUtils.listOfOpenChatGroupsMembersBoxes[i];
                 $("#id-group_members-dialog-box-" + group_id ).parent().css({'opacity': opacity_val});
             }
         };
@@ -664,7 +664,7 @@ var chatboxManager = function() {
             if ($("#" + box_id).chatbox("option", 'type_of_conversation') === 'group') {
                 // close the list of group members, so that we don't have people "spying" on who is in the group
                 // without actually being in the group themselves
-                chan_utils.close_group_members_dialog(box_id);
+                chanUtils.close_group_members_dialog(box_id);
             }
         }
 
@@ -674,7 +674,7 @@ var chatboxManager = function() {
                 // close button in the titlebar is clicked
                 close_chatbox_on_client(box_id);
 
-                chan_utils.close_chatbox_on_server(box_id);
+                chanUtils.close_chatbox_on_server(box_id);
 
             } catch(err) {
                 report_try_catch_error( err, "initJqueryUiChatbox.boxClosedCallback()");
@@ -682,11 +682,11 @@ var chatboxManager = function() {
         };
 
         var minimizeBoxWasClickedCallback = function(box_id) {
-            chan_utils.minimize_chatbox_on_server(box_id);
+            chanUtils.minimize_chatbox_on_server(box_id);
         };
 
         var maximizeBoxWasClickedCallback = function(box_id) {
-            chan_utils.maximize_chatbox_on_server(box_id);
+            chanUtils.maximize_chatbox_on_server(box_id);
         };
 
         var resize_boxes_if_necessary = function() {
@@ -807,7 +807,7 @@ var chatboxManager = function() {
                         offset : offset_from_right,
                         just_opened : just_opened,
                         messageSent: function(box_id, msg, type_of_conversation) {
-                            chan_utils.send_message(box_id, msg, type_of_conversation);
+                            chanUtils.send_message(box_id, msg, type_of_conversation);
                         },
                         boxClosed : boxClosedCallback,
                         minimizeBoxWasClicked : minimizeBoxWasClickedCallback,
@@ -846,33 +846,33 @@ var chatboxManager = function() {
             try {
                 // setup the timers for detecting user online/idle status
                 idle_params = {};
-                idle_params.idle_timeout = chan_utils.presence_idle_timeout;
-                idle_params.away_timeout = chan_utils.presence_away_timeout;
+                idle_params.idle_timeout = chanUtils.presenceIdleTimeout;
+                idle_params.away_timeout = chanUtils.presenceAwayTimeout;
 
                 idle_params.onIdle = function() {
                     var new_main_title = $('#id-chat-contact-title-user_presence_idle-text').text();
                     changeOpacityOfAllBoxes(0.75);
                     changeBoxtitle("main", new_main_title);
-                    chan_utils.user_presence_status = "user_presence_idle";
-                    chan_utils.current_message_polling_delay = chan_utils.presence_idle_polling_delay;
-                    chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status);
+                    chanUtils.userPresenceStatus = "user_presence_idle";
+                    chanUtils.currentMessagePollingDelay = chanUtils.presenceIdlePollingDelay;
+                    chanUtils.update_user_presence_status_on_server(chanUtils.userPresenceStatus);
 
                 };
                 idle_params.onAway = function() {
                     var new_main_title = $('#id-chat-contact-title-user_presence_away-text').text();
                     changeOpacityOfAllBoxes(0.25);
                     changeBoxtitle("main", new_main_title);
-                    chan_utils.user_presence_status = "user_presence_away";
-                    chan_utils.current_message_polling_delay = chan_utils.presence_away_polling_delay;
-                    chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status);
+                    chanUtils.userPresenceStatus = "user_presence_away";
+                    chanUtils.currentMessagePollingDelay = chanUtils.presenceAwayPollingDelay;
+                    chanUtils.update_user_presence_status_on_server(chanUtils.userPresenceStatus);
                 };
                 idle_params.onBack = function(isIdle, isAway) {
                     var new_main_title = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
                     changeBoxtitle("main", new_main_title);
-                    chan_utils.user_presence_status = "user_presence_active";
-                    chan_utils.update_user_presence_status_on_server(chan_utils.user_presence_status);
-                    chan_utils.start_polling();
+                    chanUtils.userPresenceStatus = "user_presence_active";
+                    chanUtils.update_user_presence_status_on_server(chanUtils.userPresenceStatus);
+                    chanUtils.start_polling();
                 };
                 
 
@@ -918,8 +918,8 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             // we are updating the list of chat friends
             sort_ascending = true;
         }
-        var sorted_list_of_names_with_info = chan_utils.sort_user_or_groups_by_name(box_name, dict_to_display, sort_ascending);
-        var display_list = chan_utils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
+        var sorted_list_of_names_with_info = chanUtils.sort_user_or_groups_by_name(box_name, dict_to_display, sort_ascending);
+        var display_list = chanUtils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
 
         $("#" + box_name).chatbox("option", "boxManager").refreshBox(display_list);
 
@@ -937,7 +937,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             } else if (box_name == "groups") {
                 type_of_conversation = "group";
                 // They have just opened a new chat window for a group discussion, so we want to show who is in the group
-                chan_utils.open_group_members_dialog(box_id, box_title);
+                chanUtils.open_group_members_dialog(box_id, box_title);
 
             } else {
                 type_of_conversation = "Error in javascript - invalid box_name";
@@ -947,7 +947,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             // at which point we will open the box. 
             var just_opened = true;
             chatboxManager.addBox(box_id, box_title, true, true, true, type_of_conversation, nid, url_description, just_opened);
-            chan_utils.create_new_box_entry_on_server(box_id);
+            chanUtils.create_new_box_entry_on_server(box_id);
             return false;
         });
 
@@ -961,9 +961,9 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
         for (var uid in contacts_info_dict) {
-            if (contacts_info_dict[uid]['user_presence_status'] != 'hidden_online_status') {
+            if (contacts_info_dict[uid]['userPresenceStatus'] != 'hidden_online_status') {
                 // get the *translated* online status by looking it up in a div that we have defined.
-                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['user_presence_status'] + '-text').html();
+                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['userPresenceStatus'] + '-text').html();
             } else {
                 // to keep the chatboxes looking clean, by default we don't show a status for active users.
                 online_status = '';
@@ -1023,10 +1023,10 @@ var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
 
 
         if (chat_is_disabled == "yes") {
-            chan_utils.execute_go_offline_on_client();
+            chanUtils.execute_go_offline_on_client();
         }
         else {
-            chan_utils.initialize_main_and_group_boxes_on_server();
+            chanUtils.initialize_main_and_group_boxes_on_server();
         }
     } catch(err) {
         report_try_catch_error( err, "setupContactsAndGroupsBoxes", "warning");

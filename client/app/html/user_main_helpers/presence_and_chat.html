@@ -35,7 +35,7 @@
 
     var template_presence_vars =  function() {
         var obj = {};
-        obj.owner_uid = "{{ primary_user_presentation_data_fields.owner_uid }}";
+        obj.ownerUid = "{{ primary_user_presentation_data_fields.owner_uid }}";
         obj.username =  "{{ primary_user_presentation_data_fields.username }}";
         obj.max_active_polling_delay = "{{ primary_user_presentation_data_fields.user_presence_delay_constants.MAX_ACTIVE_POLLING_DELAY_IN_CLIENT }}";
         obj.idle_polling_delay = "{{ primary_user_presentation_data_fields.user_presence_delay_constants.IDLE_POLLING_DELAY_IN_CLIENT }}";
