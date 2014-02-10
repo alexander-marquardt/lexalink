@@ -82,11 +82,11 @@ $(document).ready(function() {
                     </div>
                 {% endif %}
 
-                {% ifequal live_static_dir "client/app" %}
+                {% if not use_compressed_static_files %}
                     <div class="cl-color-text cl-center-text">
                         <strong>Accessing non time-stamped static files - this is not suitable for live version!!!!</strong>
                     </div>
-                {% endifequal %}
+                {% endif %}
 
 
 
