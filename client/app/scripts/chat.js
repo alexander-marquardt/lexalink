@@ -38,14 +38,14 @@ function submit_create_new_group_post(section_name) {
                 //chanUtils.call_process_json_most_recent_chat_messages(json_response);
                 $("#id-create-new-group-input").val('');
 
-                chanUtils.call_poll_server_for_status_and_new_messages();
+                chanUtils.callPollServerForStatusAndNewMessages();
                 // make sure that the list of groups is shown after they create a new group
                 $("#groups").chatbox("option", "boxManager").maximizeBox();
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $("#id-error-dialog-box").dialog();
                 $("#id-error-dialog-box").text(jqXHR.responseText);
-                report_ajax_error(textStatus, errorThrown, "submit_create_new_group_post");
+                reportAjaxError(textStatus, errorThrown, "submit_create_new_group_post");
             },
             complete: function(response) {
                 $("#id-create-group-dialog").dialog('close');

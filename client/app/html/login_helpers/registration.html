@@ -158,7 +158,7 @@
                             } else {
                                 var readable_object = JSON.stringify(post_response);
                                 var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
-                                report_ajax_error("NA", error_html, "handle_user_registration_form - success", "error");
+                                reportAjaxError("NA", error_html, "handle_user_registration_form - success", "error");
                                 show_fields_errors("signup_fields", [], error_html, location_where_to_show_errors);
                             }
                         },
@@ -172,7 +172,7 @@
                                 error_html = "handle_user_registration_form - unknown error";
                             }
                             show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
-                            report_ajax_error(textStatus, errorThrown, "handle_user_registration_form - error", "error");
+                            reportAjaxError(textStatus, errorThrown, "handle_user_registration_form - error", "error");
                         },
                         complete: function() {
                             $('#id-show-loading-spinner').hide();

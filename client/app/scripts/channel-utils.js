@@ -484,7 +484,7 @@ var chanUtils = new function () {
                 chanUtilsSelf.userPresenceStatus = "user_presence_active";
                 chanUtilsSelf.chatBoxesStatus = "chat_enabled";
 
-                chanUtilsSelf.start_polling();
+                chanUtilsSelf.startPolling();
                 //$("#main").chatbox("option", "boxManager").showChatboxContent();
                 chatboxManager.changeBoxtitle("main", newMainTitle);
                 $("#main").chatbox("option", "boxManager").refreshBox(loadingContactsMessage);
@@ -518,10 +518,10 @@ var chanUtils = new function () {
         };*/
 
 
-        this.start_polling = function() {
+        this.startPolling = function() {
             // just a simple wrapper function for calling setMessagePollingTimeoutAndSchedulePoll
             try {
-                if (chanUtilsSelf.chatBoxesStatus == "chat_enabled") {
+                if (chanUtilsSelf.chatBoxesStatus === "chat_enabled") {
                     chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay;
                     pollServerForStatusAndNewMessages();
                 } else {
@@ -536,94 +536,94 @@ var chanUtils = new function () {
         };
 
 
-        this.create_new_box_entry_on_server = function(box_id) {
+        this.createNewBoxEntryOnServer = function(boxId) {
             // this is necessary for the case that a user opens a new conversation chatbox - we want to show
             // the conversation history.
 
             try {
 
-                var json_post_dict = generateJsonPostDict();
-                json_post_dict = $.extend({'other_uid': box_id, 'type_of_conversation' : $("#" + box_id).chatbox("option", 'type_of_conversation')}, json_post_dict);
-                var json_stringified_post = $.toJSON(json_post_dict);
+                var jsonPostDict = generateJsonPostDict();
+                jsonPostDict = $.extend({'other_uid': boxId, 'type_of_conversation' : $("#" + boxId).chatbox("option", 'type_of_conversation')}, jsonPostDict);
+                var json_stringified_post = $.toJSON(jsonPostDict);
 
                 $.ajax({
                     type: 'post',
                     url:  '/rs/channel_support/open_new_chatbox/' + rnd() + "/",
                     data:json_stringified_post,
                     dataType: 'json', // response type                    
-                    success: function(json_response) {
-                        processJsonMostRecentChatMessages(json_response);
+                    success: function(jsonResponse) {
+                        processJsonMostRecentChatMessages(jsonResponse);
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        report_ajax_error(textStatus, errorThrown, "create_new_box_entry_on_server");  
+                        reportAjaxError(textStatus, errorThrown, "createNewBoxEntryOnServer");
                     },
                     complete: function () {
                         chanUtilsSelf.setMessagePollingTimeoutAndSchedulePoll(chanUtilsSelf.initialInFocusPollingDelay);
                     }
                 });
             } catch(err) {
-                reportTryCatchError( err, "create_new_box_entry_on_server", "warning");
+                reportTryCatchError( err, "createNewBoxEntryOnServer", "warning");
             }
         };
 
-        this.minimize_chatbox_on_server = function(other_uid) {
+        this.minimizeChatboxOnServer = function(other_uid) {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
                 data: {'other_uid': other_uid, 'chatbox_minimized_maximized' : 'minimized'},
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "minimize_chatbox_on_server");
+                    reportAjaxError(textStatus, errorThrown, "minimizeChatboxOnServer");
                 }
             });
         };
 
-        this.initialize_main_and_group_boxes_on_server = function() {
+        this.initializeMainAndGroupBoxesOnServer = function() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/initialize_main_and_group_boxes_on_server/' + rnd() + "/",
                 data: {},
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "initialize_main_and_group_boxes_on_server");
+                    reportAjaxError(textStatus, errorThrown, "initialize_main_and_group_boxes_on_server");
                 }
             });
         };
 
 
-        this.maximize_chatbox_on_server = function(other_uid) {
+        this.maximizeChatboxOnServer = function(other_uid) {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
                 data: {'other_uid': other_uid, 'chatbox_minimized_maximized' : 'maximized'},
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "maximize_chatbox_on_server");
+                    reportAjaxError(textStatus, errorThrown, "maximizeChatboxOnServer");
                 }
             });
         };
 
-        this.close_chatbox_on_server = function(box_id) {
+        this.closeChatboxOnServer = function(box_id) {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/close_chat_box/' + rnd() + "/",
                 data: {'other_uid': box_id, 'type_of_conversation' : $("#" + box_id).chatbox("option", 'type_of_conversation')},
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "close_chatbox_on_server");
+                    reportAjaxError(textStatus, errorThrown, "closeChatboxOnServer");
                 }
             });
         };
 
-        this.close_all_chatboxes_on_server = function() {
+        this.closeAllChatboxesOnServer = function() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/close_all_chatboxes_on_server/' + rnd() + "/",
                 data: {},
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "close_all_chatboxes_on_server");
+                    reportAjaxError(textStatus, errorThrown, "close_all_chatboxes_on_server");
                 }
             });
         };
 
 
-        this.update_chat_boxes_status_on_server = function(new_chat_boxes_status) {
+        this.updateChatBoxesStatusOnServer = function(new_chat_boxes_status) {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/update_chatbox_status_on_server/' + rnd() + "/",
@@ -636,13 +636,13 @@ var chanUtils = new function () {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "update_chatbox_status_on_server");
+                    reportAjaxError(textStatus, errorThrown, "update_chatbox_status_on_server");
                 }
             });
         };
 
 
-        this.update_user_presence_status_on_server = function(new_user_presence_status) {
+        this.updateUserPresenceStatusOnServer = function(new_user_presence_status) {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/update_user_presence_on_server/' + rnd() + "/",
@@ -653,12 +653,12 @@ var chanUtils = new function () {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    report_ajax_error(textStatus, errorThrown, "update_user_presence_on_server");
+                    reportAjaxError(textStatus, errorThrown, "update_user_presence_on_server");
                 }
             });
         };
 
-        this.call_process_json_most_recent_chat_messages = function(json_response) {
+        this.callProcessJsonMostRecentChatMessages = function(json_response) {
             try {
                 processJsonMostRecentChatMessages(json_response);
             } catch(err) {
@@ -666,7 +666,7 @@ var chanUtils = new function () {
             }
         };
 
-        this.call_poll_server_for_status_and_new_messages = function () {
+        this.callPollServerForStatusAndNewMessages = function () {
             try {
                 pollServerForStatusAndNewMessages();
             } catch(err) {
@@ -968,7 +968,7 @@ var chanUtils = new function () {
                     $("#main").chatbox("option", "boxManager").refreshBox(offline_message);
                     // even though the chat is disabled, we continue polling the server in order to keep the
                     // userPresenceStatus up-to-date.
-                    chanUtilsSelf.start_polling();
+                    chanUtilsSelf.startPolling();
                 }
             } catch (err) {
                 reportTryCatchError( err, "setup_and_channel_for_current_client");

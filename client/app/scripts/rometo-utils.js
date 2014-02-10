@@ -156,7 +156,7 @@ function reportTryCatchError(err, calling_function_name, warning_level) {
     report_javascript_error_on_server(error_text, warning_level);
 }
 
-function report_ajax_error(textStatus, errorThrown, calling_function_name, warning_level) {
+function reportAjaxError(textStatus, errorThrown, calling_function_name, warning_level) {
     // make sure warning_level is set to a default value of "error"
     warning_level = warning_level || "warning";
     // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
@@ -242,7 +242,7 @@ function load_selector_options(child_field_id, parent_field_val, default_option_
                 hide_spinner($(child_field_id), "child");
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                report_ajax_error(textStatus, errorThrown, "load_selector_options");
+                reportAjaxError(textStatus, errorThrown, "load_selector_options");
             }
         });
     } catch(err) {
@@ -841,7 +841,7 @@ function show_registration_and_login(additional_text, optional_passed_in_usernam
             $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'border': '0px' });
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            report_ajax_error(textStatus, errorThrown, "show_registration_and_login", "error");
+            reportAjaxError(textStatus, errorThrown, "show_registration_and_login", "error");
             $('#id-show-registration-and-login').html($("#id-unknown-error-reload-page").html());
             $('#id-show-registration-and-login').dialog();
         },
@@ -1013,7 +1013,7 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                     // unknown status returned.
                     $(submit_button_id).before('<div id="id-submit_send_mail-status"><br>' + html_response + '<br></div>');
                     reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
-                    report_ajax_error('', '', "submit_send_mail - unknown html response: " + html_response);
+                    reportAjaxError('', '', "submit_send_mail - unknown html response: " + html_response);
                 }
 
             },
@@ -1031,7 +1031,7 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                 } else {
                     warning_level = "error"
                 }
-                report_ajax_error(textStatus, errorThrown, "submit_send_mail", warning_level);
+                reportAjaxError(textStatus, errorThrown, "submit_send_mail", warning_level);
             }
         });
     } catch(err) {
@@ -1108,7 +1108,7 @@ function submit_verify_captcha(section_name, submit_button_id, captcha_div_id) {
             error: function(jqXHR, textStatus, errorThrown) {
                 $(captcha_status_id).html('<strong>Error, intentalo de nuevo</strong>');
                 reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, "no_bypass");
-                report_ajax_error(textStatus, errorThrown, "submit_verify_captcha");
+                reportAjaxError(textStatus, errorThrown, "submit_verify_captcha");
             }
         });
     } catch(err) {
@@ -1196,7 +1196,7 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $(submission_status_id).html('<strong>Error posting to the server, please try again</strong>');
-                    report_ajax_error(textStatus, errorThrown, "handle_post_button_with_confirmation_of_result");
+                    reportAjaxError(textStatus, errorThrown, "handle_post_button_with_confirmation_of_result");
                 }
 
             });

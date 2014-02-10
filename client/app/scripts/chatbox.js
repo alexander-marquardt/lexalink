@@ -205,8 +205,8 @@ var initJqueryUiChatbox = function($){
 
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "executeGoOfflineOnClient" function
-                                chanUtils.close_all_chatboxes_on_server();
-                                chanUtils.update_chat_boxes_status_on_server("chat_disabled");
+                                chanUtils.closeAllChatboxesOnServer();
+                                chanUtils.updateChatBoxesStatusOnServer("chat_disabled");
                                 return false;
                             });
 
@@ -217,7 +217,7 @@ var initJqueryUiChatbox = function($){
                             $('#id-go-online-button').button();
                             $('#id-go-online-button').hide();
                             $('#id-go-online-button').click(function() {
-                                chanUtils.update_chat_boxes_status_on_server("chat_enabled");
+                                chanUtils.updateChatBoxesStatusOnServer("chat_enabled");
                                 chanUtils.executeGoOnlineOnClient();
                                 return false;
                             });
@@ -490,7 +490,7 @@ var initJqueryUiChatbox = function($){
                     self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
                     self.uiChatboxLog.scrollTop(self.uiChatboxLog.get(0).scrollHeight);
                     chanUtils.setFocusinPollingDelay();
-                    chanUtils.call_poll_server_for_status_and_new_messages();
+                    chanUtils.callPollServerForStatusAndNewMessages();
                 }
 
                 try {
@@ -674,7 +674,7 @@ var chatboxManager = function() {
                 // close button in the titlebar is clicked
                 closeChatboxOnClient(box_id);
 
-                chanUtils.close_chatbox_on_server(box_id);
+                chanUtils.closeChatboxOnServer(box_id);
 
             } catch(err) {
                 reportTryCatchError( err, "initJqueryUiChatbox.boxClosedCallback()");
@@ -682,11 +682,11 @@ var chatboxManager = function() {
         };
 
         var minimizeBoxWasClickedCallback = function(box_id) {
-            chanUtils.minimize_chatbox_on_server(box_id);
+            chanUtils.minimizeChatboxOnServer(box_id);
         };
 
         var maximizeBoxWasClickedCallback = function(box_id) {
-            chanUtils.maximize_chatbox_on_server(box_id);
+            chanUtils.maximizeChatboxOnServer(box_id);
         };
 
         var resize_boxes_if_necessary = function() {
@@ -855,7 +855,7 @@ var chatboxManager = function() {
                     changeBoxtitle("main", new_main_title);
                     chanUtils.userPresenceStatus = "user_presence_idle";
                     chanUtils.currentMessagePollingDelay = chanUtils.presenceIdlePollingDelay;
-                    chanUtils.update_user_presence_status_on_server(chanUtils.userPresenceStatus);
+                    chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
 
                 };
                 idle_params.onAway = function() {
@@ -864,15 +864,15 @@ var chatboxManager = function() {
                     changeBoxtitle("main", new_main_title);
                     chanUtils.userPresenceStatus = "user_presence_away";
                     chanUtils.currentMessagePollingDelay = chanUtils.presenceAwayPollingDelay;
-                    chanUtils.update_user_presence_status_on_server(chanUtils.userPresenceStatus);
+                    chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
                 };
                 idle_params.onBack = function(isIdle, isAway) {
                     var new_main_title = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
                     changeBoxtitle("main", new_main_title);
                     chanUtils.userPresenceStatus = "user_presence_active";
-                    chanUtils.update_user_presence_status_on_server(chanUtils.userPresenceStatus);
-                    chanUtils.start_polling();
+                    chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
+                    chanUtils.startPolling();
                 };
                 
 
@@ -947,7 +947,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
             // at which point we will open the box. 
             var just_opened = true;
             chatboxManager.addBox(box_id, box_title, true, true, true, type_of_conversation, nid, url_description, just_opened);
-            chanUtils.create_new_box_entry_on_server(box_id);
+            chanUtils.createNewBoxEntryOnServer(box_id);
             return false;
         });
 
@@ -1026,7 +1026,7 @@ var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
             chanUtils.executeGoOfflineOnClient();
         }
         else {
-            chanUtils.initialize_main_and_group_boxes_on_server();
+            chanUtils.initializeMainAndGroupBoxesOnServer();
         }
     } catch(err) {
         reportTryCatchError( err, "setupContactsAndGroupsBoxes", "warning");

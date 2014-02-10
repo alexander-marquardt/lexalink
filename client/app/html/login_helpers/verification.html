@@ -155,14 +155,14 @@ function handle_verification_code_input() {
                             } else {
                                 var readable_object = JSON.stringify(post_response);
                                 var error_html = "handle_verification_code_input - unknown json response: " + readable_object;
-                                report_ajax_error("NA", error_html, "handle_verification_code_input - success", "error");
+                                reportAjaxError("NA", error_html, "handle_verification_code_input - success", "error");
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             $this_submit.removeAttr('disabled'); // re-enable click on submit
                             $(".cl-warning-text-holder").html('<strong><span class="cl-warning-text">Error</span></strong>');
                             var error_html = "handle_verification_code_input - unknown error - see logs";
-                            report_ajax_error(textStatus, errorThrown, "handle_verification_code_input - error", "error");
+                            reportAjaxError(textStatus, errorThrown, "handle_verification_code_input - error", "error");
                         },
                         complete: function() {
                             $('#id-show-loading-spinner').hide();

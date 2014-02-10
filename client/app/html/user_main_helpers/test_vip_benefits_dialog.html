@@ -83,7 +83,7 @@ function show_online_status_button_click_dialog() {
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            report_ajax_error(textStatus, errorThrown, "initialize_main_and_group_boxes_on_server");
+            reportAjaxError(textStatus, errorThrown, "initialize_main_and_group_boxes_on_server");
         },
         complete: function() {
         }
