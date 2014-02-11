@@ -65,7 +65,7 @@
 
 <script type="text/javascript">
 
-function show_online_status_button_click_dialog() {
+function showOnlineStatusButtonClickDialog() {
     $.ajax({
         type: 'post',
         url:  '/rs/ajax/set_show_online_status_trial/' + rnd() + "/",
@@ -90,7 +90,7 @@ function show_online_status_button_click_dialog() {
     });
 }
 
-function show_online_status_main_dialog() {
+function showOnlineStatusMainDialog() {
     var $dialog = $("#id-show_online_status_dialog_box");
 
     $dialog.dialog({
@@ -101,7 +101,7 @@ function show_online_status_main_dialog() {
     return false;
 }
 
-function show_all_vip_benefits_dialog() {
+function showAllVipBenefitsDialog() {
 
     $("#id-show_vip_benefits_dialog_box").html($("#id-become_a_vip").html())
     $("#id-show_vip_benefits_dialog_box").dialog({
@@ -112,18 +112,18 @@ function show_all_vip_benefits_dialog() {
 }
 
 $(document).on("click",'.cl-see_all_vip_benefits', function(e) {
-    show_all_vip_benefits_dialog();
+    showAllVipBenefitsDialog();
     e.preventDefault();
 });
 
 $('#id-show_online_status_menu_element').click(function() {
-    return show_online_status_main_dialog();
+    return showOnlineStatusMainDialog();
 });
 
 
 $('#id-show_online_status_button').button();
 $('#id-show_online_status_button').click(function(){
-    show_online_status_button_click_dialog();
+    showOnlineStatusButtonClickDialog();
 });
 
 

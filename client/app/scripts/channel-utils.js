@@ -703,7 +703,7 @@ function ChanUtils() {
                     var onlineStatus;
                     userOrGroupInfoDict['uid'] = uid;
                     userOrGroupInfoDict['nid'] = usersOrGroupsDict[uid]['nid'];
-                    userOrGroupInfoDict['url_description'] = usersOrGroupsDict[uid]['url_description'];
+                    userOrGroupInfoDict['urlDescription'] = usersOrGroupsDict[uid]['urlDescription'];
                     if (boxName === "groups") {
                         var numGroupMembers = usersOrGroupsDict[uid]['num_group_members'];
                         var numMembersStr = formatNumberLength(numGroupMembers, 2);
@@ -782,12 +782,12 @@ function ChanUtils() {
                     var displayName = sortedListOfNamesWithUserInfo[idx][0];
                     var uid = sortedListOfNamesWithUserInfo[idx][1]['uid'];
                     var nid = sortedListOfNamesWithUserInfo[idx][1]['nid'];
-                    var urlDescription = sortedListOfNamesWithUserInfo[idx][1]['url_description'];
+                    var urlDescription = sortedListOfNamesWithUserInfo[idx][1]['urlDescription'];
                     if (includeHref) {
                         var href = "/" + templatePresenceVars.language + "/profile/" + nid + "/" + urlDescription + "/";
                         displayList += '<li><a id="dlist-' + boxName + '-' + nid + '" data-uid="' + uid + '" href = "' + href + '" rel="address:' + href + '">' + displayName + '</a>';
                     } else {
-                        displayList += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-url_description="' + urlDescription + '" href = "#">' + displayName + '</a>';
+                        displayList += '<li><a data-uid="' + uid + '" data-nid="' + nid + '" data-urlDescription="' + urlDescription + '" href = "#">' + displayName + '</a>';
                     }
                 }
                 displayList += '</ul>';

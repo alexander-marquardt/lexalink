@@ -929,7 +929,7 @@ var updateChatControlBox = function (boxName, dictToDisplay) {
             var anchor = $(this).find('a');
             var boxId =  anchor.data("uid"); // jquery .data() operator
             var boxTitle = dictToDisplay[boxId]['user_or_group_name'];
-            var urlDescription = dictToDisplay[boxId]['url_description'];
+            var urlDescription = dictToDisplay[boxId]['urlDescription'];
             var nid = dictToDisplay[boxId]['nid'];
 
             var typeOfConversation;
