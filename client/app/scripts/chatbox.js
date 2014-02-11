@@ -21,9 +21,11 @@
 
 }*/
 
+// Define functions that are declared after call to the function
+var chatboxManager;
 
 // TODO: implement destroy()
-var initJqueryUiChatbox = function($){
+var initJqueryUiChatbox = (function($){
 
     // This function sets up the JqueryUI functions, and is automatically executed 
 
@@ -539,7 +541,7 @@ var initJqueryUiChatbox = function($){
         reportTryCatchError( err, "initJqueryUiChatbox");
     }
 
-}(jQuery);
+}(jQuery));
 
 
 
@@ -556,18 +558,18 @@ var catchWindowResizeEvents = function () {
     }
 };
 
-var chatboxManager = function() {
+chatboxManager = function() {
 
 
     try {
         // list of all opened boxes
-        var boxList = new Array();
+        var boxList = [];
         // list of boxes shown on the page
-        var showList = new Array();
+        var showList = [];
         // type of conversation that each box_id contains
 
         // list of first names, for in-page demo
-        var user_name = null;
+        var userName = null;
 
         var config = {
             defaultMainWidth: 120,
@@ -623,8 +625,8 @@ var chatboxManager = function() {
                 $("#"+ box_id).chatbox("option", "boxManager").addCssToChatbox('opacity', opacityVal);
             }
 
-            var list_len = chanUtils.listOfOpenChatGroupsMembersBoxes.length;
-            for (var i=0; i<list_len; i++) {
+            var listLen = chanUtils.listOfOpenChatGroupsMembersBoxes.length;
+            for (var i=0; i<listLen; i++) {
                 var groupId = chanUtils.listOfOpenChatGroupsMembersBoxes[i];
                 $("#id-group_members-dialog-box-" + groupId ).parent().css({'opacity': opacityVal});
             }
@@ -635,105 +637,105 @@ var chatboxManager = function() {
             // on each pass.
             var initialLength = showList.length;
             for(var idx = initialLength - 1; idx > 0; idx--) {
-                var box_id = showList[idx];
-                boxClosedCallback(box_id);
+                var boxId = showList[idx];
+                boxClosedCallback(boxId);
             }
         };
 
 
-        var closeChatboxOnClient = function(box_id) {
+        var closeChatboxOnClient = function(boxId) {
             // we *do not* allow closing of the *main* box, and so this code does not currently handle this situation
-            var idx = $.inArray(box_id, showList);
+            var idx = $.inArray(boxId, showList);
             if(idx != -1) {
                 showList.splice(idx, 1);
-                $("#"+ box_id).chatbox("option", "boxManager").hideBox();
-                diff = currentChatboxWidth + config.gap;
+                $("#"+ boxId).chatbox("option", "boxManager").hideBox();
+                var diff = currentChatboxWidth + config.gap;
                 for(var i = idx; i < showList.length; i++) {
-                    offset = $("#" + showList[i]).chatbox("option", "offset");
+                    var offset = $("#" + showList[i]).chatbox("option", "offset");
                     $("#" + showList[i]).chatbox("option", "offset", offset - diff);
                 }
                 resizeBoxesIfNecessary();
             }
             else {
-                 report_javascript_error_on_server("closeChatboxOnClient error: " + box_id);
+                 report_javascript_error_on_server("closeChatboxOnClient error: " + boxId);
             }
 
 
-            if ($("#" + box_id).chatbox("option", 'typeOfConversation') === 'group') {
+            if ($("#" + boxId).chatbox("option", 'typeOfConversation') === 'group') {
                 // close the list of group members, so that we don't have people "spying" on who is in the group
                 // without actually being in the group themselves
-                chanUtils.closeGroupMembersDialog(box_id);
+                chanUtils.closeGroupMembersDialog(boxId);
             }
-        }
+        };
 
-        var boxClosedCallback = function(box_id) {
+        var boxClosedCallback = function(boxId) {
 
             try{
                 // close button in the titlebar is clicked
-                closeChatboxOnClient(box_id);
+                closeChatboxOnClient(boxId);
 
-                chanUtils.closeChatboxOnServer(box_id);
+                chanUtils.closeChatboxOnServer(boxId);
 
             } catch(err) {
                 reportTryCatchError( err, "initJqueryUiChatbox.boxClosedCallback()");
             }
         };
 
-        var minimizeBoxWasClickedCallback = function(box_id) {
-            chanUtils.minimizeChatboxOnServer(box_id);
+        var minimizeBoxWasClickedCallback = function(boxId) {
+            chanUtils.minimizeChatboxOnServer(boxId);
         };
 
-        var maximizeBoxWasClickedCallback = function(box_id) {
-            chanUtils.maximizeChatboxOnServer(box_id);
+        var maximizeBoxWasClickedCallback = function(boxId) {
+            chanUtils.maximizeChatboxOnServer(boxId);
         };
 
 
         var resizeBoxesIfNecessary = function() {
 
             try {
-                var current_box_width;
+                var currentBoxWidth;
 
-                var document_width = $(window).width() - 50; // subtract out scrollbar width (approx)
-                var document_height = $(window).height() - 50;
-                var num_displayed_mainboxes = 2;
-                var num_displayed_chatboxes = showList.length - 2;
-                var chatbox_height_override = document_height / 2;
+                var documentWidth = $(window).width() - 50; // subtract out scrollbar width (approx)
+                var documentHeight = $(window).height() - 50;
+                var numDisplayedMainboxes = 2;
+                var numDisplayedChatboxes = showList.length - 2;
+                var chatboxHeightOverride = documentHeight / 2;
 
                 // the following math is approximate, and needs to be investigated/written properly - it more or less works
                 // but for a large number of chatboxes the scaling is not perfect.
-                var normalization_width = (num_displayed_mainboxes * (config.defaultMainWidth + config.gap + 2*config.borderAndPadding)) +
-                        (num_displayed_chatboxes * (config.defaultChatboxWidth + config.gap + 2*config.borderAndPadding));
-                var scaling_ratio = document_width/normalization_width;
+                var normalization_width = (numDisplayedMainboxes * (config.defaultMainWidth + config.gap + 2*config.borderAndPadding)) +
+                        (numDisplayedChatboxes * (config.defaultChatboxWidth + config.gap + 2*config.borderAndPadding));
+                var scalingRatio = documentWidth/normalization_width;
 
 
-                if (scaling_ratio >= 1) {
+                if (scalingRatio >= 1) {
                     // the boxes should be made to their maximum default size
                     currentChatboxWidth = config.defaultChatboxWidth; // subtract the padding and border
                     currentMainWidth = config.defaultMainWidth;
                 } else {
-                    currentChatboxWidth = config.defaultChatboxWidth * scaling_ratio;
-                    currentMainWidth = config.defaultMainWidth * scaling_ratio;
+                    currentChatboxWidth = config.defaultChatboxWidth * scalingRatio;
+                    currentMainWidth = config.defaultMainWidth * scalingRatio;
                 }
 
                 for(var idx = 0; idx < showList.length; idx++) {
-                    var box_id = showList[idx];
+                    var boxId = showList[idx];
 
-                    if (box_id == "main" || box_id == "groups") { // will probably have to seperate main and groups later to get the height the same
-                        if ($("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight() > config.maxMainLogHeight) {
-                            $("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight(config.maxMainLogHeight);
+                    if (boxId == "main" || boxId == "groups") { // will probably have to seperate main and groups later to get the height the same
+                        if ($("#"+ boxId).chatbox("option", "boxManager").chatboxLogHeight() > config.maxMainLogHeight) {
+                            $("#"+ boxId).chatbox("option", "boxManager").chatboxLogHeight(config.maxMainLogHeight);
                         }
 
-                        current_box_width = currentMainWidth;
+                        currentBoxWidth = currentMainWidth;
 
                     } else {
 
-                        current_box_width = currentChatboxWidth;
-                        $("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight(chatbox_height_override);
+                        currentBoxWidth = currentChatboxWidth;
+                        $("#"+ boxId).chatbox("option", "boxManager").chatboxLogHeight(chatboxHeightOverride);
                         // scale the bottom div so that the chatboxes don't cover over the main part of the page.
-                        $('#id-height_chatbox_override').height(chatbox_height_override+75);
+                        $('#id-height_chatbox_override').height(chatboxHeightOverride+75);
                     }
-                    $("#"+ box_id).chatbox("option", "boxManager").resizeWidth(current_box_width);
-                    $("#"+ box_id).chatbox("option", "boxManager").setBoxOffset(getNextOffset(idx));
+                    $("#"+ boxId).chatbox("option", "boxManager").resizeWidth(currentBoxWidth);
+                    $("#"+ boxId).chatbox("option", "boxManager").setBoxOffset(getNextOffset(idx));
                 }
 
                 // in IE6 AND IE7 buttons do not scale to fit within their container div. Therefore, we manually
@@ -753,18 +755,18 @@ var chatboxManager = function() {
 
 
         // caller should guarantee the uniqueness of box_id
-        var addBox = function(box_id, box_title, allow_elimination, include_chatbox_input, highlight_box_enabled,
-                              typeOfConversation, nid, url_description, just_opened) {
+        var addBox = function(boxId, boxTitle, allowElimination, includeChatboxInput, highlight_box_enabled,
+                              typeOfConversation, nid, urlDescription, justOpened) {
 
             try {
-                var idx1 = $.inArray(box_id, showList);
-                var idx2 = $.inArray(box_id, boxList);
+                var idx1 = $.inArray(boxId, showList);
+                var idx2 = $.inArray(boxId, boxList);
                 var open_box_on_server = false;
                 var manager = undefined;
                 var offset_from_right = undefined;
                 if(idx1 != -1) {
                     // Chatbox already exists and is open - apply effect so the user notices it
-                    manager = $("#"+ box_id).chatbox("option", "boxManager");
+                    manager = $("#"+ boxId).chatbox("option", "boxManager");
                     if (highlight_box_enabled) {
                         manager.highlightBox();
                     }
@@ -774,62 +776,62 @@ var chatboxManager = function() {
                     // show it and put it back to showList
                     open_box_on_server = true;
                     offset_from_right = getNextOffset(showList.length);
-                    $("#"+ box_id).chatbox("option", "offset", offset_from_right);
-                    manager = $("#"+ box_id).chatbox("option", "boxManager");
+                    $("#"+ boxId).chatbox("option", "offset", offset_from_right);
+                    manager = $("#"+ boxId).chatbox("option", "boxManager");
                     manager.toggleBox();
                     manager._scrollToBottom();
-                    $("#"+ box_id).chatbox("option", "justOpened", true );
-                    showList.push(box_id);
+                    $("#"+ boxId).chatbox("option", "justOpened", true );
+                    showList.push(boxId);
                 }
                 else {
                     // not found, create a new chatbox
                     var el = document.createElement('div');
                     offset_from_right = getNextOffset(showList.length);
-                    var box_width;
+                    var boxWidth;
 
                     open_box_on_server = true;
 
-                    if (box_id == 'main') {
-                        box_width = currentMainWidth;
+                    if (boxId == 'main') {
+                        boxWidth = currentMainWidth;
                     } else {
-                        box_width = currentChatboxWidth;
+                        boxWidth = currentChatboxWidth;
                     }
-                    el.setAttribute('id', box_id);
+                    el.setAttribute('id', boxId);
                     $(el).chatbox({
-                        id : box_id,
-                        title : box_title,
-                        allowElimination: allow_elimination, // show the X in the top right corner
-                        includeChatboxInput: include_chatbox_input,
+                        id : boxId,
+                        title : boxTitle,
+                        allowElimination: allowElimination, // show the X in the top right corner
+                        includeChatboxInput: includeChatboxInput,
                         typeOfConversation: typeOfConversation,
                         hidden : false,
-                        width : box_width,
+                        width : boxWidth,
                         offset : offset_from_right,
-                        just_opened : just_opened,
-                        messageSent: function(box_id, msg, typeOfConversation) {
-                            chanUtils.sendMessage(box_id, msg, typeOfConversation);
+                        just_opened : justOpened,
+                        messageSent: function(boxId, msg, typeOfConversation) {
+                            chanUtils.sendMessage(boxId, msg, typeOfConversation);
                         },
                         boxClosed : boxClosedCallback,
                         minimizeBoxWasClicked : minimizeBoxWasClickedCallback,
                         maximizeBoxWasClicked : maximizeBoxWasClickedCallback
                     });
-                    boxList.push(box_id);
-                    showList.push(box_id);
+                    boxList.push(boxId);
+                    showList.push(boxId);
 
                     if (ltIE8) { // apply hack for fixed positioning to work in IE6
-                        $("#"+ box_id).chatbox("option", "boxManager").addClassToChatbox('fixed-bottom');
+                        $("#"+ boxId).chatbox("option", "boxManager").addClassToChatbox('fixed-bottom');
                     }
 
-                    if (box_id != "main" && box_id != "groups" && open_box_on_server) {
+                    if (boxId != "main" && boxId != "groups" && open_box_on_server) {
                         if (typeOfConversation != "group") {
                             // group conversations will not have a hyperlink in the title, since there is no associated profile
-                            hyperlinkBoxtitle(box_id, nid, url_description);
+                            hyperlinkBoxtitle(boxId, nid, urlDescription);
 
-                            // Note: box_id for chatboxes is the uid of the other user
-                            $("#" + box_id).chatbox("option", "boxManager").uiChatboxVideoButton(box_id);
+                            // Note: boxId for chatboxes is the uid of the other user
+                            $("#" + boxId).chatbox("option", "boxManager").uiChatboxVideoButton(boxId);
 
                         }
                         else { // group conversation
-                            $("#" + box_id).chatbox("option", "boxManager").uiChatboxShowGroupMembersButton(box_id, box_title);
+                            $("#" + boxId).chatbox("option", "boxManager").uiChatboxShowGroupMembersButton(boxId, boxTitle);
                         }
                     }
                 }
@@ -844,11 +846,11 @@ var chatboxManager = function() {
 
             try {
                 // setup the timers for detecting user online/idle status
-                var idle_params = {};
-                idle_params.idle_timeout = chanUtils.presenceIdleTimeout;
-                idle_params.away_timeout = chanUtils.presenceAwayTimeout;
+                var idleParams = {};
+                idleParams.idleTimeout = chanUtils.presenceIdleTimeout;
+                idleParams.awayTimeout = chanUtils.presenceAwayTimeout;
 
-                idle_params.onIdle = function() {
+                idleParams.onIdle = function() {
                     var new_main_title = $('#id-chat-contact-title-user_presence_idle-text').text();
                     changeOpacityOfAllBoxes(0.75);
                     changeBoxtitle("main", new_main_title);
@@ -857,15 +859,15 @@ var chatboxManager = function() {
                     chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
 
                 };
-                idle_params.onAway = function() {
-                    var new_main_title = $('#id-chat-contact-title-user_presence_away-text').text();
+                idleParams.onAway = function() {
+                    var newMainTitle = $('#id-chat-contact-title-user_presence_away-text').text();
                     changeOpacityOfAllBoxes(0.25);
-                    changeBoxtitle("main", new_main_title);
+                    changeBoxtitle("main", newMainTitle);
                     chanUtils.userPresenceStatus = "user_presence_away";
                     chanUtils.currentMessagePollingDelay = chanUtils.presenceAwayPollingDelay;
                     chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
                 };
-                idle_params.onBack = function(isIdle, isAway) {
+                idleParams.onBack = function(isIdle, isAway) {
                     var new_main_title = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
                     changeBoxtitle("main", new_main_title);
@@ -875,7 +877,7 @@ var chatboxManager = function() {
                 };
                 
 
-                var chatboxIdleObject = IdleClass(idle_params);
+                var chatboxIdleObject = IdleClass(idleParams);
                 return chatboxIdleObject;
 
             } catch(err) {
@@ -901,7 +903,7 @@ var chatboxManager = function() {
 }();
 
 
-var updateChatControlBox = function (box_name, dict_to_display) {
+var updateChatControlBox = function (boxName, dictToDisplay) {
     // used for updating the "main" and the "groups" chatboxes -- in the case of the main box, it will
     // display a list of contacts that are online. For the groups box, it will display a list of available
     // chat groups.
@@ -910,43 +912,43 @@ var updateChatControlBox = function (box_name, dict_to_display) {
     try {
 
         var sort_ascending = undefined;
-        if (box_name == "groups") {
+        if (boxName == "groups") {
             // we are updating the list of chat groups
             sort_ascending = false;
         } else {
             // we are updating the list of chat friends
             sort_ascending = true;
         }
-        var sorted_list_of_names_with_info = chanUtils.sortUserOrGroupsByName(box_name, dict_to_display, sort_ascending);
-        var display_list = chanUtils.displayAsListWithHrefs(box_name, sorted_list_of_names_with_info, false);
+        var sorted_list_of_names_with_info = chanUtils.sortUserOrGroupsByName(boxName, dictToDisplay, sort_ascending);
+        var display_list = chanUtils.displayAsListWithHrefs(boxName, sorted_list_of_names_with_info, false);
 
-        $("#" + box_name).chatbox("option", "boxManager").refreshBox(display_list);
+        $("#" + boxName).chatbox("option", "boxManager").refreshBox(display_list);
 
 
-        $("#id-chatbox-" + box_name + "-list li").click(function(e){
+        $("#id-chatbox-" + boxName + "-list li").click(function(e){
             var anchor = $(this).find('a');
-            var box_id =  anchor.data("uid"); // jquery .data() operator
-            var box_title = dict_to_display[box_id]['user_or_group_name'];
-            var url_description = dict_to_display[box_id]['url_description'];
-            var nid = dict_to_display[box_id]['nid'];
+            var boxId =  anchor.data("uid"); // jquery .data() operator
+            var boxTitle = dictToDisplay[boxId]['user_or_group_name'];
+            var url_description = dictToDisplay[boxId]['url_description'];
+            var nid = dictToDisplay[boxId]['nid'];
 
             var typeOfConversation;
-            if (box_name == "main") {
+            if (boxName == "main") {
                 typeOfConversation = "one_on_one";
-            } else if (box_name == "groups") {
+            } else if (boxName == "groups") {
                 typeOfConversation = "group";
                 // They have just opened a new chat window for a group discussion, so we want to show who is in the group
-                chanUtils.openGroupMembersDialog(box_id, box_title);
+                chanUtils.openGroupMembersDialog(boxId, boxTitle);
 
             } else {
-                typeOfConversation = "Error in javascript - invalid box_name";
+                typeOfConversation = "Error in javascript - invalid boxName";
             }
 
             // by creating a box entry on the server, we will recieve a response that indicates that a new box is open
             // at which point we will open the box. 
             var just_opened = true;
-            chatboxManager.addBox(box_id, box_title, true, true, true, typeOfConversation, nid, url_description, just_opened);
-            chanUtils.createNewBoxEntryOnServer(box_id);
+            chatboxManager.addBox(boxId, boxTitle, true, true, true, typeOfConversation, nid, url_description, just_opened);
+            chanUtils.createNewBoxEntryOnServer(boxId);
             return false;
         });
 

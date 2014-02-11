@@ -130,7 +130,7 @@ function rs_set_selector_to_value(selector_id, selected_value) {
 
     try {
         /* the following code will ensure that the top/first appearance of a value will be selected */
-        first_selector = $(selector_id + " option[value='" + selected_value + "']:first");
+        var first_selector = $(selector_id + " option[value='" + selected_value + "']:first");
         if (first_selector.length) { // check that the selector was found
             first_selector[0].selected = true;
         }

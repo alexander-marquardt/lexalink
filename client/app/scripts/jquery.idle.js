@@ -9,7 +9,7 @@ function IdleClass(idle_params) {
     // This must be called with the "new" declaration so that an object is instantiated
     /* idle_params is a dictionary object with the following values:
 
-    {idle_timeout: int, away_timeout: int, onIdle: function(), onAway: function(), onBack: function() }
+    {idleTimeout: int, awayTimeout: int, onIdle: function(), onAway: function(), onBack: function() }
 
     Here's a simple example, using jQuery (the only jQuery-specific thing is the code inside the function() event handlers):
 
@@ -21,8 +21,8 @@ function IdleClass(idle_params) {
     }
     */
 
-    var _idleTimeout = idle_params.idle_timeout;
-    var _awayTimeout = idle_params.away_timeout;
+    var _idleTimeout = idle_params.idleTimeout;
+    var _awayTimeout = idle_params.awayTimeout;
     
     var _idleNow = false;
     var _idleTimestamp = null;
