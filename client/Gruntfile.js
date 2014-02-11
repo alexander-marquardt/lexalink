@@ -271,17 +271,6 @@ module.exports = function (grunt) {
                     ]
                 }
             }
-        },
-
-
-        // Run some tasks in parallel to speed up build process
-        concurrent: {
-            dist: [
-                'copy:styles',
-                'copy:proprietary_styles',
-                'imagemin'
-                //'svgmin'
-            ]
         }
     });
 
