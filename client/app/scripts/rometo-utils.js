@@ -122,7 +122,7 @@ function reportJavascriptErrorOnServer(statusText, warningLevel) {
 }
 
 
-function rs_set_selector_to_value(selectorId, selectedValue) {
+function rsSetSelectorToValue(selectorId, selectedValue) {
     // hack that deals with instability in IE6 when selecting values from select menu (dropdown)
     // Note: we try to set selectors that are members of the class cl-primary-option before attempting
     // "general" selector. This is primarily for the country drop-down menus, which contain duplicates
@@ -130,9 +130,9 @@ function rs_set_selector_to_value(selectorId, selectedValue) {
 
     try {
         /* the following code will ensure that the top/first appearance of a value will be selected */
-        var first_selector = $(selectorId + " option[value='" + selectedValue + "']:first");
-        if (first_selector.length) { // check that the selector was found
-            first_selector[0].selected = true;
+        var firstSelector = $(selectorId + " option[value='" + selectedValue + "']:first");
+        if (firstSelector.length) { // check that the selector was found
+            firstSelector[0].selected = true;
         }
         else {
             $(selectorId).val(selectedValue);
@@ -166,16 +166,16 @@ function reportAjaxError(textStatus, errorThrown, callingFunctionName, warningLe
     reportJavascriptErrorOnServer(errorText, warningLevel);
 }
 
-function show_spinner(objectToSet, objectName) {
+function showSpinner(objectToSet, objectName) {
     // for dynamically loaded dropdown menus, while loading the values we shrink the width and show a spinner beside the menu
 
     try{
-        var spinner_image = manually_versioned_images_dir + "/small-ajax-loader.gif"
-        objectToSet.after(' <img src= "' + spinner_image  + '" align="right "  id="id-' + objectName +  '-show-small-ajax-loader">');
+        var spinnerImage = MANUALLY_VERSIONED_IMAGES_DIR + "/small-ajax-loader.gif"
+        objectToSet.after(' <img src= "' + spinnerImage  + '" align="right "  id="id-' + objectName +  '-show-small-ajax-loader">');
         objectToSet.removeClass('cl-standard-dropdown-width-px');
         objectToSet.addClass('cl-spinner-dropdown-width-px');
     } catch (err) {
-        reportTryCatchError( err, "show_spinner");
+        reportTryCatchError( err, "showSpinner");
     }
 
 }
@@ -194,15 +194,15 @@ function hide_spinner(objectToSet, objectName) {
 
 
 
-function load_selector_options(child_field_id, parent_field_val, default_option_text, hide_field_if_not_defined, selected_value,
-                               not_available_option_text, ajax_base_url) {
+function loadSelectorOptions(childFeldId, parentFieldVal, defaultOptionText, hideFieldIfNotDefined, selectedValue,
+                               notAvailableOptionText, ajaxBaseUrl) {
 
     // when the selector (drop-down menu) indicated by parent_field_id is modified, then load the child
     // selector based on the value selected
-    // "selected_value" refers to the value that we initially assign to the child dropdown.
+    // "selectedValue" refers to the value that we initially assign to the child dropdown.
 
     try {
-        if (parent_field_val == "----") {
+        if (parentFieldVal == "----") {
             // If the parent has not been set, then don't try to obtain selector options for the child
             // This is actually an error condition that should never occur -- but since this is on the client side I do not
             // want to cause a "hard" crash if this condition is triggered (in any case, as the code is currently written
@@ -210,75 +210,75 @@ function load_selector_options(child_field_id, parent_field_val, default_option_
             return '';
         }
 
-        var opt_url = ajax_base_url + parent_field_val + "/";
+        var opt_url = ajaxBaseUrl + parentFieldVal + "/";
 
 
-        $(child_field_id).html('');
+        $(childFeldId).html('');
 
         // remove the spinner, just in case the user tries multiple times and the server is really slow at responding
         $('#id-child-show-small-ajax-loader').remove();
 
         // show spinning icon while data is being loaded from server.
-        show_spinner( $(child_field_id), "child");
+        showSpinner( $(childFeldId), "child");
 
         $.ajax({
             url: opt_url,
             success: function(html) {
                 // if it is left "unselected" then the child field should have ---- value
                 if (html != '' && html != "----") {
-                    $(child_field_id).html('<option selected value="----">' + default_option_text);
-                    $(child_field_id).append(html);
-                    $(child_field_id).show();
-                    if (selected_value != '----') {
-                        rs_set_selector_to_value(child_field_id, selected_value);
+                    $(childFeldId).html('<option selected value="----">' + defaultOptionText);
+                    $(childFeldId).append(html);
+                    $(childFeldId).show();
+                    if (selectedValue != '----') {
+                        rsSetSelectorToValue(childFeldId, selectedValue);
                     }
                 }
                 else { // html is empty, which means that it is not defined
-                    $(child_field_id).html('<option selected value="----">' + not_available_option_text);
-                    if (hide_field_if_not_defined == true) {
-                        $(child_field_id).hide();
+                    $(childFeldId).html('<option selected value="----">' + notAvailableOptionText);
+                    if (hideFieldIfNotDefined == true) {
+                        $(childFeldId).hide();
                     }
                 }
 
-                hide_spinner($(child_field_id), "child");
+                hide_spinner($(childFeldId), "child");
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                reportAjaxError(textStatus, errorThrown, "load_selector_options");
+                reportAjaxError(textStatus, errorThrown, "loadSelectorOptions");
             }
         });
     } catch(err) {
-        reportTryCatchError( err, "load_selector_options");
+        reportTryCatchError( err, "loadSelectorOptions");
     }
 }
 
 
-function handle_change_on_for_sale_to_buy(menu_id, sub_menu_id, default_text) {
+function handleChangeOnForSaleToBuy(menuId, subMenuId, defaultText) {
 
     try {
-        $(menu_id).change(function() {
-            var curr_menu_val = $(menu_id).val();
+        $(menuId).change(function() {
+            var curr_menu_val = $(menuId).val();
             if (curr_menu_val == "----") {
-                $(sub_menu_id).html('<option value="----">' + default_text);
+                $(subMenuId).html('<option value="----">' + defaultText);
             } else {
-                load_selector_options(sub_menu_id, curr_menu_val, default_text, false, "----",
+                loadSelectorOptions(subMenuId, curr_menu_val, defaultText, false, "----",
                         "Not defined (this should never appear)", "/rs/ajax/get_for_sale_to_buy_options/");
             }
         });
     } catch(err) {
-        reportTryCatchError( err, "handle_change_on_for_sale_to_buy");
+        reportTryCatchError( err, "handleChangeOnForSaleToBuy");
     }
 }
 
-function loadForSaleToBuyOnChange(id_prefix, default_text) {
+function loadForSaleToBuyOnChange(idPrefix, defaultText) {
 
     try {
-        var for_sale_id = id_prefix + "-for_sale";
-        var for_sale_sub_menu_id = id_prefix + "-for_sale_sub_menu";
-        var to_buy_id = id_prefix + "-to_buy";
-        var to_buy_sub_menu_id = id_prefix + "-to_buy_sub_menu";
+        var for_sale_id = idPrefix + "-for_sale";
+        var for_sale_sub_menu_id = idPrefix + "-for_sale_sub_menu";
+        var to_buy_id = idPrefix + "-to_buy";
+        var to_buy_sub_menu_id = idPrefix + "-to_buy_sub_menu";
 
-        handle_change_on_for_sale_to_buy(for_sale_id, for_sale_sub_menu_id, default_text['for_sale_sub_menu']);
-        handle_change_on_for_sale_to_buy(to_buy_id, to_buy_sub_menu_id, default_text['to_buy_sub_menu']);
+        handleChangeOnForSaleToBuy(for_sale_id, for_sale_sub_menu_id, defaultText['for_sale_sub_menu']);
+        handleChangeOnForSaleToBuy(to_buy_id, to_buy_sub_menu_id, defaultText['to_buy_sub_menu']);
     } catch(err) {
         reportTryCatchError( err, "loadForSaleToBuyOnChange");
     }
@@ -311,7 +311,7 @@ function loadLocationSettingsOnChange(id_prefix, default_text, hide_field_if_not
 
             } else {
                 // set the default value of the region selector to be the currently selected country.
-                load_selector_options(region_id, country_val, default_text['region'], hide_field_if_not_defined, "----",
+                loadSelectorOptions(region_id, country_val, default_text['region'], hide_field_if_not_defined, "----",
                         default_text['not_available'], "/rs/ajax/get_location_options/");
             }
 
@@ -331,7 +331,7 @@ function loadLocationSettingsOnChange(id_prefix, default_text, hide_field_if_not
 
             if (region_val && region_val != '----') {
                 // if the region has been selected, load sub-regions
-                load_selector_options(sub_region_id, region_val, default_text['sub_region'], hide_field_if_not_defined, "----",
+                loadSelectorOptions(sub_region_id, region_val, default_text['sub_region'], hide_field_if_not_defined, "----",
                         default_text['not_available'], "/rs/ajax/get_location_options/");
 
             }
@@ -387,7 +387,7 @@ function getJSON_handler(action, id_prefix, field_type) {
                             if (field_type == "dropdown") {
                                 id_name = id_prefix + field;
                                 //$(id_name).val(data[field]);
-                                rs_set_selector_to_value(id_name, data[field]);
+                                rsSetSelectorToValue(id_name, data[field]);
                             }
                             if (field_type == "checkbox") {
                                 id_name = id_prefix + data[field];
@@ -466,7 +466,7 @@ function set_search_values_to_data(data, id_prefix, default_text, hide_field_if_
             if (field != 'region_options_html' && field != 'sub_region_options_html' && field != 'for_sale_sub_menu_options_html' && field != 'to_buy_sub_menu_options_html') {
                 var id_name = id_prefix + "-" + field;
                 if (data[field] != "----") {
-                    rs_set_selector_to_value(id_name, data[field]);
+                    rsSetSelectorToValue(id_name, data[field]);
                 }
             }
         }
@@ -485,7 +485,7 @@ function show_menus_as_loading(menu_name, id_prefix) {
         // clear menu contents while it is loading
         $menu_obj.html('');
         // show spinner beside menu while it is being loaded
-        show_spinner($menu_obj, menu_name);
+        showSpinner($menu_obj, menu_name);
     } catch(err) {
         reportTryCatchError( err, "show_menus_as_loading");
     }
