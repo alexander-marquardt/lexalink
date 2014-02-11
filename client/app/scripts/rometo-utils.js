@@ -287,6 +287,15 @@ function loadForSaleToBuyOnChange(idPrefix, defaultText) {
 
 
 
+function undoFuncLoadLocationSettingsOnChange(idPrefix) {
+    // make sure that the change handlers are removed - otherwise leaks in IE6
+    var countryId = idPrefix + "-country";
+    var regionId = idPrefix + "-region";
+
+    $(countryId).off();
+    $(regionId).off();
+
+}
 
 function loadLocationSettingsOnChange(idPrefix, defaultText, hideFieldIfNotDefined) {
 
@@ -352,18 +361,9 @@ function loadLocationSettingsOnChange(idPrefix, defaultText, hideFieldIfNotDefin
     unloadFuncs.push([undoFuncLoadLocationSettingsOnChange, idPrefix]);
 }
 
-function undoFuncLoadLocationSettingsOnChange(idPrefix) {
-    // make sure that the change handlers are removed - otherwise leaks in IE6
-    var countryId = idPrefix + "-country";
-    var regionId = idPrefix + "-region";
-
-    $(countryId).off();
-    $(regionId).off();
-    
-}
 
 
-function getJSON_handler(action, idPrefix, fieldType) {
+function getJsonHandler(action, idPrefix, fieldType) {
 
     // - action -  is the path to execut the script which will return JSON data
     // - idPrefix - is a section-specific identifier that ensure that all JSON data returned for 
@@ -377,8 +377,8 @@ function getJSON_handler(action, idPrefix, fieldType) {
             // dropdown menus to reflect the correct value
             function(data) {
                 var idName;
-                if (fieldType !== "email_address" && fieldType !== "textarea" && fieldType !== "current_status"
-                        && fieldType !== "about_user" && fieldType !== "about_user_dialog_popup") {
+                if (fieldType !== "email_address" && fieldType !== "textarea" && fieldType !== "current_status" &&
+                    fieldType !== "about_user" && fieldType !== "about_user_dialog_popup") {
                     for (var field in data) {
 
                         // hasOwnProperty just makes sure that the field is not an inherited property, ie. it ensures
@@ -405,21 +405,22 @@ function getJSON_handler(action, idPrefix, fieldType) {
             }
         );
     } catch(err) {
-        reportTryCatchError( err, "getJSON_handler");
+        reportTryCatchError( err, "getJsonHandler");
     }
 }
 
 
 
-function setSubMenu(objectToSet, objectName, options_html, default_unselected_text, list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected) {
+function setSubMenu(objectToSet, objectName, optionsHtml, defaultUnselectedText, listOfObjectsToHideIfNotSelected, hideFieldIfNotSelected) {
 
     try {
-        if (hide_field_if_not_selected === true && options_html === '') {
-            for (var idx = 0; idx < list_of_objects_to_hide_if_not_selected.length; idx ++)
-                list_of_objects_to_hide_if_not_selected[idx].hide();
+        if (hideFieldIfNotSelected === true && optionsHtml === '') {
+            for (var idx = 0; idx < listOfObjectsToHideIfNotSelected.length; idx ++) {
+                listOfObjectsToHideIfNotSelected[idx].hide();
+            }
         } else {
-            objectToSet.html('<option selected value="----">' + default_unselected_text);
-            objectToSet.append(options_html);
+            objectToSet.html('<option selected value="----">' + defaultUnselectedText);
+            objectToSet.append(optionsHtml);
             objectToSet.show();
         }
 
@@ -429,15 +430,15 @@ function setSubMenu(objectToSet, objectName, options_html, default_unselected_te
     }
 }
 
-function setSearchValuesToData(data, idPrefix, defaultText, hide_field_if_not_selected) {
+function setSearchValuesToData(data, idPrefix, defaultText, hideFieldIfNotSelected) {
     // pull the current settings out of the data-structure on the server, and set the 
     // dropdown menus to reflect the correct value
 
     try {
         var fieldsToSetup = ['region', 'sub_region', 'for_sale_sub_menu', 'to_buy_sub_menu'];
-        var fieldId = new Object();
-        var fieldObject = new Object();
-        var optionsHtmlName = new Object();
+        var fieldId = {};
+        var fieldObject = {};
+        var optionsHtmlName = {};
         var idx, fieldName;
 
         for (idx in fieldsToSetup) {
@@ -447,26 +448,26 @@ function setSearchValuesToData(data, idPrefix, defaultText, hide_field_if_not_se
             optionsHtmlName[fieldName] = fieldName + "_options_html";
         }
 
-        var matrix_of_objects_to_hide_if_not_selected = new Object();
-        matrix_of_objects_to_hide_if_not_selected['region'] = [fieldObject['region'], fieldObject['sub_region']]; // this is used on the login screen to hide dropdowns until they are needed/defined
-        matrix_of_objects_to_hide_if_not_selected['sub_region'] = [fieldObject['sub_region']];
-        matrix_of_objects_to_hide_if_not_selected['for_sale_sub_menu'] = []; // no reason to hide the for_sale/to_buy fields for the moment
-        matrix_of_objects_to_hide_if_not_selected['to_buy_sub_menu'] = [];
+        var matrixOfObjectsToHideIfNotSelected = {};
+        matrixOfObjectsToHideIfNotSelected['region'] = [fieldObject['region'], fieldObject['sub_region']]; // this is used on the login screen to hide dropdowns until they are needed/defined
+        matrixOfObjectsToHideIfNotSelected['sub_region'] = [fieldObject['sub_region']];
+        matrixOfObjectsToHideIfNotSelected['for_sale_sub_menu'] = []; // no reason to hide the for_sale/to_buy fields for the moment
+        matrixOfObjectsToHideIfNotSelected['to_buy_sub_menu'] = [];
 
 
         for (idx in fieldsToSetup) {
             fieldName = fieldsToSetup[idx];
-            var options_html = data[optionsHtmlName[fieldName]];
-            var list_of_objects_to_hide_if_not_selected = matrix_of_objects_to_hide_if_not_selected[fieldName];
-            setSubMenu(fieldObject[fieldName], fieldName, options_html, defaultText[fieldName], list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected);
+            var optionsHtml = data[optionsHtmlName[fieldName]];
+            var listOfObjectsToHideIfNotSelected = matrixOfObjectsToHideIfNotSelected[fieldName];
+            setSubMenu(fieldObject[fieldName], fieldName, optionsHtml, defaultText[fieldName], listOfObjectsToHideIfNotSelected, hideFieldIfNotSelected);
         }
 
         // load the value that is selected for all dropdown data fields (note that the "_options_html" data is not a data field, it is a value
         // (containing the dropdown menu contents) that we have loaded into a data field.
         for (var field in data) {
-            if (field != 'region_options_html' && field != 'sub_region_options_html' && field != 'for_sale_sub_menu_options_html' && field != 'to_buy_sub_menu_options_html') {
+            if (field !== 'region_options_html' && field !== 'sub_region_options_html' && field !== 'for_sale_sub_menu_options_html' && field !== 'to_buy_sub_menu_options_html') {
                 var idName = idPrefix + "-" + field;
-                if (data[field] != "----") {
+                if (data[field] !== "----") {
                     rsSetSelectorToValue(idName, data[field]);
                 }
             }
@@ -476,17 +477,17 @@ function setSearchValuesToData(data, idPrefix, defaultText, hide_field_if_not_se
     }
 }
 
-function showMenusAsLoading(menu_name, idPrefix) {
+function showMenusAsLoading(menuName, idPrefix) {
 
     // helper function taht just modifies a dropdown menu to show a spinner beside it (for use while it is
     // being loaded for example)
     try {
-        var menu_id = idPrefix + '-' + menu_name;
-        var $menu_obj = $(menu_id);
+        var menuId = idPrefix + '-' + menuName;
+        var $menuObj = $(menuId);
         // clear menu contents while it is loading
-        $menu_obj.html('');
+        $menuObj.html('');
         // show spinner beside menu while it is being loaded
-        showSpinner($menu_obj, menu_name);
+        showSpinner($menuObj, menuName);
     } catch(err) {
         reportTryCatchError( err, "showMenusAsLoading");
     }
@@ -519,47 +520,47 @@ function jsonSetDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFi
 }
 
 
-function setValuesOnDataObjectToUndefined(data_object, fieldsList) {
+function setValuesOnDataObjectToUndefined(dataObject, fieldsList) {
 
-    // simple helper function that just copies "----" (undefined) values into the "data_object" that will be passed around
+    // simple helper function that just copies "----" (undefined) values into the "dataObject" that will be passed around
     // for setting dropdown menus.
 
     try{
         for (var idx=0; idx < fieldsList.length; idx ++) {
 
             var fieldName = fieldsList[idx];
-            data_object[fieldName] = "----";
+            dataObject[fieldName] = "----";
         }
     } catch(err) {
         reportTryCatchError( err, "setValuesOnDataObjectToUndefined");
     }
 }
 
-function set_values_on_data_object(data_object, fields_list) {
+function setValuesOnDataObject(dataObject, fieldsList) {
 
     // simple helper function that just copies the values that have (possibly) been passed in the html as hidden
-    // id fields, and copies these values onto "data_object" that will be passed around for setting dropdown menu values. 
+    // id fields, and copies these values onto "dataObject" that will be passed around for setting dropdown menu values.
 
     try {
-        for (var idx=0; idx < fields_list.length; idx ++) {
+        for (var idx=0; idx < fieldsList.length; idx ++) {
 
-            var field_name = fields_list[idx];
-            data_object[field_name] = $("#id-passed_in_search-" + field_name).val();
+            var fieldName = fieldsList[idx];
+            dataObject[fieldName] = $("#id-passed_in_search-" + fieldName).val();
         }
     } catch(err) {
-        reportTryCatchError( err, "set_values_on_data_object");
+        reportTryCatchError( err, "setValuesOnDataObject");
     }
 }
 
-function setDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldIfNotDefined, is_registered_user) {
+function setDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldIfNotDefined, isRegisteredUser) {
 
-    var fields_list = ['sex', 'age', 'preference', 'relationship_status', 'language_to_learn', 'language_to_teach',
+    var fieldsList = ['sex', 'age', 'preference', 'relationship_status', 'language_to_learn', 'language_to_teach',
     'country', 'region', 'sub_region', 'for_sale', 'to_buy',
     'for_sale_sub_menu', 'to_buy_sub_menu', 'query_order',
     'sub_region_options_html', 'region_options_html',
     'for_sale_sub_menu_options_html', 'to_buy_sub_menu_options_html'];
 
-    var data_object = new Object();
+    var dataObject = {};
 
     try {
 
@@ -569,18 +570,18 @@ function setDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldI
             // Note: we don't bother showing the spinners and other stuff that we need to do if we were to retrieve JSON data
             // because this data will be instantly loaded once the page has loaded.
 
-            set_values_on_data_object(data_object, fields_list);
-            setSearchValuesToData(data_object, idPrefix, defaultText, hideFieldIfNotDefined);
+            setValuesOnDataObject(dataObject, fieldsList);
+            setSearchValuesToData(dataObject, idPrefix, defaultText, hideFieldIfNotDefined);
         }
         else {
             // Otherwise, we default back to an ajax call to the server to find the data - this happens if we load a page other than
             // a search results page (ie. click on "My profile"). Eventually, we should try to pass all search settings data directly in
             // the HTML as opposed to ajax calls.
-            if (is_registered_user) {
+            if (isRegisteredUser) {
                 jsonSetDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldIfNotDefined);
             } else {
-                setValuesOnDataObjectToUndefined(data_object, fields_list);
-                setSearchValuesToData(data_object, idPrefix, defaultText, hideFieldIfNotDefined);
+                setValuesOnDataObjectToUndefined(dataObject, fieldsList);
+                setSearchValuesToData(dataObject, idPrefix, defaultText, hideFieldIfNotDefined);
             }
         }
     } catch(err) {
@@ -589,11 +590,11 @@ function setDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldI
 }
 
 
-function fancybox_setup(jquery_obj) {
+function fancyboxSetup(jqueryObj) {
     // fancybox is the jquery module that displays photos in a fancy way, and allows user
     // interaction such as scrolling throug a gallery. This function simply does some
     // initialization of fancybox.
-    jquery_obj.fancybox({
+    jqueryObj.fancybox({
         'SpeedIn'                :        500,
         'SpeedOut'                :        500,
         'onComplete'              :   function() {
@@ -606,13 +607,13 @@ function fancybox_setup(jquery_obj) {
     $('img').bind("contextmenu", function(e){ return false; });
 }
 
-function handle_link_for_edit(section_name, input_type, uid) {
+function handleLinkForEdit(sectionName, inputType, uid) {
     // this code is responsible for re-loading the current section with input fields for
     // edit. this is in response to the user clicking on the edit button. the code here is highly coupled
     // to the server-side code that generates the html. any modifications must be done in both server and client side.
-    // - section_name - the name of the piece of html which contains an independent form -- examples could be
+    // - sectionName - the name of the piece of html which contains an independent form -- examples could be
     //                  an input section for user languages, hobbies, physical features.
-    // - input_type - we currently support "checkbox" and "dropdown" input types with this code
+    // - inputType - we currently support "checkbox" and "dropdown" input types with this code
     // - region_defaultText - is the the header that will say "Select region" in whatever language the user is using
     // - sub_region_defaultText - same as region_defaultText
 
@@ -626,10 +627,9 @@ function handle_link_for_edit(section_name, input_type, uid) {
 
         // we need to treat the location information as a special case, since it is dynamically loaded depending on
         // the selection of the current country and region.
-        if (section_name == "signup_fields") {
-            var signup_fields_url;
-            var country_defaultText = '';
-            var defaultText = new Object();
+        if (sectionName === "signup_fields") {
+            var signupFieldsUrl;
+            var defaultText = {};
             defaultText['region'] = "Select region";
             defaultText['sub_region'] = "Select sub-region";
             defaultText['not_available'] = "Not defined yet";
@@ -637,20 +637,20 @@ function handle_link_for_edit(section_name, input_type, uid) {
         }
 
 
-        $("#id-edit-" + section_name + "-section").hide(); // keep menus hidden until user clicks on edit
+        $("#id-edit-" + sectionName + "-section").hide(); // keep menus hidden until user clicks on edit
 
         // for some (unknown) reason we need to unbind the click handler before binding it , or it will fire twice for a single click.
-        $(document).off('click', ".cl-edit-" + section_name + "-anchor").on('click', ".cl-edit-" + section_name + "-anchor", function() {
-            $("#id-edit-" + section_name + "-place-holder").load("/rs/ajax/load_" + section_name + "_for_edit/", function() {
-                $("#id-display-" + section_name + "-section").hide();
-                $("#id-edit-" + section_name + "-section").show();
-                if (section_name != "signup_fields") {
-                    getJSON_handler("/rs/ajax/get_" + section_name + "_settings/" + uid + "/" + rnd() + "/", "#id-edit-" + section_name + "-", input_type);
+        $(document).off('click', ".cl-edit-" + sectionName + "-anchor").on('click', ".cl-edit-" + sectionName + "-anchor", function() {
+            $("#id-edit-" + sectionName + "-place-holder").load("/rs/ajax/load_" + sectionName + "_for_edit/", function() {
+                $("#id-display-" + sectionName + "-section").hide();
+                $("#id-edit-" + sectionName + "-section").show();
+                if (sectionName !== "signup_fields") {
+                    getJsonHandler("/rs/ajax/get_" + sectionName + "_settings/" + uid + "/" + rnd() + "/", "#id-edit-" + sectionName + "-", inputType);
                 }
                 else { // signup_fields are treated specially since the location requires dynamically loaded drop-down menus
                     // note - DO NOT combine the following line with the var declaration, or the rnd value will never change
-                    signup_fields_url = "/rs/ajax/get_signup_fields_settings/" + uid + "/" + rnd() + "/";
-                    jsonSetDropdownOptionsAndSettings(signup_fields_url, idPrefix, defaultText, true);
+                    signupFieldsUrl = "/rs/ajax/get_signup_fields_settings/" + uid + "/" + rnd() + "/";
+                    jsonSetDropdownOptionsAndSettings(signupFieldsUrl, idPrefix, defaultText, true);
                     loadLocationSettingsOnChange(idPrefix, defaultText, true);
 
                 }
@@ -658,17 +658,17 @@ function handle_link_for_edit(section_name, input_type, uid) {
             return false; // ensure that browser doesn't navigate to the href page!
         });
     } catch(err) {
-        reportTryCatchError( err, "handle_link_for_edit");
+        reportTryCatchError( err, "handleLinkForEdit");
     }
 }
 
-function mouseoverButtonHandler(button_object) {
+function mouseoverButtonHandler(buttonObject) {
     // defines changes in button appearance when mouse is over   
-    button_object.button();
+    buttonObject.button();
 }
 
-function undoFuncMouseoverButtonHandler(button_object) {
-    button_object.off();
+function undoFuncMouseoverButtonHandler(buttonObject) {
+    buttonObject.off();
 }
 
 
@@ -691,26 +691,31 @@ function submitPost(sectionName, uid) {
     }
 }
 
-function handle_submit_button(sectionName, uid, disable_submit_on_enter) {
+function undoFuncHandleSubmitButton(submitButtonObj, editSectionObj) {
+    submitButtonObj.off();
+    editSectionObj.off();
+}
+
+function handleSubmitButton(sectionName, uid, disableSubmitOnEnter) {
     // setup submit button and associate the action when clicked
 
 
     try {
-        var submit_button_id = "#id-submit-" + sectionName;
-        var edit_section_id = "#id-edit-" + sectionName + "-section";
-        var submit_button_obj = $(submit_button_id);
-        var edit_section_obj = $(edit_section_id);
+        var submitButtonId = "#id-submit-" + sectionName;
+        var editSectionId = "#id-edit-" + sectionName + "-section";
+        var submitButtonObj = $(submitButtonId);
+        var editSectionObj = $(editSectionId);
 
-        submit_button_obj.off("click.handle_submit_button").on("click.handle_submit_button", function() {
+        submitButtonObj.off("click.handleSubmitButton").on("click.handleSubmitButton", function() {
             submitPost(sectionName, uid);
         });
 
         // Check to see if the enter key has been pressed inside the section -- treat this this same
         // as if the user had pressed the submit button
-        disable_submit_on_enter = typeof disable_submit_on_enter !== 'undefined' ? disable_submit_on_enter  : false;
-        if (!disable_submit_on_enter) {
-            edit_section_obj.on("keydown.handle_submit_button", function(e) {
-                if (e.keyCode == 13) {
+        disableSubmitOnEnter = typeof disableSubmitOnEnter !== 'undefined' ? disableSubmitOnEnter  : false;
+        if (!disableSubmitOnEnter) {
+            editSectionObj.on("keydown.handleSubmitButton", function(e) {
+                if (e.keyCode === 13) {
                     submitPost(sectionName, uid);
                     e.stopImmediatePropagation();
                     e.stopPropagation();
@@ -719,71 +724,68 @@ function handle_submit_button(sectionName, uid, disable_submit_on_enter) {
             });
         }
 
-        unloadFuncs.push([undo_func_handle_submit_button, submit_button_obj, edit_section_obj]);
+        unloadFuncs.push([undoFuncHandleSubmitButton, submitButtonObj, editSectionObj]);
 
-        mouseoverButtonHandler(submit_button_obj);
+        mouseoverButtonHandler(submitButtonObj);
     } catch(err) {
-        reportTryCatchError( err, "handle_submit_button");
+        reportTryCatchError( err, "handleSubmitButton");
     }
 }
 
-function undo_func_handle_submit_button(submit_button_obj, edit_section_obj) {
-    submit_button_obj.off();
-    edit_section_obj.off();
+function undoFuncHandleCancelButton(cancelButtonObj) {
+    cancelButtonObj.off();
 }
 
-function handle_cancel_button(section_name, uid) {
+
+function handleCancelButton(sectionName, uid) {
 
     // setup cancel button
 
     try {
-        var cancel_button_id = "#id-cancel-" + section_name;
-        var cancel_button_obj = $(cancel_button_id);
-        cancel_button_obj.on("click.handle_cancel_button", function() {
-            $("#id-display-" + section_name + "-section").show();
-            $("#id-edit-" + section_name + "-section").hide();
+        var cancelButtonId = "#id-cancel-" + sectionName;
+        var cancelButtonObj = $(cancelButtonId);
+        cancelButtonObj.on("click.handleCancelButton", function() {
+            $("#id-display-" + sectionName + "-section").show();
+            $("#id-edit-" + sectionName + "-section").hide();
         });
-        unloadFuncs.push([undo_func_handle_cancel_button, cancel_button_obj]);
-        mouseoverButtonHandler($(cancel_button_id));
+        unloadFuncs.push([undoFuncHandleCancelButton, cancelButtonObj]);
+        mouseoverButtonHandler($(cancelButtonId));
     } catch(err) {
-        reportTryCatchError( err, "handle_cancel_button");
+        reportTryCatchError( err, "handleCancelButton");
     }
 }
 
-function undo_func_handle_cancel_button(cancel_button_obj) {
-    cancel_button_obj.off();
-}
 
-function handle_submit_and_cancel_buttons(section_name, uid) {
-    handle_submit_button(section_name, uid);
-    handle_cancel_button(section_name, uid);
+function handleSubmitAndCancelButtons(sectionName, uid) {
+    handleSubmitButton(sectionName, uid);
+    handleCancelButton(sectionName, uid);
 }
 
 
-function getJSON_initiate_contact_settings(uid) {
+function getJsonInitiateContactSettings(uid) {
     // requests settings for the "contact" objects from the server, and sets their values to the values returned from the server
 
     try {
         var url = "/rs/ajax/get_initiate_contact_settings/" + uid + "/" + rnd() + "/";
         $.getJSON(url, function(data) {
-            for (var dict_key in data) {
-                if (data.hasOwnProperty(dict_key)) {
-                    var selector = "span#id-" + dict_key;
-                    $(selector).html(data[dict_key]);
+            for (var dictKey in data) {
+                if (data.hasOwnProperty(dictKey)) {
+                    var selector = "span#id-" + dictKey;
+                    $(selector).html(data[dictKey]);
                 }
             }
         });
     } catch(err) {
-        reportTryCatchError( err, "getJSON_initiate_contact_settings");
+        reportTryCatchError( err, "getJsonInitiateContactSettings");
     }
 }
 
 
-function show_registration_and_login(additional_text, optional_passed_in_username) {
+function showRegistrationAndLogin(additionalText, optionalPassedInUsername) {
 
     // prevent double clicks from being processed
-    if (show_registration_and_login.already_clicked == 'undefined' || !show_registration_and_login.already_clicked) {
-        show_registration_and_login.already_clicked = true;
+    if (showRegistrationAndLogin.alreadyClicked === 'undefined' || !showRegistrationAndLogin.alreadyClicked) {
+        showRegistrationAndLogin.alreadyClicked = true;
     } else {
         // we have already clicked and waiting for the dialog to be loaded before allowing another click
         // to be processed
@@ -796,28 +798,28 @@ function show_registration_and_login(additional_text, optional_passed_in_usernam
         type: 'get',
         url:  '/rs/get_registration_html/',
         dataType: 'json', // response type
-        success: function(json_response) {
+        success: function(jsonResponse) {
 
             $('#id-show-registration-and-login').html("<div class='cl-center-text'><span style='display:inline-block;'>" +
                 "<div id='id-inner-registration-and-login' class='grid_6 cl-text-14pt-format'>" +
                 "</div></span></div>");
 
-            if ("login_html" in json_response && json_response.login_html) {
-                $('#id-show-registration-and-login').append(json_response.login_html);
+            if ("login_html" in jsonResponse && jsonResponse["login_html"]) {
+                $('#id-show-registration-and-login').append(jsonResponse["login_html"]);
             }
 
-            if (additional_text) {
+            if (additionalText) {
                 $('#id-show-registration-and-login').append("<div class='cl-center-text'><span style='display:inline-block;'>" +
                     "<div id='id-inner-registration-and-login' class='grid_6 cl-text-14pt-format'>" +
-                    additional_text + "<br><br></div></span></div>");
+                    additionalText + "<br><br></div></span></div>");
             }
 
-            if ("signup_html" in json_response && json_response.signup_html) {
+            if ("signup_html" in jsonResponse && jsonResponse["signup_html"]) {
                 $('#id-show-registration-and-login').append("<div class='cl-center-text'><span style='display:inline-block;'>" +
-                    json_response.signup_html + "</span></div>");
+                    jsonResponse["signup_html"] + "</span></div>");
             }
 
-            $('#id-show-registration-and-login').find(".cl-registration_html-additional_text").html(additional_text);
+            $('#id-show-registration-and-login').find(".cl-registration_html-additionalText").html(additionalText);
             $('#id-show-registration-and-login').dialog({
                 modal: true,
                 show: {effect: 'fade',
@@ -843,37 +845,37 @@ function show_registration_and_login(additional_text, optional_passed_in_usernam
             $('#id-show-registration-and-login').parent().find('.ui-widget-header').css({'border': '0px' });
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            reportAjaxError(textStatus, errorThrown, "show_registration_and_login", "error");
+            reportAjaxError(textStatus, errorThrown, "showRegistrationAndLogin", "error");
             $('#id-show-registration-and-login').html($("#id-unknown-error-reload-page").html());
             $('#id-show-registration-and-login').dialog();
         },
         complete: function() {
-            show_registration_and_login.already_clicked = false;
+            showRegistrationAndLogin.alreadyClicked = false;
             $('#id-show-loading-spinner').hide();
 
-            if (optional_passed_in_username != "undefined" && optional_passed_in_username) {
-                $('#id-login_fields-username_email').val(optional_passed_in_username);
+            if (optionalPassedInUsername !== "undefined" && optionalPassedInUsername) {
+                $('#id-login_fields-username_email').val(optionalPassedInUsername);
                 $('#id-login_fields-username_email').focus();
             }
         }
     });
 }
 
-function handle_click_on_contact_icon(section_name, uid, show_registration_dialog_when_clicked, registration_prompt_text) {
+function handleClickOnContactIcon(sectionName, uid, showRegistrationDialogWhenClicked, registrationPromptText) {
 
     try {
-        var submit_button_id = "#id-submit-" + section_name;
+        var submitButtonId = "#id-submit-" + sectionName;
 
 
-        $(submit_button_id).click(function() {
-            if (!show_registration_dialog_when_clicked) {
+        $(submitButtonId).click(function() {
+            if (!showRegistrationDialogWhenClicked) {
                 $.ajax({
                     type: 'post',
                     url:  "/rs/store_initiate_contact/" + uid + "/",
-                    data: { 'section_name' : section_name},
+                    data: { 'sectionName' : sectionName},
                     success: function(data) {
                         if (data == "OK") {
-                            getJSON_initiate_contact_settings(uid);
+                            getJsonInitiateContactSettings(uid);
                         } else {
                             $("#id-contact_icon").html(data);
                             $("#id-contact_icon").dialog();
@@ -886,38 +888,38 @@ function handle_click_on_contact_icon(section_name, uid, show_registration_dialo
                 return false;
             }
             else {
-                show_registration_and_login(registration_prompt_text);
+                showRegistrationAndLogin(registrationPromptText);
                 return false;
             }
         });
     } catch (err) {
-        reportTryCatchError( err, "handle_click_on_contact_icon");
+        reportTryCatchError( err, "handleClickOnContactIcon");
     }
 }
 
-function hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id) {
-    $(submit_button_id).show();
-    $(ajax_spinner_id).hide();
-    $(captcha_div_id).show();
+function hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId) {
+    $(submitButtonId).show();
+    $(ajaxSpinnerId).hide();
+    $(captchaDivId).show();
 }
 
-function reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string) {
+function reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString) {
 
     try {
-        if (captcha_bypass_string == "no_bypass") {
+        if (captchaBypassString == "no_bypass") {
             Recaptcha.reload();
         }
-        hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
+        hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId);
     } catch(err) {
-        reportTryCatchError( err, "reload_submit_and_recaptcha");
+        reportTryCatchError( err, "reloadSubmitAndRecaptcha");
     }
 }
 
 
 
-function show_dialog_popup(popup_box_id, height, width, show_x_close_icon) {
+function show_dialog_popup(popupBoxId, height, width, show_x_close_icon) {
 
-    $(popup_box_id).dialog({
+    $(popupBoxId).dialog({
         modal: true,
         title: "",
         show: 'clip',
@@ -928,39 +930,39 @@ function show_dialog_popup(popup_box_id, height, width, show_x_close_icon) {
     });
 
     if (show_x_close_icon == false) {
-        $(popup_box_id).dialog('option', 'dialogClass',  'hide-x-close');
+        $(popupBoxId).dialog('option', 'dialogClass',  'hide-x-close');
     } else {
         // remove the hide-x-close class - this is a bit complicated because there is not built-in functionality for removing a class
         // Get the existing class string
-        var dlgClass = $(popup_box_id).dialog("option", "dialogClass");
+        var dlgClass = $(popupBoxId).dialog("option", "dialogClass");
         // remove the offending class
         dlgClass = dlgClass.replace('hide-x-close', "");
         // reset the dialog class
-        $(popup_box_id).dialog("option", "dialogClass", dlgClass);
+        $(popupBoxId).dialog("option", "dialogClass", dlgClass);
     }
 }
 
-function handle_dialog_popup_close_button(popup_box_id, close_button_id) {
+function handle_dialog_popup_close_button(popupBoxId, close_button_id) {
 
-    $(popup_box_id).ready(function(){
+    $(popupBoxId).ready(function(){
         $(close_button_id).button();
         $(close_button_id).on('click', function() {
-           $(popup_box_id).dialog("close");
+           $(popupBoxId).dialog("close");
         });
     });
 }
 
-function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid, captcha_bypass_string, have_sent_messages_string,
+function submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, captchaBypassString, have_sent_messages_string,
                           success_status_string, error_status_string) {
 
     try {
         // hide the submit button, to prevent double-click
-        var ajax_spinner_id = "#id-show-ajax-spinner-captcha";
-        var myurl = "/rs/store_" + section_name + "/" + to_uid + "/" + captcha_bypass_string + "/" + have_sent_messages_string + "/";
+        var ajaxSpinnerId = "#id-show-ajax-spinner-captcha";
+        var myurl = "/rs/store_" + section_name + "/" + to_uid + "/" + captchaBypassString + "/" + have_sent_messages_string + "/";
         var mydata = $("form#id-" + section_name + "-form").serialize();
-        $(submit_button_id).hide();
-        $(ajax_spinner_id).show();
-        $(captcha_div_id).hide();
+        $(submitButtonId).hide();
+        $(ajaxSpinnerId).show();
+        $(captchaDivId).hide();
 
         // remove error message if previous submission failed
         $('#id-submit_send_mail-status').remove();
@@ -979,7 +981,7 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                 //
                 // load the message summary
                 if (html_response == "OK") {
-                    $(submit_button_id).after('<div id="id-submit_send_mail-status" class="cl-color-text"><br>' + success_status_string + '!<br></div>');
+                    $(submitButtonId).after('<div id="id-submit_send_mail-status" class="cl-color-text"><br>' + success_status_string + '!<br></div>');
 
                     $("#id-num_messages_sent_feedback_and_count").hide();
 
@@ -993,28 +995,28 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                         $("#id-edit-" + section_name + "-section").load("/rs/ajax/load_mail_textarea/" + to_uid + "/" + section_name + "/");
                     }
 
-                    $(ajax_spinner_id).hide();
+                    $(ajaxSpinnerId).hide();
                 } else if (html_response == "user_is_missing_profile_description") {
                     // we must get the user to fill in more information in their profile before they will be permitted to send a message.
                     // pop-up a dialog box that allows them to enter in the appropriate information into their profile, at which point they
                     // should be able to re-submit their message.
                     show_dialog_popup("#id-about_user_is_empty_popup", 500, 800, true);
-                    hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
+                    hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId);
 
                 } else if (html_response == "captcha_is_incorrect") {
                     var bad_captcha_message = $('#id-common_translations-incorrect_captcha').text();
-                    $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + bad_captcha_message + '<br></div>');
-                    reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
+                    $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + bad_captcha_message + '<br></div>');
+                    reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString);
 
                 } else if (html_response == "empty_send_message") {
                     var empty_message_message = $('#id-common_translations-empty_send_message').text();
-                    $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + empty_message_message + '<br></div>');                    
-                    hide_spinner_and_show_submit(submit_button_id, ajax_spinner_id, captcha_div_id);
+                    $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + empty_message_message + '<br></div>');                    
+                    hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId);
 
                 } else {
                     // unknown status returned.
-                    $(submit_button_id).before('<div id="id-submit_send_mail-status"><br>' + html_response + '<br></div>');
-                    reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
+                    $(submitButtonId).before('<div id="id-submit_send_mail-status"><br>' + html_response + '<br></div>');
+                    reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString);
                     reportAjaxError('', '', "submit_send_mail - unknown html response: " + html_response);
                 }
 
@@ -1025,8 +1027,8 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
                 } else {
                     errorString = error_status_string;
                 }
-                $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + errorString + '!<br></div>');
-                reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
+                $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + errorString + '!<br></div>');
+                reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString);
                 var warningLevel;
                 if (errorThrown == "timeout") {
                     warningLevel = "warning"
@@ -1042,30 +1044,30 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
 }
 
 
-function handle_submit_send_mail_button(section_name, to_uid, captcha_bypass_string, have_sent_messages_string, success_status_string, error_status_string) {
+function handle_submit_send_mail_button(section_name, to_uid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string) {
     // setup submit button and associate the action when clicked
     // section_name is either "send_mail_from_profile_checkbox_[yes|no]" or "send_mail" -- 
     // if the event is "send_mail_from_profile", then only a small
     // summary will be loaded -- if it is a "send_mail", then the entire chain of mail messages will be reloaded.
 
     try {
-        var submit_button_id = "#id-submit-" + section_name;
-        var captcha_div_id = "#id-" + section_name + "-captcha";
+        var submitButtonId = "#id-submit-" + section_name;
+        var captchaDivId = "#id-" + section_name + "-captcha";
 
-        $(submit_button_id).click(function() {
-            submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid, captcha_bypass_string, have_sent_messages_string, success_status_string, error_status_string);
+        $(submitButtonId).click(function() {
+            submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
         });
         // if enter key is pressed inside the captcha, this should trigger a sumbit
         // Note: IE6 requires that the trigger is on keydown..
-        $(captcha_div_id).keydown(function(e) {
+        $(captchaDivId).keydown(function(e) {
             if (e.keyCode == 13) {
-                submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid, captcha_bypass_string, have_sent_messages_string, success_status_string, error_status_string);
+                submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 return false;
             }
         });
-        mouseoverButtonHandler($(submit_button_id));
+        mouseoverButtonHandler($(submitButtonId));
     } catch(err) {
         reportTryCatchError( err, "handle_submit_send_mail_button");
     }
@@ -1073,23 +1075,23 @@ function handle_submit_send_mail_button(section_name, to_uid, captcha_bypass_str
 
 
 function show_registration_dialog_on_click(section_name, registration_prompt_text) {
-    var submit_button_id = "#id-submit-" + section_name;
-    $(submit_button_id).click(function() {
-        show_registration_and_login(registration_prompt_text);
+    var submitButtonId = "#id-submit-" + section_name;
+    $(submitButtonId).click(function() {
+        showRegistrationAndLogin(registration_prompt_text);
     });
 }
 
-function submit_verify_captcha(section_name, submit_button_id, captcha_div_id) {
+function submit_verify_captcha(section_name, submitButtonId, captchaDivId) {
 
     try {
         // hide the submit button, to prevent double-click
-        var ajax_spinner_id = "#id-show-ajax-spinner-captcha";
+        var ajaxSpinnerId = "#id-show-ajax-spinner-captcha";
         var myurl = "/rs/store_" + section_name + "/";
         var mydata = $("form#id-" + section_name + "-form").serialize();
         var captcha_status_id = "#id-" + section_name + "-status";
-        $(submit_button_id).hide();
-        $(ajax_spinner_id).show();
-        $(captcha_div_id).hide();
+        $(submitButtonId).hide();
+        $(ajaxSpinnerId).show();
+        $(captchaDivId).hide();
 
         $.ajax({
             type: 'post',
@@ -1101,7 +1103,7 @@ function submit_verify_captcha(section_name, submit_button_id, captcha_div_id) {
                 // enables, and the user can edit their profile
                 if (html_response == "Fail") {
                     $(captcha_status_id).html('<strong>Captcha incorrecto, intentalo de nuevo</strong>');
-                    reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, "no_bypass");
+                    reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, "no_bypass");
                 } else {
                     self.location = html_response; // re-direct to user profile
                 }
@@ -1109,7 +1111,7 @@ function submit_verify_captcha(section_name, submit_button_id, captcha_div_id) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 $(captcha_status_id).html('<strong>Error, intentalo de nuevo</strong>');
-                reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, "no_bypass");
+                reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, "no_bypass");
                 reportAjaxError(textStatus, errorThrown, "submit_verify_captcha");
             }
         });
@@ -1123,24 +1125,24 @@ function handle_verify_captcha(section_name) {
     // setup submit button and associate the action when clicked
 
     try {
-        var submit_button_id = "#id-submit-" + section_name;
-        var captcha_div_id = "#id-" + section_name + "-captcha";
+        var submitButtonId = "#id-submit-" + section_name;
+        var captchaDivId = "#id-" + section_name + "-captcha";
 
-        $(submit_button_id).click(function() {
-            submit_verify_captcha(section_name, submit_button_id, captcha_div_id);
+        $(submitButtonId).click(function() {
+            submit_verify_captcha(section_name, submitButtonId, captchaDivId);
         });
 
         // if enter key is pressed inside the captcha, this should trigger a sumbit
-        $(captcha_div_id).keydown(function(e) {
+        $(captchaDivId).keydown(function(e) {
             if (e.keyCode == 13) {
-                submit_verify_captcha(section_name, submit_button_id, captcha_div_id);
+                submit_verify_captcha(section_name, submitButtonId, captchaDivId);
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 return false;
             }
         });
 
-        mouseoverButtonHandler($(submit_button_id));
+        mouseoverButtonHandler($(submitButtonId));
     } catch(err) {
         reportTryCatchError( err, "handle_verify_captcha");
     }
@@ -1181,9 +1183,9 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
 
     try {
         var submission_status_id = "#id-" + section_name + "-status";
-        var submit_button_id = "#id-submit-" + section_name;
+        var submitButtonId = "#id-submit-" + section_name;
 
-        $(submit_button_id).click(function() {
+        $(submitButtonId).click(function() {
             $(submission_status_id).html('Processing .....');
 
             $.ajax({
@@ -1194,7 +1196,7 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
                 // html_response contains the result of the action -- ie. success, failur, etc.
                 success: function (html_response) {
                     $(submission_status_id).html(html_response);
-                    $(submit_button_id).hide();
+                    $(submitButtonId).hide();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     $(submission_status_id).html('<strong>Error posting to the server, please try again</strong>');
@@ -1203,7 +1205,7 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
 
             });
         });
-        mouseoverButtonHandler($(submit_button_id));
+        mouseoverButtonHandler($(submitButtonId));
     } catch(err) {
         reportTryCatchError( err, "handle_post_button_with_confirmation_of_result");
     }

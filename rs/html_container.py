@@ -59,10 +59,10 @@ class UserMainHTML():
             
             $(document).ready(function(){
                 // handle the button submission, and re-direct to the correct pages
-                handle_submit_button("%(section_name)s", "%(uid)s"%(disable_submit_on_enter)s);
-                handle_cancel_button("%(section_name)s", "%(uid)s");
+                handleSubmitButton("%(section_name)s", "%(uid)s"%(disable_submit_on_enter)s);
+                handleCancelButton("%(section_name)s", "%(uid)s");
                 // load the edit fields after "edit" link has been clicked.
-                handle_link_for_edit("%(section_name)s", "%(input_type)s", "%(uid)s");
+                handleLinkForEdit("%(section_name)s", "%(input_type)s", "%(uid)s");
             });
             
             </script>""" % {

@@ -268,7 +268,7 @@ def generate_html_for_list_of_profiles(request, viewer_userobject, query_results
 
     generated_html = """<script type="text/javascript">
         $(document).ready(function() {
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
         });
         </script>"""
 

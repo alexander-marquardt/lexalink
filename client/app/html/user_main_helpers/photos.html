@@ -44,7 +44,7 @@
 
             var load_url = '/rs/ajax/load_photos_for_edit/' + rnd() + "/";
             $('#id-photo-table-for-ajax-load').load(load_url, function() {
-                fancybox_setup($("a.cl-fancybox-profile-gallery", this));
+                fancyboxSetup($("a.cl-fancybox-profile-gallery", this));
             });
             $('#id-edit-photos-submit-data-section').show();
             return false; // ensure that browser doesn't navigate to the href page!
@@ -85,8 +85,8 @@
                                 // write the returned html into the photo table
                                 $('#id-photo-table-for-ajax-load').html(post_response);
                                 $('#id-photo-table-for-ajax-load').ready(function () {
-                                    // see comments above previous fancybox_setup call
-                                    fancybox_setup($("a.cl-fancybox-profile-gallery"));
+                                    // see comments above previous fancyboxSetup call
+                                    fancyboxSetup($("a.cl-fancybox-profile-gallery"));
                                     $("#id-photo_upload-form-wrapper").show();
                                     $("#id-show-ajax-loader").hide();
                                     $("#id-photo_upload-file").attr({value: ''});
@@ -103,7 +103,7 @@
 
 
         // Fancybox hook. Associates fancybox with the profile photos.
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
         handle_photo_upload_form();
         $("#id-show-ajax-loader").hide();
 
@@ -120,11 +120,11 @@
                     var load_profile_url = '/rs/ajax/load_profile_photo/' + rnd() + "/";
 
                     $('#id-photo-table-for-ajax-load').load(load_url, function() {
-                        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+                        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
                     });
 
                     $('#id-profile-photo-table-for-ajax-load').load(load_profile_url, function() {
-                        fancybox_setup($("a.cl-fancybox-profile-gallery"));                        
+                        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
                     });
                     $('#id-edit-photos-submit-data-section').hide();
                 }
@@ -138,7 +138,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
     });
 </script>
 

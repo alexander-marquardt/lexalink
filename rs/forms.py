@@ -82,13 +82,13 @@ class FormUtils():
             
         generated_html += u"""<script type="text/javascript" language="javascript">
         $(document).ready(function(){
-            handle_click_on_contact_icon("favorite", %(last_parameters_passed_to_handle_click)s
-            handle_click_on_contact_icon("wink", %(last_parameters_passed_to_handle_click)s
-            handle_click_on_contact_icon("kiss", %(last_parameters_passed_to_handle_click)s
-            handle_click_on_contact_icon("key", %(last_parameters_passed_to_handle_click)s
-            handle_click_on_contact_icon("chat_friend", %(last_parameters_passed_to_handle_click)s
-            handle_click_on_contact_icon("blocked", %(last_parameters_passed_to_handle_click)s
-            getJSON_initiate_contact_settings("%(display_uid)s", '');
+            handleClickOnContactIcon("favorite", %(last_parameters_passed_to_handle_click)s
+            handleClickOnContactIcon("wink", %(last_parameters_passed_to_handle_click)s
+            handleClickOnContactIcon("kiss", %(last_parameters_passed_to_handle_click)s
+            handleClickOnContactIcon("key", %(last_parameters_passed_to_handle_click)s
+            handleClickOnContactIcon("chat_friend", %(last_parameters_passed_to_handle_click)s
+            handleClickOnContactIcon("blocked", %(last_parameters_passed_to_handle_click)s
+            getJsonInitiateContactSettings("%(display_uid)s", '');
         });
         </script>""" % {'display_uid' : display_uid,
                         'last_parameters_passed_to_handle_click' : last_parameters_passed_to_handle_click

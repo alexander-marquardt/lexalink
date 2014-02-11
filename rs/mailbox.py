@@ -377,7 +377,7 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
     try:
         generated_html = """<script type="text/javascript">
         $(document).ready(function() {
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
         });
         </script>"""
     
@@ -888,7 +888,7 @@ def generate_mailbox(request, bookmark = '', mailbox_name='inbox', owner_uid='')
         
         generated_html = """<script type="text/javascript">
         $(document).ready(function() {
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
         });
         </script>"""
     

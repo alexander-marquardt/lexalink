@@ -33,9 +33,9 @@
 
     $(document).ready(function() {
         // handle the button submission, and re-direct to the correct pages
-        handle_submit_and_cancel_buttons("status", "{{ primary_user_profile_data_fields.owner_uid }}");
+        handleSubmitAndCancelButtons("status", "{{ primary_user_profile_data_fields.owner_uid }}");
         // load the edit fields after "edit" link has been clicked.
-        handle_link_for_edit("status", "status", "{{ primary_user_profile_data_fields.owner_uid }}");
+        handleLinkForEdit("status", "status", "{{ primary_user_profile_data_fields.owner_uid }}");
     });
 
 </script>
