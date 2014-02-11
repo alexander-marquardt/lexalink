@@ -100,7 +100,7 @@ function sufficient_time_has_passed_since_last_search(milliseconds_to_pass) {
 }
 
 
-function report_javascript_error_on_server(status_text, warning_level) {
+function reportJavascriptErrorOnServer(status_text, warning_level) {
     // This function will POST the given error_text to the server, which will write the message
     // to the error logs.
     // warning_level: [info, warning, error, critical]
@@ -154,7 +154,7 @@ function reportTryCatchError(err, calling_function_name, warning_level) {
     // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
 
     var error_text = "\nTry/Catch Error\nCalling function: " + calling_function_name + "\nError message: " + err.message +  "\n\n" ;
-    report_javascript_error_on_server(error_text, warning_level);
+    reportJavascriptErrorOnServer(error_text, warning_level);
 }
 
 function reportAjaxError(textStatus, errorThrown, calling_function_name, warning_level) {
@@ -163,7 +163,7 @@ function reportAjaxError(textStatus, errorThrown, calling_function_name, warning
     // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
 
     var error_text = "\nAjax Error\nCalling function: " + calling_function_name + "\ntextStatus: " + textStatus + "\nerrorThrown: " + errorThrown +  "\n\n";
-    report_javascript_error_on_server(error_text, warning_level);
+    reportJavascriptErrorOnServer(error_text, warning_level);
 }
 
 function show_spinner(object_to_set, object_name) {
