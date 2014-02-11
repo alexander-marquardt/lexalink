@@ -31,7 +31,6 @@
    Copyright Alexander Marquardt / Lexabit Inc. March 19 2012*/
 
 /* Declare functions that are defined in other files, so that jshint doesn't complain  */
-/* defined in chatbox.js */
 /* global chatboxManager */
 /* global updateChatControlBox */
 /* global updateUserChatBoxTitles */

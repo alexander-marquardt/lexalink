@@ -60,7 +60,7 @@
      </div></div>
 
 <script type="text/javascript">
-    var login_errors_dict = [];
+    var loginErrorsDict = [];
 
     function handle_registered_login_form(location_where_to_show_errors) {
 
@@ -74,7 +74,7 @@
             $('#id-show-loading-spinner').show();
 
 
-            clear_both_registration_and_login_fields_errors();
+            clearBothRegistrationAndLoginFieldsErrors();
 
             if ($('#id-login_fields-username_email').val() == $('#id-login_fields-username_email')[0].title) {
                 // if the username field has not been entered, then clear the default text that we show to the user
@@ -97,15 +97,15 @@
                     } else if ("Login_Error" in post_response) {
 
                         var extra_html = $('#id-forgot-password').html();
-                        login_errors_dict = post_response["Login_Error"];
+                        loginErrorsDict = post_response["Login_Error"];
 
                         //deal with password error here
-                        if ('password' in login_errors_dict) {
+                        if ('password' in loginErrorsDict) {
                             $("#id-password-prompt").addClass("cl-highlight_border");
                             $("#id-password-input").addClass("cl-highlight_border");
                         }
 
-                        show_fields_errors("login_fields", login_errors_dict, extra_html,  location_where_to_show_errors);
+                        showFieldsErrors("login_fields", loginErrorsDict, extra_html,  location_where_to_show_errors);
 
                         if ($('#id-login_fields-username_email').val() == '') {
                             // if the username field has not been entered, show the default text
@@ -115,7 +115,7 @@
                         var readable_object = JSON.stringify(post_response);
                         var error_html =  "handle_user_registration_form - unknown json response object: " + readable_object
                         reportAjaxError("NA", error_html, "handle_registered_login_form - success", "error");
-                        show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
+                        showFieldsErrors("login_fields", [], error_html, location_where_to_show_errors);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -127,7 +127,7 @@
                         error_html = "handle_registered_login_form - unknown error";
                     }
                     reportAjaxError(textStatus, errorThrown, "handle_registered_login_form - error", "error");
-                    show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
+                    showFieldsErrors("login_fields", [], error_html, location_where_to_show_errors);
 
                 },
                 complete: function() {

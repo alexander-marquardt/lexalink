@@ -52,7 +52,7 @@
 
 <script type="text/javascript">
 
-    var registration_errors_dict = [];
+    var registrationErrorsDict = [];
     var terms_and_conditions_have_been_accepted =  false;
         
 
@@ -128,11 +128,11 @@
                     // indicate that the next page is loading
                     $('#id-show-loading-spinner').show();
 
-                    close_dialog_box_for_user_feedback();
+                    closeDialogBoxForUserFeedback();
                     // prevent double clicks from being processed.
                     $('#id-submit-signup-button').attr('disabled', 'disabled');
 
-                    clear_both_registration_and_login_fields_errors();
+                    clearBothRegistrationAndLoginFieldsErrors();
 
                     var submit_signup_form_url = "{% url login.process_registration %}";
                     $(this).ajaxSubmit({
@@ -152,14 +152,14 @@
                                 redirect_to_verification(registration_ok_dict);
 
                             } else if ("Registration_Error" in post_response) {
-                                registration_errors_dict = post_response["Registration_Error"];
-                                show_fields_errors("signup_fields", registration_errors_dict, '', location_where_to_show_errors);
+                                registrationErrorsDict = post_response["Registration_Error"];
+                                showFieldsErrors("signup_fields", registrationErrorsDict, '', location_where_to_show_errors);
 
                             } else {
                                 var readable_object = JSON.stringify(post_response);
                                 var error_html = "handle_user_registration_form - unknown json response: " + readable_object;
                                 reportAjaxError("NA", error_html, "handle_user_registration_form - success", "error");
-                                show_fields_errors("signup_fields", [], error_html, location_where_to_show_errors);
+                                showFieldsErrors("signup_fields", [], error_html, location_where_to_show_errors);
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -171,7 +171,7 @@
                             } else {
                                 error_html = "handle_user_registration_form - unknown error";
                             }
-                            show_fields_errors("login_fields", [], error_html, location_where_to_show_errors);
+                            showFieldsErrors("login_fields", [], error_html, location_where_to_show_errors);
                             reportAjaxError(textStatus, errorThrown, "handle_user_registration_form - error", "error");
                         },
                         complete: function() {

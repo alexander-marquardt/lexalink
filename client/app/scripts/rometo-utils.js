@@ -31,9 +31,35 @@
 // this section defines local utility functions that are called from various positions
 // within this code.
 
+/* Declare imported functions so that jshint doesn't complain */
+/* global printStackTrace */
+/* global MANUALLY_VERSIONED_IMAGES_DIR */
+/* global Recaptcha */
+/* global loginErrorsDict */
+/* global registrationErrorsDict */
 
 /* Declare exported functions */
 /* exported reportTryCatchError */
+/* exported confirmDecision */
+/* exported checkIfJavascriptVersionIdHasChanged */
+/* exported sufficientTimeHasPassedSinceLastSearch */
+/* exported loadForSaleToBuyOnChange */
+/* exported setDropdownOptionsAndSettings */
+/* exported fancyboxSetup */
+/* exported handleLinkForEdit */
+/* exported undoFuncMouseoverButtonHandler */
+/* exported handleSubmitAndCancelButtons */
+/* exported handleClickOnContactIcon */
+/* exported handleDialogPopupCloseButton */
+/* exported handleSubmitSendMailButton */
+/* exported showRegistrationDialogOnClick */
+/* exported handleClickOnUpdateMessageActionIcon */
+/* exported handlePostButtonWithConfirmationOfResult */
+/* exported formatNumberLength */
+/* exported clearBothRegistrationAndLoginFieldsErrors */
+/* exported showFieldsErrors */
+/* exported closeDialogBoxForUserFeedback */
+
 
 
 // gnerate "random" string for unique URL -- required for IE caching bug
@@ -42,7 +68,7 @@ function rnd() {
 }
 
 function confirmDecision(message, url) {
-    if (confirm(message)) {
+    if (window.confirm(message)) {
         location.href = url;
     }
 }
@@ -59,7 +85,7 @@ function reportJavascriptErrorOnServer(statusText, warningLevel) {
         type: 'post',
         url:  "/rs/ajax/report_javascript_error/" + warningLevel + "/",
         data: {'statusText' : statusText},
-        success: function(response) {
+        success: function() {
         }
     });
 
@@ -83,20 +109,7 @@ var unloadFuncs = []; // this will be filled with various functions that will cl
                       // Note: each element in this array is actually an array, with the first value beign the function to call, and
                       // the remaining values being the parameters to pass in to the function.
                       // eg. load it with the following: unloadFuncs.push([function_name, arg0, arg1 ...])
-function DoUnload() {
-// loop over all of the functions that we have defined for freeing-up event handlers and memory
-    try {
-        while (unloadFuncs.length > 0) {
-            var funcAndArgs = unloadFuncs.pop();
-            var f = funcAndArgs.shift();
-            var args = funcAndArgs;
-            f.apply(f, funcAndArgs);
-            f = null;
-        }
-    } catch(err) {
-        reportTryCatchError( err, "DoUnload");
-    }
-}
+
 
 function checkIfJavascriptVersionIdHasChanged(newVersionId) {
     if (typeof window.newVersionId === 'undefined') {
@@ -598,13 +611,13 @@ function fancyboxSetup(jqueryObj) {
         'SpeedIn'                :        500,
         'SpeedOut'                :        500,
         'onComplete'              :   function() {
-            $('#fancybox-img').bind("contextmenu", function(e){ return false; });
+            $('#fancybox-img').bind("contextmenu", function(){ return false; });
         }
     });
 
     // since we are always disabling the context menu at the same time that we are setting up the fancybox
     // just disable it here.
-    $('img').bind("contextmenu", function(e){ return false; });
+    $('img').bind("contextmenu", function(){ return false; });
 }
 
 function handleLinkForEdit(sectionName, inputType, uid) {
@@ -737,7 +750,7 @@ function undoFuncHandleCancelButton(cancelButtonObj) {
 }
 
 
-function handleCancelButton(sectionName, uid) {
+function handleCancelButton(sectionName) {
 
     // setup cancel button
 
@@ -758,7 +771,7 @@ function handleCancelButton(sectionName, uid) {
 
 function handleSubmitAndCancelButtons(sectionName, uid) {
     handleSubmitButton(sectionName, uid);
-    handleCancelButton(sectionName, uid);
+    handleCancelButton(sectionName);
 }
 
 
@@ -1082,88 +1095,88 @@ function showRegistrationDialogOnClick(sectionName, registrationPromptText) {
     });
 }
 
-function submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId) {
+//function submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId) {
+//
+//    try {
+//        // hide the submit button, to prevent double-click
+//        var ajaxSpinnerId = "#id-show-ajax-spinner-captcha";
+//        var myurl = "/rs/store_" + sectionName + "/";
+//        var mydata = $("form#id-" + sectionName + "-form").serialize();
+//        var captchaStatusId = "#id-" + sectionName + "-status";
+//        $(submitButtonId).hide();
+//        $(ajaxSpinnerId).show();
+//        $(captchaDivId).hide();
+//
+//        $.ajax({
+//            type: 'post',
+//            url: myurl,
+//            data: (mydata),
+//            timeout: 15000, // 15 second timeout
+//            success: function (htmlResponse) {
+//                // if successful, reload the entire page so that all buttons are
+//                // enables, and the user can edit their profile
+//                if (htmlResponse === "Fail") {
+//                    $(captchaStatusId).html('<strong>Captcha incorrecto, intentalo de nuevo</strong>');
+//                    reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, "no_bypass");
+//                } else {
+//                    window.location.href = htmlResponse; // re-direct to user profile
+//                }
+//
+//            },
+//            error: function(jqXHR, textStatus, errorThrown) {
+//                $(captchaStatusId).html('<strong>Error, intentalo de nuevo</strong>');
+//                reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, "no_bypass");
+//                reportAjaxError(textStatus, errorThrown, "submitVerifyCaptcha");
+//            }
+//        });
+//    } catch(err) {
+//        reportTryCatchError( err, "submitVerifyCaptcha");
+//    }
+//}
+//
+//
+//function handleVerifyCaptcha(sectionName) {
+//    // setup submit button and associate the action when clicked
+//
+//    try {
+//        var submitButtonId = "#id-submit-" + sectionName;
+//        var captchaDivId = "#id-" + sectionName + "-captcha";
+//
+//        $(submitButtonId).click(function() {
+//            submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId);
+//        });
+//
+//        // if enter key is pressed inside the captcha, this should trigger a sumbit
+//        $(captchaDivId).keydown(function(e) {
+//            if (e.keyCode === 13) {
+//                submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId);
+//                e.stopImmediatePropagation();
+//                e.stopPropagation();
+//                return false;
+//            }
+//        });
+//
+//        mouseoverButtonHandler($(submitButtonId));
+//    } catch(err) {
+//        reportTryCatchError( err, "handleVerifyCaptcha");
+//    }
+//}
 
-    try {
-        // hide the submit button, to prevent double-click
-        var ajaxSpinnerId = "#id-show-ajax-spinner-captcha";
-        var myurl = "/rs/store_" + sectionName + "/";
-        var mydata = $("form#id-" + sectionName + "-form").serialize();
-        var captcha_status_id = "#id-" + sectionName + "-status";
-        $(submitButtonId).hide();
-        $(ajaxSpinnerId).show();
-        $(captchaDivId).hide();
 
-        $.ajax({
-            type: 'post',
-            url: myurl,
-            data: (mydata),
-            timeout: 15000, // 15 second timeout
-            success: function (html_response) {
-                // if successful, reload the entire page so that all buttons are
-                // enables, and the user can edit their profile
-                if (html_response == "Fail") {
-                    $(captcha_status_id).html('<strong>Captcha incorrecto, intentalo de nuevo</strong>');
-                    reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, "no_bypass");
-                } else {
-                    self.location = html_response; // re-direct to user profile
-                }
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                $(captcha_status_id).html('<strong>Error, intentalo de nuevo</strong>');
-                reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, "no_bypass");
-                reportAjaxError(textStatus, errorThrown, "submitVerifyCaptcha");
-            }
-        });
-    } catch(err) {
-        reportTryCatchError( err, "submitVerifyCaptcha");
-    }
-}
-
-
-function handleVerifyCaptcha(sectionName) {
-    // setup submit button and associate the action when clicked
-
-    try {
-        var submitButtonId = "#id-submit-" + sectionName;
-        var captchaDivId = "#id-" + sectionName + "-captcha";
-
-        $(submitButtonId).click(function() {
-            submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId);
-        });
-
-        // if enter key is pressed inside the captcha, this should trigger a sumbit
-        $(captchaDivId).keydown(function(e) {
-            if (e.keyCode == 13) {
-                submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId);
-                e.stopImmediatePropagation();
-                e.stopPropagation();
-                return false;
-            }
-        });
-
-        mouseoverButtonHandler($(submitButtonId));
-    } catch(err) {
-        reportTryCatchError( err, "handleVerifyCaptcha");
-    }
-}
-
-
-function handleClickOnUpdateMessageActionIcon(haveSentMessagesId, toUid, action, with_checkbox) {
+function handleClickOnUpdateMessageActionIcon(haveSentMessagesId, toUid, action, withCheckbox) {
     // this function handles a click on the icon beside the message, and refreshes the message
     // to reflect the updated status
-    // with_checkbox: "yes" or "no"
+    // withCheckbox: "yes" or "no"
 
-    try{
-        var icon_id = "#id-" + action + "-have_sent_messages-" + haveSentMessagesId;
-        var section_id = "#id-have_sent_messages-" + haveSentMessagesId;
+    try {
+        var iconId = "#id-" + action + "-have_sent_messages-" + haveSentMessagesId;
+        var sectionId = "#id-have_sent_messages-" + haveSentMessagesId;
 
-        $(icon_id).click(function(event) {
-            var post_url = "/rs/ajax/" + action + "_message/";
-            $.post(post_url + haveSentMessagesId + "/", function() {
+        $(iconId).click(function() {
+            var postUrl = "/rs/ajax/" + action + "_message/";
+            $.post(postUrl + haveSentMessagesId + "/", function() {
                 // we call "load_send_mail_from_profile, because this function returns just a summary of the converstion
-                $(section_id).load("/rs/ajax/load_send_mail_from_profile_checkbox_" + with_checkbox + "/" + toUid + "/" + rnd() + "/");
+                $(sectionId).load("/rs/ajax/load_send_mail_from_profile_checkbox_" + withCheckbox + "/" + toUid + "/" + rnd() + "/");
 
                 // prevent link from being followed
                 return false;
@@ -1195,8 +1208,8 @@ function handlePostButtonWithConfirmationOfResult(sectionName, uid) {
                 data: $("form#id-" + sectionName + "-form").serialize(),
                 timeout: 15000, // 15 second timeout
                 // html_response contains the result of the action -- ie. success, failur, etc.
-                success: function (html_response) {
-                    $(submissionStatusId).html(html_response);
+                success: function (htmlResponse) {
+                    $(submissionStatusId).html(htmlResponse);
                     $(submitButtonId).hide();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -1227,51 +1240,51 @@ function formatNumberLength(num, length) {
 function clearFieldsErrors(fieldsType, errorsDict) {
     // fieldsType is either signup_fields or login_fields
 
-    for (key in errorsDict) {
-        var input_field_id_selector = "#id-"+ fieldsType + "-" + key;
-        $(input_field_id_selector).removeClass("cl-highlight_border");
+    for (var key in errorsDict) {
+        var inputFieldIdSelector = "#id-"+ fieldsType + "-" + key;
+        $(inputFieldIdSelector).removeClass("cl-highlight_border");
     }
 }
 
-function clear_both_registration_and_login_fields_errors() {
-        clearFieldsErrors("login_fields", login_errors_dict);
-        $("#id-password-prompt").removeClass("cl-highlight_border");
-        $("#id-password-input").removeClass("cl-highlight_border");
+function clearBothRegistrationAndLoginFieldsErrors() {
+    clearFieldsErrors("login_fields", loginErrorsDict);
+    $("#id-password-prompt").removeClass("cl-highlight_border");
+    $("#id-password-input").removeClass("cl-highlight_border");
 
-        clearFieldsErrors("signup_fields" , registration_errors_dict);
+    clearFieldsErrors("signup_fields" , registrationErrorsDict);
 }
 
-function show_fields_errors(fields_type, errors_dict, extra_html, where_to_place_dialog) {
-    // fields_type is either signup_fields or login_fields
+function showFieldsErrors(fieldsType, errorsDict, extraHtml, whereToPlaceDialog) {
+    // fieldsType is either signup_fields or login_fields
 
     // dummy input to take the autofocus away from the "have you forgot password" link, otherwise it
     // automatically follows the link on enter
-    var error_html = '<input type="hidden" autofocus="autofocus" />';
-    error_html += '<ul>';
+    var errorHtml = '<input type="hidden" autofocus="autofocus" />';
+    errorHtml += '<ul>';
 
-    // loop over the objects in the errors_dict
-    for (key in errors_dict) {
-        var input_field_id_selector = "#id-" + fields_type + "-" + key;
-        $(input_field_id_selector).addClass("cl-highlight_border");
-        if (errors_dict[key]) {
-            error_html += '<li class="cl-indent">'+ errors_dict[key];
+    // loop over the objects in the errorsDict
+    for (var key in errorsDict) {
+        var inputFieldIdSelector = "#id-" + fieldsType + "-" + key;
+        $(inputFieldIdSelector).addClass("cl-highlight_border");
+        if (errorsDict[key]) {
+            errorHtml += '<li class="cl-indent">'+ errorsDict[key];
         }
     }
-    error_html += '</ul>';
-    error_html += extra_html;
-    $('#id-dialog_box_for_user_feedback').html(error_html);
+    errorHtml += '</ul>';
+    errorHtml += extraHtml;
+    $('#id-dialog_box_for_user_feedback').html(errorHtml);
     $('#id-dialog_box_for_user_feedback').dialog({
         width: 400,
         modal: false,
         position: {
             my: "center",
             at: "center",
-            of: where_to_place_dialog
+            of: whereToPlaceDialog
         }
     }).dialog('close').dialog('open');
 }
 
-function close_dialog_box_for_user_feedback(){
+function closeDialogBoxForUserFeedback(){
     if ($('#id-dialog_box_for_user_feedback').is(':data(dialog)')) {
         $('#id-dialog_box_for_user_feedback').dialog('close');
     }
