@@ -49,17 +49,17 @@
             var is_registered_user = false;
         {% endif %}
 
-        set_dropdown_options_and_settings(search_url, id_prefix, default_text, false, is_registered_user);
-        load_location_settings_on_change(id_prefix, default_text, false);
+        setDropdownOptionsAndSettings(search_url, id_prefix, default_text, false, is_registered_user);
+        loadLocationSettingsOnChange(id_prefix, default_text, false);
 
         {% if build_name == "friend_build" %}
-            load_for_sale_to_buy_on_change(id_prefix, default_text);
+            loadForSaleToBuyOnChange(id_prefix, default_text);
         {% endif %}
 
 
         $("#id-simple-search-form").submit(function() {
 
-            if (sufficient_time_has_passed_since_last_search(1000)) {
+            if (sufficientTimeHasPassedSinceLastSearch(1000)) {
                 // show "loading" icon
                 $('#id-show-loading-spinner').show();
 

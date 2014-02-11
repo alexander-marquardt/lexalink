@@ -308,8 +308,8 @@ def generate_next_button_html():
     generated_html_top_next_button = ''
     generated_html_top_next_button += u"""<script type="text/javascript" language="javascript">
     $(document).ready(function(){
-        mouseover_button_handler($(".cl-submit"));
-        mouseover_button_handler($(".cl-cancel")); // this only affects buttons that are shown in rare instances (ie. eliminating profile)
+        mouseoverButtonHandler($(".cl-submit"));
+        mouseoverButtonHandler($(".cl-cancel")); // this only affects buttons that are shown in rare instances (ie. eliminating profile)
     });
     </script>\n """ 
     

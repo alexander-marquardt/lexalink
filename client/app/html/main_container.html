@@ -37,7 +37,7 @@ $(document).ready(function() {
     // the common_wrapper is not re-loaded, and therefore we need to dynamically update
     // the title to reflect the current page that is being viewed.
     document.title = "{{ updated_meta_info.page_title }}";
-    check_if_javascript_version_id_has_changed("{{ javascript_version_id }}");
+    checkIfJavascriptVersionIdHasChanged("{{ javascript_version_id }}");
 });
 
 </script>

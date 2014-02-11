@@ -37,7 +37,7 @@ function rnd() {
     return String((new Date()).getTime());
 }
 
-function confirm_decision(message, url) {
+function confirmDecision(message, url) {
     if (confirm(message)) {
         location.href = url;
     }
@@ -52,10 +52,10 @@ function DoUnload() {
 // loop over all of the functions that we have defined for freeing-up event handlers and memory
     try {
         while (unloadFuncs.length > 0) {
-            var func_and_args = unloadFuncs.pop();
-            var f = func_and_args.shift();
-            var args = func_and_args;
-            f.apply(f, func_and_args);
+            var funcAndArgs = unloadFuncs.pop();
+            var f = funcAndArgs.shift();
+            var args = funcAndArgs;
+            f.apply(f, funcAndArgs);
             f = null;
         }
     } catch(err) {
@@ -63,12 +63,12 @@ function DoUnload() {
     }
 }
 
-function check_if_javascript_version_id_has_changed(newVersionId) {
-    if (typeof window.new_version_id === 'undefined')
-        window.new_version_id = newVersionId;
-
+function checkIfJavascriptVersionIdHasChanged(newVersionId) {
+    if (typeof window.newVersionId === 'undefined') {
+        window.newVersionId = newVersionId;
+    }
     else {
-        if (this.new_version_id !== newVersionId) {
+        if (this.newVersionId !== newVersionId) {
             // Yes, has changed - force a reload of the current page so that we get the most
             // recent javascript code.
             window.location.reload();
@@ -77,40 +77,40 @@ function check_if_javascript_version_id_has_changed(newVersionId) {
 }
 
 
-function sufficient_time_has_passed_since_last_search(milliseconds_to_pass) {
+function sufficientTimeHasPassedSinceLastSearch(millisecondsToPass) {
 
     // this function is designed to put a limit on how often the user can press the "search" button, so that
     // we don't re-submit on double clicks.
 
-    var current_time = (new Date()).getTime();
+    var currentTime = (new Date()).getTime();
     var returnval;
 
-    if (typeof this.previous_time_in_milliseconds == 'undefined') {
+    if (typeof window.previousTimeInMilliseconds === 'undefined') {
         returnval = true;
     }
     else {
-        if (current_time - milliseconds_to_pass > this.previous_time_in_milliseconds)
+        if (currentTime - millisecondsToPass > window.previousTimeInMilliseconds)
             returnval = true;
         else
             returnval = false;
 
     }
-    this.previous_time_in_milliseconds = current_time;
+    window.previousTimeInMilliseconds = currentTime;
     return returnval;
 }
 
 
-function reportJavascriptErrorOnServer(status_text, warning_level) {
-    // This function will POST the given error_text to the server, which will write the message
+function reportJavascriptErrorOnServer(statusText, warningLevel) {
+    // This function will POST the given errorText to the server, which will write the message
     // to the error logs.
-    // warning_level: [info, warning, error, critical]
+    // warningLevel: [info, warning, error, critical]
 
     var printTrace = printStackTrace().join("\n\n");
-    status_text = status_text + "\n\n" + printTrace;
+    statusText = statusText + "\n\n" + printTrace;
     $.ajax({
         type: 'post',
-        url:  "/rs/ajax/report_javascript_error/" + warning_level + "/",
-        data: {'status_text' : status_text},
+        url:  "/rs/ajax/report_javascript_error/" + warningLevel + "/",
+        data: {'statusText' : statusText},
         success: function(response) {
         }
     });
@@ -118,11 +118,11 @@ function reportJavascriptErrorOnServer(status_text, warning_level) {
 
     //if (debugging_enabled)
         // Disable this alert - is annoying and not currently needed
-        //alert("Error: " + status_text);
+        //alert("Error: " + statusText);
 }
 
 
-function rs_set_selector_to_value(selector_id, selected_value) {
+function rs_set_selector_to_value(selectorId, selectedValue) {
     // hack that deals with instability in IE6 when selecting values from select menu (dropdown)
     // Note: we try to set selectors that are members of the class cl-primary-option before attempting
     // "general" selector. This is primarily for the country drop-down menus, which contain duplicates
@@ -130,62 +130,62 @@ function rs_set_selector_to_value(selector_id, selected_value) {
 
     try {
         /* the following code will ensure that the top/first appearance of a value will be selected */
-        var first_selector = $(selector_id + " option[value='" + selected_value + "']:first");
+        var first_selector = $(selectorId + " option[value='" + selectedValue + "']:first");
         if (first_selector.length) { // check that the selector was found
             first_selector[0].selected = true;
         }
         else {
-            $(selector_id).val(selected_value);
-            /*this is the old way of doing it - and seems to work even if selected_value not found*/
+            $(selectorId).val(selectedValue);
+            /*this is the old way of doing it - and seems to work even if selectedValue not found*/
         }
 
-        $(selector_id).change(); // trigger a change event so that sub-menus will be loaded
+        $(selectorId).change(); // trigger a change event so that sub-menus will be loaded
     }
     catch(ex) {
         /* this is primarily intended for ie6 */
-        setTimeout("$('" + selector_id + "').val('" + selected_value + "')", 1);
+        setTimeout("$('" + selectorId + "').val('" + selectedValue + "')", 1);
     }
 }
 
-function reportTryCatchError(err, calling_function_name, warning_level) {
-    // make sure warning_level is set to a default value of "error"
-    warning_level = warning_level || "warning";
+function reportTryCatchError(err, callingFunctionName, warningLevel) {
+    // make sure warningLevel is set to a default value of "error"
+    warningLevel = warningLevel || "warning";
 
-    // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
+    // callingFunctionName is necessary because these names might be minimized and therefore we cannot extract them automatically
 
-    var error_text = "\nTry/Catch Error\nCalling function: " + calling_function_name + "\nError message: " + err.message +  "\n\n" ;
-    reportJavascriptErrorOnServer(error_text, warning_level);
+    var errorText = "\nTry/Catch Error\nCalling function: " + callingFunctionName + "\nError message: " + err.message +  "\n\n" ;
+    reportJavascriptErrorOnServer(errorText, warningLevel);
 }
 
-function reportAjaxError(textStatus, errorThrown, calling_function_name, warning_level) {
-    // make sure warning_level is set to a default value of "error"
-    warning_level = warning_level || "warning";
-    // calling_function_name is necessary because these names might be minimized and therefore we cannot extract them automatically
+function reportAjaxError(textStatus, errorThrown, callingFunctionName, warningLevel) {
+    // make sure warningLevel is set to a default value of "error"
+    warningLevel = warningLevel || "warning";
+    // callingFunctionName is necessary because these names might be minimized and therefore we cannot extract them automatically
 
-    var error_text = "\nAjax Error\nCalling function: " + calling_function_name + "\ntextStatus: " + textStatus + "\nerrorThrown: " + errorThrown +  "\n\n";
-    reportJavascriptErrorOnServer(error_text, warning_level);
+    var errorText = "\nAjax Error\nCalling function: " + callingFunctionName + "\ntextStatus: " + textStatus + "\nerrorThrown: " + errorThrown +  "\n\n";
+    reportJavascriptErrorOnServer(errorText, warningLevel);
 }
 
-function show_spinner(object_to_set, object_name) {
+function show_spinner(objectToSet, objectName) {
     // for dynamically loaded dropdown menus, while loading the values we shrink the width and show a spinner beside the menu
 
     try{
         var spinner_image = manually_versioned_images_dir + "/small-ajax-loader.gif"
-        object_to_set.after(' <img src= "' + spinner_image  + '" align="right "  id="id-' + object_name +  '-show-small-ajax-loader">');
-        object_to_set.removeClass('cl-standard-dropdown-width-px');
-        object_to_set.addClass('cl-spinner-dropdown-width-px');
+        objectToSet.after(' <img src= "' + spinner_image  + '" align="right "  id="id-' + objectName +  '-show-small-ajax-loader">');
+        objectToSet.removeClass('cl-standard-dropdown-width-px');
+        objectToSet.addClass('cl-spinner-dropdown-width-px');
     } catch (err) {
         reportTryCatchError( err, "show_spinner");
     }
 
 }
 
-function hide_spinner(object_to_set, object_name) {
+function hide_spinner(objectToSet, objectName) {
 
     try {
-        $('#id-' + object_name + '-show-small-ajax-loader').remove();
-        object_to_set.removeClass('cl-spinner-dropdown-width-px');
-        object_to_set.addClass('cl-standard-dropdown-width-px');
+        $('#id-' + objectName + '-show-small-ajax-loader').remove();
+        objectToSet.removeClass('cl-spinner-dropdown-width-px');
+        objectToSet.addClass('cl-standard-dropdown-width-px');
     } catch (err) {
         reportTryCatchError( err, "hide_spinner");
     }
@@ -269,7 +269,7 @@ function handle_change_on_for_sale_to_buy(menu_id, sub_menu_id, default_text) {
     }
 }
 
-function load_for_sale_to_buy_on_change(id_prefix, default_text) {
+function loadForSaleToBuyOnChange(id_prefix, default_text) {
 
     try {
         var for_sale_id = id_prefix + "-for_sale";
@@ -280,14 +280,14 @@ function load_for_sale_to_buy_on_change(id_prefix, default_text) {
         handle_change_on_for_sale_to_buy(for_sale_id, for_sale_sub_menu_id, default_text['for_sale_sub_menu']);
         handle_change_on_for_sale_to_buy(to_buy_id, to_buy_sub_menu_id, default_text['to_buy_sub_menu']);
     } catch(err) {
-        reportTryCatchError( err, "load_for_sale_to_buy_on_change");
+        reportTryCatchError( err, "loadForSaleToBuyOnChange");
     }
 }
 
 
 
 
-function load_location_settings_on_change(id_prefix, default_text, hide_field_if_not_defined) {
+function loadLocationSettingsOnChange(id_prefix, default_text, hide_field_if_not_defined) {
 
     // loads drop-down location menu values when the parent location is changed
 
@@ -345,7 +345,7 @@ function load_location_settings_on_change(id_prefix, default_text, hide_field_if
             }
         });
     } catch(err) {
-        reportTryCatchError( err, "load_location_settings_on_change");
+        reportTryCatchError( err, "loadLocationSettingsOnChange");
     }
 
     unloadFuncs.push([undo_func_load_location_settings_on_change, id_prefix]);
@@ -410,19 +410,19 @@ function getJSON_handler(action, id_prefix, field_type) {
 
 
 
-function set_sub_menu(object_to_set, object_name, options_html, default_unselected_text, list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected) {
+function set_sub_menu(objectToSet, objectName, options_html, default_unselected_text, list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected) {
 
     try {
         if (hide_field_if_not_selected == true && options_html == '') {
             for (var idx = 0; idx < list_of_objects_to_hide_if_not_selected.length; idx ++)
                 list_of_objects_to_hide_if_not_selected[idx].hide();
         } else {
-            object_to_set.html('<option selected value="----">' + default_unselected_text);
-            object_to_set.append(options_html);
-            object_to_set.show();
+            objectToSet.html('<option selected value="----">' + default_unselected_text);
+            objectToSet.append(options_html);
+            objectToSet.show();
         }
 
-        hide_spinner(object_to_set, object_name);
+        hide_spinner(objectToSet, objectName);
     } catch (err) {
         reportTryCatchError( err, "set_sub_menu");
     }
@@ -550,7 +550,7 @@ function set_values_on_data_object(data_object, fields_list) {
     }
 }
 
-function set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined, is_registered_user) {
+function setDropdownOptionsAndSettings(action, id_prefix, default_text, hide_field_if_not_defined, is_registered_user) {
 
     var fields_list = ['sex', 'age', 'preference', 'relationship_status', 'language_to_learn', 'language_to_teach',
     'country', 'region', 'sub_region', 'for_sale', 'to_buy',
@@ -583,7 +583,7 @@ function set_dropdown_options_and_settings(action, id_prefix, default_text, hide
             }
         }
     } catch(err) {
-        reportTryCatchError( err, "set_dropdown_options_and_settings");
+        reportTryCatchError( err, "setDropdownOptionsAndSettings");
     }
 }
 
@@ -650,7 +650,7 @@ function handle_link_for_edit(section_name, input_type, uid) {
                     // note - DO NOT combine the following line with the var declaration, or the rnd value will never change
                     signup_fields_url = "/rs/ajax/get_signup_fields_settings/" + uid + "/" + rnd() + "/";
                     JSON_set_dropdown_options_and_settings(signup_fields_url, id_prefix, default_text, true);
-                    load_location_settings_on_change(id_prefix, default_text, true);
+                    loadLocationSettingsOnChange(id_prefix, default_text, true);
 
                 }
             });
@@ -666,42 +666,42 @@ function mouseoverButtonHandler(button_object) {
     button_object.button();
 }
 
-function undo_func_mouseover_button_handler(button_object) {
+function undoFuncMouseoverButtonHandler(button_object) {
     button_object.off();
 }
 
 
-function submit_post(section_name, uid) {
+function submitPost(sectionName, uid) {
 
     try {
-        $.post("/rs/store_" + section_name + "/" + uid + "/", $("form#id-" + section_name + "-form").serialize(), function () {
+        $.post("/rs/store_" + sectionName + "/" + uid + "/", $("form#id-" + sectionName + "-form").serialize(), function () {
             // put the load inside the callback, since we must ensure that the data has been
             // loaded
-            $("#id-display-" + section_name + "-section").load("/rs/ajax/load_" + section_name + "/" + rnd() + "/", function() {
+            $("#id-display-" + sectionName + "-section").load("/rs/ajax/load_" + sectionName + "/" + rnd() + "/", function() {
                 $("#id-highlight-div").effect("highlight", {color:'#FFEEFF'}, 3000);
             });
 
 
-            $("#id-display-" + section_name + "-section").show();
-            $("#id-edit-" + section_name + "-section").hide();
+            $("#id-display-" + sectionName + "-section").show();
+            $("#id-edit-" + sectionName + "-section").hide();
         });
     } catch(err) {
-        reportTryCatchError( err, "submit_post");
+        reportTryCatchError( err, "submitPost");
     }
 }
 
-function handle_submit_button(section_name, uid, disable_submit_on_enter) {
+function handle_submit_button(sectionName, uid, disable_submit_on_enter) {
     // setup submit button and associate the action when clicked
 
 
     try {
-        var submit_button_id = "#id-submit-" + section_name;
-        var edit_section_id = "#id-edit-" + section_name + "-section";
+        var submit_button_id = "#id-submit-" + sectionName;
+        var edit_section_id = "#id-edit-" + sectionName + "-section";
         var submit_button_obj = $(submit_button_id);
         var edit_section_obj = $(edit_section_id);
 
         submit_button_obj.off("click.handle_submit_button").on("click.handle_submit_button", function() {
-            submit_post(section_name, uid);
+            submitPost(sectionName, uid);
         });
 
         // Check to see if the enter key has been pressed inside the section -- treat this this same
@@ -710,7 +710,7 @@ function handle_submit_button(section_name, uid, disable_submit_on_enter) {
         if (!disable_submit_on_enter) {
             edit_section_obj.on("keydown.handle_submit_button", function(e) {
                 if (e.keyCode == 13) {
-                    submit_post(section_name, uid);
+                    submitPost(sectionName, uid);
                     e.stopImmediatePropagation();
                     e.stopPropagation();
                     return false;
@@ -767,7 +767,7 @@ function getJSON_initiate_contact_settings(uid) {
         $.getJSON(url, function(data) {
             for (var dict_key in data) {
                 if (data.hasOwnProperty(dict_key)) {
-                    selector = "span#id-" + dict_key;
+                    var selector = "span#id-" + dict_key;
                     $(selector).html(data[dict_key]);
                 }
             }
@@ -1020,19 +1020,19 @@ function submit_send_mail(section_name, submit_button_id, captcha_div_id, to_uid
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.responseText != undefined) {
-                    error_string = jqXHR.responseText;
+                    var errorString = jqXHR.responseText;
                 } else {
-                    error_string = error_status_string;
+                    errorString = error_status_string;
                 }
-                $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + error_string + '!<br></div>');
+                $(submit_button_id).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + errorString + '!<br></div>');
                 reload_submit_and_recaptcha(submit_button_id, ajax_spinner_id, captcha_div_id, captcha_bypass_string);
-                var warning_level;
+                var warningLevel;
                 if (errorThrown == "timeout") {
-                    warning_level = "warning"
+                    warningLevel = "warning"
                 } else {
-                    warning_level = "error"
+                    warningLevel = "error"
                 }
-                reportAjaxError(textStatus, errorThrown, "submit_send_mail", warning_level);
+                reportAjaxError(textStatus, errorThrown, "submit_send_mail", warningLevel);
             }
         });
     } catch(err) {

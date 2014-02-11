@@ -380,9 +380,9 @@
     <!-- note, we call the same function to eliminate or enable an elimiated profile
 essentially we just toggle a bit -->
     {% if not viewed_profile_data_fields.account_has_been_removed_message %}
-    <a HREF="javascript:confirm_decision('{% blocktrans %}Are you sure you want to eliminate your profile?{% endblocktrans %}', '{% url delete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
+    <a HREF="javascript:confirmDecision('{% blocktrans %}Are you sure you want to eliminate your profile?{% endblocktrans %}', '{% url delete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
     {% else %}
-    <a HREF="javascript:confirm_decision('Enable this profile?', '{% url undelete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
+    <a HREF="javascript:confirmDecision('Enable this profile?', '{% url undelete_account owner_uid=primary_user_profile_data_fields.owner_uid %}')">({% trans "click here" %}) </a>
     {% endif %}
 
 </div>
