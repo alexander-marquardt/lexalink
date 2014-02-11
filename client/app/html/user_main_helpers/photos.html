@@ -38,7 +38,7 @@
             
             $.get("/rs/ajax/check_if_photo_rules_to_be_shown/", function(html_response) {
                if (html_response == "show_rules") {
-                   show_dialog_popup("#id-show_photo_rules_popup", 400, 400, false);
+                   showDialogPopup("#id-show_photo_rules_popup", 400, 400, false);
                }
             });
 
@@ -195,7 +195,7 @@
 
     <script type="text/javascript">
         $("#id-show_photo_rules_anchor").click(function() {
-            show_dialog_popup("#id-show_photo_rules_popup", 400, 400, true);
+            showDialogPopup("#id-show_photo_rules_popup", 400, 400, true);
             return false; 
         });
     </script>

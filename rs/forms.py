@@ -1019,7 +1019,7 @@ other words by clicking on the symbol'),  'inside' : ugettext('inside the "captc
                     $(document).ready(function(){
                     
                     // handle the button submission
-                    handle_submit_send_mail_button("%(section_name)s", "%(to_uid)s", "%(captcha_bypass_string)s", \
+                    handleSubmitSendMailButton("%(section_name)s", "%(to_uid)s", "%(captcha_bypass_string)s", \
                     "%(have_sent_messages_string)s", "%(success_status_string)s", "%(error_status_string)s");
         
                     $("#id-show-ajax-spinner-captcha").hide();

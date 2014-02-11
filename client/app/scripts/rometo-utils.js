@@ -872,9 +872,9 @@ function handleClickOnContactIcon(sectionName, uid, showRegistrationDialogWhenCl
                 $.ajax({
                     type: 'post',
                     url:  "/rs/store_initiate_contact/" + uid + "/",
-                    data: { 'sectionName' : sectionName},
+                    data: { 'section_name' : sectionName},
                     success: function(data) {
-                        if (data == "OK") {
+                        if (data === "OK") {
                             getJsonInitiateContactSettings(uid);
                         } else {
                             $("#id-contact_icon").html(data);
@@ -906,7 +906,7 @@ function hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId) {
 function reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString) {
 
     try {
-        if (captchaBypassString == "no_bypass") {
+        if (captchaBypassString === "no_bypass") {
             Recaptcha.reload();
         }
         hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId);
@@ -917,7 +917,7 @@ function reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, c
 
 
 
-function show_dialog_popup(popupBoxId, height, width, show_x_close_icon) {
+function showDialogPopup(popupBoxId, height, width, showXCloseIcon) {
 
     $(popupBoxId).dialog({
         modal: true,
@@ -929,7 +929,7 @@ function show_dialog_popup(popupBoxId, height, width, show_x_close_icon) {
         position: 'center'
     });
 
-    if (show_x_close_icon == false) {
+    if (showXCloseIcon == false) {
         $(popupBoxId).dialog('option', 'dialogClass',  'hide-x-close');
     } else {
         // remove the hide-x-close class - this is a bit complicated because there is not built-in functionality for removing a class
@@ -942,24 +942,24 @@ function show_dialog_popup(popupBoxId, height, width, show_x_close_icon) {
     }
 }
 
-function handle_dialog_popup_close_button(popupBoxId, close_button_id) {
+function handleDialogPopupCloseButton(popupBoxId, closeButtonId) {
 
     $(popupBoxId).ready(function(){
-        $(close_button_id).button();
-        $(close_button_id).on('click', function() {
-           $(popupBoxId).dialog("close");
+        $(closeButtonId).button();
+        $(closeButtonId).on('click', function() {
+            $(popupBoxId).dialog("close");
         });
     });
 }
 
-function submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, captchaBypassString, have_sent_messages_string,
+function submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, have_sent_messages_string,
                           success_status_string, error_status_string) {
 
     try {
         // hide the submit button, to prevent double-click
         var ajaxSpinnerId = "#id-show-ajax-spinner-captcha";
-        var myurl = "/rs/store_" + section_name + "/" + to_uid + "/" + captchaBypassString + "/" + have_sent_messages_string + "/";
-        var mydata = $("form#id-" + section_name + "-form").serialize();
+        var myurl = "/rs/store_" + sectionName + "/" + toUid + "/" + captchaBypassString + "/" + have_sent_messages_string + "/";
+        var mydata = $("form#id-" + sectionName + "-form").serialize();
         $(submitButtonId).hide();
         $(ajaxSpinnerId).show();
         $(captchaDivId).hide();
@@ -985,14 +985,14 @@ function submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, ca
 
                     $("#id-num_messages_sent_feedback_and_count").hide();
 
-                    $("#id-display-" + section_name + "-section").load("/rs/ajax/load_" + section_name + "/" + to_uid + "/" + rnd() + "/", function() {
+                    $("#id-display-" + sectionName + "-section").load("/rs/ajax/load_" + sectionName + "/" + toUid + "/" + rnd() + "/", function() {
                         $("#id-highlight-div").effect("highlight", {color:'#FFEEFF'}, 3000);
                     });
 
-                    if (section_name != "send_mail") {
+                    if (sectionName != "send_mail") {
                         // reload the textarea -- but not for the "send_mail" section, since for this section textarea was already
                         // reloaded in the load_send_mail ajax call
-                        $("#id-edit-" + section_name + "-section").load("/rs/ajax/load_mail_textarea/" + to_uid + "/" + section_name + "/");
+                        $("#id-edit-" + sectionName + "-section").load("/rs/ajax/load_mail_textarea/" + toUid + "/" + sectionName + "/");
                     }
 
                     $(ajaxSpinnerId).hide();
@@ -1000,7 +1000,7 @@ function submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, ca
                     // we must get the user to fill in more information in their profile before they will be permitted to send a message.
                     // pop-up a dialog box that allows them to enter in the appropriate information into their profile, at which point they
                     // should be able to re-submit their message.
-                    show_dialog_popup("#id-about_user_is_empty_popup", 500, 800, true);
+                    showDialogPopup("#id-about_user_is_empty_popup", 500, 800, true);
                     hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId);
 
                 } else if (html_response == "captcha_is_incorrect") {
@@ -1044,24 +1044,24 @@ function submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, ca
 }
 
 
-function handle_submit_send_mail_button(section_name, to_uid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string) {
+function handleSubmitSendMailButton(sectionName, toUid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string) {
     // setup submit button and associate the action when clicked
-    // section_name is either "send_mail_from_profile_checkbox_[yes|no]" or "send_mail" -- 
+    // sectionName is either "send_mail_from_profile_checkbox_[yes|no]" or "send_mail" -- 
     // if the event is "send_mail_from_profile", then only a small
     // summary will be loaded -- if it is a "send_mail", then the entire chain of mail messages will be reloaded.
 
     try {
-        var submitButtonId = "#id-submit-" + section_name;
-        var captchaDivId = "#id-" + section_name + "-captcha";
+        var submitButtonId = "#id-submit-" + sectionName;
+        var captchaDivId = "#id-" + sectionName + "-captcha";
 
         $(submitButtonId).click(function() {
-            submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
+            submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
         });
         // if enter key is pressed inside the captcha, this should trigger a sumbit
         // Note: IE6 requires that the trigger is on keydown..
         $(captchaDivId).keydown(function(e) {
             if (e.keyCode == 13) {
-                submit_send_mail(section_name, submitButtonId, captchaDivId, to_uid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
+                submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 return false;
@@ -1069,26 +1069,26 @@ function handle_submit_send_mail_button(section_name, to_uid, captchaBypassStrin
         });
         mouseoverButtonHandler($(submitButtonId));
     } catch(err) {
-        reportTryCatchError( err, "handle_submit_send_mail_button");
+        reportTryCatchError( err, "handleSubmitSendMailButton");
     }
 }
 
 
-function show_registration_dialog_on_click(section_name, registration_prompt_text) {
-    var submitButtonId = "#id-submit-" + section_name;
+function showRegistrationDialogOnClick(sectionName, registrationPromptText) {
+    var submitButtonId = "#id-submit-" + sectionName;
     $(submitButtonId).click(function() {
-        showRegistrationAndLogin(registration_prompt_text);
+        showRegistrationAndLogin(registrationPromptText);
     });
 }
 
-function submit_verify_captcha(section_name, submitButtonId, captchaDivId) {
+function submit_verify_captcha(sectionName, submitButtonId, captchaDivId) {
 
     try {
         // hide the submit button, to prevent double-click
         var ajaxSpinnerId = "#id-show-ajax-spinner-captcha";
-        var myurl = "/rs/store_" + section_name + "/";
-        var mydata = $("form#id-" + section_name + "-form").serialize();
-        var captcha_status_id = "#id-" + section_name + "-status";
+        var myurl = "/rs/store_" + sectionName + "/";
+        var mydata = $("form#id-" + sectionName + "-form").serialize();
+        var captcha_status_id = "#id-" + sectionName + "-status";
         $(submitButtonId).hide();
         $(ajaxSpinnerId).show();
         $(captchaDivId).hide();
@@ -1121,21 +1121,21 @@ function submit_verify_captcha(section_name, submitButtonId, captchaDivId) {
 }
 
 
-function handle_verify_captcha(section_name) {
+function handle_verify_captcha(sectionName) {
     // setup submit button and associate the action when clicked
 
     try {
-        var submitButtonId = "#id-submit-" + section_name;
-        var captchaDivId = "#id-" + section_name + "-captcha";
+        var submitButtonId = "#id-submit-" + sectionName;
+        var captchaDivId = "#id-" + sectionName + "-captcha";
 
         $(submitButtonId).click(function() {
-            submit_verify_captcha(section_name, submitButtonId, captchaDivId);
+            submit_verify_captcha(sectionName, submitButtonId, captchaDivId);
         });
 
         // if enter key is pressed inside the captcha, this should trigger a sumbit
         $(captchaDivId).keydown(function(e) {
             if (e.keyCode == 13) {
-                submit_verify_captcha(section_name, submitButtonId, captchaDivId);
+                submit_verify_captcha(sectionName, submitButtonId, captchaDivId);
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 return false;
@@ -1149,7 +1149,7 @@ function handle_verify_captcha(section_name) {
 }
 
 
-function handle_click_on_update_message_action_icon(have_sent_messages_id, to_uid, action, with_checkbox) {
+function handle_click_on_update_message_action_icon(have_sent_messages_id, toUid, action, with_checkbox) {
     // this function handles a click on the icon beside the message, and refreshes the message
     // to reflect the updated status
     // with_checkbox: "yes" or "no"
@@ -1162,7 +1162,7 @@ function handle_click_on_update_message_action_icon(have_sent_messages_id, to_ui
             var post_url = "/rs/ajax/" + action + "_message/";
             $.post(post_url + have_sent_messages_id + "/", function() {
                 // we call "load_send_mail_from_profile, because this function returns just a summary of the converstion
-                $(section_id).load("/rs/ajax/load_send_mail_from_profile_checkbox_" + with_checkbox + "/" + to_uid + "/" + rnd() + "/");
+                $(section_id).load("/rs/ajax/load_send_mail_from_profile_checkbox_" + with_checkbox + "/" + toUid + "/" + rnd() + "/");
 
                 // prevent link from being followed
                 return false;
@@ -1179,19 +1179,19 @@ function handle_click_on_update_message_action_icon(have_sent_messages_id, to_ui
 
 
 
-function handle_post_button_with_confirmation_of_result(section_name, uid) {
+function handle_post_button_with_confirmation_of_result(sectionName, uid) {
 
     try {
-        var submission_status_id = "#id-" + section_name + "-status";
-        var submitButtonId = "#id-submit-" + section_name;
+        var submission_status_id = "#id-" + sectionName + "-status";
+        var submitButtonId = "#id-submit-" + sectionName;
 
         $(submitButtonId).click(function() {
             $(submission_status_id).html('Processing .....');
 
             $.ajax({
                 type: 'post',
-                url: "/rs/store_" + section_name + "/" + uid + "/",
-                data: $("form#id-" + section_name + "-form").serialize(),
+                url: "/rs/store_" + sectionName + "/" + uid + "/",
+                data: $("form#id-" + sectionName + "-form").serialize(),
                 timeout: 15000, // 15 second timeout
                 // html_response contains the result of the action -- ie. success, failur, etc.
                 success: function (html_response) {
