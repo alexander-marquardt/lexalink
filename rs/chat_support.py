@@ -170,7 +170,7 @@ def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
         profile = profile_key.get()
         userdict[profile_uid] = {}
         userdict[profile_uid]['user_or_group_name'] = profile.username
-        userdict[profile_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, profile_uid)
+        userdict[profile_uid]['urlDescription'] = profile_utils.get_profile_url_description(lang_code, profile_uid)
         # The profile.key().id() should eventually be used as the key for this dictionary, but this requires 
         # changing a lot of other code to make it work. Temporarily, we just pass in as "nid" 
         userdict[profile_uid]['nid'] = utils.get_nid_from_uid(profile_uid)
@@ -233,7 +233,7 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
     """ 
     Returns a dictionary object containing the users that are in the group indicated by group_id.
     The dictionary will contain a dictionary with key=uid which contains a sub-dictionary with keys
-    'username' and 'nid'and 'url_description' which contain associated vlaues. 
+    'username' and 'nid'and 'urlDescription' which contain associated vlaues. 
     """
     group_members_names_dict = {} # in case of exception, we return an empty dictionary
     
@@ -263,7 +263,7 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
                     group_members_names_dict[member_uid] = {}
                     group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
-                    group_members_names_dict[member_uid]['url_description'] = profile_utils.get_profile_url_description(lang_code, member_uid)
+                    group_members_names_dict[member_uid]['urlDescription'] = profile_utils.get_profile_url_description(lang_code, member_uid)
                     group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
                     
                     if show_user_presence_status == chat_groups_members_dict_states.SHOW_STATUS:
@@ -382,7 +382,7 @@ def get_chat_groups_dict(overwrite_memcache = False):
             chat_groups_dict[group_key] = {}
             chat_groups_dict[group_key]['user_or_group_name'] = chat_group.group_name
             chat_groups_dict[group_key]['num_group_members'] = chat_group.number_of_group_members
-            chat_groups_dict[group_key]['url_description'] = "Not used"
+            chat_groups_dict[group_key]['urlDescription'] = "Not used"
             chat_groups_dict[group_key]['nid'] = "Not used"
             
         memcache.set(CHAT_GROUPS_LIST_MEMCACHE_KEY, chat_groups_dict, constants.SECONDS_BETWEEN_UPDATE_CHAT_GROUPS)

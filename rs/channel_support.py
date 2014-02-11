@@ -325,7 +325,7 @@ def poll_server_for_status_and_new_messages(request):
                             
                             if type_of_conversation == "one_on_one":
                                 response_dict['conversation_tracker'][other_uid]["nid"] = utils.get_nid_from_uid(other_uid)                       
-                                response_dict['conversation_tracker'][other_uid]["url_description"] = profile_utils.get_profile_url_description(lang_code, other_uid)
+                                response_dict['conversation_tracker'][other_uid]['urlDescription'] = profile_utils.get_profile_url_description(lang_code, other_uid)
     
                             for msg_object in recent_chat_messages:
                                 response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"].append(msg_object.chat_msg_time_string)
