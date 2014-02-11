@@ -32,6 +32,10 @@
 // within this code.
 
 
+/* Declare exported functions */
+/* exported reportTryCatchError */
+
+
 // gnerate "random" string for unique URL -- required for IE caching bug
 function rnd() {
     return String((new Date()).getTime());
@@ -43,6 +47,37 @@ function confirmDecision(message, url) {
     }
 }
 
+
+function reportJavascriptErrorOnServer(statusText, warningLevel) {
+    // This function will POST the given errorText to the server, which will write the message
+    // to the error logs.
+    // warningLevel: [info, warning, error, critical]
+
+    var printTrace = printStackTrace().join("\n\n");
+    statusText = statusText + "\n\n" + printTrace;
+    $.ajax({
+        type: 'post',
+        url:  "/rs/ajax/report_javascript_error/" + warningLevel + "/",
+        data: {'statusText' : statusText},
+        success: function(response) {
+        }
+    });
+
+
+    //if (debugging_enabled)
+        // Disable this alert - is annoying and not currently needed
+        //alert("Error: " + statusText);
+}
+
+function reportTryCatchError(err, callingFunctionName, warningLevel) {
+    // make sure warningLevel is set to a default value of "error"
+    warningLevel = warningLevel || "warning";
+
+    // callingFunctionName is necessary because these names might be minimized and therefore we cannot extract them automatically
+
+    var errorText = "\nTry/Catch Error\nCalling function: " + callingFunctionName + "\nError message: " + err.message +  "\n\n" ;
+    reportJavascriptErrorOnServer(errorText, warningLevel);
+}
 
 var unloadFuncs = []; // this will be filled with various functions that will clean-up event handlers that need to be de-allocated
                       // Note: each element in this array is actually an array, with the first value beign the function to call, and
@@ -67,12 +102,10 @@ function checkIfJavascriptVersionIdHasChanged(newVersionId) {
     if (typeof window.newVersionId === 'undefined') {
         window.newVersionId = newVersionId;
     }
-    else {
-        if (this.newVersionId !== newVersionId) {
-            // Yes, has changed - force a reload of the current page so that we get the most
-            // recent javascript code.
-            window.location.reload();
-        }
+    else if (window.newVersionId !== newVersionId) {
+        // Yes, has changed - force a reload of the current page so that we get the most
+        // recent javascript code.
+        window.location.reload();
     }
 }
 
@@ -89,37 +122,14 @@ function sufficientTimeHasPassedSinceLastSearch(millisecondsToPass) {
         returnval = true;
     }
     else {
-        if (currentTime - millisecondsToPass > window.previousTimeInMilliseconds)
-            returnval = true;
-        else
-            returnval = false;
-
+        returnval =  (currentTime - millisecondsToPass > window.previousTimeInMilliseconds);
     }
+
     window.previousTimeInMilliseconds = currentTime;
     return returnval;
 }
 
 
-function reportJavascriptErrorOnServer(statusText, warningLevel) {
-    // This function will POST the given errorText to the server, which will write the message
-    // to the error logs.
-    // warningLevel: [info, warning, error, critical]
-
-    var printTrace = printStackTrace().join("\n\n");
-    statusText = statusText + "\n\n" + printTrace;
-    $.ajax({
-        type: 'post',
-        url:  "/rs/ajax/report_javascript_error/" + warningLevel + "/",
-        data: {'statusText' : statusText},
-        success: function(response) {
-        }
-    });
-
-
-    //if (debugging_enabled)
-        // Disable this alert - is annoying and not currently needed
-        //alert("Error: " + statusText);
-}
 
 
 function rsSetSelectorToValue(selectorId, selectedValue) {
@@ -147,15 +157,6 @@ function rsSetSelectorToValue(selectorId, selectedValue) {
     }
 }
 
-function reportTryCatchError(err, callingFunctionName, warningLevel) {
-    // make sure warningLevel is set to a default value of "error"
-    warningLevel = warningLevel || "warning";
-
-    // callingFunctionName is necessary because these names might be minimized and therefore we cannot extract them automatically
-
-    var errorText = "\nTry/Catch Error\nCalling function: " + callingFunctionName + "\nError message: " + err.message +  "\n\n" ;
-    reportJavascriptErrorOnServer(errorText, warningLevel);
-}
 
 function reportAjaxError(textStatus, errorThrown, callingFunctionName, warningLevel) {
     // make sure warningLevel is set to a default value of "error"
@@ -170,7 +171,7 @@ function showSpinner(objectToSet, objectName) {
     // for dynamically loaded dropdown menus, while loading the values we shrink the width and show a spinner beside the menu
 
     try{
-        var spinnerImage = MANUALLY_VERSIONED_IMAGES_DIR + "/small-ajax-loader.gif"
+        var spinnerImage = MANUALLY_VERSIONED_IMAGES_DIR + "/small-ajax-loader.gif";
         objectToSet.after(' <img src= "' + spinnerImage  + '" align="right "  id="id-' + objectName +  '-show-small-ajax-loader">');
         objectToSet.removeClass('cl-standard-dropdown-width-px');
         objectToSet.addClass('cl-spinner-dropdown-width-px');
@@ -180,14 +181,14 @@ function showSpinner(objectToSet, objectName) {
 
 }
 
-function hide_spinner(objectToSet, objectName) {
+function hideSpinner(objectToSet, objectName) {
 
     try {
         $('#id-' + objectName + '-show-small-ajax-loader').remove();
         objectToSet.removeClass('cl-spinner-dropdown-width-px');
         objectToSet.addClass('cl-standard-dropdown-width-px');
     } catch (err) {
-        reportTryCatchError( err, "hide_spinner");
+        reportTryCatchError( err, "hideSpinner");
     }
 
 }
@@ -202,7 +203,7 @@ function loadSelectorOptions(childFeldId, parentFieldVal, defaultOptionText, hid
     // "selectedValue" refers to the value that we initially assign to the child dropdown.
 
     try {
-        if (parentFieldVal == "----") {
+        if (parentFieldVal === "----") {
             // If the parent has not been set, then don't try to obtain selector options for the child
             // This is actually an error condition that should never occur -- but since this is on the client side I do not
             // want to cause a "hard" crash if this condition is triggered (in any case, as the code is currently written
@@ -210,7 +211,7 @@ function loadSelectorOptions(childFeldId, parentFieldVal, defaultOptionText, hid
             return '';
         }
 
-        var opt_url = ajaxBaseUrl + parentFieldVal + "/";
+        var optUrl = ajaxBaseUrl + parentFieldVal + "/";
 
 
         $(childFeldId).html('');
@@ -222,25 +223,25 @@ function loadSelectorOptions(childFeldId, parentFieldVal, defaultOptionText, hid
         showSpinner( $(childFeldId), "child");
 
         $.ajax({
-            url: opt_url,
+            url: optUrl,
             success: function(html) {
                 // if it is left "unselected" then the child field should have ---- value
-                if (html != '' && html != "----") {
+                if (html !== '' && html !== "----") {
                     $(childFeldId).html('<option selected value="----">' + defaultOptionText);
                     $(childFeldId).append(html);
                     $(childFeldId).show();
-                    if (selectedValue != '----') {
+                    if (selectedValue !== '----') {
                         rsSetSelectorToValue(childFeldId, selectedValue);
                     }
                 }
                 else { // html is empty, which means that it is not defined
                     $(childFeldId).html('<option selected value="----">' + notAvailableOptionText);
-                    if (hideFieldIfNotDefined == true) {
+                    if (hideFieldIfNotDefined === true) {
                         $(childFeldId).hide();
                     }
                 }
 
-                hide_spinner($(childFeldId), "child");
+                hideSpinner($(childFeldId), "child");
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 reportAjaxError(textStatus, errorThrown, "loadSelectorOptions");
@@ -256,11 +257,11 @@ function handleChangeOnForSaleToBuy(menuId, subMenuId, defaultText) {
 
     try {
         $(menuId).change(function() {
-            var curr_menu_val = $(menuId).val();
-            if (curr_menu_val == "----") {
+            var currMenuVal = $(menuId).val();
+            if (currMenuVal === "----") {
                 $(subMenuId).html('<option value="----">' + defaultText);
             } else {
-                loadSelectorOptions(subMenuId, curr_menu_val, defaultText, false, "----",
+                loadSelectorOptions(subMenuId, currMenuVal, defaultText, false, "----",
                         "Not defined (this should never appear)", "/rs/ajax/get_for_sale_to_buy_options/");
             }
         });
@@ -272,13 +273,13 @@ function handleChangeOnForSaleToBuy(menuId, subMenuId, defaultText) {
 function loadForSaleToBuyOnChange(idPrefix, defaultText) {
 
     try {
-        var for_sale_id = idPrefix + "-for_sale";
-        var for_sale_sub_menu_id = idPrefix + "-for_sale_sub_menu";
-        var to_buy_id = idPrefix + "-to_buy";
-        var to_buy_sub_menu_id = idPrefix + "-to_buy_sub_menu";
+        var forSaleId = idPrefix + "-for_sale";
+        var forSaleSubMenuId = idPrefix + "-for_sale_sub_menu";
+        var toBuyId = idPrefix + "-to_buy";
+        var toBuySubMenuId = idPrefix + "-to_buy_sub_menu";
 
-        handleChangeOnForSaleToBuy(for_sale_id, for_sale_sub_menu_id, defaultText['for_sale_sub_menu']);
-        handleChangeOnForSaleToBuy(to_buy_id, to_buy_sub_menu_id, defaultText['to_buy_sub_menu']);
+        handleChangeOnForSaleToBuy(forSaleId, forSaleSubMenuId, defaultText['for_sale_sub_menu']);
+        handleChangeOnForSaleToBuy(toBuyId, toBuySubMenuId, defaultText['to_buy_sub_menu']);
     } catch(err) {
         reportTryCatchError( err, "loadForSaleToBuyOnChange");
     }
@@ -287,60 +288,60 @@ function loadForSaleToBuyOnChange(idPrefix, defaultText) {
 
 
 
-function loadLocationSettingsOnChange(id_prefix, default_text, hide_field_if_not_defined) {
+function loadLocationSettingsOnChange(idPrefix, defaultText, hideFieldIfNotDefined) {
 
     // loads drop-down location menu values when the parent location is changed
 
 
     try {
-        var country_id = id_prefix + "-country";
-        var region_id = id_prefix + "-region";
-        var sub_region_id = id_prefix + "-sub_region";
+        var countryId = idPrefix + "-country";
+        var regionId = idPrefix + "-region";
+        var subRegionId = idPrefix + "-sub_region";
 
 
         // the following logic ensure that sub-menus are cleared and that the default value
         // will have a value that the server can handle. ie. if region is don't care, then
         // we have to return the value of the country as the value for the don't care selection.
 
-        $(country_id).on("change.location_settings_on_change", function() {
+        $(countryId).on("change.location_settings_on_change", function() {
 
-            var country_val = $(country_id).val();
+            var countryVal = $(countryId).val();
 
-            if (!country_val || country_val == "----") {
-                $(region_id).html('<option value="----">' + default_text['region']);
+            if (!countryVal || countryVal === "----") {
+                $(regionId).html('<option value="----">' + defaultText['region']);
 
             } else {
                 // set the default value of the region selector to be the currently selected country.
-                loadSelectorOptions(region_id, country_val, default_text['region'], hide_field_if_not_defined, "----",
-                        default_text['not_available'], "/rs/ajax/get_location_options/");
+                loadSelectorOptions(regionId, countryVal, defaultText['region'], hideFieldIfNotDefined, "----",
+                        defaultText['not_available'], "/rs/ajax/get_location_options/");
             }
 
             // since the country just changed, and the region was just modified, overwrite the sub_region dropdown to ensure
             // that it does not contain stale data
-            $(sub_region_id).html('<option value="----">' + default_text['sub_region']);
+            $(subRegionId).html('<option value="----">' + defaultText['sub_region']);
 
             // if country value is changed, then we know that the region has not been selected yet -- therefore, hide sub_regions
             // if this is the specifed behaviour.
-            if (hide_field_if_not_defined == true) {
-                $(sub_region_id).hide();
+            if (hideFieldIfNotDefined === true) {
+                $(subRegionId).hide();
             }
         });
 
-        $(region_id).on("change.location_settings_on_change", function() {
-            var region_val = $(region_id).val();
+        $(regionId).on("change.location_settings_on_change", function() {
+            var regionVal = $(regionId).val();
 
-            if (region_val && region_val != '----') {
+            if (regionVal && regionVal !== '----') {
                 // if the region has been selected, load sub-regions
-                loadSelectorOptions(sub_region_id, region_val, default_text['sub_region'], hide_field_if_not_defined, "----",
-                        default_text['not_available'], "/rs/ajax/get_location_options/");
+                loadSelectorOptions(subRegionId, regionVal, defaultText['sub_region'], hideFieldIfNotDefined, "----",
+                        defaultText['not_available'], "/rs/ajax/get_location_options/");
 
             }
             else {
                 // if the region has not been selected, we don't load sub-regions, and we just set the
                 // default value to be the currently selected country, or hide the sub_regions (if this is spefied)
-                $(sub_region_id).html('<option selected value="----">' + default_text['sub_region']);
-                if (hide_field_if_not_defined == true) {
-                    $(sub_region_id).hide();
+                $(subRegionId).html('<option selected value="----">' + defaultText['sub_region']);
+                if (hideFieldIfNotDefined === true) {
+                    $(subRegionId).hide();
                 }
             }
         });
@@ -348,26 +349,26 @@ function loadLocationSettingsOnChange(id_prefix, default_text, hide_field_if_not
         reportTryCatchError( err, "loadLocationSettingsOnChange");
     }
 
-    unloadFuncs.push([undo_func_load_location_settings_on_change, id_prefix]);
+    unloadFuncs.push([undoFuncLoadLocationSettingsOnChange, idPrefix]);
 }
 
-function undo_func_load_location_settings_on_change(id_prefix) {
+function undoFuncLoadLocationSettingsOnChange(idPrefix) {
     // make sure that the change handlers are removed - otherwise leaks in IE6
-    var country_id = id_prefix + "-country";
-    var region_id = id_prefix + "-region";
+    var countryId = idPrefix + "-country";
+    var regionId = idPrefix + "-region";
 
-    $(country_id).off();
-    $(region_id).off();
+    $(countryId).off();
+    $(regionId).off();
     
 }
 
 
-function getJSON_handler(action, id_prefix, field_type) {
+function getJSON_handler(action, idPrefix, fieldType) {
 
     // - action -  is the path to execut the script which will return JSON data
-    // - id_prefix - is a section-specific identifier that ensure that all JSON data returned for 
+    // - idPrefix - is a section-specific identifier that ensure that all JSON data returned for 
     // a given section will have an identifier that will only be matched in the target section.
-    // - field_type - either "dropdown", or "checkbox"
+    // - fieldType - either "dropdown", or "checkbox"
     //
 
     try {
@@ -375,31 +376,31 @@ function getJSON_handler(action, id_prefix, field_type) {
             // pull the current settings out of the data-structure on the server, and set the
             // dropdown menus to reflect the correct value
             function(data) {
-                var id_name;
-                if (field_type != "email_address" && field_type != "textarea" && field_type != "current_status"
-                        && field_type != "about_user" && field_type != "about_user_dialog_popup") {
+                var idName;
+                if (fieldType !== "email_address" && fieldType !== "textarea" && fieldType !== "current_status"
+                        && fieldType !== "about_user" && fieldType !== "about_user_dialog_popup") {
                     for (var field in data) {
 
                         // hasOwnProperty just makes sure that the field is not an inherited property, ie. it ensures
                         // that it is defined directly on the data object (this check is a bit paranoid actually)
                         if (data.hasOwnProperty(field)) {
 
-                            if (field_type == "dropdown") {
-                                id_name = id_prefix + field;
-                                //$(id_name).val(data[field]);
-                                rsSetSelectorToValue(id_name, data[field]);
+                            if (fieldType === "dropdown") {
+                                idName = idPrefix + field;
+                                //$(idName).val(data[field]);
+                                rsSetSelectorToValue(idName, data[field]);
                             }
-                            if (field_type == "checkbox") {
-                                id_name = id_prefix + data[field];
-                                $(id_name).attr('checked', true);
+                            if (fieldType === "checkbox") {
+                                idName = idPrefix + data[field];
+                                $(idName).attr('checked', true);
                             }
                         }
                     }
                 }
                 else {
                     // it is a email-address text-box input or a textarea.
-                    id_name = id_prefix + field_type;
-                    $(id_name).val(data);
+                    idName = idPrefix + fieldType;
+                    $(idName).val(data);
                 }
             }
         );
@@ -410,10 +411,10 @@ function getJSON_handler(action, id_prefix, field_type) {
 
 
 
-function set_sub_menu(objectToSet, objectName, options_html, default_unselected_text, list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected) {
+function setSubMenu(objectToSet, objectName, options_html, default_unselected_text, list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected) {
 
     try {
-        if (hide_field_if_not_selected == true && options_html == '') {
+        if (hide_field_if_not_selected === true && options_html === '') {
             for (var idx = 0; idx < list_of_objects_to_hide_if_not_selected.length; idx ++)
                 list_of_objects_to_hide_if_not_selected[idx].hide();
         } else {
@@ -422,115 +423,115 @@ function set_sub_menu(objectToSet, objectName, options_html, default_unselected_
             objectToSet.show();
         }
 
-        hide_spinner(objectToSet, objectName);
+        hideSpinner(objectToSet, objectName);
     } catch (err) {
-        reportTryCatchError( err, "set_sub_menu");
+        reportTryCatchError( err, "setSubMenu");
     }
 }
 
-function set_search_values_to_data(data, id_prefix, default_text, hide_field_if_not_selected) {
+function setSearchValuesToData(data, idPrefix, defaultText, hide_field_if_not_selected) {
     // pull the current settings out of the data-structure on the server, and set the 
     // dropdown menus to reflect the correct value
 
     try {
-        var fields_to_setup = ['region', 'sub_region', 'for_sale_sub_menu', 'to_buy_sub_menu'];
-        var field_id = new Object();
-        var field_object = new Object();
-        var options_html_name = new Object();
-        var idx, field_name;
+        var fieldsToSetup = ['region', 'sub_region', 'for_sale_sub_menu', 'to_buy_sub_menu'];
+        var fieldId = new Object();
+        var fieldObject = new Object();
+        var optionsHtmlName = new Object();
+        var idx, fieldName;
 
-        for (idx in fields_to_setup) {
-            field_name = fields_to_setup[idx];
-            field_id[field_name] = id_prefix + "-" + field_name;
-            field_object[field_name] = $(field_id[field_name]);
-            options_html_name[field_name] = field_name + "_options_html";
+        for (idx in fieldsToSetup) {
+            fieldName = fieldsToSetup[idx];
+            fieldId[fieldName] = idPrefix + "-" + fieldName;
+            fieldObject[fieldName] = $(fieldId[fieldName]);
+            optionsHtmlName[fieldName] = fieldName + "_options_html";
         }
 
         var matrix_of_objects_to_hide_if_not_selected = new Object();
-        matrix_of_objects_to_hide_if_not_selected['region'] = [field_object['region'], field_object['sub_region']]; // this is used on the login screen to hide dropdowns until they are needed/defined
-        matrix_of_objects_to_hide_if_not_selected['sub_region'] = [field_object['sub_region']];
+        matrix_of_objects_to_hide_if_not_selected['region'] = [fieldObject['region'], fieldObject['sub_region']]; // this is used on the login screen to hide dropdowns until they are needed/defined
+        matrix_of_objects_to_hide_if_not_selected['sub_region'] = [fieldObject['sub_region']];
         matrix_of_objects_to_hide_if_not_selected['for_sale_sub_menu'] = []; // no reason to hide the for_sale/to_buy fields for the moment
         matrix_of_objects_to_hide_if_not_selected['to_buy_sub_menu'] = [];
 
 
-        for (idx in fields_to_setup) {
-            field_name = fields_to_setup[idx];
-            var options_html = data[options_html_name[field_name]];
-            var list_of_objects_to_hide_if_not_selected = matrix_of_objects_to_hide_if_not_selected[field_name];
-            set_sub_menu(field_object[field_name], field_name, options_html, default_text[field_name], list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected);
+        for (idx in fieldsToSetup) {
+            fieldName = fieldsToSetup[idx];
+            var options_html = data[optionsHtmlName[fieldName]];
+            var list_of_objects_to_hide_if_not_selected = matrix_of_objects_to_hide_if_not_selected[fieldName];
+            setSubMenu(fieldObject[fieldName], fieldName, options_html, defaultText[fieldName], list_of_objects_to_hide_if_not_selected, hide_field_if_not_selected);
         }
 
         // load the value that is selected for all dropdown data fields (note that the "_options_html" data is not a data field, it is a value
         // (containing the dropdown menu contents) that we have loaded into a data field.
         for (var field in data) {
             if (field != 'region_options_html' && field != 'sub_region_options_html' && field != 'for_sale_sub_menu_options_html' && field != 'to_buy_sub_menu_options_html') {
-                var id_name = id_prefix + "-" + field;
+                var idName = idPrefix + "-" + field;
                 if (data[field] != "----") {
-                    rsSetSelectorToValue(id_name, data[field]);
+                    rsSetSelectorToValue(idName, data[field]);
                 }
             }
         }
     } catch(err) {
-        reportTryCatchError( err, "set_search_values_to_data");
+        reportTryCatchError( err, "setSearchValuesToData");
     }
 }
 
-function show_menus_as_loading(menu_name, id_prefix) {
+function showMenusAsLoading(menu_name, idPrefix) {
 
     // helper function taht just modifies a dropdown menu to show a spinner beside it (for use while it is
     // being loaded for example)
     try {
-        var menu_id = id_prefix + '-' + menu_name;
+        var menu_id = idPrefix + '-' + menu_name;
         var $menu_obj = $(menu_id);
         // clear menu contents while it is loading
         $menu_obj.html('');
         // show spinner beside menu while it is being loaded
         showSpinner($menu_obj, menu_name);
     } catch(err) {
-        reportTryCatchError( err, "show_menus_as_loading");
+        reportTryCatchError( err, "showMenusAsLoading");
     }
 }
 
-function JSON_set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined) {
+function jsonSetDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldIfNotDefined) {
 
     //
     // - action -  is the path to execute the script which will return JSON data
-    // - id_prefix - is a section-specific identifier that ensure that all JSON data returned for 
+    // - idPrefix - is a section-specific identifier that ensure that all JSON data returned for 
     // a given section will have an identifier that will only be matched in the target section.
     // 
     //
 
 
     try {
-        show_menus_as_loading('region', id_prefix);
-        show_menus_as_loading('sub_region', id_prefix);
-        show_menus_as_loading('for_sale_sub_menu', id_prefix);
-        show_menus_as_loading('to_buy_sub_menu', id_prefix);
+        showMenusAsLoading('region', idPrefix);
+        showMenusAsLoading('sub_region', idPrefix);
+        showMenusAsLoading('for_sale_sub_menu', idPrefix);
+        showMenusAsLoading('to_buy_sub_menu', idPrefix);
 
 
         $.getJSON(action, function(data) {
             // set the dropdown menus to correct values, and remove the spinners after dynamically loaded menus are setup
-            set_search_values_to_data(data, id_prefix, default_text, hide_field_if_not_defined);
+            setSearchValuesToData(data, idPrefix, defaultText, hideFieldIfNotDefined);
         });
     } catch(err) {
-        reportTryCatchError( err, "JSON_set_dropdown_options_and_settings");
+        reportTryCatchError( err, "jsonSetDropdownOptionsAndSettings");
     }
 }
 
 
-function set_values_on_data_object_to_undefined(data_object, fields_list) {
+function setValuesOnDataObjectToUndefined(data_object, fieldsList) {
 
     // simple helper function that just copies "----" (undefined) values into the "data_object" that will be passed around
     // for setting dropdown menus.
 
     try{
-        for (var idx=0; idx < fields_list.length; idx ++) {
+        for (var idx=0; idx < fieldsList.length; idx ++) {
 
-            var field_name = fields_list[idx];
-            data_object[field_name] = "----";
+            var fieldName = fieldsList[idx];
+            data_object[fieldName] = "----";
         }
     } catch(err) {
-        reportTryCatchError( err, "set_values_on_data_object_to_undefined");
+        reportTryCatchError( err, "setValuesOnDataObjectToUndefined");
     }
 }
 
@@ -550,7 +551,7 @@ function set_values_on_data_object(data_object, fields_list) {
     }
 }
 
-function setDropdownOptionsAndSettings(action, id_prefix, default_text, hide_field_if_not_defined, is_registered_user) {
+function setDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldIfNotDefined, is_registered_user) {
 
     var fields_list = ['sex', 'age', 'preference', 'relationship_status', 'language_to_learn', 'language_to_teach',
     'country', 'region', 'sub_region', 'for_sale', 'to_buy',
@@ -569,17 +570,17 @@ function setDropdownOptionsAndSettings(action, id_prefix, default_text, hide_fie
             // because this data will be instantly loaded once the page has loaded.
 
             set_values_on_data_object(data_object, fields_list);
-            set_search_values_to_data(data_object, id_prefix, default_text, hide_field_if_not_defined);
+            setSearchValuesToData(data_object, idPrefix, defaultText, hideFieldIfNotDefined);
         }
         else {
             // Otherwise, we default back to an ajax call to the server to find the data - this happens if we load a page other than
             // a search results page (ie. click on "My profile"). Eventually, we should try to pass all search settings data directly in
             // the HTML as opposed to ajax calls.
             if (is_registered_user) {
-                JSON_set_dropdown_options_and_settings(action, id_prefix, default_text, hide_field_if_not_defined);
+                jsonSetDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldIfNotDefined);
             } else {
-                set_values_on_data_object_to_undefined(data_object, fields_list);
-                set_search_values_to_data(data_object, id_prefix, default_text, hide_field_if_not_defined);
+                setValuesOnDataObjectToUndefined(data_object, fields_list);
+                setSearchValuesToData(data_object, idPrefix, defaultText, hideFieldIfNotDefined);
             }
         }
     } catch(err) {
@@ -612,8 +613,8 @@ function handle_link_for_edit(section_name, input_type, uid) {
     // - section_name - the name of the piece of html which contains an independent form -- examples could be
     //                  an input section for user languages, hobbies, physical features.
     // - input_type - we currently support "checkbox" and "dropdown" input types with this code
-    // - region_default_text - is the the header that will say "Select region" in whatever language the user is using
-    // - sub_region_default_text - same as region_default_text
+    // - region_defaultText - is the the header that will say "Select region" in whatever language the user is using
+    // - sub_region_defaultText - same as region_defaultText
 
     // for this function to work, the corresponding css/html divs must follow exactly
     // the naming conventions specified here. this is necessary to allow us to programmatically
@@ -627,12 +628,12 @@ function handle_link_for_edit(section_name, input_type, uid) {
         // the selection of the current country and region.
         if (section_name == "signup_fields") {
             var signup_fields_url;
-            var country_default_text = '';
-            var default_text = new Object();
-            default_text['region'] = "Select region";
-            default_text['sub_region'] = "Select sub-region";
-            default_text['not_available'] = "Not defined yet";
-            var id_prefix = "#id-edit-signup_fields";
+            var country_defaultText = '';
+            var defaultText = new Object();
+            defaultText['region'] = "Select region";
+            defaultText['sub_region'] = "Select sub-region";
+            defaultText['not_available'] = "Not defined yet";
+            var idPrefix = "#id-edit-signup_fields";
         }
 
 
@@ -649,8 +650,8 @@ function handle_link_for_edit(section_name, input_type, uid) {
                 else { // signup_fields are treated specially since the location requires dynamically loaded drop-down menus
                     // note - DO NOT combine the following line with the var declaration, or the rnd value will never change
                     signup_fields_url = "/rs/ajax/get_signup_fields_settings/" + uid + "/" + rnd() + "/";
-                    JSON_set_dropdown_options_and_settings(signup_fields_url, id_prefix, default_text, true);
-                    loadLocationSettingsOnChange(id_prefix, default_text, true);
+                    jsonSetDropdownOptionsAndSettings(signup_fields_url, idPrefix, defaultText, true);
+                    loadLocationSettingsOnChange(idPrefix, defaultText, true);
 
                 }
             });
