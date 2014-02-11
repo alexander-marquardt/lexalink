@@ -25,16 +25,37 @@
 ################################################################################
 */
 
+"use strict";
 
-<!-- the following code is the dialog and javascript for creating new chat groups -->
-function submit_create_new_group_post(section_name) {
+/* imported from channel-utils.js */
+/* global chanUtils */
+
+/* imported from chatbox.js */
+/* global setupContactsAndGroupsBoxes */
+
+/* imported from presence_and_chat.html */
+/* global templatePresenceVars */
+
+/* imported from rometo-utils.js */
+/* global reportTryCatchError */
+/* global mouseoverButtonHandler */
+/* global reportAjaxError */
+
+/* common_wrapper.html */
+/* global removeChatboxes */
+
+/* Declare exported functions */
+/* exported launchChatboxes */
+
+/* the following code is the dialog and javascript for creating new chat groups */
+function submitCreateNewGroupPost(sectionName) {
 
     try {
         $.ajax({
             type: 'post',
-            url:  "/rs/store_" + section_name + "/",
-            data: $("form#id-" + section_name + "-form").serialize(),
-            success: function(response) {
+            url:  "/rs/store_" + sectionName + "/",
+            data: $("form#id-" + sectionName + "-form").serialize(),
+            success: function() {
                 //chanUtils.call_process_json_most_recent_chat_messages(json_response);
                 $("#id-create-new-group-input").val('');
 
@@ -45,42 +66,42 @@ function submit_create_new_group_post(section_name) {
             error: function(jqXHR, textStatus, errorThrown) {
                 $("#id-error-dialog-box").dialog();
                 $("#id-error-dialog-box").text(jqXHR.responseText);
-                reportAjaxError(textStatus, errorThrown, "submit_create_new_group_post");
+                reportAjaxError(textStatus, errorThrown, "submitCreateNewGroupPost");
             },
-            complete: function(response) {
+            complete: function() {
                 $("#id-create-group-dialog").dialog('close');
             }
         });
     } catch(err) {
-        reportTryCatchError( err, "submit_create_new_group_post");
+        reportTryCatchError( err, "submitCreateNewGroupPost");
     }
 }
 
-function handle_submit_create_new_group(section_name) {
+function handleSubmitCreateNewGroup(sectionName) {
     // setup submit button and associate the action when clicked
 
     try {
-        var submit_button_id = "#id-submit-" + section_name;
-        var edit_section_id = "#id-edit-" + section_name + "-section";
+        var submitButtonId = "#id-submit-" + sectionName;
+        var editSectionId = "#id-edit-" + sectionName + "-section";
 
-        $(submit_button_id).click(function() {
-            submit_create_new_group_post(section_name);
+        $(submitButtonId).click(function() {
+            submitCreateNewGroupPost(sectionName);
         });
 
         // Check to see if the enter key has been pressed inside the section -- treat this this same
         // as if the user had pressed the submit button
-        $(edit_section_id).keydown(function(e) {
-            if (e.keyCode == 13) {
-                submit_create_new_group_post(section_name);
+        $(editSectionId).keydown(function(e) {
+            if (e.keyCode === 13) {
+                submitCreateNewGroupPost(sectionName);
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 return false;
             }
         });
 
-        mouseover_button_handler($(submit_button_id));
+        mouseoverButtonHandler($(submitButtonId));
     } catch(err) {
-        reportTryCatchError( err, "handle_submit_create_new_group");
+        reportTryCatchError( err, "handleSubmitCreateNewGroup");
     }
 }
 
@@ -93,17 +114,19 @@ function launchChatboxes(){
 
         // we need to make sure that we only launch the chatboxes once, even though this code might be called
         // multiple times.
-        if (typeof launchChatboxes.chatboxes_launched == 'undefined')
-            launchChatboxes.chatboxes_launched = false;
+        if (typeof launchChatboxes.chatboxesLaunched === 'undefined') {
+            launchChatboxes.chatboxesLaunched = false;
+        }
 
-        if (!launchChatboxes.chatboxes_launched) {
+        if (!launchChatboxes.chatboxesLaunched) {
 
-            handle_submit_create_new_group("create_new_group");
+            handleSubmitCreateNewGroup("create_new_group");
 
-            if (removeChatboxes)
-                templatePresenceVars.chat_is_disabled = "yes";
+            if (removeChatboxes) {
+                templatePresenceVars.chatIsDisabled = "yes";
+            }
             
-            setupContactsAndGroupsBoxes(templatePresenceVars.chat_is_disabled);
+            setupContactsAndGroupsBoxes(templatePresenceVars.chatIsDisabled);
 
             // Open the socket that will be used for communicating from the browser to the server.
             // Note: since all chat goes through the server, the same socket will be used for channeling
@@ -111,14 +134,14 @@ function launchChatboxes(){
             chanUtils.setupAndChannelForCurrentClient(
                     templatePresenceVars.ownerUid,
                     templatePresenceVars.username,
-                    templatePresenceVars.max_active_polling_delay,
-                    templatePresenceVars.idle_polling_delay,
-                    templatePresenceVars.away_polling_delay,
-                    templatePresenceVars.inactivity_time_before_idle,
-                    templatePresenceVars.inactivity_time_before_away,
-                    templatePresenceVars.chat_is_disabled);
+                    templatePresenceVars.maxActivePollingDelay,
+                    templatePresenceVars.idlePollingDelay,
+                    templatePresenceVars.awayPollingDelay,
+                    templatePresenceVars.inactivityTimeBeforeIdle,
+                    templatePresenceVars.inactivityTimeBeforeAway,
+                    templatePresenceVars.chatIsDisabled);
 
-            launchChatboxes.chatboxes_launched = true;
+            launchChatboxes.chatboxesLaunched = true;
         }
     } catch(err) {
         reportTryCatchError( err, "launchChatboxes");

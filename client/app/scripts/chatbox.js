@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  * Orignal Copyright 2010, Wen Pu (dexterpu at gmail dot com)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -20,10 +22,6 @@
 }*/
 
 
-
-
-
-
 // TODO: implement destroy()
 var initJqueryUiChatbox = function($){
 
@@ -36,17 +34,17 @@ var initJqueryUiChatbox = function($){
             options: {
                 id: null, //id for the DOM element
                 title: null, // title of the chatbox
-                allow_elimination: true, // show the X in the top right corner - this can be over-ridden
-                include_chatbox_input: true,
+                allowElimination: true, // show the X in the top right corner - this can be over-ridden
+                includeChatboxInput: true,
                 typeOfConversation: '', // override with "one_on_one" or "group"
                 hidden: false,
                 offset: 0, // default relative to right edge of the browser window - over-ridden
                 width: 0, // default width of the chatbox - over-ridden
-                just_opened : false, // for newly created boxes, we temporarily ignore the "keep_open" status from the server
+                justOpened : false, // for newly created boxes, we temporarily ignore the "keep_open" status from the server
                 messageSent: function() {}, //over-ride this
-                boxClosed: function(box_id) {}, // called when the close icon is clicked - over-ridden
-                minimizeBoxWasClicked: function(box_id) {}, // over-ridden
-                maximizeBoxWasClicked: function(box_id) {}, // over-ridden
+                boxClosed: function(boxId) {}, // called when the close icon is clicked - over-ridden
+                minimizeBoxWasClicked: function(boxId) {}, // over-ridden
+                maximizeBoxWasClicked: function(boxId) {}, // over-ridden
                 boxManager: {
                     // thanks to the widget factory facility
                     // similar to http://alexsexton.com/?p=51
@@ -65,7 +63,7 @@ var initJqueryUiChatbox = function($){
                         var self = this;
                         return self;
                     },
-                    addMsg: function(sender_name, msg, highlight_box_enabled) {
+                    addMsg: function(senderName, msg, highlightBoxEnabled) {
                         // This function will be called when a chatbox needs to be updated with additional
                         // messages, but it will not erase the history. This must be carefully coordinated
                         // with the information that we decide to send from the server.
@@ -73,12 +71,12 @@ var initJqueryUiChatbox = function($){
                             var self = this;
                             var box = self.elem.uiChatboxLog;
                             var e = document.createElement('div');
-                            $(e).html("<b>" + sender_name +":</b> " + msg)
+                            $(e).html("<b>" + senderName +":</b> " + msg)
                             .addClass("ui-chatbox-msg ui-chatbox-highlight-link cl-literally-display-user-text");
                             box.append(e);
                             self._scrollToBottom();
 
-                            if (highlight_box_enabled) {
+                            if (highlightBoxEnabled) {
                                 if(!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus")) {
                                     self.highlightBox();
                                 }
@@ -125,8 +123,8 @@ var initJqueryUiChatbox = function($){
                         this.elem._setWidth(width);
                     },
 
-                    setChatboxInputBox: function (new_value) {
-                        this.elem.uiChatboxInputBox.val(new_value);
+                    setChatboxInputBox: function (newValue) {
+                        this.elem.uiChatboxInputBox.val(newValue);
                     },
                     setBoxOffset: function(offset) {
                         this.elem._position(offset);
@@ -135,9 +133,9 @@ var initJqueryUiChatbox = function($){
                         // Hide the entire chatbox - ie. it is "eliminated"
                         this.elem.uiChatbox.hide();
                     },
-                    chatboxLogHeight: function (new_height) {
+                    chatboxLogHeight: function (newHeight) {
                         // set *or* get the height of the chatbox - if blank value is passed in, will get the height
-                        return this.elem.uiChatboxLog.height(new_height);
+                        return this.elem.uiChatboxLog.height(newHeight);
                     },
                     hideChatboxContent: function () {
                         this.elem.uiChatboxContent.hide();
@@ -145,23 +143,23 @@ var initJqueryUiChatbox = function($){
                     showChatboxContent: function () {
                         this.elem.uiChatboxContent.show();
                     },
-                    addCssToChatbox: function (property, new_class) {
-                        this.elem.uiChatbox.css(property, new_class);
+                    addCssToChatbox: function (property, newClass) {
+                        this.elem.uiChatbox.css(property, newClass);
                     },
-                    addIdToChatbox: function (new_id) {
-                        this.elem.uiChatbox.attr('id', new_id);
+                    addIdToChatbox: function (newId) {
+                        this.elem.uiChatbox.attr('id', newId);
                     },
-                    changeBoxTitle: function(new_title) {
-                        this.elem.uiChatboxTitle.html(new_title);
+                    changeBoxTitle: function(newTitle) {
+                        this.elem.uiChatboxTitle.html(newTitle);
                     },
-                    addClassToChatbox: function(class_name) {
-                        this.elem.uiChatbox.addClass(class_name);
+                    addClassToChatbox: function(className) {
+                        this.elem.uiChatbox.addClass(className);
                     },
-                    addClassToBoxTitle: function(class_name) {
-                        this.elem.uiChatboxTitle.addClass(class_name);
+                    addClassToBoxTitle: function(className) {
+                        this.elem.uiChatboxTitle.addClass(className);
                     },
-                    hyperlinkWrapBoxTitle: function(hyperlink_to_profile) {
-                       this.elem.uiChatboxTitle.wrap(hyperlink_to_profile);
+                    hyperlinkWrapBoxTitle: function(hyperlinkToProfile) {
+                        this.elem.uiChatboxTitle.wrap(hyperlinkToProfile);
                     },
                     toggleBox: function() {
                         this.elem.uiChatbox.toggle();
@@ -172,8 +170,8 @@ var initJqueryUiChatbox = function($){
                     maximizeBox: function() {
                         this.elem.uiChatboxContent.show();
                     },
-                    addClassToUIChatboxLog: function (class_name) {
-                        this.elem.uiChatboxLog.addClass(class_name);
+                    addClassToUIChatboxLog: function (className) {
+                        this.elem.uiChatboxLog.addClass(className);
                     },
 
                     _scrollToBottom: function() {
@@ -194,10 +192,10 @@ var initJqueryUiChatbox = function($){
                     uiChatboxOnlineSelector: function () {
                         try {
                             var self=this;
-                            var go_offline_text = $('#id-disactivate-chat-button-text').html();
+                            var goOfflineText = $('#id-disactivate-chat-button-text').html();
                             self.elem.uiChatboxTitlebar.after($('<button class="ui-chatbox-submit-button ' +
                                     'ui-remove-corner-all"' +
-                                    'id="id-go-offline-button">' + go_offline_text + '</button>'));
+                                    'id="id-go-offline-button">' + goOfflineText + '</button>'));
                             $('#id-go-offline-button').button();
                             $('#id-go-offline-button').click(function() {
                                 chanUtils.executeGoOfflineOnClient();
@@ -210,10 +208,10 @@ var initJqueryUiChatbox = function($){
                                 return false;
                             });
 
-                            var go_online_text = $('#id-activate-chat-button-text').html();
+                            var goOnlineText = $('#id-activate-chat-button-text').html();
                             $('#id-go-offline-button').after($('<button class="ui-chatbox-submit-button ' +
                                     'ui-remove-corner-all"' +
-                                    'id="id-go-online-button">' + go_online_text + '</button>'));
+                                    'id="id-go-online-button">' + goOnlineText + '</button>'));
                             $('#id-go-online-button').button();
                             $('#id-go-online-button').hide();
                             $('#id-go-online-button').click(function() {
@@ -222,7 +220,7 @@ var initJqueryUiChatbox = function($){
                                 return false;
                             });
 
-                            if (lt_ie8) {
+                            if (ltIE8) {
                                 $('#id-go-online-button').css('width', self.elem.options.width);
                                 $('#id-go-offline-button').css('width', self.elem.options.width);
                             }
@@ -234,10 +232,10 @@ var initJqueryUiChatbox = function($){
                     uiChatboxCreateGroupButton: function () {
                         try {
                             var self=this;
-                            var create_group_text = $('#id-create-group-button-text').html();
+                            var createGroupText = $('#id-create-group-button-text').html();
                             self.elem.uiChatboxTitlebar.after($('<button class="ui-chatbox-submit-button ' +
                                     'ui-remove-corner-all"' +
-                                    'id="id-create-group-button">' + create_group_text + '</button>'));
+                                    'id="id-create-group-button">' + createGroupText + '</button>'));
                             $('#id-create-group-button').button();
                             $('#id-create-group-button').click(function() {
                                 $("#id-create-group-dialog").dialog();
@@ -248,27 +246,27 @@ var initJqueryUiChatbox = function($){
                         }
                     },
 
-                    uiChatboxShowGroupMembersButton: function (group_id, box_title) {
+                    uiChatboxShowGroupMembersButton: function (groupId, boxTitle) {
 
                         try {
                             var self=this;
-                            var chat_group_members_text = $('#id-chat_group_members-button-text').html();
+                            var chatGroupMembersText = $('#id-chat_group_members-button-text').html();
                             self.elem.uiChatboxTitlebar.after($('<button class="ui-chatbox-submit-button ' +
                                     'ui-remove-corner-all"' +
-                                    'id="id-chat_group_members-button-' + group_id + '">' + chat_group_members_text + '</button>'));
-                            $('#id-chat_group_members-button-' + group_id).button();
-                            $('#id-chat_group_members-button-' + group_id).click(function(event) {
-                                chanUtils.openGroupMembersDialog(group_id, box_title);
+                                    'id="id-chat_group_members-button-' + groupId + '">' + chatGroupMembersText + '</button>'));
+                            $('#id-chat_group_members-button-' + groupId).button();
+                            $('#id-chat_group_members-button-' + groupId).click(function(event) {
+                                chanUtils.openGroupMembersDialog(groupId, boxTitle);
                             });
                         } catch(err) {
                             reportTryCatchError( err, "initJqueryUiChatbox.uiChatboxShowGroupMembersButton()");
                         }
-                    },
+                    }
 
 
-                    uiChatboxVideoButton: function (other_uid) {
-
-                        // TODO - give each button a unique name - otherwise calls will be random. ie. Include the other_uid in the button id.
+    //                uiChatboxVideoButton: function (other_uid) {
+    //
+    //                    // TODO - give each button a unique name - otherwise calls will be random. ie. Include the other_uid in the button id.
     //                    var self=this;
     //                    var videocall_text = $('#id-videocall-button-text').html();
     //                    self.elem.uiChatboxTitlebar.after($('<button class="ui-chatbox-submit-button ' +
@@ -282,8 +280,8 @@ var initJqueryUiChatbox = function($){
     //                        video_window.focus();
     //                        return false;
     //                    });
-
-                    }
+    //
+    //                }
                 }
             },
 
@@ -381,7 +379,7 @@ var initJqueryUiChatbox = function($){
 
 
                     uiChatboxInput = (self.uiChatboxInput =
-                             self._AddChatboxInputToWidget(options.include_chatbox_input));
+                             self._AddChatboxInputToWidget(options.includeChatboxInput));
 
                     self._setWidth(self.options.width);
                     self._position(self.options.offset);
@@ -389,7 +387,7 @@ var initJqueryUiChatbox = function($){
                     self.options.boxManager.init(self);
 
                     if(!self.options.hidden) {
-                    uiChatbox.show();
+                        uiChatbox.show();
                     }
                 } catch(err) {
                     reportTryCatchError( err, "initJqueryUiChatbox._create()");
@@ -402,10 +400,10 @@ var initJqueryUiChatbox = function($){
                         switch(option) {
                         case "hidden":
                             if(value) {
-                            this.uiChatbox.hide();
+                                this.uiChatbox.hide();
                             }
                             else {
-                            this.uiChatbox.show();
+                                this.uiChatbox.show();
                             }
                             break;
                         case "offset":
@@ -430,7 +428,7 @@ var initJqueryUiChatbox = function($){
                     this.uiChatboxTitlebar.width(width + "px");
                     this.uiChatboxLog.width(width + "px");
                     // this is a hack to subtract out the padding
-                    if (this.options.include_chatbox_input) {
+                    if (this.options.includeChatboxInput) {
                         this.uiChatboxInputBox.css("width", (width - 4) + "px");
                     }
                 } catch(err) {
@@ -451,7 +449,7 @@ var initJqueryUiChatbox = function($){
                     var self = this;
                     var uiChatboxTitlebarClose = null;
                     var uiChatboxTitlebarCloseText = null;
-                    if (self.options.allow_elimination) {
+                    if (self.options.allowElimination) {
                         uiChatboxTitlebarClose = $('<a href="#"></a>')
                         .addClass('ui-corner-all ' + 'ui-chatbox-icon' )
                         .attr('role', 'button')
@@ -478,14 +476,14 @@ var initJqueryUiChatbox = function($){
             },
 
 
-            _AddChatboxInputToWidget : function(include_chatbox_input) {
+            _AddChatboxInputToWidget : function(includeChatboxInput) {
 
                 // modifies uiChatboxInput to contain uiChatboxInputBox. Note: "self" is modified
                 // to contain the newly created textarea "uiChatboxInputBox"
 
                 var self = this;
 
-                function focusin_function(self) {
+                function focusinFunction(self) {
                     self.uiChatboxTitlebar.addClass('ui-state-focus');
                     self.uiChatboxInputBox.addClass('ui-chatbox-input-focus');
                     self.uiChatboxLog.scrollTop(self.uiChatboxLog.get(0).scrollHeight);
@@ -495,7 +493,7 @@ var initJqueryUiChatbox = function($){
 
                 try {
                     var uiChatboxInput = null;
-                    if (include_chatbox_input) {
+                    if (includeChatboxInput) {
                         uiChatboxInput = $('<div></div>')
                         .addClass('ui-widget-content ' + 'ui-chatbox-input')
                         .click(function(event) {
@@ -507,7 +505,7 @@ var initJqueryUiChatbox = function($){
                         .addClass('ui-widget-content ' + 'ui-chatbox-input-box ' + 'ui-corner-all')
                         .appendTo(uiChatboxInput)
                             .keydown(function(event) {
-                            if(event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
+                            if(event.keyCode && event.keyCode === $.ui.keyCode.ENTER) {
                                 var msg = $.trim($(this).val());
                                 if(msg.length > 0) {
                                     self.options.messageSent(self.options.id, msg, self.options.typeOfConversation);
@@ -516,10 +514,10 @@ var initJqueryUiChatbox = function($){
                             }
                         })
                         .focusin(function() {
-                            focusin_function(self);
+                            focusinFunction(self);
                         })
                         .click(function() {
-                            focusin_function(self);
+                            focusinFunction(self);
                         })
                         .focusout(function() {
                             self.uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
@@ -551,7 +549,7 @@ var catchWindowResizeEvents = function () {
 
     try {
         $(window).resize(function() {
-            chatboxManager.resize_boxes_if_necessary();
+            chatboxManager.resizeBoxesIfNecessary();
         });
     } catch(err) {
         reportTryCatchError( err, "initJqueryUiChatbox.catchWindowResizeEvents()");
@@ -572,71 +570,71 @@ var chatboxManager = function() {
         var user_name = null;
 
         var config = {
-            default_main_width: 120,
-            default_chatbox_width : 250, //px
+            defaultMainWidth: 120,
+            defaultChatboxWidth : 250, //px
             gap : 10,
             maxBoxes : 20,
             //max_chatbox_log_height: 200, // px
-            max_main_log_height: 200, //px
-            border_and_padding: 6
+            maxMainLogHeight: 200, //px
+            borderAndPadding: 6
         };
 
-        var current_main_width = config.default_main_width;
-        var current_chatbox_width = config.default_chatbox_width;
+        var currentMainWidth = config.defaultMainWidth;
+        var currentChatboxWidth = config.defaultChatboxWidth;
 
-        var getNextOffset = function(current_box_number) {
+        var getNextOffset = function(currentBoxNumber) {
             // get the offset from the right side, taking into account that the main box has a different width
             // than the normal chatboxes.
-            if (current_box_number >= 2) {
+            if (currentBoxNumber >= 2) {
 
-                return (current_main_width + config.gap) * 2 + (current_chatbox_width + config.gap) * (current_box_number - 2);
+                return (currentMainWidth + config.gap) * 2 + (currentChatboxWidth + config.gap) * (currentBoxNumber - 2);
             } else {
                 // it is the main or groups box, which are placed beside each other on the right side.
-                return (current_main_width + config.gap) * (current_box_number);
+                return (currentMainWidth + config.gap) * (currentBoxNumber);
             }
 
         };
 
 
-        var changeBoxtitle = function (box_id, new_title) {
-            if ($("#"+ box_id).length>0) { // make sure the element exists
+        var changeBoxtitle = function (boxId, newTitle) {
+            if ($("#"+ boxId).length>0) { // make sure the element exists
                 // add hyperlink to allow clicking on title to view the user profile
-                $("#"+ box_id).chatbox("option", "boxManager").changeBoxTitle(new_title);
+                $("#"+ boxId).chatbox("option", "boxManager").changeBoxTitle(newTitle);
             }
         };
 
-        var hyperlinkBoxtitle = function (box_id,  nid, url_description) {
+        var hyperlinkBoxtitle = function (boxId,  nid, urlDescription) {
             // this should wrap the title (which can change) with an anchor and href that
             // links to the associated users profile
 
-            if ($("#"+ box_id).length>0) { // make sure the element exists
+            if ($("#"+ boxId).length>0) { // make sure the element exists
                 // add hyperlink to allow clicking on title to view the user profile
-                var href = "/" + templatePresenceVars.language + "/profile/" + nid + "/" + url_description + "/";
-                var hyperlink_to_profile = '<a href="' + href +'" rel="address:' + href + '"></a>';
-                $("#"+ box_id).chatbox("option", "boxManager").hyperlinkWrapBoxTitle(hyperlink_to_profile);
+                var href = "/" + templatePresenceVars.language + "/profile/" + nid + "/" + urlDescription + "/";
+                var hyperlinkToProfile = '<a href="' + href +'" rel="address:' + href + '"></a>';
+                $("#"+ boxId).chatbox("option", "boxManager").hyperlinkWrapBoxTitle(hyperlinkToProfile);
             }
         };
 
 
-        var changeOpacityOfAllBoxes = function (opacity_val) {
+        var changeOpacityOfAllBoxes = function (opacityVal) {
             // used for "graying out" boxes - to indicate for example that a user is not online
             for(var idx = 0; idx < boxList.length; idx++) {
                 var box_id = boxList[idx];
-                $("#"+ box_id).chatbox("option", "boxManager").addCssToChatbox('opacity', opacity_val);
+                $("#"+ box_id).chatbox("option", "boxManager").addCssToChatbox('opacity', opacityVal);
             }
 
             var list_len = chanUtils.listOfOpenChatGroupsMembersBoxes.length;
             for (var i=0; i<list_len; i++) {
-                group_id = chanUtils.listOfOpenChatGroupsMembersBoxes[i];
-                $("#id-group_members-dialog-box-" + group_id ).parent().css({'opacity': opacity_val});
+                var groupId = chanUtils.listOfOpenChatGroupsMembersBoxes[i];
+                $("#id-group_members-dialog-box-" + groupId ).parent().css({'opacity': opacityVal});
             }
         };
 
         var closeAllChatBoxes = function() {
             // we need to process the list from tail to head, since we are shortening it
             // on each pass.
-            var initial_length = showList.length;
-            for(var idx = initial_length - 1; idx > 0; idx--) {
+            var initialLength = showList.length;
+            for(var idx = initialLength - 1; idx > 0; idx--) {
                 var box_id = showList[idx];
                 boxClosedCallback(box_id);
             }
@@ -649,12 +647,12 @@ var chatboxManager = function() {
             if(idx != -1) {
                 showList.splice(idx, 1);
                 $("#"+ box_id).chatbox("option", "boxManager").hideBox();
-                diff = current_chatbox_width + config.gap;
+                diff = currentChatboxWidth + config.gap;
                 for(var i = idx; i < showList.length; i++) {
                     offset = $("#" + showList[i]).chatbox("option", "offset");
                     $("#" + showList[i]).chatbox("option", "offset", offset - diff);
                 }
-                resize_boxes_if_necessary();
+                resizeBoxesIfNecessary();
             }
             else {
                  report_javascript_error_on_server("closeChatboxOnClient error: " + box_id);
@@ -689,7 +687,8 @@ var chatboxManager = function() {
             chanUtils.maximizeChatboxOnServer(box_id);
         };
 
-        var resize_boxes_if_necessary = function() {
+
+        var resizeBoxesIfNecessary = function() {
 
             try {
                 var current_box_width;
@@ -702,33 +701,33 @@ var chatboxManager = function() {
 
                 // the following math is approximate, and needs to be investigated/written properly - it more or less works
                 // but for a large number of chatboxes the scaling is not perfect.
-                var normalization_width = (num_displayed_mainboxes * (config.default_main_width + config.gap + 2*config.border_and_padding)) +
-                        (num_displayed_chatboxes * (config.default_chatbox_width + config.gap + 2*config.border_and_padding));
+                var normalization_width = (num_displayed_mainboxes * (config.defaultMainWidth + config.gap + 2*config.borderAndPadding)) +
+                        (num_displayed_chatboxes * (config.defaultChatboxWidth + config.gap + 2*config.borderAndPadding));
                 var scaling_ratio = document_width/normalization_width;
 
 
                 if (scaling_ratio >= 1) {
                     // the boxes should be made to their maximum default size
-                    current_chatbox_width = config.default_chatbox_width; // subtract the padding and border
-                    current_main_width = config.default_main_width;
+                    currentChatboxWidth = config.defaultChatboxWidth; // subtract the padding and border
+                    currentMainWidth = config.defaultMainWidth;
                 } else {
-                    current_chatbox_width = config.default_chatbox_width * scaling_ratio;
-                    current_main_width = config.default_main_width * scaling_ratio;
+                    currentChatboxWidth = config.defaultChatboxWidth * scaling_ratio;
+                    currentMainWidth = config.defaultMainWidth * scaling_ratio;
                 }
 
                 for(var idx = 0; idx < showList.length; idx++) {
                     var box_id = showList[idx];
 
                     if (box_id == "main" || box_id == "groups") { // will probably have to seperate main and groups later to get the height the same
-                        if ($("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight() > config.max_main_log_height) {
-                            $("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight(config.max_main_log_height);
+                        if ($("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight() > config.maxMainLogHeight) {
+                            $("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight(config.maxMainLogHeight);
                         }
 
-                        current_box_width = current_main_width;
+                        current_box_width = currentMainWidth;
 
                     } else {
 
-                        current_box_width = current_chatbox_width;
+                        current_box_width = currentChatboxWidth;
                         $("#"+ box_id).chatbox("option", "boxManager").chatboxLogHeight(chatbox_height_override);
                         // scale the bottom div so that the chatboxes don't cover over the main part of the page.
                         $('#id-height_chatbox_override').height(chatbox_height_override+75);
@@ -739,16 +738,16 @@ var chatboxManager = function() {
 
                 // in IE6 AND IE7 buttons do not scale to fit within their container div. Therefore, we manually
                 // resize them here.
-                if (lt_ie8)  {
-                    $('#id-go-online-button').css('width', current_main_width + config.border_and_padding);
-                    $('#id-go-offline-button').css('width', current_main_width + config.border_and_padding);
-                    $('#id-create-group-button').css('width', current_main_width + config.border_and_padding);
-                    $('#id-videochat-button').css('width', current_main_width + config.border_and_padding);
-                    $('button[id^=id-chat_group_members-button]').css('width', current_chatbox_width + config.border_and_padding);
+                if (ltIE8)  {
+                    $('#id-go-online-button').css('width', currentMainWidth + config.borderAndPadding);
+                    $('#id-go-offline-button').css('width', currentMainWidth + config.borderAndPadding);
+                    $('#id-create-group-button').css('width', currentMainWidth + config.borderAndPadding);
+                    $('#id-videochat-button').css('width', currentMainWidth + config.borderAndPadding);
+                    $('button[id^=id-chat_group_members-button]').css('width', currentChatboxWidth + config.borderAndPadding);
                 }
                 
             } catch(err) {
-                reportTryCatchError( err, "initJqueryUiChatbox.resize_boxes_if_necessary()", "warning");
+                reportTryCatchError( err, "initJqueryUiChatbox.resizeBoxesIfNecessary()", "warning");
             }
         };
 
@@ -779,7 +778,7 @@ var chatboxManager = function() {
                     manager = $("#"+ box_id).chatbox("option", "boxManager");
                     manager.toggleBox();
                     manager._scrollToBottom();
-                    $("#"+ box_id).chatbox("option", "just_opened", true );
+                    $("#"+ box_id).chatbox("option", "justOpened", true );
                     showList.push(box_id);
                 }
                 else {
@@ -791,16 +790,16 @@ var chatboxManager = function() {
                     open_box_on_server = true;
 
                     if (box_id == 'main') {
-                        box_width = current_main_width;
+                        box_width = currentMainWidth;
                     } else {
-                        box_width = current_chatbox_width;
+                        box_width = currentChatboxWidth;
                     }
                     el.setAttribute('id', box_id);
                     $(el).chatbox({
                         id : box_id,
                         title : box_title,
-                        allow_elimination: allow_elimination, // show the X in the top right corner
-                        include_chatbox_input: include_chatbox_input,
+                        allowElimination: allow_elimination, // show the X in the top right corner
+                        includeChatboxInput: include_chatbox_input,
                         typeOfConversation: typeOfConversation,
                         hidden : false,
                         width : box_width,
@@ -816,7 +815,7 @@ var chatboxManager = function() {
                     boxList.push(box_id);
                     showList.push(box_id);
 
-                    if (lt_ie8) { // apply hack for fixed positioning to work in IE6
+                    if (ltIE8) { // apply hack for fixed positioning to work in IE6
                         $("#"+ box_id).chatbox("option", "boxManager").addClassToChatbox('fixed-bottom');
                     }
 
@@ -835,7 +834,7 @@ var chatboxManager = function() {
                     }
                 }
 
-                resize_boxes_if_necessary();
+                resizeBoxesIfNecessary();
             } catch(err) {
                 reportTryCatchError( err, "initJqueryUiChatbox.addBox()");
             }
@@ -845,7 +844,7 @@ var chatboxManager = function() {
 
             try {
                 // setup the timers for detecting user online/idle status
-                idle_params = {};
+                var idle_params = {};
                 idle_params.idle_timeout = chanUtils.presenceIdleTimeout;
                 idle_params.away_timeout = chanUtils.presenceAwayTimeout;
 
@@ -876,8 +875,8 @@ var chatboxManager = function() {
                 };
                 
 
-                chatbox_idle_object = IdleClass(idle_params);
-                return chatbox_idle_object;
+                var chatboxIdleObject = IdleClass(idle_params);
+                return chatboxIdleObject;
 
             } catch(err) {
                 reportTryCatchError( err, "trackUserActivityForOnlineStatus");
@@ -890,7 +889,7 @@ var chatboxManager = function() {
             changeOpacityOfAllBoxes: changeOpacityOfAllBoxes,
             changeBoxtitle: changeBoxtitle,
             hyperlinkBoxtitle: hyperlinkBoxtitle,
-            resize_boxes_if_necessary: resize_boxes_if_necessary,
+            resizeBoxesIfNecessary: resizeBoxesIfNecessary,
             trackUserActivityForOnlineStatus: trackUserActivityForOnlineStatus,
             closeChatboxOnClient: closeChatboxOnClient,
             showList: showList
@@ -952,7 +951,7 @@ var updateChatControlBox = function (box_name, dict_to_display) {
         });
 
         // the height of the main box might have increased due to new contacts being added - scale it appropriately
-        chatboxManager.resize_boxes_if_necessary();
+        chatboxManager.resizeBoxesIfNecessary();
     } catch(err) {
         reportTryCatchError( err, "updateChatControlBox");
     }
@@ -960,15 +959,16 @@ var updateChatControlBox = function (box_name, dict_to_display) {
 
 var updateUserChatBoxTitles = function(contacts_info_dict) {
     try {
+        var onlineStatus;
         for (var uid in contacts_info_dict) {
             if (contacts_info_dict[uid]['userPresenceStatus'] != 'hidden_online_status') {
                 // get the *translated* online status by looking it up in a div that we have defined.
-                online_status = $('#id-chat-contact-title-' + contacts_info_dict[uid]['userPresenceStatus'] + '-text').html();
+                onlineStatus = $('#id-chat-contact-title-' + contacts_info_dict[uid]['userPresenceStatus'] + '-text').html();
             } else {
                 // to keep the chatboxes looking clean, by default we don't show a status for active users.
-                online_status = '';
+                onlineStatus = '';
             }
-            var chatbox_title = contacts_info_dict[uid]['user_or_group_name'] + online_status;
+            var chatbox_title = contacts_info_dict[uid]['user_or_group_name'] + onlineStatus;
             
             chatboxManager.changeBoxtitle(uid, chatbox_title);
         }
@@ -996,6 +996,7 @@ var updateGroupChatBoxTitles = function(chat_groups_dict) {
         reportTryCatchError( err, "updateGroupChatBoxTitles");
     }
 };
+
 
 var setupContactsAndGroupsBoxes = function(chat_is_disabled) {
 

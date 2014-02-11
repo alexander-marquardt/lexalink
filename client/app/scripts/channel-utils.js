@@ -1,3 +1,4 @@
+'use strict';
 
 /*
 ################################################################################
@@ -25,24 +26,29 @@
 # limitations under the License.
 ################################################################################
 */
+
 /* Contains functions for setting up a real-time channel for communicating with the server
    Copyright Alexander Marquardt / Lexabit Inc. March 19 2012*/
 
-'use strict';
-
 /* Declare functions that are defined in other files, so that jshint doesn't complain  */
+/* defined in chatbox.js */
 /* global chatboxManager */
-/* global reportTryCatchError */
-/* global rnd */
-/* global reportAjaxError */
 /* global updateChatControlBox */
 /* global updateUserChatBoxTitles */
 /* global updateGroupChatBoxTitles */
-/* global  catchWindowResizeEvents */
+/* global catchWindowResizeEvents */
 /* global formatNumberLength */
-/* global templatePresenceVars */
 /* global jsClientIsVip */
 /* global showOnlineStatusMainDialog */
+
+/* imported from presence_and_chat.html */
+/* global templatePresenceVars */
+
+/* imported from rometo-utils.js */
+/* global reportTryCatchError */
+/* global rnd */
+/* global reportAjaxError */
+
 
 /* Declare exported functions */
 /* exported chanUtils */
@@ -191,7 +197,7 @@ function ChanUtils() {
                                     chanUtilsSelf.lastUpdateTimeStringDict[otherUid] = conversationTrackerDict[otherUid]["last_update_time_string"];
 
                                     // calling addBox just makes sure that it exists. Since we just received notification of the existance of this
-                                    // box from the server, it has *not* been "just_opened". 
+                                    // box from the server, it has *not* been "justOpened".
                                     var justOpened = false;
                                     chatboxManager.addBox(otherUid, chatboxTitle, true, true, false, typeOfConversation,
                                             conversationTrackerDict[otherUid]['nid'], conversationTrackerDict[otherUid]['url_description'],
@@ -234,7 +240,7 @@ function ChanUtils() {
 
                         if ($.inArray(boxId, keepOpenBoxesList) === -1) {
 
-                            if ($("#" + boxId).chatbox("option", 'just_opened') !== true) {
+                            if ($("#" + boxId).chatbox("option", 'justOpened') !== true) {
                                 // we only check the "keep_open" value for boxes that were not just created,
                                 // since the keep_open property needs a few milliseconds to propagate through the server and
                                 // back to the client.
@@ -242,9 +248,9 @@ function ChanUtils() {
                             }
                             else {
                                 // we just received a "keep_open" confirmation for the newly created box, and therefore it is
-                                // no longer a "just_opened" box (the new chatbox has propagated through the server and
-                                // back to the client). change just_opened to false.
-                                $("#" + boxId).chatbox("option", 'just_opened', false);
+                                // no longer a "justOpened" box (the new chatbox has propagated through the server and
+                                // back to the client). change justOpened to false.
+                                $("#" + boxId).chatbox("option", 'justOpened', false);
                             }
                         }
                     }

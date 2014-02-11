@@ -1,3 +1,4 @@
+"use strict";
 
 /*
 ################################################################################
@@ -62,12 +63,12 @@ function DoUnload() {
     }
 }
 
-function check_if_javascript_version_id_has_changed(new_version_id) {
-    if (typeof this.new_version_id == 'undefined')
-       this.new_version_id = new_version_id;
+function check_if_javascript_version_id_has_changed(newVersionId) {
+    if (typeof window.new_version_id === 'undefined')
+        window.new_version_id = newVersionId;
 
     else {
-        if (this.new_version_id != new_version_id) {
+        if (this.new_version_id !== newVersionId) {
             // Yes, has changed - force a reload of the current page so that we get the most
             // recent javascript code.
             window.location.reload();
@@ -660,7 +661,7 @@ function handle_link_for_edit(section_name, input_type, uid) {
     }
 }
 
-function mouseover_button_handler(button_object) {
+function mouseoverButtonHandler(button_object) {
     // defines changes in button appearance when mouse is over   
     button_object.button();
 }
@@ -719,7 +720,7 @@ function handle_submit_button(section_name, uid, disable_submit_on_enter) {
 
         unloadFuncs.push([undo_func_handle_submit_button, submit_button_obj, edit_section_obj]);
 
-        mouseover_button_handler(submit_button_obj);
+        mouseoverButtonHandler(submit_button_obj);
     } catch(err) {
         reportTryCatchError( err, "handle_submit_button");
     }
@@ -742,7 +743,7 @@ function handle_cancel_button(section_name, uid) {
             $("#id-edit-" + section_name + "-section").hide();
         });
         unloadFuncs.push([undo_func_handle_cancel_button, cancel_button_obj]);
-        mouseover_button_handler($(cancel_button_id));
+        mouseoverButtonHandler($(cancel_button_id));
     } catch(err) {
         reportTryCatchError( err, "handle_cancel_button");
     }
@@ -1063,7 +1064,7 @@ function handle_submit_send_mail_button(section_name, to_uid, captcha_bypass_str
                 return false;
             }
         });
-        mouseover_button_handler($(submit_button_id));
+        mouseoverButtonHandler($(submit_button_id));
     } catch(err) {
         reportTryCatchError( err, "handle_submit_send_mail_button");
     }
@@ -1138,7 +1139,7 @@ function handle_verify_captcha(section_name) {
             }
         });
 
-        mouseover_button_handler($(submit_button_id));
+        mouseoverButtonHandler($(submit_button_id));
     } catch(err) {
         reportTryCatchError( err, "handle_verify_captcha");
     }
@@ -1201,7 +1202,7 @@ function handle_post_button_with_confirmation_of_result(section_name, uid) {
 
             });
         });
-        mouseover_button_handler($(submit_button_id));
+        mouseoverButtonHandler($(submit_button_id));
     } catch(err) {
         reportTryCatchError( err, "handle_post_button_with_confirmation_of_result");
     }
