@@ -4,25 +4,25 @@
 // Extensive LexaLink related modifications by Alexander Marquardt 2012.
 
 
-function IdleClass(idle_params) {
+function IdleClass(idleParams) {
     // class that defines what actions will be take when the user is idle for a pre-defined period of time.
     // This must be called with the "new" declaration so that an object is instantiated
-    /* idle_params is a dictionary object with the following values:
+    /* idleParams is a dictionary object with the following values:
 
     {idleTimeout: int, awayTimeout: int, onIdle: function(), onAway: function(), onBack: function() }
 
     Here's a simple example, using jQuery (the only jQuery-specific thing is the code inside the function() event handlers):
 
-    idle_params.onIdle = function() {$('#div_idle').css('opacity', '1');}
-    idle_params.onAway = function() {$('#div_away').css('opacity', '1');}
-    idle_params.onBack = function(isIdle, isAway) {
+    idleParams.onIdle = function() {$('#div_idle').css('opacity', '1');}
+    idleParams.onAway = function() {$('#div_away').css('opacity', '1');}
+    idleParams.onBack = function(isIdle, isAway) {
         if (isIdle) $('#div_idle').css('opacity', '0.2');
         if (isAway) $('#div_away').css('opacity', '0.2');
     }
     */
 
-    var _idleTimeout = idle_params.idleTimeout;
-    var _awayTimeout = idle_params.awayTimeout;
+    var _idleTimeout = idleParams.idleTimeout;
+    var _awayTimeout = idleParams.awayTimeout;
     
     var _idleNow = false;
     var _idleTimestamp = null;
@@ -66,7 +66,7 @@ function IdleClass(idle_params) {
         _idleNow = true;
 
         try {
-        if (idle_params.onIdle) idle_params.onIdle();
+        if (idleParams.onIdle) idleParams.onIdle();
         } catch (err) {
         }
     }
@@ -81,7 +81,7 @@ function IdleClass(idle_params) {
         _awayNow = true;
 
         try {
-        if (idle_params.onAway) idle_params.onAway();
+        if (idleParams.onAway) idleParams.onAway();
         } catch (err) {
         }
     }
@@ -102,7 +102,7 @@ function IdleClass(idle_params) {
         }
 
         try {
-        if ((_idleNow || _awayNow) && idle_params.onBack) idle_params.onBack(_idleNow, _awayNow);
+        if ((_idleNow || _awayNow) && idleParams.onBack) idleParams.onBack(_idleNow, _awayNow);
         } catch (err) {
         }
 
