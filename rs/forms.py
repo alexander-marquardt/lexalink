@@ -900,7 +900,7 @@ other words by clicking on the symbol'),  'inside' : ugettext('inside the "captc
             <script type="text/javascript" language="javascript">
                 $(document).ready(function(){
                 // handle the button submission
-                handle_post_button_with_confirmation_of_result("%(section_name)s", "%(display_uid)s");            
+                handlePostButtonWithConfirmationOfResult("%(section_name)s", "%(display_uid)s");            
              });
              </script>
              """ % {"section_name": section_name, 'display_uid': display_uid}
@@ -1115,7 +1115,7 @@ If not, your profile may be marked as sending spam.')}
             $(document).ready(function(){
             
             // handle the button submission
-            handle_verify_captcha("%(section_name)s");
+            handleVerifyCaptcha("%(section_name)s");
             
             $("#id-show-ajax-spinner-captcha").hide();
          });

@@ -613,11 +613,11 @@ def display_conversation_summary(request, have_sent_messages_object,
         generated_html += u"""
         <script type="text/javascript" language="javascript">
             $(document).ready(function(){
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "favorite", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "inbox", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "read", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "spam", "%(show_checkbox_js_val)s")
-                handle_click_on_update_message_action_icon("%(have_sent_messages_key_str)s", "%(to_uid)s", "trash", "%(show_checkbox_js_val)s")
+                handleClickOnUpdateMessageActionIcon("%(have_sent_messages_key_str)s", "%(to_uid)s", "favorite", "%(show_checkbox_js_val)s")
+                handleClickOnUpdateMessageActionIcon("%(have_sent_messages_key_str)s", "%(to_uid)s", "inbox", "%(show_checkbox_js_val)s")
+                handleClickOnUpdateMessageActionIcon("%(have_sent_messages_key_str)s", "%(to_uid)s", "read", "%(show_checkbox_js_val)s")
+                handleClickOnUpdateMessageActionIcon("%(have_sent_messages_key_str)s", "%(to_uid)s", "spam", "%(show_checkbox_js_val)s")
+                handleClickOnUpdateMessageActionIcon("%(have_sent_messages_key_str)s", "%(to_uid)s", "trash", "%(show_checkbox_js_val)s")
          });
          </script>
          """ % {'have_sent_messages_key_str':have_sent_messages_key_str, 'to_uid': have_sent_messages_object.other_ref.urlsafe(),

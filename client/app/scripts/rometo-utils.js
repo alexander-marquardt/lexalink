@@ -929,7 +929,7 @@ function showDialogPopup(popupBoxId, height, width, showXCloseIcon) {
         position: 'center'
     });
 
-    if (showXCloseIcon == false) {
+    if (showXCloseIcon === false) {
         $(popupBoxId).dialog('option', 'dialogClass',  'hide-x-close');
     } else {
         // remove the hide-x-close class - this is a bit complicated because there is not built-in functionality for removing a class
@@ -952,13 +952,13 @@ function handleDialogPopupCloseButton(popupBoxId, closeButtonId) {
     });
 }
 
-function submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, have_sent_messages_string,
-                          success_status_string, error_status_string) {
+function submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, haveSentMessagesString,
+                          successStatusString, errorStatusString) {
 
     try {
         // hide the submit button, to prevent double-click
         var ajaxSpinnerId = "#id-show-ajax-spinner-captcha";
-        var myurl = "/rs/store_" + sectionName + "/" + toUid + "/" + captchaBypassString + "/" + have_sent_messages_string + "/";
+        var myurl = "/rs/store_" + sectionName + "/" + toUid + "/" + captchaBypassString + "/" + haveSentMessagesString + "/";
         var mydata = $("form#id-" + sectionName + "-form").serialize();
         $(submitButtonId).hide();
         $(ajaxSpinnerId).show();
@@ -972,16 +972,16 @@ function submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captch
             url: myurl,
             data: (mydata),
             timeout: 15000, // 15 second timeout
-            success: function (html_response) {
+            success: function (htmlResponse) {
                 // success means that the server has responded with a valid response - does not necessarily mean that
-                // the message was successfully sent. The value in the html_response lets us know the sent status. 
+                // the message was successfully sent. The value in the htmlResponse lets us know the sent status.
                 //
                 // put the load inside the callback, since we must ensure that the data has been
                 // loaded
                 //
                 // load the message summary
-                if (html_response == "OK") {
-                    $(submitButtonId).after('<div id="id-submit_send_mail-status" class="cl-color-text"><br>' + success_status_string + '!<br></div>');
+                if (htmlResponse === "OK") {
+                    $(submitButtonId).after('<div id="id-submit_send_mail-status" class="cl-color-text"><br>' + successStatusString + '!<br></div>');
 
                     $("#id-num_messages_sent_feedback_and_count").hide();
 
@@ -989,51 +989,52 @@ function submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captch
                         $("#id-highlight-div").effect("highlight", {color:'#FFEEFF'}, 3000);
                     });
 
-                    if (sectionName != "send_mail") {
+                    if (sectionName !== "send_mail") {
                         // reload the textarea -- but not for the "send_mail" section, since for this section textarea was already
                         // reloaded in the load_send_mail ajax call
                         $("#id-edit-" + sectionName + "-section").load("/rs/ajax/load_mail_textarea/" + toUid + "/" + sectionName + "/");
                     }
 
                     $(ajaxSpinnerId).hide();
-                } else if (html_response == "user_is_missing_profile_description") {
+                } else if (htmlResponse === "user_is_missing_profile_description") {
                     // we must get the user to fill in more information in their profile before they will be permitted to send a message.
                     // pop-up a dialog box that allows them to enter in the appropriate information into their profile, at which point they
                     // should be able to re-submit their message.
                     showDialogPopup("#id-about_user_is_empty_popup", 500, 800, true);
                     hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId);
 
-                } else if (html_response == "captcha_is_incorrect") {
-                    var bad_captcha_message = $('#id-common_translations-incorrect_captcha').text();
-                    $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + bad_captcha_message + '<br></div>');
+                } else if (htmlResponse === "captcha_is_incorrect") {
+                    var badCaptchaMessage = $('#id-common_translations-incorrect_captcha').text();
+                    $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + badCaptchaMessage + '<br></div>');
                     reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString);
 
-                } else if (html_response == "empty_send_message") {
-                    var empty_message_message = $('#id-common_translations-empty_send_message').text();
-                    $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + empty_message_message + '<br></div>');                    
+                } else if (htmlResponse === "empty_send_message") {
+                    var emptyMessageMessage = $('#id-common_translations-empty_send_message').text();
+                    $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + emptyMessageMessage + '<br></div>');
                     hideSpinnerAndShowSubmit(submitButtonId, ajaxSpinnerId, captchaDivId);
 
                 } else {
                     // unknown status returned.
-                    $(submitButtonId).before('<div id="id-submit_send_mail-status"><br>' + html_response + '<br></div>');
+                    $(submitButtonId).before('<div id="id-submit_send_mail-status"><br>' + htmlResponse + '<br></div>');
                     reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString);
-                    reportAjaxError('', '', "submit_send_mail - unknown html response: " + html_response);
+                    reportAjaxError('', '', "submit_send_mail - unknown html response: " + htmlResponse);
                 }
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                if (jqXHR.responseText != undefined) {
-                    var errorString = jqXHR.responseText;
+                var errorString;
+                if (jqXHR.responseText !== undefined) {
+                    errorString = jqXHR.responseText;
                 } else {
-                    errorString = error_status_string;
+                    errorString = errorStatusString;
                 }
                 $(submitButtonId).before('<div id="id-submit_send_mail-status" class="cl-warning-text cl-text-24pt-format"><br>' + errorString + '!<br></div>');
                 reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, captchaBypassString);
                 var warningLevel;
-                if (errorThrown == "timeout") {
-                    warningLevel = "warning"
+                if (errorThrown === "timeout") {
+                    warningLevel = "warning";
                 } else {
-                    warningLevel = "error"
+                    warningLevel = "error";
                 }
                 reportAjaxError(textStatus, errorThrown, "submit_send_mail", warningLevel);
             }
@@ -1044,7 +1045,7 @@ function submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captch
 }
 
 
-function handleSubmitSendMailButton(sectionName, toUid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string) {
+function handleSubmitSendMailButton(sectionName, toUid, captchaBypassString, haveSentMessagesString, successStatusString, errorStatusString) {
     // setup submit button and associate the action when clicked
     // sectionName is either "send_mail_from_profile_checkbox_[yes|no]" or "send_mail" -- 
     // if the event is "send_mail_from_profile", then only a small
@@ -1055,13 +1056,13 @@ function handleSubmitSendMailButton(sectionName, toUid, captchaBypassString, hav
         var captchaDivId = "#id-" + sectionName + "-captcha";
 
         $(submitButtonId).click(function() {
-            submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
+            submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, haveSentMessagesString, successStatusString, errorStatusString);
         });
         // if enter key is pressed inside the captcha, this should trigger a sumbit
         // Note: IE6 requires that the trigger is on keydown..
         $(captchaDivId).keydown(function(e) {
-            if (e.keyCode == 13) {
-                submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, have_sent_messages_string, success_status_string, error_status_string);
+            if (e.keyCode === 13) {
+                submitSendMail(sectionName, submitButtonId, captchaDivId, toUid, captchaBypassString, haveSentMessagesString, successStatusString, errorStatusString);
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 return false;
@@ -1081,7 +1082,7 @@ function showRegistrationDialogOnClick(sectionName, registrationPromptText) {
     });
 }
 
-function submit_verify_captcha(sectionName, submitButtonId, captchaDivId) {
+function submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId) {
 
     try {
         // hide the submit button, to prevent double-click
@@ -1112,16 +1113,16 @@ function submit_verify_captcha(sectionName, submitButtonId, captchaDivId) {
             error: function(jqXHR, textStatus, errorThrown) {
                 $(captcha_status_id).html('<strong>Error, intentalo de nuevo</strong>');
                 reloadSubmitAndRecaptcha(submitButtonId, ajaxSpinnerId, captchaDivId, "no_bypass");
-                reportAjaxError(textStatus, errorThrown, "submit_verify_captcha");
+                reportAjaxError(textStatus, errorThrown, "submitVerifyCaptcha");
             }
         });
     } catch(err) {
-        reportTryCatchError( err, "submit_verify_captcha");
+        reportTryCatchError( err, "submitVerifyCaptcha");
     }
 }
 
 
-function handle_verify_captcha(sectionName) {
+function handleVerifyCaptcha(sectionName) {
     // setup submit button and associate the action when clicked
 
     try {
@@ -1129,13 +1130,13 @@ function handle_verify_captcha(sectionName) {
         var captchaDivId = "#id-" + sectionName + "-captcha";
 
         $(submitButtonId).click(function() {
-            submit_verify_captcha(sectionName, submitButtonId, captchaDivId);
+            submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId);
         });
 
         // if enter key is pressed inside the captcha, this should trigger a sumbit
         $(captchaDivId).keydown(function(e) {
             if (e.keyCode == 13) {
-                submit_verify_captcha(sectionName, submitButtonId, captchaDivId);
+                submitVerifyCaptcha(sectionName, submitButtonId, captchaDivId);
                 e.stopImmediatePropagation();
                 e.stopPropagation();
                 return false;
@@ -1144,23 +1145,23 @@ function handle_verify_captcha(sectionName) {
 
         mouseoverButtonHandler($(submitButtonId));
     } catch(err) {
-        reportTryCatchError( err, "handle_verify_captcha");
+        reportTryCatchError( err, "handleVerifyCaptcha");
     }
 }
 
 
-function handle_click_on_update_message_action_icon(have_sent_messages_id, toUid, action, with_checkbox) {
+function handleClickOnUpdateMessageActionIcon(haveSentMessagesId, toUid, action, with_checkbox) {
     // this function handles a click on the icon beside the message, and refreshes the message
     // to reflect the updated status
     // with_checkbox: "yes" or "no"
 
     try{
-        var icon_id = "#id-" + action + "-have_sent_messages-" + have_sent_messages_id;
-        var section_id = "#id-have_sent_messages-" + have_sent_messages_id;
+        var icon_id = "#id-" + action + "-have_sent_messages-" + haveSentMessagesId;
+        var section_id = "#id-have_sent_messages-" + haveSentMessagesId;
 
         $(icon_id).click(function(event) {
             var post_url = "/rs/ajax/" + action + "_message/";
-            $.post(post_url + have_sent_messages_id + "/", function() {
+            $.post(post_url + haveSentMessagesId + "/", function() {
                 // we call "load_send_mail_from_profile, because this function returns just a summary of the converstion
                 $(section_id).load("/rs/ajax/load_send_mail_from_profile_checkbox_" + with_checkbox + "/" + toUid + "/" + rnd() + "/");
 
@@ -1172,21 +1173,21 @@ function handle_click_on_update_message_action_icon(have_sent_messages_id, toUid
             return false;
         });
     } catch (err) {
-        reportTryCatchError( err, "handle_click_on_update_message_action_icon");
+        reportTryCatchError( err, "handleClickOnUpdateMessageActionIcon");
     }
 }
 
 
 
 
-function handle_post_button_with_confirmation_of_result(sectionName, uid) {
+function handlePostButtonWithConfirmationOfResult(sectionName, uid) {
 
     try {
-        var submission_status_id = "#id-" + sectionName + "-status";
+        var submissionStatusId = "#id-" + sectionName + "-status";
         var submitButtonId = "#id-submit-" + sectionName;
 
         $(submitButtonId).click(function() {
-            $(submission_status_id).html('Processing .....');
+            $(submissionStatusId).html('Processing .....');
 
             $.ajax({
                 type: 'post',
@@ -1195,19 +1196,19 @@ function handle_post_button_with_confirmation_of_result(sectionName, uid) {
                 timeout: 15000, // 15 second timeout
                 // html_response contains the result of the action -- ie. success, failur, etc.
                 success: function (html_response) {
-                    $(submission_status_id).html(html_response);
+                    $(submissionStatusId).html(html_response);
                     $(submitButtonId).hide();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    $(submission_status_id).html('<strong>Error posting to the server, please try again</strong>');
-                    reportAjaxError(textStatus, errorThrown, "handle_post_button_with_confirmation_of_result");
+                    $(submissionStatusId).html('<strong>Error posting to the server, please try again</strong>');
+                    reportAjaxError(textStatus, errorThrown, "handlePostButtonWithConfirmationOfResult");
                 }
 
             });
         });
         mouseoverButtonHandler($(submitButtonId));
     } catch(err) {
-        reportTryCatchError( err, "handle_post_button_with_confirmation_of_result");
+        reportTryCatchError( err, "handlePostButtonWithConfirmationOfResult");
     }
 }
 
@@ -1223,21 +1224,21 @@ function formatNumberLength(num, length) {
 
 
 
-function clear_fields_errors(fields_type, errors_dict) {
-    // fields_type is either signup_fields or login_fields
+function clearFieldsErrors(fieldsType, errorsDict) {
+    // fieldsType is either signup_fields or login_fields
 
-    for (key in errors_dict) {
-        var input_field_id_selector = "#id-"+ fields_type + "-" + key;
+    for (key in errorsDict) {
+        var input_field_id_selector = "#id-"+ fieldsType + "-" + key;
         $(input_field_id_selector).removeClass("cl-highlight_border");
     }
 }
 
 function clear_both_registration_and_login_fields_errors() {
-        clear_fields_errors("login_fields", login_errors_dict);
+        clearFieldsErrors("login_fields", login_errors_dict);
         $("#id-password-prompt").removeClass("cl-highlight_border");
         $("#id-password-input").removeClass("cl-highlight_border");
 
-        clear_fields_errors("signup_fields" , registration_errors_dict);
+        clearFieldsErrors("signup_fields" , registration_errors_dict);
 }
 
 function show_fields_errors(fields_type, errors_dict, extra_html, where_to_place_dialog) {
