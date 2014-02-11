@@ -312,32 +312,29 @@ var initJqueryUiChatbox = (function($){
             _create: function(){
 
                 try {
-                    var self = this,
-
-                    options = self.options,
-
-                    title = options.title || "No Title",
+                    var self = this;
+                    var options = self.options;
+                    var title = options.title || "No Title";
 
                     // chatbox
-                    uiChatbox = (self.uiChatbox = $('<div></div>'))
+                    var uiChatbox = (self.uiChatbox = $('<div></div>'))
                     .appendTo(document.body)
                     .addClass('ui-widget ui-corner-top ui-chatbox ')
-                    .attr('outline', 0),
+                    .attr('outline', 0);
 
                     // titlebar
-                    uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
-                    .addClass('ui-chatbox-titlebar ui-widget-header ui-corner-top ui-helper-clearfix ')
-                    .appendTo(uiChatbox),
+                    var uiChatboxTitlebar = (self.uiChatboxTitlebar = $('<div></div>'))
+                    .addClass('ui-chatbox-titlebar ui-widget-header ui-corner-top ui-helper-clearfix ');
+                    uiChatboxTitlebar.appendTo(uiChatbox);
 
 
-                    uiChatboxTitle = (self.uiChatboxTitle = $('<span class="ui-chatbox-title"></span>'))
-                    .html(title)
-                    .appendTo(uiChatboxTitlebar),
-                    uiChatboxTitlebarClose = (self.uiChatboxTitlebarClose =
-                            self._AddEliminationToWidget()),
+                    var uiChatboxTitle = (self.uiChatboxTitle = $('<span class="ui-chatbox-title"></span>'))
+                    .html(title);
+                    uiChatboxTitle.appendTo(uiChatboxTitlebar);
+                    self.uiChatboxTitlebarClose =  self._AddEliminationToWidget();
 
 
-                    uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#"></a>'))
+                    var uiChatboxTitlebarMinimize = (self.uiChatboxTitlebarMinimize = $('<a href="#"></a>'))
                     .addClass('ui-corner-all ' +
                           'ui-chatbox-icon'
                          )
@@ -361,27 +358,26 @@ var initJqueryUiChatbox = (function($){
                             reportTryCatchError( err, "initJqueryUiChatbox._create.click()", "warning");
                         }
                         return false; // prevent jslint warning
-                    })
-                    .appendTo(uiChatboxTitlebar),
+                    });
+                    uiChatboxTitlebarMinimize.appendTo(uiChatboxTitlebar);
 
 
-                    uiChatboxTitlebarMinimizeText = $('<span></span>')
+                    var uiChatboxTitlebarMinimizeText = $('<span></span>')
                     .addClass('ui-icon ' +
                           'ui-icon-minusthick')
-                    .text('minimize')
-                    .appendTo(uiChatboxTitlebarMinimize),
+                    .text('minimize');
+                    uiChatboxTitlebarMinimizeText.appendTo(uiChatboxTitlebarMinimize);
 
 
                     // content
-                    uiChatboxContent = (self.uiChatboxContent = $('<div></div>'))
+                    var uiChatboxContent = (self.uiChatboxContent = $('<div></div>'))
                     .addClass('ui-widget-content ' +
                           'ui-chatbox-content '
                          )
-                    .appendTo(uiChatbox),
+                    .appendTo(uiChatbox);
 
-                    uiChatboxLog = (self.uiChatboxLog = self.element)
-                    //.show()
-                    .addClass('ui-widget-content '+
+                    self.uiChatboxLog = self.element;
+                    self.uiChatboxLog.addClass('ui-widget-content '+
                           'ui-chatbox-log'
                          )
                     .appendTo(uiChatboxContent)
@@ -390,11 +386,10 @@ var initJqueryUiChatbox = (function($){
                     })
                     .mouseleave(function() {
                         $(this).removeClass("cl-chatbox-log-has-focus");
-                    }),
+                    });
 
 
-                    uiChatboxInput = (self.uiChatboxInput =
-                             self._AddChatboxInputToWidget(options.includeChatboxInput));
+                    self.uiChatboxInput = self._AddChatboxInputToWidget(options.includeChatboxInput);
 
                     self._setWidth(self.options.width);
                     self._position(self.options.offset);
@@ -877,7 +872,7 @@ chatboxManager = (function() {
                     chanUtils.currentMessagePollingDelay = chanUtils.presenceAwayPollingDelay;
                     chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
                 };
-                idleParams.onBack = function(isIdle, isAway) {
+                idleParams.onBack = function() {
                     var newMainTitle = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
                     changeBoxtitle("main", newMainTitle);
@@ -935,7 +930,7 @@ var updateChatControlBox = function (boxName, dictToDisplay) {
         $("#" + boxName).chatbox("option", "boxManager").refreshBox(displayList);
 
 
-        $("#id-chatbox-" + boxName + "-list li").click(function(e){
+        $("#id-chatbox-" + boxName + "-list li").click(function(){
             var anchor = $(this).find('a');
             var boxId =  anchor.data("uid"); // jquery .data() operator
             var boxTitle = dictToDisplay[boxId]['user_or_group_name'];
