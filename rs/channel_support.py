@@ -72,7 +72,7 @@ def set_minimize_chat_box_status(request):
     # windows, and re-loads.
     try:
         owner_uid = request.session['userobject_str']
-        other_uid = request.POST.get('other_uid', None)
+        other_uid = request.POST.get('otherUid', None)
         chatbox_minimized_maximized = request.POST.get('chatboxMinimizedMaximized', None)
         
         assert(owner_uid and other_uid and chatbox_minimized_maximized)
@@ -99,7 +99,7 @@ def close_chat_box(request):
             return http.HttpResponse("Error - no session");
             
         owner_uid = request.session['userobject_str']
-        other_uid = request.POST.get('other_uid', '')
+        other_uid = request.POST.get('otherUid', '')
         type_of_conversation = request.POST.get('typeOfConversation', '')
         assert (other_uid and type_of_conversation)
         
@@ -493,7 +493,7 @@ def open_new_chatbox(request):
             
             if request.method == 'POST':
                 json_post_data = simplejson.loads(request.raw_post_data)  
-                other_uid = json_post_data['other_uid']
+                other_uid = json_post_data['otherUid']
                 type_of_conversation = json_post_data['typeOfConversation']            
                     
                 if other_uid != "main" and other_uid != "groups":

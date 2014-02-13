@@ -204,7 +204,7 @@ def expire_group_members_dict_memcache(group_id):
     
 def delete_uid_from_group(owner_uid, group_id):
     
-    # note that in this case, the "other_uid" is the identifier of the group
+    # note that in this case, the "group_uid" is the identifier of the group
     
     group_tracker_object = utils_top_level.get_object_from_string(group_id)
     

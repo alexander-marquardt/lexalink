@@ -277,26 +277,6 @@ var initJqueryUiChatbox = (function($){
                             reportTryCatchError( err, "initJqueryUiChatbox.uiChatboxShowGroupMembersButton()");
                         }
                     }
-
-
-    //                uiChatboxVideoButton: function (other_uid) {
-    //
-    //                    // TODO - give each button a unique name - otherwise calls will be random. ie. Include the other_uid in the button id.
-    //                    var self=this;
-    //                    var videocall_text = $('#id-videocall-button-text').html();
-    //                    self.elem.uiChatboxTitlebar.after($('<button class="ui-chatbox-submit-button ' +
-    //                            'ui-remove-corner-all"' +
-    //                            'id="id-videochat-button">' + videocall_text + '</button>'));
-    //                    $('#id-videochat-button').button();
-    //                    $('#id-videochat-button').click(function(event) {
-    //                        //var otherUsername = self.elem.uiChatboxTitle.text();
-    //                        var windowName = "Video Chat";
-    //                        var video_window = window.open ("/videochat_window/video_phone.html?other_uid=" + other_uid + '&initiate_call=yes&time=' + rnd(), windowName,"menubar=1,resizable=1,width=520,height=440");
-    //                        video_window.focus();
-    //                        return false;
-    //                    });
-    //
-    //                }
                 }
             },
 

@@ -551,7 +551,7 @@ function ChanUtils() {
             try {
 
                 var jsonPostDict = generateJsonPostDict();
-                jsonPostDict = $.extend({'other_uid': boxId, 'typeOfConversation' : $("#" + boxId).chatbox("option", 'typeOfConversation')}, jsonPostDict);
+                jsonPostDict = $.extend({'otherUid': boxId, 'typeOfConversation' : $("#" + boxId).chatbox("option", 'typeOfConversation')}, jsonPostDict);
                 var jsonStringifiedPost = $.toJSON(jsonPostDict);
 
                 $.ajax({
@@ -578,7 +578,7 @@ function ChanUtils() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
-                data: {'other_uid': otherUid, 'chatboxMinimizedMaximized' : 'minimized'},
+                data: {'otherUid': otherUid, 'chatboxMinimizedMaximized' : 'minimized'},
                 error: function(jqXHR, textStatus, errorThrown) {
                     reportAjaxError(textStatus, errorThrown, "minimizeChatboxOnServer");
                 }
@@ -601,7 +601,7 @@ function ChanUtils() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
-                data: {'other_uid': otherUid, 'chatboxMinimizedMaximized' : 'maximized'},
+                data: {'otherUid': otherUid, 'chatboxMinimizedMaximized' : 'maximized'},
                 error: function(jqXHR, textStatus, errorThrown) {
                     reportAjaxError(textStatus, errorThrown, "maximizeChatboxOnServer");
                 }
@@ -612,7 +612,7 @@ function ChanUtils() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/close_chat_box/' + rnd() + "/",
-                data: {'other_uid': boxId, 'typeOfConversation' : $("#" + boxId).chatbox("option", 'typeOfConversation')},
+                data: {'otherUid': boxId, 'typeOfConversation' : $("#" + boxId).chatbox("option", 'typeOfConversation')},
                 error: function(jqXHR, textStatus, errorThrown) {
                     reportAjaxError(textStatus, errorThrown, "closeChatboxOnServer");
                 }
