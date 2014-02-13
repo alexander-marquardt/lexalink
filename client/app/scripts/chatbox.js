@@ -859,7 +859,7 @@ chatboxManager = (function() {
                     var newMainTitle = $('#id-chat-contact-title-user_presence_idle-text').text();
                     changeOpacityOfAllBoxes(0.75);
                     changeBoxtitle("main", newMainTitle);
-                    chanUtils.userPresenceStatus = "user_presence_idle";
+                    chanUtils.userPresenceStatus = 'userPresenceIdle';
                     chanUtils.currentMessagePollingDelay = chanUtils.presenceIdlePollingDelay;
                     chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
 
@@ -868,7 +868,7 @@ chatboxManager = (function() {
                     var newMainTitle = $('#id-chat-contact-title-user_presence_away-text').text();
                     changeOpacityOfAllBoxes(0.25);
                     changeBoxtitle("main", newMainTitle);
-                    chanUtils.userPresenceStatus = "user_presence_away";
+                    chanUtils.userPresenceStatus = 'userPresenceAway';
                     chanUtils.currentMessagePollingDelay = chanUtils.presenceAwayPollingDelay;
                     chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
                 };
@@ -876,7 +876,7 @@ chatboxManager = (function() {
                     var newMainTitle = $('#id-chat-contact-title-text').text();
                     changeOpacityOfAllBoxes(1);
                     changeBoxtitle("main", newMainTitle);
-                    chanUtils.userPresenceStatus = "user_presence_active";
+                    chanUtils.userPresenceStatus = 'userPresenceActive';
                     chanUtils.updateUserPresenceStatusOnServer(chanUtils.userPresenceStatus);
                     chanUtils.startPolling();
                 };

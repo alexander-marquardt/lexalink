@@ -213,8 +213,6 @@ class ChatBoxStatus(object):
     IS_DISABLED = 'chatDisabled'
     IS_ENABLED = 'chatEnabled' # Indicates that the user has opened the chatboxes and chat is enabled
 
-    #DO_DISABLE = "disable_chat" # disable chat (override any enabled status)
-    #DO_ENABLE = "enable_chat"   # enable chat functionality (override any disabled status)
     
     CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX = "_chat_box_status_memcache_tracker_" + FORCE_UPDATE_CHAT_MEMCACHE_STRING
     
@@ -223,13 +221,13 @@ class OnlinePresence(object):
     # Define the values that will be used to define the chat online presence for each user that has 
     # their chatboxes open.
     # When chat is enabled, user status can be one of the following values.
-    ACTIVE = "user_presence_active" # user is actively using the website (not only chat, but also navigating or moving the mouse)
-    IDLE = "user_presence_idle"     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
-    AWAY = "user_presence_away"    # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
+    ACTIVE = 'userPresenceActive' # user is actively using the website (not only chat, but also navigating or moving the mouse)
+    IDLE = 'userPresenceIdle'     # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_IDLE seconds
+    AWAY = 'userPresenceAway'    # user has not moved the cursor across the page in INACTIVITY_TIME_BEFORE_AWAY seconds
     
     # OFFLINE is when the user has either explicity logged off, or if we have not received a ping from the client javascript
     # code in such a long time, that it is likely that they closed the window without logging off. 
-    OFFLINE = "user_presence_offline" 
+    OFFLINE = 'userPresenceOffline'
  
     presence_text_dict = {
         ACTIVE: ugettext_lazy("(Active)"),

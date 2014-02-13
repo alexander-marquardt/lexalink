@@ -95,7 +95,7 @@ function ChanUtils() {
                 //chanUtilsSelf.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
 
                 chanUtilsSelf.chatBoxesStatus = "unknown"; // 'chatEnabled' or 'chatDisabled'
-                chanUtilsSelf.userPresenceStatus = "user_presence_active"; // should be "user_presence_active", "user_presence_idle", or "user_presence_away"
+                chanUtilsSelf.userPresenceStatus = 'userPresenceActive'; // should be 'userPresenceActive', 'userPresenceIdle', or 'userPresenceAway'
                 chanUtilsSelf.blockFurtherPolling = false;
 
                 chanUtilsSelf.pollingIsLockedMutex = false; // use to ensure that we only have one polling request at a time - true when polling, false when free
@@ -111,7 +111,7 @@ function ChanUtils() {
                 chanUtilsSelf.timeToPassBeforeUpdatingFriendsOnlineDict = 10 * 1000; // every 10 seconds
                 chanUtilsSelf.lastTimeWeUpdatedFriendsOnlineDict = 0;
                 
-                chanUtilsSelf.timeaToPassBeforeUpdatingChatGroupsDict = 10 * 1000; // every 10 seconds
+                chanUtilsSelf.timeToPassBeforeUpdatingChatGroupsDict = 10 * 1000; // every 10 seconds
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = 0;
 
                 chanUtilsSelf.chatboxIdleObject = chatboxManager.trackUserActivityForOnlineStatus();
@@ -342,7 +342,7 @@ function ChanUtils() {
             }
 
 
-            if (currentTime - chanUtilsSelf.timeaToPassBeforeUpdatingChatGroupsDict >
+            if (currentTime - chanUtilsSelf.timeToPassBeforeUpdatingChatGroupsDict >
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict ) {
                 chanUtilsSelf.lastTimeWeUpdatedChatGroupsDict = currentTime;
                 // since we want to request new lists of group members, we must pass in the group_ids of the
@@ -421,7 +421,7 @@ function ChanUtils() {
 
                 clearTimeout(chanUtilsSelf.chatMessageTimeoutID);
 
-                if (chanUtilsSelf.userPresenceStatus === "user_presence_active") {
+                if (chanUtilsSelf.userPresenceStatus === 'userPresenceActive') {
                     // for active user sessions, make sure that the delay has not exceeded the maximum, since
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
@@ -489,7 +489,7 @@ function ChanUtils() {
                 var loadingContactsMessage = $('#id-chat-contact-main-box-loading-text').text();
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
-                chanUtilsSelf.userPresenceStatus = "user_presence_active";
+                chanUtilsSelf.userPresenceStatus = 'userPresenceActive';
                 chanUtilsSelf.chatBoxesStatus = 'chatEnabled';
 
                 chanUtilsSelf.startPolling();
@@ -877,7 +877,7 @@ function ChanUtils() {
             // user has sent a message from a chatbox in the current window - POST this message to the
             // server.
 
-            chanUtilsSelf.userPresenceStatus = "user_presence_active";
+            chanUtilsSelf.userPresenceStatus = 'userPresenceActive';
 
             try {
 
