@@ -244,7 +244,7 @@ def poll_server_for_status_and_new_messages(request):
             assert(owner_uid == request.session['userobject_str'])
                                     
             chat_boxes_status = online_presence_support.get_chat_boxes_status(owner_uid)
-            response_dict['chat_boxes_status'] = chat_boxes_status
+            response_dict['chatBoxesStatus'] = chat_boxes_status
             
             if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED:
             
@@ -290,10 +290,10 @@ def poll_server_for_status_and_new_messages(request):
                     # Construct the JSON response
                     response_dict['conversationTracker'][other_uid] = {}                    
                     
-                    # Send in a "keep_open" value so that the client knows that this convesation is still active
-                    # and should not be closed. (if it does not receive a "keep_open" value in the response, then
+                    # Send in a 'keepOpen' value so that the client knows that this convesation is still active
+                    # and should not be closed. (if it does not receive a 'keepOpen' value in the response, then
                     # the client will close the associated chatbox
-                    response_dict['conversationTracker'][other_uid]['keep_open'] = "yes"                    
+                    response_dict['conversationTracker'][other_uid]['keepOpen'] = "yes"
         
                     if other_uid in last_update_time_string_dict:
                         last_update_time_string = last_update_time_string_dict[other_uid]
@@ -335,12 +335,12 @@ def poll_server_for_status_and_new_messages(request):
                             response_dict['conversationTracker'][other_uid]['lastUpdateTimeString'] = open_conversation_object.current_chat_message_time_string
                                      
         else: # *not* 'userobject_str' in request.session
-            (response_dict['session_status'], response_dict['chat_boxes_status']) = \
+            (response_dict['sessionStatus'], response_dict['chatBoxesStatus']) = \
                 (constants.SessionStatus.EXPIRED_SESSION , constants.ChatBoxStatus.IS_DISABLED)
 
     except:
         # if there is an error - return INTERNAL_ERROR so that the script will stop polling
-        (response_dict['session_status'], response_dict['chat_boxes_status']) = \
+        (response_dict['sessionStatus'], response_dict['chatBoxesStatus']) = \
             (constants.SessionStatus.SERVER_ERROR , constants.ChatBoxStatus.IS_DISABLED)
         error_reporting.log_exception(logging.error)
 

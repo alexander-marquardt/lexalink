@@ -139,20 +139,20 @@ function ChanUtils() {
 
                 var newOneOnOneMessageReceived = false;
 
-                if ("session_status" in jsonResponse && jsonResponse["session_status"] === "session_expired_session") {
+                if ('sessionStatus' in jsonResponse && jsonResponse['sessionStatus'] === "session_expired_session") {
                     chanUtilsSelf.executeGoOfflineOnClient();
                     chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("session_status" in jsonResponse && jsonResponse["session_status"] === "session_server_error") {
+                else if ('sessionStatus' in jsonResponse && jsonResponse['sessionStatus'] === "session_server_error") {
                     chanUtilsSelf.executeGoOfflineOnClient();
                     chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === 'chatDisabled') {
+                else if ('chatBoxesStatus' in jsonResponse && jsonResponse['chatBoxesStatus'] === 'chatDisabled') {
                     if (chanUtilsSelf.chatBoxesStatus !== 'chatDisabled') {
                         chanUtilsSelf.executeGoOfflineOnClient();
                     }
                 }
-                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === 'chatEnabled') {
+                else if ('chatBoxesStatus' in jsonResponse && jsonResponse['chatBoxesStatus'] === 'chatEnabled') {
                     if (chanUtilsSelf.chatBoxesStatus !== 'chatEnabled') {
                         /* chat is not currently enabled, but it should enabled based on the status received in the
                            jsonResponse. Go online. */
@@ -176,7 +176,7 @@ function ChanUtils() {
 
 
 
-                        if (conversationTrackerDict[otherUid].hasOwnProperty('keep_open')) {
+                        if (conversationTrackerDict[otherUid].hasOwnProperty('keepOpen')) {
 
                             keepOpenBoxesList.push(otherUid);
 
@@ -232,7 +232,7 @@ function ChanUtils() {
 
                     }
 
-                    // close chat boxes that did not have the "keep_open" property set
+                    // close chat boxes that did not have the 'keepOpen' property set
                     var currentlyOpenChatboxes = chatboxManager.showList;
                     for (var idx = 0; idx < currentlyOpenChatboxes.length; idx ++) {
                         var boxId = currentlyOpenChatboxes[idx];
@@ -240,13 +240,13 @@ function ChanUtils() {
                         if ($.inArray(boxId, keepOpenBoxesList) === -1) {
 
                             if ($("#" + boxId).chatbox("option", 'justOpened') !== true) {
-                                // we only check the "keep_open" value for boxes that were not just created,
+                                // we only check the 'keepOpen' value for boxes that were not just created,
                                 // since the keep_open property needs a few milliseconds to propagate through the server and
                                 // back to the client.
                                 chatboxManager.closeChatboxOnClient(boxId);
                             }
                             else {
-                                // we just received a "keep_open" confirmation for the newly created box, and therefore it is
+                                // we just received a 'keepOpen' confirmation for the newly created box, and therefore it is
                                 // no longer a "justOpened" box (the new chatbox has propagated through the server and
                                 // back to the client). change justOpened to false.
                                 $("#" + boxId).chatbox("option", 'justOpened', false);

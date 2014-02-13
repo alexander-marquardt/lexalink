@@ -55,7 +55,7 @@ var initJqueryUiChatbox = (function($){
                 hidden: false,
                 offset: 0, // default relative to right edge of the browser window - over-ridden
                 width: 0, // default width of the chatbox - over-ridden
-                justOpened : false, // for newly created boxes, we temporarily ignore the "keep_open" status from the server
+                justOpened : false, // for newly created boxes, we temporarily ignore the 'keepOpen' status from the server
                 messageSent: function() {}, //over-ride this
                 boxClosed: function() {}, // called when the close icon is clicked - over-ridden
                 minimizeBoxWasClicked: function() {}, // over-ridden
