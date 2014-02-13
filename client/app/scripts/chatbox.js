@@ -832,7 +832,7 @@ chatboxManager = (function() {
                             hyperlinkBoxtitle(boxId, nid, urlDescription);
 
                             // Note: boxId for chatboxes is the uid of the other user
-                            $("#" + boxId).chatbox("option", "boxManager").uiChatboxVideoButton(boxId);
+                            //$("#" + boxId).chatbox("option", "boxManager").uiChatboxVideoButton(boxId);
 
                         }
                         else { // group conversation
