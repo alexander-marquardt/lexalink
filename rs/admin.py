@@ -313,7 +313,7 @@ def review_photos(request, is_private=False, what_to_show = "show_new", bookmark
         
         <script type="text/javascript">
         $(document).ready(function() {
-        fancybox_setup($("a.cl-fancybox-profile-gallery"));
+        fancyboxSetup($("a.cl-fancybox-profile-gallery"));
         });
         </script>
         """ % {'image_height' : constants.MEDIUM_IMAGE_Y}
