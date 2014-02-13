@@ -260,7 +260,7 @@ def poll_server_for_status_and_new_messages(request):
                         memcache.set(check_friends_online_last_update_memcache_key, contacts_info_dict, constants.SECONDS_BETWEEN_GET_FRIENDS_ONLINE)
                    
                     # Send the contacts list since the client requested it
-                    response_dict['contacts_info_dict'] = contacts_info_dict    
+                    response_dict['contactsInfoDict'] = contacts_info_dict
                 
                 
                 # get the data structure that represents the currently available chat groups - this is common for
@@ -306,7 +306,7 @@ def poll_server_for_status_and_new_messages(request):
                         
                         chatbox_title = open_conversation_object.chatbox_title
     
-                        response_dict['conversationTracker'][other_uid]['update_conversation'] = "yes"
+                        response_dict['conversationTracker'][other_uid]['updateConversation'] = "yes"
                         response_dict['conversationTracker'][other_uid]['chatboxMinimizedMaximized'] = open_conversation_object.chatbox_minimized_maximized
                         
                         # make sure this is not the main, or groups chatbox (ie, it must be a conversation box)
@@ -318,7 +318,7 @@ def poll_server_for_status_and_new_messages(request):
                             recent_chat_messages = chat_support.query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, type_of_conversation)
                             recent_chat_messages.reverse()
         
-                            response_dict['conversationTracker'][other_uid]["chatbox_title"] = chatbox_title
+                            response_dict['conversationTracker'][other_uid]['chatboxTitle'] = chatbox_title
                             response_dict['conversationTracker'][other_uid]['chatMsgTimeStringArr'] = []
                             response_dict['conversationTracker'][other_uid]['senderUsernameDict'] = {}
                             response_dict['conversationTracker'][other_uid]['chatMsgTextDict'] = {}

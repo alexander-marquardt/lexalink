@@ -182,7 +182,7 @@ function ChanUtils() {
 
                             if (otherUid !== "main" && otherUid !== "groups") {
 
-                                if (conversationTrackerDict[otherUid].hasOwnProperty('update_conversation')) {
+                                if (conversationTrackerDict[otherUid].hasOwnProperty('updateConversation')) {
 
                                     if (chanUtilsSelf.lastUpdateTimeStringDict.hasOwnProperty(otherUid)) {
                                         // the last_update_time_string_array has been previously loaded, and therefore
@@ -256,11 +256,11 @@ function ChanUtils() {
                 }
 
                 var message;
-                if (jsonResponse.hasOwnProperty('contacts_info_dict')) {
-                    if (!$.isEmptyObject(jsonResponse["contacts_info_dict"])) {
+                if (jsonResponse.hasOwnProperty('contactsInfoDict')) {
+                    if (!$.isEmptyObject(jsonResponse['contactsInfoDict'])) {
 
-                        updateChatControlBox("main", jsonResponse["contacts_info_dict"]);
-                        updateUserChatBoxTitles(jsonResponse["contacts_info_dict"]);
+                        updateChatControlBox("main", jsonResponse['contactsInfoDict']);
+                        updateUserChatBoxTitles(jsonResponse['contactsInfoDict']);
                     }
                     else {
                         message = $("#id-no-contacts-text").text();
