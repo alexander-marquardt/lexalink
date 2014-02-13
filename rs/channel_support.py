@@ -43,13 +43,13 @@ def initialize_main_and_group_boxes_on_server(request):
     # needed for tracking the chatbox_minimized_maximized status. 
     #
     # Note: we do not want to modify chatbox_minimized_maximized if it has already been assigned a value. Therefore, we pass in
-    # a "leave_unchanged" value to the update_or_create_open_conversation_tracker function
+    # a 'leaveUnchanged' value to the update_or_create_open_conversation_tracker function
     
     try:
         if 'userobject_str' in request.session:
             owner_uid = request.session['userobject_str']
-            chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized="leave_unchanged", type_of_conversation="NA")
-            chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized="leave_unchanged", type_of_conversation="NA")
+            chat_support.update_or_create_open_conversation_tracker(owner_uid, "main", chatbox_minimized_maximized='leaveUnchanged', type_of_conversation="NA")
+            chat_support.update_or_create_open_conversation_tracker(owner_uid, "groups", chatbox_minimized_maximized='leaveUnchanged', type_of_conversation="NA")
             
             # expire the timer on the memcache for group updates, so that we immediately send the new list
             chat_group_timer_memcache_key = "chat_group_timer_memcache_key_" + owner_uid
@@ -73,10 +73,10 @@ def set_minimize_chat_box_status(request):
     try:
         owner_uid = request.session['userobject_str']
         other_uid = request.POST.get('other_uid', None)
-        chatbox_minimized_maximized = request.POST.get('chatbox_minimized_maximized', None)
+        chatbox_minimized_maximized = request.POST.get('chatboxMinimizedMaximized', None)
         
         assert(owner_uid and other_uid and chatbox_minimized_maximized)
-        type_of_conversation = "leave_unchanged" # we will not change this value, so don't need to pass it in
+        type_of_conversation = 'leaveUnchanged' # we will not change this value, so don't need to pass it in
         chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_minimized_maximized, type_of_conversation)
             
         return http.HttpResponse()
@@ -191,9 +191,9 @@ def update_chat_boxes_status(owner_uid, chat_boxes_status):
         chat_boxes_status_memcache_key = constants.ChatBoxStatus.CHAT_BOX_STATUS_MEMCACHE_TRACKER_PREFIX + owner_uid
         memcache.set(chat_boxes_status_memcache_key, chat_boxes_status)
         
-        if chat_boxes_status == "chat_enabled":
+        if chat_boxes_status == 'chatEnabled':
             chatbox_minimized_maximized = "maximized"
-        elif chat_boxes_status == "chat_disabled":
+        elif chat_boxes_status == 'chatDisabled':
             chatbox_minimized_maximized = "minimized"
         else:
             raise Exception("Unknown chat_boxes_status: %s" % chat_boxes_status)
@@ -281,19 +281,19 @@ def poll_server_for_status_and_new_messages(request):
                     for group_uid in list_of_open_chat_groups_members_boxes_on_client:
                         response_dict['chat_group_members'][group_uid] = chat_support.get_group_members_dict(lang_code, owner_uid, group_uid)
                 
-                response_dict['conversation_tracker'] = {} 
+                response_dict['conversationTracker'] = {} 
                 open_conversation_objects = chat_support.query_currently_open_conversations(owner_uid)
                 for open_conversation_object in open_conversation_objects:
                     
                     other_uid = open_conversation_object.other_uid
                     
                     # Construct the JSON response
-                    response_dict['conversation_tracker'][other_uid] = {}                    
+                    response_dict['conversationTracker'][other_uid] = {}                    
                     
                     # Send in a "keep_open" value so that the client knows that this convesation is still active
                     # and should not be closed. (if it does not receive a "keep_open" value in the response, then
                     # the client will close the associated chatbox
-                    response_dict['conversation_tracker'][other_uid]['keep_open'] = "yes"                    
+                    response_dict['conversationTracker'][other_uid]['keep_open'] = "yes"                    
         
                     if other_uid in last_update_time_string_dict:
                         last_update_time_string = last_update_time_string_dict[other_uid]
@@ -306,33 +306,33 @@ def poll_server_for_status_and_new_messages(request):
                         
                         chatbox_title = open_conversation_object.chatbox_title
     
-                        response_dict['conversation_tracker'][other_uid]['update_conversation'] = "yes"
-                        response_dict['conversation_tracker'][other_uid]["chatbox_minimized_maximized"] = open_conversation_object.chatbox_minimized_maximized    
+                        response_dict['conversationTracker'][other_uid]['update_conversation'] = "yes"
+                        response_dict['conversationTracker'][other_uid]['chatboxMinimizedMaximized'] = open_conversation_object.chatbox_minimized_maximized
                         
                         # make sure this is not the main, or groups chatbox (ie, it must be a conversation box)
                         if other_uid != "main" and other_uid != "groups":
                             
-                            type_of_conversation = open_conversation_object.type_of_conversation # "one_on_one" or "group"
-                            response_dict['conversation_tracker'][other_uid]['typeOfConversation'] = type_of_conversation
+                            type_of_conversation = open_conversation_object.type_of_conversation # 'oneOnOne' or "group"
+                            response_dict['conversationTracker'][other_uid]['typeOfConversation'] = type_of_conversation
                             
                             recent_chat_messages = chat_support.query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, type_of_conversation)
                             recent_chat_messages.reverse()
         
-                            response_dict['conversation_tracker'][other_uid]["chatbox_title"] = chatbox_title
-                            response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"] = []
-                            response_dict['conversation_tracker'][other_uid]["sender_username_dict"] = {}
-                            response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"] = {}
+                            response_dict['conversationTracker'][other_uid]["chatbox_title"] = chatbox_title
+                            response_dict['conversationTracker'][other_uid]['chatMsgTimeStringArr'] = []
+                            response_dict['conversationTracker'][other_uid]['senderUsernameDict'] = {}
+                            response_dict['conversationTracker'][other_uid]['chatMsgTextDict'] = {}
                             
-                            if type_of_conversation == "one_on_one":
-                                response_dict['conversation_tracker'][other_uid]["nid"] = utils.get_nid_from_uid(other_uid)                       
-                                response_dict['conversation_tracker'][other_uid]['urlDescription'] = profile_utils.get_profile_url_description(lang_code, other_uid)
+                            if type_of_conversation == 'oneOnOne':
+                                response_dict['conversationTracker'][other_uid]["nid"] = utils.get_nid_from_uid(other_uid)                       
+                                response_dict['conversationTracker'][other_uid]['urlDescription'] = profile_utils.get_profile_url_description(lang_code, other_uid)
     
                             for msg_object in recent_chat_messages:
-                                response_dict['conversation_tracker'][other_uid]["chat_msg_time_string_arr"].append(msg_object.chat_msg_time_string)
-                                response_dict['conversation_tracker'][other_uid]["chat_msg_text_dict"][msg_object.chat_msg_time_string] = msg_object.chat_msg_text
-                                response_dict['conversation_tracker'][other_uid]["sender_username_dict"][msg_object.chat_msg_time_string] = msg_object.sender_username
+                                response_dict['conversationTracker'][other_uid]['chatMsgTimeStringArr'].append(msg_object.chat_msg_time_string)
+                                response_dict['conversationTracker'][other_uid]['chatMsgTextDict'][msg_object.chat_msg_time_string] = msg_object.chat_msg_text
+                                response_dict['conversationTracker'][other_uid]['senderUsernameDict'][msg_object.chat_msg_time_string] = msg_object.sender_username
                                 
-                            response_dict['conversation_tracker'][other_uid]["last_update_time_string"] = open_conversation_object.current_chat_message_time_string
+                            response_dict['conversationTracker'][other_uid]['lastUpdateTimeString'] = open_conversation_object.current_chat_message_time_string
                                      
         else: # *not* 'userobject_str' in request.session
             (response_dict['session_status'], response_dict['chat_boxes_status']) = \
@@ -427,7 +427,7 @@ def post_message(request):
             success = chat_support.store_chat_message(sender_username, from_uid, to_uid, message_text, type_of_conversation)   
             chatbox_minimized_maximized = "maximized"
             
-            if type_of_conversation == "one_on_one":
+            if type_of_conversation == 'oneOnOne':
                 # create or update a conversation object on both the sender and receiver
                 switch_uids_struct = [(from_uid, to_uid), (to_uid, from_uid)]    
                 for (owner_uid, other_uid) in switch_uids_struct:
@@ -476,7 +476,7 @@ def open_new_chatbox_internal(owner_uid, other_uid, type_of_conversation):
                 
         # Note: do not move the following call to update_or_create_open_conversation_tracker to above the 
         # store_chat_message call, or it will cause the message to appear twice.
-        chatbox_minimized_maximized = "leave_unchanged"
+        chatbox_minimized_maximized = 'leaveUnchanged'
         chat_support.update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_minimized_maximized, type_of_conversation)
     except:
         error_reporting.log_exception(logging.critical)        

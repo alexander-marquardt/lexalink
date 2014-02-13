@@ -112,7 +112,7 @@ def update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_min
         
         if other_uid != "main" and other_uid != "groups":
             if not open_conversation_tracker_object.chatbox_title:
-                if type_of_conversation == "one_on_one":
+                if type_of_conversation == 'oneOnOne':
                     other_userobject = utils_top_level.get_object_from_string(other_uid)
                     open_conversation_tracker_object.chatbox_title = other_userobject.username
                 elif type_of_conversation == "group":
@@ -127,7 +127,7 @@ def update_or_create_open_conversation_tracker(owner_uid, other_uid, chatbox_min
         else:
             open_conversation_tracker_object.chatbox_title = "NA"
         
-    if chatbox_minimized_maximized != "leave_unchanged":
+    if chatbox_minimized_maximized != 'leaveUnchanged':
         open_conversation_tracker_object.chatbox_minimized_maximized = chatbox_minimized_maximized    
         
     open_conversation_tracker_object.current_chat_message_time_string = str(datetime.datetime.now())
@@ -174,7 +174,7 @@ def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
         # The profile.key().id() should eventually be used as the key for this dictionary, but this requires 
         # changing a lot of other code to make it work. Temporarily, we just pass in as "nid" 
         userdict[profile_uid]['nid'] = utils.get_nid_from_uid(profile_uid)
-        userdict[profile_uid]['num_group_members'] = "Not used" 
+        userdict[profile_uid]['numGroupMembers'] = "Not used" 
 
     return userdict
 
@@ -381,7 +381,7 @@ def get_chat_groups_dict(overwrite_memcache = False):
             group_key = chat_group.key.urlsafe()
             chat_groups_dict[group_key] = {}
             chat_groups_dict[group_key]['userOrGroupName'] = chat_group.group_name
-            chat_groups_dict[group_key]['num_group_members'] = chat_group.number_of_group_members
+            chat_groups_dict[group_key]['numGroupMembers'] = chat_group.number_of_group_members
             chat_groups_dict[group_key]['urlDescription'] = "Not used"
             chat_groups_dict[group_key]['nid'] = "Not used"
             
@@ -416,7 +416,7 @@ def query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, ty
             if chat_message_object.chat_msg_time_string >= last_update_time_string:
                 list_of_chat_messages.append(chat_message_object)
             else:
-                # as soon as we start seeing messages that are older than the required "last_update_time_string", we break out
+                # as soon as we start seeing messages that are older than the required 'lastUpdateTimeString', we break out
                 break
         else:
             # Report in the logs on this error
@@ -426,7 +426,7 @@ def query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, ty
             if type_of_conversation == "group":
                 group_object = utils_top_level.get_object_from_string(other_uid)
                 other_name = group_object.group_name
-            elif type_of_conversation == "one_on_one":
+            elif type_of_conversation == 'oneOnOne':
                 other_userobject = utils_top_level.get_object_from_string(other_uid)
                 other_name = other_userobject.username
                 
@@ -442,7 +442,7 @@ def query_recent_chat_messages(owner_uid, other_uid, last_update_time_string, ty
 
 
 def get_memcache_key_for_chat(uid1, uid2, type_of_conversation):
-    if type_of_conversation == "one_on_one":
+    if type_of_conversation == 'oneOnOne':
         memcache_key = "one_on_one_chat_key_%s_and_%s" % (uid1, uid2)
     elif type_of_conversation == "group":
         # uid1 contains the group identifier, which is unique for each group conversation and therefore can be used 
@@ -465,7 +465,7 @@ def get_ordered_uids(owner_uid, other_uid, type_of_conversation):
     owner_uid = str(owner_uid)
     other_uid = str(other_uid)
 
-    if type_of_conversation == "one_on_one":
+    if type_of_conversation == 'oneOnOne':
         # always assign uid1 to the lower key value, and uid2 to the higher key value
         if owner_uid < other_uid:
             uid1 = owner_uid

@@ -326,9 +326,9 @@ class ChatMessage(ndb.Model):
     # once we move to the comet server, it will become much less likely to lose messages since they will be sent
     # immediately to the destination.
         
-    type_of_conversation = ndb.StringProperty(default = "one_on_one", indexed = False)  # either "one_on_one" or "group"
+    type_of_conversation = ndb.StringProperty(default = 'oneOnOne', indexed = False)  # either 'oneOnOne' or "group"
 
-    # if this message is sent in a "one_on_one" conversation, then we set uid1 to the lower
+    # if this message is sent in a 'oneOnOne' conversation, then we set uid1 to the lower
     # of the two user IDs, and uid2 to the higher. This gives us an un-ambiguous manner of retreiving
     # a conversation/message between two users.
     # If this is a "group" conversation, then uid1 is the group id, and uid2 is the sender uid.
@@ -357,7 +357,7 @@ class OpenConversationsTracker(ndb.Model):
     #
     #
     
-    type_of_conversation = ndb.StringProperty(default = "one_on_one", indexed = False)  # either "one_on_one" or "group"
+    type_of_conversation = ndb.StringProperty(default = 'oneOnOne', indexed = False)  # either 'oneOnOne' or "group"
     
     owner_uid = ndb.StringProperty(default = None, indexed = False) 
     other_uid = ndb.StringProperty(default = None, indexed = False) 

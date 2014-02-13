@@ -94,7 +94,7 @@ function ChanUtils() {
                 chanUtilsSelf.lastUpdateTimeStringDict = {}; // shortcut for new Object() - uid is the key, and value is last update time
                 //chanUtilsSelf.last_update_chat_message_id_dict = {}; // shortcut for new Object() - uid is the key, and value is DB/memcache ID of the last update
 
-                chanUtilsSelf.chatBoxesStatus = "unknown"; // "chat_enabled" or "chat_disabled"
+                chanUtilsSelf.chatBoxesStatus = "unknown"; // 'chatEnabled' or 'chatDisabled'
                 chanUtilsSelf.userPresenceStatus = "user_presence_active"; // should be "user_presence_active", "user_presence_idle", or "user_presence_away"
                 chanUtilsSelf.blockFurtherPolling = false;
 
@@ -147,30 +147,30 @@ function ChanUtils() {
                     chanUtilsSelf.executeGoOfflineOnClient();
                     chanUtilsSelf.blockFurtherPolling = true;
                 }
-                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === "chat_disabled") {
-                    if (chanUtilsSelf.chatBoxesStatus !== "chat_disabled") {
+                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === 'chatDisabled') {
+                    if (chanUtilsSelf.chatBoxesStatus !== 'chatDisabled') {
                         chanUtilsSelf.executeGoOfflineOnClient();
                     }
                 }
-                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === "chat_enabled") {
-                    if (chanUtilsSelf.chatBoxesStatus !== "chat_enabled") {
+                else if ("chat_boxes_status" in jsonResponse && jsonResponse["chat_boxes_status"] === 'chatEnabled') {
+                    if (chanUtilsSelf.chatBoxesStatus !== 'chatEnabled') {
                         /* chat is not currently enabled, but it should enabled based on the status received in the
                            jsonResponse. Go online. */
                         chanUtilsSelf.executeGoOnlineOnClient();
                     }
                 }
 
-                if (jsonResponse.hasOwnProperty('conversation_tracker')) {
+                if (jsonResponse.hasOwnProperty('conversationTracker')) {
 
 
                     var keepOpenBoxesList = [];
 
-                    var conversationTrackerDict = jsonResponse["conversation_tracker"];
+                    var conversationTrackerDict = jsonResponse['conversationTracker'];
                     for (var otherUid in conversationTrackerDict) {
-                        var arrayOfChatMsgTimeStrings = conversationTrackerDict[otherUid]["chat_msg_time_string_arr"];
-                        var chatboxTitle = conversationTrackerDict[otherUid]["chatbox_title"];
-                        var chatboxMinimizedMaximized = conversationTrackerDict[otherUid]["chatbox_minimized_maximized"];
-                        var typeOfConversation = conversationTrackerDict[otherUid]["typeOfConversation"];
+                        var arrayOfChatMsgTimeStrings = conversationTrackerDict[otherUid]['chatMsgTimeStringArr'];
+                        var chatboxTitle = conversationTrackerDict[otherUid]["chatboxTitle"];
+                        var chatboxMinimizedMaximized = conversationTrackerDict[otherUid]['chatboxMinimizedMaximized'];
+                        var typeOfConversation = conversationTrackerDict[otherUid]['typeOfConversation'];
                         var highlightBoxEnabled = true;
 
 
@@ -193,23 +193,23 @@ function ChanUtils() {
                                         highlightBoxEnabled = false;
                                     }
 
-                                    chanUtilsSelf.lastUpdateTimeStringDict[otherUid] = conversationTrackerDict[otherUid]["last_update_time_string"];
+                                    chanUtilsSelf.lastUpdateTimeStringDict[otherUid] = conversationTrackerDict[otherUid]['lastUpdateTimeString'];
 
                                     // calling addBox just makes sure that it exists. Since we just received notification of the existance of this
                                     // box from the server, it has *not* been "justOpened".
                                     var justOpened = false;
                                     chatboxManager.addBox(otherUid, chatboxTitle, true, true, false, typeOfConversation,
-                                            conversationTrackerDict[otherUid]['nid'], conversationTrackerDict[otherUid]['url_description'],
+                                            conversationTrackerDict[otherUid]['nid'], conversationTrackerDict[otherUid]['urlDescription'],
                                             justOpened);
 
                                     // load the message history into the chatbox
                                     for (var msgTimeIdx in arrayOfChatMsgTimeStrings) {
                                         var msgTimeStr = arrayOfChatMsgTimeStrings[msgTimeIdx];
-                                        var senderUsername = conversationTrackerDict[otherUid]["sender_username_dict"][msgTimeStr];
-                                        var chatMsgText = conversationTrackerDict[otherUid]["chat_msg_text_dict"][msgTimeStr];
+                                        var senderUsername = conversationTrackerDict[otherUid]['senderUsernameDict'][msgTimeStr];
+                                        var chatMsgText = conversationTrackerDict[otherUid]['chatMsgTextDict'][msgTimeStr];
                                         $("#" + otherUid).chatbox("option", "boxManager").addMsg(senderUsername, chatMsgText, highlightBoxEnabled);
 
-                                        if (typeOfConversation === "one_on_one") {
+                                        if (typeOfConversation === 'oneOnOne') {
                                             // we only start faster polling if a one_on_one message is received - since this is a direct communication
                                             // to the user, while group messages should not trigger faster polling.
                                             newOneOnOneMessageReceived = true;
@@ -426,7 +426,7 @@ function ChanUtils() {
                     // we are growing the delay. For idle/away, this number is constant, and therefore
                     // we don't need to look at the ceiling or increase the value.
                     if (currentMessagePollingDelay > chanUtilsSelf.activePollingDelayCeiling ||
-                            chanUtilsSelf.chatBoxesStatus === "chat_disabled") {
+                            chanUtilsSelf.chatBoxesStatus === 'chatDisabled') {
                         currentMessagePollingDelay = chanUtilsSelf.activePollingDelayCeiling;
                     } else {
                         currentMessagePollingDelay = currentMessagePollingDelay * chanUtilsSelf.decayMultiplier;
@@ -472,7 +472,7 @@ function ChanUtils() {
                 var newMainTitle = $('#id-chat-contact-title-disactivated-text').text();
                 $('#id-go-offline-button').hide();
                 $('#id-go-online-button').show();
-                chanUtilsSelf.chatBoxesStatus = "chat_disabled";
+                chanUtilsSelf.chatBoxesStatus = 'chatDisabled';
 
                 chatboxManager.closeAllChatBoxes();
                 chatboxManager.changeBoxtitle("main", newMainTitle);
@@ -490,7 +490,7 @@ function ChanUtils() {
                 $('#id-go-online-button').hide();
                 $('#id-go-offline-button').show();
                 chanUtilsSelf.userPresenceStatus = "user_presence_active";
-                chanUtilsSelf.chatBoxesStatus = "chat_enabled";
+                chanUtilsSelf.chatBoxesStatus = 'chatEnabled';
 
                 chanUtilsSelf.startPolling();
                 //$("#main").chatbox("option", "boxManager").showChatboxContent();
@@ -529,7 +529,7 @@ function ChanUtils() {
         this.startPolling = function() {
             // just a simple wrapper function for calling setMessagePollingTimeoutAndSchedulePoll
             try {
-                if (chanUtilsSelf.chatBoxesStatus === "chat_enabled") {
+                if (chanUtilsSelf.chatBoxesStatus === 'chatEnabled') {
                     chanUtilsSelf.currentMessagePollingDelay = chanUtilsSelf.initialMessagePollingDelay;
                     pollServerForStatusAndNewMessages();
                 } else {
@@ -578,7 +578,7 @@ function ChanUtils() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
-                data: {'other_uid': otherUid, 'chatbox_minimized_maximized' : 'minimized'},
+                data: {'other_uid': otherUid, 'chatboxMinimizedMaximized' : 'minimized'},
                 error: function(jqXHR, textStatus, errorThrown) {
                     reportAjaxError(textStatus, errorThrown, "minimizeChatboxOnServer");
                 }
@@ -601,7 +601,7 @@ function ChanUtils() {
             $.ajax({
                 type: 'post',
                 url:  '/rs/channel_support/set_minimize_chat_box_status/' + rnd() + "/",
-                data: {'other_uid': otherUid, 'chatbox_minimized_maximized' : 'maximized'},
+                data: {'other_uid': otherUid, 'chatboxMinimizedMaximized' : 'maximized'},
                 error: function(jqXHR, textStatus, errorThrown) {
                     reportAjaxError(textStatus, errorThrown, "maximizeChatboxOnServer");
                 }
@@ -704,7 +704,7 @@ function ChanUtils() {
                     userOrGroupInfoDict['nid'] = usersOrGroupsDict[uid]['nid'];
                     userOrGroupInfoDict['urlDescription'] = usersOrGroupsDict[uid]['urlDescription'];
                     if (boxName === "groups") {
-                        var numGroupMembers = usersOrGroupsDict[uid]['num_group_members'];
+                        var numGroupMembers = usersOrGroupsDict[uid]['numGroupMembers'];
                         var numMembersStr = formatNumberLength(numGroupMembers, 2);
                         userOrGroupName = "[" + numMembersStr + "] " + usersOrGroupsDict[uid]['userOrGroupName'];
                     } else {

@@ -51,7 +51,7 @@ var initJqueryUiChatbox = (function($){
                 title: null, // title of the chatbox
                 allowElimination: true, // show the X in the top right corner - this can be over-ridden
                 includeChatboxInput: true,
-                typeOfConversation: '', // override with "one_on_one" or "group"
+                typeOfConversation: '', // override with 'oneOnOne' or "group"
                 hidden: false,
                 offset: 0, // default relative to right edge of the browser window - over-ridden
                 width: 0, // default width of the chatbox - over-ridden
@@ -219,7 +219,7 @@ var initJqueryUiChatbox = (function($){
                                 // the following interactions occur with the server, and so should only
                                 // occur once, and therefore we do not put them in the "executeGoOfflineOnClient" function
                                 chanUtils.closeAllChatboxesOnServer();
-                                chanUtils.updateChatBoxesStatusOnServer("chat_disabled");
+                                chanUtils.updateChatBoxesStatusOnServer('chatDisabled');
                                 return false;
                             });
 
@@ -230,7 +230,7 @@ var initJqueryUiChatbox = (function($){
                             $('#id-go-online-button').button();
                             $('#id-go-online-button').hide();
                             $('#id-go-online-button').click(function() {
-                                chanUtils.updateChatBoxesStatusOnServer("chat_enabled");
+                                chanUtils.updateChatBoxesStatusOnServer('chatEnabled');
                                 chanUtils.executeGoOnlineOnClient();
                                 return false;
                             });
@@ -939,7 +939,7 @@ var updateChatControlBox = function (boxName, dictToDisplay) {
 
             var typeOfConversation;
             if (boxName === "main") {
-                typeOfConversation = "one_on_one";
+                typeOfConversation = 'oneOnOne';
             } else if (boxName === "groups") {
                 typeOfConversation = "group";
                 // They have just opened a new chat window for a group discussion, so we want to show who is in the group
@@ -988,7 +988,7 @@ var updateGroupChatBoxTitles = function(chatGroupsDict) {
     try {
         for (var gid in chatGroupsDict) {
             var chatboxName = chatGroupsDict[gid]['userOrGroupName'];
-            var chatboxTitle = chatboxName + " [" + chatGroupsDict[gid]['num_group_members'] + "]";
+            var chatboxTitle = chatboxName + " [" + chatGroupsDict[gid]['numGroupMembers'] + "]";
             chatboxManager.changeBoxtitle(gid, chatboxTitle);
 
             // check if there is an associated "group members" box open and update the title

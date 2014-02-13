@@ -187,7 +187,7 @@ SITEMAP_INDEX_MAX_ENTRIES_FOR_USERMODEL = 5000
 # of code - however, if we have been modifying the chat functionality then we do wish to force an update. 
 # Change the following value if you want to force all chat-related memcaches to be refreshed when this
 # version of code is uploaded
-FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2013-01-03-0121-" 
+FORCE_UPDATE_CHAT_MEMCACHE_STRING = "2014-02-12-2318-" 
 NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a query - Note: this limit is not only about memory utilization, but
                                 # also about how many messages we want to send to the user every time they re-load the chatbox. 
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
@@ -210,8 +210,8 @@ class OnlinePresenceConstants(object):
 class ChatBoxStatus(object):
     # disable is when the user explicity closes their chat (will not go online if they become active
     # until they click on "enable/open chat" button)
-    IS_DISABLED = "chat_disabled"
-    IS_ENABLED = "chat_enabled" # Indicates that the user has opened the chatboxes and chat is enabled
+    IS_DISABLED = 'chatDisabled'
+    IS_ENABLED = 'chatEnabled' # Indicates that the user has opened the chatboxes and chat is enabled
 
     #DO_DISABLE = "disable_chat" # disable chat (override any enabled status)
     #DO_ENABLE = "enable_chat"   # enable chat functionality (override any disabled status)
