@@ -53,11 +53,6 @@ TESTING_PAYPAL_SANDBOX = False
 TESTING_FORTUMO_PAYMENTS = False
 BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
-# The following variable reates to the flash/video conference code, which is almost done, but not activated and
-# without any current plans for additional coding hours to get it to release quality. 
-FLASH_FILES_DIR = "bin-release" # Generally the flash bin-debug version is the most up-to-date, but for release, we should use bin_release.
-                              # Note: this requires that we explicitly re-build the bin-release flash version.
-                              
 
 # this is used by the batch uploader to automatically change the name of the build that we will configure and upload. 
 # If this is set to a value, then this value will indicate the current site. 

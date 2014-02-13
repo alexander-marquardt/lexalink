@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 ################################################################################
 # LexaLink Copyright information - do not remove this copyright notice
 # Copyright (C) 2012 
@@ -26,6 +28,26 @@
 
 import site_configuration
 import codecs, shutil, re, glob, os, logging, subprocess, sys, datetime
+        
+        
+print "Imported site_configuration from %s" % site_configuration.__file__
+print "USE_COMPRESSED_STATIC_FILES = %s" % site_configuration.USE_COMPRESSED_STATIC_FILES
+
+def check_site_configuration():
+    # make sure that site_configuration file doesn't have any declarations that will cause problems when uploaded.
+    # We especially want to make sure that we are uploading and accessing minimized and compressed static files.
+    if not site_configuration.USE_COMPRESSED_STATIC_FILES:
+        sys.stderr.write("************* Error *************\n")
+        sys.stderr.write("You are attempting upload code with an incorrectly configured static directory\n")
+        sys.stderr.write('Please modify site_configuration.USE_COMPRESSED_STATIC_FILES to True\n\n')
+        sys.stderr.write("Upload cancelled\n")
+        sys.stderr.write("************* Exit *************\n\n")
+        exit(1)
+        
+    if site_configuration.ENABLE_APPSTATS:
+        print "****\n"
+        print "WARNING: APPSTATS ENABLED - This can slightly impact performance\n"
+        print "****\n"        
         
         
 def generate_index_files():
@@ -177,17 +199,8 @@ def run_grunt(grunt_arg, subprocess_function):
     os.chdir("..")
     logging.info("Switched directory back to: %s" % os.getcwd())
     
-        
-def customize_files():
     
-    logging.info( "**********************************************************************"  )  
-    logging.info( "Generating custom files: %s (Build: %s)" % (site_configuration.APP_NAME, site_configuration.BUILD_NAME))
-    logging.info( "%s" % datetime.datetime.now())
-    logging.info( "**********************************************************************")
-    
-    generate_app_yaml()
-    check_that_minimized_javascript_files_are_enabled()
-    generate_index_files()
+def run_grunt_jobs():
     
     if site_configuration.USE_COMPRESSED_STATIC_FILES:
         # only run the grunt build scripts if we are currently accessing the compressed static files. 
@@ -197,3 +210,25 @@ def customize_files():
     else:
         run_grunt('clean', subprocess.call)
         run_grunt('watch', subprocess.Popen)
+        
+        
+def customize_files():
+    
+    logging.info( "**********************************************************************"  )  
+    logging.info( "Generating custom files: %s (Build: %s)" % (site_configuration.APP_NAME, site_configuration.BUILD_NAME))
+    logging.info( "Current path): %s" % os.getcwd())    
+    logging.info( "%s" % datetime.datetime.now())
+    logging.info( "**********************************************************************")
+    
+    generate_app_yaml()
+    check_that_minimized_javascript_files_are_enabled()
+    generate_index_files()
+    run_grunt_jobs()
+
+        
+
+if __name__ == "__main__":
+    # If build_helpers.py is called as an executable file, it is likely customizing build-specific files for
+    # the prepare-lexalink.py script.
+    customize_files()
+    
