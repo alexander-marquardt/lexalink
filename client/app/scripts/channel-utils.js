@@ -268,10 +268,10 @@ function ChanUtils() {
                     }
                 }
 
-                if (jsonResponse.hasOwnProperty('chat_groups_dict')) {
-                    if (!$.isEmptyObject(jsonResponse["chat_groups_dict"])) {
+                if (jsonResponse.hasOwnProperty('chatGroupsDict')) {
+                    if (!$.isEmptyObject(jsonResponse['chatGroupsDict'])) {
 
-                        var chatGroupsDict = jsonResponse["chat_groups_dict"];
+                        var chatGroupsDict = jsonResponse['chatGroupsDict'];
                         updateChatControlBox("groups", chatGroupsDict);
                         updateGroupChatBoxTitles(chatGroupsDict);
                     }
@@ -282,10 +282,10 @@ function ChanUtils() {
                 }
 
 
-                if (jsonResponse.hasOwnProperty('chat_group_members')) {
+                if (jsonResponse.hasOwnProperty('chatGroupMembers')) {
 
-                    for (var groupId in jsonResponse["chat_group_members"]) {
-                        var groupMembersDict = jsonResponse["chat_group_members"][groupId];
+                    for (var groupId in jsonResponse['chatGroupMembers']) {
+                        var groupMembersDict = jsonResponse['chatGroupMembers'][groupId];
                         var sortedListOfNamesWithUserInfo = chanUtilsSelf.sortUserOrGroupsByName("members", groupMembersDict, true);
 
                         if (!chanUtilsSelf.listOfUsernamesInEachGroup.hasOwnProperty(groupId)) {

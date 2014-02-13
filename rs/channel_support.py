@@ -267,7 +267,7 @@ def poll_server_for_status_and_new_messages(request):
                 # all users - this is memcached and pulled from database if not available.
                 chat_groups_dict = chat_support.get_chat_groups_dict();
                 if get_chat_groups_dict:
-                    response_dict['chat_groups_dict'] = chat_groups_dict   
+                    response_dict['chatGroupsDict'] = chat_groups_dict
                     
                     
                 if list_of_open_chat_groups_members_boxes_on_client:
@@ -277,9 +277,9 @@ def poll_server_for_status_and_new_messages(request):
                     # notice that this is not a list of the members for all groups that the user currently has open,
                     # it is a list of the members for the groups that the user currently has a window open that has
                     # the list of members (group chat and the display of who is in the group are two different windows)
-                    response_dict['chat_group_members'] = {}
+                    response_dict['chatGroupMembers'] = {}
                     for group_uid in list_of_open_chat_groups_members_boxes_on_client:
-                        response_dict['chat_group_members'][group_uid] = chat_support.get_group_members_dict(lang_code, owner_uid, group_uid)
+                        response_dict['chatGroupMembers'][group_uid] = chat_support.get_group_members_dict(lang_code, owner_uid, group_uid)
                 
                 response_dict['conversationTracker'] = {} 
                 open_conversation_objects = chat_support.query_currently_open_conversations(owner_uid)
