@@ -706,18 +706,18 @@ function ChanUtils() {
                     if (boxName === "groups") {
                         var numGroupMembers = usersOrGroupsDict[uid]['num_group_members'];
                         var numMembersStr = formatNumberLength(numGroupMembers, 2);
-                        userOrGroupName = "[" + numMembersStr + "] " + usersOrGroupsDict[uid]['user_or_group_name'];
+                        userOrGroupName = "[" + numMembersStr + "] " + usersOrGroupsDict[uid]['userOrGroupName'];
                     } else {
                         if (boxName !== "main" &&  boxName !== "members") {
                             throw "Error in sortUserOrGroupsByName";
                         }
                         // this is the "main" box which contains list of contacts online
-                        if (usersOrGroupsDict[uid]['user_presence_status'] !== "hidden_online_status") {
-                            onlineStatus = $('#id-chat-contact-title-' + usersOrGroupsDict[uid]['user_presence_status'] + '-image').html();
+                        if (usersOrGroupsDict[uid]['userPresenceStatus'] !== "hidden_online_status") {
+                            onlineStatus = $('#id-chat-contact-title-' + usersOrGroupsDict[uid]['userPresenceStatus'] + '-image').html();
                         } else {
                             onlineStatus = '';
                         }
-                        userOrGroupName = onlineStatus + usersOrGroupsDict[uid]['user_or_group_name'] ;
+                        userOrGroupName = onlineStatus + usersOrGroupsDict[uid]['userOrGroupName'] ;
                     }
                     sortedListOfNamesWithUids.push([userOrGroupName, userOrGroupInfoDict]);
                 }
@@ -768,7 +768,7 @@ function ChanUtils() {
         this.displayAsListWithHrefs = function (boxName, sortedListOfNamesWithUserInfo, includeHref) {
 
             /* This code displays the list of users that are currently members of a group discussion. Each username
-             * includes a hyberlink to the profile of the given user. 
+             * includes a hyperlink to the profile of the given user. 
              */
 
             try {
@@ -802,7 +802,7 @@ function ChanUtils() {
             try {
                 for (var uid in groupMembersDict) {
                     var nid = groupMembersDict[uid]['nid'];
-                    var profileTitle = groupMembersDict[uid]['profile_title'];
+                    var profileTitle = groupMembersDict[uid]['profileTitle'];
                     // since the actual link is surrounded by a <li> declaration, and we want to show the title
                     // when any part of the <li> is hovered over, we select the parent of the anchor.
                     $("#dlist-" +boxName + "-" + nid).parent().attr('title', profileTitle);

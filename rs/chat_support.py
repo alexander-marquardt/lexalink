@@ -169,7 +169,7 @@ def get_dict_of_friends_uids_and_userinfo(lang_code, userobject_key):
         profile_uid = profile_key.urlsafe()
         profile = profile_key.get()
         userdict[profile_uid] = {}
-        userdict[profile_uid]['user_or_group_name'] = profile.username
+        userdict[profile_uid]['userOrGroupName'] = profile.username
         userdict[profile_uid]['urlDescription'] = profile_utils.get_profile_url_description(lang_code, profile_uid)
         # The profile.key().id() should eventually be used as the key for this dictionary, but this requires 
         # changing a lot of other code to make it work. Temporarily, we just pass in as "nid" 
@@ -261,15 +261,15 @@ def get_group_members_dict(lang_code, owner_uid, group_uid):
                                                                     
                 if user_presence_status != constants.OnlinePresence.OFFLINE:                    
                     group_members_names_dict[member_uid] = {}
-                    group_members_names_dict[member_uid]['user_or_group_name'] = get_username_from_uid(member_uid)
+                    group_members_names_dict[member_uid]['userOrGroupName'] = get_username_from_uid(member_uid)
                     group_members_names_dict[member_uid]['nid'] = utils.get_nid_from_uid(member_uid)
                     group_members_names_dict[member_uid]['urlDescription'] = profile_utils.get_profile_url_description(lang_code, member_uid)
-                    group_members_names_dict[member_uid]['profile_title'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
+                    group_members_names_dict[member_uid]['profileTitle'] = profile_utils.get_base_userobject_title(lang_code, member_uid)
                     
                     if show_user_presence_status == chat_groups_members_dict_states.SHOW_STATUS:
-                        group_members_names_dict[member_uid]['user_presence_status'] = user_presence_status
+                        group_members_names_dict[member_uid]['userPresenceStatus'] = user_presence_status
                     else:
-                        group_members_names_dict[member_uid]['user_presence_status'] = constants.HIDDEN_ONLINE_STATUS
+                        group_members_names_dict[member_uid]['userPresenceStatus'] = constants.HIDDEN_ONLINE_STATUS
                         
                 else:
                     delete_uid_from_group(member_uid, group_uid)
@@ -316,9 +316,9 @@ def get_friends_online_dict(lang_code, owner_uid):
             if chat_boxes_status != constants.ChatBoxStatus.IS_DISABLED and user_presence_status != constants.OnlinePresence.OFFLINE:
                 online_contacts_info_dict[uid] = user_info_dict[uid]
                 if utils.do_display_online_status(owner_uid):
-                    online_contacts_info_dict[uid]['user_presence_status'] = user_presence_status
+                    online_contacts_info_dict[uid]['userPresenceStatus'] = user_presence_status
                 else:
-                    online_contacts_info_dict[uid]['user_presence_status'] = constants.HIDDEN_ONLINE_STATUS
+                    online_contacts_info_dict[uid]['userPresenceStatus'] = constants.HIDDEN_ONLINE_STATUS
                     
                     
         memcache.add(online_contacts_info_dict_memcache_key, online_contacts_info_dict, \
@@ -380,7 +380,7 @@ def get_chat_groups_dict(overwrite_memcache = False):
         for chat_group in chat_groups_query_results:
             group_key = chat_group.key.urlsafe()
             chat_groups_dict[group_key] = {}
-            chat_groups_dict[group_key]['user_or_group_name'] = chat_group.group_name
+            chat_groups_dict[group_key]['userOrGroupName'] = chat_group.group_name
             chat_groups_dict[group_key]['num_group_members'] = chat_group.number_of_group_members
             chat_groups_dict[group_key]['urlDescription'] = "Not used"
             chat_groups_dict[group_key]['nid'] = "Not used"

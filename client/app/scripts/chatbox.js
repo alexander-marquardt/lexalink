@@ -933,7 +933,7 @@ var updateChatControlBox = function (boxName, dictToDisplay) {
         $("#id-chatbox-" + boxName + "-list li").click(function(){
             var anchor = $(this).find('a');
             var boxId =  anchor.data("uid"); // jquery .data() operator
-            var boxTitle = dictToDisplay[boxId]['user_or_group_name'];
+            var boxTitle = dictToDisplay[boxId]['userOrGroupName'];
             var urlDescription = dictToDisplay[boxId]['urlDescription'];
             var nid = dictToDisplay[boxId]['nid'];
 
@@ -975,7 +975,7 @@ var updateUserChatBoxTitles = function(contactsInfoDict) {
                 // to keep the chatboxes looking clean, by default we don't show a status for active users.
                 onlineStatus = '';
             }
-            var chatboxTitle = contactsInfoDict[uid]['user_or_group_name'] + onlineStatus;
+            var chatboxTitle = contactsInfoDict[uid]['userOrGroupName'] + onlineStatus;
             
             chatboxManager.changeBoxtitle(uid, chatboxTitle);
         }
@@ -987,7 +987,7 @@ var updateUserChatBoxTitles = function(contactsInfoDict) {
 var updateGroupChatBoxTitles = function(chatGroupsDict) {
     try {
         for (var gid in chatGroupsDict) {
-            var chatboxName = chatGroupsDict[gid]['user_or_group_name'];
+            var chatboxName = chatGroupsDict[gid]['userOrGroupName'];
             var chatboxTitle = chatboxName + " [" + chatGroupsDict[gid]['num_group_members'] + "]";
             chatboxManager.changeBoxtitle(gid, chatboxTitle);
 
