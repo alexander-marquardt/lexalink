@@ -41,7 +41,7 @@ from forms import FormUtils
 import constants, text_fields, time, chat_support, localizations, common_data_structs, channel_support, online_presence_support
 import online_presence_support, menubar
 from rs.import_search_engine_overrides import *
-from rs import utils_top_level
+from rs import utils_top_level, html_container
 
 
 if settings.BUILD_NAME == "friend_build":
@@ -221,6 +221,10 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             
             num_profile_views_since_last_check = userobject.viewed_profile_counter_ref.get().num_views_since_last_check
 
+            section_label = ugettext("About myself and what I am looking for")
+            about_user_dialog_popup =  html_container.UserMainHTML.define_html_for_main_body_input_section(
+                lang_idx, userobject, "about_user_dialog_popup", section_label, None, owner_uid, 
+                "about_user_dialog_popup", is_primary_user = True)   
     
         else:
             registered_user_bool = False
@@ -229,7 +233,9 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             owner_uid = ''
             owner_nid = ''
             owner_message_count = new_contact_count_sum = removed_contact_count_sum = 0
+            additional_ads_to_append = get_additional_ads_to_append(request)            
             num_profile_views_since_last_check = 0
+            about_user_dialog_popup = ''
             contacts_dropdown_html = ''
             if not hide_why_to_register:
                 why_to_register = utils.get_why_to_register()
@@ -238,7 +244,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 
             chat_is_disabled = "yes"
             
-            additional_ads_to_append = get_additional_ads_to_append(request)
     
         # This code is used for generating maintenance warning messages. 
         (maintenance_soon_warning, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
@@ -282,6 +287,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields['remove_chatboxes'] = "yes" if remove_chatboxes else "no"
         primary_user_presentation_data_fields['client_paid_status'] = client_paid_status
         primary_user_presentation_data_fields['num_profile_views_since_last_check'] = num_profile_views_since_last_check
+        primary_user_presentation_data_fields['about_user_dialog_popup'] = about_user_dialog_popup
             
         # Information for users that have not signed up for an account.
         guest_user_data_fields = {}

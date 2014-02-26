@@ -56,7 +56,7 @@ import email_utils, utils_top_level, sitemaps
 import error_reporting, store_data, text_fields, lang_settings
 from rs import profile_utils, online_presence_support, online_presence_support, track_viewers
 from django import http
-import common_data_structs, html_container
+import common_data_structs
 
 if settings.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code
@@ -141,10 +141,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             link_to_hide = 'login'
             show_vip_info = utils.do_display_online_status(owner_uid)
             
-            section_label = ugettext("About myself and what I am looking for")
-            about_user_dialog_popup =  html_container.UserMainHTML.define_html_for_main_body_input_section(
-                lang_idx,owner_userobject, "about_user_dialog_popup", section_label, None, owner_uid, 
-                "about_user_dialog_popup", is_primary_user = True)   
+
                 
         else:
             owner_userobject = None
@@ -301,7 +298,6 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         viewed_profile_data_fields['account_has_been_removed_message'] = account_has_been_removed_message
         viewed_profile_data_fields['debugging_html'] = debugging_html
         viewed_profile_data_fields['profile_information_for_admin'] = utils.generate_profile_information_for_administrator(display_userobject, utils.user_is_admin(owner_userobject))
-        viewed_profile_data_fields['about_user_dialog_popup'] = about_user_dialog_popup
         
         
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 

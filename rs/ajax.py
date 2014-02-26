@@ -521,7 +521,7 @@ def load_about_user(request, section_name):
                 # dialog window will be closed when clicked.
                 generated_html += """
                 <script type="text/javascript" language="javascript">
-                handle_dialog_popup_close_button('#id-about_user_is_empty_popup', '#id-about_user_is_empty-close')
+                handleDialogPopupCloseButton('#id-about_user_is_empty_popup', '#id-about_user_is_empty-close')
                 </script>
                 """
                 

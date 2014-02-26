@@ -42,11 +42,11 @@ $(document).ready(function() {
 
 </script>
 
-    <!-- Space for the navigation buttons-->
+    <!-- Space for the menubar and all of the content -->
     <div class="grid_12 cl-content-background">
-    {% include "user_main_helpers/menubar.html" %}
-    <!-- end .grid_12 navigation container-->
+        {% include "user_main_helpers/menubar.html" %}
 
+        {% include "user_main_helpers/dialog_divs.html" %}
 
         {% if search_bar %}
         <!-- the following code is used for displaying the search bar. -->
