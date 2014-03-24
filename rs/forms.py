@@ -1034,9 +1034,9 @@ other words by clicking on the symbol'),  'inside' : ugettext('inside the "captc
                 generated_html += u"""
                 <script type="text/javascript" language="javascript">                
                     $(document).ready(function(){
-                        show_registration_dialog_on_click("%(section_name)s", "%(registration_prompt_text)s");
+                        showRegistrationDialogOnClick("%(section_name)s", "%(registration_prompt_text)s");
                         $("#id-show-ajax-spinner-captcha").hide();
-                        mouseover_button_handler($("#id-submit-%(section_name)s"));
+                        mouseoverButtonHandler($("#id-submit-%(section_name)s"));
                     });
                     
                 </script> """ % {"section_name": section_name,
