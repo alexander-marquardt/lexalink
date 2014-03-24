@@ -1037,6 +1037,7 @@ other words by clicking on the symbol'),  'inside' : ugettext('inside the "captc
                         showRegistrationDialogOnClick("%(text_area_section_name)s", "%(registration_prompt_text)s");
                         showRegistrationDialogOnClick("%(section_name)s", "%(registration_prompt_text)s");
                         $("#id-show-ajax-spinner-captcha").hide();
+                        mouseoverButtonHandler($("#id-submit-%(section_name)s"));
                     });
                     
                 </script> """ % {"text_area_section_name": section_name + "-" + section_name,
