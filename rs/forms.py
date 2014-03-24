@@ -959,7 +959,7 @@ other words by clicking on the symbol'),  'inside' : ugettext('inside the "captc
             <script type="text/javascript" language="javascript">                
             $(document).ready(function(){
                 $("#%(entity_id)s").focus(function(){
-                    show_registration_and_login('%(notification_txt)s');
+                    showRegistrationAndLogin('%(notification_txt)s');
                     $("#%(entity_id)s").blur();
                 });
             });
@@ -1034,12 +1034,13 @@ other words by clicking on the symbol'),  'inside' : ugettext('inside the "captc
                 generated_html += u"""
                 <script type="text/javascript" language="javascript">                
                     $(document).ready(function(){
+                        showRegistrationDialogOnClick("%(text_area_section_name)s", "%(registration_prompt_text)s");
                         showRegistrationDialogOnClick("%(section_name)s", "%(registration_prompt_text)s");
                         $("#id-show-ajax-spinner-captcha").hide();
-                        mouseoverButtonHandler($("#id-submit-%(section_name)s"));
                     });
                     
-                </script> """ % {"section_name": section_name,
+                </script> """ % {"text_area_section_name": section_name + "-" + section_name,
+                                 "section_name" : section_name,
                                  "registration_prompt_text" : constants.MUST_REGISTER_TO_SEND_MESSAGES_MSG,
                                  }
     
