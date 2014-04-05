@@ -208,14 +208,14 @@ def check_signature(request):
   secret = settings.fortumo_web_apps_secret
   keys_of_get = request.GET.keys()
   keys_of_get.sort()
-  calculation_string = ''
+  calculation_string = u''
   for key in keys_of_get:
     if key != "sig":
       calculation_string += "%s=%s" % (key, request.GET[key])
       
   calculation_string += secret
   #logging.info("calculation_string: %s" % calculation_string)
-  sig = hashlib.md5(calculation_string).hexdigest()
+  sig = hashlib.md5(calculation_string.encode("utf-8")).hexdigest()
   return (request.GET['sig'] == sig)  
 
 def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, payment_source):
