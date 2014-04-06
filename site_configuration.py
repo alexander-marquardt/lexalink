@@ -36,7 +36,7 @@ VERSION_ID = 'debug-build-1'
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_COMPRESSED_STATIC_FILES = True
+USE_COMPRESSED_STATIC_FILES = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -88,7 +88,7 @@ if PROPRIETARY_BUILDS_AVAILABLE:
         BUILD_NAME = BATCH_BUILD_NAME
 else:
     # We have not defined any of the proprietary builds, so just default to the standard "single" dating platform configuration
-    BUILD_NAME = 'single_build'
+    BUILD_NAME = 'default_build'
 
 APP_NAME = app_name_dict[BUILD_NAME]
 DOMAIN_NAME = domain_name_dict[BUILD_NAME]
@@ -111,7 +111,8 @@ else:
     PROPRIETARY_STATIC_DIR = "client/app/proprietary"
 
 if not PROPRIETARY_BUILDS_AVAILABLE: 
-    PROPRIETARY_STATIC_DIR = "this_should_not_be_used_since_propriatary_static_files_are_not_available"
+    # If proprietary files are not available, then search in the "open" static directory to see if they are available there.
+    PROPRIETARY_STATIC_DIR = STATIC_DIR
     
 
 # Some images are accessed from python code, and therefore the grunt build scripts are not allowed to give them new hash identifier names when they change.
@@ -137,12 +138,15 @@ if BUILD_NAME == 'friend_build':
 else:
     SHUTDOWN_DURATION = 0
 
-if BUILD_NAME == 'discrete_build' or BUILD_NAME == 'lesbian_build' or BUILD_NAME == 'swinger_build' or BUILD_NAME == 'single_build':
-    BUILD_NAME_USED_FOR_MENUBAR = 'discrete_build'
-elif BUILD_NAME == 'language_build' or BUILD_NAME == 'mature_build':
-    BUILD_NAME_USED_FOR_MENUBAR = 'language_build'
+if PROPRIETARY_BUILDS_AVAILABLE:
+    if BUILD_NAME == 'discrete_build' or BUILD_NAME == 'lesbian_build' or BUILD_NAME == 'swinger_build' or BUILD_NAME == 'single_build':
+        BUILD_NAME_USED_FOR_MENUBAR = 'discrete_build'
+    elif BUILD_NAME == 'language_build' or BUILD_NAME == 'mature_build':
+        BUILD_NAME_USED_FOR_MENUBAR = 'language_build'
+    else:
+        BUILD_NAME_USED_FOR_MENUBAR = BUILD_NAME
 else:
-    BUILD_NAME_USED_FOR_MENUBAR = BUILD_NAME
+    BUILD_NAME_USED_FOR_MENUBAR = 'default_build'
     
     
 # For some reason that I have not yet investigated, settings.py is called multiple times, and the environment changes 

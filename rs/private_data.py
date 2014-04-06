@@ -46,6 +46,8 @@ except:
     
     app_name_dict = {
         # Edit the following values to reflect the names that you have chosen for each of your sites.
+        'default_build':    'Your-Site-Name-Here',
+
         'discrete_build' : 'Your-Site-Name-Here', #ie. "RomanceSecreto"
         'language_build':  'Your-Site-Name-Here', 
         'single_build' :   'lexalink-demo.appspot',
@@ -54,12 +56,15 @@ except:
         'swinger_build':   'Your-Site-Name-Here',
         'friend_build':    'Your-Site-Name-Here',
         'mature_build':    'Your-Site-Name-Here',
+        
     }
     
     domain_name_dict = {
         # Update the following values to reflect the domain of each of your sites (do *not* put www in front, since 
         # this is also used in the email addresses). Generally, this should be the same as the value in the app_name_dict
         # but lower case, and followed by the appropriate top level domain qualifier.
+        'default_build':    'your-site-name-here.com',    
+
         'discrete_build' : 'your-site-name-here.com', #ie "romancesecreto.com"
         'language_build':  'your-site-name-here.com', 
         'single_build' :   'lexalink-demo.appspot.com',
@@ -68,11 +73,14 @@ except:
         'swinger_build':   'your-site-name-here.com',
         'friend_build':    'your-site-name-here.com',    
         'mature_build':    'your-site-name-here.com',    
+        
     }
     
     app_id_dict = {
         # update the following values to reflect the application ids that you have registered for each of your
         # applications on the AppEngine.
+        'default_build':   'yourappid',
+
         'discrete_build' : 'yourappid1', 
         'language_build':  'yourappid2', 
         'single_build' :   'lexalink-demo',
@@ -81,6 +89,7 @@ except:
         'swinger_build':   'yourappid6',
         'friend_build':    'yourappid7',
         'mature_build':    'yourappid8',
+        
     }
     
     # you may wish to have an additional application id that you upload your code to for extra "in-the-cloud" testing.
@@ -134,6 +143,8 @@ except:
     # If you want to use google analytics to track your page statistics, you will need an 
     # identifier for each page. 
     analytics_id_dict = {
+        "default_build"  : 'UA-YOUR-IDX-X',
+
         "friend_build"   : 'UA-YOUR-IDX-X',
         "discrete_build" : 'UA-YOUR-IDX-X',
         "language_build" : 'UA-YOUR-IDX-X',

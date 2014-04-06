@@ -112,7 +112,7 @@ def get_base_userobject_title(lang_code, uid):
                     'preference' : " %s " % preference,
                     'extra_detail' :  extra_detail})
                 
-            elif settings.BUILD_NAME == "single_build" or settings.BUILD_NAME == "lesbian_build" or settings.BUILD_NAME == "mature_build":
+            elif settings.BUILD_NAME == "single_build" or settings.BUILD_NAME == "lesbian_build" or settings.BUILD_NAME == "mature_build" or settings.BUILD_NAME == "default_build":
                 sex = replace_value('prefer_no_say', field_vals_dict['sex'], "%s " % vals_in_curr_language_dict['sex'], "%s " % ugettext("Lesbian"))
                 preference = replace_value('prefer_no_say', field_vals_dict['preference'], " %s " % vals_in_curr_language_dict['preference'], " %s " % ugettext("Lesbian"))
 

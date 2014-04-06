@@ -316,26 +316,28 @@ append_more_advertising_info_dialog = False
 # to include criteria such as users search parameters and profile information - ie. if a man is looking for a man, we may
 # show them gay advertisements in addition to what is listed below (see: get_additional_ads_to_append() for implementation)
 
-if settings.BUILD_NAME == 'friend_build':
+if settings.BUILD_NAME == 'default_build':
+    enable_google_ads = False
+    
+elif settings.BUILD_NAME == 'friend_build':
     enable_google_ads = True
 
-if settings.BUILD_NAME == 'language_build':
+elif settings.BUILD_NAME == 'language_build':
     enable_google_ads = True
     
-if settings.BUILD_NAME == 'mature_build':
+elif settings.BUILD_NAME == 'mature_build':
     enable_google_ads = True
     
-if settings.BUILD_NAME == 'single_build':
+elif settings.BUILD_NAME == 'single_build':
     enable_google_ads = True
 
 
-if settings.BUILD_NAME == 'lesbian_build':
+elif settings.BUILD_NAME == 'lesbian_build':
     enable_google_ads = True
     
     
-
 # Pages that are more adult oriented.
-if settings.BUILD_NAME == 'discrete_build':
+elif settings.BUILD_NAME == 'discrete_build':
     # swinger_build, gay_build, and lesbian_build ads will be dynamically added depending on the search criteria.
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
     # relevant (ie. a woman seeking a woman will be shown an ad for lesbian_buildHeart)
@@ -348,7 +350,7 @@ if settings.BUILD_NAME == 'discrete_build':
     #append_more_advertising_info_dialog = True
     
 
-if settings.BUILD_NAME == 'gay_build':
+elif settings.BUILD_NAME == 'gay_build':
     enable_google_ads = False
     lexabit_self_publicity_ads.append('discrete_build')
     lexabit_self_publicity_ads.append('single_build')
@@ -357,13 +359,17 @@ if settings.BUILD_NAME == 'gay_build':
     lexabit_self_publicity_ads.append('mature_build')    
     
     
-if settings.BUILD_NAME == "swinger_build":
+elif settings.BUILD_NAME == "swinger_build":
     enable_google_ads = False
     lexabit_self_publicity_ads.append('discrete_build')
     lexabit_self_publicity_ads.append('friend_build')
     lexabit_self_publicity_ads.append('lesbian_build')
     lexabit_self_publicity_ads.append('mature_build')    
     lexabit_self_publicity_ads.append('single_build')    
+    
+
+else:
+    error_reporting.log_exception(logging.error, error_message = "Unknown BUILD_NAME")
     
     
 if not enable_google_ads:
@@ -440,7 +446,12 @@ hours_between_new_contacts_notifications = {
 ADULT_ORIENTED_SITE = False # used in determining what sort of behavior (ie. photo uploads) is allowed, and instructions that will be shown
 SITE_IS_TOTALLY_FREE = True    
 
-if settings.BUILD_NAME == "discrete_build":
+if settings.BUILD_NAME == "default_build":
+    SITE_TYPE = ugettext_lazy('You very own dating website')
+    ADULT_ORIENTED_SITE = False    
+    SITE_IS_TOTALLY_FREE = False
+    
+elif settings.BUILD_NAME == "discrete_build":
     SITE_TYPE = ugettext_lazy('confidential dating website')
     ADULT_ORIENTED_SITE = True    
     SITE_IS_TOTALLY_FREE = False

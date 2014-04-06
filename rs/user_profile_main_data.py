@@ -159,8 +159,8 @@ class UserSpec():
             ('married',)       + ugettext_tuple(ugettext('Married')),
             ('prefer_no_say',) + ugettext_tuple(ugettext("Secret")),]
 
-    # LOCUS LOFT CONFIGURATION
-    elif settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'mature_build': 
+
+    elif settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'mature_build' or settings.BUILD_NAME == 'default_build': 
         gender_categories = [
             ('female',)     + ugettext_tuple(ugettext('Female')), 
             ('male',)       + ugettext_tuple(ugettext('Male')),
@@ -367,7 +367,7 @@ class UserSpec():
         signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My Relationship Status')) # this is the clients status
     elif settings.BUILD_NAME == 'swinger_build':
         signup_relationship_status_label_tuple = ugettext_tuple(ugettext('My / Our Relationship Status')) 
-    elif settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'lesbian_build' or settings.BUILD_NAME == 'mature_build':
+    elif settings.BUILD_NAME == 'single_build' or settings.BUILD_NAME == 'lesbian_build' or settings.BUILD_NAME == 'mature_build' or settings.BUILD_NAME == 'default_build':
         signup_relationship_status_label_tuple = ugettext_tuple(ugettext('Type Of Relationship')) # this is the clients status
     elif settings.BUILD_NAME == 'language_build' :
         signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))

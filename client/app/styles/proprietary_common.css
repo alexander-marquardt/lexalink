@@ -1,0 +1,3 @@
+/* This is a dummy file that contains no data. However, it is necessary because when no proprietary files are availalbe
+ * the build scripts setup the css imports to search in this directory for a file called proprietary_common.css */
+

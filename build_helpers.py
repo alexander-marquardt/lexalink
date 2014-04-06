@@ -209,7 +209,11 @@ def run_grunt_jobs():
         
     else:
         run_grunt('clean', subprocess.call)
-        run_grunt('watch', subprocess.Popen)
+        
+        if site_configuration.PROPRIETARY_BUILDS_AVAILABLE:
+            # we only run the watch/livereload if this user knows what they are doing. Feel free to enable this
+            # and to also enable livereload in the html template if you know how to use it.
+            run_grunt('watch', subprocess.Popen)    
         
         
 def customize_files():

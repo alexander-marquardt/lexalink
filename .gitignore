@@ -37,4 +37,4 @@ proprietary/
 # Ignore Regions data - don't want this backed up
 Regions
 
-
+client/build_settings.json
