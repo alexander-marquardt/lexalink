@@ -59,6 +59,17 @@ BUILD_STAGING = False # forces upload to staging server as opposed to the real s
 BATCH_BUILD_NAME = ''
 
 if os.path.isdir('rs/proprietary'):
+    # if the rs/proprietary directory exists, then propriatary builds are enabled (ie. this is my personal build setup which contains
+    # private images, keys, passwords, etc.). If this proprietary information is not available, then we just build the "single" build
+    # and we will use generic images etc. It is expected that anyone using this code will then either modify the default build information
+    # to customize their website, or that they will alternatively setup a proprietary directory with their own customizations
+    # that will allow them to generate multiple websites. 
+    PROPRIETARY_BUILDS_AVAILABLE = True
+else:
+    PROPRIETARY_BUILDS_AVAILABLE = False
+    
+    
+if PROPRIETARY_BUILDS_AVAILABLE:
     if BATCH_BUILD_NAME == '':
         # Since we are currently running 7 sites using the same code base, we just un-comment whichever build 
         # we are interested in executing. Be sure to re-boot the development server each time you change
@@ -98,6 +109,10 @@ else:
     # This will cause the code to directly access the static files, as opposed to accessing concatenated/minified/uglified copies
     STATIC_DIR = "client/app"
     PROPRIETARY_STATIC_DIR = "client/app/proprietary"
+
+if not PROPRIETARY_BUILDS_AVAILABLE: 
+    PROPRIETARY_STATIC_DIR = "this_should_not_be_used_since_propriatary_static_files_are_not_available"
+    
 
 # Some images are accessed from python code, and therefore the grunt build scripts are not allowed to give them new hash identifier names when they change.
 # Therefore, we manually force a new path every time we upload the code so that the images will not be cached. This is a more brute force

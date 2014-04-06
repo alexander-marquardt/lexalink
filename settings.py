@@ -106,10 +106,17 @@ TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 #ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 ROOT_PATH = os.path.dirname(__file__)
-TEMPLATE_DIRS = (
-    os.path.join(ROOT_PATH, STATIC_DIR + r'/html'),
-    os.path.join(ROOT_PATH, PROPRIETARY_STATIC_DIR + r'/html'), 
-)
+
+if PROPRIETARY_BUILDS_AVAILABLE:
+    TEMPLATE_DIRS = (
+        os.path.join(ROOT_PATH, STATIC_DIR + r'/html'),
+        os.path.join(ROOT_PATH, PROPRIETARY_STATIC_DIR + r'/html'), 
+    )
+else:
+    TEMPLATE_DIRS = (
+        os.path.join(ROOT_PATH, STATIC_DIR + r'/html'),
+    )   
+    
 ROOT_URLCONF = 'urls'
 
 
