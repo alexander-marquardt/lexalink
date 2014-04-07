@@ -28,11 +28,11 @@ import re
 
 try:
     # in order to prevent myself from accidentaly uploading sensitive data to the Git repository, I have stored 
-    # all sensitive data in a seperate file called my_private_data.py, which is ignored by git and which should never
+    # all sensitive data in a seperate folder named proprietary, in file called my_private_data.py, which is ignored by git and which should never
     # be uploaded to the public server. You should never see the file my_private_data.py in the repository.
     # 
     # If you are concerned about privacy, you can create a file called my_private_data.py, and copy the data fields 
-    # in the "except" portion of this file below, and update them with appropriate values. 
+    # in the "except" portion of this file below into my_private_data.py, and update them with appropriate values. 
     
 
     from rs.proprietary.my_private_data import *
