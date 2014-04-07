@@ -14,7 +14,7 @@ ugettext = lambda s: s
 #
 # Original author: Alexander Marquardt
 # Documentation and additional information: http://www.LexaLink.com
-# Git source code repository: https://github.com/lexalink/LexaLink.git 
+# Git source code repository: https://github.com/alexander-marquardt/lexalink 
 #
 # Please consider contributing your enhancements and modifications to the LexaLink community, 
 #
