@@ -50,6 +50,8 @@ ENABLE_GRUNT = False
 USE_COMPRESSED_STATIC_FILES = False
 
 if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
+    # Compression of static and client-side files is done using grunt, therefore ENABLE_GRUNT must be set before USE_COMPRESSED_STATIC_FILES
+    # can be set.
     logging.error("You cannot set USE_COMPRESSED_STATIC_FILES in site_configuration.py without enabling Grunt (ENABLE_GRUNT)")
     exit(1)
 
