@@ -31,12 +31,27 @@ from rs.private_data import *
 
 VERSION_ID = 'debug-build-1'
 
+
+# Enable the Grunt before uploading code to the cloud (or your clients will experience slower page loads). 
+# Enabling Grunt requires a local copy of node as well as a local opy of npm (node package manager). 
+# In order to initially configure the grunt build system (after installing node and npm), 
+# you need to cd to the "client" directory and run "npm install".
+# This will install all of the node packages that are required for compressing, minimizing, combining, etc. 
+# of the html, css, and javascript.
+# Additionally, during development (when not using grunt to compress files), our grunt scripts provide functionality such
+# as automatically running jshint when a file changes, automatic reloading of web pages when html changes, etc. 
+ENABLE_GRUNT = False
+
 # The following must be set to True before uploading - this will combine and minimize javascript 
 # and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
 USE_COMPRESSED_STATIC_FILES = False
+
+if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
+    logging.error("You cannot set USE_COMPRESSED_STATIC_FILES in site_configuration.py without enabling Grunt (ENABLE_GRUNT)")
+    exit(1)
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 

@@ -203,19 +203,31 @@ def run_grunt(grunt_arg, subprocess_function):
     
 def run_grunt_jobs():
     
-    if site_configuration.USE_COMPRESSED_STATIC_FILES:
-        # only run the grunt build scripts if we are currently accessing the compressed static files. 
-        # Otherwise, we are directly accessing the source static files, and minimizing would serve no purpose.
-        run_grunt('build', subprocess.call)
+    
+    if site_configuration.ENABLE_GRUNT:
         
-    else:
-        run_grunt('clean', subprocess.call)
-        
-        if site_configuration.PROPRIETARY_BUILDS_AVAILABLE:
+        # If the user is just running locally and not using proprietary builds, then the grunt build scripts are not necessary. 
+        # Grunt can be enabled by advanced users who know what they are doing.     
+
+        if site_configuration.USE_COMPRESSED_STATIC_FILES:
+            # only run the grunt build scripts if we are currently accessing the compressed static files (ie. client/dist instead of client/app). 
+            # Otherwise, we are directly accessing the source static files, and minimizing would serve no purpose.
+            run_grunt('build', subprocess.call)
+            
+        else:
+            run_grunt('clean', subprocess.call)
             # we only run the watch/livereload if this user knows what they are doing. Feel free to enable this
-            # and to also enable livereload in the html template if you know how to use it.
+            # and to also enable livereload in the html template if you know how to use it. This really only makes sense
+            # if we are accessing the original (non-compressed) static files as you normally would do during development.
             run_grunt('watch', subprocess.Popen)    
-        
+            
+    else:
+        if site_configuration.USE_COMPRESSED_STATIC_FILES:
+            logging.error("cannot set flag USE_COMPRESSED_STATIC_FILES unless ENABLE_GRUNT is set")
+            exit(1)
+        else:
+            pass
+    
         
 def customize_files():
     
