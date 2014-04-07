@@ -6,7 +6,7 @@ LexaLink is a free and open-source platform for quickly deploying social network
 Documentation and Installation Instructions
 -------------------------------------------
 
-You can find extensive documentation and installation instructions at the [LexaLink](http://www.lexalink.com) website. 
+You can find documentation and installation instructions at the [LexaLink](http://www.lexalink.com) website. 
 
 Contributing
 ------------
