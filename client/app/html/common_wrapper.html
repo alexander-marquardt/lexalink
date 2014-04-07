@@ -118,11 +118,10 @@
 
     <div id="id-dialog_box_for_user_feedback" style="display:none;"></div>
 
-
-    {% if build_name != "default_build" %}
-    <!-- only enable livereload if you know what it does and how to use it -->
-        {% if not use_compressed_static_files %}
+    {% if not use_compressed_static_files %}
         <!-- only enable livereload for development build -->
+        {% if ENABLE_GRUNT %}
+        <!-- only enable livereload if we are running grunt -->
         <script src="//localhost:35729/livereload.js"></script>
         {% endif %}
     {% endif %}
