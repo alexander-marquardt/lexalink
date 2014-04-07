@@ -123,8 +123,9 @@ module.exports = function (grunt) {
 
 
 
-        // The following plugin is used for searching for and replacing text strings in various files.
+        // The following plugin is used for searching for and replacing text strings in files.
         // For the moment, this is used to ensure that the proper build_name is used for different builds.
+        // We currently only use it on import_main_css_and_js.html
         replace: {
             dist: {
                 options: {
@@ -136,6 +137,10 @@ module.exports = function (grunt) {
                         {
                             match: /{{\s*build_name_used_for_menubar\s*}}/g,
                             replacement: '<%= buildSettings.build_name_used_for_menubar %>'
+                        },
+                        {
+                            match: /{{\s*proprietary_styles_dir\s*}}/g,
+                            replacement: '<%= buildSettings.proprietary_styles_dir %>'
                         }
                     ],
                     usePrefix: false

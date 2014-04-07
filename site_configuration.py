@@ -36,7 +36,7 @@ VERSION_ID = 'debug-build-1'
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_COMPRESSED_STATIC_FILES = False
+USE_COMPRESSED_STATIC_FILES = True
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -114,6 +114,16 @@ if not PROPRIETARY_BUILDS_AVAILABLE:
     # If proprietary files are not available, then search in the "open" static directory to see if they are available there.
     PROPRIETARY_STATIC_DIR = STATIC_DIR
     
+    
+if PROPRIETARY_BUILDS_AVAILABLE:
+    # when we import css files from the syles directory,  we need to pre-process the html
+    # to be sure that it pulls the CSS from the correct location. If we are not using proprietary builds,
+    # then we pull the CSS out of the standard styles directory as opposed to the proprietary/styles 
+    # directory. This will be written to to a file that is pre-processed by the grunt/node build system.
+    PROPRIETARY_STYLES_DIR = "/proprietary/styles"
+else:
+    PROPRIETARY_STYLES_DIR = "/styles"
+
 
 # Some images are accessed from python code, and therefore the grunt build scripts are not allowed to give them new hash identifier names when they change.
 # Therefore, we manually force a new path every time we upload the code so that the images will not be cached. This is a more brute force
