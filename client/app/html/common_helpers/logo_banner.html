@@ -7,7 +7,7 @@
         <a href="/">
         {% endif %}
 
-        {% if proprietary_static_dir_exists %}
+        {% if PROPRIETARY_BUILDS_AVAILABLE %}
         <img src="/proprietary/images/{{build_name}}/{{ build_name }}.png" align="middle" alt="{{ build_name }}.com">
         {% else %}
         <img src="/images/default_build/default_logo.png" align="middle" alt="{{ build_name }}.com">

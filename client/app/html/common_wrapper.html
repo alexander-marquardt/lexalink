@@ -69,7 +69,7 @@
     <meta name="robots" content="{{ meta_info.web_crawler_access }}">
 
     <!-- The following "link rel" code is to help facebook pick the correct image when someone Likes the page -->
-    {% if proprietary_static_dir_exists %}
+    {% if PROPRIETARY_BUILDS_AVAILABLE %}
     <link rel="image_src" href="/proprietary/images/{{build_name}}/{{ build_name }}.png">
     {% else %}
     <link rel="image_src" href="/images/default_build/default_logo.png">
