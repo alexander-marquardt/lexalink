@@ -383,9 +383,9 @@ def store_email_address(request, owner_uid):
     
             if posted_email:
                 email_is_valid = email_re.match(posted_email)
-                userobject.email_address_is_valid = email_is_valid
                 
                 if  email_is_valid:
+                    userobject.email_address_is_valid = True                    
                     unique_last_login_offset.has_email_address_offset = True
                     userobject.email_address = posted_email                
                     logging.info("User %s has modified their email address %s to %s" % (
@@ -397,7 +397,7 @@ def store_email_address(request, owner_uid):
             # the database, so, set it back to the default "----" so that it
             # will overwrite the previously stored address. If an invalid email address 
             # is entered, treat it the same as a clearing.
-            if not email_is_valid: # if post == "" or if an invalid email is entered
+            if not posted_email: # if post == "" 
                 userobject.email_address = "----" 
                 logging.warning("User %s erased their email address %s" % (userobject.username, userobject.email_address))
                 userobject.email_address_is_valid = False
