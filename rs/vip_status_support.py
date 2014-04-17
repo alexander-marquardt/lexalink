@@ -47,7 +47,9 @@ if settings.TESTING_PAYPAL_SANDBOX:
 else:
   PP_URL = "https://www.paypal.com/cgi-bin/webscr"
   
-FORTUMO_VALID_IP_LIST = ['79.125.125.1', '79.125.5.205', '79.125.5.95']
+FORTUMO_VALID_IP_LIST = ['79.125.125.1', '79.125.5.205', '79.125.5.95'] # These were the original IP addresses before 28.04.2014.
+# The following are the new IP addresses that are used starting 28.04.2014
+FORTUMO_VALID_IP_LIST = FORTUMO_VALID_IP_LIST + ['54.72.6.126', '54.72.6.27', '54.72.6.17', '54.72.6.23', '79.125.125.1', '79.125.5.95', '79.125.5.205']
 
 custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')  
   
@@ -196,7 +198,7 @@ def fortumo_webapp_ipn(request):
   except:
     message_content = "Failed to award VIP status for fortumo ipn call "
     email_utils.send_admin_alert_email(message_content, subject="%s Fortumo Error VIP" % settings.APP_NAME)
-    error_reporting.log_exception(logging.critical, request=request, error_message = "Fortumo credits not awarted ")
+    error_reporting.log_exception(logging.critical, request=request, error_message = "Fortumo credits not awarded ")
         
     # Return "OK" even though we had a server error - this should stop fortumo from re-sending notifications of the
     # payment.
