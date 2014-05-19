@@ -10,7 +10,7 @@ from django.utils import unittest
 from google.appengine.api.datastore import Get, Key
 
 from ..db.utils import get_cursor, set_cursor
-from .testmodels import FieldsWithOptionsModel, EmailModel, DateTimeModel, \
+from .models import FieldsWithOptionsModel, EmailModel, DateTimeModel, \
     OrderedModel, BlobModel
 
 
@@ -315,6 +315,7 @@ class FilterTest(TestCase):
             next = query[0]
             self.assertEqual(next.pk, item.pk)
             cursor = get_cursor(query)
+            self.assertIsNotNone(cursor)
         query = set_cursor(FieldsWithOptionsModel.objects.all(), cursor)
         self.assertEqual(list(query[:1]), [])
 
