@@ -447,7 +447,7 @@ ADULT_ORIENTED_SITE = False # used in determining what sort of behavior (ie. pho
 SITE_IS_TOTALLY_FREE = True    
 
 if settings.BUILD_NAME == "default_build":
-    SITE_TYPE = ugettext_lazy('You very own dating website')
+    SITE_TYPE = ugettext_lazy('Your very own dating website')
     ADULT_ORIENTED_SITE = False    
     SITE_IS_TOTALLY_FREE = False
     
