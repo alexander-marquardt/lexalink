@@ -111,6 +111,7 @@ def instant_payment_notification(request):
       currency = parameters['mc_currency']
       amount_paid = parameters['mc_gross']
       payer_email = parameters['payer_email']
+      last_name = parameters['last_name']
       
       # os0 is represented as option_selection1
       # We are not presently using this varible, but can use this in the future instead of looking up the membership
@@ -127,7 +128,7 @@ def instant_payment_notification(request):
       else:
         raise Exception("Paypal currency %s not handled by code" % currency)
         
-      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal"):
+      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal", payer_email, last_name):
         # only process the payment if this is the first time we have seen this txn_id.
         update_userobject_vip_status("paypal", userobject,  num_days_awarded, payer_email)         
         
@@ -180,7 +181,7 @@ def fortumo_webapp_ipn(request):
     
     # only grant virtual credits to account, if payment has been successful.
     if (payment_status == 'completed' or payment_status == 'pending'):
-      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal"):
+      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal", payer_phone_number, "NA"):
         logging.info("Successfully processed payment status: %s from user nid %s" % (payment_status, nid))
         update_userobject_vip_status("fortumo", userobject,  num_days_awarded, payer_phone_number)      
         
@@ -220,7 +221,7 @@ def check_signature(request):
   sig = hashlib.md5(calculation_string.encode("utf-8")).hexdigest()
   return (request.GET['sig'] == sig)  
 
-def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, payment_source):
+def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, payment_source, payer_account_info, last_name):
   
   # This stores information about the user that has made the payment. This is stored for informational purposes 
   # and to detect duplicate payment submissions with the same txn_id 
@@ -245,6 +246,8 @@ def check_payment_and_update_structures(userobject, currency, amount_paid, num_d
     payment_object.num_days_awarded = num_days_awarded
     payment_object.txn_id = txn_id
     payment_object.payment_source = payment_source
+    payment_object.payer_account_info = payer_account_info
+    payment_object.last_name = last_name
     transaction_is_ok = True
 
     payment_object.put()
@@ -371,9 +374,9 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
       # manually add in the txn_id if it is inclded
       currency = "NA - Manually Assigned"
       check_payment_and_update_structures(userobject, currency, num_days_awarded, 
-                                          num_days_awarded, txn_id, "manually assigned")
+                                          num_days_awarded, txn_id, "manually assigned", "NA - manually awarded", "NA - manually awarded")
     
-    message_content = update_userobject_vip_status("manually awarded", userobject,  num_days_awarded, payer_account_info = "N/A - manually awarded") 
+    message_content = update_userobject_vip_status("manually awarded", userobject,  num_days_awarded, payer_account_info = "NA - manually awarded") 
     return http.HttpResponse(message_content)
   
   except:

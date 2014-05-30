@@ -651,6 +651,8 @@ class PaymentInfo(ndb.Model):
     username = ndb.StringProperty(default=None)
     date_paid = ndb.DateTimeProperty(required=False)
     num_days_awarded = ndb.IntegerProperty(default=0)
+    payer_account_info = ndb.StringProperty(default=None) # email address for paypal, or phone number for fortumo
+    last_name = ndb.StringProperty(default=None)
     
     txn_id = ndb.StringProperty(required = False, default=None)
     payment_source = ndb.StringProperty(default=None) # should be either "paypal" or "fortumo"
