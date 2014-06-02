@@ -45,6 +45,12 @@
 
       <p>
         {% include "user_main_helpers/paypal_purchase_form.html" %}
+
+      <p>
+        {% blocktrans %}
+        This is a one-time VIP membership payment that does not automatically renew.
+        {% endblocktrans %}
+
   </div>
 
     {% if fortumo_data.show_fortumo_options %}
@@ -56,6 +62,11 @@
         </strong>
       <p>
         {% include "user_main_helpers/fortumo_purchase_form.html" %}
+
+      <p>
+        {% blocktrans %}
+        This is a one-time VIP membership payment that does not automatically renew.
+        {% endblocktrans %}
   </div>
   {% endif %}
 
