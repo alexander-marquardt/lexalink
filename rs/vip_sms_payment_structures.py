@@ -54,8 +54,10 @@ payment_options = {
     #'CL' : {"900.00" : 1},  # $1.70 USD
     #'CO' : {"6960.00" : 3}, # $3.46 USD
     #'MX' : {"30.26" : 2},   # $2.16 USD
-    'ES' : {"5.20" : 1, 
-            "7.26" : 3},    # $9.18 USD 
+    
+    # Remove Fortumo Spain 
+    #'ES' : {"5.20" : 1, 
+    #        "7.26" : 3},    # $9.18 USD 
 }
 
 payment_options_tc_ids = {

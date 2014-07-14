@@ -31,14 +31,14 @@ from django.utils.translation import ugettext_lazy, ugettext
 from localization_files import currency_by_country
 
 #VIP_1_DAY = "1_day" # for testing only
-VIP_3_DAYS  = "3 days"
+#VIP_3_DAYS  = "3 days"
 VIP_1_MONTH = "1 month"
 VIP_3_MONTHS = "3 months"
 VIP_6_MONTHS = "6 months"
 VIP_1_YEAR  = "1 year"
 
 # the following list will allow us to iterate over the various membership options in the correct order
-vip_membership_categories = [VIP_3_DAYS, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
+vip_membership_categories = [VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
 SELECTED_VIP_DROPDOWN = VIP_6_MONTHS
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
@@ -46,7 +46,7 @@ TESTING_COUNTRY = ''
 
 num_days_in_vip_membership_category = {
     #VIP_1_DAY : 1,
-    VIP_3_DAYS  : 3,
+    #VIP_3_DAYS  : 3,
     VIP_1_MONTH : 31,
     VIP_3_MONTHS : 92,
     VIP_6_MONTHS : 183,
@@ -56,7 +56,7 @@ num_days_in_vip_membership_category = {
 vip_option_values = {
     # this is broken up like this so that the lazy translation isn't done until the value is read.
     #VIP_1_DAY : {'duration' : "1", 'duration_units' : "day"},
-    VIP_3_DAYS : {'duration': "3", 'duration_units' : ugettext_lazy("days")}, 
+    #VIP_3_DAYS : {'duration': "3", 'duration_units' : ugettext_lazy("days")}, 
     VIP_1_MONTH: {'duration': "1", 'duration_units' : ugettext_lazy("month")},
     VIP_3_MONTHS: {'duration': "3", 'duration_units' : ugettext_lazy("months")},
     VIP_6_MONTHS: {'duration': "6", 'duration_units' : ugettext_lazy("months")},
@@ -66,26 +66,26 @@ vip_option_values = {
 
 vip_paypal_prices = {
     'EUR': {
-        VIP_3_DAYS: "6.95",
-        VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "29.95",
-        VIP_6_MONTHS: "39.95",
-        VIP_1_YEAR: "69.95",
+        #VIP_3_DAYS: "6.95",
+        VIP_1_MONTH: "29.95",
+        VIP_3_MONTHS: "49.95",
+        VIP_6_MONTHS: "69.95",
+        VIP_1_YEAR: "129.95",
         },
     'USD' : {
-        VIP_3_DAYS: "6.95",
-        VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "29.95",
-        VIP_6_MONTHS: "39.95",
-        VIP_1_YEAR: "69.95",
+        #VIP_3_DAYS: "6.95",
+        VIP_1_MONTH: "29.95",
+        VIP_3_MONTHS: "49.95",
+        VIP_6_MONTHS: "69.95",
+        VIP_1_YEAR: "129.95",
         }, 
     'MXN' : {
         # 1 USD = 13 MXN
-        VIP_3_DAYS: "69.95",    # 
-        VIP_1_MONTH: "199.95",  # 
-        VIP_3_MONTHS: "299.95", # 
-        VIP_6_MONTHS: "399.95", # 
-        VIP_1_YEAR: "699.95",   
+        #VIP_3_DAYS: "69.95",    # 
+        VIP_1_MONTH: "299.95",  # 
+        VIP_3_MONTHS: "499.95", # 
+        VIP_6_MONTHS: "699.95", # 
+        VIP_1_YEAR: "1299.95",   
         },    
     #'GBP' : {
         #VIP_1_WEEK: ".95",
@@ -152,18 +152,18 @@ def generate_paypal_dropdown_options(currency):
         else:
             selected = ''
             
-        if member_category == VIP_3_DAYS or member_category == VIP_1_MONTH:
-            generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
-                        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s<br>\n""" % {
-                            'duration': duration, 'duration_units' : duration_units, 
-                            'selected' : selected,
-                            'total_price' : vip_prices_with_currency_units[currency][member_category]}            
-        else:
-            generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
-            <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s<br>\n""" % {
-                'duration': duration, 'duration_units' : duration_units, 
-                'selected' : selected,                
-                'total_price' : vip_prices_with_currency_units[currency][member_category]}
+        #if member_category == VIP_3_DAYS or member_category == VIP_1_MONTH:
+            #generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
+                        #<strong>%(duration)s %(duration_units)s</strong>: %(total_price)s<br>\n""" % {
+                            #'duration': duration, 'duration_units' : duration_units, 
+                            #'selected' : selected,
+                            #'total_price' : vip_prices_with_currency_units[currency][member_category]}            
+        #else:
+        generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
+        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s<br>\n""" % {
+            'duration': duration, 'duration_units' : duration_units, 
+            'selected' : selected,                
+            'total_price' : vip_prices_with_currency_units[currency][member_category]}
             
     return generated_html
 
