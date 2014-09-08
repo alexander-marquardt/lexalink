@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-21 11:40-0400\n"
+"POT-Creation-Date: 2014-09-08 11:04-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -297,12 +297,8 @@ msgid "Eliminate your profile:"
 msgstr ""
 
 #: client/app/html/user_main_helpers/main_body.html:377
-#, fuzzy
 msgid "Are you sure you want to eliminate your profile?"
 msgstr ""
-"If you want to eliminate your profile/account, click on the link to the "
-"left  (careful -- you will not be able to enter with the same account after "
-"it has been eliminated)."
 
 #: client/app/html/user_main_helpers/main_body.html:385
 msgid "If you want to eliminate your profile/account."
@@ -311,68 +307,84 @@ msgstr ""
 "left  (careful -- you will not be able to enter with the same account after "
 "it has been eliminated)."
 
-#: client/app/html/user_main_helpers/menubar.html:40
+#: client/app/html/user_main_helpers/menubar.html:41
 msgid "You have entered in"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:40
+#: client/app/html/user_main_helpers/menubar.html:41
 msgid "as a guest"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:52
+#: client/app/html/user_main_helpers/menubar.html:42
+msgid "click here for more information"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:56
 msgid "Register / Enter"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:82
+#: client/app/html/user_main_helpers/menubar.html:61
+msgid "unregistered-or-cookies-not-enabled-text"
+msgstr ""
+"<p>It appears that you are not logged in. You can register and log in by "
+"clicking <a class=\"cl-register-enter-href cl-override-widget-css\" href=\"#"
+"\">here</a>. <p>If you are already registered and you are still seeing this "
+"message, then you probably do not have cookies enabled in your browser. "
+"Cookies are necessary for this website to function correctly. You can read "
+"about how to enable cookies <a class='cl-override-widget-css' "
+"target='_blank' href=\"http://www.uline.com/Signin/cookie_instructions.aspx"
+"\">here</a>."
+
+#: client/app/html/user_main_helpers/menubar.html:107
 msgid "My Profile"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:90 rs/email_utils.py:584
+#: client/app/html/user_main_helpers/menubar.html:115 rs/email_utils.py:584
 msgid "Messages"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:92
+#: client/app/html/user_main_helpers/menubar.html:117
 msgid "unread"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:98 rs/mailbox.py:968
+#: client/app/html/user_main_helpers/menubar.html:123 rs/mailbox.py:968
 msgid "All (messages - override)"
 msgstr "All"
 
-#: client/app/html/user_main_helpers/menubar.html:103
+#: client/app/html/user_main_helpers/menubar.html:128
 msgid "Unread (plural - override)"
 msgstr "Unread"
 
-#: client/app/html/user_main_helpers/menubar.html:108
+#: client/app/html/user_main_helpers/menubar.html:133
 msgid "Favorites"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:113
+#: client/app/html/user_main_helpers/menubar.html:138
 msgid "Received (plural - override)"
 msgstr "Received"
 
-#: client/app/html/user_main_helpers/menubar.html:118
+#: client/app/html/user_main_helpers/menubar.html:143
 msgid "Sent (plural - override)"
 msgstr "Sent"
 
-#: client/app/html/user_main_helpers/menubar.html:128
+#: client/app/html/user_main_helpers/menubar.html:153
 msgid "Profile views"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:130 rs/menubar.py:10
+#: client/app/html/user_main_helpers/menubar.html:155 rs/menubar.py:10
 #: rs/menubar.py:92
 msgid "new"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:141
+#: client/app/html/user_main_helpers/menubar.html:166
 msgid "More"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:147
+#: client/app/html/user_main_helpers/menubar.html:172
 msgid "View others online status"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:157
+#: client/app/html/user_main_helpers/menubar.html:182
 msgid "Exit"
 msgstr ""
 
@@ -453,6 +465,8 @@ msgid "Purchase VIP status with a credit card"
 msgstr ""
 
 #: client/app/html/user_main_helpers/purchase_buttons.html:23
+#: client/app/html/user_main_helpers/purchase_buttons.html:50
+#: client/app/html/user_main_helpers/purchase_buttons.html:67
 msgid ""
 "\n"
 "        This is a one-time VIP membership payment that does not "
@@ -482,7 +496,7 @@ msgstr ""
 msgid "Purchase VIP status with a PayPal account"
 msgstr ""
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:55
+#: client/app/html/user_main_helpers/purchase_buttons.html:61
 msgid "Purchase VIP status by sending an SMS from your mobile phone"
 msgstr ""
 
@@ -649,15 +663,11 @@ msgid ""
 msgstr ""
 
 #: client/app/html/user_main_helpers/view_other_profile_extra_stuff.html:71
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "\n"
 "                Options to contact %(viewed_profile_name)s"
 msgstr ""
-"\n"
-"                An increased limit on the number of \"chat friends\" to "
-"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
-"friends\" you can send unlimited chat messages. "
 
 #: client/app/html/user_main_helpers/view_other_profile_extra_stuff.html:76
 msgid "Click on the icon to activate or to remove the associated action"
@@ -4911,7 +4921,7 @@ msgstr ""
 msgid "you can request a new password"
 msgstr ""
 
-#: rs/utils.py:519 rs/vip_sms_payment_structures.py:94
+#: rs/utils.py:519 rs/vip_sms_payment_structures.py:96
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"

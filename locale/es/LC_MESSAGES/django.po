@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-21 11:40-0400\n"
+"POT-Creation-Date: 2014-09-08 11:04-0400\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -333,68 +333,84 @@ msgstr ""
 "Si quieres eliminar tu perfil/cuenta, haz click en el link en la izquierda "
 "(Cuidado: no podrás entrar nunca más con la misma cuenta)."
 
-#: client/app/html/user_main_helpers/menubar.html:40
+#: client/app/html/user_main_helpers/menubar.html:41
 msgid "You have entered in"
 msgstr "Has entrado en"
 
-#: client/app/html/user_main_helpers/menubar.html:40
+#: client/app/html/user_main_helpers/menubar.html:41
 msgid "as a guest"
 msgstr "como invitado"
 
-#: client/app/html/user_main_helpers/menubar.html:52
+#: client/app/html/user_main_helpers/menubar.html:42
+msgid "click here for more information"
+msgstr "Haz clic aquí para más información"
+
+#: client/app/html/user_main_helpers/menubar.html:56
 msgid "Register / Enter"
 msgstr "Regístrate / Entrar"
 
-#: client/app/html/user_main_helpers/menubar.html:82
+#: client/app/html/user_main_helpers/menubar.html:61
+msgid "unregistered-or-cookies-not-enabled-text"
+msgstr ""
+"<p>Parece que no has entrado correctamente. Puedes registrarte y conectarte "
+"haciendo clic <a class=\"cl-register-enter-href cl-override-widget-css\" "
+"href=\"#\">aquí</a>.<p>Si ya has registrado y todavía estas viendo este "
+"mensaje, probablemente no tienes habilitadas las cookies en tu navegador. "
+"Las cookies son necesarias para que este sitio funcione correctamente. "
+"Puedes leer de cómo habilitar las cookies <a class='cl-override-widget-css' "
+"target='_blank' href=\"http://es.wikihow.com/habilitar-las-cookies-en-tu-"
+"navegador-de-internet\">aquí</a>."
+
+#: client/app/html/user_main_helpers/menubar.html:107
 msgid "My Profile"
 msgstr "Mi Perfil"
 
-#: client/app/html/user_main_helpers/menubar.html:90 rs/email_utils.py:584
+#: client/app/html/user_main_helpers/menubar.html:115 rs/email_utils.py:584
 msgid "Messages"
 msgstr "Mensajes"
 
-#: client/app/html/user_main_helpers/menubar.html:92
+#: client/app/html/user_main_helpers/menubar.html:117
 msgid "unread"
 msgstr "no leídos"
 
-#: client/app/html/user_main_helpers/menubar.html:98 rs/mailbox.py:968
+#: client/app/html/user_main_helpers/menubar.html:123 rs/mailbox.py:968
 msgid "All (messages - override)"
 msgstr "Todos"
 
-#: client/app/html/user_main_helpers/menubar.html:103
+#: client/app/html/user_main_helpers/menubar.html:128
 msgid "Unread (plural - override)"
 msgstr "No leídos"
 
-#: client/app/html/user_main_helpers/menubar.html:108
+#: client/app/html/user_main_helpers/menubar.html:133
 msgid "Favorites"
 msgstr "Favoritos"
 
-#: client/app/html/user_main_helpers/menubar.html:113
+#: client/app/html/user_main_helpers/menubar.html:138
 msgid "Received (plural - override)"
 msgstr "Recibidos"
 
-#: client/app/html/user_main_helpers/menubar.html:118
+#: client/app/html/user_main_helpers/menubar.html:143
 msgid "Sent (plural - override)"
 msgstr "Enviados"
 
-#: client/app/html/user_main_helpers/menubar.html:128
+#: client/app/html/user_main_helpers/menubar.html:153
 msgid "Profile views"
 msgstr "Visitas a tu perfil"
 
-#: client/app/html/user_main_helpers/menubar.html:130 rs/menubar.py:10
+#: client/app/html/user_main_helpers/menubar.html:155 rs/menubar.py:10
 #: rs/menubar.py:92
 msgid "new"
 msgstr "nuevos"
 
-#: client/app/html/user_main_helpers/menubar.html:141
+#: client/app/html/user_main_helpers/menubar.html:166
 msgid "More"
 msgstr "Más"
 
-#: client/app/html/user_main_helpers/menubar.html:147
+#: client/app/html/user_main_helpers/menubar.html:172
 msgid "View others online status"
 msgstr "Mostrar estados de conexión"
 
-#: client/app/html/user_main_helpers/menubar.html:157
+#: client/app/html/user_main_helpers/menubar.html:182
 msgid "Exit"
 msgstr "Salir"
 
@@ -478,6 +494,8 @@ msgid "Purchase VIP status with a credit card"
 msgstr "Compra estado VIP con una tarjeta de crédito"
 
 #: client/app/html/user_main_helpers/purchase_buttons.html:23
+#: client/app/html/user_main_helpers/purchase_buttons.html:50
+#: client/app/html/user_main_helpers/purchase_buttons.html:67
 msgid ""
 "\n"
 "        This is a one-time VIP membership payment that does not "
@@ -517,7 +535,7 @@ msgstr ""
 msgid "Purchase VIP status with a PayPal account"
 msgstr "Compra estado VIP con una cuenta de PayPal"
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:55
+#: client/app/html/user_main_helpers/purchase_buttons.html:61
 msgid "Purchase VIP status by sending an SMS from your mobile phone"
 msgstr "Compra estado VIP por enviar un SMS desde tu teléfono móvil"
 
@@ -5194,7 +5212,7 @@ msgstr "Actualmente estoy en"
 msgid "you can request a new password"
 msgstr "puedes pedir una  contraseña nueva"
 
-#: rs/utils.py:519 rs/vip_sms_payment_structures.py:94
+#: rs/utils.py:519 rs/vip_sms_payment_structures.py:96
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"

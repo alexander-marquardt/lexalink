@@ -37,7 +37,11 @@
             </li>
         {% else %}
             <li class="top">
-                <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "as a guest" %}</span>
+                <a href="#" id="id-show-why-they-are-treated-as-a-guest" class="top_link">
+                    <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "as a guest" %}
+                    ( {% trans "click here for more information" %} )
+                </span>
+                </a>
             </li>
         {% endif %}
 
@@ -53,8 +57,29 @@
             </a>
         </li>
 
+        <div id="id-show-cookies-must-be-enabled-dialog" style="display:none;">
+            {% trans "unregistered-or-cookies-not-enabled-text" %}
+        </div>
+
+
         <script>
         $(document).ready(function() {
+
+
+            function showCookiesMustBeEnabledDialog() {
+                var $dialog = $("#id-show-cookies-must-be-enabled-dialog");
+
+                $dialog.dialog({
+                });
+                $dialog.dialog('open');
+                // prevent the default action, e.g., following a link
+                return false;
+            }
+
+
+            $('#id-show-why-they-are-treated-as-a-guest').click(function(){
+                showCookiesMustBeEnabledDialog();
+            });
 
             function flash_between_light_and_dark (num_times_to_flash) {
                for (idx=0; idx < num_times_to_flash; idx ++) {
@@ -257,6 +282,6 @@ $(document).ready(function() {
     $('.cl-register-enter-href').click(function(){
         show_default_registration_and_login_popup("{{ general_information_data_fields.message_for_client|safe }}");
         return false; // prevent default
-    })
+    });
 });
  </script>
