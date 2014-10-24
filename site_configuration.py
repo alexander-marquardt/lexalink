@@ -47,7 +47,7 @@ ENABLE_GRUNT = True
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_COMPRESSED_STATIC_FILES = True
+USE_COMPRESSED_STATIC_FILES = False
 
 if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
     # Compression of static and client-side files is done using grunt, therefore ENABLE_GRUNT must be set before USE_COMPRESSED_STATIC_FILES
@@ -94,7 +94,7 @@ if PROPRIETARY_BUILDS_AVAILABLE:
         
         BUILD_NAME = 'discrete_build'     # originally used for RomanceSecreto.com
         #BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
-        #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
+        BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
         #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
         #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
         #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
