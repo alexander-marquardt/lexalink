@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 15:48-0400\n"
+"POT-Creation-Date: 2014-10-24 16:52-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -608,17 +608,17 @@ msgid "Online chat friends"
 msgstr "Chat friends"
 
 #: client/app/html/user_main_helpers/translation_helper.html:44
-#: rs/constants.py:234
+#: rs/constants.py:236
 msgid "(Active)"
 msgstr ""
 
 #: client/app/html/user_main_helpers/translation_helper.html:51
-#: rs/constants.py:235
+#: rs/constants.py:237
 msgid "(Idle)"
 msgstr ""
 
 #: client/app/html/user_main_helpers/translation_helper.html:58
-#: rs/constants.py:236
+#: rs/constants.py:238
 msgid "(Away)"
 msgstr ""
 
@@ -788,7 +788,7 @@ msgid "100 percent free lesbian dating"
 msgstr "100% free lesbian dating"
 
 #: client/app/proprietary/html/proprietary_ads/mature_build.html:14
-#: rs/constants.py:482 rs/proprietary/search_engine_overrides.py:81
+#: rs/constants.py:484 rs/proprietary/search_engine_overrides.py:81
 msgid "dating website to meet mature adults over 40 years old"
 msgstr ""
 
@@ -891,7 +891,7 @@ msgstr ""
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:363
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:372
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:862
-#: rs/constants.py:745
+#: rs/constants.py:752
 msgid "May"
 msgstr ""
 
@@ -1315,21 +1315,30 @@ msgid ""
 "quota"
 msgstr ""
 
-#: rs/callbacks_from_html.py:248
+#: rs/callbacks_from_html.py:249
 #, python-format
 msgid ""
-"As a VIP Member, you are allowed to contact %(num_new_people_txt)s every "
+"As a VIP Member, you are allowed to message %(num_new_people_txt)s every "
 "%(hr)s hours"
 msgstr ""
 
-#: rs/callbacks_from_html.py:258
+#: rs/callbacks_from_html.py:259
 #, python-format
-msgid ""
-"Since you are not yet a %(vip_member)s, you are allowed to contact "
-"%(num_new_people_txt)s every %(num_days)s days"
+msgid "Since you are not yet a %(vip_member)s, you can"
 msgstr ""
 
-#: rs/callbacks_from_html.py:272
+#: rs/callbacks_from_html.py:262
+msgid "You can"
+msgstr ""
+
+#: rs/callbacks_from_html.py:265
+#, python-format
+msgid ""
+"%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s every "
+"%(num_days)s days"
+msgstr ""
+
+#: rs/callbacks_from_html.py:279
 #, python-format
 msgid ""
 "If you wish to increase this limit, read about the benefits of becoming a "
@@ -1344,90 +1353,97 @@ msgstr ""
 msgid "Error - you appear to have been logged out"
 msgstr ""
 
-#: rs/constants.py:237
+#: rs/constants.py:239
 msgid "(Offline)"
 msgstr ""
 
-#: rs/constants.py:451
+#: rs/constants.py:453
 msgid "Your very own dating website"
 msgstr ""
 
-#: rs/constants.py:456
+#: rs/constants.py:458
 msgid "confidential dating website"
 msgstr ""
 
-#: rs/constants.py:461
+#: rs/constants.py:463
 msgid "serious dating website"
 msgstr ""
 
-#: rs/constants.py:464
+#: rs/constants.py:466
 msgid "website to learn languages and meet people"
 msgstr ""
 
-#: rs/constants.py:467
+#: rs/constants.py:469
 msgid "lesbian dating website"
 msgstr ""
 
-#: rs/constants.py:471
+#: rs/constants.py:473
 msgid "gay dating website"
 msgstr ""
 
-#: rs/constants.py:475
+#: rs/constants.py:477
 msgid "swingers website"
 msgstr ""
 
-#: rs/constants.py:479
+#: rs/constants.py:481
 msgid "website to meet people and make friends"
 msgstr ""
 
-#: rs/constants.py:595
+#: rs/constants.py:597
 msgid "VIP member"
 msgstr ""
 
-#: rs/constants.py:602
+#: rs/constants.py:604
 msgid ""
 "<strong>Username</strong> can only contain letters and numbers, and must not "
 "contain spaces."
 msgstr ""
 
-#: rs/constants.py:603
+#: rs/constants.py:605
 msgid "<strong>Username</strong> needs at least 3 characters."
 msgstr ""
 
-#: rs/constants.py:604
+#: rs/constants.py:606
 msgid "<strong>Password</strong> required"
 msgstr ""
 
-#: rs/constants.py:605
+#: rs/constants.py:607
 msgid ""
 "The <strong>Password</strong> and the <strong>Verification Password</strong> "
 "must be the same."
 msgstr ""
 
-#: rs/constants.py:606
+#: rs/constants.py:608
 msgid "The <strong>Username</strong> that you have selected is not available."
 msgstr ""
 
-#: rs/constants.py:607
+#: rs/constants.py:609
 msgid "<strong>Username/email + Password</strong> is incorrect"
 msgstr ""
 
-#: rs/constants.py:608
+#: rs/constants.py:610
 msgid "The <strong>Email Address</strong> is not valid"
 msgstr ""
 
-#: rs/constants.py:616
+#: rs/constants.py:619
 #, python-format
 msgid ""
 "Given that you are not a %(vip_member)s, you can only send %(guest_num)s "
 "messages to each member in a single %(hours)s-hour period.\n"
-"            However, if the other user is a \"chat friend\" of yours or if "
-"you become a %(vip_member)s, then you can send them up to "
+"                However, if the other user is a \"chat friend\" of yours or "
+"if you become a %(vip_member)s, then you can send them up to "
 "%(chat_friend_num)s messages in a single\n"
-"            %(hours)s-hour period.<br><br>"
+"                %(hours)s-hour period.<br><br>"
 msgstr ""
 
-#: rs/constants.py:624
+#: rs/constants.py:627
+#, python-format
+msgid ""
+"You can only send %(guest_num)s messages to each member in a single "
+"%(hours)s-hour period.<br><br>"
+msgstr ""
+
+#: rs/constants.py:631
 #, python-format
 msgid ""
 "As a VIP member, you can send up to %(vip_num)s messages to each member in a "
@@ -1435,239 +1451,239 @@ msgid ""
 "            hour period. You have now reached this limit.<br><br>"
 msgstr ""
 
-#: rs/constants.py:629
+#: rs/constants.py:636
 #, python-format
 msgid ""
 "You can send more messages to this member %(txt_for_when_quota_resets)s."
 msgstr ""
 
-#: rs/constants.py:637
+#: rs/constants.py:644
 msgid ""
 "You must register for a <strong>free account</strong> in order to contact "
 "our members. "
 msgstr ""
 
-#: rs/constants.py:662
+#: rs/constants.py:669
 msgid "only the last"
 msgstr ""
 
-#: rs/constants.py:664
+#: rs/constants.py:671
 msgid "sent (singular)"
 msgstr "sent"
 
-#: rs/constants.py:665
+#: rs/constants.py:672
 msgid "received (singluar)"
 msgstr "received"
 
-#: rs/constants.py:666
+#: rs/constants.py:673
 msgid "saved (singular)"
 msgstr "saved"
 
-#: rs/constants.py:667
+#: rs/constants.py:674
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:673 rs/messages.py:367
+#: rs/constants.py:680 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "sent"
 
-#: rs/constants.py:673
+#: rs/constants.py:680
 msgid "Sent (plural)"
 msgstr "Sent"
 
-#: rs/constants.py:674
+#: rs/constants.py:681
 msgid "received (plural)"
 msgstr "received"
 
-#: rs/constants.py:674
+#: rs/constants.py:681
 msgid "Received (plural)"
 msgstr "Received"
 
-#: rs/constants.py:675
+#: rs/constants.py:682
 msgid "saved (plural)"
 msgstr "saved"
 
-#: rs/constants.py:675
+#: rs/constants.py:682
 msgid "Saved (plural)"
 msgstr "Saved"
 
-#: rs/constants.py:676
+#: rs/constants.py:683
 msgid "confirmed (plural)"
 msgstr "confirmed"
 
-#: rs/constants.py:676
+#: rs/constants.py:683
 msgid "Confirmed (plural)"
 msgstr "Confirmed"
 
-#: rs/constants.py:681
+#: rs/constants.py:688
 msgid "sent (plural feminine)"
 msgstr "sent"
 
-#: rs/constants.py:681
+#: rs/constants.py:688
 msgid "Sent (plural feminine)"
 msgstr "Sent"
 
-#: rs/constants.py:682
+#: rs/constants.py:689
 msgid "received (plural feminine)"
 msgstr "received"
 
-#: rs/constants.py:682
+#: rs/constants.py:689
 msgid "Received (plural feminine)"
 msgstr "Received"
 
-#: rs/constants.py:683
+#: rs/constants.py:690
 msgid "saved (plural feminine)"
 msgstr "saved"
 
-#: rs/constants.py:683
+#: rs/constants.py:690
 msgid "Saved (plural feminine)"
 msgstr "Saved"
 
-#: rs/constants.py:684
+#: rs/constants.py:691
 msgid "confirmed (plural feminine)"
 msgstr "confirmed"
 
-#: rs/constants.py:684
+#: rs/constants.py:691
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmed"
 
-#: rs/constants.py:689
+#: rs/constants.py:696
 msgid "Greetings"
 msgstr ""
 
-#: rs/constants.py:690
+#: rs/constants.py:697
 msgid "Send them a greeting"
 msgstr ""
 
-#: rs/constants.py:691
+#: rs/constants.py:698
 msgid "Greeting"
 msgstr ""
 
-#: rs/constants.py:693
+#: rs/constants.py:700
 msgid "Winks"
 msgstr ""
 
-#: rs/constants.py:694
+#: rs/constants.py:701
 msgid "Send them a wink"
 msgstr ""
 
-#: rs/constants.py:695
+#: rs/constants.py:702
 msgid "Wink"
 msgstr ""
 
-#: rs/constants.py:698
+#: rs/constants.py:705
 msgid "My favorites"
 msgstr ""
 
-#: rs/constants.py:700
+#: rs/constants.py:707
 msgid "Kisses"
 msgstr ""
 
-#: rs/constants.py:701
+#: rs/constants.py:708
 msgid "Keys"
 msgstr ""
 
-#: rs/constants.py:702
+#: rs/constants.py:709
 msgid "Chat friends"
 msgstr ""
 
-#: rs/constants.py:703
+#: rs/constants.py:710
 msgid "Blocked (plural)"
 msgstr "Blocked"
 
-#: rs/constants.py:708
+#: rs/constants.py:715
 msgid "My favorite"
 msgstr ""
 
-#: rs/constants.py:710
+#: rs/constants.py:717
 msgid "Kiss"
 msgstr ""
 
-#: rs/constants.py:711
+#: rs/constants.py:718
 msgid "Key"
 msgstr ""
 
-#: rs/constants.py:712
+#: rs/constants.py:719
 msgid "Chat friend"
 msgstr "Chat friends"
 
-#: rs/constants.py:713
+#: rs/constants.py:720
 msgid "Blocked (singular)"
 msgstr "Blocked"
 
-#: rs/constants.py:717
+#: rs/constants.py:724
 msgid "Chat requests sent"
 msgstr ""
 
-#: rs/constants.py:718
+#: rs/constants.py:725
 msgid "Chat requests received"
 msgstr ""
 
-#: rs/constants.py:719
+#: rs/constants.py:726
 msgid "Chat connections confirmed"
 msgstr ""
 
-#: rs/constants.py:723
+#: rs/constants.py:730
 msgid "Add them to your list of favorites"
 msgstr ""
 
-#: rs/constants.py:725
+#: rs/constants.py:732
 msgid "Send them a kiss"
 msgstr ""
 
-#: rs/constants.py:726
+#: rs/constants.py:733
 msgid "Give them access to your private photos"
 msgstr ""
 
-#: rs/constants.py:727
+#: rs/constants.py:734
 msgid "Invite them to chat with you"
 msgstr ""
 
-#: rs/constants.py:728
+#: rs/constants.py:735
 msgid "Block this user (delete new messages automatically)"
 msgstr ""
 
-#: rs/constants.py:741
+#: rs/constants.py:748
 msgid "January"
 msgstr ""
 
-#: rs/constants.py:742
+#: rs/constants.py:749
 msgid "February"
 msgstr ""
 
-#: rs/constants.py:743
+#: rs/constants.py:750
 msgid "March"
 msgstr ""
 
-#: rs/constants.py:744
+#: rs/constants.py:751
 msgid "April"
 msgstr ""
 
-#: rs/constants.py:746
+#: rs/constants.py:753
 msgid "June"
 msgstr ""
 
-#: rs/constants.py:747
+#: rs/constants.py:754
 msgid "July"
 msgstr ""
 
-#: rs/constants.py:748
+#: rs/constants.py:755
 msgid "August"
 msgstr ""
 
-#: rs/constants.py:749
+#: rs/constants.py:756
 msgid "September"
 msgstr ""
 
-#: rs/constants.py:750
+#: rs/constants.py:757
 msgid "October"
 msgstr ""
 
-#: rs/constants.py:751
+#: rs/constants.py:758
 msgid "November"
 msgstr ""
 
-#: rs/constants.py:752
+#: rs/constants.py:759
 msgid "December"
 msgstr ""
 

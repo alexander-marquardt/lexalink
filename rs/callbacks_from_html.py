@@ -242,10 +242,11 @@ class MyHTMLCallbackGenerator():
 
                         
                         people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit -- you can always respond to messages without using your quota")
-                        
-                        if  userobject.client_paid_status:
+
+
+                        if userobject.client_paid_status:
                             vip_member_is_allowed_to_contact = u"%s" % ugettext(
-                                "As a VIP Member, you are allowed to contact %(num_new_people_txt)s every %(hr)s hours") % {
+                                "As a VIP Member, you are allowed to message %(num_new_people_txt)s every %(hr)s hours") % {
                                                          'num_new_people_txt' : num_new_people_txt, 'hr':hours_before_reset, }
                             generated_html += u"%s<br><br>" %  """
                             %(vip_member_is_allowed_to_contact)s.
@@ -254,8 +255,15 @@ class MyHTMLCallbackGenerator():
                                     'people_in_the_past' : people_in_the_past,
                                     'will_be_reset' : will_be_reset }
                         else:
+                            if constants.SHOW_VIP_UPGRADE_OPTION:
+                                you_are_allowed_to_contact_prefix = ugettext("Since you are not yet a %(vip_member)s, you can") % {
+                                    'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
+                            else:
+                                you_are_allowed_to_contact_prefix = ugettext("You can")
+
                             you_are_allowed_to_contact = u"%s" % ugettext(
-                                "Since you are not yet a %(vip_member)s, you are allowed to contact %(num_new_people_txt)s every %(num_days)s days") % {
+                                "%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s every %(num_days)s days") % {
+                                                            'you_are_allowed_to_contact_prefix' : you_are_allowed_to_contact_prefix,
                                                             'num_new_people_txt' : num_new_people_txt,
                                                             'num_days': constants.GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES,
                                                             'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
@@ -264,13 +272,14 @@ class MyHTMLCallbackGenerator():
                             %(you_are_allowed_to_contact)s.
                             %(people_in_the_past)s. %(will_be_reset)s.
                             """ % {'you_are_allowed_to_contact' : you_are_allowed_to_contact,
-                                    'people_in_the_past':people_in_the_past,  
+                                    'people_in_the_past':people_in_the_past,
                                     'will_be_reset' : will_be_reset,}
-                        
-        
-                            if constants.SHOW_VIP_UPGRADE_OPTION:
+
+                        if constants.SHOW_VIP_UPGRADE_OPTION:
                                 generated_html += u" %s.<br><br>" % ugettext("""If you wish to increase this limit, read about the benefits of becoming a %(vip_member)s""") % {
                                     'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
+
+
                         
                         generated_html += "</div>"
                 

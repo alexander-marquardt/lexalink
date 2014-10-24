@@ -81,7 +81,7 @@ if SHOW_VIP_UPGRADE_OPTION:
     GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 7  # days before the counters will be reset
     
 else:
-    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 8
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 1  # days before the counters will be reset
     
 GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES * 24
@@ -95,11 +95,13 @@ NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 24 # to prevent a pair o
 if SHOW_VIP_UPGRADE_OPTION:
     # VIP purchase is available - this user should pay if they want to send more messages.
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 2 # can only send X messages to another user in a window period
+    # If the users are "chat friends" then they can send more messages between them in time window period.
+    VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 20
 else:
-    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 6
-    
-# If the users are "chat friends" then they can send more messages between them in time window period. 
-VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 20
+    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10
+    # no special benefit for being chat friends in the free sites.
+    VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW
+
     
 RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
     
@@ -613,13 +615,18 @@ class ErrorMessages():
         generated_html = ''
             
         if not vip_status:
-            generated_html += ugettext_lazy("""Given that you are not a %(vip_member)s, you can only send %(guest_num)s messages to each member in a single %(hours)s-hour period.
-            However, if the other user is a "chat friend" of yours or if you become a %(vip_member)s, then you can send them up to %(chat_friend_num)s messages in a single
-            %(hours)s-hour period.<br><br>""") % \
-                   {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
-                    'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
-                    'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
-                    'vip_member' : vip_member_anchor % vip_member_txt,}
+            if SHOW_VIP_UPGRADE_OPTION:
+                generated_html += ugettext_lazy("""Given that you are not a %(vip_member)s, you can only send %(guest_num)s messages to each member in a single %(hours)s-hour period.
+                However, if the other user is a "chat friend" of yours or if you become a %(vip_member)s, then you can send them up to %(chat_friend_num)s messages in a single
+                %(hours)s-hour period.<br><br>""") % \
+                       {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                        'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                        'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
+                        'vip_member' : vip_member_anchor % vip_member_txt,}
+            else:
+                generated_html += ugettext_lazy("""You can only send %(guest_num)s messages to each member in a single %(hours)s-hour period.<br><br>""") % \
+                       {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
+                        'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,}
         else:
             generated_html += ugettext_lazy("""As a VIP member, you can send up to %(vip_num)s messages to each member in a single %(hours)s 
             hour period. You have now reached this limit.<br><br>""") % {
