@@ -3,8 +3,8 @@
         {% if SHOW_VIP_UPGRADE_OPTION %}
         
         <ul>
-        <li class="cl-indent">{% blocktrans with guest_num_new_people_messages_allowed_in_window as guest_messages and guest_window_hours as guest_hours and vip_num_new_people_messages_allowed_in_window as vip_messages and vip_window_hours as vip_hours%}
-                vip_message_quota {{ vip_messages }} {{ vip_hours }} {{ guest_messages }} {{ guest_hours }} {% endblocktrans %}</li>
+        <li class="cl-indent">{% blocktrans with guest_num_new_people_messages_allowed_in_window as guest_new_people and guest_window_days as guest_days and vip_num_new_people_messages_allowed_in_window as vip_messages and vip_window_hours as vip_hours%}
+                vip_message_quota {{ vip_messages }} {{ vip_hours }} {{ guest_new_people }} {{ guest_days }} {% endblocktrans %}</li>
         <li class="cl-indent">{% blocktrans with app_name as app_name %}Online status benefits {{ app_name }}{% endblocktrans %}</li>
         <li class="cl-indent">{% blocktrans with NUMER_OF_DAYS_PROFILE_VIEWS_STORED as days and  app_name as app_name %}
             You will see all of the other {{ app_name }} members that have viewed your profile over the past {{ days }} days. 

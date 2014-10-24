@@ -72,19 +72,20 @@ URLS_THAT_NEED_REDIRECT_AFTER_ENTRY = set(["/", "/rs/admin/login/", "/rs/submit_
                                            "/rs/welcome/", "/rs/press/", "/rs/delete_account/"])
 
 
-# Define the number of new people that the user can send messages to in a given time window. 
+# Define the number of new people that the user can send messages to in a given time window.
 VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
 
 if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
-    GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 72 # X hours before the counters will be reset
+    GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 7  # days before the counters will be reset
     
 else:
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 8
-    GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
+    GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 1  # days before the counters will be reset
     
-    
+GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES * 24
+
 # if this member is VIP, then they will be allowed to send messages to more people in the "window"
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
@@ -98,7 +99,7 @@ else:
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 6
     
 # If the users are "chat friends" then they can send more messages between them in time window period. 
-VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10 
+VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 20
     
 RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
     
@@ -194,7 +195,7 @@ MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exce
 
 # this is the limit on the number of chat_friends for non-registered users
 if SHOW_VIP_UPGRADE_OPTION:
-    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 2 
+    GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 1
 else:
     GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 50 
 
@@ -608,22 +609,17 @@ class ErrorMessages():
 
     @classmethod
     def num_messages_to_other_in_time_window(cls, txt_for_when_quota_resets, vip_status):
-        
-        if SHOW_VIP_UPGRADE_OPTION:
-            or_if_vip_member_txt = ugettext_lazy(" or if you are a %(vip_member)s") % {'vip_member' : vip_member_anchor % vip_member_txt}
-        else:
-            or_if_vip_member_txt = ''
-            
+
         generated_html = ''
             
         if not vip_status:
-            generated_html += ugettext_lazy("""You can only send %(guest_num)s messages to each member in a single %(hours)s-hour period. 
-            However, if the other user is a "chat friend" of yours%(or_if_vip_member_txt)s, then you can send them %(chat_friend_num)s messages in a single 
+            generated_html += ugettext_lazy("""Given that you are not a %(vip_member)s, you can only send %(guest_num)s messages to each member in a single %(hours)s-hour period.
+            However, if the other user is a "chat friend" of yours or if you become a %(vip_member)s, then you can send them up to %(chat_friend_num)s messages in a single
             %(hours)s-hour period.<br><br>""") % \
                    {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                     'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW, 
                     'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
-                    'or_if_vip_member_txt' : or_if_vip_member_txt,}
+                    'vip_member' : vip_member_anchor % vip_member_txt,}
         else:
             generated_html += ugettext_lazy("""As a VIP member, you can send up to %(vip_num)s messages to each member in a single %(hours)s 
             hour period. You have now reached this limit.<br><br>""") % {
@@ -802,7 +798,7 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'company_name' : COMPANY_NAME,
                           'company_www' : COMPANY_WWW,                          
                           'guest_num_new_people_messages_allowed_in_window': GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
-                          'guest_window_hours' : GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES,
+                          'guest_window_days' : GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES,
                           'vip_num_new_people_messages_allowed_in_window' : VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
                           'vip_window_hours' : VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES,
                           'STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
