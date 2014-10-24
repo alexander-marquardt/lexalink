@@ -47,7 +47,7 @@ ENABLE_GRUNT = True
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_COMPRESSED_STATIC_FILES = False
+USE_COMPRESSED_STATIC_FILES = True
 
 if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
     # Compression of static and client-side files is done using grunt, therefore ENABLE_GRUNT must be set before USE_COMPRESSED_STATIC_FILES
