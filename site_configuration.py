@@ -94,7 +94,7 @@ if PROPRIETARY_BUILDS_AVAILABLE:
         
         BUILD_NAME = 'discrete_build'     # originally used for RomanceSecreto.com
         #BUILD_NAME = 'single_build'   # originally used for SingletonSearch.com
-        BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
+        #BUILD_NAME = 'lesbian_build'   # originally used for LesbianHeart.com
         #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
         #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
         #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
