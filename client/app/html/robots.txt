@@ -1,13 +1,18 @@
 {{ sitemaps_links }}
 
+
+User-agent: Mediapartners-Google
+Allow: /rs/auth
+Allow: /*/rs/auth
+
 User-agent: *
 Disallow: /rs/admin
 Disallow: /rs/ajax
 Disallow: /rs/auth
 Disallow: /*/rs/auth
 
+Allow: /*/search/?query_order=last_login_string
+Allow: /*/search/?query_order=unique_last_login
+Disallow: /*/search/?*
 
-User-agent: Mediapartners-Google
-Allow: /rs/auth
-Allow: /*/rs/auth
 
