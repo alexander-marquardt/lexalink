@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 16:52-0400\n"
+"POT-Creation-Date: 2014-11-04 16:47-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1251,7 +1251,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:736 rs/forms.py:1097 rs/login.py:763 rs/messages.py:521
-#: rs/rendering.py:431 rs/utils.py:1527
+#: rs/rendering.py:430 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -3833,7 +3833,7 @@ msgstr "Relationship status: %(relationship_status)s"
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:443
+#: rs/search_results.py:438
 msgid "Showing results for"
 msgstr ""
 
@@ -5066,6 +5066,10 @@ msgstr ""
 msgid "terms.html"
 msgstr ""
 
+#: rs/vip_paypal_structures.py:59
+msgid "days"
+msgstr ""
+
 #: rs/vip_paypal_structures.py:60
 msgid "month"
 msgstr ""
@@ -5141,18 +5145,6 @@ msgstr ""
 msgid ""
 "mature dating - profiles, photos, personals and chat - exclusively for "
 "people over 50"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:261
-msgid "seeking"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:263
-msgid "in exchange for"
-msgstr ""
-
-#: rs/proprietary/search_engine_overrides.py:303
-msgid "Refine your search results"
 msgstr ""
 
 #~ msgid " Are you sure you want to eliminate your profile?"
