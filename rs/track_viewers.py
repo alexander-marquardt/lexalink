@@ -262,7 +262,7 @@ def generate_html_for_profile_views(request):
             
         
         return rendering.render_main_html(request, generated_html, userobject, page_title = generated_title, 
-                                          refined_links_html = '', show_social_buttons = True,
+                                          show_social_buttons = True,
                                           page_meta_description = '')
         
     except:
