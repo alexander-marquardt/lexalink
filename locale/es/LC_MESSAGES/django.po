@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 16:52-0400\n"
+"POT-Creation-Date: 2014-11-04 16:47-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -1404,7 +1404,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:736 rs/forms.py:1097 rs/login.py:763 rs/messages.py:521
-#: rs/rendering.py:431 rs/utils.py:1527
+#: rs/rendering.py:430 rs/utils.py:1527
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -1611,6 +1611,7 @@ msgstr ""
 "%(hours)s horas. <br><br>"
 
 #: rs/constants.py:627
+#, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member in a single "
 "%(hours)s-hour period.<br><br>"
@@ -4075,7 +4076,7 @@ msgstr "Estado: %(relationship_status)s"
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "Para: %(relationship_status)s"
 
-#: rs/search_results.py:443
+#: rs/search_results.py:438
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
@@ -5373,6 +5374,10 @@ msgstr "Registrate para una <strong>cuenta gratuita</strong> debajo."
 msgid "terms.html"
 msgstr "terminos.html"
 
+#: rs/vip_paypal_structures.py:59
+msgid "days"
+msgstr "días"
+
 #: rs/vip_paypal_structures.py:60
 msgid "month"
 msgstr "mes"
@@ -5463,17 +5468,17 @@ msgstr ""
 "citas y contactos para personas maduras - perfiles, fotos y chat - "
 "exclusívamente para personas mayores de 50"
 
-#: rs/proprietary/search_engine_overrides.py:261
-msgid "seeking"
-msgstr "buscando"
+#~ msgid "day"
+#~ msgstr "día"
 
-#: rs/proprietary/search_engine_overrides.py:263
-msgid "in exchange for"
-msgstr "a cambio de"
+#~ msgid "seeking"
+#~ msgstr "buscando"
 
-#: rs/proprietary/search_engine_overrides.py:303
-msgid "Refine your search results"
-msgstr "Filtrar los resultados de búsqueda"
+#~ msgid "in exchange for"
+#~ msgstr "a cambio de"
+
+#~ msgid "Refine your search results"
+#~ msgstr "Filtrar los resultados de búsqueda"
 
 #~ msgid ""
 #~ "\n"
@@ -5495,9 +5500,6 @@ msgstr "Filtrar los resultados de búsqueda"
 #~ "\n"
 #~ "Puedes %(are_allowed_to_contact)s. %(people_in_the_past)s. "
 #~ "%(will_be_reset)s."
-
-#~ msgid "days"
-#~ msgstr "días"
 
 #~ msgid ""
 #~ "\n"
