@@ -3,20 +3,11 @@
 <div id="id-advertising-sidebar" class="grid_custom cl-grid_160px alpha omega cl-float_right">
 
     <br>
-   
-    
+
     {% for ad in advertising_info.ad_template_list %}
         {{ ad|safe }}
         <br><br>
     {% endfor %}
-
-        
-    {% if refined_links_html %}
-        <div class="cl-refine-search">
-        {{ refined_links_html|safe }}
-        </div>
-        <br><br>
-    {% endif %}
 
     <div class="cl-clear"></div>
 

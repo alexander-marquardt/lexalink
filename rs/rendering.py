@@ -171,7 +171,7 @@ def get_ad(request, ads_to_select_from):
 
 
 def render_main_html(request, generated_html, userobject = None, link_to_hide = '', 
-                     page_title = '', refined_links_html = '', show_social_buttons = False, page_meta_description = '',
+                     page_title = '', show_social_buttons = False, page_meta_description = '',
                      show_search_box = True, text_override_for_navigation_bar = '', hide_page_from_webcrawler = False,
                      enable_ads = True, show_login_link_override = False, hide_why_to_register = False,
                      do_not_try_to_dynamically_load_search_values = False, render_wrapper_only = False, 
@@ -401,8 +401,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 'generated_html': generated_html,
                 'text_override_for_navigation_bar': text_override_for_navigation_bar,
                 'advertising_info': advertising_info,
-                'refined_links_html' : refined_links_html,
-                'updated_meta_info': meta_info,  
+                'updated_meta_info': meta_info,
                 'hide_logo_banner_links' : hide_logo_banner_links,
                 'verification_values_dict' : verification_values_dict,
                 'request' : request,

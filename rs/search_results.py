@@ -418,10 +418,6 @@ def generate_search_results(request, type_of_search = "normal", this_is_a_logout
                 
             generated_header = generate_title_for_current_search(search_vals_dict, lang_idx, extended_results = True)
             
-            if settings.SEO_OVERRIDES_ENABLED:
-                refined_links_html = search_engine_overrides.generate_refine_search_links_for_current_search(search_vals_dict, request.LANGUAGE_CODE)
-            else:
-                refined_links_html = ''
 
             # show the rest of the search results
             post_action = "/%s/search/" % (request.LANGUAGE_CODE)
@@ -433,7 +429,6 @@ def generate_search_results(request, type_of_search = "normal", this_is_a_logout
             generated_header = "%s" % search_vals_dict["search_by_name"]
             generated_title = generated_header
             generated_meta_description = u''
-            refined_links_html = ''
             post_action = "/%s/search_by_name/" % (request.LANGUAGE_CODE)
             
         else:
@@ -574,7 +569,7 @@ def generate_search_results(request, type_of_search = "normal", this_is_a_logout
         
         
         return rendering.render_main_html(request, generated_html, viewer_userobject, page_title = generated_title, 
-                                          refined_links_html = refined_links_html, show_social_buttons = True,
+                                          show_social_buttons = True,
                                           page_meta_description = generated_meta_description, 
                                           this_is_a_logout = this_is_a_logout, 
                                           text_override_for_navigation_bar= text_override_for_navigation_bar,
