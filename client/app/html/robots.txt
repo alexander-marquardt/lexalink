@@ -1,5 +1,9 @@
 {{ sitemaps_links }}
 
+User-agent: Mediapartners-Google
+Allow: /rs/auth
+Allow: /*/rs/auth
+
 User-agent: *
 Disallow: /rs/admin
 Disallow: /rs/ajax
@@ -7,7 +11,5 @@ Disallow: /rs/auth
 Disallow: /*/rs/auth
 
 
-User-agent: Mediapartners-Google
-Allow: /rs/auth
-Allow: /*/rs/auth
 
+{{ site_specific_allow_disallow }}

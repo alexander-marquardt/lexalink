@@ -452,6 +452,16 @@ def robots_txt(request):
                 'domain_name' : settings.DOMAIN_NAME,
                 'sitemap_number' : sitemap_number,}
     
-    logging.info("sitemaps_links %s" % sitemaps_links)    
-    http_response = render_to_response("robots.txt", {'sitemaps_links' : sitemaps_links})
+    logging.info("sitemaps_links %s" % sitemaps_links)
+
+    if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME ==  "single_build" or settings.BUILD_NAME ==  "lesbian_build":
+        site_specific_allow_disallow = ''
+    else :
+        site_specific_allow_disallow = """
+Allow: /*/search/?query_order=last_login_string
+Allow: /*/search/?query_order=unique_last_login
+Disallow: /*/search/?*
+"""
+
+    http_response = render_to_response("robots.txt", {'sitemaps_links' : sitemaps_links, 'site_specific_allow_disallow': site_specific_allow_disallow})
     return http_response
