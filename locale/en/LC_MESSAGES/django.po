@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-07 11:04-0500\n"
+"POT-Creation-Date: 2014-11-07 12:25-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -673,24 +673,38 @@ msgstr ""
 msgid "Click on the icon to activate or to remove the associated action"
 msgstr ""
 
-#: client/app/html/user_main_helpers/vip_benefits.html:6
+#: client/app/html/user_main_helpers/vip_benefits.html:7
 #, python-format
 msgid ""
 "\n"
-"                vip_message_quota %(vip_messages)s "
+"                vip_message_quota %(vip_messages)s %(guest_new_people)s "
 msgstr ""
 "\n"
 "Increased message quota that allows you to contact %(vip_messages)s new "
-"people per day (versus one new person per day for non-VIP members)."
+"people every day, versus %(guest_new_people)s new people each day for non-"
+"VIP members."
 
-#: client/app/html/user_main_helpers/vip_benefits.html:8
+#: client/app/html/user_main_helpers/vip_benefits.html:10
+#, python-format
+msgid ""
+"\n"
+"                vip_repeat_message_quota %(cf_num_messages)s "
+"%(std_num_messages)s %(reset_after_num_hours)s"
+msgstr ""
+"\n"
+"You will be allowed to send and receive %(cf_num_messages)s message every "
+"%(reset_after_num_hours)s hours to each person that you have already had "
+"contact with, versus %(std_num_messages)s message every "
+"%(reset_after_num_hours)s hours for non VIP members."
+
+#: client/app/html/user_main_helpers/vip_benefits.html:13
 #, python-format
 msgid "Online status benefits %(app_name)s"
 msgstr ""
 "You will see the online status (Active, Idle, Away, or Offline) of all "
 "%(app_name)s members."
 
-#: client/app/html/user_main_helpers/vip_benefits.html:9
+#: client/app/html/user_main_helpers/vip_benefits.html:15
 #, python-format
 msgid ""
 "\n"
@@ -699,7 +713,7 @@ msgid ""
 "            "
 msgstr ""
 
-#: client/app/html/user_main_helpers/vip_benefits.html:12
+#: client/app/html/user_main_helpers/vip_benefits.html:19
 #, python-format
 msgid ""
 "\n"
@@ -707,21 +721,10 @@ msgid ""
 msgstr ""
 "\n"
 "                An increased limit on the number of \"chat friends\" to "
-"%(vip)s (versus %(free)s for non-VIP members). With each of your \"chat "
+"%(vip)s, versus %(free)s for non-VIP members. With each of your \"chat "
 "friends\" you can send unlimited chat messages. "
 
-#: client/app/html/user_main_helpers/vip_benefits.html:14
-#, python-format
-msgid ""
-"\n"
-"                vip_repeat_message_quota %(cf_num_messages)s"
-msgstr ""
-"\n"
-"You will be allowed to send and receive %(cf_num_messages)s messages per day "
-"to each person that you have already had contact with (versus one message "
-"per day for non VIP members)."
-
-#: client/app/html/user_main_helpers/vip_benefits.html:16
+#: client/app/html/user_main_helpers/vip_benefits.html:22
 msgid "You can update your email address"
 msgstr ""
 "You can modify your contact email address whenever you like (versus non VIP "
@@ -752,7 +755,7 @@ msgid "Meet new friends"
 msgstr ""
 
 #: client/app/proprietary/html/proprietary_ads/friend_build.html:30
-#: rs/utils.py:1817 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1824 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -1248,7 +1251,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:736 rs/forms.py:1097 rs/login.py:763 rs/messages.py:519
-#: rs/rendering.py:431 rs/utils.py:1532
+#: rs/rendering.py:431 rs/utils.py:1539
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -1427,27 +1430,27 @@ msgid ""
 "\n"
 "                Given that neither you nor the person that you would like to "
 "contact is %(vip_member)s,\n"
-"                you can only send them %(guest_num)s message in a single "
+"                you can only send them %(guest_num)s message in each "
 "%(hours)s-hour period.\n"
 "                However, if the you or the other user become a "
 "%(vip_member)s, or if they become a \"chat friend\" of yours,\n"
 "                then you can send them up to %(chat_friend_num)s messages in "
-"a single\n"
+"each\n"
 "                %(hours)s-hour period.<br><br>"
 msgstr ""
 
 #: rs/constants.py:635
 #, python-format
 msgid ""
-"You can only send %(guest_num)s messages to each member in a single "
-"%(hours)s-hour period.<br><br>"
+"You can only send %(guest_num)s messages to each member each %(hours)s-hour "
+"period.<br><br>"
 msgstr ""
 
 #: rs/constants.py:639
 #, python-format
 msgid ""
-"As a VIP member, you can send up to %(vip_num)s messages to each member in a "
-"single %(hours)s \n"
+"As a VIP member, you can send up to %(vip_num)s messages to each member in "
+"each %(hours)s\n"
 "            hour period. You have now reached this limit.<br><br>"
 msgstr ""
 
@@ -4980,59 +4983,59 @@ msgstr ""
 msgid ", and"
 msgstr ""
 
-#: rs/utils.py:1472
+#: rs/utils.py:1479
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to "
 "%(support_email_address)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1478
+#: rs/utils.py:1485
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1483
+#: rs/utils.py:1490
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1490
+#: rs/utils.py:1497
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1497
+#: rs/utils.py:1504
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils.py:1796
+#: rs/utils.py:1803
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr ""
 
-#: rs/utils.py:1817 rs/utils.py:1819
+#: rs/utils.py:1824 rs/utils.py:1826
 msgid "is"
 msgstr ""
 
-#: rs/utils.py:1817
+#: rs/utils.py:1824
 msgid "We never ask for your credit card or any other form of payment"
 msgstr ""
 
-#: rs/utils.py:1819
+#: rs/utils.py:1826
 msgid "free"
 msgstr ""
 
-#: rs/utils.py:1819
+#: rs/utils.py:1826
 msgid "chat and messages included"
 msgstr ""
 
-#: rs/utils.py:1822
+#: rs/utils.py:1829
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -5161,13 +5164,11 @@ msgstr ""
 
 #~ msgid ""
 #~ "\n"
-#~ "                vip_message_quota %(vip_messages)s %(vip_hours)s "
-#~ "%(guest_new_people)s "
+#~ "                vip_message_quota %(vip_messages)s "
 #~ msgstr ""
 #~ "\n"
 #~ "Increased message quota that allows you to contact %(vip_messages)s new "
-#~ "people every day (versus %(guest_new_people)s new person each day for non-"
-#~ "VIP members)."
+#~ "people per day (versus one new person per day for non-VIP members)."
 
 #~ msgid " Are you sure you want to eliminate your profile?"
 #~ msgstr ""

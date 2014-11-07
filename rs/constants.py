@@ -79,7 +79,7 @@ URLS_THAT_NEED_REDIRECT_AFTER_ENTRY = set(["/", "/rs/admin/login/", "/rs/submit_
 # they are allowed to contact, as opposed to the totally free sites that have less restrictions.
 if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
-    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 2 # after this number of messages, sending messages is blocked for non-paying members.
     GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 1  # days before the counters will be reset
 
 # Else, this is a totally free website, and therefore we have more generous quotas.
@@ -623,20 +623,20 @@ class ErrorMessages():
             if SHOW_VIP_UPGRADE_OPTION:
                 generated_html += ugettext_lazy("""
                 Given that neither you nor the person that you would like to contact is %(vip_member)s,
-                you can only send them %(guest_num)s message in a single %(hours)s-hour period.
+                you can only send them %(guest_num)s message in each %(hours)s-hour period.
                 However, if the you or the other user become a %(vip_member)s, or if they become a "chat friend" of yours,
-                then you can send them up to %(chat_friend_num)s messages in a single
+                then you can send them up to %(chat_friend_num)s messages in each
                 %(hours)s-hour period.<br><br>""") % \
                        {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                         'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                         'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
                         'vip_member' : vip_member_anchor % vip_member_txt,}
             else:
-                generated_html += ugettext_lazy("""You can only send %(guest_num)s messages to each member in a single %(hours)s-hour period.<br><br>""") % \
+                generated_html += ugettext_lazy("""You can only send %(guest_num)s messages to each member each %(hours)s-hour period.<br><br>""") % \
                        {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                         'hours': NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,}
         else:
-            generated_html += ugettext_lazy("""As a VIP member, you can send up to %(vip_num)s messages to each member in a single %(hours)s 
+            generated_html += ugettext_lazy("""As a VIP member, you can send up to %(vip_num)s messages to each member in each %(hours)s
             hour period. You have now reached this limit.<br><br>""") % {
                 'vip_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                 'hours' : NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER}
@@ -816,6 +816,7 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'guest_window_days' : GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES,
                           'vip_num_new_people_messages_allowed_in_window' : VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW,
                           'vip_window_hours' : VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES,
+                          'NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER' : NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER,
                           'STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                           'CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                           'NUMER_OF_DAYS_PROFILE_VIEWS_STORED' : NUMER_OF_DAYS_PROFILE_VIEWS_STORED,
