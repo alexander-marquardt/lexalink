@@ -621,8 +621,11 @@ class ErrorMessages():
             
         if not vip_status:
             if SHOW_VIP_UPGRADE_OPTION:
-                generated_html += ugettext_lazy("""Given that you are not a %(vip_member)s, you can only send %(guest_num)s message to each member in a single %(hours)s-hour period.
-                However, if the other user is a "chat friend" of yours or if you become a %(vip_member)s, then you can send them up to %(chat_friend_num)s messages in a single
+                generated_html += ugettext_lazy("""
+                Given that neither you nor the person that you would like to contact is %(vip_member)s,
+                you can only send them %(guest_num)s message in a single %(hours)s-hour period.
+                However, if the you or the other user become a %(vip_member)s, or if they become a "chat friend" of yours,
+                then you can send them up to %(chat_friend_num)s messages in a single
                 %(hours)s-hour period.<br><br>""") % \
                        {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
                         'chat_friend_num' : VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
