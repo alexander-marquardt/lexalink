@@ -790,7 +790,7 @@ msgid ""
 msgstr ""
 "\n"
 "Podrás enviar y recibir hasta %(cf_num_messages)s mensaje por día a cada "
-"persona con quien ya hayas tenido contacto (en vez de uno mensaje por día "
+"persona con quien ya hayas tenido contacto (en vez de un mensaje por día "
 "para los socios no VIP)."
 
 #: client/app/html/user_main_helpers/vip_benefits.html:16

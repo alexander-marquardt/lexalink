@@ -1456,7 +1456,7 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
         time_when_it_will_reset = have_sent_messages_object.datetime_first_message_to_other_today + datetime.timedelta(
                    hours = constants.NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER)      
         txt_for_when_quota_resets = return_time_difference_in_friendly_format(time_when_it_will_reset, capitalize = False, 
-                                                          data_precision = 1, time_is_in_past = False, show_in_or_ago = True)     
+                                                          data_precision = 2, time_is_in_past = False, show_in_or_ago = True)
         is_allowed = False
     
     return (is_allowed, txt_for_when_quota_resets)

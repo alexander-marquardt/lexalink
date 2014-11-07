@@ -95,15 +95,15 @@ VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
     
-NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 24 # to prevent a pair of users from overloading the servers by sending infinite messages between them - put a limit
+NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 36 # to prevent a pair of users from overloading the servers by sending infinite messages between them - put a limit
 
 if SHOW_VIP_UPGRADE_OPTION:
     # VIP purchase is available - this user should pay if they want to send more messages.
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 1 # can only send X messages to another user in a window period
     # If the users are "chat friends" or one of them is VIP, then they can send more messages between them in time window period.
-    VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 20
+    VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 50
 else:
-    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 10
+    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 20
     # no special benefit for being chat friends in the free sites.
     VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW
 
