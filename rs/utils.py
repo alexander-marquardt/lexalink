@@ -1426,8 +1426,15 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
     # user in the current "time window"
     # returns True if allowed to send messages, False if not
 
-    userobject = have_sent_messages_object.owner_ref.get()
-    other_userobject = have_sent_messages_object.other_ref.get()
+    if have_sent_messages_object:
+        userobject = have_sent_messages_object.owner_ref.get()
+        other_userobject = have_sent_messages_object.other_ref.get()
+
+        user_paid_status = userobject.client_paid_status
+        other_paid_status = other_userobject.client_paid_status
+    else:
+        user_paid_status = None
+        other_paid_status = None
      
     txt_for_when_quota_resets = ''
     if not have_sent_messages_object :
@@ -1439,7 +1446,7 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
 
     # If either the current sender, or the person that they are sending the message to is a VIP member
     # (has client_paid_status), then the message quota is increased.
-    elif (userobject.client_paid_status or other_userobject.client_paid_status) and have_sent_messages_object.num_messages_to_other_sent_today < \
+    elif (user_paid_status or other_paid_status) and have_sent_messages_object.num_messages_to_other_sent_today < \
          constants.VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW:
         # VIP members can send more messages to other users
         is_allowed = True
