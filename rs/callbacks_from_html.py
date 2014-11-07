@@ -241,7 +241,7 @@ class MyHTMLCallbackGenerator():
                         
 
                         
-                        people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit -- you can always respond to messages without using your quota")
+                        people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit, and responding to messages does not use any of this quota")
 
 
                         if userobject.client_paid_status:
@@ -262,7 +262,7 @@ class MyHTMLCallbackGenerator():
                                 you_are_allowed_to_contact_prefix = ugettext("You can")
 
                             you_are_allowed_to_contact = u"%s" % ugettext(
-                                "%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s every %(num_days)s days") % {
+                                "%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s each day") % {
                                                             'you_are_allowed_to_contact_prefix' : you_are_allowed_to_contact_prefix,
                                                             'num_new_people_txt' : num_new_people_txt,
                                                             'num_days': constants.GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES,

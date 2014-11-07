@@ -73,20 +73,25 @@ URLS_THAT_NEED_REDIRECT_AFTER_ENTRY = set(["/", "/rs/admin/login/", "/rs/submit_
 
 
 # Define the number of new people that the user can send messages to in a given time window.
-VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
 
+# if this is a site where SHOW_VIP_UPGRADE_OPTION is true, then this is a site that we want the user to upgrade
+# to a paying status. Therefore, there are more restrictions/limitations on the number of messages and people that
+# they are allowed to contact, as opposed to the totally free sites that have less restrictions.
 if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
-    GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 7  # days before the counters will be reset
-    
+    GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 1  # days before the counters will be reset
+
+# Else, this is a totally free website, and therefore we have more generous quotas.
 else:
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 1  # days before the counters will be reset
     
 GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES * 24
 
-# if this member is VIP, then they will be allowed to send messages to more people in the "window"
+# if this member is VIP, then they will be allowed to send messages to more people in the "window", and the window
+# is smaller (meaning it resets more often)
+VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES = 24 # X hours before the counters will be reset
 VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
     
@@ -94,7 +99,7 @@ NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 24 # to prevent a pair o
 
 if SHOW_VIP_UPGRADE_OPTION:
     # VIP purchase is available - this user should pay if they want to send more messages.
-    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 2 # can only send X messages to another user in a window period
+    STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 1 # can only send X messages to another user in a window period
     # If the users are "chat friends" then they can send more messages between them in time window period.
     VIP_AND_CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 20
 else:
@@ -616,7 +621,7 @@ class ErrorMessages():
             
         if not vip_status:
             if SHOW_VIP_UPGRADE_OPTION:
-                generated_html += ugettext_lazy("""Given that you are not a %(vip_member)s, you can only send %(guest_num)s messages to each member in a single %(hours)s-hour period.
+                generated_html += ugettext_lazy("""Given that you are not a %(vip_member)s, you can only send %(guest_num)s message to each member in a single %(hours)s-hour period.
                 However, if the other user is a "chat friend" of yours or if you become a %(vip_member)s, then you can send them up to %(chat_friend_num)s messages in a single
                 %(hours)s-hour period.<br><br>""") % \
                        {'guest_num': STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW,
