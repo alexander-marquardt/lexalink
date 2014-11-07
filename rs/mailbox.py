@@ -335,7 +335,7 @@ def  mark_new_have_sent_messages_object(userobject, other_userobject):
       
       
 def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_messages_object, show_captcha = False, 
-                           spam_statistics_string = '', vip_status = None):
+                           spam_statistics_string = ''):
     
     
     """
@@ -350,7 +350,7 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
         
         initiate_contact_object = utils.get_initiate_contact_object(ndb.Key(urlsafe = from_uid), ndb.Key(urlsafe = to_uid))
         (is_allowed, txt_for_when_quota_resets) =  utils.check_if_allowed_to_send_more_messages_to_other_user(
-            have_sent_messages_object, initiate_contact_object, vip_status)
+            have_sent_messages_object, initiate_contact_object)
         if  is_allowed or utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
             
             if show_captcha:
@@ -362,7 +362,10 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
                 textarea_section_name, to_uid, captcha_bypass_string, have_sent_messages_object,
                 spam_statistics_string)
         else:
-            generated_html += u"<div>%s</div>" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets, vip_status)
+            userobject = have_sent_messages_object.owner_ref.get()
+            generated_html += u"<div>%s</div>" % \
+                              constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets,
+                                                                                           userobject.client_paid_status)
     except:
         error_reporting.log_exception(logging.critical)
     
@@ -441,8 +444,7 @@ def generate_mail_message_display_html(userobject, other_userobject, lang_code):
             # Note: even if they have had contact, we put a limit on the number of messages they can send to each other in a single day 
             # This is required to prevent an attack on our database in which millions of messages are sent from one user to another.
             
-            generated_html += generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_messages_object,
-                                                     vip_status = userobject.client_paid_status)            
+            generated_html += generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_messages_object)
         
         else:
             generated_html += "<br><br>%s" % utils.get_removed_user_reason_html(other_userobject)

@@ -340,7 +340,7 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
             # and only for old users that were not initialized correctly -- can remove this
             # code if DB maintenance is done.
             userobject.spam_tracker = initialize_and_store_spam_tracker(userobject.spam_tracker) 
-            put_userobject(userobject)  
+            utils.put_userobject(userobject)
             
         spam_tracker = userobject.spam_tracker.get()
             
@@ -446,7 +446,6 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
             from_key = ndb.Key(urlsafe = from_uid)
             to_key = ndb.Key(urlsafe = to_uid)
             have_sent_messages_object = utils.get_have_sent_messages_object(from_key, to_key)
-            
 
             if have_sent_messages_object and utils.check_if_reset_num_messages_to_other_sent_today(have_sent_messages_object):
                 
@@ -456,8 +455,7 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
                 
             initiate_contact_object = utils.get_initiate_contact_object(from_key, to_key)   
             
-            (is_allowed, txt_for_when_quota_resets) = utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object, 
-                                                                              sender_userobject.client_paid_status)
+            (is_allowed, txt_for_when_quota_resets) = utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object)
             if not is_allowed:
                 
                 error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets, sender_userobject.client_paid_status)
