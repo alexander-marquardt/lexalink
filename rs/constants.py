@@ -79,8 +79,8 @@ URLS_THAT_NEED_REDIRECT_AFTER_ENTRY = set(["/", "/rs/admin/login/", "/rs/submit_
 # they are allowed to contact, as opposed to the totally free sites that have less restrictions.
 if SHOW_VIP_UPGRADE_OPTION:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
-    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 2 # after this number of messages, sending messages is blocked for non-paying members.
-    GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 1  # days before the counters will be reset
+    GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
+    GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 2  # days before the counters will be reset
 
 # Else, this is a totally free website, and therefore we have more generous quotas.
 else:

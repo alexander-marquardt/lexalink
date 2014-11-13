@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-07 12:25-0500\n"
+"POT-Creation-Date: 2014-11-13 14:29-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -746,11 +746,12 @@ msgstr "Haz clic en el icono para activar o eliminar la acción asociada"
 msgid ""
 "\n"
 "                vip_message_quota %(vip_messages)s %(guest_new_people)s "
+"%(guest_days)s"
 msgstr ""
 "\n"
 "Incremento de tu cuota de mensajes que te permite contactar con "
 "%(vip_messages)s personas nuevas cada día, en vez de %(guest_new_people)s "
-"personas nuevas cada día para socios no-VIP."
+"persona nueva cada %(guest_days)s días para socios no-VIP."
 
 #: client/app/html/user_main_helpers/vip_benefits.html:10
 #, python-format
@@ -1449,19 +1450,19 @@ msgstr "Encabezado"
 msgid "Modify my password"
 msgstr "Cambiar mi contraseña"
 
-#: rs/callbacks_from_html.py:230 rs/callbacks_from_html.py:238
+#: rs/callbacks_from_html.py:230
+#, python-format
+msgid "Your quota will be reset %s"
+msgstr "Tu cuota se restablecerá %s"
+
+#: rs/callbacks_from_html.py:234
 #, python-format
 msgid "%(num)s new person"
 msgid_plural "%(num)s new people"
 msgstr[0] "%(num)s persona nueva"
 msgstr[1] "%(num)s personas nuevas"
 
-#: rs/callbacks_from_html.py:234
-#, python-format
-msgid "Your quota will be reset %s"
-msgstr "Tu cuota se restablecerá %s"
-
-#: rs/callbacks_from_html.py:244
+#: rs/callbacks_from_html.py:238
 msgid ""
 "People that you have already exchanged messages with in the past do not "
 "count in this limit, and responding to messages does not use any of this "
@@ -1471,7 +1472,7 @@ msgstr ""
 "pasado no cuentan en este límite, y responder a mensajes no usa nada de esta "
 "cuota"
 
-#: rs/callbacks_from_html.py:249
+#: rs/callbacks_from_html.py:243
 #, python-format
 msgid ""
 "As a VIP Member, you are allowed to message %(num_new_people_txt)s every "
@@ -1480,24 +1481,25 @@ msgstr ""
 "Como miembro VIP, puedes enviar mensajes a %(num_new_people_txt)s cada "
 "%(hr)s hours"
 
-#: rs/callbacks_from_html.py:259
+#: rs/callbacks_from_html.py:253
 #, python-format
 msgid "Since you are not yet a %(vip_member)s, you can"
 msgstr "Puesto que todavía no eres %(vip_member)s, puedes"
 
-#: rs/callbacks_from_html.py:262
+#: rs/callbacks_from_html.py:256
 msgid "You can"
 msgstr "Puedes"
 
-#: rs/callbacks_from_html.py:265
+#: rs/callbacks_from_html.py:259
 #, python-format
 msgid ""
-"%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s each day"
+"%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s every "
+"%(num_days)s days"
 msgstr ""
 "%(you_are_allowed_to_contact_prefix)s enviar mensajes a "
-"%(num_new_people_txt)s cada día"
+"%(num_new_people_txt)s cada %(num_days)s días"
 
-#: rs/callbacks_from_html.py:279
+#: rs/callbacks_from_html.py:273
 #, python-format
 msgid ""
 "If you wish to increase this limit, read about the benefits of becoming a "
@@ -1593,6 +1595,7 @@ msgid "The <strong>Email Address</strong> is not valid"
 msgstr "El <strong>correo electrónico</strong> entrado no es válido."
 
 #: rs/constants.py:624
+#, python-format
 msgid ""
 "\n"
 "                Given that neither you nor the person that you would like to "
@@ -1613,6 +1616,7 @@ msgstr ""
 "hasta %(chat_friend_num)s mensajes cada %(hours)s horas. <br><br>"
 
 #: rs/constants.py:635
+#, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member each %(hours)s-hour "
 "period.<br><br>"
@@ -1621,6 +1625,7 @@ msgstr ""
 "%(hours)s horas. <br><br>"
 
 #: rs/constants.py:639
+#, python-format
 msgid ""
 "As a VIP member, you can send up to %(vip_num)s messages to each member in "
 "each %(hours)s\n"
@@ -5382,7 +5387,7 @@ msgstr "días"
 msgid "month"
 msgstr "mes"
 
-#: rs/vip_paypal_structures.py:62
+#: rs/vip_paypal_structures.py:61 rs/vip_paypal_structures.py:62
 msgid "months"
 msgstr "meses"
 

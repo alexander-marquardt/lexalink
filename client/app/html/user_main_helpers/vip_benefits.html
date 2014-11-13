@@ -5,7 +5,7 @@
         <ul>
 
         <li class="cl-indent">{% blocktrans with guest_num_new_people_messages_allowed_in_window as guest_new_people and guest_window_days as guest_days and vip_num_new_people_messages_allowed_in_window as vip_messages and vip_window_hours as vip_hours%}
-                vip_message_quota {{ vip_messages }} {{ guest_new_people }} {% endblocktrans %}</li> <!-- removed vip_hours guest_days  -->
+                vip_message_quota {{ vip_messages }} {{ guest_new_people }} {{ guest_days }}{% endblocktrans %}</li> <!-- removed vip_hours  -->
 
         <li class="cl-indent">{% blocktrans with CHAT_FRIEND_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW as cf_num_messages and STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW as std_num_messages and NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER as reset_after_num_hours %}
                 vip_repeat_message_quota {{ cf_num_messages }} {{ std_num_messages }} {{ reset_after_num_hours }}{% endblocktrans %}</li>

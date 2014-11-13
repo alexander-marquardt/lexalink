@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-07 12:25-0500\n"
+"POT-Creation-Date: 2014-11-13 14:29-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -678,11 +678,12 @@ msgstr ""
 msgid ""
 "\n"
 "                vip_message_quota %(vip_messages)s %(guest_new_people)s "
+"%(guest_days)s"
 msgstr ""
 "\n"
 "Increased message quota that allows you to contact %(vip_messages)s new "
-"people every day, versus %(guest_new_people)s new people each day for non-"
-"VIP members."
+"people every day, versus %(guest_new_people)s new person every "
+"%(guest_days)s days for non-VIP members."
 
 #: client/app/html/user_main_helpers/vip_benefits.html:10
 #, python-format
@@ -1296,48 +1297,49 @@ msgstr ""
 msgid "Modify my password"
 msgstr ""
 
-#: rs/callbacks_from_html.py:230 rs/callbacks_from_html.py:238
+#: rs/callbacks_from_html.py:230
+#, python-format
+msgid "Your quota will be reset %s"
+msgstr ""
+
+#: rs/callbacks_from_html.py:234
 #, python-format
 msgid "%(num)s new person"
 msgid_plural "%(num)s new people"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/callbacks_from_html.py:234
-#, python-format
-msgid "Your quota will be reset %s"
-msgstr ""
-
-#: rs/callbacks_from_html.py:244
+#: rs/callbacks_from_html.py:238
 msgid ""
 "People that you have already exchanged messages with in the past do not "
 "count in this limit, and responding to messages does not use any of this "
 "quota"
 msgstr ""
 
-#: rs/callbacks_from_html.py:249
+#: rs/callbacks_from_html.py:243
 #, python-format
 msgid ""
 "As a VIP Member, you are allowed to message %(num_new_people_txt)s every "
 "%(hr)s hours"
 msgstr ""
 
-#: rs/callbacks_from_html.py:259
+#: rs/callbacks_from_html.py:253
 #, python-format
 msgid "Since you are not yet a %(vip_member)s, you can"
 msgstr ""
 
-#: rs/callbacks_from_html.py:262
+#: rs/callbacks_from_html.py:256
 msgid "You can"
 msgstr ""
 
-#: rs/callbacks_from_html.py:265
+#: rs/callbacks_from_html.py:259
 #, python-format
 msgid ""
-"%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s each day"
+"%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s every "
+"%(num_days)s days"
 msgstr ""
 
-#: rs/callbacks_from_html.py:279
+#: rs/callbacks_from_html.py:273
 #, python-format
 msgid ""
 "If you wish to increase this limit, read about the benefits of becoming a "
@@ -5077,7 +5079,7 @@ msgstr ""
 msgid "month"
 msgstr ""
 
-#: rs/vip_paypal_structures.py:62
+#: rs/vip_paypal_structures.py:61 rs/vip_paypal_structures.py:62
 msgid "months"
 msgstr ""
 

@@ -226,11 +226,7 @@ class MyHTMLCallbackGenerator():
                     
                         time_to_reset_txt = utils.return_time_difference_in_friendly_format(when_to_reset_new_people_contacted_counter, capitalize = False, 
                                                               data_precision = 2, time_is_in_past = False, show_in_or_ago = True)                
-                        
-                        num_new_people_txt = ungettext("%(num)s new person",
-                                                       "%(num)s new people",num_messages_sent_in_window) % {
-                                                           'num': num_messages_sent_in_window}
-                                                       
+
                         will_be_reset = u"%s" % ugettext("Your quota will be reset %s") % time_to_reset_txt
                     
                         generated_html = """<div id="id-num_messages_sent_feedback_and_count">"""
@@ -238,9 +234,7 @@ class MyHTMLCallbackGenerator():
                         num_new_people_txt = ungettext("%(num)s new person",
                                                        "%(num)s new people",max_num_new_people_messaged_in_window) % {
                                                            'num': max_num_new_people_messaged_in_window}                
-                        
 
-                        
                         people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit, and responding to messages does not use any of this quota")
 
 
@@ -262,7 +256,7 @@ class MyHTMLCallbackGenerator():
                                 you_are_allowed_to_contact_prefix = ugettext("You can")
 
                             you_are_allowed_to_contact = u"%s" % ugettext(
-                                "%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s each day") % {
+                                "%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s every %(num_days)s days") % {
                                                             'you_are_allowed_to_contact_prefix' : you_are_allowed_to_contact_prefix,
                                                             'num_new_people_txt' : num_new_people_txt,
                                                             'num_days': constants.GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES,
