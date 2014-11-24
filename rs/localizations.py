@@ -160,16 +160,17 @@ if settings.BUILD_NAME != "language_build":
         # These countries will appear twice in the country/location list. Once at the beginning
         # and again in the entire list.
         ("AR",) +  ugettext_tuple(ugettext("AR")), # Argentina
-        ("AU",) +  ugettext_tuple(ugettext("AU")), # Australia        
-        ("CA",) +  ugettext_tuple(ugettext("CA")), # Canada        
+        #("AU",) +  ugettext_tuple(ugettext("AU")), # Australia
+        #("CA",) +  ugettext_tuple(ugettext("CA")), # Canada
         ("CL",) +  ugettext_tuple(ugettext("CL")), # Chile
         ("CO",) +  ugettext_tuple(ugettext("CO")), # Colombia
+        ("CR",) +  ugettext_tuple(ugettext("CR")), # Costa Rica
         ("MX",) +  ugettext_tuple(ugettext("MX")), # Mexico 
         ("PE",) +  ugettext_tuple(ugettext("PE")), # Peru        
         ("ES",) +  ugettext_tuple(ugettext("ES")), # Spain
         ("US",) +  ugettext_tuple(ugettext("US")), # United States of America
         ("GB",) +  ugettext_tuple(ugettext("GB")), # United Kingdom
-        ("VE",) +  ugettext_tuple(ugettext("VE")), # Venezuela
+        #("VE",) +  ugettext_tuple(ugettext("VE")), # Venezuela
         ]
     
     
