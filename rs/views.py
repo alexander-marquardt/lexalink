@@ -454,14 +454,38 @@ def robots_txt(request):
     
     logging.info("sitemaps_links %s" % sitemaps_links)
 
+
+#     if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME ==  "single_build" or settings.BUILD_NAME ==  "lesbian_build":
+#         site_specific_allow_disallow = ''
+#     else :
+#         site_specific_allow_disallow = """
+# Allow: /*/search/?query_order=last_login_string
+# Allow: /*/search/?query_order=unique_last_login
+# Disallow: /*/search/?*
+#"""
+
+    # Disallow searching through some permutations that we previously had specifically included links to
+
     if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME ==  "single_build" or settings.BUILD_NAME ==  "lesbian_build":
-        site_specific_allow_disallow = ''
-    else :
-        site_specific_allow_disallow = """
-Allow: /*/search/?query_order=last_login_string
-Allow: /*/search/?query_order=unique_last_login
-Disallow: /*/search/?*
+         site_specific_allow_disallow = ''
+
+    elif settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
+                site_specific_allow_disallow = """
+Disallow: /*/search/?*sex=*
+Disallow: /*/search/?*age=*
+Disallow: /*/search/?*region=*
+Disallow: /*/search/?*sub_region=*
+Disallow: /*/search/?*for_sale=*
+Disallow: /*/search/?*for_sale_sub_menu=*
 """
 
-    http_response = render_to_response("robots.txt", {'sitemaps_links' : sitemaps_links, 'site_specific_allow_disallow': site_specific_allow_disallow})
+    else:
+        site_specific_allow_disallow = """
+Disallow: /*/search/?*age=*
+Disallow: /*/search/?*relationship_status=*
+"""
+
+    http_response = render_to_response("robots.txt", {'sitemaps_links' : sitemaps_links,
+        'site_specific_allow_disallow': site_specific_allow_disallow})
+
     return http_response
