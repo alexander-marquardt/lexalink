@@ -10,6 +10,4 @@ Disallow: /rs/ajax
 Disallow: /rs/auth
 Disallow: /*/rs/auth
 
-
-
 {{ site_specific_allow_disallow }}
