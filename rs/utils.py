@@ -1630,6 +1630,7 @@ def generate_paypal_data(request, username, owner_nid):
                 
     paypal_data = {}
     paypal_data['country_override'] = vip_paypal_structures.TESTING_COUNTRY
+    paypal_data['country_code'] = http_country_code
     paypal_data['language'] = request.LANGUAGE_CODE
     paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
     paypal_data['owner_nid'] = owner_nid    

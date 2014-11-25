@@ -4,17 +4,23 @@
 
 <div class="cl-payment_tabs">
   <ul>
-    <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_credit_187x47.png"></a></li>
-      <li><a href="#paypal-tab"><img src="/images/payment_images/paypal_logo_75x47.png"></a></li>
-      {% if fortumo_data.show_fortumo_options %}
-        <li><a href="#fortumo-tab"><img src="/images/payment_images/sms_pay.png"></a></li>
+      <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_credit_187x47.png"></a></li>
+
+      {% if paypal_data.country_code == 'MX' %}
+       <!-- Mexico accepts debit cards -->
+        <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_mx_debit_logo_215x47.jpg"></a></li>
       {% endif %}
+          <li><a href="#paypal-tab"><img src="/images/payment_images/paypal_logo_75x47.png"></a></li>
+      {% if fortumo_data.show_fortumo_options %}
+          <li><a href="#fortumo-tab"><img src="/images/payment_images/sms_pay.png"></a></li>
+      {% endif %}
+
   </ul>
   <div id="credit-card-tab">
 
       <p>
         <strong>
-        {% blocktrans with app_name as app_name %}Purchase VIP status with a credit card{% endblocktrans %}
+        {% blocktrans with app_name as app_name %}Purchase VIP status with a credit or debit card{% endblocktrans %}
         </strong>
       <p>
         {% include "user_main_helpers/paypal_purchase_form.html" %}
@@ -26,12 +32,12 @@
 
       <p>
         {% blocktrans %}
-        Credit card payments are processed by PayPal, an eBay company, and one of the worlds largest online payment processors.
+        Credit and debit card payments are processed by PayPal, an eBay company, and one of the worlds largest online payment processors.
         {% endblocktrans%}
 
       <p>
         {% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "lesbian_build" or build_name == "swinger_build" %}
-            {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit card you will be billed
+            {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit or debit card you will be billed
             with a discrete name that cannot be easily linked to {{ app_name }}.
             {% endblocktrans %}
         {% endif %}
