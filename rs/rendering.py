@@ -140,34 +140,25 @@ def get_additional_ads_to_append(request, userobject = None):
         
     return additional_ads_to_append
     
+
 try:
     from rs.proprietary import advertisements
+    logging.debug("imported proprietary advertisements")
     proprietary_ads_found = True
 except:
     proprietary_ads_found = False
-    
+    logging.debug("unable to import proprietary advertisements")
+
 
 
 def get_ad(request, ads_to_select_from):
-    
-    try:
-        banner_html = ''
-        
-        #if ads_to_select_from == "ashley_madison_sidebar_ads" or ads_to_select_from == "ashley_madison_bottom_banner_ads":
-            ## Temporarily disable Ashley Madison advertisments.
-            #return banner_html
-        
-        if proprietary_ads_found:
-            if len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) >= 1:
-                idx = random.randint(0, len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) - 1)
-                banner_html = getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE][idx]
-            
-        return banner_html
-    
-    except:
-        error_reporting.log_exception(logging.critical)
 
+    if proprietary_ads_found:
+        if len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) >= 1:
+            idx = random.randint(0, len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) - 1)
+            banner_html = getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE][idx]
 
+    return banner_html
 
 
 def render_main_html(request, generated_html, userobject = None, link_to_hide = '', 
@@ -354,13 +345,11 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
                 bottom_ad_template = utils.render_google_ad('GOOGLE_AD_728x90')
                 
-            #elif constants.enable_ashley_madison_ads:
-                #bottom_ad_template = get_ad(request, "ashley_madison_bottom_banner_ads")
-                #side_ad_template_list.append(get_ad(request, "ashley_madison_sidebar_ads"))
+            elif constants.enable_amazon_ads:
+                bottom_ad_template = get_ad(request, "amazon_bottom_banner_ads")
+                side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
                 
-            #else:
-                #bottom_ad_template = utils.render_internal_ad("Client_Bottom_Ad1")
-                
+
             
 
                 

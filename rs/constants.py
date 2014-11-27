@@ -324,6 +324,8 @@ append_more_advertising_info_dialog = False
 # to include criteria such as users search parameters and profile information - ie. if a man is looking for a man, we may
 # show them gay advertisements in addition to what is listed below (see: get_additional_ads_to_append() for implementation)
 
+enable_amazon_ads = False
+
 if settings.BUILD_NAME == 'default_build':
     enable_google_ads = False
     
@@ -350,6 +352,7 @@ elif settings.BUILD_NAME == 'discrete_build':
     # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
     # relevant (ie. a woman seeking a woman will be shown an ad for lesbian_buildHeart)
     enable_google_ads = False
+    enable_amazon_ads = True
     lexabit_self_publicity_ads.append('friend_build')
     lexabit_self_publicity_ads.append('single_build')
     lexabit_self_publicity_ads.append('lesbian_build')
@@ -377,23 +380,20 @@ elif settings.BUILD_NAME == "swinger_build":
     
 
 else:
-    error_reporting.log_exception(logging.error, error_message = "Unknown BUILD_NAME")
+    logging.error("Unknown BUILD_NAME")
     
     
-if not enable_google_ads:
-    MAX_NUM_LEXABIT_ADS_TO_SHOW = 4
-    #enable_affiliate_united_ads = False
-else:
-    # we are showing google ads, we don't want to distract too much with our own advertising.
+if enable_google_ads:
+    # we are showing google ads, we don't want to distract too with our own advertising.
+    MAX_NUM_LEXABIT_ADS_TO_SHOW = 0
+
+elif enable_amazon_ads:
+    # After trying amazon ads for a while, this value should be re-visited
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 1
-    #enable_affiliate_united_ads = False   
-    
-    
-# set a flag that determines if ashley madison ads will be shown
-if settings.BUILD_NAME == 'discrete_build':
-    enable_ashley_madison_ads = False # disabled since they don't respond to enquiries about payments.
+
 else:
-    enable_ashley_madison_ads = False
+    MAX_NUM_LEXABIT_ADS_TO_SHOW = 4
+
         
 ## END Advertising related constants
 ###################################################
