@@ -156,11 +156,16 @@ def generate_option_line_based_on_data_struct(fields_data_struct, options_dict):
             options = []
             ordered_choices_tuples = []
             choices_tuple_list = field_dict['choices']
-            input_type = field_dict['input_type']    
-            
-            
+            input_type = field_dict['input_type']
+
+            if 'wrap_choice_with_anchor' in field_dict:
+                wrap_choice_with_anchor_dict = field_dict['wrap_choice_with_anchor']
+            else:
+                wrap_choice_with_anchor_dict = {}
+
             for lang_idx, language_tuple in enumerate(settings.LANGUAGES):
 
+                lang_code = language_tuple[0]
                 options.append([]) # append sub-array for current language
                 
                 if choices_tuple_list != None:
@@ -210,8 +215,13 @@ def generate_option_line_based_on_data_struct(fields_data_struct, options_dict):
                         else:
                             choice_key = choices_tuple[0]
                             option_in_current_language = choices_tuple[1]
-        
-                            options_dict[field][lang_idx][choice_key] = option_in_current_language
+
+                            if choice_key in wrap_choice_with_anchor_dict and lang_code in wrap_choice_with_anchor_dict[choice_key]:
+                                # This choice should be wrapped with a link (to an advertisement for example)
+                                anchor_wrapper = wrap_choice_with_anchor_dict[choice_key][lang_code]
+                                options_dict[field][lang_idx][choice_key] = anchor_wrapper.format(option_string=option_in_current_language)
+                            else:
+                                options_dict[field][lang_idx][choice_key] = option_in_current_language
                             
                             if input_type == u'select':
                                 options[lang_idx].append(smart_unicode("<option value='%s'>%s\n" % (choice_key, option_in_current_language)))
