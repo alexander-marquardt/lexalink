@@ -66,7 +66,7 @@ def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False):
     return (list_of_tuples_in_current_language)
     
 
-#def transpose_checkbox_rows_into_columns(list_of_sorted_pairs):
+#def transpose_checkbox_rows_into_columns(list_of_sorted_tuples):
     #""" 
     #This function receives a list of checkbox input choices, and orders them so that they will 
     #displayed vertically instead of horizontally when written out into a table.
@@ -90,7 +90,7 @@ def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False):
         
         #cols_per_row = constants.CHECKBOX_INPUT_COLS_PER_ROW
         
-        #list_len = len(list_of_sorted_pairs)
+        #list_len = len(list_of_sorted_tuples)
         #idx = 0; row = 0; 
         #num_rows = int(math.ceil(float(list_len)/cols_per_row))
         #matrix_size = num_rows * cols_per_row
@@ -115,7 +115,7 @@ def get_pairs_in_current_langauge(tuple_list, lang_idx, do_sort = False):
             #row_ix = 0
             #for ix in range(start_idx, end_idx): 
                 #if ix <= list_len-1:
-                    #row_list[row_ix] = list_of_sorted_pairs[ix]
+                    #row_list[row_ix] = list_of_sorted_tuples[ix]
                     #row_ix += 1
                     
             #matrix_representation.append(row_list)
@@ -144,7 +144,7 @@ def generate_option_line_based_on_data_struct(fields_data_struct, options_dict):
     # dictionary of values for each field, in which
     # the principle key specifies the field, second field the language, and the third key specifies the
     # selection, and the output specifies the selection in the correct language.
-    # ie. options_dict[smoker][english_code][prefere_no_say] = "Non Smoker". This is needed
+    # ie. options_dict[smoker][english_code][prefer_no_say] = "Non Smoker". This is needed
     # for printing user settings in the user_main page.
     # - radio_or_checkbox - valid values are "radio" or "checkbox" -- allows same code to be used for both
     
@@ -187,18 +187,18 @@ def generate_option_line_based_on_data_struct(fields_data_struct, options_dict):
                                     get_pairs_in_current_langauge(part_to_sort, lang_idx, do_sort = True)
                         last_unsorted_part = \
                                     get_pairs_in_current_langauge(last_part_to_leave_unsorted, lang_idx, do_sort = False)       
-                        list_of_sorted_pairs = first_unsorted_part + sorted_part + last_unsorted_part
+                        list_of_sorted_tuples = first_unsorted_part + sorted_part + last_unsorted_part
                     else:
-                        list_of_sorted_pairs = get_pairs_in_current_langauge(choices_tuple_list, lang_idx, do_sort = False)
+                        list_of_sorted_tuples = get_pairs_in_current_langauge(choices_tuple_list, lang_idx, do_sort = False)
                         
                         
                     #if input_type == u'checkbox':
-                        #list_of_sorted_pairs = transpose_checkbox_rows_into_columns(list_of_sorted_pairs)
+                        #list_of_sorted_tuples = transpose_checkbox_rows_into_columns(list_of_sorted_tuples)
                         
-                    ordered_choices_tuples[lang_idx] = list(list_of_sorted_pairs) # copy the list
+                    ordered_choices_tuples[lang_idx] = list(list_of_sorted_tuples) # copy the list
     
                     options_dict[field].append({})
-                    for choices_tuple in list_of_sorted_pairs:
+                    for choices_tuple in list_of_sorted_tuples:
                         
                         
                         # make sure the tuple is set to a valid value - due to re-ordering for checkbox display, some tuples
