@@ -35,7 +35,6 @@ from rs import user_profile_details, user_profile_main_data
 if site_configuration.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code
 
-MAX_NUM_CHARS_TO_DISPLAY_IN_LIST = 160
 
 def display_userobject_first_half_summary(request, display_userobject, display_online_status, extra_info_html = None):
     # returns a summary of a single users userobject. 
@@ -148,9 +147,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
             if display_userobject.languages[0] != "prefer_no_say":
                 mylist = u'<strong>%s:</strong> ' % ugettext("Languages I speak")
                 mylist += utils.generic_html_generator_for_list(lang_idx, 'languages' , display_userobject.languages )
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist
+                generated_html += u'%s<br>' % mylist
 
         if site_configuration.BUILD_NAME == "language_build" :
             # Show native language of the user
@@ -161,16 +158,12 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
             if display_userobject.entertainment[0] != "prefer_no_say":
                 mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['entertainment']['label'][lang_idx]
                 mylist += utils.generic_html_generator_for_list(lang_idx, 'entertainment', display_userobject.entertainment)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist
+                generated_html += u'%s<br>' % mylist
                 
             if display_userobject.athletics[0] != "prefer_no_say":
                 mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['athletics']['label'][lang_idx]
                 mylist += utils.generic_html_generator_for_list(lang_idx, 'athletics', display_userobject.athletics)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist
+                generated_html += u'%s<br>' % mylist
                 
         else: # friend_build
             #sale_or_buy in ['for_sale', 'to_buy']:
@@ -186,25 +179,19 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
                     if field_list[0] != "prefer_no_say":
                         mylist = u'<em>%s:</em> ' % user_profile_details.UserProfileDetails.checkbox_fields[field_name]['label'][lang_idx]
                         mylist += utils.generic_html_generator_for_list(lang_idx, field_name, field_list)
-                        if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                            generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                        else: generated_html += u'%s<br>' % mylist
+                        generated_html += u'%s<br>' % mylist
                 generated_html += u'<br>'
         
         if site_configuration.BUILD_NAME == "discrete_build" or site_configuration.BUILD_NAME == "gay_build" or site_configuration.BUILD_NAME == "swinger_build": # do not show turn-ons for other builds
             if display_userobject.turn_ons[0] != "prefer_no_say":
                 mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['turn_ons']['label'][lang_idx]
                 mylist += utils.generic_html_generator_for_list(lang_idx, 'turn_ons', display_userobject.turn_ons)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist      
+                generated_html += u'%s<br>' % mylist
             
             if display_userobject.erotic_encounters[0] != "prefer_no_say":
                 mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['erotic_encounters']['label'][lang_idx]
                 mylist += utils.generic_html_generator_for_list(lang_idx, 'erotic_encounters', display_userobject.erotic_encounters)
-                if len(mylist) > MAX_NUM_CHARS_TO_DISPLAY_IN_LIST:
-                    generated_html += u'%s<br>' % (mylist[:MAX_NUM_CHARS_TO_DISPLAY_IN_LIST] + "...")
-                else: generated_html += u'%s<br>' % mylist                      
+                generated_html += u'%s<br>' % mylist
     
         return generated_html
     except:
