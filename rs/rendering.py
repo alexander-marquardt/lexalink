@@ -153,6 +153,7 @@ except:
 
 def get_ad(request, ads_to_select_from):
 
+    banner_html = ''
     if proprietary_ads_found:
         if len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) >= 1:
             idx = random.randint(0, len(getattr(advertisements, ads_to_select_from)[request.LANGUAGE_CODE]) - 1)
@@ -348,7 +349,12 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             elif constants.enable_amazon_ads:
                 bottom_ad_template = get_ad(request, "amazon_bottom_banner_ads")
                 side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
-                
+                side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
+                side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
+                side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
+
+
+
 
             
 
