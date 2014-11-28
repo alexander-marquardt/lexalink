@@ -81,7 +81,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
         userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
 
 
-        generated_html += u'<div class="alpha omega cl-text-14pt-format">\
+        generated_html += u'<div class="alpha omega">\
                             <strong>%s</strong>' % (
                             display_userobject.username)
 
