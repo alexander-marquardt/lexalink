@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-27 19:31-0500\n"
+"POT-Creation-Date: 2014-11-28 11:56-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -1430,7 +1430,7 @@ msgstr "Mis datos"
 msgid "More details about me"
 msgstr "Más datos sobre mí"
 
-#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:153
+#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:152
 #: rs/user_profile_details.py:205
 msgid "Languages I speak"
 msgstr "Idiomas que hablo"
@@ -1878,23 +1878,24 @@ msgstr "diciembre"
 msgid "You do not have any \"%(title)s\" yet"
 msgstr "Todavía no tienes \"%(title)s\""
 
-#: rs/display_profiles_summary.py:97
+#: rs/display_profiles_summary.py:96
+#, python-format
 msgid "Click here to see more of %s"
 msgstr "Haz clic aquí para ver más de %s"
 
-#: rs/display_profiles_summary.py:123
+#: rs/display_profiles_summary.py:122
 msgid "About me"
 msgstr "Sobre mí"
 
-#: rs/display_profiles_summary.py:159
+#: rs/display_profiles_summary.py:158
 msgid "Native language"
 msgstr "Idioma materno"
 
-#: rs/display_profiles_summary.py:217
+#: rs/display_profiles_summary.py:216
 msgid "Last entrance"
 msgstr "Última entrada"
 
-#: rs/display_profiles_summary.py:310 rs/display_profiles_summary.py:322
+#: rs/display_profiles_summary.py:309 rs/display_profiles_summary.py:321
 #: rs/mailbox.py:993
 msgid "Next"
 msgstr "Siguiente"
@@ -2243,7 +2244,7 @@ msgstr "Deportes"
 msgid "Culture/Sightseeing"
 msgstr "Cultura/Turismo"
 
-#: rs/friend_bazaar_specific_code.py:59 rs/user_profile_details.py:265
+#: rs/friend_bazaar_specific_code.py:59 rs/user_profile_details.py:270
 msgid "Dancing"
 msgstr "Bailar"
 
@@ -2279,51 +2280,51 @@ msgstr "Musica - enseñar/tocar"
 msgid "Outdoor activities"
 msgstr "Actividades al aire libre"
 
-#: rs/friend_bazaar_specific_code.py:81 rs/user_profile_details.py:309
+#: rs/friend_bazaar_specific_code.py:81 rs/user_profile_details.py:331
 msgid "Aerobics"
 msgstr "Aeróbic"
 
-#: rs/friend_bazaar_specific_code.py:82 rs/user_profile_details.py:311
+#: rs/friend_bazaar_specific_code.py:82 rs/user_profile_details.py:333
 msgid "Martial Arts"
 msgstr "Artes Marciales"
 
-#: rs/friend_bazaar_specific_code.py:83 rs/user_profile_details.py:312
+#: rs/friend_bazaar_specific_code.py:83 rs/user_profile_details.py:334
 msgid "Basketball"
 msgstr "Baloncesto"
 
-#: rs/friend_bazaar_specific_code.py:84 rs/user_profile_details.py:314
+#: rs/friend_bazaar_specific_code.py:84 rs/user_profile_details.py:336
 msgid "Diving"
 msgstr "Buceo"
 
-#: rs/friend_bazaar_specific_code.py:85 rs/user_profile_details.py:315
+#: rs/friend_bazaar_specific_code.py:85 rs/user_profile_details.py:337
 msgid "Biking"
 msgstr "Ciclismo"
 
-#: rs/friend_bazaar_specific_code.py:86 rs/user_profile_details.py:316
+#: rs/friend_bazaar_specific_code.py:86 rs/user_profile_details.py:338
 msgid "Jogging / running"
 msgstr "Correr"
 
-#: rs/friend_bazaar_specific_code.py:87 rs/user_profile_details.py:317
+#: rs/friend_bazaar_specific_code.py:87 rs/user_profile_details.py:339
 msgid "Water skiing"
 msgstr "Esquí acuático"
 
-#: rs/friend_bazaar_specific_code.py:88 rs/user_profile_details.py:318
+#: rs/friend_bazaar_specific_code.py:88 rs/user_profile_details.py:340
 msgid "Snow skiing"
 msgstr "Esquí"
 
-#: rs/friend_bazaar_specific_code.py:89 rs/user_profile_details.py:319
+#: rs/friend_bazaar_specific_code.py:89 rs/user_profile_details.py:341
 msgid "Snowboarding"
 msgstr "Snowboard"
 
-#: rs/friend_bazaar_specific_code.py:90 rs/user_profile_details.py:320
+#: rs/friend_bazaar_specific_code.py:90 rs/user_profile_details.py:342
 msgid "Soccer"
 msgstr "Fútbol"
 
-#: rs/friend_bazaar_specific_code.py:91 rs/user_profile_details.py:321
+#: rs/friend_bazaar_specific_code.py:91 rs/user_profile_details.py:343
 msgid "Golf"
 msgstr "Golf"
 
-#: rs/friend_bazaar_specific_code.py:92 rs/user_profile_details.py:323
+#: rs/friend_bazaar_specific_code.py:92 rs/user_profile_details.py:345
 msgid "Bowling"
 msgstr "Jugar a los bolos"
 
@@ -2331,55 +2332,55 @@ msgstr "Jugar a los bolos"
 msgid "Paintball"
 msgstr "Paintball"
 
-#: rs/friend_bazaar_specific_code.py:94 rs/user_profile_details.py:324
+#: rs/friend_bazaar_specific_code.py:94 rs/user_profile_details.py:346
 msgid "Kitesurfing"
 msgstr "Kitesurf"
 
-#: rs/friend_bazaar_specific_code.py:95 rs/user_profile_details.py:325
+#: rs/friend_bazaar_specific_code.py:95 rs/user_profile_details.py:347
 msgid "Kayaking"
 msgstr "Kayaking"
 
-#: rs/friend_bazaar_specific_code.py:96 rs/user_profile_details.py:326
+#: rs/friend_bazaar_specific_code.py:96 rs/user_profile_details.py:348
 msgid "Weight lifting"
 msgstr "Levantar pesas"
 
-#: rs/friend_bazaar_specific_code.py:97 rs/user_profile_details.py:329
+#: rs/friend_bazaar_specific_code.py:97 rs/user_profile_details.py:351
 msgid "Skating"
 msgstr "Patinaje"
 
-#: rs/friend_bazaar_specific_code.py:98 rs/user_profile_details.py:330
+#: rs/friend_bazaar_specific_code.py:98 rs/user_profile_details.py:352
 msgid "Swimming"
 msgstr "Nadar"
 
-#: rs/friend_bazaar_specific_code.py:99 rs/user_profile_details.py:331
+#: rs/friend_bazaar_specific_code.py:99 rs/user_profile_details.py:353
 msgid "Rugby"
 msgstr "Rugby"
 
-#: rs/friend_bazaar_specific_code.py:100 rs/user_profile_details.py:334
+#: rs/friend_bazaar_specific_code.py:100 rs/user_profile_details.py:356
 msgid "Sailing"
 msgstr "Vela"
 
-#: rs/friend_bazaar_specific_code.py:101 rs/user_profile_details.py:332
+#: rs/friend_bazaar_specific_code.py:101 rs/user_profile_details.py:354
 msgid "Surfing"
 msgstr "Surfear"
 
-#: rs/friend_bazaar_specific_code.py:102 rs/user_profile_details.py:333
+#: rs/friend_bazaar_specific_code.py:102 rs/user_profile_details.py:355
 msgid "Tennis"
 msgstr "Tenis"
 
-#: rs/friend_bazaar_specific_code.py:103 rs/user_profile_details.py:335
+#: rs/friend_bazaar_specific_code.py:103 rs/user_profile_details.py:357
 msgid "Volleyball"
 msgstr "Voleibol"
 
-#: rs/friend_bazaar_specific_code.py:104 rs/user_profile_details.py:337
+#: rs/friend_bazaar_specific_code.py:104 rs/user_profile_details.py:359
 msgid "Yoga"
 msgstr "Yoga"
 
-#: rs/friend_bazaar_specific_code.py:105 rs/user_profile_details.py:336
+#: rs/friend_bazaar_specific_code.py:105 rs/user_profile_details.py:358
 msgid "Wind surfing"
 msgstr "Windsurf"
 
-#: rs/friend_bazaar_specific_code.py:109 rs/user_profile_details.py:293
+#: rs/friend_bazaar_specific_code.py:109 rs/user_profile_details.py:290
 msgid "Travel"
 msgstr "Viajar"
 
@@ -2395,19 +2396,19 @@ msgstr "Museos"
 msgid "Opera"
 msgstr "Ópera"
 
-#: rs/friend_bazaar_specific_code.py:113 rs/user_profile_details.py:290
+#: rs/friend_bazaar_specific_code.py:113 rs/user_profile_details.py:274
 msgid "Fine dining"
 msgstr "Restaurantes caros"
 
-#: rs/friend_bazaar_specific_code.py:114 rs/user_profile_details.py:272
+#: rs/friend_bazaar_specific_code.py:114 rs/user_profile_details.py:273
 msgid "Fashion events"
 msgstr "Desfiles de moda"
 
-#: rs/friend_bazaar_specific_code.py:115 rs/user_profile_details.py:271
+#: rs/friend_bazaar_specific_code.py:115 rs/user_profile_details.py:294
 msgid "Wine tasting"
 msgstr "Vinos"
 
-#: rs/friend_bazaar_specific_code.py:116 rs/user_profile_details.py:284
+#: rs/friend_bazaar_specific_code.py:116 rs/user_profile_details.py:293
 msgid "Walking"
 msgstr "Pasear"
 
@@ -2455,7 +2456,7 @@ msgstr "Claqué"
 msgid "Babysitting"
 msgstr "Cuidar niños"
 
-#: rs/friend_bazaar_specific_code.py:134 rs/user_profile_details.py:269
+#: rs/friend_bazaar_specific_code.py:134 rs/user_profile_details.py:266
 msgid "Cooking"
 msgstr "Cocinar"
 
@@ -2467,7 +2468,7 @@ msgstr "Limpiar casa"
 msgid "Driving"
 msgstr "Conducir"
 
-#: rs/friend_bazaar_specific_code.py:137 rs/user_profile_details.py:278
+#: rs/friend_bazaar_specific_code.py:137 rs/user_profile_details.py:289
 msgid "Shopping"
 msgstr "Ir de compras"
 
@@ -2475,7 +2476,7 @@ msgstr "Ir de compras"
 msgid "Handyman"
 msgstr "Un manitas"
 
-#: rs/friend_bazaar_specific_code.py:142 rs/user_profile_details.py:267
+#: rs/friend_bazaar_specific_code.py:142 rs/user_profile_details.py:272
 msgid "Dinner parties"
 msgstr "Cenas"
 
@@ -2483,11 +2484,11 @@ msgstr "Cenas"
 msgid "Coffee"
 msgstr "Café"
 
-#: rs/friend_bazaar_specific_code.py:144 rs/user_profile_details.py:268
+#: rs/friend_bazaar_specific_code.py:144 rs/user_profile_details.py:280
 msgid "Movies"
 msgstr "Cine"
 
-#: rs/friend_bazaar_specific_code.py:145 rs/user_profile_details.py:270
+#: rs/friend_bazaar_specific_code.py:145 rs/user_profile_details.py:267
 msgid "Concerts"
 msgstr "Conciertos"
 
@@ -2495,7 +2496,7 @@ msgstr "Conciertos"
 msgid "Karaoke"
 msgstr "Karaoke"
 
-#: rs/friend_bazaar_specific_code.py:147 rs/user_profile_details.py:273
+#: rs/friend_bazaar_specific_code.py:147 rs/user_profile_details.py:271
 msgid "Dance clubs"
 msgstr "Discotecas"
 
@@ -2503,15 +2504,15 @@ msgstr "Discotecas"
 msgid "Drinks/Bars"
 msgstr "Tomar una copa"
 
-#: rs/friend_bazaar_specific_code.py:149 rs/user_profile_details.py:289
+#: rs/friend_bazaar_specific_code.py:149 rs/user_profile_details.py:288
 msgid "Restaurants"
 msgstr "Restaurantes"
 
-#: rs/friend_bazaar_specific_code.py:153 rs/user_profile_details.py:313
+#: rs/friend_bazaar_specific_code.py:153 rs/user_profile_details.py:335
 msgid "Billiards"
 msgstr "Billar"
 
-#: rs/friend_bazaar_specific_code.py:154 rs/user_profile_details.py:294
+#: rs/friend_bazaar_specific_code.py:154 rs/user_profile_details.py:292
 msgid "Video games"
 msgstr "Videojuegos"
 
@@ -2571,19 +2572,19 @@ msgstr "Ir a la playa"
 msgid "Painting (artistic)"
 msgstr "Pintura (artística)"
 
-#: rs/friend_bazaar_specific_code.py:175 rs/user_profile_details.py:264
+#: rs/friend_bazaar_specific_code.py:175 rs/user_profile_details.py:263
 msgid "Astrology"
 msgstr "Astrología"
 
-#: rs/friend_bazaar_specific_code.py:176 rs/user_profile_details.py:287
+#: rs/friend_bazaar_specific_code.py:176 rs/user_profile_details.py:285
 msgid "Poetry"
 msgstr "Poesía"
 
-#: rs/friend_bazaar_specific_code.py:177 rs/user_profile_details.py:274
+#: rs/friend_bazaar_specific_code.py:177 rs/user_profile_details.py:295
 msgid "Writing"
 msgstr "Escribir"
 
-#: rs/friend_bazaar_specific_code.py:178 rs/user_profile_details.py:276
+#: rs/friend_bazaar_specific_code.py:178 rs/user_profile_details.py:283
 msgid "Photography"
 msgstr "Fotografía"
 
@@ -2671,27 +2672,27 @@ msgstr "Violín"
 msgid "Viola"
 msgstr "Viola"
 
-#: rs/friend_bazaar_specific_code.py:217 rs/user_profile_details.py:266
+#: rs/friend_bazaar_specific_code.py:217 rs/user_profile_details.py:265
 msgid "Camping"
 msgstr "Camping"
 
-#: rs/friend_bazaar_specific_code.py:218 rs/user_profile_details.py:322
+#: rs/friend_bazaar_specific_code.py:218 rs/user_profile_details.py:344
 msgid "Canoeing"
 msgstr "Ir en canoa"
 
-#: rs/friend_bazaar_specific_code.py:219 rs/user_profile_details.py:285
+#: rs/friend_bazaar_specific_code.py:219 rs/user_profile_details.py:275
 msgid "Fishing"
 msgstr "Pescar"
 
-#: rs/friend_bazaar_specific_code.py:220 rs/user_profile_details.py:310
+#: rs/friend_bazaar_specific_code.py:220 rs/user_profile_details.py:332
 msgid "Mountain climbing"
 msgstr "Alpinismo"
 
-#: rs/friend_bazaar_specific_code.py:221 rs/user_profile_details.py:327
+#: rs/friend_bazaar_specific_code.py:221 rs/user_profile_details.py:349
 msgid "Horseback Riding"
 msgstr "Montar a caballo"
 
-#: rs/friend_bazaar_specific_code.py:222 rs/user_profile_details.py:328
+#: rs/friend_bazaar_specific_code.py:222 rs/user_profile_details.py:350
 msgid "Hiking"
 msgstr "Montañismo"
 
@@ -4365,8 +4366,8 @@ msgstr ""
 #: rs/user_profile_details.py:109 rs/user_profile_details.py:129
 #: rs/user_profile_details.py:143 rs/user_profile_details.py:158
 #: rs/user_profile_details.py:173 rs/user_profile_details.py:204
-#: rs/user_profile_details.py:295 rs/user_profile_details.py:338
-#: rs/user_profile_details.py:381 rs/user_profile_details.py:451
+#: rs/user_profile_details.py:296 rs/user_profile_details.py:360
+#: rs/user_profile_details.py:403 rs/user_profile_details.py:451
 msgid "Prefer not to say"
 msgstr "Prefiero no decirlo"
 
@@ -4614,131 +4615,135 @@ msgstr ""
 msgid "Hobbies"
 msgstr "Aficiones"
 
-#: rs/user_profile_details.py:263
+#: rs/user_profile_details.py:264
+msgid "Go for drinks"
+msgstr "Ir de copas"
+
+#: rs/user_profile_details.py:268
 msgid "Crafts"
 msgstr "Artesanía"
 
-#: rs/user_profile_details.py:275
+#: rs/user_profile_details.py:269
 msgid "Cultural events"
 msgstr "Eventos culturales"
 
+#: rs/user_profile_details.py:276
+msgid "Traditional games"
+msgstr "Juegos"
+
 #: rs/user_profile_details.py:277
+msgid "Surfing the web"
+msgstr "Internet"
+
+#: rs/user_profile_details.py:278
 msgid "Investing"
 msgstr "Invertir"
 
 #: rs/user_profile_details.py:279
-msgid "Go for drinks"
-msgstr "Ir de copas"
-
-#: rs/user_profile_details.py:280
-msgid "Traditional games"
-msgstr "Juegos"
+msgid "Listen to music"
+msgstr "Escuchar música"
 
 #: rs/user_profile_details.py:281
-msgid "Reading"
-msgstr "Leer"
-
-#: rs/user_profile_details.py:282
-msgid "Surfing the web"
-msgstr "Internet"
-
-#: rs/user_profile_details.py:283
 msgid "News"
 msgstr "Noticias/Actualidad"
 
-#: rs/user_profile_details.py:286
+#: rs/user_profile_details.py:282
 msgid "Painting"
 msgstr "Pintura"
 
-#: rs/user_profile_details.py:288
-msgid "Politics"
-msgstr "Política"
-
-#: rs/user_profile_details.py:291
+#: rs/user_profile_details.py:284
 msgid "Play Music"
 msgstr "Tocar música"
 
-#: rs/user_profile_details.py:292
+#: rs/user_profile_details.py:286
+msgid "Politics"
+msgstr "Política"
+
+#: rs/user_profile_details.py:287
+msgid "Reading"
+msgstr "Leer"
+
+#: rs/user_profile_details.py:291
 msgid "Watch TV"
 msgstr "Mirar Televisión"
 
-#: rs/user_profile_details.py:307
+#: rs/user_profile_details.py:329
 msgid "Sports that I practice / like"
 msgstr "Deportes que me gustan"
 
-#: rs/user_profile_details.py:361
+#: rs/user_profile_details.py:383
 msgid "Turn ons"
 msgstr "Cosas que me gustan"
 
-#: rs/user_profile_details.py:363
+#: rs/user_profile_details.py:385
 msgid "Lingerie"
 msgstr "Lencería"
 
-#: rs/user_profile_details.py:364
+#: rs/user_profile_details.py:386
 msgid "Practice safe sex"
 msgstr "Sexo seguro"
 
-#: rs/user_profile_details.py:365
+#: rs/user_profile_details.py:387
 msgid "Goes slow"
 msgstr "No ir deprisa"
 
-#: rs/user_profile_details.py:366
+#: rs/user_profile_details.py:388
 msgid "Not possessive"
 msgstr "No posesiv@"
 
-#: rs/user_profile_details.py:367
+#: rs/user_profile_details.py:389
 msgid "Clean"
 msgstr "Limpieza"
 
-#: rs/user_profile_details.py:368
+#: rs/user_profile_details.py:390
 msgid "Asks what I like"
 msgstr "Pregunte k quiero"
 
-#: rs/user_profile_details.py:369
+#: rs/user_profile_details.py:391
 msgid "Says what they like"
 msgstr "Saber qué quiere"
 
-#: rs/user_profile_details.py:370
+#: rs/user_profile_details.py:392
 msgid "Gentle"
 msgstr "Ternura"
 
-#: rs/user_profile_details.py:371
+#: rs/user_profile_details.py:393
 msgid "Discretion"
 msgstr "Discreción"
 
-#: rs/user_profile_details.py:372
+#: rs/user_profile_details.py:394
 msgid "Good imagination"
 msgstr "Buena imaginación"
 
-#: rs/user_profile_details.py:373
+#: rs/user_profile_details.py:395
 msgid "High stamina"
 msgstr "Buena resistencia"
 
-#: rs/user_profile_details.py:374
+#: rs/user_profile_details.py:396
 msgid "Takes control"
 msgstr "Iniciativa"
 
-#: rs/user_profile_details.py:375
+#: rs/user_profile_details.py:397
 msgid "Piercing"
 msgstr "Piercing"
 
-#: rs/user_profile_details.py:376
+#: rs/user_profile_details.py:398
 msgid "Tattoos"
 msgstr "Tatuajes"
 
-#: rs/user_profile_details.py:377
+#: rs/user_profile_details.py:399
 msgid "Open mind"
 msgstr "Mente Abierta"
 
-#: rs/user_profile_details.py:378
+#: rs/user_profile_details.py:400
 msgid "Strong libido"
 msgstr "Líbido alta"
 
-#: rs/user_profile_details.py:379
+#: rs/user_profile_details.py:401
 msgid "Normal libido"
 msgstr "Líbido normal"
 
-#: rs/user_profile_details.py:380
+#: rs/user_profile_details.py:402
 msgid "Low libido"
 msgstr "Líbido baja"
 
@@ -4850,19 +4855,19 @@ msgstr "Látigos"
 msgid "Fetishes"
 msgstr "Fetichismo"
 
-#: rs/user_profile_details.py:508
+#: rs/user_profile_details.py:475
 msgid "Languages I would like to practice"
 msgstr "Idiomas que me gustaria practiar"
 
-#: rs/user_profile_details.py:526
+#: rs/user_profile_details.py:493
 msgid "My current password"
 msgstr "Mi&nbsp;contraseña&nbsp;actual"
 
-#: rs/user_profile_details.py:532
+#: rs/user_profile_details.py:499
 msgid "My new password"
 msgstr "Mi&nbsp;contraseña&nbsp;nueva"
 
-#: rs/user_profile_details.py:538
+#: rs/user_profile_details.py:505
 msgid "Verify new password"
 msgstr "Verificar&nbsp;contraseña&nbsp;nueva"
 
