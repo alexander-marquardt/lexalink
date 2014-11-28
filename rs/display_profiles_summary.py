@@ -81,9 +81,8 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
         userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
 
 
-        generated_html += u'<div class="alpha omega">\
-                            <strong>%s</strong>' % (
-                            display_userobject.username)
+        generated_html += u'<div class="alpha omega"><a href="%s" class="cl-search_username"><strong>%s</strong></a>' %\
+                          (userobject_href, display_userobject.username)
 
         generated_html += "</div>\n"
 
@@ -95,7 +94,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
 
 
         link_text = ugettext("Click here to see more of %s") % display_userobject.username
-        generated_html += u'<br><a href="%s"">(%s)</a><br>' % (
+        generated_html += u'<br><a href="%s">(%s)</a><br>' % (
                             userobject_href, link_text)
 
         if extra_info_html:
