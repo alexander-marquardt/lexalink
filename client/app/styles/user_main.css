@@ -271,8 +271,8 @@ td.cl-profile-photo-td-img
 .cl-side-bar a { text-decoration: none; color: red; }
 .cl-side-bar a:hover {	text-decoration: underline; color: #FF00A7; }
 
-.cl-search_results a { text-decoration: none; color: black; }
-.cl-search_results a:hover {	text-decoration: underline; color: red; }
+/*.cl-search_results a { text-decoration: none; color: black; }*/
+/*.cl-search_results a:hover {	text-decoration: underline; color: red; }*/
 
 .cl-mailbox_results a.cl-mailbox_anchor_format { text-decoration: none; color: #666666;}
 .cl-mailbox_results a:hover {	text-decoration: none; color: red;}
