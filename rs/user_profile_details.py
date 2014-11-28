@@ -381,9 +381,9 @@ class UserProfileDetails:
                     ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say')),
                  
                     ],
-                'wrap_choices_with_anchor' : {
+                'wrap_choice_with_anchor' : {
                     'lingerie': {'es':
-                                     '<a target="_blank" href="http://www.amazon.es/s/?'
+                                     u'<a target="_blank" href="http://www.amazon.es/s/?'
                                      '_encoding=UTF8&camp=3626&creative=24822&field-'
                                      'keywords=lenceria&linkCode=ur2&rh=i%3Aaps%2Ck'
                                      '%3Alenceria&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img '
@@ -391,7 +391,7 @@ class UserProfileDetails:
                                      'width="1" height="1" border="0" alt="" style="border:none !'
                                      'important; margin:0px !important;" />'},
                     'high_sex_drive' : {'es':
-                                            '<a target="_blank" href="http://www.amazon.es/s/?'
+                                            u'<a target="_blank" href="http://www.amazon.es/s/?'
                                             '_encoding=UTF8&camp=3626&creative=24822&field-keywords=bomba'
                                             '%20ereccion&linkCode=ur2&rh=i%3Aaps%2Ck%3Abomba'
                                             '%20ereccion&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</'
@@ -399,7 +399,7 @@ class UserProfileDetails:
                                             't=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt='
                                             '"" style="border:none !important; margin:0px !important;" />'},
                     'safe_sex': {'es':
-                                     '<a target="_blank" href="http://www.amazon.es/s/?'
+                                     u'<a target="_blank" href="http://www.amazon.es/s/?'
                                      '_encoding=UTF8&camp=3626&creative=24822&field-'
                                      'keywords=condones&linkCode=ur2&rh=i%3Aaps%2Ck'
                                      '%3Acondones&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</'
@@ -452,14 +452,14 @@ class UserProfileDetails:
                     ],
                 'wrap_choice_with_anchor' : {
                     'sex_toys' : {'es':
-                                      '<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&'
+                                      u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&'
                                       'creative=24822&field-keywords=juguetes%20eroticos&linkCode=ur2&tag='
                                       'wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a>'
                                       '<img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21'
                                       '&l=ur2&o=30" width="1" height="1" border="0" alt="" '
                                       'style="border:none !important; margin:0px !important;" />'},
                     'costumes': {'es':
-                                     '<a target="_blank" href="http://www.amazon.es/gp/search/?'
+                                     u'<a target="_blank" href="http://www.amazon.es/gp/search/?'
                                      'ie=UTF8&camp=3626&creative=24822&keywords=disfraces'
                                      '%20eroticos&linkCode=ur2&qid=1417076182&rh=i%3Aaps%2Ck%3Adisfraces'
                                      '%20eroticos&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.'
@@ -468,7 +468,7 @@ class UserProfileDetails:
                                      'important;" />'},
                     'erotic_photos': {},
                     'submission' : {'es' :
-                                        '<a target="_blank" href="http://www.amazon.es/gp/search/?'
+                                        u'<a target="_blank" href="http://www.amazon.es/gp/search/?'
                                         'ie=UTF8&camp=3626&creative=24822&keywords=juguetes'
                                         '%20bondage&linkCode=ur2&qid=1417076334&rh=i%3Aaps%2Ck%3Ajuguetes'
                                         '%20bondage&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.'
@@ -476,7 +476,7 @@ class UserProfileDetails:
                                         '"1" border="0" alt="" style="border:none !important; margin:0px !'
                                         'important;" />'},
                     'domination': {'es':
-                                       '<a target="_blank" href="http://www.amazon.es/s/?'
+                                       u'<a target="_blank" href="http://www.amazon.es/s/?'
                                        '_encoding=UTF8&camp=3626&creative=24822&field-keywords=juguetes'
                                        '%20servidumbre&linkCode=ur2&rh=i%3Aaps%2Ck%3Ajuguetes'
                                        '%20servidumbre&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img '
@@ -484,7 +484,7 @@ class UserProfileDetails:
                                        'width="1" height="1" border="0" alt="" style="border:none !'
                                        'important; margin:0px !important;" />'},
                     'bondage': {'es':
-                                    '<a target="_blank" href="http://www.amazon.es/s/?'
+                                    u'<a target="_blank" href="http://www.amazon.es/s/?'
                                     '_encoding=UTF8&camp=3626&creative=24822&field-keywords=juguetes'
                                     '%20servidumbre&linkCode=ur2&rh=i%3Aaps%2Ck%3Ajuguetes'
                                     '%20servidumbre&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</'
