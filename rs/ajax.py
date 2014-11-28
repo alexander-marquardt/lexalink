@@ -431,10 +431,10 @@ def load_checkbox_section(request, section_name):
     try:
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
         userobject = utils_top_level.get_userobject_from_request(request)
-        generated_html =  HttpResponse(
+        response =  HttpResponse('<p>%s</p>' %
             utils.generic_html_generator_for_list(lang_idx, section_name, 
                 getattr(userobject, section_name)))
-        return generated_html
+        return response
     except:
         error_reporting.log_exception(logging.critical)       
         return '' 
