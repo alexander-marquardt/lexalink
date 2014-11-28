@@ -61,26 +61,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
     
         generated_html += u'<div class="grid_9 alpha omega"> &nbsp;</div>\n'
     
-        userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
 
-            
-        heading_text = ugettext("See profile of:")
-        generated_html += u'<div class="grid_9 alpha omega cl-text-14pt-format">\
-        <a href="%s" rel="address:%s"><strong>%s</strong> %s </a>' % (
-            userobject_href, userobject_href, heading_text, display_userobject.username)
-
-        
-        if display_online_status:
-            userobject_key = display_userobject.key.urlsafe()
-            status_string = utils.get_vip_online_status_string(userobject_key)
-            generated_html += u' <br>%s' % status_string
-        
-        generated_html += "<br><br></div>\n"
-        
-        
-        if extra_info_html:
-            generated_html += "<br>%s<br><br>" % extra_info_html        
-        
         
         status_string = ''
 
@@ -96,6 +77,30 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
             
         # get userobject photo
         generated_html += '<div class="grid_2 alpha">\n'
+
+        userobject_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, display_userobject)
+
+
+        generated_html += u'<div class="alpha omega cl-text-14pt-format">\
+                            <strong>%s</strong>' % (
+                            display_userobject.username)
+
+        generated_html += "</div>\n"
+
+        if display_online_status:
+            userobject_key = display_userobject.key.urlsafe()
+            status_string = utils.get_vip_online_status_string(userobject_key)
+            generated_html += u' %s<br>' % status_string
+
+
+
+        link_text = ugettext("Click here to get in contact with %s") % display_userobject.username
+        generated_html += u'<br><a href="%s"">(%s)</a><br>' % (
+                            userobject_href, link_text)
+
+        if extra_info_html:
+            generated_html += "<br>%s<br><br>" % extra_info_html
+
         
         generated_html += forms.FormUtils.generate_profile_photo_html(lang_code, display_userobject, photo_message, userobject_href, photo_size="medium")
     
