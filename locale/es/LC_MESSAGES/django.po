@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-27 19:20-0500\n"
+"POT-Creation-Date: 2014-11-27 19:31-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -1879,9 +1879,8 @@ msgid "You do not have any \"%(title)s\" yet"
 msgstr "Todavía no tienes \"%(title)s\""
 
 #: rs/display_profiles_summary.py:97
-#, python-format
-msgid "Click here to get in contact with %s"
-msgstr "Haz clic aquí para ponerte en contacto con %s"
+msgid "Click here to see more of %s"
+msgstr "Haz clic aquí para ver más de %s"
 
 #: rs/display_profiles_summary.py:123
 msgid "About me"
@@ -5490,6 +5489,9 @@ msgstr "a cambio de"
 #: rs/proprietary/search_engine_overrides.py:303
 msgid "Refine your search results"
 msgstr "Filtrar los resultados de búsqueda"
+
+#~ msgid "Click here to see full profile and contact %s"
+#~ msgstr "Haz clic aquí para ver el perfil completo y contactar con %s"
 
 #~ msgid ""
 #~ "\n"

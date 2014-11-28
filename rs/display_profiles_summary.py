@@ -94,7 +94,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
 
 
 
-        link_text = ugettext("Click here to get in contact with %s") % display_userobject.username
+        link_text = ugettext("Click here to see more of %s") % display_userobject.username
         generated_html += u'<br><a href="%s"">(%s)</a><br>' % (
                             userobject_href, link_text)
 
