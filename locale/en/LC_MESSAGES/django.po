@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 19:00-0500\n"
+"POT-Creation-Date: 2014-11-28 19:51-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4091,7 +4091,7 @@ msgstr ""
 #: rs/user_profile_details.py:143 rs/user_profile_details.py:158
 #: rs/user_profile_details.py:173 rs/user_profile_details.py:204
 #: rs/user_profile_details.py:297 rs/user_profile_details.py:360
-#: rs/user_profile_details.py:434 rs/user_profile_details.py:489
+#: rs/user_profile_details.py:435 rs/user_profile_details.py:494
 msgid "Prefer not to say"
 msgstr ""
 
@@ -4396,23 +4396,23 @@ msgid "Discretion"
 msgstr ""
 
 #: rs/user_profile_details.py:417
-msgid "Good imagination"
-msgstr ""
-
-#: rs/user_profile_details.py:418
 msgid "Gentle"
 msgstr ""
 
-#: rs/user_profile_details.py:419
+#: rs/user_profile_details.py:418
 msgid "Give a massage"
 msgstr ""
 
-#: rs/user_profile_details.py:420
+#: rs/user_profile_details.py:419
 msgid "Goes slow"
 msgstr ""
 
-#: rs/user_profile_details.py:421
+#: rs/user_profile_details.py:420
 msgid "Strong libido"
+msgstr ""
+
+#: rs/user_profile_details.py:421
+msgid "Good imagination"
 msgstr ""
 
 #: rs/user_profile_details.py:422
@@ -4453,150 +4453,158 @@ msgid "Says what they like"
 msgstr ""
 
 #: rs/user_profile_details.py:431
-msgid "High stamina"
+msgid "Scented candles"
 msgstr ""
 
 #: rs/user_profile_details.py:432
-msgid "Takes control"
+msgid "High stamina"
 msgstr ""
 
 #: rs/user_profile_details.py:433
+msgid "Takes control"
+msgstr ""
+
+#: rs/user_profile_details.py:434
 msgid "Tattoos"
 msgstr ""
 
-#: rs/user_profile_details.py:458
+#: rs/user_profile_details.py:462
 msgid "Erotic encounters I am open to"
 msgstr ""
 
-#: rs/user_profile_details.py:460
+#: rs/user_profile_details.py:464
 msgid "Bondage"
 msgstr ""
 
-#: rs/user_profile_details.py:461
+#: rs/user_profile_details.py:465
 msgid "Costumes"
 msgstr ""
 
-#: rs/user_profile_details.py:462
+#: rs/user_profile_details.py:466
 msgid "Cyber sex"
 msgstr ""
 
-#: rs/user_profile_details.py:463
+#: rs/user_profile_details.py:467
 msgid "Domination"
 msgstr ""
 
-#: rs/user_profile_details.py:464
+#: rs/user_profile_details.py:468
 msgid "Erotic Movies"
 msgstr ""
 
-#: rs/user_profile_details.py:465
+#: rs/user_profile_details.py:469
 msgid "Erotic Photography"
 msgstr ""
 
-#: rs/user_profile_details.py:466
+#: rs/user_profile_details.py:470
 msgid "Exhibitionism"
 msgstr ""
 
-#: rs/user_profile_details.py:467
+#: rs/user_profile_details.py:471
 msgid "Fetishes"
 msgstr ""
 
-#: rs/user_profile_details.py:468
+#: rs/user_profile_details.py:472
 msgid "Latex/leather"
 msgstr ""
 
-#: rs/user_profile_details.py:469
+#: rs/user_profile_details.py:473
 msgid "Normal sex"
 msgstr ""
 
-#: rs/user_profile_details.py:470
+#: rs/user_profile_details.py:474
 msgid "Oral sex"
 msgstr ""
 
-#: rs/user_profile_details.py:471
+#: rs/user_profile_details.py:475
 msgid "One night stand"
 msgstr ""
 
-#: rs/user_profile_details.py:472
+#: rs/user_profile_details.py:476
 msgid "Video"
 msgstr ""
 
-#: rs/user_profile_details.py:473
+#: rs/user_profile_details.py:477
 msgid "Role play"
 msgstr ""
 
-#: rs/user_profile_details.py:474
+#: rs/user_profile_details.py:478
 msgid "Sex talk"
 msgstr ""
 
-#: rs/user_profile_details.py:475
-msgid "Sex toys"
-msgstr ""
-
-#: rs/user_profile_details.py:476
-msgid "Tenderness"
-msgstr ""
-
-#: rs/user_profile_details.py:477
-msgid "Spanking"
-msgstr ""
-
-#: rs/user_profile_details.py:478
-msgid "Submission"
-msgstr ""
-
 #: rs/user_profile_details.py:479
-msgid "Swinging"
+msgid "Erotic toys"
 msgstr ""
 
 #: rs/user_profile_details.py:480
-msgid "Tantric sex"
+msgid "Tenderness"
 msgstr ""
 
 #: rs/user_profile_details.py:481
-msgid "Threesomes"
+msgid "Spanking"
 msgstr ""
 
 #: rs/user_profile_details.py:482
-msgid "Transvestisim"
+msgid "Submission"
 msgstr ""
 
 #: rs/user_profile_details.py:483
-msgid "Unusual locations"
+msgid "Swinging"
 msgstr ""
 
 #: rs/user_profile_details.py:484
-msgid "Use a dildo"
+msgid "Tantric sex"
 msgstr ""
 
 #: rs/user_profile_details.py:485
-msgid "Use a penis pump"
+msgid "Threesomes"
 msgstr ""
 
 #: rs/user_profile_details.py:486
-msgid "Use a vibrator"
+msgid "Transvestisim"
 msgstr ""
 
 #: rs/user_profile_details.py:487
-msgid "Vouyerism"
+msgid "Unusual locations"
 msgstr ""
 
 #: rs/user_profile_details.py:488
+msgid "Use a dildo"
+msgstr ""
+
+#: rs/user_profile_details.py:489
+msgid "Use erection pump"
+msgstr ""
+
+#: rs/user_profile_details.py:490
+msgid "Use a vibrator"
+msgstr ""
+
+#: rs/user_profile_details.py:491
+msgid "Toys for men"
+msgstr ""
+
+#: rs/user_profile_details.py:492
+msgid "Vouyerism"
+msgstr ""
+
+#: rs/user_profile_details.py:493
 msgid "Whip"
 msgstr ""
 
-#: rs/user_profile_details.py:517
+#: rs/user_profile_details.py:526
 msgid "Languages I would like to practice"
 msgstr ""
 
-#: rs/user_profile_details.py:535
+#: rs/user_profile_details.py:544
 msgid "My current password"
 msgstr ""
 
-#: rs/user_profile_details.py:541
+#: rs/user_profile_details.py:550
 msgid "My new password"
 msgstr ""
 
-#: rs/user_profile_details.py:547
+#: rs/user_profile_details.py:556
 msgid "Verify new password"
 msgstr ""
 

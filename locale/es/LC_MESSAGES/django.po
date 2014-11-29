@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 19:00-0500\n"
+"POT-Creation-Date: 2014-11-28 19:51-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -4367,7 +4367,7 @@ msgstr ""
 #: rs/user_profile_details.py:143 rs/user_profile_details.py:158
 #: rs/user_profile_details.py:173 rs/user_profile_details.py:204
 #: rs/user_profile_details.py:297 rs/user_profile_details.py:360
-#: rs/user_profile_details.py:434 rs/user_profile_details.py:489
+#: rs/user_profile_details.py:435 rs/user_profile_details.py:494
 msgid "Prefer not to say"
 msgstr "Prefiero no decirlo"
 
@@ -4692,27 +4692,24 @@ msgid "Discretion"
 msgstr "Discreción"
 
 #: rs/user_profile_details.py:417
-msgid "Good imagination"
-msgstr "Buena imaginación"
-
-#: rs/user_profile_details.py:418
 msgid "Gentle"
 msgstr "Ternura"
 
-#: rs/user_profile_details.py:419
+#: rs/user_profile_details.py:418
 msgid "Give a massage"
 msgstr "Dar un masaje"
 
-msgid "Scented candles"
-msgstr "Velas aromáticas"
-
-#: rs/user_profile_details.py:420
+#: rs/user_profile_details.py:419
 msgid "Goes slow"
 msgstr "No ir deprisa"
 
-#: rs/user_profile_details.py:421
+#: rs/user_profile_details.py:420
 msgid "Strong libido"
 msgstr "Líbido alta"
+
+#: rs/user_profile_details.py:421
+msgid "Good imagination"
+msgstr "Buena imaginación"
 
 #: rs/user_profile_details.py:422
 msgid "Lingerie"
@@ -4751,150 +4748,158 @@ msgid "Says what they like"
 msgstr "Saber qué quiere"
 
 #: rs/user_profile_details.py:431
+msgid "Scented candles"
+msgstr "Velas aromáticas"
+
+#: rs/user_profile_details.py:432
 msgid "High stamina"
 msgstr "Buena resistencia"
 
-#: rs/user_profile_details.py:432
+#: rs/user_profile_details.py:433
 msgid "Takes control"
 msgstr "Iniciativa"
 
-#: rs/user_profile_details.py:433
+#: rs/user_profile_details.py:434
 msgid "Tattoos"
 msgstr "Tatuajes"
 
-#: rs/user_profile_details.py:458
+#: rs/user_profile_details.py:462
 msgid "Erotic encounters I am open to"
 msgstr "Encuentros eróticos que me interesarían"
 
-#: rs/user_profile_details.py:460
+#: rs/user_profile_details.py:464
 msgid "Bondage"
 msgstr "Servidumbre"
 
-#: rs/user_profile_details.py:461
+#: rs/user_profile_details.py:465
 msgid "Costumes"
 msgstr "Disfrazarse"
 
-#: rs/user_profile_details.py:462
+#: rs/user_profile_details.py:466
 msgid "Cyber sex"
 msgstr "Cibersexo"
 
-#: rs/user_profile_details.py:463
+#: rs/user_profile_details.py:467
 msgid "Domination"
 msgstr "Dominar"
 
-#: rs/user_profile_details.py:464
+#: rs/user_profile_details.py:468
 msgid "Erotic Movies"
 msgstr "Películas eróticas"
 
-#: rs/user_profile_details.py:465
+#: rs/user_profile_details.py:469
 msgid "Erotic Photography"
 msgstr "Fotografía Erótica"
 
-#: rs/user_profile_details.py:466
+#: rs/user_profile_details.py:470
 msgid "Exhibitionism"
 msgstr "Exhibicionismo"
 
-#: rs/user_profile_details.py:467
+#: rs/user_profile_details.py:471
 msgid "Fetishes"
 msgstr "Fetichismo"
 
-#: rs/user_profile_details.py:468
+#: rs/user_profile_details.py:472
 msgid "Latex/leather"
 msgstr "Látex/cuero"
 
-#: rs/user_profile_details.py:469
+#: rs/user_profile_details.py:473
 msgid "Normal sex"
 msgstr "Sexo normal"
 
-#: rs/user_profile_details.py:470
+#: rs/user_profile_details.py:474
 msgid "Oral sex"
 msgstr "Sexo oral"
 
-#: rs/user_profile_details.py:471
+#: rs/user_profile_details.py:475
 msgid "One night stand"
 msgstr "Sexo de una noche"
 
-#: rs/user_profile_details.py:472
+#: rs/user_profile_details.py:476
 msgid "Video"
 msgstr "Grabaciones"
 
-#: rs/user_profile_details.py:473
+#: rs/user_profile_details.py:477
 msgid "Role play"
 msgstr "Probar fantasías"
 
-#: rs/user_profile_details.py:474
+#: rs/user_profile_details.py:478
 msgid "Sex talk"
 msgstr "Hablar de sexo"
 
-#: rs/user_profile_details.py:475
-msgid "Sex toys"
-msgstr "Juguetes sexuales"
+#: rs/user_profile_details.py:479
+msgid "Erotic toys"
+msgstr "Juguetes eroticos"
 
-#: rs/user_profile_details.py:476
+#: rs/user_profile_details.py:480
 msgid "Tenderness"
 msgstr "Sexo tierno"
 
-#: rs/user_profile_details.py:477
+#: rs/user_profile_details.py:481
 msgid "Spanking"
 msgstr "Azotes suaves"
 
-#: rs/user_profile_details.py:478
+#: rs/user_profile_details.py:482
 msgid "Submission"
 msgstr "Someterse"
 
-#: rs/user_profile_details.py:479
+#: rs/user_profile_details.py:483
 msgid "Swinging"
 msgstr "Inter. de parejas"
 
-#: rs/user_profile_details.py:480
+#: rs/user_profile_details.py:484
 msgid "Tantric sex"
 msgstr "Sexo tántrico"
 
-#: rs/user_profile_details.py:481
+#: rs/user_profile_details.py:485
 msgid "Threesomes"
 msgstr "Tríos"
 
-#: rs/user_profile_details.py:482
+#: rs/user_profile_details.py:486
 msgid "Transvestisim"
 msgstr "Travestismo"
 
-#: rs/user_profile_details.py:483
+#: rs/user_profile_details.py:487
 msgid "Unusual locations"
 msgstr "Lugares inusuales"
 
-#: rs/user_profile_details.py:484
+#: rs/user_profile_details.py:488
 msgid "Use a dildo"
 msgstr "Usar un dildo"
 
-#: rs/user_profile_details.py:485
-msgid "Use a penis pump"
+#: rs/user_profile_details.py:489
+msgid "Use erection pump"
 msgstr "Bomba de ereccion"
 
-#: rs/user_profile_details.py:486
+#: rs/user_profile_details.py:490
 msgid "Use a vibrator"
 msgstr "Usar un vibrador"
 
-#: rs/user_profile_details.py:487
+#: rs/user_profile_details.py:491
+msgid "Toys for men"
+msgstr "Jug. para hombres"
+
+#: rs/user_profile_details.py:492
 msgid "Vouyerism"
 msgstr "Voyeur"
 
-#: rs/user_profile_details.py:488
+#: rs/user_profile_details.py:493
 msgid "Whip"
 msgstr "Látigos"
 
-#: rs/user_profile_details.py:517
+#: rs/user_profile_details.py:526
 msgid "Languages I would like to practice"
 msgstr "Idiomas que me gustaria practiar"
 
-#: rs/user_profile_details.py:535
+#: rs/user_profile_details.py:544
 msgid "My current password"
 msgstr "Mi&nbsp;contraseña&nbsp;actual"
 
-#: rs/user_profile_details.py:541
+#: rs/user_profile_details.py:550
 msgid "My new password"
 msgstr "Mi&nbsp;contraseña&nbsp;nueva"
 
-#: rs/user_profile_details.py:547
+#: rs/user_profile_details.py:556
 msgid "Verify new password"
 msgstr "Verificar&nbsp;contraseña&nbsp;nueva"
 
