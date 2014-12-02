@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 19:51-0500\n"
+"POT-Creation-Date: 2014-12-02 13:23-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -804,6 +804,10 @@ msgstr ""
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
 
+#: client/app/proprietary/html/proprietary_ads/RS_VIP_for_all_1.html:10
+msgid "Become a VIP member, and get up to 20x more dates"
+msgstr "Hazte miembro VIP para conseguir hasta 20 veces mas citas"
+
 #: client/app/proprietary/html/proprietary_ads/advertising_info_inner.html:5
 #: client/app/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:5
 msgid "Place your advertisement here"
@@ -1405,7 +1409,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:736 rs/forms.py:1097 rs/login.py:763 rs/messages.py:519
-#: rs/rendering.py:426 rs/utils.py:1539
+#: rs/rendering.py:431 rs/utils.py:1539
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -1439,7 +1443,7 @@ msgstr "Idiomas que hablo"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: rs/callbacks_from_html.py:128 rs/rendering.py:216
+#: rs/callbacks_from_html.py:128 rs/rendering.py:222
 msgid "About myself and what I am looking for"
 msgstr "Descripción sobre mí y lo que estoy buscando"
 
@@ -3959,7 +3963,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/rendering.py:244 rs/views.py:156
+#: rs/rendering.py:250 rs/views.py:156
 msgid "You must register to contact other users"
 msgstr ""
 "<em>Tienes que <a class=\"cl-register-enter-href\" href=\"#\">registrarte o "
@@ -4367,7 +4371,7 @@ msgstr ""
 #: rs/user_profile_details.py:143 rs/user_profile_details.py:158
 #: rs/user_profile_details.py:173 rs/user_profile_details.py:204
 #: rs/user_profile_details.py:297 rs/user_profile_details.py:360
-#: rs/user_profile_details.py:435 rs/user_profile_details.py:494
+#: rs/user_profile_details.py:435 rs/user_profile_details.py:493
 msgid "Prefer not to say"
 msgstr "Prefiero no decirlo"
 
@@ -4763,19 +4767,19 @@ msgstr "Iniciativa"
 msgid "Tattoos"
 msgstr "Tatuajes"
 
-#: rs/user_profile_details.py:462
+#: rs/user_profile_details.py:461
 msgid "Erotic encounters I am open to"
 msgstr "Encuentros eróticos que me interesarían"
 
-#: rs/user_profile_details.py:464
+#: rs/user_profile_details.py:463
 msgid "Bondage"
 msgstr "Servidumbre"
 
-#: rs/user_profile_details.py:465
+#: rs/user_profile_details.py:464
 msgid "Costumes"
 msgstr "Disfrazarse"
 
-#: rs/user_profile_details.py:466
+#: rs/user_profile_details.py:465
 msgid "Cyber sex"
 msgstr "Cibersexo"
 
@@ -4804,102 +4808,98 @@ msgid "Latex/leather"
 msgstr "Látex/cuero"
 
 #: rs/user_profile_details.py:473
+msgid "Toys for men"
+msgstr "Jug. para hombres"
+
+#: rs/user_profile_details.py:474
 msgid "Normal sex"
 msgstr "Sexo normal"
 
-#: rs/user_profile_details.py:474
+#: rs/user_profile_details.py:475
 msgid "Oral sex"
 msgstr "Sexo oral"
 
-#: rs/user_profile_details.py:475
+#: rs/user_profile_details.py:476
 msgid "One night stand"
 msgstr "Sexo de una noche"
 
-#: rs/user_profile_details.py:476
+#: rs/user_profile_details.py:477
+msgid "Use erection pump"
+msgstr "Bomba de ereccion"
+
+#: rs/user_profile_details.py:478
 msgid "Video"
 msgstr "Grabaciones"
 
-#: rs/user_profile_details.py:477
+#: rs/user_profile_details.py:479
 msgid "Role play"
 msgstr "Probar fantasías"
 
-#: rs/user_profile_details.py:478
+#: rs/user_profile_details.py:480
 msgid "Sex talk"
 msgstr "Hablar de sexo"
 
-#: rs/user_profile_details.py:479
+#: rs/user_profile_details.py:481
 msgid "Erotic toys"
 msgstr "Juguetes eroticos"
 
-#: rs/user_profile_details.py:480
+#: rs/user_profile_details.py:482
 msgid "Tenderness"
 msgstr "Sexo tierno"
 
-#: rs/user_profile_details.py:481
+#: rs/user_profile_details.py:483
 msgid "Spanking"
 msgstr "Azotes suaves"
 
-#: rs/user_profile_details.py:482
+#: rs/user_profile_details.py:484
 msgid "Submission"
 msgstr "Someterse"
 
-#: rs/user_profile_details.py:483
+#: rs/user_profile_details.py:485
 msgid "Swinging"
 msgstr "Inter. de parejas"
 
-#: rs/user_profile_details.py:484
+#: rs/user_profile_details.py:486
 msgid "Tantric sex"
 msgstr "Sexo tántrico"
 
-#: rs/user_profile_details.py:485
+#: rs/user_profile_details.py:487
 msgid "Threesomes"
 msgstr "Tríos"
 
-#: rs/user_profile_details.py:486
+#: rs/user_profile_details.py:488
 msgid "Transvestisim"
 msgstr "Travestismo"
 
-#: rs/user_profile_details.py:487
+#: rs/user_profile_details.py:489
 msgid "Unusual locations"
 msgstr "Lugares inusuales"
-
-#: rs/user_profile_details.py:488
-msgid "Use a dildo"
-msgstr "Usar un dildo"
-
-#: rs/user_profile_details.py:489
-msgid "Use erection pump"
-msgstr "Bomba de ereccion"
 
 #: rs/user_profile_details.py:490
 msgid "Use a vibrator"
 msgstr "Usar un vibrador"
 
 #: rs/user_profile_details.py:491
-msgid "Toys for men"
-msgstr "Jug. para hombres"
-
-#: rs/user_profile_details.py:492
 msgid "Vouyerism"
 msgstr "Voyeur"
 
-#: rs/user_profile_details.py:493
+#: rs/user_profile_details.py:492
 msgid "Whip"
 msgstr "Látigos"
 
-#: rs/user_profile_details.py:526
+#: rs/user_profile_details.py:525
 msgid "Languages I would like to practice"
 msgstr "Idiomas que me gustaria practiar"
 
-#: rs/user_profile_details.py:544
+#: rs/user_profile_details.py:543
 msgid "My current password"
 msgstr "Mi&nbsp;contraseña&nbsp;actual"
 
-#: rs/user_profile_details.py:550
+#: rs/user_profile_details.py:549
 msgid "My new password"
 msgstr "Mi&nbsp;contraseña&nbsp;nueva"
 
-#: rs/user_profile_details.py:556
+#: rs/user_profile_details.py:555
 msgid "Verify new password"
 msgstr "Verificar&nbsp;contraseña&nbsp;nueva"
 
@@ -5526,6 +5526,9 @@ msgstr "a cambio de"
 #: rs/proprietary/search_engine_overrides.py:303
 msgid "Refine your search results"
 msgstr "Filtrar los resultados de búsqueda"
+
+#~ msgid "Use a dildo"
+#~ msgstr "Usar un dildo"
 
 #~ msgid "Click here to see full profile and contact %s"
 #~ msgstr "Haz clic aquí para ver el perfil completo y contactar con %s"

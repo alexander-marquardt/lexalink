@@ -348,13 +348,10 @@ elif settings.BUILD_NAME == 'lesbian_build':
     
 # Pages that are more adult oriented.
 elif settings.BUILD_NAME == 'discrete_build':
-    # swinger_build, gay_build, and lesbian_build ads will be dynamically added depending on the search criteria.
-    # Since we show AshleyMadison ads here, we only show ads to our other pages if they are 
-    # relevant (ie. a woman seeking a woman will be shown an ad for lesbian_buildHeart)
+    # Additional ads will be dynamically added depending on the search criteria -- this happens in rendering.py
     enable_google_ads = False
     enable_amazon_ads = True
     lexabit_self_publicity_ads.append('single_build')
-    lexabit_self_publicity_ads.append('lesbian_build')
     #lexabit_self_publicity_ads.append('Client_Ad1')
     #append_more_advertising_info_dialog = True
     
@@ -363,7 +360,6 @@ elif settings.BUILD_NAME == 'gay_build':
     enable_google_ads = False
     lexabit_self_publicity_ads.append('discrete_build')
     lexabit_self_publicity_ads.append('single_build')
-    lexabit_self_publicity_ads.append('lesbian_build')
 
     
 elif settings.BUILD_NAME == "swinger_build":
@@ -383,7 +379,7 @@ if enable_google_ads:
 
 elif enable_amazon_ads:
     # After trying amazon ads for a while, this value should be re-visited
-    MAX_NUM_LEXABIT_ADS_TO_SHOW = 1
+    MAX_NUM_LEXABIT_ADS_TO_SHOW = 3
 
 else:
     MAX_NUM_LEXABIT_ADS_TO_SHOW = 4

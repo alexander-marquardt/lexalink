@@ -120,6 +120,13 @@ def get_additional_ads_to_append(request, userobject = None):
                 additional_ads_to_append.append("lesbian_build")
                 
         if settings.BUILD_NAME == "discrete_build":
+
+            # If the user is logged in, then show them the option to upgrade to a VIP membership
+            if (userobject and not userobject.client_paid_status):
+                additional_ads_to_append.append('RS_VIP_for_all_1')
+                additional_ads_to_append.append('RS_VIP_for_all_1')
+
+
             # Let the swingers know about swinger_build site and the lesbian_build site
             if (userobject_sex == 'couple' or userobject_preference == 'couple') or \
                (search_sex == 'couple' or search_preference == 'couple'):
@@ -335,7 +342,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         
         if enable_ads:
             ad_list = get_my_internal_advertisements(additional_ads_to_append)
-            
+
             for ad_name in ad_list:
                 side_ad_template_list.append(utils.render_internal_ad(ad_name))
                 
@@ -348,9 +355,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 
             elif constants.enable_amazon_ads:
                 bottom_ad_template = get_ad(request, "amazon_bottom_banner_ads")
-                side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
-                side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
-                side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
                 side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
 
 

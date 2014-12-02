@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-28 19:51-0500\n"
+"POT-Creation-Date: 2014-12-02 13:23-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -732,6 +732,10 @@ msgstr ""
 "members which must permanently use the email address that they registered "
 "with)."
 
+#: client/app/proprietary/html/proprietary_ads/RS_VIP_for_all_1.html:10
+msgid "Become a VIP member, and get up to 20x more dates"
+msgstr ""
+
 #: client/app/proprietary/html/proprietary_ads/advertising_info_inner.html:5
 #: client/app/proprietary/html/proprietary_ads/bottom_advertising_info_inner.html:5
 msgid "Place your advertisement here"
@@ -1252,7 +1256,7 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:736 rs/forms.py:1097 rs/login.py:763 rs/messages.py:519
-#: rs/rendering.py:426 rs/utils.py:1539
+#: rs/rendering.py:431 rs/utils.py:1539
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -1285,7 +1289,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: rs/callbacks_from_html.py:128 rs/rendering.py:216
+#: rs/callbacks_from_html.py:128 rs/rendering.py:222
 msgid "About myself and what I am looking for"
 msgstr ""
 
@@ -3724,7 +3728,7 @@ msgstr ""
 msgid "%(sex)s In %(location)s"
 msgstr ""
 
-#: rs/rendering.py:244 rs/views.py:156
+#: rs/rendering.py:250 rs/views.py:156
 msgid "You must register to contact other users"
 msgstr ""
 "<em>You must <a class=\"cl-register-enter-href\" href=\"#\">register or "
@@ -4091,7 +4095,7 @@ msgstr ""
 #: rs/user_profile_details.py:143 rs/user_profile_details.py:158
 #: rs/user_profile_details.py:173 rs/user_profile_details.py:204
 #: rs/user_profile_details.py:297 rs/user_profile_details.py:360
-#: rs/user_profile_details.py:435 rs/user_profile_details.py:494
+#: rs/user_profile_details.py:435 rs/user_profile_details.py:493
 msgid "Prefer not to say"
 msgstr ""
 
@@ -4468,19 +4472,19 @@ msgstr ""
 msgid "Tattoos"
 msgstr ""
 
-#: rs/user_profile_details.py:462
+#: rs/user_profile_details.py:461
 msgid "Erotic encounters I am open to"
 msgstr ""
 
-#: rs/user_profile_details.py:464
+#: rs/user_profile_details.py:463
 msgid "Bondage"
 msgstr ""
 
-#: rs/user_profile_details.py:465
+#: rs/user_profile_details.py:464
 msgid "Costumes"
 msgstr ""
 
-#: rs/user_profile_details.py:466
+#: rs/user_profile_details.py:465
 msgid "Cyber sex"
 msgstr ""
 
@@ -4509,71 +4513,71 @@ msgid "Latex/leather"
 msgstr ""
 
 #: rs/user_profile_details.py:473
-msgid "Normal sex"
+msgid "Toys for men"
 msgstr ""
 
 #: rs/user_profile_details.py:474
-msgid "Oral sex"
+msgid "Normal sex"
 msgstr ""
 
 #: rs/user_profile_details.py:475
-msgid "One night stand"
+msgid "Oral sex"
 msgstr ""
 
 #: rs/user_profile_details.py:476
-msgid "Video"
+msgid "One night stand"
 msgstr ""
 
 #: rs/user_profile_details.py:477
-msgid "Role play"
+msgid "Use erection pump"
 msgstr ""
 
 #: rs/user_profile_details.py:478
-msgid "Sex talk"
+msgid "Video"
 msgstr ""
 
 #: rs/user_profile_details.py:479
-msgid "Erotic toys"
+msgid "Role play"
 msgstr ""
 
 #: rs/user_profile_details.py:480
-msgid "Tenderness"
+msgid "Sex talk"
 msgstr ""
 
 #: rs/user_profile_details.py:481
-msgid "Spanking"
+msgid "Erotic toys"
 msgstr ""
 
 #: rs/user_profile_details.py:482
-msgid "Submission"
+msgid "Tenderness"
 msgstr ""
 
 #: rs/user_profile_details.py:483
-msgid "Swinging"
+msgid "Spanking"
 msgstr ""
 
 #: rs/user_profile_details.py:484
-msgid "Tantric sex"
+msgid "Submission"
 msgstr ""
 
 #: rs/user_profile_details.py:485
-msgid "Threesomes"
+msgid "Swinging"
 msgstr ""
 
 #: rs/user_profile_details.py:486
-msgid "Transvestisim"
+msgid "Tantric sex"
 msgstr ""
 
 #: rs/user_profile_details.py:487
-msgid "Unusual locations"
+msgid "Threesomes"
 msgstr ""
 
 #: rs/user_profile_details.py:488
-msgid "Use a dildo"
+msgid "Transvestisim"
 msgstr ""
 
 #: rs/user_profile_details.py:489
-msgid "Use erection pump"
+msgid "Unusual locations"
 msgstr ""
 
 #: rs/user_profile_details.py:490
@@ -4581,30 +4585,26 @@ msgid "Use a vibrator"
 msgstr ""
 
 #: rs/user_profile_details.py:491
-msgid "Toys for men"
-msgstr ""
-
-#: rs/user_profile_details.py:492
 msgid "Vouyerism"
 msgstr ""
 
-#: rs/user_profile_details.py:493
+#: rs/user_profile_details.py:492
 msgid "Whip"
 msgstr ""
 
-#: rs/user_profile_details.py:526
+#: rs/user_profile_details.py:525
 msgid "Languages I would like to practice"
 msgstr ""
 
-#: rs/user_profile_details.py:544
+#: rs/user_profile_details.py:543
 msgid "My current password"
 msgstr ""
 
-#: rs/user_profile_details.py:550
+#: rs/user_profile_details.py:549
 msgid "My new password"
 msgstr ""
 
-#: rs/user_profile_details.py:556
+#: rs/user_profile_details.py:555
 msgid "Verify new password"
 msgstr ""
 
