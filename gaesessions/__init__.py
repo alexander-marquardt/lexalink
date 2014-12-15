@@ -17,6 +17,12 @@ from google.appengine.api import taskqueue
 import logging, site_configuration
 from rs import error_reporting, constants
 
+# ARM Note: We do not allow cookie-only session so that if we need to eliminate a user from the system and immediately
+# revoke their website access, this can be achieved by just removing their session from the datastore.
+# This should be revisited in the future to see if there are other methods of achieving this functionality
+# while using cookie-only sessions, as cookie-only sessions would likely be better since we are passing a small
+# amount of data between the client and the server.
+
 # Configurable cookie options
 COOKIE_NAME_PREFIX = "GAE-Session"  # identifies a cookie as being one used by gae-sessions (so you can set cookies too)
 COOKIE_PATH = "/"
