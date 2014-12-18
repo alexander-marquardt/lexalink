@@ -10,11 +10,13 @@ import time
 
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
+from google.appengine.api.datastore import entity_pb
 from django import http
 from google.appengine.api import taskqueue
 
 import logging, site_configuration
-from rs import error_reporting, constants
+from rs import error_reporting
+
 # ARM Note: We do not allow cookie-only session so that if we need to eliminate a user from the system and immediately
 # revoke their website access, this can be achieved by just removing their session from the datastore.
 # This should be revisited in the future to see if there are other methods of achieving this functionality
@@ -60,7 +62,7 @@ class Session(object):
     """
     DIRTY_BUT_DONT_PERSIST_TO_DB = 0
 
-    def __init__(self, sid=None, lifetime=DEFAULT_LIFETIME, no_datastore=False,
+    def __init__(self, sid=None, lifetime=DEFAULT_LIFETIME,
                  cookie_only_threshold=DEFAULT_COOKIE_ONLY_THRESH, cookie_key=None):
         self._accessed = False
         self.sid = None
@@ -70,7 +72,6 @@ class Session(object):
         self.dirty = False  # has the session been changed?
 
         self.lifetime = lifetime
-        self.no_datastore = no_datastore
         self.cookie_only_thresh = cookie_only_threshold
         self.base_key = cookie_key
 
@@ -109,7 +110,7 @@ class Session(object):
                 if pdump:
                     self.data = self.__decode_data(pdump)
                 else:
-                    self.data = None  # data is in memcache/db: load it on-demand
+                    self.data = None  # data is in db: load it on-demand
             else:
                 logging.warn('cookie with invalid sig received from %s: %s' % (os.environ.get('REMOTE_ADDR'), b64pdump))
         except (CookieError, KeyError, IndexError, TypeError):
@@ -202,7 +203,7 @@ class Session(object):
         eO = {}  # for everything else
         for k, v in d.iteritems():
             if isinstance(v, ndb.Model):
-                eP[k] = ndb.ModelAdapter().entity_to_pb(v)
+                eP[k] = ndb.ModelAdapter().entity_to_pb(v).Encode()
             else:
                 eO[k] = v
         return pickle.dumps((eP, eO), 2)
@@ -213,7 +214,7 @@ class Session(object):
         try:
             eP, eO = pickle.loads(pdump)
             for k, v in eP.iteritems():
-                eO[k] = ndb.ModelAdapter().pb_to_entity(v)
+                eO[k] = ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(v))
         except Exception, e:
             logging.warn("failed to decode session data: %s" % e)
             eO = {}
@@ -271,43 +272,37 @@ class Session(object):
         if self.sid:
             self.__clear_data()
         self.sid = sid
-        self.ndb_key = ndb.Key(SessionModel._get_kind(), sid)
+        self.ndb_key = ndb.Key(SessionModel._get_kind(), sid, namespace='')
 
         # set the cookie if requested
         if make_cookie:
             self.cookie_data = ''  # trigger the cookie to be sent
 
     def __clear_data(self):
-        """Deletes this session from memcache and the datastore."""
-        logging.info("erasing session from database and memcache %s" % self.sid)
+        """Deletes this session from the datastore."""
+        logging.info("erasing session from database  %s" % self.sid)
         if self.sid:
-            memcache.delete(self.sid)  # not really needed; it'll go away on its own
             try:
                 self.ndb_key.delete()
             except:
-                pass  # either it wasn't in the db (maybe cookie/memcache-only) or db is down => cron will expire it
+                pass  # it wasn't in the db (maybe cookie only or db is down) => cron will expire it
 
     def __retrieve_data(self):
         """Sets the data associated with this session after retrieving it from
-        memcache or the datastore.  Assumes self.sid is set.  Checks for session
+        the datastore.  Assumes self.sid is set.  Checks for session
         expiration after getting the data."""
-        pdump = memcache.get(self.sid)
-        if pdump is None:
-            # memcache lost it, go to the datastore
-            if self.no_datastore:
-                logging.warning("can't find session data in memcache for sid=%s (using memcache only sessions)" % self.sid)
-                self.terminate(False)  # we lost it; just kill the session
-                return
-            session_model_instance = self.ndb_key.get()
-            if session_model_instance:
-                pdump = session_model_instance.pdump
-            else:
-                expiry_datetime = self.get_expiration_datetime()
-                # This can happen if the user has multiple windows open, and logs out in one of the windows but
-                # the other windows continue to request information.
-                logging.warning("can't find session data in the datastore for sid=%s key = %s expiry: %s" % (self.sid, self.ndb_key, expiry_datetime))
-                self.terminate(False)  # we lost it; just kill the session
-                return
+
+        session_model_instance = self.ndb_key.get()
+        if session_model_instance:
+            pdump = session_model_instance.pdump
+        else:
+            expiry_datetime = self.get_expiration_datetime()
+            # This can happen if the user has multiple windows open, and logs out in one of the windows but
+            # the other windows continue to request information.
+            logging.warning("can't find session data in the datastore for sid=%s key = %s expiry: %s" % (self.sid, self.ndb_key, expiry_datetime))
+            self.terminate(False)  # we lost it; just kill the session
+            return
+
         self.data = self.__decode_data(pdump)
 
     def save(self, persist_even_if_using_cookie=True):
@@ -316,9 +311,8 @@ class Session(object):
         is called).
 
         If the data is small enough it will be sent back to the user in a cookie
-        instead of using memcache and the datastore.  If `persist_even_if_using_cookie`
-        evaluates to True, memcache and the datastore will also be used.  If the
-        no_datastore option is set, then the datastore will never be used.
+        instead of using the datastore.  If `persist_even_if_using_cookie`
+        evaluates to True, the datastore will also be used.
 
         Normally this method does not need to be called directly - a session is
         automatically saved at the end of the request if any changes were made.
@@ -347,10 +341,6 @@ class Session(object):
             # latest data will only be in the backend, so expire data cookies we set
             self.cookie_data = ''
 
-        memcache.set(self.sid, pdump, time=self.get_expiration())  # may fail if memcache is down
-
-        #if dirty is Session.DIRTY_BUT_DONT_PERSIST_TO_DB or self.no_datastore:
-            #return
 
         # persist the session to the datastore
         try:
@@ -381,23 +371,6 @@ class Session(object):
         self.dirty = True
         return self.data.pop(key, default)
 
-    def pop_quick(self, key, default=None):
-        """Removes key and returns its value, or default if key is not present.
-        The change will only be persisted to memcache until another change
-        necessitates a write to the datastore."""
-        self.ensure_data_loaded()
-        if self.dirty is False:
-            self.dirty = Session.DIRTY_BUT_DONT_PERSIST_TO_DB
-        return self.data.pop(key, default)
-
-    def set_quick(self, key, value):
-        """Set a value named key on this session.  The change will only be
-        persisted to memcache until another change necessitates a write to the
-        datastore.  This will start a session if one is not already active."""
-        dirty = self.dirty
-        self[key] = value
-        if dirty is False or dirty is Session.DIRTY_BUT_DONT_PERSIST_TO_DB:
-            self.dirty = Session.DIRTY_BUT_DONT_PERSIST_TO_DB
 
     def __getitem__(self, key):
         """Returns the value associated with key on this session."""
@@ -451,19 +424,14 @@ class SessionMiddleware(object):
 
     ``lifetime`` - ``datetime.timedelta`` that specifies how long a session may last.  Defaults to 7 days.
 
-    ``no_datastore`` - By default all writes also go to the datastore in case
-    memcache is lost.  Set to True to never use the datastore. This improves
-    write performance but sessions may be occassionally lost.
-
     ``cookie_only_threshold`` - A size in bytes.  If session data is less than this
     threshold, then session data is kept only in a secure cookie.  This avoids
     memcache/datastore latency which is critical for small sessions.  Larger
     sessions are kept in memcache+datastore instead.  Defaults to 10KB.
     """
-    def __init__(self, app, cookie_key, lifetime=DEFAULT_LIFETIME, no_datastore=False, cookie_only_threshold=DEFAULT_COOKIE_ONLY_THRESH):
+    def __init__(self, app, cookie_key, lifetime=DEFAULT_LIFETIME, cookie_only_threshold=DEFAULT_COOKIE_ONLY_THRESH):
         self.app = app
         self.lifetime = lifetime
-        self.no_datastore = no_datastore
         self.cookie_only_thresh = cookie_only_threshold
         self.cookie_key = cookie_key
         if not self.cookie_key:
@@ -473,15 +441,15 @@ class SessionMiddleware(object):
 
     def __call__(self, environ, start_response):
         # initialize a session for the current user
-        _current_session = Session(lifetime=self.lifetime, no_datastore=self.no_datastore, cookie_only_threshold=self.cookie_only_thresh, cookie_key=self.cookie_key)
+        _current_session = Session(lifetime=self.lifetime, cookie_only_threshold=self.cookie_only_thresh, cookie_key=self.cookie_key)
 
         # create a hook for us to insert a cookie into the response headers
         def my_start_response(current_session, status, headers, exc_info=None):
-            
+
             current_session.save() # store the session if it was changed
             for ch in current_session.make_cookie_headers():
                 headers.append(('Set-Cookie', ch))
-                    
+
             return start_response(status, headers, exc_info)
 
         # let the app do its thing
