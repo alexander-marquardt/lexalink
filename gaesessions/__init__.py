@@ -4,19 +4,17 @@ from base64 import b64decode, b64encode
 import datetime
 import hashlib
 import hmac
-import logging
 import pickle
 import os
 import time
 
 from google.appengine.api import memcache
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 from django import http
 from google.appengine.api import taskqueue
 
 import logging, site_configuration
 from rs import error_reporting, constants
-
 # ARM Note: We do not allow cookie-only session so that if we need to eliminate a user from the system and immediately
 # revoke their website access, this can be achieved by just removing their session from the datastore.
 # This should be revisited in the future to see if there are other methods of achieving this functionality
@@ -27,10 +25,10 @@ from rs import error_reporting, constants
 COOKIE_NAME_PREFIX = "GAE-Session"  # identifies a cookie as being one used by gae-sessions (so you can set cookies too)
 COOKIE_PATH = "/"
 # Original DEFAULT_COOKIE_ONLY_THRESH was 10240 10KB: GAE only allows ~16000B in HTTP header - leave ~6KB for other info
-# However, we set to 0 because we don't want cookie-only sessions - we need to be able to remotely kills sessions 
+# However, we set to 0 because we don't want cookie-only sessions - we need to be able to remotely kills sessions
 # which requires that all sessions are in the database.
-DEFAULT_COOKIE_ONLY_THRESH = 0 
-DEFAULT_LIFETIME = datetime.timedelta(hours=constants.SESSION_EXPIRE_HOURS)
+DEFAULT_COOKIE_ONLY_THRESH = 0
+DEFAULT_LIFETIME = datetime.timedelta(hours=24)
 
 # constants
 SID_LEN = 43  # timestamp (10 chars) + underscore + md5 (32 hex chars)
@@ -48,10 +46,10 @@ def is_gaesessions_key(k):
     return k.startswith(COOKIE_NAME_PREFIX)
 
 
-class SessionModel(db.Model):
-    """Contains session data.  key_name is the session ID and pdump contains a
+class SessionModel(ndb.Model):
+    """Contains session data.  id is the session ID and pdump contains a
     pickled dictionary which maps session variables to their values."""
-    pdump = db.BlobProperty()
+    pdump = ndb.BlobProperty()
 
 
 class Session(object):
@@ -176,11 +174,11 @@ class Session(object):
             return int(self.sid[:-33])
         except:
             return 0
-        
+
     def get_expiration_datetime(self):
         expiry_timestamp = self.get_expiration()
-        return datetime.datetime.fromtimestamp(expiry_timestamp)   
-    
+        return datetime.datetime.fromtimestamp(expiry_timestamp)
+
     def __make_sid(self, expire_ts=None, ssl_only=False):
         """Returns a new session ID."""
         # make a random ID (random.randrange() is 10x faster but less secure?)
@@ -197,14 +195,14 @@ class Session(object):
 
     @staticmethod
     def __encode_data(d):
-        """Returns a "pickled+" encoding of d.  d values of type db.Model are
+        """Returns a "pickled+" encoding of d.  d values of type ndb.Model are
         protobuf encoded before pickling to minimize CPU usage & data size."""
         # separate protobufs so we'll know how to decode (they are just strings)
         eP = {}  # for models encoded as protobufs
         eO = {}  # for everything else
         for k, v in d.iteritems():
-            if isinstance(v, db.Model):
-                eP[k] = db.model_to_protobuf(v)
+            if isinstance(v, ndb.Model):
+                eP[k] = ndb.ModelAdapter().entity_to_pb(v)
             else:
                 eO[k] = v
         return pickle.dumps((eP, eO), 2)
@@ -215,7 +213,7 @@ class Session(object):
         try:
             eP, eO = pickle.loads(pdump)
             for k, v in eP.iteritems():
-                eO[k] = db.model_from_protobuf(v)
+                eO[k] = ndb.ModelAdapter().pb_to_entity(v)
         except Exception, e:
             logging.warn("failed to decode session data: %s" % e)
             eO = {}
@@ -273,7 +271,7 @@ class Session(object):
         if self.sid:
             self.__clear_data()
         self.sid = sid
-        self.db_key = db.Key.from_path(SessionModel.kind(), sid, namespace='')
+        self.ndb_key = ndb.Key(SessionModel._get_kind(), sid)
 
         # set the cookie if requested
         if make_cookie:
@@ -281,11 +279,11 @@ class Session(object):
 
     def __clear_data(self):
         """Deletes this session from memcache and the datastore."""
-        logging.info("erasing session from database and memcache %s" % self.sid) 
+        logging.info("erasing session from database and memcache %s" % self.sid)
         if self.sid:
-            memcache.delete(self.sid, namespace='')  # not really needed; it'll go away on its own
+            memcache.delete(self.sid)  # not really needed; it'll go away on its own
             try:
-                db.delete(self.db_key)
+                self.ndb_key.delete()
             except:
                 pass  # either it wasn't in the db (maybe cookie/memcache-only) or db is down => cron will expire it
 
@@ -293,21 +291,21 @@ class Session(object):
         """Sets the data associated with this session after retrieving it from
         memcache or the datastore.  Assumes self.sid is set.  Checks for session
         expiration after getting the data."""
-        pdump = memcache.get(self.sid, namespace='')
+        pdump = memcache.get(self.sid)
         if pdump is None:
             # memcache lost it, go to the datastore
             if self.no_datastore:
                 logging.warning("can't find session data in memcache for sid=%s (using memcache only sessions)" % self.sid)
                 self.terminate(False)  # we lost it; just kill the session
                 return
-            session_model_instance = db.get(self.db_key)
+            session_model_instance = self.ndb_key.get()
             if session_model_instance:
                 pdump = session_model_instance.pdump
             else:
                 expiry_datetime = self.get_expiration_datetime()
-                # This can happen if the user has multiple windows open, and logs out in one of the windows but 
-                # the other windows continue to request information.   
-                logging.warning("can't find session data in the datastore for sid=%s key = %s expiry: %s" % (self.sid, self.db_key, expiry_datetime))
+                # This can happen if the user has multiple windows open, and logs out in one of the windows but
+                # the other windows continue to request information.
+                logging.warning("can't find session data in the datastore for sid=%s key = %s expiry: %s" % (self.sid, self.ndb_key, expiry_datetime))
                 self.terminate(False)  # we lost it; just kill the session
                 return
         self.data = self.__decode_data(pdump)
@@ -336,7 +334,7 @@ class Session(object):
         pdump = self.__encode_data(self.data)
 
         # Commented out by ARM - we do not allow cookie-only sessions, so don't waste resources computing
-        # the length. 
+        # the length.
         # persist via cookies if it is reasonably small
         #if len(pdump) * 4 / 3 <= self.cookie_only_thresh:  # 4/3 b/c base64 is ~33% bigger
             #self.cookie_data = pdump
@@ -346,17 +344,17 @@ class Session(object):
             ## latest data will only be in the backend, so expire data cookies we set
             #self.cookie_data = ''
         if self.cookie_keys:
-            # latest data will only be in the backend, so expire data cookies we set            
+            # latest data will only be in the backend, so expire data cookies we set
             self.cookie_data = ''
 
-        memcache.set(self.sid, pdump, namespace='', time=self.get_expiration())  # may fail if memcache is down
+        memcache.set(self.sid, pdump, time=self.get_expiration())  # may fail if memcache is down
 
         #if dirty is Session.DIRTY_BUT_DONT_PERSIST_TO_DB or self.no_datastore:
             #return
-            
-        # persist the session to the datastore            
+
+        # persist the session to the datastore
         try:
-            SessionModel(key_name=self.sid, pdump=pdump).put()
+            SessionModel(id=self.sid, pdump=pdump).put()
         except Exception, e:
             logging.error("unable to persist session to datastore for sid=%s (%s)" % (self.sid, e))
 
@@ -440,6 +438,7 @@ class Session(object):
             return "uninitialized session"
 
 
+
 class SessionMiddleware(object):
     """WSGI middleware that adds session support.
 
@@ -521,13 +520,14 @@ def delete_expired_sessions():
     If there are more than 500 expired sessions, only 500 will be removed.
     """
     now_str = unicode(int(time.time()))
-    q = db.Query(SessionModel, keys_only=True, namespace='')
-    key = db.Key.from_path('SessionModel', now_str + u'\ufffd', namespace='')
-    q.filter('__key__ < ', key)
-    results = q.fetch(500)
+    q = SessionModel.query()
+    k = ndb.Key('SessionModel', now_str + u'\ufffd')
+    q.filter(SessionModel._key < k)
+    results = q.fetch(500, keys_only=True,)
     num_results = len(results)
-    db.delete(results)
+    ndb.delete_multi([k for k in results])
     return num_results
+
 
 
 def cleanup_sessions(request):
@@ -567,10 +567,10 @@ def kill_user_sessions(user_tracker_key):
                 # need to remove it as it does not have an active session, and because it will be cleaned up
                 # by the cron jobs.
                 memcache.delete(session_id) 
-                db_key = db.Key.from_path(SessionModel.kind(), session_id, namespace='')
+                k = ndb.Key('SessionModel', session_id)
                 
                 try:
-                    db.delete(db_key)    
+                    k.delete()
                     logging.info("kill_user_sessions: deleting database session key %s\n" % session_id)
                 except:
                     error_reporting.log_exception(logging.critical) 
