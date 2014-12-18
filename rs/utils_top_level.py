@@ -105,32 +105,14 @@ def serialize_entity(obj):
     if obj is None:
         return None
     else:
-        return pickle.dumps(obj)
-    
-    #if models is None:
-        #return None
-    #elif isinstance(models, ndb.Model):
-    ## Just one instance
-        #return ndb.ModelAdapter().entity_to_pb(models).Encode()
-    #else:
-    ## A list
-        #return [ndb.ModelAdapter().entity_to_pb(x).Encode() for x in models]
+        return ndb.ModelAdapter().entity_to_pb(obj).Encode()
 
 def deserialize_entity(data):
     
     if data is None:
         return None
     else:
-        return pickle.loads(data)
-    
-    #if data is None:
-        #return None
-    #elif isinstance(data, str):
-        ## Just one instance
-        #return ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(data))
-    #else:
-        #return [ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(x)) for x in data]
-    
+        return ndb.ModelAdapter().pb_to_entity(entity_pb.EntityProto(data))
 
 
 def get_additional_description_from_sex_and_preference(sex_key_val, preference_key_val, pluralize = True):
