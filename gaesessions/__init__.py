@@ -15,7 +15,7 @@ from django import http
 from google.appengine.api import taskqueue
 
 import logging, site_configuration
-from rs import error_reporting
+from rs import error_reporting, constants
 
 # ARM Note: We do not allow cookie-only session so that if we need to eliminate a user from the system and immediately
 # revoke their website access, this can be achieved by just removing their session from the datastore.
@@ -30,7 +30,7 @@ COOKIE_PATH = "/"
 # However, we set to 0 because we don't want cookie-only sessions - we need to be able to remotely kills sessions
 # which requires that all sessions are in the database.
 DEFAULT_COOKIE_ONLY_THRESH = 0
-DEFAULT_LIFETIME = datetime.timedelta(hours=24)
+DEFAULT_LIFETIME = datetime.timedelta(hours=constants.SESSION_EXPIRE_HOURS)
 
 # constants
 SID_LEN = 43  # timestamp (10 chars) + underscore + md5 (32 hex chars)
