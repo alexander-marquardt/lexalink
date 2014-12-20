@@ -1,6 +1,7 @@
 """A fast, lightweight, and secure session WSGI middleware for use with GAE."""
 from Cookie import CookieError, SimpleCookie
 from base64 import b64decode, b64encode
+import binascii
 import datetime
 import hashlib
 import hmac
@@ -24,7 +25,7 @@ from rs import error_reporting, constants
 # amount of data between the client and the server.
 
 # Configurable cookie options
-COOKIE_NAME_PREFIX = "GAE-Session"  # identifies a cookie as being one used by gae-sessions (so you can set cookies too)
+COOKIE_NAME_PREFIX = "rs-"  # identifies a cookie as being one used by gae-sessions (so you can set cookies too)
 COOKIE_PATH = "/"
 # Original DEFAULT_COOKIE_ONLY_THRESH was 10240 10KB: GAE only allows ~16000B in HTTP header - leave ~6KB for other info
 # However, we set to 0 because we don't want cookie-only sessions - we need to be able to remotely kills sessions
@@ -33,7 +34,7 @@ DEFAULT_COOKIE_ONLY_THRESH = 0
 DEFAULT_LIFETIME = datetime.timedelta(hours=constants.SESSION_EXPIRE_HOURS)
 
 # constants
-SID_LEN = 43  # timestamp (10 chars) + underscore + md5 (32 hex chars)
+SID_LEN = 43  # timestamp (10 chars) + underscore + random(32 hex chars)
 SIG_LEN = 44  # base 64 encoded HMAC-SHA256
 MAX_COOKIE_LEN = 4096
 EXPIRE_COOKIE_FMT = ' %s=; expires=Wed, 01-Jan-1970 00:00:00 GMT; Path=' + COOKIE_PATH
@@ -192,7 +193,7 @@ class Session(object):
             sep = 'S'
         else:
             sep = '_'
-        return ('%010d' % expire_ts) + sep + hashlib.md5(os.urandom(16)).hexdigest()
+        return ('%010d' % expire_ts) + sep + binascii.hexlify(os.urandom(16))
 
     @staticmethod
     def __encode_data(d):
