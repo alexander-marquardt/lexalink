@@ -1,6 +1,7 @@
 """A fast, lightweight, and secure session WSGI middleware for use with GAE."""
 from Cookie import CookieError, SimpleCookie
 from base64 import b64decode, b64encode
+from google.appengine.api.datastore import entity_pb
 import datetime
 import binascii
 import hashlib
@@ -11,7 +12,7 @@ import time
 
 from google.appengine.api import memcache
 
-# Do not try to update to ndb - see bug that prevents using ndb
+# Do not try to update to ndb - see a description of the bug that prevents using ndb
 # here: http://stackoverflow.com/questions/15437320/appengine-python-ndb-key-order
 from google.appengine.ext import db
 from django import http
@@ -202,12 +203,12 @@ class Session(object):
     def __encode_data(d):
         """Returns a "pickled+" encoding of d.  d values of type db.Model are
         protobuf encoded before pickling to minimize CPU usage & data size."""
-        # separate protobufs so we'll know how to decode (they are just strings)
+        # separate protobufs so we'll know how to decode
         eP = {}  # for models encoded as protobufs
         eO = {}  # for everything else
         for k, v in d.iteritems():
             if isinstance(v, db.Model):
-                eP[k] = db.model_to_protobuf(v)
+                eP[k] = db.model_to_protobuf(v).Encode()
             else:
                 eO[k] = v
         return pickle.dumps((eP, eO), 2)
@@ -218,7 +219,7 @@ class Session(object):
         try:
             eP, eO = pickle.loads(pdump)
             for k, v in eP.iteritems():
-                eO[k] = db.model_from_protobuf(v)
+                eO[k] = db.model_from_protobuf(entity_pb.EntityProto(v))
         except Exception, e:
             logging.warn("failed to decode session data: %s" % e)
             eO = {}
@@ -546,7 +547,7 @@ def cleanup_sessions(request):
         if num_cleaned_up >= 500:
             # re-schedule to cleanup remaining sessions immideately, since we didn't get them all in the previous cleanup
             logging.info("Re-launching session cleanup since we did not get all in the previous")
-            time.sleep(1.0) # just in case it takes a few milliseconds for the DB to get updated
+            time.sleep(5.0) # just in case it takes a few milliseconds for the DB to get updated
             taskqueue.add(queue_name = 'cleanup-sessions-queue', url='/rs/admin/cleanup_sessions/')
             
         return http.HttpResponse("OK")
