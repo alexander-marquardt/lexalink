@@ -2,9 +2,9 @@
 from Cookie import CookieError, SimpleCookie
 from base64 import b64decode, b64encode
 import datetime
+import binascii
 import hashlib
 import hmac
-import logging
 import pickle
 import os
 import time
@@ -36,7 +36,7 @@ DEFAULT_COOKIE_ONLY_THRESH = 0
 DEFAULT_LIFETIME = datetime.timedelta(hours=constants.SESSION_EXPIRE_HOURS)
 
 # constants
-SID_LEN = 43  # timestamp (10 chars) + underscore + md5 (32 hex chars)
+SID_LEN = 43  # timestamp (10 chars) + underscore + random(32 hex chars)
 SIG_LEN = 44  # base 64 encoded HMAC-SHA256
 MAX_COOKIE_LEN = 4096
 EXPIRE_COOKIE_FMT = ' %s=; expires=Wed, 01-Jan-1970 00:00:00 GMT; Path=' + COOKIE_PATH
@@ -196,7 +196,7 @@ class Session(object):
             sep = 'S'
         else:
             sep = '_'
-        return ('%010d' % expire_ts) + sep + hashlib.md5(os.urandom(16)).hexdigest()
+        return ('%010d' % expire_ts) + sep + binascii.hexlify(os.urandom(16))
 
     @staticmethod
     def __encode_data(d):
