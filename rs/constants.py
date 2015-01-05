@@ -350,8 +350,9 @@ elif settings.BUILD_NAME == 'lesbian_build':
 elif settings.BUILD_NAME == 'discrete_build':
     # Additional ads will be dynamically added depending on the search criteria -- this happens in rendering.py
     enable_google_ads = False
-    enable_amazon_ads = True
     lexabit_self_publicity_ads.append('single_build')
+    lexabit_self_publicity_ads.append('lesbian_build')
+    lexabit_self_publicity_ads.append('mature_build')
     #lexabit_self_publicity_ads.append('Client_Ad1')
     #append_more_advertising_info_dialog = True
     
@@ -360,6 +361,9 @@ elif settings.BUILD_NAME == 'gay_build':
     enable_google_ads = False
     lexabit_self_publicity_ads.append('discrete_build')
     lexabit_self_publicity_ads.append('single_build')
+    lexabit_self_publicity_ads.append('lesbian_build')
+    lexabit_self_publicity_ads.append('mature_build')
+
 
     
 elif settings.BUILD_NAME == "swinger_build":
@@ -367,7 +371,8 @@ elif settings.BUILD_NAME == "swinger_build":
     lexabit_self_publicity_ads.append('discrete_build')
     lexabit_self_publicity_ads.append('lesbian_build')
     lexabit_self_publicity_ads.append('single_build')
-    
+    lexabit_self_publicity_ads.append('mature_build')
+
 
 else:
     logging.error("Unknown BUILD_NAME")
