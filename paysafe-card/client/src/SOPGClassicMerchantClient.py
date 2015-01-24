@@ -1,21 +1,6 @@
-import urllib
-
-import site_configuration
 
 from appengine_suds import suds
 from Validator import Validator
-
-
-username = 'Lexabit_Inc_test'
-password = 'uOLSLoFmktH7DyB'
-currency = 'EUR'
-mid = '1000005878'
-ok_url = urllib.quote('http://www.%s/psc/okurl/' % site_configuration.DOMAIN_NAME)
-nok_url = urllib.quote('http://www.%s/psc/nokurl/' % site_configuration.DOMAIN_NAME)
-pn_url = urllib.quote('http://www.%s/paysafe/ipn/' % site_configuration.DOMAIN_NAME)
-merchant_client_id = 'temporary-testing-id-0001'
-client_ip = None # This will be set once we get farther along into the paysafe integration
-
 
 class SOPGClassicMerchantClient:
 

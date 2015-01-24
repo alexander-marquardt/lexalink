@@ -1,0 +1,3 @@
+To run the test, try the following command (directory path may be different depending on where you are currently):
+
+python -m unittest discover paysafe-card/test/src

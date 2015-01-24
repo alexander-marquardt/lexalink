@@ -1,11 +1,31 @@
 import sys
 import setup_sys_path_for_testing
 
+import site_configuration
+
 from SOPGClassicMerchantClient import SOPGClassicMerchantClient
 
 import unittest
 import time
+import urllib
 
+
+# The following is our Google Compute Engine proxy that will handle all communications with Paysafecard's servers
+# See https://console.developers.google.com/project/lexabit-proxy
+endpoint = 'https://130.211.134.3/psc/wsdl'
+
+username = 'Lexabit_Inc_test'
+password = 'uOLSLoFmktH7DyB'
+currency = 'EUR'
+mid = '1000005878'
+ok_url = urllib.quote('http://www.%s/psc/okurl/' % site_configuration.DOMAIN_NAME)
+nok_url = urllib.quote('http://www.%s/psc/nokurl/' % site_configuration.DOMAIN_NAME)
+pn_url = urllib.quote('http://www.%s/paysafe/ipn/' % site_configuration.DOMAIN_NAME)
+merchant_client_id = 'temporary-testing-id-0001'
+client_ip = None # This will be set once we get farther along into the paysafe integration
+
+card_pin = 8691159531990439
+card_serial_number = 8691159531990439
 
 class TestSOPGClassicMerchantClient(unittest.TestCase):
 
@@ -151,22 +171,36 @@ class TestSOPGClassicMerchantClient(unittest.TestCase):
                                 1,
                                 self.cards)
 
+  # params = {
+  #               'endpoint' : 'https://soatest.paysafecard.com/psc/services/PscService?wsdl',
+  #               'username' : 'USER_CLASSIC',
+  #               'password' : 'PASS',
+  #               'currency' : 'EUR',
+  #               'amount' : 0.01,
+  #               'okUrl' : 'http://okurl',
+  #               'nokUrl' : 'http://nokurl',
+  #               'pin' : '5000000000002517',
+  #               'mid' : '1000001243',
+  #               'serialNumber' : '5000000000002517;0.01',
+  #               'dispositionState' : 'S',
+  #       }
+
   params = {
-                'endpoint' : 'https://soatest.paysafecard.com/psc/services/PscService?wsdl', 
-                'username' : 'USER_CLASSIC',
-                'password' : 'PASS',
-                'currency' : 'EUR',
-                'amount' : 0.01,
-                'okUrl' : 'http://okurl',
-                'nokUrl' : 'http://nokurl',
-                'pin' : '5000000000002517',
-                'mid' : '1000001243',
-                'serialNumber' : '5000000000002517;0.01',
-                'dispositionState' : 'S',
-        }
-  
+      'endpoint' : endpoint,
+      'username' : username,
+      'password' : password,
+      'currency' : currency,
+      'amount' : 0.01,
+      'okUrl' : ok_url,
+      'nokUrl' : nok_url,
+      'pin' : card_pin,
+      'mid' : mid,
+      'serialNumber' : '%s;0.01' % card_serial_number,
+      'dispositionState' : 'S',
+      }
+
   card1 = {}
-  card1['pin']='5000000000002517'
+  card1['pin']= card_pin
   card2 = {}
   card2['pin']='5000000000002511'
   cards = [card1, card2]
