@@ -144,6 +144,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/sitemap'),
     re.compile(r'^/bing_site_auth/'),
     re.compile(r'^/paypal/ipn/'),
+    re.compile(r'^/paysafe/ipn/'),
     re.compile(r'^/rs/apply_unused_vip_credits/'),
     re.compile(r'^/rs/set_show_online_status_trial/'),
     re.compile(r'^/robots.txt'), 

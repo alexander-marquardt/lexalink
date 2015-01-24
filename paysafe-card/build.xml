@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="SOPGPythonClient" default="test_report" basedir=".">
+
+  <property file="build.properties" />
+  <property environment="env" />
+  <taskdef resource="pyAntTasks.properties" />
+
+  <target name="clean" description="Cleans the previous build">
+    <delete dir="${test.reports.dir}" />
+  </target>
+
+  <target name="compile_client" description="Compile SOPG python client">
+    <py-compile dir="${client.dir}/${src.dir}" pythonpath="${client.dir}/${src.dir}" optimize="0" />
+  </target>
+
+  <target name="compile_client_test" description="Compile SOPG python client tests">
+    <py-compile dir="${client.test.dir}/${src.dir}" pythonpath="${client.test.dir}/${src.dir}" optimize="0" />
+  </target>
+
+  <target name="compile" depends="clean, compile_client, compile_client_test" description="Compile SOPG python client and tests" />
+
+  <target name="test_client" depends="compile">
+    <py-test pythonpath="${client.test.dir}/${src.dir};${client.dir}/${src.dir}" failonerror="false">
+      <fileset dir="${client.test.dir}/${src.dir}">
+        <include name="${test.class.name}" />
+      </fileset>
+    </py-test>
+  </target>
+
+  <target name="test_report" depends="test_client">
+    <mkdir dir="${test.reports.dir}" />
+    <junitreport todir="${test.reports.dir}">
+      <fileset dir=".">
+        <include name="TEST-*.xml" />
+      </fileset>
+      <report todir="${test.reports.dir}" />
+    </junitreport>
+    <delete>
+      <fileset dir=".">
+        <include name="TEST-*.xml" />
+      </fileset>
+    </delete>
+  </target>
+
+</project>
