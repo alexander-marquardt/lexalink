@@ -609,15 +609,17 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
                 # writes are expensive.
                 unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
                 has_offset_name = "has_" + field + "_offset"
+
+                unique_last_login_offset_obj = unique_last_login_offset_ref.get()
                 
                 # make sure that the database has the current field defined -- some fields such as 
                 # email options, etc.. might be post_valed to the current function, but do not have values
                 # defined in the login_offset data structure.
-                if hasattr(unique_last_login_offset_ref, has_offset_name):
-                    offset_is_set = getattr(unique_last_login_offset_ref, has_offset_name)
+                if hasattr(unique_last_login_offset_obj, has_offset_name):
+                    offset_is_set = getattr(unique_last_login_offset_obj, has_offset_name)
                     if not offset_is_set:
-                        setattr(unique_last_login_offset_ref, has_offset_name, True)
-                        unique_last_login_offset_ref.put()
+                        setattr(unique_last_login_offset_obj, has_offset_name, True)
+                        unique_last_login_offset_obj.put()
                         (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
                          login_utils.get_or_create_unique_last_login(userobject, userobject.username)
  
