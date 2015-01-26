@@ -1,3 +1,7 @@
 To run the test, try the following command (directory path may be different depending on where you are currently):
 
 python -m unittest discover paysafe-card/test/src
+
+Or, if running from PyCharm:
+
+Create a new configuration for Unitest, and run SOPGClassicMerchantClientTest.py as a script.

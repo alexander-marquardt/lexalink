@@ -5,8 +5,13 @@ from Validator import Validator
 class SOPGClassicMerchantClient:
 
   def __init__(self, endpoint):
-    self.client  = suds.client.Client(endpoint)
-      
+    self.client  = suds.client.Client(endpoint + '?wsdl')
+
+    # The following line over-rides the location in the returned wsdl document to point to our
+    # proxy server. The value that is over-written is originally
+    # location="https://soatest.paysafecard.com/psc/services/PscService"/, and will become
+    # location=[endpoint]
+    self.client.wsdl.services[0].setlocation(endpoint)
 
   """ Calls the CreateDisposition web service method.
   * 
