@@ -232,7 +232,7 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>',
                     dest: '<%= yeoman.dist %>',
                     // images are copied by the imagemin, and styles are copied by the step below
-                    src: ['html/**/*', 'proprietary/html/**/*']
+                    src: ['html/**/*', 'xml/**/*', 'proprietary/html/**/*']
 //                    src: [
 //                        '*.{ico,png,txt}',
 //                        '.htaccess',
