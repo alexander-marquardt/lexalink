@@ -5,9 +5,15 @@ import re, urllib, logging
 from django.utils.translation import ugettext
 
 import settings
-from rs import  utils_top_level, utils, constants, error_reporting, localizations
+
+from rs import constants
+from rs import error_reporting
+from rs import localizations
+from rs import utils
+from rs import utils_top_level
+
 from rs.user_profile_main_data import UserSpec
-fields_for_title_generation   = []
+fields_for_title_generation = []
 
 # define which fields can be used in generating titles for profiles and search results. 
 if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":

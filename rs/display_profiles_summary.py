@@ -29,8 +29,16 @@ from django.utils.translation import ugettext
 
 import logging
 import site_configuration
-from rs import utils_top_level, error_reporting, localizations, profile_utils, utils, forms, constants
-from rs import user_profile_details, user_profile_main_data
+
+from rs import utils_top_level
+from rs import error_reporting
+from rs import localizations
+from rs import utils
+from rs import profile_utils
+from rs import forms
+from rs import constants
+from rs import user_profile_details
+from rs import user_profile_main_data
 
 if site_configuration.BUILD_NAME == "friend_build":
     import friend_bazaar_specific_code

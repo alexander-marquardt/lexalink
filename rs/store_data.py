@@ -26,40 +26,31 @@
 ################################################################################
 
 
-from os import environ
 import uuid
 
-from google.appengine.api import images
-from google.appengine.ext import ndb 
+from google.appengine.ext import ndb
 from google.appengine.api import taskqueue
 from google.appengine.api import memcache
 from google.appengine.api import users
 
-import re, logging, datetime, pickle, StringIO, os
 
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse,\
-     HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponseServerError
+from django.http import  HttpResponse,\
+     HttpResponseBadRequest, HttpResponseServerError
 from django.core.validators import email_re
 from django.utils.html import strip_tags
-from django.utils import simplejson
 from django.utils.translation import ugettext
-from django.utils import translation
 
-import settings
 from constants import *
 from utils import put_userobject, requires_login, ajax_call_requires_login
-from models import PhotoModel,  InitiateContactModel, \
-     UserModel, SpamMailStructures
+from models import PhotoModel
 from user_profile_main_data import UserSpec
 from user_profile_details import UserProfileDetails
-import mailbox
 import email_utils
-import queries
-import error_reporting
-import login_utils, utils, sharding, utils_top_level, models
-import constants, models, localizations, text_fields, lang_settings, messages
+import login_utils, utils, utils_top_level
+import constants, models, text_fields, messages
 import friend_bazaar_specific_code
+
+from rs import vip_render_purchase_options
 from rs.import_search_engine_overrides import *
 
 
@@ -1050,7 +1041,7 @@ def store_initiate_contact(request, to_uid):
                                             {'max_requests' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED}
                                      
 
-                                        response_text += utils.render_purchase_buttons(request, userobject.username, userobject_nid)
+                                        response_text += vip_render_purchase_options.render_purchase_buttons(request, userobject.username, userobject_nid)
                                         
                                         see_vip_benefits_txt = ugettext("See VIP benefits")
                                         response_text += '<strong><a class="cl-dialog_anchor cl-see_all_vip_benefits" href="#">%s</a></strong>' % see_vip_benefits_txt

@@ -30,7 +30,7 @@ from django.conf.urls.defaults import *
 from rs import views, login, ajax, store_data, search_results, mailbox, contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
      models, lang_settings, channel_support, vip_status_support, vip_paysafecard_support, \
-     sitemaps, mail_handlers, track_viewers, messages
+     vip_paypal_structures, sitemaps, mail_handlers, track_viewers, messages
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
 import gaesessions
@@ -224,7 +224,7 @@ urlpatterns = patterns('',
     (r'^rs/channel_support/initialize_main_and_group_boxes_on_server/[\w|-]+/$', channel_support.initialize_main_and_group_boxes_on_server),
         
     # Paypal IPN payement notification URLs
-    (r'^paypal/ipn/$', vip_status_support.instant_payment_notification),
+    (r'^paypal/ipn/$', vip_paypal_structures.paypal_instant_payment_notification),
     # fortumo payment notification URL
     (r'^fortumo/webapp_ipn/$', vip_status_support.fortumo_webapp_ipn),
     

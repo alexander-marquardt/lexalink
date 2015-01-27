@@ -24,7 +24,10 @@
 # limitations under the License.
 ################################################################################
 
-import rendering, logging, error_reporting
+import logging
+
+from rs import rendering
+from rs import error_reporting
 from localeurl import middleware
 from django.core.urlresolvers import resolve
 from django import http

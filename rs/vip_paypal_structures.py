@@ -26,130 +26,65 @@
 ################################################################################
 
 
-from django.utils.translation import ugettext_lazy, ugettext
+import logging
+import settings
+import urllib, urllib2
+import re
 
-from localization_files import currency_by_country
+from django.http import HttpResponse
 
-#VIP_1_DAY = "1 day"
-VIP_3_DAYS  = "3 days"
-VIP_1_MONTH = "1 month"
-VIP_3_MONTHS = "3 months"
-VIP_6_MONTHS = "6 months"
-VIP_1_YEAR  = "1 year"
+import site_configuration
 
-# the following list will allow us to iterate over the various membership options in the correct order
-vip_membership_categories = [VIP_3_DAYS, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
-SELECTED_VIP_DROPDOWN = VIP_3_MONTHS
+from rs import email_utils
+from rs import error_reporting
+from rs import vip_membership_options
+from rs import utils, utils_top_level
+from rs import vip_status_support
+
+from rs.localization_files import currency_by_country
+
+if settings.TESTING_PAYPAL_SANDBOX:
+  PP_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"
+else:
+  PP_URL = "https://www.paypal.com/cgi-bin/webscr"
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
 TESTING_COUNTRY = ''
 
-num_days_in_vip_membership_category = {
-    #VIP_1_DAY : 1,
-    VIP_3_DAYS  : 3,
-    VIP_1_MONTH : 31,
-    VIP_3_MONTHS : 93,
-    VIP_6_MONTHS : 183,
-    VIP_1_YEAR  : 365,
-}
 
-vip_option_values = {
-    # this is broken up like this so that the lazy translation isn't done until the value is read.
-    #VIP_1_DAY : {'duration' : "1", 'duration_units' : ugettext_lazy("day")},
-    VIP_3_DAYS : {'duration': "3", 'duration_units' : ugettext_lazy("days")},
-    VIP_1_MONTH: {'duration': "1", 'duration_units' : ugettext_lazy("month")},
-    VIP_3_MONTHS: {'duration': "3", 'duration_units' : ugettext_lazy("months")},
-    VIP_6_MONTHS: {'duration': "6", 'duration_units' : ugettext_lazy("months")},
-    VIP_1_YEAR: {'duration': "1", 'duration_units' : ugettext_lazy("year")},
-}
+custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')
 
-
-vip_paypal_prices = {
-    'EUR': {
-        #VIP_1_DAY: "6.95",
-        VIP_3_DAYS: "9.95",
-        VIP_1_MONTH: "29.95",
-        VIP_3_MONTHS: "49.95",
-        VIP_6_MONTHS: "69.95",
-        VIP_1_YEAR: "99.95",
-        },
-    'USD': {
-        #VIP_1_DAY: "6.95",
-        VIP_3_DAYS: "9.95",
-        VIP_1_MONTH: "29.95",
-        VIP_3_MONTHS: "49.95",
-        VIP_6_MONTHS: "69.95",
-        VIP_1_YEAR: "99.95",
-        }, 
-    'MXN': {
-        #VIP_1_DAY: "69.95",
-        VIP_3_DAYS: "99.15",
-        VIP_1_MONTH: "299.95",
-        VIP_3_MONTHS: "499.95",
-        VIP_6_MONTHS: "699.95",
-        VIP_1_YEAR: "999.95",
-        },    
-    #'GBP' : {
-        #VIP_1_WEEK: ".95",
-        #VIP_1_MONTH: "16.95",
-        #VIP_3_MONTHS: "39.95",
-        #VIP_6_MONTHS: "49.95",
-        #VIP_1_YEAR: "99.95",
-        #},
-
-}
-# Pricing for international customers outside of the US
-# For the moment, keep these prices the same as the USD prices - we need to modify the IPN paymenmt 
-# processing code to distinguish between USD and USD_NON_US, which is currently does not do
-# and therefore if these values are different than USD the payment will not be processed correctly.
-vip_paypal_prices['USD_NON_US'] = vip_paypal_prices['USD']
-
-
-# keep track of which currencies we currently support. This is used for initializing 
-# dictionaries that are used for efficiently looking up membership prices with the currency units.
-paypal_valid_currencies = []
-# The following represent the "real" currency-codes that will be passed to paypal - principally it is designed to over-ride
-# the internally used 'USD_NON_US' value to become 'USD' when passing the currency-code into paypal
-real_currency_codes = {}
-for key in vip_paypal_prices.keys() :
-    paypal_valid_currencies.append(key)
-    real_currency_codes[key] = key
-    
-paypal_valid_currencies.append('USD_NON_US')
-real_currency_codes['USD_NON_US'] = 'USD'
-
-PAYPAL_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 # generate the dictionary that will allow us to do a reverse lookup when we receive a payment amount
 # to the corresponding membership category
 vip_price_to_membership_category_lookup = {}
-for currency in vip_paypal_prices:
+for currency in vip_membership_options.vip_standard_membership_prices:
     vip_price_to_membership_category_lookup[currency] = {}
-    for k,v in vip_paypal_prices[currency].iteritems():
+    for k,v in vip_membership_options.vip_standard_membership_prices[currency].iteritems():
         vip_price_to_membership_category_lookup[currency][v] = k
     
 
 
 def generate_prices_with_currency_units(prices_to_loop_over):
     prices_dict_to_show = {}
-    for currency in paypal_valid_currencies:
+    for currency in vip_membership_options.vip_payment_valid_currencies:
         prices_dict_to_show[currency] = {}
-        for category in vip_membership_categories:
+        for category in vip_membership_options.vip_membership_categories:
             prices_dict_to_show[currency][category] = u"%s%s" % (currency_by_country.currency_symbols[currency], prices_to_loop_over[currency][category])
     return prices_dict_to_show
     
-vip_prices_with_currency_units = generate_prices_with_currency_units(vip_paypal_prices)
+vip_prices_with_currency_units = generate_prices_with_currency_units(vip_membership_options.vip_standard_membership_prices)
         
 
 def generate_paypal_dropdown_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
     # paypal_dropdown_options
     generated_html = u''
-    for member_category in vip_membership_categories:
-        duration = u"%s" % vip_option_values[member_category]['duration']
-        duration_units = u"%s" % vip_option_values[member_category]['duration_units']
+    for member_category in vip_membership_options.vip_membership_categories:
+        duration = u"%s" % vip_membership_options.vip_option_values[member_category]['duration']
+        duration_units = u"%s" % vip_membership_options.vip_option_values[member_category]['duration_units']
         
-        if member_category == SELECTED_VIP_DROPDOWN:
+        if member_category == vip_membership_options.SELECTED_VIP_DROPDOWN:
             selected = "checked"
         else:
             selected = ''
@@ -175,13 +110,163 @@ def generate_paypal_dropdown_options_hidden_fields(currency):
     
     generated_html = ''
     counter = 0
-    for member_category in vip_membership_categories:
+    for member_category in vip_membership_options.vip_membership_categories:
         generated_html += u'<input type="hidden" name="option_select%d" value="%s %s">' % (
-            counter, vip_option_values[member_category]['duration'], vip_option_values[member_category]['duration_units'])
-        generated_html += u'<input type="hidden" name="option_amount%d" value="%s">' % (counter, vip_paypal_prices[currency][member_category])
+            counter, vip_membership_options.vip_option_values[member_category]['duration'], vip_membership_options.vip_option_values[member_category]['duration_units'])
+        generated_html += u'<input type="hidden" name="option_amount%d" value="%s">' % (counter, vip_membership_options.vip_standard_membership_prices[currency][member_category])
         counter += 1
         
     return generated_html
 
 
 
+def generate_paypal_data(request, username, owner_nid):
+
+    # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the
+    # appropriate currency to display. If country code is missing, then we will display
+    # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
+    if not TESTING_COUNTRY:
+        http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+    else:
+        error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
+        http_country_code = TESTING_COUNTRY
+
+    try:
+        # Lookup currency for the country
+        if http_country_code in currency_by_country.country_to_currency_map:
+            internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]
+        else:
+            internal_currency_code = vip_membership_options.VIP_DEFAULT_CURRENCY
+
+        # make sure that we have defined the papal structures for the current currency
+        if internal_currency_code not in vip_membership_options.vip_payment_valid_currencies:
+            internal_currency_code = vip_membership_options.VIP_DEFAULT_CURRENCY
+
+        if internal_currency_code not in currency_by_country.currency_symbols:
+            raise Exception('Verify that currency_symbols contains all expected currencies. Received %s' % internal_currency_code)
+
+    except:
+        # If there is any error, report it, and default to the "international" $US
+        internal_currency_code = vip_membership_options.VIP_DEFAULT_CURRENCY
+        error_reporting.log_exception(logging.error)
+
+    paypal_data = {}
+    paypal_data['country_override'] = TESTING_COUNTRY
+    paypal_data['country_code'] = http_country_code
+    paypal_data['language'] = request.LANGUAGE_CODE
+    paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
+    paypal_data['owner_nid'] = owner_nid
+    paypal_data['username'] = username
+    paypal_data['currency_code'] = vip_membership_options.real_currency_codes[internal_currency_code]
+
+    if not site_configuration.TESTING_PAYPAL_SANDBOX:
+        paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
+    else:
+        paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
+
+    paypal_data['dropdown_options'] = generate_paypal_dropdown_options(internal_currency_code)
+    paypal_data['dropdown_options_hidden_fields'] = generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
+
+    return paypal_data
+
+
+def paypal_instant_payment_notification(request):
+  parameters = None
+  payment_status = None
+
+  try:
+    logging.info("Received payment notification from paypal")
+
+    # Note: apparently PayPal can send a Pending status while waiting for authorization, and then later a Completed
+    # payment_status -- but I believe that in both cases, it expects a confirmation of the message to be send
+    # back
+    payment_status = request.REQUEST.get('payment_status', None) # Completed or Pending are the most interesting .. but there are others as well
+    status = None
+
+    if request.POST:
+      parameters = request.POST.copy()
+    else:
+      parameters = request.GET.copy()
+
+    logging.info("parameters %s" % repr(parameters))
+
+    if parameters:
+
+      parameters['cmd']='_notify-validate'
+
+      # parameters['charset'] tells us the type of encoding that was used for the characters. We
+      # must encode the response to use the same encoding as the request.
+      charset = parameters['charset']
+      logging.info("charset = %s" % charset)
+      #params_decoded = dict([k, v.decode(charset)] for k, v in parameters.items())
+      params_urlencoded = urllib.urlencode(dict([k, v.encode('utf-8')] for k, v in parameters.items()))
+
+      #params_urlencoded = urllib.urlencode(parameters)
+      req = urllib2.Request(PP_URL, params_urlencoded)
+      req.add_header("Content-type", "application/x-www-form-urlencoded")
+      logging.info("request response: %s" % repr(req))
+      response = urllib2.urlopen(req)
+      status = response.read()
+      if not status == "VERIFIED":
+        logging.error("The request could not be verified, check for fraud. Status:" + str(status))
+        parameters = None
+      else:
+        logging.info("Payment status: %s" % status)
+
+    if status == "VERIFIED":
+      custom = parameters['custom']
+      match_custom = custom_info_pattern.match(custom)
+      if match_custom:
+        nid = match_custom.group(3)
+      else:
+        raise Exception("Paypal custom value does not match expected format: %s" % custom)
+
+      #logging.info("Paypal parameters: %s" % parameters)
+
+      donation_type = parameters['item_number']
+      txn_id = "paypal-" + parameters['txn_id']
+      currency = parameters['mc_currency']
+      amount_paid = parameters['mc_gross']
+      payer_email = parameters['payer_email']
+      last_name = parameters['last_name']
+
+      # os0 is represented as option_selection1
+      # We are not presently using this varible, but can use this in the future instead of looking up the membership
+      # category based on the price.
+      option_selected = parameters['option_selection1'] # this is language specific (ie. "1 year" in english "1 año" in spanish)
+
+
+      uid = utils.get_uid_from_nid(nid)
+      userobject = utils_top_level.get_object_from_string(uid)
+
+      if currency in vip_membership_options.vip_payment_valid_currencies:
+        membership_category = vip_price_to_membership_category_lookup[currency][amount_paid]
+        num_days_awarded = vip_membership_options.num_days_in_vip_membership_category[membership_category]
+      else:
+        raise Exception("Paypal currency %s not handled by code" % currency)
+
+      if vip_status_support.check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal", payer_email, last_name):
+        # only process the payment if this is the first time we have seen this txn_id.
+        vip_status_support.update_userobject_vip_status("paypal", userobject,  num_days_awarded, payer_email)
+
+      return HttpResponse("OK")
+    else:
+      raise Exception("Paypal transaction status is %s" % (status))
+
+
+  except:
+    error_reporting.log_exception(logging.critical, request=request)
+
+    try:
+      # This is serious enough, that it warrants sending an email to the administrator. We don't include any extra
+      # information such as username, or email address, since these values might not be available, and could cause the
+      # message to trigger an exception
+      message_content = """Paypal error - User not awarded VIP status - check paypal to see who has sent funds and
+      check if status is correctly set"""
+      email_utils.send_admin_alert_email(message_content, subject = "%s Paypal Error" % settings.APP_NAME)
+    except:
+      error_reporting.log_exception(logging.critical)
+
+    # Return "OK" even though we had a server error - this will stop paypal from re-sending notifications of the
+    # payment.
+    return HttpResponse("OK")

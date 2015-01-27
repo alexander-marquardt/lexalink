@@ -28,131 +28,25 @@
 from django.utils import translation
 
 import os 
-import urllib, urllib2
 import logging
 import error_reporting, email_utils, profile_utils
-import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages, vip_paypal_structures
+import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages
 import datetime, re
 from models import UserModel
-from localization_files import currency_by_country
-import views, hashlib
+import hashlib
 
 
-from django.http import HttpResponse, HttpResponseServerError, HttpResponseRedirect
+from django.http import HttpResponse
 from django import http
 
 
-if settings.TESTING_PAYPAL_SANDBOX:
-  PP_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"
-else:
-  PP_URL = "https://www.paypal.com/cgi-bin/webscr"
   
 FORTUMO_VALID_IP_LIST = ['79.125.125.1', '79.125.5.205', '79.125.5.95'] # These were the original IP addresses before 28.04.2014.
 # The following are the new IP addresses that are used starting 28.04.2014
 FORTUMO_VALID_IP_LIST = FORTUMO_VALID_IP_LIST + ['54.72.6.126', '54.72.6.27', '54.72.6.17', '54.72.6.23', '79.125.125.1', '79.125.5.95', '79.125.5.205']
 
-custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')  
-  
-def instant_payment_notification(request):
-  parameters = None
-  payment_status = None
-
-  try:
-    logging.info("Received payment notification from paypal")
-
-    # Note: apparently PayPal can send a Pending status while waiting for authorization, and then later a Completed
-    # payment_status -- but I believe that in both cases, it expects a confirmation of the message to be send
-    # back
-    payment_status = request.REQUEST.get('payment_status', None) # Completed or Pending are the most interesting .. but there are others as well
-    status = None
-    
-    if request.POST:
-      parameters = request.POST.copy()
-    else:
-      parameters = request.GET.copy()
-
-    logging.info("parameters %s" % repr(parameters))
-
-    if parameters:
-      
-      parameters['cmd']='_notify-validate'
-      
-      # parameters['charset'] tells us the type of encoding that was used for the characters. We
-      # must encode the response to use the same encoding as the request.
-      charset = parameters['charset']
-      logging.info("charset = %s" % charset)
-      #params_decoded = dict([k, v.decode(charset)] for k, v in parameters.items())
-      params_urlencoded = urllib.urlencode(dict([k, v.encode('utf-8')] for k, v in parameters.items()))     
-
-      #params_urlencoded = urllib.urlencode(parameters)
-      req = urllib2.Request(PP_URL, params_urlencoded)
-      req.add_header("Content-type", "application/x-www-form-urlencoded")
-      logging.info("request response: %s" % repr(req))
-      response = urllib2.urlopen(req)
-      status = response.read()
-      if not status == "VERIFIED":
-        logging.error("The request could not be verified, check for fraud. Status:" + str(status))
-        parameters = None
-      else:
-        logging.info("Payment status: %s" % status)
-
-    if status == "VERIFIED":
-      custom = parameters['custom']
-      match_custom = custom_info_pattern.match(custom)
-      if match_custom:
-        nid = match_custom.group(3)
-      else:
-        raise Exception("Paypal custom value does not match expected format: %s" % custom)
-      
-      #logging.info("Paypal parameters: %s" % parameters)
-      
-      donation_type = parameters['item_number']
-      txn_id = "paypal-" + parameters['txn_id']
-      currency = parameters['mc_currency']
-      amount_paid = parameters['mc_gross']
-      payer_email = parameters['payer_email']
-      last_name = parameters['last_name']
-      
-      # os0 is represented as option_selection1
-      # We are not presently using this varible, but can use this in the future instead of looking up the membership
-      # category based on the price.
-      option_selected = parameters['option_selection1'] # this is language specific (ie. "1 year" in english "1 año" in spanish)
-
-            
-      uid = utils.get_uid_from_nid(nid)
-      userobject = utils_top_level.get_object_from_string(uid)
-
-      if currency in vip_paypal_structures.paypal_valid_currencies:
-        membership_category = vip_paypal_structures.vip_price_to_membership_category_lookup[currency][amount_paid]
-        num_days_awarded = vip_paypal_structures.num_days_in_vip_membership_category[membership_category]
-      else:
-        raise Exception("Paypal currency %s not handled by code" % currency)
-        
-      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal", payer_email, last_name):
-        # only process the payment if this is the first time we have seen this txn_id.
-        update_userobject_vip_status("paypal", userobject,  num_days_awarded, payer_email)         
-        
-      return HttpResponse("OK")
-    else:
-      raise Exception("Paypal transaction status is %s" % (status))
 
 
-  except:
-    error_reporting.log_exception(logging.critical, request=request)
-    
-    try:
-      # This is serious enough, that it warrants sending an email to the administrator. We don't include any extra
-      # information such as username, or email address, since these values might not be available, and could cause the 
-      # message to trigger an exception
-      message_content = """Paypal error - User not awarded VIP status - check paypal to see who has sent funds and
-      check if status is correctly set"""
-      email_utils.send_admin_alert_email(message_content, subject = "%s Paypal Error" % settings.APP_NAME)
-    except:
-      error_reporting.log_exception(logging.critical)
-
-    # Return "OK" even though we had a server error - this will stop paypal from re-sending notifications of the
-    # payment.
-    return HttpResponse("OK")
 
 def fortumo_webapp_ipn(request):
   # Fortumo is an SMS payment provider that will call this function when a payment is received. 

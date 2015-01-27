@@ -27,37 +27,19 @@
 
 """ This module is responsible for generating the results of user searches. 
 It will generate HTML based on the criteria specified in the user-search parameters. """
-import datetime, logging
 
-from django.core.urlresolvers import reverse
-from django.utils.encoding import smart_unicode
-from django import http
-
-from google.appengine.ext import ndb
 from google.appengine.datastore.datastore_query import Cursor
 
-
-from google.appengine.api import memcache
+from rs.user_profile_main_data import UserSpec
+from rs import display_profiles_summary
+import store_data
+from rs import utils
+import rendering # need to fix circular imports before using "from rs import ..."
+from rs import forms
 
 from rs.utils import *
-from rs.forms import FormUtils
-from rs import forms
-from rs.models import UserModel
-from rs.user_profile_main_data import UserSpec
-from rs.user_profile_details import UserProfileDetails
-from rs.constants import ABOUT_USER_SEARCH_DISPLAY_DESCRIPTION_LEN
-from rs.localizations import *
-from rs import display_profiles_summary
-import store_data, utils, error_reporting
-import rendering, text_fields, utils_top_level, vip_status_support
-import profile_utils
-from rs.import_search_engine_overrides import *
 
 from django.utils.translation import ugettext
-
-
-if settings.BUILD_NAME == "friend_build":
-    import friend_bazaar_specific_code
 
 PAGESIZE = 6
 

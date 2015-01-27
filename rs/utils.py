@@ -32,30 +32,28 @@ from google.appengine.ext import ndb
 from google.appengine.api import memcache, users
 
 import hashlib, re, urllib
-import datetime, time, logging
-import string, random, sys, os
-from localization_files import currency_by_country
-
+import datetime
+import string, random, sys
 
 from django import http
-from django.shortcuts import render_to_response
 from django.utils.translation import ugettext, ungettext
 from django.template import loader, Context
 
 import settings, site_configuration
-from models import UserModel
 
-import constants, queries, text_fields, models, online_presence_support
 
-from models import UnreadMailCount, CountInitiateContact
-from utils_top_level import serialize_entity, deserialize_entity
+from rs import constants
+from rs import text_fields
+from rs import online_presence_support
+from rs import user_profile_main_data, localizations, models, utils_top_level, user_profile_details
+from rs import vip_sms_payment_structures
 
-import user_profile_main_data, localizations, models, error_reporting, utils_top_level, user_profile_details
-import vip_paypal_structures, vip_sms_payment_structures
+from rs.models import UnreadMailCount, CountInitiateContact
+from rs.utils_top_level import serialize_entity, deserialize_entity
 from rs.import_search_engine_overrides import *
+from rs.models import UserModel
 
-import base64
-
+from rs.localization_files import currency_by_country
 
 #############################################
 def requires_login(view):
@@ -197,8 +195,8 @@ def generate_profile_summary_table(request_lang_code, profile):
     
       
         else:
-            error_message = "While displaying summary of: %s - Unable to decipher location: location: %s country: %s region: %s sub_region: %s" % (
-                profile.username, location, country, region, sub_region)
+            error_message = "While displaying summary of: %s - Unable to decipher location: country: %s region: %s sub_region: %s" % (
+                profile.username, country, region, sub_region)
             error_reporting.log_exception(logging.error, error_message = error_message) 
             location_def = ""
     
@@ -1597,106 +1595,9 @@ def store_login_ip_information(request, userobject):
     userobject.last_login_region_code = request.META.get('HTTP_X_APPENGINE_REGION', None)
     userobject.last_login_city = request.META.get('HTTP_X_APPENGINE_CITY', None)    
     
-    
-def generate_paypal_data(request, username, owner_nid):
-    
-    # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the 
-    # appropriate currency to display. If country code is missing, then we will display
-    # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
-    if not vip_paypal_structures.TESTING_COUNTRY:
-        http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-    else: 
-        error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-        http_country_code = vip_paypal_structures.TESTING_COUNTRY
-    
-    try:
-        # Lookup currency for the country
-        if http_country_code in currency_by_country.country_to_currency_map:
-            internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]  
-        else:
-            internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
-        
-        # make sure that we have defined the papal structures for the current currency
-        if internal_currency_code not in vip_paypal_structures.paypal_valid_currencies:
-            internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
-            
-        if internal_currency_code not in currency_by_country.currency_symbols:
-            raise Exception('Verify that currency_symbols contains all expected currencies. Received %s' % internal_currency_code)
-        
-    except:
-        # If there is any error, report it, and default to the "international" $US
-        internal_currency_code = vip_paypal_structures.PAYPAL_DEFAULT_CURRENCY
-        error_reporting.log_exception(logging.error)
-                
-    paypal_data = {}
-    paypal_data['country_override'] = vip_paypal_structures.TESTING_COUNTRY
-    paypal_data['country_code'] = http_country_code
-    paypal_data['language'] = request.LANGUAGE_CODE
-    paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
-    paypal_data['owner_nid'] = owner_nid    
-    paypal_data['username'] = username
-    paypal_data['currency_code'] = vip_paypal_structures.real_currency_codes[internal_currency_code]
-    
-    if not site_configuration.TESTING_PAYPAL_SANDBOX:
-        paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
-    else:
-        paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
-        
-    paypal_data['dropdown_options'] = vip_paypal_structures.generate_paypal_dropdown_options(internal_currency_code)
-    paypal_data['dropdown_options_hidden_fields'] = vip_paypal_structures.generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
-                    
-    return paypal_data
 
-def generate_fortumo_data(request, username, owner_nid):
-    fortumo_data = {}
-    show_fortumo_options = False
-    try:
-        if not vip_sms_payment_structures.TESTING_COUNTRY:
-            http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-        else: 
-            error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-            http_country_code = vip_sms_payment_structures.TESTING_COUNTRY    
-            
-        # Lookup currency for the country
-        if http_country_code in vip_sms_payment_structures.valid_countries:
-            show_fortumo_options = True
-            fortumo_data['radio_options'] = vip_sms_payment_structures.generate_fortumo_options(http_country_code, owner_nid)
-    
-        fortumo_data['country_override'] = vip_sms_payment_structures.TESTING_COUNTRY
-        fortumo_data['show_fortumo_options'] = show_fortumo_options
-        fortumo_data['service_id'] = settings.fortumo_web_apps_service_id
-        
-    except: 
-        error_reporting.log_exception(logging.critical)
-        
-    return fortumo_data
-    
-def render_purchase_buttons(request, username, owner_nid):
-    
-    try:
-    
-        if constants.SHOW_VIP_UPGRADE_OPTION:
-            if request.session.__contains__('userobject_str'):
-                # only show payment options/buttons to users that are logged-in.
-                
-                paypal_data = generate_paypal_data(request, username, owner_nid)
-                fortumo_data = generate_fortumo_data(request, username, owner_nid)
-                template = loader.get_template("user_main_helpers/purchase_buttons.html")    
-                context = Context (dict({
-                    'paypal_data': paypal_data,
-                    'fortumo_data' : fortumo_data, 
-                    'request' : request, 
-                    }, **constants.template_common_fields))    
-                return template.render(context) 
-            else:
-                return ''
-        else:
-            return ''
-        
-    except:
-        error_reporting.log_exception(logging.error) 
-        return ''
-    
+
+
     
 def render_internal_ad(ad_name):
     

@@ -27,29 +27,16 @@
 
 
 # This code generates the drop down menus and text boxes that are used for input forms throughout the code.
-
-from django.http import HttpResponse
-from google.appengine.api import memcache
-from google.appengine.api import users
-
-import logging, re, urllib
-
-import settings
+import captcha
 
 from rs.models import *
-from user_profile_details import *
-from django.utils.safestring import mark_safe
-from django.utils.html import conditional_escape
-from constants import MAX_NUM_PHOTOS, PHOTOS_PER_ROW
-from constants import field_formats , MAIL_TEXTAREA_ROWS, list_of_contact_icons
-from localizations import input_field_lang_idx
-import queries
-import captcha
-from rs import utils, error_reporting, text_fields, profile_utils
+from rs.user_profile_details import *
+from rs.constants import MAX_NUM_PHOTOS, PHOTOS_PER_ROW
+from rs.constants import field_formats , MAIL_TEXTAREA_ROWS, list_of_contact_icons
+from rs import utils, text_fields, profile_utils
 from rs.import_search_engine_overrides import *
 
-
-# keep this at the bottom to ensure that it is not overwritten by a lambda imported from 
+# keep this at the bottom to ensure that it is not overwritten by a lambda imported from
 # another module
 from django.utils.translation import ugettext
 

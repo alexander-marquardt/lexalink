@@ -26,35 +26,31 @@
 ################################################################################
 
 
-import re, datetime
-
+import datetime
 from os import environ
 import exceptions
+import logging
 
 from google.appengine.ext import ndb 
 from google.appengine.api import mail
 from google.appengine.api import taskqueue
 from google.appengine.datastore.datastore_query import Cursor
 
-from django.utils.encoding import smart_unicode
 from django import http
-from django.core.validators import email_re
-
-import settings, localizations, urllib
 
 from django.utils import translation
 from django.utils.translation import ugettext, ungettext
 
-from models import UserModel
-from utils import return_time_difference_in_friendly_format, put_userobject
-from utils import requires_login
+import settings
 
+from rs.models import UserModel
 import search_results, constants
-import forms, utils, utils_top_level
-import logging, error_reporting
-import mailbox, store_data, user_profile_details, rendering
-import html2text
-import models
+from rs import localizations
+from rs import utils
+from rs import utils_top_level
+from rs import error_reporting
+import store_data, user_profile_details # need to fix circular imports before using "from rs import ..."
+from rs import html2text
 
 
 from google.appengine.api.datastore_errors import BadArgumentError
@@ -330,7 +326,7 @@ def change_notification_settings(request, subscription_option, username, hash_of
         # run update of user subscription option in transaction to prevent conflicts with other writes to the userobject.
         userobject =  utils_top_level.get_object_from_string(owner_uid)
         userobject.email_options[0] = subscription_option
-        put_userobject(userobject)
+        utils.put_userobject(userobject)
         return userobject
 
 

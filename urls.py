@@ -25,12 +25,8 @@
 
 
 from django.conf.urls.defaults import *
-from django.core.validators import email_re
-
-from django.http import Http404
-import logging
-
-from rs import error_reporting, url_utils
+from rs import error_reporting
+from rs import url_utils
 
 urlpatterns = patterns('',
     (r'^', include('rs.urls_common')),

@@ -26,9 +26,10 @@
 ################################################################################
 
 from django.utils.translation import  ungettext
-import hashlib
+import hashlib, logging
 
-from localization_files import currency_by_country
+from rs import error_reporting
+from rs.localization_files import currency_by_country
 import settings
 
 """ Setup the structures that will be used in processing SMS payments. 
@@ -145,3 +146,28 @@ def generate_fortumo_options(country, owner_nid):
             'price' : price_point}
     
     return generated_html
+
+
+def generate_fortumo_data(request, username, owner_nid):
+    fortumo_data = {}
+    show_fortumo_options = False
+    try:
+        if not TESTING_COUNTRY:
+            http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+        else:
+            error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
+            http_country_code = TESTING_COUNTRY
+
+        # Lookup currency for the country
+        if http_country_code in valid_countries:
+            show_fortumo_options = True
+            fortumo_data['radio_options'] = generate_fortumo_options(http_country_code, owner_nid)
+
+        fortumo_data['country_override'] = TESTING_COUNTRY
+        fortumo_data['show_fortumo_options'] = show_fortumo_options
+        fortumo_data['service_id'] = settings.fortumo_web_apps_service_id
+
+    except:
+        error_reporting.log_exception(logging.critical)
+
+    return fortumo_data
