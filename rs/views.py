@@ -26,6 +26,7 @@
 ################################################################################
 
 
+import urllib
 from google.appengine.ext.db import BadRequestError
 
 from django.shortcuts import render_to_response
@@ -409,7 +410,7 @@ def crawler_auth(request):
             status = "Invalid username: '%s' password: '%s'" % (username, password)
     
         error_reporting.log_exception(logging.warning, error_message = "Crawler authorization status %s" % status)
-        return HttpResponse(status)
+        return http.HttpResponse(status)
     except:
         error_reporting.log_exception(logging.critical)
           
