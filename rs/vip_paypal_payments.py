@@ -37,7 +37,7 @@ import site_configuration
 
 from rs import email_utils
 from rs import error_reporting
-from rs import vip_membership_payment_common
+from rs import vip_payments_common
 from rs import utils, utils_top_level
 from rs import vip_status_support
 
@@ -58,19 +58,19 @@ custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')
 
 # generate the dictionary that will allow us to do a reverse lookup when we receive a payment amount
 # to the corresponding membership category
-vip_prices_with_currency_units = vip_membership_payment_common.generate_prices_with_currency_units(
-    vip_membership_payment_common.vip_standard_membership_prices, vip_paypal_valid_currencies)
-vip_price_to_membership_category_lookup  = vip_membership_payment_common.generate_vip_price_to_membership_category_lookup(vip_membership_payment_common.vip_standard_membership_prices)
+vip_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
+    vip_payments_common.vip_standard_membership_prices, vip_paypal_valid_currencies)
+vip_price_to_membership_category_lookup  = vip_payments_common.generate_vip_price_to_membership_category_lookup(vip_payments_common.vip_standard_membership_prices)
 
 def generate_paypal_dropdown_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
     # paypal_dropdown_options
     generated_html = u''
-    for member_category in vip_membership_payment_common.vip_membership_categories:
-        duration = u"%s" % vip_membership_payment_common.vip_option_values[member_category]['duration']
-        duration_units = u"%s" % vip_membership_payment_common.vip_option_values[member_category]['duration_units']
+    for member_category in vip_payments_common.vip_membership_categories:
+        duration = u"%s" % vip_payments_common.vip_option_values[member_category]['duration']
+        duration_units = u"%s" % vip_payments_common.vip_option_values[member_category]['duration_units']
         
-        if member_category == vip_membership_payment_common.SELECTED_VIP_DROPDOWN:
+        if member_category == vip_payments_common.SELECTED_VIP_DROPDOWN:
             selected = "checked"
         else:
             selected = ''
@@ -96,10 +96,10 @@ def generate_paypal_dropdown_options_hidden_fields(currency):
     
     generated_html = ''
     counter = 0
-    for member_category in vip_membership_payment_common.vip_membership_categories:
+    for member_category in vip_payments_common.vip_membership_categories:
         generated_html += u'<input type="hidden" name="option_select%d" value="%s %s">' % (
-            counter, vip_membership_payment_common.vip_option_values[member_category]['duration'], vip_membership_payment_common.vip_option_values[member_category]['duration_units'])
-        generated_html += u'<input type="hidden" name="option_amount%d" value="%s">' % (counter, vip_membership_payment_common.vip_standard_membership_prices[currency][member_category])
+            counter, vip_payments_common.vip_option_values[member_category]['duration'], vip_payments_common.vip_option_values[member_category]['duration_units'])
+        generated_html += u'<input type="hidden" name="option_amount%d" value="%s">' % (counter, vip_payments_common.vip_standard_membership_prices[currency][member_category])
         counter += 1
         
     return generated_html
@@ -111,22 +111,22 @@ def generate_paypal_data(request, username, owner_nid):
     # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the
     # appropriate currency to display. If country code is missing, then we will display
     # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
-    if not vip_membership_payment_common.TESTING_COUNTRY:
+    if not vip_payments_common.TESTING_COUNTRY:
         http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
     else:
         error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-        http_country_code = vip_membership_payment_common.TESTING_COUNTRY
+        http_country_code = vip_payments_common.TESTING_COUNTRY
 
-    internal_currency_code = vip_membership_payment_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies)
+    internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies)
 
     paypal_data = {}
-    paypal_data['country_override'] = vip_membership_payment_common.TESTING_COUNTRY
+    paypal_data['country_override'] = vip_payments_common.TESTING_COUNTRY
     paypal_data['country_code'] = http_country_code
     paypal_data['language'] = request.LANGUAGE_CODE
     paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
     paypal_data['owner_nid'] = owner_nid
     paypal_data['username'] = username
-    paypal_data['currency_code'] = vip_membership_payment_common.real_currency_codes[internal_currency_code]
+    paypal_data['currency_code'] = vip_payments_common.real_currency_codes[internal_currency_code]
 
     if not site_configuration.TESTING_PAYPAL_SANDBOX:
         paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
@@ -210,7 +210,7 @@ def paypal_instant_payment_notification(request):
 
       if currency in vip_paypal_valid_currencies:
         membership_category = vip_price_to_membership_category_lookup[currency][amount_paid]
-        num_days_awarded = vip_membership_payment_common.num_days_in_vip_membership_category[membership_category]
+        num_days_awarded = vip_payments_common.num_days_in_vip_membership_category[membership_category]
       else:
         raise Exception("Paypal currency %s not handled by code" % currency)
 
