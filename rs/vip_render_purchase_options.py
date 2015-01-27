@@ -1,3 +1,4 @@
+import logging
 
 from django.template import loader, Context
 

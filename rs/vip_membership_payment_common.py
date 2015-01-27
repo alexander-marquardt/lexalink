@@ -1,5 +1,15 @@
+import logging
+
 from django.utils.translation import ugettext_lazy
-from rs import constants
+
+from rs import error_reporting
+
+from rs.localization_files import currency_by_country
+
+
+# Leave the following value set to None if we are not trying to force a particular country's options to be displayed
+TESTING_COUNTRY = ''
+
 
 #VIP_1_DAY = "1 day"
 VIP_3_DAYS  = "3 days"
@@ -74,19 +84,53 @@ vip_standard_membership_prices = {
 vip_standard_membership_prices['USD_NON_US'] = vip_standard_membership_prices['USD']
 
 
-# keep track of which currencies we currently support. This is used for initializing
-# dictionaries that are used for efficiently looking up membership prices with the currency units.
-vip_payment_valid_currencies = []
 # The following represent the "real" currency-codes that will be passed to paypal - principally it is designed to over-ride
 # the internally used 'USD_NON_US' value to become 'USD' when passing the currency-code into paypal
 real_currency_codes = {}
 for key in vip_standard_membership_prices.keys() :
-    vip_payment_valid_currencies.append(key)
     real_currency_codes[key] = key
 
-vip_payment_valid_currencies.append('USD_NON_US')
 real_currency_codes['USD_NON_US'] = 'USD'
 
 VIP_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 
+def get_internal_currency_code(http_country_code, vip_valid_currencies):
+
+    try:
+        # Lookup currency for the country
+        if http_country_code in currency_by_country.country_to_currency_map:
+            internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]
+        else:
+            internal_currency_code = VIP_DEFAULT_CURRENCY
+
+        # make sure that we have defined the papal structures for the current currency
+        if internal_currency_code not in vip_valid_currencies:
+            internal_currency_code = VIP_DEFAULT_CURRENCY
+
+        if internal_currency_code not in currency_by_country.currency_symbols:
+            raise Exception('Verify that currency_symbols contains all expected currencies. Received %s' % internal_currency_code)
+
+    except:
+        # If there is any error, report it, and default to the "international" $US
+        internal_currency_code = VIP_DEFAULT_CURRENCY
+        error_reporting.log_exception(logging.error)
+
+    return internal_currency_code
+
+def generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices):
+    price_to_membership_category_lookup = {}
+    for currency in vip_standard_membership_prices:
+        price_to_membership_category_lookup[currency] = {}
+        for k,v in vip_standard_membership_prices[currency].iteritems():
+            price_to_membership_category_lookup[currency][v] = k
+    return price_to_membership_category_lookup
+
+
+def generate_prices_with_currency_units(prices_to_loop_over, vip_valid_currencies):
+    prices_dict_to_show = {}
+    for currency in vip_valid_currencies:
+        prices_dict_to_show[currency] = {}
+        for category in vip_membership_categories:
+            prices_dict_to_show[currency][category] = u"%s%s" % (currency_by_country.currency_symbols[currency], prices_to_loop_over[currency][category])
+    return prices_dict_to_show
