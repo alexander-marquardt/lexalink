@@ -27,79 +27,17 @@
 
 from django.utils import translation
 
-import os 
 import logging
 import error_reporting, email_utils, profile_utils
-import settings, constants, models, login_utils, utils_top_level, utils, store_data, messages
-import datetime, re
+import settings, models, utils, messages
+import datetime
 from models import UserModel
 import hashlib
 
 
-from django.http import HttpResponse
 from django import http
 
 
-  
-FORTUMO_VALID_IP_LIST = ['79.125.125.1', '79.125.5.205', '79.125.5.95'] # These were the original IP addresses before 28.04.2014.
-# The following are the new IP addresses that are used starting 28.04.2014
-FORTUMO_VALID_IP_LIST = FORTUMO_VALID_IP_LIST + ['54.72.6.126', '54.72.6.27', '54.72.6.17', '54.72.6.23', '79.125.125.1', '79.125.5.95', '79.125.5.205']
-
-
-
-
-def fortumo_webapp_ipn(request):
-  # Fortumo is an SMS payment provider that will call this function when a payment is received. 
-  # Information about how to process the payment can be found at http://developers.fortumo.com/receipt-verification/
-  # The code here is based on the PHP code in the example on the fortumo website.
-  try:
-    remoteip = os.environ['REMOTE_ADDR']
-    if not remoteip in FORTUMO_VALID_IP_LIST:
-      error_reporting.log_exception(logging.error, request=request, 
-                                    error_message = "unauthorized remoteip %s is trying to access fortumo ipn" % remoteip)    
-      return HttpResponse("Error - invalid IP")
-      
-    if not check_signature(request):
-      error_reporting.log_exception(logging.error, request=request, error_message = "invalid fortumo signature")    
-      return HttpResponse("Error - invalid Signature")
-    
-    txn_id = "fortumo-" + request.GET['payment_id']
-    currency = request.GET['currency']
-    amount_paid = request.GET['price']
-    num_days_awarded = int(request.GET['amount'])
-    payer_phone_number = request.GET['sender']
-    payment_status = request.GET['status']
-    nid = request.GET['cuid']
-    uid = utils.get_uid_from_nid(nid)
-    userobject = utils_top_level.get_object_from_string(uid)
-    
-    # only grant virtual credits to account, if payment has been successful.
-    if (payment_status == 'completed' or payment_status == 'pending'):
-      if check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal", payer_phone_number, "NA"):
-        logging.info("Successfully processed payment status: %s from user nid %s" % (payment_status, nid))
-        update_userobject_vip_status("fortumo", userobject,  num_days_awarded, payer_phone_number)      
-        
-    elif (payment_status == 'failed'):
-      status_message = '"failed" payment status for user nid %s %s' % (nid, userobject.username)
-      logging.error(status_message)
-      message_content = status_message      
-      email_utils.send_admin_alert_email(message_content, subject="%s fortumo VIP failed payment status received" % settings.APP_NAME)
-      
-    else:
-      raise Exception("Failed to award credits during fortumo IPN notification - check logs") 
-    
-    return HttpResponse("OK")
-    
-  except:
-    message_content = "Failed to award VIP status for fortumo ipn call "
-    email_utils.send_admin_alert_email(message_content, subject="%s Fortumo Error VIP" % settings.APP_NAME)
-    error_reporting.log_exception(logging.critical, request=request, error_message = "Fortumo credits not awarded ")
-        
-    # Return "OK" even though we had a server error - this should stop fortumo from re-sending notifications of the
-    # payment.
-    return HttpResponse("OK")
-    
-    
     
 def check_signature(request):
   secret = settings.fortumo_web_apps_secret

@@ -46,7 +46,6 @@ from rs import constants
 from rs import text_fields
 from rs import online_presence_support
 from rs import user_profile_main_data, localizations, models, utils_top_level, user_profile_details
-from rs import vip_sms_payment_structures
 
 from rs.models import UnreadMailCount, CountInitiateContact
 from rs.utils_top_level import serialize_entity, deserialize_entity
