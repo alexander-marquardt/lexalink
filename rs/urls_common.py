@@ -225,9 +225,7 @@ urlpatterns = patterns('',
         
     # Paypal IPN payement notification URLs
     (r'^paypal/ipn/$', vip_paypal_payments.paypal_instant_payment_notification),
-    # fortumo payment notification URL
-    (r'^fortumo/webapp_ipn/$', vip_status_support.fortumo_webapp_ipn),
-    
+
     # paysafecard wsdl document URL
     (r'^paysafecard/sopg_wsdl.xml', vip_paysafecard_payments.paysafecard_sopg_wsdl),
     ###############################################
