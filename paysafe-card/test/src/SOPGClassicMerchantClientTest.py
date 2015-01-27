@@ -9,6 +9,18 @@ import unittest
 import time
 import urllib
 
+# The following logging and filter are used for turning on logging in suds
+import logging
+handler = logging.StreamHandler(sys.stderr)
+logger = logging.getLogger('suds.transport.http')
+logger.setLevel(logging.DEBUG), handler.setLevel(logging.DEBUG)
+logger.addHandler(handler)
+
+class OutgoingFilter(logging.Filter):
+    def filter(self, record):
+        return record.msg.startswith('sending:')
+
+handler.addFilter(OutgoingFilter())
 
 # The following is our Google Compute Engine proxy that will handle all communications with Paysafecard's servers
 # See https://console.developers.google.com/project/lexabit-proxy
