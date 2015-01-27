@@ -51,7 +51,7 @@ class SOPGClassicMerchantClient:
   * @throws ValueError
   *           If required parameters are null or empty.
   """
-  def createDisposition(self, username, password, mtid, subId, amount, currency, okUrl, nokUrl, clientIp, merchantClientId, pnUrl):
+  def createDisposition(self, username, password, mtid, subId, amount, currency, okUrl, nokUrl, merchantClientId, pnUrl, clientIp):
     Validator.validateStringNotNull(username, 'username')
     Validator.validateStringNotNull(password, 'password')
     Validator.validateStringNotNull(mtid, 'mtid')
