@@ -55,8 +55,6 @@ handlers:
   static_files: STATIC_DIR/images/BUILD_NAME/favicons/favicon-196x196.png
   upload: STATIC_DIR/images/BUILD_NAME/favicons/favicon-196x196.png
 
-
-
 - url: /apple-touch-icon.png
   static_files: STATIC_DIR/images/BUILD_NAME/favicons/apple-touch-icon.png
   upload: STATIC_DIR/images/BUILD_NAME/favicons/apple-touch-icon.png  
@@ -154,11 +152,6 @@ handlers:
   script: djangoappengine.main.application
   login: admin
 
-# if the videochat_window URL is called directly, then we execute the code to display the videochat
-- url: /videochat_window/video_phone.html
-  script: djangoappengine.main.application
-  
-  
 - url: /_ah/stats/.*
   script: djangoappengine.appstats.application
 

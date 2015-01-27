@@ -26,41 +26,22 @@
 ################################################################################
 
 
-from google.appengine.ext import blobstore
-
-from django.core.urlresolvers import reverse
-import re, datetime, localizations, os
-
-from user_profile_details import UserProfileDetails
-import logging
-
 from google.appengine.ext.db import BadRequestError
 
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
-from django.core.validators import email_re
-from django.utils.translation import ugettext
 
-import settings
 
 from forms import *
-from constants import *
-from user_profile_main_data import UserSpec
-from models import UserSearchPreferences2
 from login_utils import *
-from utils import get_new_contact_count_sum, return_time_difference_in_friendly_format, requires_login
-import mailbox , search_results
+from utils import return_time_difference_in_friendly_format
+import search_results
 import debugging
-import admin, mailbox, login_utils, channel_support
-import email_utils, utils_top_level, sitemaps
-import error_reporting, store_data, text_fields, lang_settings
-from rs import profile_utils, online_presence_support, online_presence_support, track_viewers
+import mailbox, login_utils
+import utils_top_level, sitemaps
+import error_reporting, text_fields
+from rs import profile_utils, track_viewers
 from django import http
-import common_data_structs
 
-if settings.BUILD_NAME == "friend_build":
-    import friend_bazaar_specific_code
-    
 try:
     from rs.proprietary import search_engine_overrides
 except:
@@ -118,18 +99,13 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         # Do not remove these initializations unless you are 100% sure that the variable has been set in ALL branches.
         new_user_welcome_text = ""
         email_is_not_entered_text = ""
-        previous_contact_query_key_str = ''
         user_has_no_photo_text = ''
         html_for_mail_history_summary = ''
         unregistered_user_welcome_text = ''
-        registered_user_bool = False
         have_sent_messages_object = None
         account_has_been_removed_message = ''
-        why_to_register = ''
         link_to_hide = ''
-        page_title = ''
-        about_user_dialog_popup = ''
-    
+
         # owner userobject refers to the client that is currently logged in
         owner_userobject = utils_top_level.get_userobject_from_request(request)
         show_vip_info = False

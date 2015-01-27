@@ -30,8 +30,6 @@
 # If you want to use a different backend you have to remove all occurences
 # of "djangoappengine" from this file.
 from djangoappengine.settings_base import *
-import logging
-import os, socket, shutil, re, datetime
 from site_configuration import *
 
 
@@ -110,12 +108,14 @@ ROOT_PATH = os.path.dirname(__file__)
 if PROPRIETARY_BUILDS_AVAILABLE:
     TEMPLATE_DIRS = (
         os.path.join(ROOT_PATH, STATIC_DIR + r'/html'),
-        os.path.join(ROOT_PATH, PROPRIETARY_STATIC_DIR + r'/html'), 
+        os.path.join(ROOT_PATH, STATIC_DIR + r'/xml'),
+        os.path.join(ROOT_PATH, PROPRIETARY_STATIC_DIR + r'/html'),
     )
 else:
     TEMPLATE_DIRS = (
         os.path.join(ROOT_PATH, STATIC_DIR + r'/html'),
-    )   
+        os.path.join(ROOT_PATH, STATIC_DIR + r'/xml'),
+    )
     
 ROOT_URLCONF = 'urls'
 
@@ -144,7 +144,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/sitemap'),
     re.compile(r'^/bing_site_auth/'),
     re.compile(r'^/paypal/ipn/'),
-    re.compile(r'^/paysafe/ipn/'),
+    re.compile(r'^/paysafecard/'),
     re.compile(r'^/rs/apply_unused_vip_credits/'),
     re.compile(r'^/rs/set_show_online_status_trial/'),
     re.compile(r'^/robots.txt'), 
