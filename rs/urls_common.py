@@ -29,8 +29,8 @@ from django.conf.urls.defaults import *
 
 from rs import views, login, ajax, store_data, search_results, mailbox, contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
-     models, lang_settings, channel_support, vip_status_support, \
-     videochat, rendering, sitemaps, mail_handlers, track_viewers, messages
+     models, lang_settings, channel_support, vip_status_support, vip_paysafecard_support, \
+     sitemaps, mail_handlers, track_viewers, messages
 from rs.user_profile_main_data import *
 from rs.user_profile_details import *
 import gaesessions
@@ -228,10 +228,8 @@ urlpatterns = patterns('',
     # fortumo payment notification URL
     (r'^fortumo/webapp_ipn/$', vip_status_support.fortumo_webapp_ipn),
     
-    # Videochat URLs
-    (r'^videochat_server/$', videochat.videochat_server),
-    (r'^videochat_window/video_phone.html$', videochat.videochat_window),
-    
+    # paysafecard wsdl document URL
+    (r'^paysafecard/sopg_wsdl.xml', vip_paysafecard_support.paysafecard_sopg_wsdl),
     ###############################################
     # Sitemap generation and sitemap display links
     (r'^rs/admin/generate_sitemaps/$', sitemaps.generate_sitemaps),

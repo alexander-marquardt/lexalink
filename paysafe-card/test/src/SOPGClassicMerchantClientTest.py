@@ -14,6 +14,11 @@ import urllib
 # See https://console.developers.google.com/project/lexabit-proxy
 endpoint = 'https://130.211.134.3/psc/services/PscService'
 
+# We load the wsdl from our servers.
+# For testing purposes we can generally load from localhost, as long as we
+# are running a webserver locally. For release application, it is better to get the hostname from
+# request.META.HTTP_HOST if possible.
+wsdl_url = 'http://localhost:8000/paysafecard/sopg_wsdl.xml'
 
 username = 'Lexabit_Inc_test'
 password = 'uOLSLoFmktH7DyB'
@@ -35,7 +40,7 @@ class TestSOPGClassicMerchantClient(unittest.TestCase):
 
     def setUp(self):
         self.mtid = 'temporary-testing-id-' + str(time.time())
-        self.client = SOPGClassicMerchantClient(self.params['endpoint'])
+        self.client = SOPGClassicMerchantClient(wsdl_url, self.params['endpoint'])
 
     # def test_01_SOPGClassicMerchantClient(self):
     #     try:
