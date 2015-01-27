@@ -22,7 +22,6 @@ mid = '1000005878'
 ok_url = urllib.quote('http://www.%s/psc/okurl/' % site_configuration.DOMAIN_NAME, '')
 nok_url = urllib.quote('http://www.%s/psc/nokurl/' % site_configuration.DOMAIN_NAME, '')
 pn_url = urllib.quote('http://www.%s/paysafe/ipn/' % site_configuration.DOMAIN_NAME, '')
-merchant_client_id = 'temporary-testing-id-0001'
 client_ip = None # This will be set once we get farther along into the paysafe integration
 
 card_pin = '8691159531990439'
@@ -35,17 +34,17 @@ class TestSOPGClassicMerchantClient(unittest.TestCase):
 
 
     def setUp(self):
-        self.mtid = time.time()
+        self.mtid = 'temporary-testing-id-' + str(time.time())
         self.client = SOPGClassicMerchantClient(self.params['endpoint'])
 
-    def test_01_SOPGClassicMerchantClient(self):
-        try:
-            pass
-        except Exception as e:
-            print ('Error creating SOAP client: ', e)
-            self.assertTrue(False)
-        else:
-            self.assertTrue(True)
+    # def test_01_SOPGClassicMerchantClient(self):
+    #     try:
+    #         pass
+    #     except Exception as e:
+    #         print ('Error creating SOAP client: ', e)
+    #         self.assertTrue(False)
+    #     else:
+    #         self.assertTrue(True)
 
     def test_02_CreateDisposition(self):
         response = self.createDisposition()
@@ -53,83 +52,83 @@ class TestSOPGClassicMerchantClient(unittest.TestCase):
         self.assertEqual(response['errorCode'], 0)
         self.assertEqual(response['resultCode'], 0)
 
-    def test_03_AssignCardToDisposition(self):
-        self.createDisposition()
-        response = self.assignCardToDisposition(self.client)
-
-        self.assertEqual(response['errorCode'], 0)
-        self.assertEqual(response['resultCode'], 0)
-
-    def test_04_AssignCardsToDisposition(self):
-        self.createDisposition()
-
-        response = self.assignCardsToDisposition(self.client)
-
-        self.assertEqual(response['errorCode'], 0)
-        self.assertEqual(response['resultCode'], 0)
-
-    def test_05_ModifyDispositionValue(self):
-        self.createDisposition()
-        self.assignCardToDisposition(self.client)
-        response = self.client.modifyDispositionValue(
-            self.params['username'],
-            self.params['password'],
-            self.mtid,
-            None,
-            self.params['amount'],
-            self.params['currency'],
-            )
-        self.assertEqual(response['errorCode'], 0)
-        self.assertEqual(response['resultCode'], 0)
-
-    def test_06_GetSerialNumbers(self):
-        self.createDisposition()
-        response = self.client.getSerialNumbers(
-            self.params['username'],
-            self.params['password'],
-            self.mtid,
-            None,
-            self.params['currency'],
-            )
-        self.assertEqual(response['errorCode'], 0)
-        self.assertEqual(response['resultCode'], 0)
-
-    def test_07_GetDispositionRawState(self):
-        self.createDisposition()
-        response = self.client.getDispositionRawState(
-            self.params['username'],
-            self.params['password'],
-            self.mtid,
-            None,
-            self.params['currency'],
-            )
-        self.assertEqual(response['errorCode'], 0)
-        self.assertEqual(response['resultCode'], 0)
-
-    def test_08_ExecuteDebit(self):
-        self.createDisposition()
-        self.assignCardToDisposition(self.client)
-        response = self.client.executeDebit(
-            self.params['username'],
-            self.params['password'],
-            self.mtid,
-            None,
-            self.params['amount'],
-            self.params['currency'],
-            1,
-            None
-        )
-        self.assertEqual(response['errorCode'], 0)
-        self.assertEqual(response['resultCode'], 0)
-
-    def test_09_GetMid(self):
-        response = self.client.getMid(
-            self.params['username'],
-            self.params['password'],
-            self.params['currency'],
-            )
-        self.assertEqual(response['errorCode'], 0)
-        self.assertEqual(response['resultCode'], 0)
+    # def test_03_AssignCardToDisposition(self):
+    #     self.createDisposition()
+    #     response = self.assignCardToDisposition()
+    #
+    #     self.assertEqual(response['errorCode'], 0)
+    #     self.assertEqual(response['resultCode'], 0)
+    #
+    # def test_04_AssignCardsToDisposition(self):
+    #     self.createDisposition()
+    #
+    #     response = self.assignCardsToDisposition()
+    #
+    #     self.assertEqual(response['errorCode'], 0)
+    #     self.assertEqual(response['resultCode'], 0)
+    #
+    # def test_05_ModifyDispositionValue(self):
+    #     self.createDisposition()
+    #     self.assignCardToDisposition()
+    #     response = self.client.modifyDispositionValue(
+    #         self.params['username'],
+    #         self.params['password'],
+    #         self.mtid,
+    #         None,
+    #         self.params['amount'],
+    #         self.params['currency'],
+    #         )
+    #     self.assertEqual(response['errorCode'], 0)
+    #     self.assertEqual(response['resultCode'], 0)
+    #
+    # def test_06_GetSerialNumbers(self):
+    #     self.createDisposition()
+    #     response = self.client.getSerialNumbers(
+    #         self.params['username'],
+    #         self.params['password'],
+    #         self.mtid,
+    #         None,
+    #         self.params['currency'],
+    #         )
+    #     self.assertEqual(response['errorCode'], 0)
+    #     self.assertEqual(response['resultCode'], 0)
+    #
+    # def test_07_GetDispositionRawState(self):
+    #     self.createDisposition()
+    #     response = self.client.getDispositionRawState(
+    #         self.params['username'],
+    #         self.params['password'],
+    #         self.mtid,
+    #         None,
+    #         self.params['currency'],
+    #         )
+    #     self.assertEqual(response['errorCode'], 0)
+    #     self.assertEqual(response['resultCode'], 0)
+    #
+    # def test_08_ExecuteDebit(self):
+    #     self.createDisposition()
+    #     self.assignCardToDisposition()
+    #     response = self.client.executeDebit(
+    #         self.params['username'],
+    #         self.params['password'],
+    #         self.mtid,
+    #         None,
+    #         self.params['amount'],
+    #         self.params['currency'],
+    #         1,
+    #         None
+    #     )
+    #     self.assertEqual(response['errorCode'], 0)
+    #     self.assertEqual(response['resultCode'], 0)
+    #
+    # def test_09_GetMid(self):
+    #     response = self.client.getMid(
+    #         self.params['username'],
+    #         self.params['password'],
+    #         self.params['currency'],
+    #         )
+    #     self.assertEqual(response['errorCode'], 0)
+    #     self.assertEqual(response['resultCode'], 0)
 
     def createDisposition(self):
         createDisposition = self.client.createDisposition
@@ -145,8 +144,8 @@ class TestSOPGClassicMerchantClient(unittest.TestCase):
             None,None,None
         )
 
-    def assignCardToDisposition(self, client):
-        assignCardToDisposition = client.assignCardToDisposition
+    def assignCardToDisposition(self):
+        assignCardToDisposition = self.client.assignCardToDisposition
         return assignCardToDisposition(
             self.params['username'],
             self.params['password'],
@@ -157,8 +156,8 @@ class TestSOPGClassicMerchantClient(unittest.TestCase):
             self.params['pin'],
             )
 
-    def assignCardsToDisposition(self, client):
-        return client.assignCardsToDisposition(
+    def assignCardsToDisposition(self):
+        return self.client.assignCardsToDisposition(
             self.params['username'],
             self.params['password'],
             self.mtid,
