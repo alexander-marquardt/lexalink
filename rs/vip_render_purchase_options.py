@@ -4,7 +4,7 @@ from django.template import loader, Context
 
 from rs import constants
 from rs import error_reporting
-from rs import vip_paypal_structures
+from rs import vip_paypal_payments
 
 def render_purchase_buttons(request, username, owner_nid):
 
@@ -14,7 +14,7 @@ def render_purchase_buttons(request, username, owner_nid):
             if request.session.__contains__('userobject_str'):
                 # only show payment options/buttons to users that are logged-in.
 
-                paypal_data = vip_paypal_structures.generate_paypal_data(request, username, owner_nid)
+                paypal_data = vip_paypal_payments.generate_paypal_data(request, username, owner_nid)
                 #fortumo_data = generate_fortumo_data(request, username, owner_nid)
                 template = loader.get_template("user_main_helpers/purchase_buttons.html")
                 context = Context (dict({
