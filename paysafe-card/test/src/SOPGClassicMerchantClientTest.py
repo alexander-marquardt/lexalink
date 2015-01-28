@@ -24,7 +24,7 @@ handler.addFilter(OutgoingFilter())
 
 # The following is our Google Compute Engine proxy that will handle all communications with Paysafecard's servers
 # See https://console.developers.google.com/project/lexabit-proxy
-endpoint = 'https://130.211.134.3/psc/services/PscService'
+endpoint = 'http://130.211.134.3/psc/services/PscService'
 
 # We load the wsdl from our servers.
 # For testing purposes we can generally load from localhost, as long as we
