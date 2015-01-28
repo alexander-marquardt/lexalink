@@ -67,7 +67,8 @@ ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhe
 
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
-TESTING_FORTUMO_PAYMENTS = False
+TESTING_PAYSAFECARD = True
+
 BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 
@@ -154,8 +155,8 @@ if BUILD_STAGING:
     
 if TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp'
-if TESTING_FORTUMO_PAYMENTS:
-    VERSION_ID = 'fortumo-test'
+if TESTING_PAYSAFECARD:
+    VERSION_ID = 'paysafecard'
 
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
