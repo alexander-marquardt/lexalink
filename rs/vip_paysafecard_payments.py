@@ -37,11 +37,12 @@ def generate_paysafe_dropdown_options(currency):
         else:
             selected = ''
 
-        generated_html += u"""<input type="radio" name="amount" value="%(total_price)s" %(selected)s>
-        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s<br>\n""" % {
+        generated_html += u"""<input type="radio" name="amount" value="%(price)s" %(selected)s>
+        <strong>%(duration)s %(duration_units)s</strong>: %(display_price)s<br>\n""" % {
             'duration': duration, 'duration_units' : duration_units,
             'selected' : selected,
-            'total_price' : vip_paysafecard_prices_with_currency_units[currency][member_category]}
+            'price' : vip_payments_common.vip_standard_membership_prices[currency][member_category],
+            'display_price' : vip_paysafecard_prices_with_currency_units[currency][member_category]}
 
     return generated_html
 
