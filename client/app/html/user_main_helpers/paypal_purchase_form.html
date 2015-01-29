@@ -1,41 +1,41 @@
 {% load i18n %}
 
 {% if paypal_data.country_override %}
-        <h1>Warning - PayPal country override to {{ paypal_data.country_override }}</h1>
+    <h1>Warning - PayPal country override to {{ paypal_data.country_override }}</h1>
 {% endif %}
 
 {% if paypal_data.testing_paypal_sandbox %}
 
-        <h1>Warning - PayPal sandbox code enabled</h1>
+    <h1>Warning - PayPal sandbox code enabled</h1>
 
-        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
 {% else %}
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
 {% endif %}
-            <input type="hidden" name="charset" value="utf-8">
-            <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
-            <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
+        <input type="hidden" name="charset" value="utf-8">
+        <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
+        <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
 
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="{{ paypal_data.paypal_account }}">
-            <input type="hidden" name="item_name" value="{{ app_name }} {% trans 'VIP Membership' %}">
-            <input type="hidden" name="lc" value="{{ paypal_data.language }}"> <!-- Language code -->
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" value="{{ paypal_data.paypal_account }}">
+        <input type="hidden" name="item_name" value="{{ app_name }} {% trans 'VIP Membership' %}">
+        <input type="hidden" name="lc" value="{{ paypal_data.language }}"> <!-- Language code -->
 
-            <input type="hidden" name="currency_code" value="{{ paypal_data.currency_code }}">
-                <p>
-                <input type="hidden" name="on0" value="VIP">
-                {{ paypal_data.dropdown_options|safe }}
-                <p>
-                <!-- Note: since we currently have multiple paypal buttons defined on a single page (in pop-up menu, and at bottom of page)
-                we need to define each region as a class as opposed to assigning an id, since an id would not be unique -->
-                <input class="cl-paypal-purchase" type="submit" name="submit" value="{% trans 'Purchase' %}">
-                <p>
+        <input type="hidden" name="currency_code" value="{{ paypal_data.currency_code }}">
+            <p>
+            <input type="hidden" name="on0" value="VIP">
+            {{ paypal_data.dropdown_options|safe }}
+            <p>
+            <!-- Note: since we currently have multiple paypal buttons defined on a single page (in pop-up menu, and at bottom of page)
+            we need to define each region as a class as opposed to assigning an id, since an id would not be unique -->
+            <input class="cl-payment_button" type="submit" name="submit" value="{% trans 'Purchase' %}">
+            <p>
 
-            {{ paypal_data.dropdown_options_hidden_fields|safe }}
+        {{ paypal_data.dropdown_options_hidden_fields|safe }}
 
-        </form>
+    </form>
 
 
 
