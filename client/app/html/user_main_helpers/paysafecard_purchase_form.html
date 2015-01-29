@@ -21,3 +21,29 @@
 </form>
 
 
+<script type="text/javascript">
+
+$("#id-create-paysafecard-disposition").submit(function(e) {
+
+    // indicate that the next page is loading
+    $('#id-show-loading-spinner').show();
+
+    var paysafe_card_disposition_url = "/pasafecard/create_disposition/";
+    $.ajax({
+        type: "POST",
+        url: paysafe_card_disposition_url,
+        data: $(this).serialize(), // this should point to the form and serialize its data
+        dataType: "json", // response type
+        success: function (post_response) {
+        },
+        error: function () {
+        },
+        complete: function () {
+            $('#id-show-loading-spinner').hide();
+        }
+    });
+    e.preventDefault();
+    e.stopPropagation();
+});
+
+</script>
