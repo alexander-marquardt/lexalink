@@ -1,3 +1,5 @@
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), './../../../appengine_suds/')))
 
 from appengine_suds import suds
 from Validator import Validator

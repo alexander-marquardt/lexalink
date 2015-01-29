@@ -47,7 +47,7 @@ ENABLE_GRUNT = True
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_COMPRESSED_STATIC_FILES = False
+USE_COMPRESSED_STATIC_FILES = True
 
 if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
     # Compression of static and client-side files is done using grunt, therefore ENABLE_GRUNT must be set before USE_COMPRESSED_STATIC_FILES
@@ -176,34 +176,23 @@ if PROPRIETARY_BUILDS_AVAILABLE:
 else:
     BUILD_NAME_USED_FOR_MENUBAR = 'default_build'
     
-    
-# For some reason that I have not yet investigated, settings.py is called multiple times, and the environment changes 
+
+
+# For some reason that I have not yet investigated, settings.py is called multiple times, and the environment changes
 # between calls, so that in some cases "SERVER_SOFTWARE" is available, and in other cases 'LOGNAME' is available.
-# Both of these are indicators that I am running locally, and therefore I set up for local development. 
-    
-IS_CYGWIN = False
+# Both of these are indicators that I am running locally, and therefore I set up for local development.
+if ('SERVER_SOFTWARE' in os.environ):
+    if ("Development" in os.environ.get('SERVER_SOFTWARE','')):
+        # we are running on the local/test server
+        logging.info("Running on local server %s" % os.environ.get('SERVER_SOFTWARE',''))
+        DEBUG = False  # Disable django debug messages - is easier to look at the log messages
+        TEMPLATE_DEBUG = True
+        TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'
+        DEVELOPMENT_SERVER = True
 
-if 'HOSTNAME' in os.environ and os.environ['HOSTNAME'] == CYGWIN_HOSTNAME:
-    # cygwin/windows
-    logging.info("Running on Cygwin - DEBUG disabled")    
-    DEBUG = False 
-    IS_CYGWIN = True
-    TEMPLATE_DEBUG = False
-    DEVELOPMENT_SERVER = True
-    
-    
-elif ("alexandermarquardt" in os.environ.get('PWD','')):
-    # we are running on the local/test server
-    logging.info("Running on local server %s" % os.environ.get('SERVER_SOFTWARE',''))
-    DEBUG = False  # Disable django debug messages - is easier to look at the log messages
-    TEMPLATE_DEBUG = True
-    TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'    
-    DEVELOPMENT_SERVER = True
-
-else:
-    # probably running on production server - disable all debugging and LOCAL outputs etc.
-    logging.info("Appears to be running on production server" )
-    DEBUG = False
-    TEMPLATE_DEBUG = False
-    DEVELOPMENT_SERVER = False
-
+    else:
+        # probably running on production server - disable all debugging and LOCAL outputs etc.
+        logging.info("Appears to be running on production server" )
+        DEBUG = False
+        TEMPLATE_DEBUG = False
+        DEVELOPMENT_SERVER = False

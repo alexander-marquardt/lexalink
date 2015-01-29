@@ -306,7 +306,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
     
         general_information_data_fields = {}
         general_information_data_fields['settings_debug_flag'] = site_configuration.DEBUG
-        general_information_data_fields['is_cygwin'] = site_configuration.IS_CYGWIN
         general_information_data_fields['maintenance_soon_warning'] = maintenance_soon_warning
         general_information_data_fields['maintenance_shutdown_warning'] = maintenance_shutdown_warning 
         general_information_data_fields['region_options_html'] = region_options_html

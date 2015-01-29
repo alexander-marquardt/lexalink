@@ -43,14 +43,7 @@ pn_url = urllib.quote('http://www.%s/paysafecard/ipn/' % site_configuration.DOMA
 merchant_client_id = 'foobartesting-id-1'
 client_ip = None # This will be set once we get farther along into the paysafe integration
 
-card_pin = '8691159531990439'
-card_serial_number = '8691159531990439'
-
-
-
 class TestSOPGClassicMerchantClient(unittest.TestCase):
-
-
 
     def setUp(self):
         self.mtid = 'temporary-testing-id-' + str(time.time())

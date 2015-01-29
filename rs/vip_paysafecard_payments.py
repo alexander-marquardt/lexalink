@@ -1,4 +1,5 @@
 import logging
+import urllib
 
 from django.shortcuts import render_to_response
 from django import http
@@ -8,6 +9,17 @@ import site_configuration, settings
 from rs import email_utils
 from rs import error_reporting
 from rs import vip_payments_common
+from paysafe_card.client.src import SOPGClassicMerchantClient
+
+
+# We load the wsdl from our servers.
+# For testing purposes we can generally load from localhost, as long as we
+# are running a webserver locally. For release application, it is better to get the hostname from
+# request.META.HTTP_HOST if possible.
+
+
+
+pn_url = urllib.quote('http://www.%s/paysafecard/ipn/' % site_configuration.DOMAIN_NAME, '')
 
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
@@ -16,15 +28,6 @@ vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
 
-def paysafecard_sopg_wsdl(request):
-    try:
-        http_response = render_to_response("paysafecard_wsdl.xml", {})
-
-        return http_response
-    except:
-        error_reporting.log_exception(logging.critical)
-        return http.HttpResponseServerError('Error accessing paysafecard_wsdl.xml document')
-    
 
 def generate_paysafe_radio_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
@@ -91,7 +94,17 @@ def generate_paysafecard_data(request, owner_nid):
 def create_disposition(request):
 
     try:
-        pass
+        # during development, request the wsdl document from the paysafecard servers, since
+        # requesting it locally appears to cause the development server to hang - likely due to
+        # a deadlock that occurs while waiting for localhost to respond to the request, but the
+        # request is not filled until the current request executes .. or something along those lines.
+        if site_configuration.DEVELOPMENT_SERVER:
+            wsdl_url = settings.PAYSAFE_ENDPOINT + '?wsdl'
+        else:
+            wsdl_url = 'http://%s/xml/paysafecard_wsdl.xml' % request.META['HTTP_HOST']
+
+        client = SOPGClassicMerchantClient.SOPGClassicMerchantClient(wsdl_url, settings.PAYSAFE_ENDPOINT)
+        return http.HttpResponse('OK')
 
     except:
         try:
