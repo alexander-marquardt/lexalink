@@ -7,15 +7,13 @@
       <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_credit_187x47.png"></a></li>
 
       {% if paypal_data.country_code == 'MX' %}
-       <!-- Mexico accepts debit cards -->
-        <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_mx_debit_logo_215x47.jpg"></a></li>
+          <!-- Mexico accepts debit cards -->
+          <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_mx_debit_logo_215x47.jpg"></a></li>
       {% endif %}
-          <li><a href="#paypal-tab"><img src="/images/payment_images/paypal_logo_75x47.png"></a></li>
-      {% if fortumo_data.show_fortumo_options %}
-          <li><a href="#fortumo-tab"><img src="/images/payment_images/sms_pay.png"></a></li>
-      {% endif %}
-
+      <li><a href="#paypal-tab"><img src="/images/payment_images/paypal_logo_75x47.png"></a></li>
+      <li><a href="#paysafecard-tab">PAYSAFE CARD</a></li>
   </ul>
+
   <div id="credit-card-tab">
 
       <p>
@@ -59,10 +57,27 @@
 
   </div>
 
+  <div id="paysafecard-tab">
+      <p>
+        <strong>
+        {% blocktrans with app_name as app_name %}Purchase VIP status with a PaySafeCard.
+            Available at a location near you.{% endblocktrans %}
+        </strong>
+
+      <p>
+        {% include "user_main_helpers/paysafecard_purchase_form.html" %}
+
+      <p>
+        {% blocktrans %}
+        This is a one-time VIP membership payment that does not automatically renew.
+        {% endblocktrans %}
+
+  </div>
+
 </div>
 
 <script type="text/javascript" language="javascript">
-    $('.cl-paypal-purchase').button();
+    $('.cl-payment_button').button();
 
     $(document).ready(function() {
         $( ".cl-payment_tabs" ).tabs();

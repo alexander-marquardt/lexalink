@@ -1,0 +1,23 @@
+{% load i18n %}
+
+{% if paysafecard_data.country_override %}
+        <h1>Warning - country override to {{ paysafecard_data.country_override }}</h1>
+{% endif %}
+
+{% if paysafecard_data.testing_paysafecard %}
+        <h1>Warning - paysafe testing code enabled</h1>
+{%endif %}
+
+<form id="id-create-paysafecard-disposition" method="post">
+
+    <p>
+    <input type="hidden" name="charset" value="utf-8">
+    <input type="hidden" name="currency_code" value="{{ paysafecard_data.currency_code }}">
+    <input type="hidden" name="owner_nid" value="{{ paysafecard_data.owner_nid }}">
+    {{ paysafecard_data.dropdown_options|safe }}
+    <p>
+    <input class="cl-payment_button" type="submit" name="submit" value="{% trans 'Purchase' %}">
+
+</form>
+
+
