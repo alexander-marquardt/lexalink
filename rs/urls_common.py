@@ -228,6 +228,8 @@ urlpatterns = patterns('',
 
     # paysafecard wsdl document URL
     (r'^paysafecard/sopg_wsdl.xml', vip_paysafecard_payments.paysafecard_sopg_wsdl),
+    url(r'^paysafecard/create_disposition/*', vip_paysafecard_payments.create_disposition, name='paysafecard.create_disposition'),
+
     ###############################################
     # Sitemap generation and sitemap display links
     (r'^rs/admin/generate_sitemaps/$', sitemaps.generate_sitemaps),

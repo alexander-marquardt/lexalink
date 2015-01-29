@@ -3,10 +3,12 @@ import logging
 from django.shortcuts import render_to_response
 from django import http
 
-import site_configuration
+import site_configuration, settings
 
+from rs import email_utils
 from rs import error_reporting
 from rs import vip_payments_common
+
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 
@@ -84,3 +86,20 @@ def generate_paysafecard_data(request, owner_nid):
     except:
         error_reporting.log_exception(logging.critical)
         return http.HttpResponseServerError('Error generating paysafecard data')
+
+
+def create_disposition(request):
+
+    try:
+        pass
+
+    except:
+        try:
+            # This is serious enough, that it warrants sending an email to the administrator.
+            message_content = """Paysafecard error - unable to create disposition"""
+            email_utils.send_admin_alert_email(message_content, subject = "%s Paysafe Error" % settings.APP_NAME)
+
+        finally:
+            error_reporting.log_exception(logging.critical, request=request)
+            return http.HttpResponseServerError('Error in create_disposition')
+

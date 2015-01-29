@@ -5,7 +5,7 @@
 {% endif %}
 
 {% if paysafecard_data.testing_paysafecard %}
-        <h1>Warning - paysafe testing code enabled</h1>
+        <h1>Warning - paysafecard testing code enabled</h1>
 {%endif %}
 
 <form id="id-create-paysafecard-disposition" method="post">
@@ -28,7 +28,7 @@ $("#id-create-paysafecard-disposition").submit(function(e) {
     // indicate that the next page is loading
     $('#id-show-loading-spinner').show();
 
-    var paysafe_card_disposition_url = "/pasafecard/create_disposition/";
+    var paysafe_card_disposition_url = "{% url paysafecard.create_disposition %}";
     $.ajax({
         type: "POST",
         url: paysafe_card_disposition_url,
