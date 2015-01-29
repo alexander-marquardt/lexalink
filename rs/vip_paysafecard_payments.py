@@ -24,9 +24,9 @@ def paysafecard_sopg_wsdl(request):
         return http.HttpResponseServerError('Error accessing paysafecard_wsdl.xml document')
     
 
-def generate_paysafe_dropdown_options(currency):
+def generate_paysafe_radio_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
-    # paypal_dropdown_options
+    # paypal_radio_options
     generated_html = u''
     for member_category in vip_payments_common.vip_membership_categories:
         duration = u"%s" % vip_payments_common.vip_option_values[member_category]['duration']
@@ -78,7 +78,7 @@ def generate_paysafecard_data(request, owner_nid):
         #     paysafecard_data['paysafecard_merchant_id'] = site_configuration.PAYSAFE_MID
 
 
-        paysafecard_data['dropdown_options'] = generate_paysafe_dropdown_options(internal_currency_code)
+        paysafecard_data['radio_options'] = generate_paysafe_radio_options(internal_currency_code)
 
         return paysafecard_data
     except:

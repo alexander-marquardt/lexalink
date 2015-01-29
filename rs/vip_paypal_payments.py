@@ -62,9 +62,9 @@ vip_prices_with_currency_units = vip_payments_common.generate_prices_with_curren
     vip_payments_common.vip_standard_membership_prices, vip_paypal_valid_currencies)
 vip_price_to_membership_category_lookup  = vip_payments_common.generate_vip_price_to_membership_category_lookup(vip_payments_common.vip_standard_membership_prices)
 
-def generate_paypal_dropdown_options(currency):
+def generate_paypal_radio_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
-    # paypal_dropdown_options
+    # paypal_radio_options
     generated_html = u''
     for member_category in vip_payments_common.vip_membership_categories:
         duration = u"%s" % vip_payments_common.vip_option_values[member_category]['duration']
@@ -83,7 +83,7 @@ def generate_paypal_dropdown_options(currency):
             
     return generated_html
 
-def generate_paypal_dropdown_options_hidden_fields(currency):
+def generate_paypal_options_hidden_fields(currency):
     
     # Paypal has a pretty obfuscated manner of passing values to their checkout page. 
     # First, an option_select[0-9] must be linked to a "value" that the user has selected
@@ -133,8 +133,8 @@ def generate_paypal_data(request, username, owner_nid):
     else:
         paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
 
-    paypal_data['dropdown_options'] = generate_paypal_dropdown_options(internal_currency_code)
-    paypal_data['dropdown_options_hidden_fields'] = generate_paypal_dropdown_options_hidden_fields(internal_currency_code)
+    paypal_data['radio_options'] = generate_paypal_radio_options(internal_currency_code)
+    paypal_data['options_hidden_fields'] = generate_paypal_options_hidden_fields(internal_currency_code)
 
     return paypal_data
 
