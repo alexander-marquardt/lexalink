@@ -19,11 +19,11 @@ from paysafe_card.client.src import SOPGClassicMerchantClient
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
 TESTING_COUNTRY = 'ES'
 
-pn_url = urllib.quote('http://www.%s/paysafecard/ipn/' % site_configuration.DOMAIN_NAME, '')
-
-
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 
+# During development, we are running from localhost which cannot recieve communications from the internet,
+# therefore, just send the notifications to the server that we are using for debugging paysafecard transactions.
+development_payment_notification_server = 'http://paysafecard.romancesapp.appspot.com/'
 
 vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
@@ -116,9 +116,9 @@ def create_disposition(request):
             wsdl_url = settings.PAYSAFE_ENDPOINT + '?wsdl'
 
             # Give "real" URLs so that we can check if payment notifications are being received.
-            ok_url = urllib.quote('http://paysafecard.romancesapp.appspot.com/paysafecard/okurl/', '')
-            nok_url = urllib.quote('http://paysafecard.romancesapp.appspot.com/paysafecard/nokurl/', '')
-            pn_url = urllib.quote('http://paysafecard.romancesapp.appspot.com/paysafecard/payment_notification/', '')
+            ok_url = urllib.quote(development_payment_notification_server + '/paysafecard/okurl/', '')
+            nok_url = urllib.quote(development_payment_notification_server + '/paysafecard/nokurl/', '')
+            pn_url = urllib.quote(development_payment_notification_server + '/paysafecard/payment_notification/', '')
 
         else:
             # We are running on production server, get the wsdl document directly from the
