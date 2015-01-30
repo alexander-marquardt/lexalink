@@ -35,6 +35,23 @@ $("#id-create-paysafecard-disposition").submit(function(e) {
         data: $(this).serialize(), // this should point to the form and serialize its data
         dataType: "json", // response type
         success: function (post_response) {
+            var page = "https://customer.test.at.paysafecard.com/psccustomer/GetCustomerPanelServlet?" +
+                            "mid=" + post_response.merchant_id +
+                            "&currency=" + post_response.currency_code +
+                            "&mtid=" + post_response.merchant_transaction_id +
+                            "&amount=" + post_response.amount;
+
+            var $dialog = $('<div></div>')
+               .html('<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
+               .dialog({
+                   autoOpen: false,
+                   modal: true,
+                   height: 600,
+                   width: 600,
+                   title: "Paysafecard"
+               });
+            $dialog.dialog('open');
+
         },
         error: function () {
         },

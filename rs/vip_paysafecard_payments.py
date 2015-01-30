@@ -3,7 +3,7 @@ import sys
 import time
 import urllib
 
-from django.shortcuts import render_to_response
+from django.utils import simplejson
 from django import http
 
 import site_configuration, settings
@@ -135,10 +135,12 @@ def create_disposition(request):
         if site_configuration.TESTING_PAYSAFECARD:
             username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
             password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
+            merchant_id = site_configuration.PAYSAFE_TEST_MID
 
         else:
             username = site_configuration.PAYSAFE_SOAP_USERNAME
             password = site_configuration.PAYSAFE_SOAP_PASSWORD
+            merchant_id = site_configuration.PAYSAFE_MID
 
         merchant_transaction_id = str(nid) + '-' + str(time.time())
 
@@ -160,9 +162,19 @@ def create_disposition(request):
         if paysafecard_disposition_response['errorCode'] != 0:
             logging.error('paysafecard error in disposition. errorCode = %d' % paysafecard_disposition_response['errorCode'])
 
-        assert(paysafecard_disposition_response['resultCode'] == 0)
+        assert(int(paysafecard_disposition_response['resultCode']) == 0)
+        assert(paysafecard_disposition_response['mid'] == merchant_id)
+        assert(paysafecard_disposition_response['mtid'] == merchant_transaction_id)
 
-        return http.HttpResponse('OK')
+        response_dict = {
+            'merchant_id' : merchant_id,
+            'merchant_transaction_id': merchant_transaction_id,
+            'currency_code': currency_code,
+            'amount': amount
+        }
+
+        json_response = simplejson.dumps(response_dict)
+        return http.HttpResponse(json_response, mimetype='text/javascript')
 
     except:
         try:
