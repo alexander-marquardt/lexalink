@@ -1519,9 +1519,7 @@ def get_client_paid_status(userobject):
 
 def get_nid_from_uid(uid):
     # function that looks up the nid [ie. key().id()] based on the uid. 
-
-    userobject = ndb.Key(urlsafe = uid).get()
-    nid = userobject.key.integer_id()
+    nid = ndb.Key(urlsafe = uid).integer_id()
     return nid
     
 def get_uid_from_nid(nid):

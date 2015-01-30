@@ -7,8 +7,6 @@ from rs import error_reporting
 from rs.localization_files import currency_by_country
 
 
-# Leave the following value set to None if we are not trying to force a particular country's options to be displayed
-TESTING_COUNTRY = ''
 
 
 #VIP_1_DAY = "1 day"

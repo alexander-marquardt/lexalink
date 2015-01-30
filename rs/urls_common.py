@@ -227,6 +227,7 @@ urlpatterns = patterns('',
     (r'^paypal/ipn/$', vip_paypal_payments.paypal_instant_payment_notification),
 
     url(r'^paysafecard/create_disposition/*', vip_paysafecard_payments.create_disposition, name='paysafecard.create_disposition'),
+    (r'^paysafecard/payment_notification/*', vip_paysafecard_payments.payment_notification),
 
     ###############################################
     # Sitemap generation and sitemap display links

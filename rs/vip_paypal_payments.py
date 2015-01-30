@@ -43,6 +43,9 @@ from rs import vip_status_support
 
 from rs.localization_files import currency_by_country
 
+# Leave the following value set to None if we are not trying to force a particular country's options to be displayed
+TESTING_COUNTRY = ''
+
 
 # keep track of which currencies we currently support.
 vip_paypal_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
@@ -111,16 +114,16 @@ def generate_paypal_data(request, username, owner_nid):
     # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the
     # appropriate currency to display. If country code is missing, then we will display
     # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
-    if not vip_payments_common.TESTING_COUNTRY:
+    if not TESTING_COUNTRY:
         http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
     else:
         error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-        http_country_code = vip_payments_common.TESTING_COUNTRY
+        http_country_code = TESTING_COUNTRY
 
     internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies)
 
     paypal_data = {}
-    paypal_data['country_override'] = vip_payments_common.TESTING_COUNTRY
+    paypal_data['country_override'] = TESTING_COUNTRY
     paypal_data['country_code'] = http_country_code
     paypal_data['language'] = request.LANGUAGE_CODE
     paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
