@@ -46,14 +46,15 @@ $("#id-create-paysafecard-disposition").submit(function(e) {
                .dialog({
                    autoOpen: false,
                    modal: true,
-                   height: 600,
+                   height: 800,
                    width: 600,
                    title: "Paysafecard"
                });
             $dialog.dialog('open');
 
         },
-        error: function () {
+        error: function (jqXHR, textStatus, errorThrown) {
+            reportAjaxError(textStatus, errorThrown, "paysafecard-disposition", 'critical');
         },
         complete: function () {
             $('#id-show-loading-spinner').hide();
