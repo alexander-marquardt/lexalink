@@ -635,7 +635,25 @@ class UserModel(ndb.Model):
         
     # This is a forward reference to "ViewedProfileCounter" model (defined below)
     viewed_profile_counter_ref = ndb.KeyProperty(default = None)
-    
+
+class PaysafecardDisposition(ndb.Model):
+    # Each time a user starts a transaction, a new disposition is created. The disposition will only be completed
+    # upon receipt of a payment notification from paysafecard. There may be potentially many more dispositions
+    # created than there are actual payments completed due to the fact that a disposition will be created by
+    # a user just clicking on the "purchase" button, even if they do not complete payment.
+
+
+    # The key for each object will be the merchant_transaction_id
+
+    owner_userobject = ndb.KeyProperty(kind = UserModel, default = None)
+    transaction_amount = ndb.StringProperty(required=True)
+    transaction_currency = ndb.StringProperty(required=True)
+    membership_category = ndb.StringProperty(required=True)
+    num_days_to_be_awarded = ndb.IntegerProperty(required=True)
+    creation_date = ndb.DateTimeProperty(auto_now_add=True)
+    transaction_completed = ndb.BooleanProperty(default=False)
+
+
 class PaymentInfo(ndb.Model):
     # This class keeps track of how much a user has paid/donated, what date the donation was made, etc.
     
@@ -651,12 +669,12 @@ class PaymentInfo(ndb.Model):
     username = ndb.StringProperty(default=None)
     date_paid = ndb.DateTimeProperty(required=False)
     num_days_awarded = ndb.IntegerProperty(default=0)
-    payer_account_info = ndb.StringProperty(default=None) # email address for paypal, or phone number for fortumo
+    payer_account_info = ndb.StringProperty(default=None) # email address for paypal
     last_name = ndb.StringProperty(default=None)
     
     txn_id = ndb.StringProperty(required = False, default=None)
-    payment_source = ndb.StringProperty(default=None) # should be either "paypal" or "fortumo"
-            
+    payment_source = ndb.StringProperty(default=None) # should be either "paypal" or "paysafecard"
+
 class WatermarkPhotoModel(ndb.Model):
     # Will contain the watermark that will be used for marking all uploaded photos. This data structure is intended to
     # only have a single element, which means that a simple get() should be possible without having to filter results

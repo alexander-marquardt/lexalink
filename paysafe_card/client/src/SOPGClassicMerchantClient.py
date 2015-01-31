@@ -7,6 +7,9 @@ from Validator import Validator
 class SOPGClassicMerchantClient:
 
   def __init__(self, wsdl_url, endpoint):
+    # Note: the suds library appears to attempt to modify the URL headers for 'Host' and 'Content-Length' which
+    # is not allowed by appengine (https://cloud.google.com/appengine/docs/python/urlfetch/?csw=1#Request_Headers)
+    # This generates two warnings that can be ignored.
     self.client  = suds.client.Client(wsdl_url)
 
     # The following line over-rides the location in the returned wsdl document to point to our

@@ -92,6 +92,16 @@ real_currency_codes['USD_NON_US'] = 'USD'
 
 VIP_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
+def generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices):
+    price_to_membership_category_lookup = {}
+    for currency in vip_standard_membership_prices:
+        price_to_membership_category_lookup[currency] = {}
+        for k,v in vip_standard_membership_prices[currency].iteritems():
+            price_to_membership_category_lookup[currency][v] = k
+    return price_to_membership_category_lookup
+
+
+vip_price_to_membership_category_lookup  = generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices)
 
 def get_internal_currency_code(http_country_code, vip_valid_currencies):
 
@@ -116,13 +126,6 @@ def get_internal_currency_code(http_country_code, vip_valid_currencies):
 
     return internal_currency_code
 
-def generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices):
-    price_to_membership_category_lookup = {}
-    for currency in vip_standard_membership_prices:
-        price_to_membership_category_lookup[currency] = {}
-        for k,v in vip_standard_membership_prices[currency].iteritems():
-            price_to_membership_category_lookup[currency][v] = k
-    return price_to_membership_category_lookup
 
 
 def generate_prices_with_currency_units(prices_to_loop_over, vip_valid_currencies):

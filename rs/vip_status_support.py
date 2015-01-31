@@ -53,7 +53,8 @@ def check_signature(request):
   sig = hashlib.md5(calculation_string.encode("utf-8")).hexdigest()
   return (request.GET['sig'] == sig)  
 
-def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, payment_source, payer_account_info, last_name):
+def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id,
+                                        payment_source, payer_account_info, last_name):
   
   # This stores information about the user that has made the payment. This is stored for informational purposes 
   # and to detect duplicate payment submissions with the same txn_id 

@@ -63,7 +63,6 @@ custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')
 # to the corresponding membership category
 vip_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_standard_membership_prices, vip_paypal_valid_currencies)
-vip_price_to_membership_category_lookup  = vip_payments_common.generate_vip_price_to_membership_category_lookup(vip_payments_common.vip_standard_membership_prices)
 
 def generate_paypal_radio_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
@@ -212,7 +211,7 @@ def paypal_instant_payment_notification(request):
             userobject = utils_top_level.get_object_from_string(uid)
 
             if currency in vip_paypal_valid_currencies:
-                membership_category = vip_price_to_membership_category_lookup[currency][amount_paid]
+                membership_category = vip_payments_common.vip_price_to_membership_category_lookup[currency][amount_paid]
                 num_days_awarded = vip_payments_common.num_days_in_vip_membership_category[membership_category]
             else:
                 raise Exception("Paypal currency %s not handled by code" % currency)

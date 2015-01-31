@@ -34,6 +34,7 @@ from google.appengine.api import memcache, users
 import hashlib, re, urllib
 import datetime
 import string, random, sys
+import base64
 
 from django import http
 from django.utils.translation import ugettext, ungettext
@@ -1748,4 +1749,4 @@ def is_exempt_user():
         pass
     
     return is_privileged
-    
+
