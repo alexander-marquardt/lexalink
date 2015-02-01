@@ -1,10 +1,10 @@
 import logging
 import sys
 import urllib
-import base64
 import hashlib
 import string
 import hmac
+import math
 from random import randint
 
 from django.shortcuts import render_to_response
@@ -34,12 +34,20 @@ vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 
 # The following are used for storing ints as a string, which will make them shorter. These correspond to paysafecard
 # documentation, which states that only  A-Z, a-z, 0-9, -(hyphen) and _ (underline) are allowed. We use
-# the hyphen for separating the different parts of the identifier, and so we do not put it into this string.
-encode_allowed_chars = string.digits + string.letters + '_'
+# the hyphen for separating the different parts of the identifier, and so we do not put it into this string of
+# allowed characters.
+# We don't use "_" only for aesthetic reasons (I don't like the look of it in the transaction identifiers)
+encode_allowed_chars = string.digits + string.letters
 encode_dict = dict((c, i) for i, c in enumerate(encode_allowed_chars))
 
-MAX_NUMBER_FOR_CREATING_UNIQUE_ID = 99999999
-len_of_random_num = len(str(MAX_NUMBER_FOR_CREATING_UNIQUE_ID))
+
+# The following definitions ensure that if we want for example a maximum of 6 characters to be returned from
+# our random id postfix generator, then the 'largest' string generated will be 'ZZZZZZ'
+number_of_encoded_chars_to_generate = 6
+max_number_for_random_id_postfix = int(math.pow(len(encode_allowed_chars), number_of_encoded_chars_to_generate)) - 1
+# Find the minimum number that will result in the specified number of digits (this is only for aesthetics, and
+# is not really necessary, but it will result in each random number being the same number of digits in length)
+min_number_for_random_id_postfix = utils.base_decode('1' + '0'*(number_of_encoded_chars_to_generate-1), encode_dict)
 
 # During development, we are running from localhost which cannot recieve communications from the internet,
 # therefore, just send the notifications to the server that we are using for debugging paysafecard transactions.
@@ -118,11 +126,11 @@ def generate_hmac(unique_id):
     string_hash = utils.base_encode(int_hash, base=encode_allowed_chars)
     # We need to shorten the hash because paysafecard doesn't accept more than 60 characters, and recommends
     # no more than 20 (which we will be over)
-    short_hash = string_hash[:8]
+    short_hash = string_hash[:6]
     return short_hash
 
 def get_random_number_string_for_transaction_id():
-    rand = randint(0, MAX_NUMBER_FOR_CREATING_UNIQUE_ID)
+    rand = randint(min_number_for_random_id_postfix, max_number_for_random_id_postfix)
     encoded_rand = utils.base_encode(rand, base=encode_allowed_chars)
     return encoded_rand
 
