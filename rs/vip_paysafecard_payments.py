@@ -32,8 +32,10 @@ TESTING_COUNTRY = 'ES'
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 
-# The following are used for storing ints as a string, which will make them shorter.
-encode_allowed_chars = string.digits + string.letters
+# The following are used for storing ints as a string, which will make them shorter. These correspond to paysafecard
+# documentation, which states that only  A-Z, a-z, 0-9, -(hyphen) and _ (underline) are allowed. We use
+# the hyphen for separating the different parts of the identifier, and so we do not put it into this string.
+encode_allowed_chars = string.digits + string.letters + '_'
 encode_dict = dict((c, i) for i, c in enumerate(encode_allowed_chars))
 
 MAX_NUMBER_FOR_CREATING_UNIQUE_ID = 99999999
@@ -112,11 +114,12 @@ def generate_paysafecard_data(request, owner_nid):
 
 def generate_hmac(unique_id):
     hmac_digest = hmac.new(site_configuration.PAYSAFE_HMAC_KEY, unique_id, hashlib.sha256).digest()
-    b32hash = base64.b32encode(hmac_digest)
+    int_hash = int(hmac_digest.encode('hex'), 16)
+    string_hash = utils.base_encode(int_hash, base=encode_allowed_chars)
     # We need to shorten the hash because paysafecard doesn't accept more than 60 characters, and recommends
     # no more than 20 (which we will be over)
-    short_b32hash = b32hash[:8]
-    return short_b32hash
+    short_hash = string_hash[:8]
+    return short_hash
 
 def get_random_number_string_for_transaction_id():
     rand = randint(0, MAX_NUMBER_FOR_CREATING_UNIQUE_ID)
