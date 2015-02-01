@@ -3,6 +3,7 @@ import sys
 import urllib
 import base64
 import hashlib
+import string
 import hmac
 from random import randint
 
@@ -31,6 +32,9 @@ TESTING_COUNTRY = 'ES'
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 
+int_encode_as_string_allowed_chars = string.digits + string.letters
+int_encode_as_string_dict = dict((c, i) for i, c in enumerate(int_encode_as_string_allowed_chars))
+
 MAX_NUMBER_FOR_CREATING_UNIQUE_ID = 99999999
 len_of_random_num = len(str(MAX_NUMBER_FOR_CREATING_UNIQUE_ID))
 
@@ -41,21 +45,21 @@ development_payment_notification_server = 'http://paysafecard.romancesapp.appspo
 vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
 
-# If we are testing paysafe, then get suds to output the server requests that it is making. Note, that
-# if this is enabled on production servers, that it causes 4 "errors" to be displayed, but they do not
-# appear to have any negative effects on processing of the payment.
-if site_configuration.TESTING_PAYSAFECARD:
-    handler = logging.StreamHandler(sys.stderr)
-    logger = logging.getLogger('suds.transport.http')
-    logger.setLevel(logging.DEBUG), handler.setLevel(logging.DEBUG)
-    logger.addHandler(handler)
-
-    class OutgoingFilter(logging.Filter):
-        def filter(self, record):
-            return record.msg.startswith('sending:')
-
-
-    handler.addFilter(OutgoingFilter())
+# # If we are testing paysafe, then get suds to output the server requests that it is making. Note, that
+# # if this is enabled on production servers, that it causes 4 "errors" to be displayed, but they do not
+# # appear to have any negative effects on processing of the payment.
+# if site_configuration.TESTING_PAYSAFECARD:
+#     handler = logging.StreamHandler(sys.stderr)
+#     logger = logging.getLogger('suds.transport.http')
+#     logger.setLevel(logging.DEBUG), handler.setLevel(logging.DEBUG)
+#     logger.addHandler(handler)
+#
+#     class OutgoingFilter(logging.Filter):
+#         def filter(self, record):
+#             return record.msg.startswith('sending:')
+#
+#
+#     handler.addFilter(OutgoingFilter())
 
 def generate_paysafe_radio_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
@@ -258,7 +262,7 @@ def payment_notification(request):
         # Make sure that the merchant transaction is signed correctly so that we know that it was initiated from
         # our servers. This will prevent someone from sending fraudulent payment notifications to our server, as they
         # would need our hmac key to generate the correct signature
-        (nid_str, random_postfix, original_hmac_signature) = merchant_transaction_id.split(':')
+        (nid_str, random_postfix, original_hmac_signature) = merchant_transaction_id.split('-')
         unique_id = nid_str + '-' + random_postfix
         verify_hmac_signature = generate_hmac(unique_id)
         assert(verify_hmac_signature == original_hmac_signature)
@@ -273,10 +277,11 @@ def payment_notification(request):
         userobject = utils_top_level.get_object_from_string(uid)
 
 
-        paysafe_disposition = models.PaysafecardDisposition(id=merchant_transaction_id)
+        paysafe_disposition = models.PaysafecardDisposition.get_by_id(merchant_transaction_id)
         if paysafe_disposition:
             if not paysafe_disposition.transaction_completed:
                 paysafe_disposition.transaction_completed = True
+                paysafe_disposition.serial_numbers = serial_numbers
                 paysafe_disposition.put()
                 if vip_status_support.check_payment_and_update_structures(
                         userobject,

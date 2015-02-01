@@ -53,7 +53,7 @@ def check_signature(request):
   sig = hashlib.md5(calculation_string.encode("utf-8")).hexdigest()
   return (request.GET['sig'] == sig)  
 
-def check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id,
+def check_payment_and_update_structures(userobject, currency, amount, num_days_awarded, txn_id,
                                         payment_source, payer_account_info, last_name):
   
   # This stores information about the user that has made the payment. This is stored for informational purposes 
@@ -73,7 +73,7 @@ def check_payment_and_update_structures(userobject, currency, amount_paid, num_d
     payment_object = models.PaymentInfo()
     payment_object.username = userobject.username
     payment_object.owner_userobject = userobject.key
-    payment_object.amount_paid = float(amount_paid)
+    payment_object.amount = amount
     payment_object.currency = currency
     payment_object.date_paid = datetime.datetime.now()
     payment_object.num_days_awarded = num_days_awarded

@@ -651,6 +651,7 @@ class PaysafecardDisposition(ndb.Model):
     membership_category = ndb.StringProperty(required=True)
     num_days_to_be_awarded = ndb.IntegerProperty(required=True)
     creation_date = ndb.DateTimeProperty(auto_now_add=True)
+    serial_numbers = ndb.StringProperty(default=None)
     transaction_completed = ndb.BooleanProperty(default=False)
 
 
@@ -661,7 +662,7 @@ class PaymentInfo(ndb.Model):
     # userobject.payments_set[0] - Note: we can therefore also keep track of multiple payments for a single user. 
     owner_userobject = ndb.KeyProperty(kind = UserModel, default = None)
     
-    amount_paid = ndb.FloatProperty(default=0)
+    amount = ndb.StringProperty(default=None)
     currency = ndb.StringProperty(default=None)
     
     # The username is stored here just for convenience, so that we can query by username (in the admin console) to see what payments
