@@ -183,7 +183,7 @@ def create_disposition(request):
             merchant_id = site_configuration.PAYSAFE_MID
 
         random_postfix = get_random_number_string_for_transaction_id()
-        unique_id = utils.base_encode(nid, encode_allowed_chars) + '-' + random_postfix
+        unique_id = str(nid) + '-' + random_postfix
         hmac_signature = generate_hmac(unique_id)
         merchant_transaction_id = unique_id + '-' + hmac_signature
 
@@ -269,7 +269,7 @@ def payment_notification(request):
         verify_hmac_signature = generate_hmac(unique_id)
         assert(verify_hmac_signature == original_hmac_signature)
 
-        nid = utils.base_decode(nid_str, encode_dict)
+        nid = long(nid_str)
 
         # Note: serial_numbers is actually made up of 4 values seperated by ';' that may be repeated multiple times
         # in the case that more than one card was used to make the payment. eg. a payment from a single card would
@@ -277,7 +277,7 @@ def payment_notification(request):
         # SerialNumber1;CurrencyCode1;Amount1;CardTypeId1;SerialNumber2;CurrencyCode2;Amount2;CardTypeId2 etc.
         serial_numbers = request.POST.get('serialNumbers', None); assert(serial_numbers)
 
-        uid = utils.get_uid_from_nid(long(nid))
+        uid = utils.get_uid_from_nid(nid)
         userobject = utils_top_level.get_object_from_string(uid)
 
 
