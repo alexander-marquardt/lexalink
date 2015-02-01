@@ -32,8 +32,9 @@ TESTING_COUNTRY = 'ES'
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 
-int_encode_as_string_allowed_chars = string.digits + string.letters
-int_encode_as_string_dict = dict((c, i) for i, c in enumerate(int_encode_as_string_allowed_chars))
+# The following are used for storing ints as a string, which will make them shorter.
+encode_allowed_chars = string.digits + string.letters
+encode_dict = dict((c, i) for i, c in enumerate(encode_allowed_chars))
 
 MAX_NUMBER_FOR_CREATING_UNIQUE_ID = 99999999
 len_of_random_num = len(str(MAX_NUMBER_FOR_CREATING_UNIQUE_ID))
@@ -110,7 +111,8 @@ def generate_paysafecard_data(request, owner_nid):
         return http.HttpResponseServerError('Error generating paysafecard data')
 
 def generate_hmac(unique_id):
-    b32hash = base64.b32encode(hmac.new(site_configuration.PAYSAFE_HMAC_KEY, unique_id, hashlib.sha256).digest())
+    hmac_digest = hmac.new(site_configuration.PAYSAFE_HMAC_KEY, unique_id, hashlib.sha256).digest()
+    b32hash = base64.b32encode(hmac_digest)
     # We need to shorten the hash because paysafecard doesn't accept more than 60 characters, and recommends
     # no more than 20 (which we will be over)
     short_b32hash = b32hash[:8]
@@ -118,8 +120,8 @@ def generate_hmac(unique_id):
 
 def get_random_number_string_for_transaction_id():
     rand = randint(0, MAX_NUMBER_FOR_CREATING_UNIQUE_ID)
-    padded_rand = str(rand).zfill(len_of_random_num)
-    return padded_rand
+    encoded_rand = utils.base_encode(rand, base=encode_allowed_chars)
+    return encoded_rand
 
 def create_disposition(request):
 
@@ -181,7 +183,7 @@ def create_disposition(request):
             merchant_id = site_configuration.PAYSAFE_MID
 
         random_postfix = get_random_number_string_for_transaction_id()
-        unique_id = str(nid) + '-' + random_postfix
+        unique_id = utils.base_encode(nid, encode_allowed_chars) + '-' + random_postfix
         hmac_signature = generate_hmac(unique_id)
         merchant_transaction_id = unique_id + '-' + hmac_signature
 
@@ -267,13 +269,15 @@ def payment_notification(request):
         verify_hmac_signature = generate_hmac(unique_id)
         assert(verify_hmac_signature == original_hmac_signature)
 
+        nid = utils.base_decode(nid_str, encode_dict)
+
         # Note: serial_numbers is actually made up of 4 values seperated by ';' that may be repeated multiple times
         # in the case that more than one card was used to make the payment. eg. a payment from a single card would
         # be SerialNumber;CurrencyCode;Amount;CardTypeId - a payment from two cards would be
         # SerialNumber1;CurrencyCode1;Amount1;CardTypeId1;SerialNumber2;CurrencyCode2;Amount2;CardTypeId2 etc.
         serial_numbers = request.POST.get('serialNumbers', None); assert(serial_numbers)
 
-        uid = utils.get_uid_from_nid(long(nid_str))
+        uid = utils.get_uid_from_nid(long(nid))
         userobject = utils_top_level.get_object_from_string(uid)
 
 
