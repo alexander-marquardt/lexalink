@@ -75,6 +75,17 @@ vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices
 #
 #     handler.addFilter(OutgoingFilter())
 
+if site_configuration.TESTING_PAYSAFECARD:
+    username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
+    password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
+    merchant_id = site_configuration.PAYSAFE_TEST_MID
+
+else:
+    username = site_configuration.PAYSAFE_SOAP_USERNAME
+    password = site_configuration.PAYSAFE_SOAP_PASSWORD
+    merchant_id = site_configuration.PAYSAFE_MID
+
+
 def generate_paysafe_radio_options(currency):
     # for efficiency don't call this from outside this module, instead perform a lookup in
     # paypal_radio_options
@@ -186,15 +197,7 @@ def create_disposition(request):
         # proxies, etc. Set to None for now.
         client_ip = None
 
-        if site_configuration.TESTING_PAYSAFECARD:
-            username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
-            password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
-            merchant_id = site_configuration.PAYSAFE_TEST_MID
 
-        else:
-            username = site_configuration.PAYSAFE_SOAP_USERNAME
-            password = site_configuration.PAYSAFE_SOAP_PASSWORD
-            merchant_id = site_configuration.PAYSAFE_MID
 
         random_postfix = get_random_number_string_for_transaction_id()
         unique_id = str(nid) + '-' + random_postfix
@@ -216,9 +219,8 @@ def create_disposition(request):
             client_ip)
 
         logging.info('paysafecard_disposition_response: %s'  % repr(paysafecard_disposition_response))
-        if paysafecard_disposition_response['errorCode'] != 0:
-            logging.error('paysafecard error in disposition. errorCode = %d' % paysafecard_disposition_response['errorCode'])
 
+        assert(int(paysafecard_disposition_response['errorCode']) == 0)
         assert(int(paysafecard_disposition_response['resultCode']) == 0)
         assert(paysafecard_disposition_response['mid'] == merchant_id)
         assert(paysafecard_disposition_response['mtid'] == merchant_transaction_id)
@@ -298,9 +300,33 @@ def payment_notification(request):
         paysafe_disposition = models.PaysafecardDisposition.get_by_id(merchant_transaction_id)
         if paysafe_disposition:
             if not paysafe_disposition.transaction_completed:
+
+                wsdl_url = settings.PAYSAFE_ENDPOINT + '?wsdl'
+                client = SOPGClassicMerchantClient.SOPGClassicMerchantClient(wsdl_url, settings.PAYSAFE_ENDPOINT)
+
+                paysafecard_debit_response = client.executeDebit(
+                    username,
+                    password,
+                    merchant_transaction_id,
+                    None, #subId
+                    paysafe_disposition.transaction_amount,
+                    paysafe_disposition.transaction_currency,
+                    1, # Close transaction
+                    None, # partialDebitId
+                )
+
+                logging.info('paysafecard_debit_response: %s' % repr(paysafecard_debit_response))
+
+                assert(paysafecard_debit_response['errorCode'] == 0)
+                assert(paysafecard_debit_response['resultCode'] == 0)
+
                 paysafe_disposition.transaction_completed = True
                 paysafe_disposition.serial_numbers = serial_numbers
                 paysafe_disposition.put()
+
+                # The following check for a transaction_id is redundant since we have already checked, however this
+                # function call also sets up the common structure that keeps track of what payments have been made
+                # and from which payment provider (eg. common for both paypal and paysafecard)
                 if vip_status_support.check_payment_and_update_structures(
                         userobject,
                         paysafe_disposition.transaction_currency,
@@ -310,8 +336,9 @@ def payment_notification(request):
                         "paysafecard",
                         serial_numbers,
                         "Lastname not available"):
-                    # only process the payment if this is the first time we have seen this txn_id.
+
                     vip_status_support.update_userobject_vip_status("paysafecard", userobject,  paysafe_disposition.num_days_to_be_awarded, serial_numbers)
+
             else:
                 raise Exception('Paysafecard merchant_transaction_id: %s is already complete - why is it executing again?' % merchant_transaction_id )
         else:
