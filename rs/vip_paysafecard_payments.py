@@ -1,5 +1,5 @@
 import logging
-import sys
+import binascii
 import urllib
 import hashlib
 import string
@@ -122,7 +122,7 @@ def generate_paysafecard_data(request, owner_nid):
 
 def generate_hmac(unique_id):
     hmac_digest = hmac.new(site_configuration.PAYSAFE_HMAC_KEY, unique_id, hashlib.sha256).digest()
-    int_hash = int(hmac_digest.encode('hex'), 16)
+    int_hash = int(binascii.b2a_hex(hmac_digest), 16)
     string_hash = utils.base_encode(int_hash, base=encode_allowed_chars)
     # We need to shorten the hash because paysafecard doesn't accept more than 60 characters, and recommends
     # no more than 20 (which we will be over)
