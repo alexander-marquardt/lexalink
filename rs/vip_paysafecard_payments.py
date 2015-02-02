@@ -43,11 +43,14 @@ encode_dict = dict((c, i) for i, c in enumerate(encode_allowed_chars))
 
 # The following definitions ensure that if we want for example a maximum of 6 characters to be returned from
 # our random id postfix generator, then the 'largest' string generated will be 'ZZZZZZ'
-number_of_encoded_chars_to_generate = 6
+number_of_encoded_chars_to_generate = 8
 max_number_for_random_id_postfix = int(math.pow(len(encode_allowed_chars), number_of_encoded_chars_to_generate)) - 1
 # Find the minimum number that will result in the specified number of digits (this is only for aesthetics, and
 # is not really necessary, but it will result in each random number being the same number of digits in length)
 min_number_for_random_id_postfix = utils.base_decode('1' + '0'*(number_of_encoded_chars_to_generate-1), encode_dict)
+
+# we only send a portion of the hmac encoded digest as determined by hmac_num_chars
+hmac_num_chars = 6
 
 # During development, we are running from localhost which cannot recieve communications from the internet,
 # therefore, just send the notifications to the server that we are using for debugging paysafecard transactions.
@@ -126,7 +129,7 @@ def generate_hmac(unique_id):
     string_hash = utils.base_encode(int_hash, base=encode_allowed_chars)
     # We need to shorten the hash because paysafecard doesn't accept more than 60 characters, and recommends
     # no more than 20 (which we will be over)
-    short_hash = string_hash[:6]
+    short_hash = string_hash[:hmac_num_chars]
     return short_hash
 
 def get_random_number_string_for_transaction_id():
