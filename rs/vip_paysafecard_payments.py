@@ -364,8 +364,8 @@ def payment_notification(request):
 
 def transaction_ok(request):
 
-    message_to_display = ugettext("""Congratulations. Your payment was successful.
-    You will receive a message in a few moments confirming your VIP status.""")
+    message_to_display = ugettext("Congratulations. Your payment has been assigned.  We will now debit your card, "
+                                  "and you will receive a message in a few moments confirming your VIP status.")
 
     http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', {
         'message_to_display': message_to_display,
@@ -373,7 +373,8 @@ def transaction_ok(request):
     return http_response
 
 def transaction_nok(request):
-    message_to_display = ugettext("Sorry, we were unable to process your payment. VIP status has not been awarded.")
+    message_to_display = ugettext("Sorry, we were unable to process your payment. "
+                                  "You card will not be charged, and VIP status has not been awarded.")
     http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', {
         'message_to_display': message_to_display,
         })
