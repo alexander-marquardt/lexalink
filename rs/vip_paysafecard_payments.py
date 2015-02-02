@@ -62,6 +62,7 @@ vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices
 # # If we are testing paysafe, then get suds to output the server requests that it is making. Note, that
 # # if this is enabled on production servers, that it causes 4 "errors" to be displayed, but they do not
 # # appear to have any negative effects on processing of the payment.
+# import sys
 # if site_configuration.TESTING_PAYSAFECARD:
 #     handler = logging.StreamHandler(sys.stderr)
 #     logger = logging.getLogger('suds.transport.http')
