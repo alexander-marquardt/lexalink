@@ -35,7 +35,7 @@ $("#id-create-paysafecard-disposition").submit(function(e) {
         data: $(this).serialize(), // this should point to the form and serialize its data
         dataType: "json", // response type
         success: function (post_response) {
-            var page = "https://customer.test.at.paysafecard.com/psccustomer/GetCustomerPanelServlet?" +
+            var page = "{{ paysafecard_data.paysafecard_customer_panel_url }}?" +
                             "mid=" + post_response.merchant_id +
                             "&currency=" + post_response.currency_code +
                             "&mtid=" + post_response.merchant_transaction_id +

@@ -104,6 +104,12 @@ def generate_paysafecard_data(request, owner_nid):
             error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
             http_country_code = TESTING_COUNTRY
 
+
+        if site_configuration.TESTING_PAYSAFECARD:
+            paysafecard_customer_panel_url = settings.PAYSAFE_CUSTOMER_PANEL_TEST_URL
+        else:
+            paysafecard_customer_panel_url = settings.PAYSAFE_CUSTOMER_PANEL_URL
+
         internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paysafecard_valid_currencies)
 
         paysafecard_data = {}
@@ -112,6 +118,7 @@ def generate_paysafecard_data(request, owner_nid):
         paysafecard_data['country_override'] = TESTING_COUNTRY
         paysafecard_data['testing_paysafecard'] = site_configuration.TESTING_PAYSAFECARD
         paysafecard_data['radio_options'] = generate_paysafe_radio_options(internal_currency_code)
+        paysafecard_data['paysafecard_customer_panel_url'] = paysafecard_customer_panel_url
 
         return paysafecard_data
     except:
