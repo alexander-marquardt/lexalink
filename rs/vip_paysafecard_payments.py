@@ -24,6 +24,7 @@ from rs import utils
 from rs import utils_top_level
 from rs import vip_payments_common
 from rs import vip_status_support
+from rs import vip_paysafe_soap_messages
 
 from paysafe_card.client.src import SOPGClassicMerchantClient
 
@@ -194,30 +195,22 @@ def create_disposition(request):
         ok_url = urllib.quote('http://%s/paysafecard/ok_url/' % request.META['HTTP_HOST'], '')
         nok_url = urllib.quote('http://%s/paysafecard/nok_url/' % request.META['HTTP_HOST'], '')
 
-        # Don't see the reason for passing IP address, and it may be difficult to get accurately if passed throug
-        # proxies, etc. Set to None for now.
-        client_ip = None
-
-
 
         random_postfix = get_random_number_string_for_transaction_id()
         unique_id = str(nid) + '-' + random_postfix
         hmac_signature = generate_hmac(unique_id)
         merchant_transaction_id = unique_id + '-' + hmac_signature
 
-        client = SOPGClassicMerchantClient.SOPGClassicMerchantClient(wsdl_url, settings.PAYSAFE_ENDPOINT)
-        paysafecard_disposition_response = client.createDisposition(
+        paysafecard_disposition_response = vip_paysafe_soap_messages.create_disposition(
             username,
             password,
             merchant_transaction_id,
-            None,
             amount,
             currency_code,
             ok_url,
             nok_url,
             nid,
-            pn_url,
-            client_ip)
+            pn_url)
 
         logging.info('paysafecard_disposition_response: %s'  % repr(paysafecard_disposition_response))
 
