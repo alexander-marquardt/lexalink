@@ -1,7 +1,0 @@
-.hg
-.hgtags
-.project
-.pydevproject
-dist/
-build/
-*.pyc
