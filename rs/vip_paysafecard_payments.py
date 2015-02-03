@@ -59,23 +59,6 @@ development_payment_notification_server = 'http://paysafecard.romancesapp.appspo
 vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
 
-# # If we are testing paysafecard, then get suds to output the server requests that it is making. Note, that
-# # if this is enabled on production servers, that it causes 4 "errors" to be displayed, but they do not
-# # appear to have any negative effects on processing of the payment.
-# import sys
-# if site_configuration.TESTING_PAYSAFECARD:
-#     handler = logging.StreamHandler(sys.stderr)
-#     logger = logging.getLogger('suds.transport.http')
-#     logger.setLevel(logging.DEBUG), handler.setLevel(logging.DEBUG)
-#     logger.addHandler(handler)
-#
-#     class OutgoingFilter(logging.Filter):
-#         def filter(self, record):
-#             return record.msg.startswith('sending:')
-#
-#
-#     handler.addFilter(OutgoingFilter())
-
 if site_configuration.TESTING_PAYSAFECARD:
     username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
     password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
