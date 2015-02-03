@@ -21,13 +21,14 @@
 </form>
 
 <div id="id-paysafecard-purchase-dialog" style="display:none;"></div>
+<div class="cl-show-loading-spinner" style="display:none"></div>
 
 <script type="text/javascript">
 
 $("#id-create-paysafecard-disposition").submit(function(e) {
 
     // indicate that the next page is loading
-    $('#id-show-loading-spinner').show();
+    $('.cl-show-loading-spinner').show();
 
     var paysafe_card_disposition_url = "{% url paysafecard.create_disposition %}";
     $.ajax({
@@ -59,7 +60,7 @@ $("#id-create-paysafecard-disposition").submit(function(e) {
 
             // Only once the customer panel is loaded, hide the spinner
             $('#id-paysafe-iframe').load(function () {
-                $('#id-show-loading-spinner').hide();
+                $('.cl-show-loading-spinner').hide();
             })
 
         },
