@@ -59,7 +59,7 @@ development_payment_notification_server = 'http://paysafecard.romancesapp.appspo
 vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
 
-# # If we are testing paysafe, then get suds to output the server requests that it is making. Note, that
+# # If we are testing paysafecard, then get suds to output the server requests that it is making. Note, that
 # # if this is enabled on production servers, that it causes 4 "errors" to be displayed, but they do not
 # # appear to have any negative effects on processing of the payment.
 # import sys
@@ -310,7 +310,7 @@ def payment_notification(request):
                         merchant_transaction_id,
                         "paysafecard",
                         serial_numbers,
-                        "Lastname not available"):
+                        "Last name not available"):
 
                     vip_status_support.update_userobject_vip_status("paysafecard", userobject,  paysafe_disposition.num_days_to_be_awarded, serial_numbers)
 
