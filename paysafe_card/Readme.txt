@@ -1,3 +1,5 @@
+We are not using any of the functionality from this folder. This folder exists only to keep paysafecard documentation in one place. 
+
 This is a reference implementation of SOPG web service clients. There are separate clients for different kinds of users:
 - SOPGClassicMerchantClient - supports all classic merchant functionallity with following methods
   - createDisposition
