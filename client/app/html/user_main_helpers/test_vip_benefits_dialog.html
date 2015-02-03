@@ -104,25 +104,12 @@ function showOnlineStatusMainDialog() {
 function showAllVipBenefitsDialog() {
 
     $("#id-show_vip_benefits_dialog_box").html('<iframe id="id-show_vip_benefits-iframe" style="border: 0px;" ' +
-            'src="/rs/iframe_html/" width="100%" height="100%"></iframe>')
+            'src="/rs/vip_main_inside_iframe_html/" width="100%" height="100%"></iframe>')
     .dialog({
         width: '750',
         height: '850'
     });
     $("#id-show_vip_benefits_dialog_box").dialog('open');
-
-    // We use an iframe for the vip purchase window, since the VIP html is copied from
-    // other sections of the website that could potentially be displayed at the same time as the popup.
-    // This would create conflicting identifiers, and could confuse the javascript if it were not
-    // in a seperate iframe.
-    var body_html =  $("#id-become_a_vip").html();
-
-    $("iframe#id-show_vip_benefits-iframe").load(function () {
-        $body = $("iframe#id-show_vip_benefits-iframe").contents().find('body');
-        $body.html(body_html);
-        $body.css('background-color', 'white');
-        $body.css('background-image', 'none');
-    });
 }
 
 $(document).on("click",'.cl-see_all_vip_benefits', function(e) {

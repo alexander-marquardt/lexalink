@@ -41,6 +41,7 @@ import mailbox, login_utils
 import utils_top_level, sitemaps
 import error_reporting, text_fields
 from rs import profile_utils, track_viewers
+from rs import vip_render_purchase_options
 from django import http
 
 try:
@@ -319,8 +320,13 @@ def welcome_html():
     generated_html = template.render(context)    
     return generated_html
 
-def iframe_html(request):
-    return render_to_response('iframe_container.html', dict({}, **constants.template_common_fields))
+def vip_main_inside_iframe_html(request):
+    userobject = utils_top_level.get_userobject_from_request(request)
+    owner_nid = userobject.key.id();
+    purchase_buttons = vip_render_purchase_options.render_purchase_buttons(request, userobject.username, owner_nid)
+
+    return render_to_response('user_main_helpers/vip_main_inside_iframe_html.html',
+                              dict({'purchase_buttons':purchase_buttons}, **constants.template_common_fields))
 
 def welcome(request):
     # Displays the welcome information about the website (should probably change the name to
