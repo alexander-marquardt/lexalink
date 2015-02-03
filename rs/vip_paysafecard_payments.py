@@ -26,7 +26,6 @@ from rs import vip_payments_common
 from rs import vip_status_support
 from rs import vip_paysafe_soap_messages
 
-from paysafe_card.client.src import SOPGClassicMerchantClient
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
 TESTING_COUNTRY = 'ES'
@@ -173,28 +172,14 @@ def create_disposition(request):
         else:
             raise Exception("Paysafecard currency %s not handled by code" % currency_code)
 
-
-
-        # during development, request the wsdl document from the paysafecard servers, since
-        # requesting it locally appears to cause the development server to hang - likely due to
-        # a deadlock that occurs while waiting for localhost to respond to the request, but the
-        # request is not filled until the current request executes .. or something along those lines.
         if site_configuration.DEVELOPMENT_SERVER:
-            # running developement server, get the wsdl document directly from paysafe.
-            wsdl_url = settings.PAYSAFE_ENDPOINT + '?wsdl'
-
             # Give "real" URLs so that we can check if payment notifications are being received.
             pn_url = urllib.quote(development_payment_notification_server + '/paysafecard/payment_notification/', '')
-
         else:
-            # We are running on production server, get the wsdl document directly from the
-            # production server.
-            wsdl_url = 'http://%s/xml/paysafecard_wsdl.xml' % request.META['HTTP_HOST']
             pn_url = urllib.quote('http://%s/paysafecard/payment_notification/' % request.META['HTTP_HOST'], '')
 
         ok_url = urllib.quote('http://%s/paysafecard/ok_url/' % request.META['HTTP_HOST'], '')
         nok_url = urllib.quote('http://%s/paysafecard/nok_url/' % request.META['HTTP_HOST'], '')
-
 
         random_postfix = get_random_number_string_for_transaction_id()
         unique_id = str(nid) + '-' + random_postfix
@@ -295,24 +280,20 @@ def payment_notification(request):
         if paysafe_disposition:
             if not paysafe_disposition.transaction_completed:
 
-                wsdl_url = settings.PAYSAFE_ENDPOINT + '?wsdl'
-                client = SOPGClassicMerchantClient.SOPGClassicMerchantClient(wsdl_url, settings.PAYSAFE_ENDPOINT)
 
-                paysafecard_debit_response = client.executeDebit(
+                paysafecard_debit_response = vip_paysafe_soap_messages.execute_debit(
                     username,
                     password,
                     merchant_transaction_id,
-                    None, #subId
                     paysafe_disposition.transaction_amount,
                     paysafe_disposition.transaction_currency,
-                    1, # Close transaction
-                    None, # partialDebitId
+                    1  # Close transaction
                 )
 
                 logging.info('paysafecard_debit_response: %s' % repr(paysafecard_debit_response))
 
-                assert(paysafecard_debit_response['errorCode'] == 0)
-                assert(paysafecard_debit_response['resultCode'] == 0)
+                assert(int(paysafecard_debit_response['errorCode']) == 0)
+                assert(int(paysafecard_debit_response['resultCode']) == 0)
 
                 paysafe_disposition.transaction_completed = True
                 paysafe_disposition.serial_numbers = serial_numbers

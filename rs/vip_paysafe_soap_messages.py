@@ -49,6 +49,25 @@ disposition_keys_pattern = {}
 for key in disposition_expected_keys:
     disposition_keys_pattern[key] = re.compile(r'.*<ns1:%(key)s>(.*)</ns1:%(key)s>' % {'key': key})
 
+def get_soap_response(template_string, template_dict):
+
+    headers = {
+        'Content-Type': 'application/soap+xml; charset=utf-8'
+    }
+    soap_data = template_string.substitute(template_dict)
+    request = urllib2.Request(settings.PAYSAFE_ENDPOINT, soap_data, headers)
+    response = urllib2.urlopen(request)
+    soap_response = response.read()
+    return soap_response
+
+def parse_soap_response(soap_response, expected_keys, expected_keys_pattern):
+    response_dict = {}
+
+    for key in expected_keys:
+        response_dict[key] = expected_keys_pattern[key].match(soap_response).group(1)
+
+    return response_dict
+
 def create_disposition(
             username,
             password,
@@ -60,20 +79,48 @@ def create_disposition(
             merchant_client_id,
             pn_url):
 
-
-
     template_dict = locals()
-    headers = {
-        'Content-Type': 'application/soap+xml; charset=utf-8'
-    }
-    soap_data = DISPOSITION_TEMPLATE.substitute(template_dict)
-    request = urllib2.Request(settings.PAYSAFE_ENDPOINT, soap_data, headers)
-    response = urllib2.urlopen(request)
-    soap_response = response.read()
-
-    response_dict = {}
-
-    for key in disposition_expected_keys:
-        response_dict[key] = disposition_keys_pattern[key].match(soap_response).group(1)
+    soap_response = get_soap_response(DISPOSITION_TEMPLATE, template_dict)
+    response_dict = parse_soap_response(soap_response, disposition_expected_keys, disposition_keys_pattern)
 
     return response_dict
+
+
+EXECUTE_DEBIT_TEMPLATE = Template("""
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:urn="urn:pscservice">
+<soapenv:Header/>
+<soapenv:Body>
+<urn:executeDebit>
+<urn:username>$username</urn:username>
+<urn:password>$password</urn:password>
+<urn:mtid>$merchant_transaction_id</urn:mtid>
+<!--Zero or more repetitions:-->
+<urn:subId></urn:subId>
+<urn:amount>$transaction_amount</urn:amount>
+<urn:currency>$transaction_currency</urn:currency>
+<urn:close>$close_transaction</urn:close>
+</urn:executeDebit>
+</soapenv:Body>
+</soapenv:Envelope>
+""")
+
+execute_debit_expected_keys = ['errorCode', 'resultCode', 'mtid']
+execute_debit_keys_pattern = {}
+for key in execute_debit_expected_keys:
+    execute_debit_keys_pattern[key] = re.compile(r'.*<ns1:%(key)s>(.*)</ns1:%(key)s>' % {'key': key})
+
+def execute_debit(username,
+                  password,
+                  merchant_transaction_id,
+                  transaction_amount,
+                  transaction_currency,
+                  close_transaction):
+
+    template_dict = locals()
+    soap_response = get_soap_response(EXECUTE_DEBIT_TEMPLATE, template_dict)
+    response_dict = parse_soap_response(soap_response, execute_debit_expected_keys, execute_debit_keys_pattern)
+
+    return response_dict
+
+
