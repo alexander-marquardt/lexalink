@@ -319,8 +319,11 @@ def welcome_html():
     generated_html = template.render(context)    
     return generated_html
 
+def iframe_html(request):
+    return render_to_response('iframe_container.html', dict({}, **constants.template_common_fields))
+
 def welcome(request):
-    # Displays the welcome information about the website (shoud probably change the name to 
+    # Displays the welcome information about the website (should probably change the name to
     # "information" instead of  welcome ... 
 
     try:

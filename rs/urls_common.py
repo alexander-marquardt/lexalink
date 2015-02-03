@@ -49,6 +49,7 @@ urlpatterns = patterns('',
     
     url(r'^rs/welcome/$', views.welcome, name="views.welcome"),
     url(r'^rs/logout/$', views.logout, name="views.logout"),
+    url(r'^rs/iframe_html/$', views.iframe_html),
     url(r'^rs/terms/$', views.terms, name="views.terms"),    
     url(r'^rs/press/$', views.press, name="views.press"),
     (r'^rs/auth/crawler_login/$', views.crawler_login),
