@@ -103,13 +103,27 @@ function showOnlineStatusMainDialog() {
 
 function showAllVipBenefitsDialog(owner_nid) {
 
-    $("#id-show_vip_benefits_dialog_box").html('<iframe id="id-show_vip_benefits-iframe" style="border: 0px;" ' +
-            'src="/rs/vip_main_inside_iframe_html/' + owner_nid + '/" width="100%" height="100%"></iframe>')
+    $("#id-show_vip_benefits_dialog_box")
     .dialog({
         width: '750',
         height: '850'
     });
     $("#id-show_vip_benefits_dialog_box").dialog('open');
+
+    $('#id-show-loading-spinner').show();
+
+    $.ajax({
+        type: 'get',
+        url:  "/rs/vip_main_inside_iframe_html/" + owner_nid + "/",
+        success: function(data) {
+            {
+                $("#id-show_vip_benefits_dialog_box").html(data);
+            }
+        },
+        complete: function () {
+            $('#id-show-loading-spinner').hide();
+        }
+    });
 }
 
 $(document).on("click",'.cl-see_all_vip_benefits', function(e) {

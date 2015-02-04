@@ -325,7 +325,7 @@ def vip_main_inside_iframe_html(request, owner_nid):
     userobject = utils_top_level.get_userobject_from_nid(owner_nid)
     purchase_buttons = vip_render_purchase_options.render_purchase_buttons(request, userobject.username, owner_nid)
 
-    return render_to_response('user_main_helpers/vip_main_inside_iframe_html.html',
+    return render_to_response('user_main_helpers/vip_main.html',
                               dict({'purchase_buttons':purchase_buttons}, **constants.template_common_fields))
 
 def welcome(request):

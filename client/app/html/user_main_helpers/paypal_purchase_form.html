@@ -8,10 +8,10 @@
 
     <h1>Warning - PayPal sandbox code enabled</h1>
 
-    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <form id="id-paypal-payment-form" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
 {% else %}
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <form  id="id-paypal-payment-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 
 {% endif %}
         <input type="hidden" name="charset" value="utf-8">
@@ -37,6 +37,11 @@
 
     </form>
 
-
-
-
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#id-paypal-payment-form").submit(function (e) {
+        // remove the main vip benefits dialog box, as the user has now selected a payment
+        $("#id-show_vip_benefits_dialog_box").dialog('close');
+    });
+});
+</script>
