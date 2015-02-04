@@ -125,7 +125,10 @@ $(document).ready(function() {
                 <br><br>
                 <div class="grid_9 alpha omega cl-divider-line"></div>
                 <div class="grid_9 alpha omega">
-                    {% include "user_main_helpers/vip_main.html" %}
+                    <div class="cl-left-text cl-text-large-format"><br><br>
+                        {% blocktrans with app_name as app_name %}If you like {{ app_name }}, consider becoming a {% endblocktrans %}
+                        <strong><a class="cl-see_all_vip_benefits" href="#">{% trans 'VIP member' %}</a></strong>
+                    </div>
                 </div>
                 {% endif %}
 
