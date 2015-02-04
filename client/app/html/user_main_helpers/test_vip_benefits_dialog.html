@@ -114,7 +114,7 @@ function showAllVipBenefitsDialog(owner_nid) {
 
     $.ajax({
         type: 'get',
-        url:  "/rs/vip_main_inside_iframe_html/" + owner_nid + "/",
+        url:  "/rs/vip_purchase_main_html/" + owner_nid + "/",
         success: function(data) {
             {
                 $("#id-show_vip_benefits_dialog_box").html(data);

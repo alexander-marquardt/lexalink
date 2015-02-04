@@ -146,7 +146,7 @@ LOCALE_INDEPENDENT_PATHS = (
     re.compile(r'^/paypal/ipn/'),
     re.compile(r'^/paysafecard/'),
     re.compile(r'^/rs/apply_unused_vip_credits/'),
-    re.compile(r'^/rs/vip_main_inside_iframe_html/'),
+    re.compile(r'^/rs/vip_purchase_main_html/'),
     re.compile(r'^/rs/set_show_online_status_trial/'),
     re.compile(r'^/robots.txt'), 
     re.compile(r'^/_ah/'), 
