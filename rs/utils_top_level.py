@@ -87,7 +87,10 @@ def get_uid_from_request(request):
         return request.session['userobject_str']
     else:
         return None
-     
+
+def get_userobject_from_nid(nid):
+    userobject = ndb.Key('UserModel', long(nid)).get()
+    return userobject
      
 # Required for efficient memcaching: from http://blog.notdot.net/2009/9/Efficient-model-memcaching
 #Usage:

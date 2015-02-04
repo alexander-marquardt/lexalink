@@ -101,10 +101,10 @@ function showOnlineStatusMainDialog() {
     return false;
 }
 
-function showAllVipBenefitsDialog() {
+function showAllVipBenefitsDialog(owner_nid) {
 
     $("#id-show_vip_benefits_dialog_box").html('<iframe id="id-show_vip_benefits-iframe" style="border: 0px;" ' +
-            'src="/rs/vip_main_inside_iframe_html/" width="100%" height="100%"></iframe>')
+            'src="/rs/vip_main_inside_iframe_html/' + owner_nid + '/" width="100%" height="100%"></iframe>')
     .dialog({
         width: '750',
         height: '850'
@@ -113,7 +113,7 @@ function showAllVipBenefitsDialog() {
 }
 
 $(document).on("click",'.cl-see_all_vip_benefits', function(e) {
-    showAllVipBenefitsDialog();
+    showAllVipBenefitsDialog({{ primary_user_presentation_data_fields.owner_nid }});
     e.preventDefault();
 });
 

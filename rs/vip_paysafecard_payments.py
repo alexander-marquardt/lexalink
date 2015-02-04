@@ -143,9 +143,10 @@ def create_disposition(request):
 
     try:
 
-        uid = utils_top_level.get_uid_from_request(request)
-        nid = utils.get_nid_from_uid(uid)
-        user_key = ndb.Key('UserModel', long(nid))
+        # Note: do not pull the nid from the request, since this page may be shown on the logout when then user has
+        # already closed their session. Doing this gives us one last chance to get them to signup for a VIP membership.
+        owner_nid = request.POST.get('owner_nid', None); assert(owner_nid)
+        user_key = ndb.Key('UserModel', long(owner_nid))
 
         if request.method != 'POST':
             error_message = "create_disposition was not called with POST data"
@@ -172,7 +173,7 @@ def create_disposition(request):
         nok_url = urllib.quote('http://%s/paysafecard/nok_url/' % request.META['HTTP_HOST'], '')
 
         random_postfix = get_random_number_string_for_transaction_id()
-        unique_id = str(nid) + '-' + random_postfix
+        unique_id = str(owner_nid) + '-' + random_postfix
         hmac_signature = generate_hmac(unique_id)
         merchant_transaction_id = unique_id + '-' + hmac_signature
 
@@ -184,7 +185,7 @@ def create_disposition(request):
             currency_code,
             ok_url,
             nok_url,
-            nid,
+            owner_nid,
             pn_url)
 
         logging.info('paysafecard_disposition_response: %s'  % repr(paysafecard_disposition_response))
