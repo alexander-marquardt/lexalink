@@ -31,6 +31,7 @@ from rs import vip_paysafe_soap_messages
 TESTING_COUNTRY = 'ES'
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
+vip_paysafecard_valid_currencies = ['EUR']
 
 # The following are used for storing ints as a string, which will make them shorter. These correspond to paysafecard
 # documentation, which states that only  A-Z, a-z, 0-9, -(hyphen) and _ (underline) are allowed. We use

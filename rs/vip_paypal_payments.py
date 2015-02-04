@@ -44,7 +44,7 @@ from rs import vip_status_support
 from rs.localization_files import currency_by_country
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
-TESTING_COUNTRY = ''
+TESTING_COUNTRY = 'MX'
 
 
 # keep track of which currencies we currently support.
