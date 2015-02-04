@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-02 13:23-0500\n"
+"POT-Creation-Date: 2015-02-03 23:39-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -14,6 +14,15 @@ msgstr ""
 #: client/app/html/main_container.html:74
 msgid "You must enable JavaScript to view this page"
 msgstr "Tienes que habilitar JavaScript para usar esta pagina"
+
+#: client/app/html/main_container.html:129
+#, python-format
+msgid "If you like %(app_name)s, consider becoming a "
+msgstr "Si te gusta %(app_name)s puedes considerar hacerte "
+
+#: client/app/html/main_container.html:130 rs/constants.py:597
+msgid "VIP member"
+msgstr "miembro VIP"
 
 #: client/app/html/common_helpers/common_translations.html:4
 msgid "Captcha is incorrect, try again"
@@ -68,7 +77,7 @@ msgstr "contraseña"
 msgid "Enter"
 msgstr "Entrar"
 
-#: client/app/html/login_helpers/login.html:57 rs/utils.py:409
+#: client/app/html/login_helpers/login.html:57 rs/utils.py:407
 msgid "Have you forgotten your password?"
 msgstr "¿Has olvidado tu contraseña?"
 
@@ -209,15 +218,6 @@ msgstr ""
 "%(email)s</strong>.\n"
 "    "
 
-#: client/app/html/user_main_helpers/become_a_vip.html:37
-#, python-format
-msgid "If you like %(app_name)s, consider becoming a VIP member"
-msgstr "Si te gusta %(app_name)s puedes considerar hacerte miembro VIP"
-
-#: client/app/html/user_main_helpers/become_a_vip.html:44
-msgid "VIP benefits include"
-msgstr "Los beneficios VIP incluyen"
-
 #: client/app/html/user_main_helpers/chat.html:40
 msgid "Please enter the group name to create and join:"
 msgstr "Por favor escribe el nombre del grupo para crearlo y unirte a él:"
@@ -226,11 +226,6 @@ msgstr "Por favor escribe el nombre del grupo para crearlo y unirte a él:"
 #: client/app/html/user_main_helpers/translation_helper.html:87
 msgid "Create a group"
 msgstr "Crea un grupo"
-
-#: client/app/html/user_main_helpers/fortumo_purchase_form.html:11
-#: client/app/html/user_main_helpers/paypal_purchase_form.html:33
-msgid "Purchase"
-msgstr "Comprar"
 
 #: client/app/html/user_main_helpers/main_body.html:40
 msgid "Welcome"
@@ -365,7 +360,7 @@ msgstr ""
 msgid "My Profile"
 msgstr "Mi Perfil"
 
-#: client/app/html/user_main_helpers/menubar.html:115 rs/email_utils.py:584
+#: client/app/html/user_main_helpers/menubar.html:115 rs/email_utils.py:580
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -417,6 +412,11 @@ msgstr "Salir"
 #: client/app/html/user_main_helpers/paypal_purchase_form.html:23
 msgid "VIP Membership"
 msgstr "Membresía VIP"
+
+#: client/app/html/user_main_helpers/paypal_purchase_form.html:33
+#: client/app/html/user_main_helpers/paysafecard_purchase_form.html:19
+msgid "Purchase"
+msgstr "Comprar"
 
 #: client/app/html/user_main_helpers/photo_rules.html:3
 msgid "Rules:"
@@ -489,13 +489,13 @@ msgstr "Guardar cambios"
 msgid "View photo upload rules"
 msgstr "Ver las reglas para fotos"
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:23
+#: client/app/html/user_main_helpers/purchase_buttons.html:22
 msgid "Purchase VIP status with a credit or debit card"
 msgstr "Compra estado VIP con una tarjeta de crédito o débito"
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:29
-#: client/app/html/user_main_helpers/purchase_buttons.html:56
-#: client/app/html/user_main_helpers/purchase_buttons.html:73
+#: client/app/html/user_main_helpers/purchase_buttons.html:28
+#: client/app/html/user_main_helpers/purchase_buttons.html:55
+#: client/app/html/user_main_helpers/purchase_buttons.html:72
 msgid ""
 "\n"
 "        This is a one-time VIP membership payment that does not "
@@ -506,7 +506,7 @@ msgstr ""
 "Este es un pago de membresía VIP de una sola vez que no se renueva "
 "automáticamente."
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:34
+#: client/app/html/user_main_helpers/purchase_buttons.html:33
 msgid ""
 "\n"
 "        Credit and debit card payments are processed by PayPal, an eBay "
@@ -519,7 +519,7 @@ msgstr ""
 "grandes del mundo.\n"
 "        "
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:40
+#: client/app/html/user_main_helpers/purchase_buttons.html:39
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit or debit card you "
@@ -532,13 +532,15 @@ msgstr ""
 "débito, se te cobrará con un nombre discreto que sería difícil de vincular a "
 "%(app_name)s."
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:49
+#: client/app/html/user_main_helpers/purchase_buttons.html:48
 msgid "Purchase VIP status with a PayPal account"
 msgstr "Compra estado VIP con una cuenta de PayPal"
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:67
-msgid "Purchase VIP status by sending an SMS from your mobile phone"
-msgstr "Compra estado VIP por enviar un SMS desde tu teléfono móvil"
+#: client/app/html/user_main_helpers/purchase_buttons.html:64
+msgid ""
+"Purchase VIP status with a PaySafeCard.\n"
+"            Available at a location near you."
+msgstr ""
 
 #: client/app/html/user_main_helpers/search_inline_javascript.html:38
 msgid "All Regions"
@@ -607,7 +609,7 @@ msgstr ""
 "miembros."
 
 #: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:34
-#: rs/store_data.py:1053
+#: rs/store_data.py:1046
 msgid "See VIP benefits"
 msgstr "Ver beneficios VIP"
 
@@ -804,6 +806,15 @@ msgstr ""
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
 
+#: client/app/html/user_main_helpers/vip_purchase_main.html:37
+#, python-format
+msgid "If you like %(app_name)s, consider becoming a VIP member"
+msgstr "Si te gusta %(app_name)s puedes considerar hacerte miembro VIP"
+
+#: client/app/html/user_main_helpers/vip_purchase_main.html:44
+msgid "VIP benefits include"
+msgstr "Los beneficios VIP incluyen"
+
 #: client/app/proprietary/html/proprietary_ads/RS_VIP_for_all_1.html:10
 msgid "Become a VIP member, and get up to 20x more dates"
 msgstr "Hazte miembro VIP para conseguir hasta 20 veces mas citas"
@@ -832,7 +843,7 @@ msgid "Meet new friends"
 msgstr "Conocer amigos nuevos"
 
 #: client/app/proprietary/html/proprietary_ads/friend_build.html:30
-#: rs/utils.py:1825 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1724 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -865,7 +876,7 @@ msgid "100 percent free lesbian dating"
 msgstr "100% gratis - contactos y buscar pareja para lesbianas"
 
 #: client/app/proprietary/html/proprietary_ads/mature_build.html:14
-#: rs/constants.py:483 rs/proprietary/search_engine_overrides.py:81
+#: rs/constants.py:484 rs/proprietary/search_engine_overrides.py:81
 msgid "dating website to meet mature adults over 40 years old"
 msgstr "sitio web para conocer adultos mayores de 40 años"
 
@@ -973,7 +984,7 @@ msgstr "jul"
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:363
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:372
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:862
-#: rs/constants.py:754
+#: rs/constants.py:755
 msgid "May"
 msgstr "mayo"
 
@@ -1408,8 +1419,8 @@ msgstr ""
 "Ya sois \"Chats amigos\" y verás a este contacto en tu lista de chat cuando "
 "este conectado"
 
-#: rs/ajax.py:736 rs/forms.py:1097 rs/login.py:763 rs/messages.py:519
-#: rs/rendering.py:431 rs/utils.py:1539
+#: rs/ajax.py:736 rs/forms.py:1084 rs/login.py:763 rs/messages.py:519
+#: rs/rendering.py:435 rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -1434,7 +1445,7 @@ msgstr "Mis datos"
 msgid "More details about me"
 msgstr "Más datos sobre mí"
 
-#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:152
+#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:160
 #: rs/user_profile_details.py:205
 msgid "Languages I speak"
 msgstr "Idiomas que hablo"
@@ -1443,7 +1454,7 @@ msgstr "Idiomas que hablo"
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: rs/callbacks_from_html.py:128 rs/rendering.py:222
+#: rs/callbacks_from_html.py:128 rs/rendering.py:229
 msgid "About myself and what I am looking for"
 msgstr "Descripción sobre mí y lo que estoy buscando"
 
@@ -1525,43 +1536,39 @@ msgstr "Error - parece que tu session ha expirado"
 msgid "(Offline)"
 msgstr "(Desconectado)"
 
-#: rs/constants.py:452
+#: rs/constants.py:453
 msgid "Your very own dating website"
 msgstr ""
 
-#: rs/constants.py:457
+#: rs/constants.py:458
 msgid "confidential dating website"
 msgstr "sitio de contactos confidenciales"
 
-#: rs/constants.py:462
+#: rs/constants.py:463
 msgid "serious dating website"
 msgstr "sitio para encuentros serios"
 
-#: rs/constants.py:465
+#: rs/constants.py:466
 msgid "website to learn languages and meet people"
 msgstr "sitio para aprender idiomas y conocer gente"
 
-#: rs/constants.py:468
+#: rs/constants.py:469
 msgid "lesbian dating website"
 msgstr "sitio de contactos para lesbianas."
 
-#: rs/constants.py:472
+#: rs/constants.py:473
 msgid "gay dating website"
 msgstr "sitio de contactos para gays"
 
-#: rs/constants.py:476
+#: rs/constants.py:477
 msgid "swingers website"
 msgstr "sitio para parejas liberales"
 
-#: rs/constants.py:480
+#: rs/constants.py:481
 msgid "website to meet people and make friends"
 msgstr "sitio para conocer gente y hacer amigos"
 
-#: rs/constants.py:596
-msgid "VIP member"
-msgstr "miembro VIP"
-
-#: rs/constants.py:603
+#: rs/constants.py:604
 msgid ""
 "<strong>Username</strong> can only contain letters and numbers, and must not "
 "contain spaces."
@@ -1569,15 +1576,15 @@ msgstr ""
 "<strong>Nick</strong> sólo puede tener caracters alfabéticos y/o números, y "
 "no debe tener espacios."
 
-#: rs/constants.py:604
+#: rs/constants.py:605
 msgid "<strong>Username</strong> needs at least 3 characters."
 msgstr "<strong>Nick</strong> necesita por lo menos 3 carácteres."
 
-#: rs/constants.py:605
+#: rs/constants.py:606
 msgid "<strong>Password</strong> required"
 msgstr "<strong>Contraseña</strong> es obligatoria"
 
-#: rs/constants.py:606
+#: rs/constants.py:607
 msgid ""
 "The <strong>Password</strong> and the <strong>Verification Password</strong> "
 "must be the same."
@@ -1585,21 +1592,21 @@ msgstr ""
 "La <strong>Contraseña</strong> y <strong>Verificar Contraseña</strong> "
 "tienen que ser lo mismo."
 
-#: rs/constants.py:607
+#: rs/constants.py:608
 msgid "The <strong>Username</strong> that you have selected is not available."
 msgstr "El <strong>Nick</strong> que has elegido no está disponible."
 
-#: rs/constants.py:608
+#: rs/constants.py:609
 msgid "<strong>Username/email + Password</strong> is incorrect"
 msgstr ""
 "La combinación de <strong>Nick/correo electrónico + contraseña</strong> es "
 "incorrecta."
 
-#: rs/constants.py:609
+#: rs/constants.py:610
 msgid "The <strong>Email Address</strong> is not valid"
 msgstr "El <strong>correo electrónico</strong> entrado no es válido."
 
-#: rs/constants.py:618
+#: rs/constants.py:619
 #, python-format
 msgid ""
 "\n"
@@ -1620,7 +1627,7 @@ msgstr ""
 "el otro usuario se convierte en un \"chat amigo\" tuyo , podrás enviarle "
 "hasta %(chat_friend_num)s mensajes cada %(hours)s horas. <br><br>"
 
-#: rs/constants.py:629
+#: rs/constants.py:630
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member each %(hours)s-hour "
@@ -1629,7 +1636,7 @@ msgstr ""
 "Sólo puedes enviar %(guest_num)s mensajes a cada miembro en un periodo de "
 "%(hours)s horas. <br><br>"
 
-#: rs/constants.py:633
+#: rs/constants.py:634
 #, python-format
 msgid ""
 "As a VIP member, you can send up to %(vip_num)s messages to each member in "
@@ -1639,13 +1646,13 @@ msgstr ""
 "Como miembro VIP, puedes enviar hasta %(vip_num)s mensajes a cada miembro en "
 "un período de %(hours)s horas. Ya has llegado a este límite.<br><br>"
 
-#: rs/constants.py:638
+#: rs/constants.py:639
 #, python-format
 msgid ""
 "You can send more messages to this member %(txt_for_when_quota_resets)s."
 msgstr "Puedes enviar más mensajes a este socio %(txt_for_when_quota_resets)s."
 
-#: rs/constants.py:646
+#: rs/constants.py:647
 msgid ""
 "You must register for a <strong>free account</strong> in order to contact "
 "our members. "
@@ -1653,227 +1660,227 @@ msgstr ""
 "Tienes que registrarte para una <strong>cuenta gratuita</strong> para "
 "ponerte en contacto con nuestros miembros."
 
-#: rs/constants.py:671
+#: rs/constants.py:672
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:673
+#: rs/constants.py:674
 msgid "sent (singular)"
 msgstr "enviado"
 
-#: rs/constants.py:674
+#: rs/constants.py:675
 msgid "received (singluar)"
 msgstr "recibido"
 
-#: rs/constants.py:675
+#: rs/constants.py:676
 msgid "saved (singular)"
 msgstr "guardado"
 
-#: rs/constants.py:676
+#: rs/constants.py:677
 msgid "confirmed (singular)"
 msgstr "confirmado"
 
-#: rs/constants.py:682 rs/messages.py:367
+#: rs/constants.py:683 rs/messages.py:367
 msgid "sent (plural)"
 msgstr "enviados"
 
-#: rs/constants.py:682
+#: rs/constants.py:683
 msgid "Sent (plural)"
 msgstr "Enviados"
 
-#: rs/constants.py:683
+#: rs/constants.py:684
 msgid "received (plural)"
 msgstr "recibidos"
 
-#: rs/constants.py:683
+#: rs/constants.py:684
 msgid "Received (plural)"
 msgstr "Recibidos"
 
-#: rs/constants.py:684
+#: rs/constants.py:685
 msgid "saved (plural)"
 msgstr "guardados"
 
-#: rs/constants.py:684
+#: rs/constants.py:685
 msgid "Saved (plural)"
 msgstr "Guardados"
 
-#: rs/constants.py:685
+#: rs/constants.py:686
 msgid "confirmed (plural)"
 msgstr "confirmados"
 
-#: rs/constants.py:685
+#: rs/constants.py:686
 msgid "Confirmed (plural)"
 msgstr "Confirmados"
 
-#: rs/constants.py:690
+#: rs/constants.py:691
 msgid "sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:690
+#: rs/constants.py:691
 msgid "Sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:691
+#: rs/constants.py:692
 msgid "received (plural feminine)"
 msgstr "recibidas"
 
-#: rs/constants.py:691
+#: rs/constants.py:692
 msgid "Received (plural feminine)"
 msgstr "Recibidas"
 
-#: rs/constants.py:692
+#: rs/constants.py:693
 msgid "saved (plural feminine)"
 msgstr "guardadas"
 
-#: rs/constants.py:692
+#: rs/constants.py:693
 msgid "Saved (plural feminine)"
 msgstr "Guardadas"
 
-#: rs/constants.py:693
+#: rs/constants.py:694
 msgid "confirmed (plural feminine)"
 msgstr "confirmadas"
 
-#: rs/constants.py:693
+#: rs/constants.py:694
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmadas"
 
-#: rs/constants.py:698
+#: rs/constants.py:699
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:699
+#: rs/constants.py:700
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:700
+#: rs/constants.py:701
 msgid "Greeting"
 msgstr "Saludo"
 
-#: rs/constants.py:702
+#: rs/constants.py:703
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:703
+#: rs/constants.py:704
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:704
+#: rs/constants.py:705
 msgid "Wink"
 msgstr "Guiño"
 
-#: rs/constants.py:707
+#: rs/constants.py:708
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:709
+#: rs/constants.py:710
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:710
+#: rs/constants.py:711
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:711
+#: rs/constants.py:712
 msgid "Chat friends"
 msgstr "Chats amigos"
 
-#: rs/constants.py:712
+#: rs/constants.py:713
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:717
+#: rs/constants.py:718
 msgid "My favorite"
 msgstr "Mi Favorito"
 
-#: rs/constants.py:719
+#: rs/constants.py:720
 msgid "Kiss"
 msgstr "Beso"
 
-#: rs/constants.py:720
+#: rs/constants.py:721
 msgid "Key"
 msgstr "Llave"
 
-#: rs/constants.py:721
+#: rs/constants.py:722
 msgid "Chat friend"
 msgstr "Amigo de chat"
 
-#: rs/constants.py:722
+#: rs/constants.py:723
 msgid "Blocked (singular)"
 msgstr "Bloqueado"
 
-#: rs/constants.py:726
+#: rs/constants.py:727
 msgid "Chat requests sent"
 msgstr "Chats amigos pedidos"
 
-#: rs/constants.py:727
+#: rs/constants.py:728
 msgid "Chat requests received"
 msgstr "Chats amigos recibidos"
 
-#: rs/constants.py:728
+#: rs/constants.py:729
 msgid "Chat connections confirmed"
 msgstr "Chats amigos confirmados"
 
-#: rs/constants.py:732
+#: rs/constants.py:733
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:734
+#: rs/constants.py:735
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:735
+#: rs/constants.py:736
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:736
+#: rs/constants.py:737
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:737
+#: rs/constants.py:738
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automáticamente)"
 
-#: rs/constants.py:750
+#: rs/constants.py:751
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:751
+#: rs/constants.py:752
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:752
+#: rs/constants.py:753
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:753
+#: rs/constants.py:754
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:755
+#: rs/constants.py:756
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:756
+#: rs/constants.py:757
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:757
+#: rs/constants.py:758
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:758
+#: rs/constants.py:759
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:759
+#: rs/constants.py:760
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:760
+#: rs/constants.py:761
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:761
+#: rs/constants.py:762
 msgid "December"
 msgstr "diciembre"
 
@@ -1882,38 +1889,38 @@ msgstr "diciembre"
 msgid "You do not have any \"%(title)s\" yet"
 msgstr "Todavía no tienes \"%(title)s\""
 
-#: rs/display_profiles_summary.py:96
+#: rs/display_profiles_summary.py:104
 #, python-format
 msgid "Click here to see more of %s"
 msgstr "Haz clic aquí para ver más de %s"
 
-#: rs/display_profiles_summary.py:122
+#: rs/display_profiles_summary.py:130
 msgid "About me"
 msgstr "Sobre mí"
 
-#: rs/display_profiles_summary.py:158
+#: rs/display_profiles_summary.py:166
 msgid "Native language"
 msgstr "Idioma materno"
 
-#: rs/display_profiles_summary.py:216
+#: rs/display_profiles_summary.py:224
 msgid "Last entrance"
 msgstr "Última entrada"
 
-#: rs/display_profiles_summary.py:309 rs/display_profiles_summary.py:321
+#: rs/display_profiles_summary.py:317 rs/display_profiles_summary.py:329
 #: rs/mailbox.py:993
 msgid "Next"
 msgstr "Siguiente"
 
-#: rs/email_utils.py:64 rs/email_utils.py:650
+#: rs/email_utils.py:60 rs/email_utils.py:646
 msgid "Cheers"
 msgstr "Un Saludo"
 
-#: rs/email_utils.py:71
+#: rs/email_utils.py:67
 #, python-format
 msgid "This account has been requested from the IP address: %(remoteip)s."
 msgstr "Esta cuenta se ha pedido desde la dirección IP: %(remoteip)s."
 
-#: rs/email_utils.py:78
+#: rs/email_utils.py:74
 #, python-format
 msgid "Someone with the IP address: %(remoteip)s has requested this."
 msgstr ""
@@ -1923,22 +1930,22 @@ msgstr ""
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: rs/email_utils.py:225 rs/reset_password.py:80
+#: rs/email_utils.py:221 rs/reset_password.py:80
 msgid "New password"
 msgstr "Contraseña nueva"
 
-#: rs/email_utils.py:230 rs/email_utils.py:288 rs/email_utils.py:367
-#: rs/email_utils.py:649 rs/login_utils.py:625 rs/login_utils.py:651
+#: rs/email_utils.py:226 rs/email_utils.py:284 rs/email_utils.py:363
+#: rs/email_utils.py:645 rs/login_utils.py:625 rs/login_utils.py:651
 #, python-format
 msgid "Hello %(username)s"
 msgstr "Hola %(username)s"
 
-#: rs/email_utils.py:231
+#: rs/email_utils.py:227
 #, python-format
 msgid "Your new password is: %(new_password)s"
 msgstr "Tu contraseña nueva es: %(new_password)s"
 
-#: rs/email_utils.py:232
+#: rs/email_utils.py:228
 #, python-format
 msgid ""
 "If you have not requested a new password, you can continue to use "
@@ -1948,7 +1955,7 @@ msgstr ""
 "Si no has pedido este cambio, puedes seguir usando %(app_name)s con tu "
 "contraseña actual y la contraseña nueva será automáticamente borrada"
 
-#: rs/email_utils.py:235
+#: rs/email_utils.py:231
 msgid ""
 "If you decide to use the new password, it is recomendable that you change it "
 "in the administrative section of your profile"
@@ -1956,32 +1963,32 @@ msgstr ""
 "Si entras con la contraseña nueva, es recomendable que la cambies en la "
 "sección administrativa de tu perfil"
 
-#: rs/email_utils.py:289
+#: rs/email_utils.py:285
 msgid "Are you sure you want to eliminate your account?"
 msgstr "¿Estás seguro que quieres eliminar tu perfil?"
 
-#: rs/email_utils.py:296
+#: rs/email_utils.py:292
 msgid "Yes"
 msgstr ""
 
-#: rs/email_utils.py:296
+#: rs/email_utils.py:292
 msgid "No"
 msgstr "No"
 
-#: rs/email_utils.py:298 rs/login_utils.py:491
+#: rs/email_utils.py:294 rs/login_utils.py:491
 msgid "Error - Not authorized"
 msgstr "Error - No autorizado"
 
-#: rs/email_utils.py:307
+#: rs/email_utils.py:303
 #, python-format
 msgid "Nick: %(username)s not found - have you already deleted it?"
 msgstr "Nick: %(username)s no ha sido encontrado - ¿ya lo has elíminado?"
 
-#: rs/email_utils.py:368
+#: rs/email_utils.py:364
 msgid "We have changed your notification options to"
 msgstr "Hemos cambiado tus opciones de privacidad de correo electrónico a"
 
-#: rs/email_utils.py:373
+#: rs/email_utils.py:369
 #, python-format
 msgid ""
 "Error: we have not been able to change the notification options for "
@@ -1990,7 +1997,7 @@ msgstr ""
 "Error: no hemos podido cambiar las opciones de privacidad para usuario "
 "%(username)s"
 
-#: rs/email_utils.py:375
+#: rs/email_utils.py:371
 #, python-format
 msgid ""
 "You can change your notification settings by entering into %(link_to_build)s "
@@ -1999,15 +2006,15 @@ msgstr ""
 "Puedes cambiar tus opciones de notificaciones dentro de  %(link_to_build)s "
 "por modificar tu perfil directamente"
 
-#: rs/email_utils.py:424 rs/user_profile_details.py:226
+#: rs/email_utils.py:420 rs/user_profile_details.py:226
 msgid "Email notification settings"
 msgstr "Opciones de notificación de correo electrónico"
 
-#: rs/email_utils.py:425
+#: rs/email_utils.py:421
 msgid "You have currently selected"
 msgstr "Actualmente has elegido"
 
-#: rs/email_utils.py:427
+#: rs/email_utils.py:423
 msgid ""
 "You can change this option by clicking on one of the options below, or by "
 "directly modifying \"My profile\" in"
@@ -2015,46 +2022,46 @@ msgstr ""
 "Puedes cambiar esta opción haciendo clic en una de las opciones debajo o "
 "directamente modificando \"Mi perfil\" dentro de"
 
-#: rs/email_utils.py:438
+#: rs/email_utils.py:434
 msgid "Option"
 msgstr "Opción"
 
-#: rs/email_utils.py:443
+#: rs/email_utils.py:439
 msgid "Would you like to eliminate the profile of"
 msgstr "¿Quieres eliminar el perfil de"
 
-#: rs/email_utils.py:447 rs/utils.py:412
+#: rs/email_utils.py:443 rs/utils.py:410
 msgid "Here"
 msgstr "Aquí"
 
-#: rs/email_utils.py:449
+#: rs/email_utils.py:445
 msgid "you can eliminate it"
 msgstr "puedes eliminarlo"
 
-#: rs/email_utils.py:514
+#: rs/email_utils.py:510
 msgid "violet"
 msgstr "violeta"
 
-#: rs/email_utils.py:516
+#: rs/email_utils.py:512
 msgid "gray"
 msgstr "gris"
 
-#: rs/email_utils.py:519
+#: rs/email_utils.py:515
 msgid "green"
 msgstr "verde"
 
-#: rs/email_utils.py:572
+#: rs/email_utils.py:568
 #, python-format
 msgid "You have <strong>%(num_mail)s new/unread message</strong> "
 msgid_plural "You have <strong>%(num_mail)s new/unread messages</strong>"
 msgstr[0] "Tienes <strong>%(num_mail)s mensaje nuevo/no leído</strong>"
 msgstr[1] "Tienes <strong>%(num_mail)s mensajes nuevos/no leídos</strong>"
 
-#: rs/email_utils.py:581
+#: rs/email_utils.py:577
 msgid "You can read your messages after entering in"
 msgstr "Puedes leer tus mensajes después de entrar en"
 
-#: rs/email_utils.py:583 rs/email_utils.py:628
+#: rs/email_utils.py:579 rs/email_utils.py:624
 #, python-format
 msgid ""
 "by clicking on \"%(field)s\" in the %(bar_color)s bar just below the logo of "
@@ -2063,7 +2070,7 @@ msgstr ""
 "haciendo clic en \"%(field)s\" en la barra %(bar_color)s justo debajo del "
 "logo de %(app_name)s"
 
-#: rs/email_utils.py:585
+#: rs/email_utils.py:581
 msgid ""
 "You can mark the new messages as \"read\" by opening (clicking on) each "
 "message, or by marking the checkbox beside multiple messages and clicking "
@@ -2073,92 +2080,92 @@ msgstr ""
 "bien marcando las casillas de selección de los mensajes y haciendo clic en "
 "\"Marcar como leído\""
 
-#: rs/email_utils.py:605
+#: rs/email_utils.py:601
 msgid "Additionally, you have received"
 msgstr "Además, has recibido"
 
-#: rs/email_utils.py:607
+#: rs/email_utils.py:603
 msgid "You have received"
 msgstr "Has recibido"
 
-#: rs/email_utils.py:620
+#: rs/email_utils.py:616
 msgid "and"
 msgstr "y"
 
-#: rs/email_utils.py:626
+#: rs/email_utils.py:622
 #, python-format
 msgid "You can see who has contacted you in %(link_to_build)s"
 msgstr "Puedes ver quién te ha contactado en %(link_to_build)s"
 
-#: rs/email_utils.py:629 rs/menubar.py:102 rs/profile_utils.py:100
+#: rs/email_utils.py:625 rs/menubar.py:102 rs/profile_utils.py:106
 msgid "Contacts"
 msgstr "Contactos"
 
-#: rs/email_utils.py:635
+#: rs/email_utils.py:631
 msgid "New messages and new contacts"
 msgstr "Nuevos mensajes y contactos nuevos"
 
-#: rs/email_utils.py:638
+#: rs/email_utils.py:634
 msgid "New messages"
 msgstr "Nuevos mensajes"
 
-#: rs/email_utils.py:641
+#: rs/email_utils.py:637
 msgid "New contacts"
 msgstr "Contactos nuevos"
 
-#: rs/forms.py:103
+#: rs/forms.py:90
 msgid "Warning"
 msgstr "Atención"
 
-#: rs/forms.py:295
+#: rs/forms.py:282
 msgid "See profile of:"
 msgstr "Ver perfil y contactar con:"
 
-#: rs/forms.py:310
+#: rs/forms.py:297
 msgid "Eliminated"
 msgstr "Eliminado"
 
-#: rs/forms.py:312 rs/forms.py:475
+#: rs/forms.py:299 rs/forms.py:462
 msgid "Approving (within 24 hours)"
 msgstr "Aprobando (dentro de 24 horas)"
 
-#: rs/forms.py:396
+#: rs/forms.py:383
 msgid "Erase photo"
 msgstr "Borrar&nbsp;foto"
 
-#: rs/forms.py:397
+#: rs/forms.py:384
 msgid "Photo is private"
 msgstr "La foto es privada"
 
-#: rs/forms.py:398
+#: rs/forms.py:385
 msgid "Principal photo (public)"
 msgstr "Foto&nbsp;principal&nbsp;(pública)"
 
-#: rs/forms.py:448
+#: rs/forms.py:435
 msgid "Public (feminine)"
 msgstr "Pública"
 
-#: rs/forms.py:457
+#: rs/forms.py:444
 msgid "Approving photo for public (within 24 hours)"
 msgstr "Aprobando para ser pública (dentro de 24 horas)"
 
-#: rs/forms.py:466
+#: rs/forms.py:453
 msgid "Private photo"
 msgstr "¡Privada! Necesitas su&nbsp;llave"
 
-#: rs/forms.py:471
+#: rs/forms.py:458
 msgid "They need your key"
 msgstr "Privada (necesitan tu&nbsp;llave)"
 
-#: rs/forms.py:503
+#: rs/forms.py:490
 msgid "Photo"
 msgstr "Foto"
 
-#: rs/forms.py:558
+#: rs/forms.py:545
 msgid "No primary photo"
 msgstr "Sin&nbsp;foto&nbsp;principal"
 
-#: rs/forms.py:858
+#: rs/forms.py:845
 msgid ""
 "If you cannot read the words in the \"captcha\", you can select other words "
 "by clicking on the symbol"
@@ -2166,31 +2173,31 @@ msgstr ""
 "Si no puedes leer las palabras en la \"captcha\", puedes elegir otras "
 "palabras haciendo clic en el símbolo"
 
-#: rs/forms.py:859
+#: rs/forms.py:846
 msgid "inside the \"captcha\""
 msgstr "dentro de la \"captcha\""
 
-#: rs/forms.py:915
+#: rs/forms.py:902
 msgid "Remove report"
 msgstr "Quitar denuncia"
 
-#: rs/forms.py:917
+#: rs/forms.py:904
 msgid "Report this profile"
 msgstr "Denunciar este perfil"
 
-#: rs/forms.py:1030
+#: rs/forms.py:1017
 msgid "Sent correctly"
 msgstr "Enviado correctamente"
 
-#: rs/forms.py:1031
+#: rs/forms.py:1018
 msgid "Not sent, try again"
 msgstr "No enviado, intentalo de nuevo"
 
-#: rs/forms.py:1064
+#: rs/forms.py:1051
 msgid "Before sending it!"
 msgstr "¡Antes de enviarlo!"
 
-#: rs/forms.py:1065
+#: rs/forms.py:1052
 msgid ""
 "Are you what they have specified that they are looking for? Have you written "
 "something intelligent and related to their profile ... something more than "
@@ -2200,31 +2207,31 @@ msgstr ""
 "su perfil, algo más que \"Hola guapa ¿qué tal?\"? Si no, tu cuenta podría "
 "ser marcada como spam."
 
-#: rs/forms.py:1079
+#: rs/forms.py:1066
 msgid "Send message"
 msgstr "Enviar mensaje"
 
-#: rs/forms.py:1142
+#: rs/forms.py:1129
 msgid "Verify"
 msgstr "Verificar"
 
-#: rs/forms.py:1203 rs/forms.py:1284
+#: rs/forms.py:1190 rs/forms.py:1271
 msgid "Search Box"
 msgstr "El Buscador"
 
-#: rs/forms.py:1204
+#: rs/forms.py:1191
 msgid "Specify the profiles that you would like to see"
 msgstr "Especifica los perfiles que te gustaría ver"
 
-#: rs/forms.py:1249 rs/forms.py:1281
+#: rs/forms.py:1236 rs/forms.py:1268
 msgid "Search"
 msgstr "Buscar"
 
-#: rs/forms.py:1276
+#: rs/forms.py:1263
 msgid "Username to search for"
 msgstr "Nombre de usuario a buscar"
 
-#: rs/forms.py:1285
+#: rs/forms.py:1272
 msgid "Specify the username that you would like to see"
 msgstr "Especifica el nombre del usuario que te gustaría ver"
 
@@ -3657,7 +3664,7 @@ msgstr "Tienes que seleccionar <strong>%(field_label)s</strong>"
 msgid "We have deleted the profile of"
 msgstr "Hemos eliminado el perfil de"
 
-#: rs/login_utils.py:457 rs/login_utils.py:494 rs/views.py:386
+#: rs/login_utils.py:457 rs/login_utils.py:494 rs/views.py:372
 msgid "You have exited"
 msgstr "Has salido"
 
@@ -3927,7 +3934,7 @@ msgstr ""
 msgid "Congratulations, you are now a VIP member until %(date)s."
 msgstr "Felicidades, ya eres un miembro VIP hasta %(date)s."
 
-#: rs/profile_utils.py:108
+#: rs/profile_utils.py:114
 #, python-format
 msgid ""
 "%(relationship_status)s%(sex)sSeeking%(extra_detail)s%(preference)sIn"
@@ -3936,11 +3943,11 @@ msgstr ""
 "%(sex)s%(relationship_status)sBusca%(preference)s%(extra_detail)sEn"
 "%(location)s"
 
-#: rs/profile_utils.py:116 rs/profile_utils.py:117 rs/utils_top_level.py:149
+#: rs/profile_utils.py:122 rs/profile_utils.py:123 rs/utils_top_level.py:134
 msgid "Lesbian"
 msgstr "Lesbiana"
 
-#: rs/profile_utils.py:122
+#: rs/profile_utils.py:128
 #, python-format
 msgid ""
 "%(sex)sSeeking%(extra_detail)s%(preference)sFor %(relationship_status)s In "
@@ -3949,7 +3956,7 @@ msgstr ""
 "%(sex)sBusca%(preference)s%(extra_detail)sPara %(relationship_status)s En "
 "%(location)s"
 
-#: rs/profile_utils.py:130
+#: rs/profile_utils.py:136
 #, python-format
 msgid ""
 "Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In "
@@ -3958,12 +3965,12 @@ msgstr ""
 "Hablante De %(languages)s Busca Hablantes De %(languages_to_learn)s En "
 "%(location)s"
 
-#: rs/profile_utils.py:136
+#: rs/profile_utils.py:142
 #, python-format
 msgid "%(sex)s In %(location)s"
 msgstr "%(sex)s En %(location)s"
 
-#: rs/rendering.py:250 rs/views.py:156
+#: rs/rendering.py:257 rs/views.py:134
 msgid "You must register to contact other users"
 msgstr ""
 "<em>Tienes que <a class=\"cl-register-enter-href\" href=\"#\">registrarte o "
@@ -4020,82 +4027,82 @@ msgstr ""
 msgid "Finished"
 msgstr "Terminado"
 
-#: rs/search_results.py:187 rs/search_results.py:223
+#: rs/search_results.py:169 rs/search_results.py:205
 #, python-format
 msgid "generated_search_title %(sex)s"
 msgstr "%(sex)s"
 
-#: rs/search_results.py:190 rs/search_results.py:208 rs/search_results.py:225
+#: rs/search_results.py:172 rs/search_results.py:190 rs/search_results.py:207
 msgid "All people (feminine)"
 msgstr "Todas las personas"
 
-#: rs/search_results.py:192
+#: rs/search_results.py:174
 msgid "All lesbian types"
 msgstr "Todo tipo de lesbianas"
 
-#: rs/search_results.py:195
+#: rs/search_results.py:177
 #, python-format
 msgid "generated_search_title %(preference)s"
 msgstr "buscando %(preference)s"
 
-#: rs/search_results.py:205
+#: rs/search_results.py:187
 #, python-format
 msgid "generated_search_title %(language_to_learn)s"
 msgstr "Hablantes de %(language_to_learn)s"
 
-#: rs/search_results.py:211
+#: rs/search_results.py:193
 #, python-format
 msgid "generated_search_title %(language_to_teach)s"
 msgstr "que quieren aprender %(language_to_teach)s"
 
-#: rs/search_results.py:217
+#: rs/search_results.py:199
 #, python-format
 msgid "Sex: %(sex)s"
 msgstr "Sexo: %(sex)s"
 
-#: rs/search_results.py:228
+#: rs/search_results.py:210
 #, python-format
 msgid "interested in %(for_sale_sub_menu)s"
 msgstr "interesado en %(for_sale_sub_menu)s"
 
-#: rs/search_results.py:231
+#: rs/search_results.py:213
 #, python-format
 msgid "interested in %(for_sale)s"
 msgstr "interesado en %(for_sale)s"
 
-#: rs/search_results.py:243
+#: rs/search_results.py:225
 #, python-format
 msgid "generated_search_title %(location)s"
 msgstr "En: %(location)s"
 
-#: rs/search_results.py:245
+#: rs/search_results.py:227
 msgid "In: The entire world"
 msgstr "En: Todo el mundo"
 
-#: rs/search_results.py:248
+#: rs/search_results.py:230
 #, python-format
 msgid "generated_search_title %(age)s"
 msgstr "Edad: %(age)s"
 
-#: rs/search_results.py:253
+#: rs/search_results.py:235
 msgid "Ordered by"
 msgstr "Ordenado por"
 
-#: rs/search_results.py:257
+#: rs/search_results.py:239
 #, python-format
 msgid "Status generated_search_title %(relationship_status)s"
 msgstr "Estado: %(relationship_status)s"
 
-#: rs/search_results.py:261
+#: rs/search_results.py:243
 #, python-format
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "Para: %(relationship_status)s"
 
-#: rs/search_results.py:443
+#: rs/search_results.py:425
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
-#: rs/store_data.py:1011
+#: rs/store_data.py:1004
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -4107,7 +4114,7 @@ msgstr ""
 "enviar. Antes de enviar las llaves adicionales, debes recuperar las llaves "
 "que has dado a otros usuarios."
 
-#: rs/store_data.py:1017
+#: rs/store_data.py:1010
 #, python-format
 msgid ""
 "\n"
@@ -4123,7 +4130,7 @@ msgstr ""
 "se te permite solicitar. Antes de solicitar amigos adicionales de chat, "
 "debes quitar algunos de tus amigos actuales de chat."
 
-#: rs/store_data.py:1045
+#: rs/store_data.py:1038
 #, python-format
 msgid ""
 "\n"
@@ -4887,19 +4894,19 @@ msgstr "Voyeur"
 msgid "Whip"
 msgstr "Látigos"
 
-#: rs/user_profile_details.py:525
+#: rs/user_profile_details.py:524
 msgid "Languages I would like to practice"
 msgstr "Idiomas que me gustaria practiar"
 
-#: rs/user_profile_details.py:543
+#: rs/user_profile_details.py:542
 msgid "My current password"
 msgstr "Mi&nbsp;contraseña&nbsp;actual"
 
-#: rs/user_profile_details.py:549
+#: rs/user_profile_details.py:548
 msgid "My new password"
 msgstr "Mi&nbsp;contraseña&nbsp;nueva"
 
-#: rs/user_profile_details.py:555
+#: rs/user_profile_details.py:554
 msgid "Verify new password"
 msgstr "Verificar&nbsp;contraseña&nbsp;nueva"
 
@@ -5217,112 +5224,112 @@ msgstr "Con&nbsp;Personas&nbsp;Que&nbsp;Son"
 msgid "Any Language"
 msgstr "Cualquier&nbsp;idioma"
 
-#: rs/utils.py:136
+#: rs/utils.py:134
 msgid "and other (languages)..."
 msgstr "y otros..."
 
-#: rs/utils.py:212
+#: rs/utils.py:210
 msgid "I am"
 msgstr "Soy"
 
-#: rs/utils.py:213
+#: rs/utils.py:211
 msgid "Preference"
 msgstr "Preferencia"
 
-#: rs/utils.py:214
+#: rs/utils.py:212
 msgid "Relationship status"
 msgstr "Estado"
 
-#: rs/utils.py:215
+#: rs/utils.py:213
 msgid "I fluently speak"
 msgstr "Hablo fluidamente"
 
-#: rs/utils.py:216
+#: rs/utils.py:214
 msgid "I want to practice"
 msgstr "Quiero practicar"
 
-#: rs/utils.py:217
+#: rs/utils.py:215
 msgid "Looking for"
 msgstr "Busco a"
 
-#: rs/utils.py:218
+#: rs/utils.py:216
 msgid "My age"
 msgstr "Mi edad"
 
-#: rs/utils.py:219
+#: rs/utils.py:217
 msgid "My price"
 msgstr "Mi precio"
 
-#: rs/utils.py:222
+#: rs/utils.py:220
 msgid "In location"
 msgstr "En"
 
-#: rs/utils.py:224
+#: rs/utils.py:222
 msgid "I am currently in"
 msgstr "Actualmente estoy en"
 
-#: rs/utils.py:413
+#: rs/utils.py:411
 msgid "you can request a new password"
 msgstr "puedes pedir una  contraseña nueva"
 
-#: rs/utils.py:519 rs/vip_sms_payment_structures.py:96
+#: rs/utils.py:517
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] "%(days)s día"
 msgstr[1] "%(days)s días"
 
-#: rs/utils.py:532
+#: rs/utils.py:530
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] "%(hours)s hora"
 msgstr[1] "%(hours)s horas"
 
-#: rs/utils.py:547
+#: rs/utils.py:545
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] "%(minutes)s minuto"
 msgstr[1] "%(minutes)s minutos"
 
-#: rs/utils.py:562
+#: rs/utils.py:560
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] "%(seconds)s segundo"
 msgstr[1] "%(seconds)s segundos"
 
-#: rs/utils.py:579
+#: rs/utils.py:577
 msgid "ago (capitalize if first word)"
 msgstr "Hace"
 
-#: rs/utils.py:581
+#: rs/utils.py:579
 msgid "ago"
 msgstr "hace"
 
-#: rs/utils.py:585
+#: rs/utils.py:583
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr "%(ago_text)s %(joined_time)s"
 
-#: rs/utils.py:590
+#: rs/utils.py:588
 msgid "In"
 msgstr "En"
 
-#: rs/utils.py:592
+#: rs/utils.py:590
 msgid "in"
 msgstr "en"
 
-#: rs/utils.py:1014
+#: rs/utils.py:1012
 msgid "Interested in:"
 msgstr "Interesado en:"
 
-#: rs/utils.py:1017
+#: rs/utils.py:1015
 msgid ", and"
 msgstr ", y"
 
-#: rs/utils.py:1479
+#: rs/utils.py:1477
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to "
@@ -5331,7 +5338,7 @@ msgstr ""
 "Si ves algun otro perfil como este, por favor envíanos un mensaje a support@"
 "%(support_email_address)s para notificarnos del nick / nombre de usuario."
 
-#: rs/utils.py:1485
+#: rs/utils.py:1483
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
@@ -5339,7 +5346,7 @@ msgstr ""
 "Este usuario ha sido eliminado por el administrador por no seguir los "
 "términos y condiciones del servicio."
 
-#: rs/utils.py:1490
+#: rs/utils.py:1488
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
@@ -5349,7 +5356,7 @@ msgstr ""
 "Por favor no le contactes o envíes correos electrónicos a este usuario "
 "debido a que su objetivo final será pedirte dinero."
 
-#: rs/utils.py:1497
+#: rs/utils.py:1495
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
@@ -5360,32 +5367,32 @@ msgstr ""
 "debido a que su objetivo es convencerte para registrarte a un servicio de "
 "pago."
 
-#: rs/utils.py:1504
+#: rs/utils.py:1502
 msgid "This user profile has been eliminated"
 msgstr "Este perfil ha sido eliminado"
 
-#: rs/utils.py:1804
+#: rs/utils.py:1703
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr "el %(day)s de %(month)s de %(year)s"
 
-#: rs/utils.py:1825 rs/utils.py:1827
+#: rs/utils.py:1724 rs/utils.py:1726
 msgid "is"
 msgstr "es"
 
-#: rs/utils.py:1825
+#: rs/utils.py:1724
 msgid "We never ask for your credit card or any other form of payment"
 msgstr "Nunca pedimos tu tarjeta de crédito ni ninguna otra forma de pago"
 
-#: rs/utils.py:1827
+#: rs/utils.py:1726
 msgid "free"
 msgstr "gratis"
 
-#: rs/utils.py:1827
+#: rs/utils.py:1726
 msgid "chat and messages included"
 msgstr "chatear y enviar mensajes incluido"
 
-#: rs/utils.py:1830
+#: rs/utils.py:1729
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -5396,15 +5403,15 @@ msgstr ""
 "com respeta tu privacidad. Tu perfil tiene un área pública y un área "
 "privada. Sólo los socios que invites pueden ver tus fotos privadas."
 
-#: rs/utils_top_level.py:141
+#: rs/utils_top_level.py:126
 msgid "Gay men"
 msgstr "Hombres gays"
 
-#: rs/utils_top_level.py:147
+#: rs/utils_top_level.py:132
 msgid "Lesbians"
 msgstr "Lesbianas"
 
-#: rs/utils_top_level.py:185
+#: rs/utils_top_level.py:170
 msgid ""
 "Your account has been correctly registered. You can enter using your "
 "username and password that you selected when you created your account "
@@ -5413,29 +5420,46 @@ msgstr ""
 "Tu cuenta ha sido registrada correctamente. Puedes entrar directamente con "
 "tu Nick y la contraseña que elegiste cuando creaste tu cuenta (arriba)."
 
-#: rs/utils_top_level.py:188
+#: rs/utils_top_level.py:173
 msgid "Register for a new <strong>free account</strong> below."
 msgstr "Registrate para una <strong>cuenta gratuita</strong> debajo."
 
-#: rs/views.py:371
+#: rs/views.py:357
 msgid "terms.html"
 msgstr "terminos.html"
 
-#: rs/vip_paypal_structures.py:59
+#: rs/vip_payments_common.py:36
 msgid "days"
 msgstr "días"
 
-#: rs/vip_paypal_structures.py:60
+#: rs/vip_payments_common.py:37
 msgid "month"
 msgstr "mes"
 
-#: rs/vip_paypal_structures.py:61 rs/vip_paypal_structures.py:62
+#: rs/vip_payments_common.py:38 rs/vip_payments_common.py:39
 msgid "months"
 msgstr "meses"
 
-#: rs/vip_paypal_structures.py:63
+#: rs/vip_payments_common.py:40
 msgid "year"
 msgstr "año"
+
+#: rs/vip_paysafecard_payments.py:333
+msgid ""
+"Congratulations. Your payment has been assigned.  We will now debit your "
+"card, and you will receive a message in a few moments confirming your VIP "
+"status."
+msgstr ""
+"Felicitaciones. Tu pago se ha asignado. Ahora vamos a cargar en tu tarjeta, "
+"y recibirás un mensaje en unos momentos para confirmar tu estado VIP."
+
+#: rs/vip_paysafecard_payments.py:342
+msgid ""
+"Sorry, we were unable to process your payment. You card will not be charged, "
+"and VIP status has not been awarded."
+msgstr ""
+"Lo sentimos, no pudimos procesar tu pago. Tu tarjeta no se cargará y el "
+"estado VIP no ha sido concedido."
 
 #: rs/proprietary/search_engine_overrides.py:60
 #: rs/proprietary/search_engine_overrides.py:103
@@ -5526,6 +5550,9 @@ msgstr "a cambio de"
 #: rs/proprietary/search_engine_overrides.py:303
 msgid "Refine your search results"
 msgstr "Filtrar los resultados de búsqueda"
+
+#~ msgid "Purchase VIP status by sending an SMS from your mobile phone"
+#~ msgstr "Compra estado VIP por enviar un SMS desde tu teléfono móvil"
 
 #~ msgid "Use a dildo"
 #~ msgstr "Usar un dildo"

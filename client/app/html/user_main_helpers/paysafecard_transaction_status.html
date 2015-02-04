@@ -2,9 +2,19 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+
+    {% include "import_main_css_and_js.html" %}
+    <style>
+        body {
+            background-image: none;
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
-    {{ message_to_display|safe }}
+    <div class="cl-left-text cl-text-large-format">
+        <p><p><p><p><p><p>
+        {{ message_to_display|safe }}
+    </div>
 </body>
 </html>
