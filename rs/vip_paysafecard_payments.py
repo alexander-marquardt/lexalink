@@ -238,6 +238,8 @@ def payment_notification(request):
     # to award to the user. If the merchant_transaction_id is not found in our database, then this may be
     # a fraudulent attempt to get free VIP status.
     try:
+
+        error_message = ''
         if request.method != 'POST':
             error_message = "payment_notification was not called with POST data"
             error_reporting.log_exception(logging.critical, error_message = error_message)
@@ -306,17 +308,23 @@ def payment_notification(request):
                     vip_status_support.update_userobject_vip_status("paysafecard", userobject,  paysafe_disposition.num_days_to_be_awarded, serial_numbers)
 
             else:
-                raise Exception('Paysafecard merchant_transaction_id: %s is already complete - why is it executing again?' % merchant_transaction_id )
+                error_message = 'Paysafecard merchant_transaction_id: %s is already complete - why is it executing again?' % merchant_transaction_id
         else:
-            # if someone calls this URL
-            raise Exception('Paysafecard - could not find disposition for merchant_transaction_id: %s' % merchant_transaction_id)
+            # if someone calls this URL without us having first created an associated disposition.
+            error_message = 'Paysafecard - could not find disposition for merchant_transaction_id: %s' % merchant_transaction_id
 
-        logging.info('merchant_transaction_id: %s serial_numbers: %s event_type: %s' % (merchant_transaction_id, serial_numbers, event_type))
+        transaction_info = 'merchant_transaction_id: %s serial_numbers: %s event_type: %s' % (merchant_transaction_id, serial_numbers, event_type)
+        if error_message:
+            # Note that for these errors, we will still fall through to the HttpResponse("OK"), since we don't want
+            # paysafecard to send them multiple times.
+            error_message = error_message + '\n' + transaction_info
+            error_reporting.log_exception(logging.critical, error_message=error_message)
+            email_utils.send_admin_alert_email(error_message, subject = "%s Paysafe Error" % settings.APP_NAME)
+
+        logging.info(transaction_info)
         return http.HttpResponse("OK")
 
     except:
-        # This could also be triggered if someone calls this URL without proper post values. But report if for now, and
-        # if this causes too many errors, look into it further.
         try:
             # This is serious enough, that it warrants sending an email to the administrator.
             message_content = """Paysafecard error - unable to process payment notification"""
