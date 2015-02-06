@@ -121,7 +121,7 @@ def get_new_vip_status_and_expiry(previous_expiry, num_days_awarded):
   return (just_paid_status, new_expiry_date)
   
   
-def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded, payer_account_info):
+def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded, payer_account_info, amount, currency):
 
   # updates VIP status on the userobject to reflect the new num_days_awarded that have either
   # been purchased or awarded to the userobject profile. 
@@ -148,6 +148,7 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
       }      
         
       message_content = """<strong>VIP status awarded</strong><br><br>
+      Amount: %(amount)s %(currency)s<br>
       User: <a href="%(href)s">%(username)s</a><br>    
       App name: %(app_name)s<br>
       Payment provider: %(payment_provider)s<br>
@@ -163,6 +164,8 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
       """ % {'app_name' : settings.APP_NAME, 
              'payment_provider' : payment_provider, 
              'payer_account_info' : payer_account_info,
+             'amount': amount,
+             'currency': currency,
              'username':  userobject.username, 
              'href' :  profile_href,
              'description' : profile_utils.get_base_userobject_title(lang_code, userobject.key.urlsafe()),
@@ -172,9 +175,9 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
              'admin_info' : utils.generate_profile_information_for_administrator(userobject, True),
              }
         
-      email_utils.send_admin_alert_email(message_content, subject="%s %s VIP Awarded - Service: %s" % (settings.APP_NAME, userobject.username, payment_provider))
       messages.send_vip_congratulations_message(userobject)
-        
+      email_utils.send_admin_alert_email(message_content, subject="%s %s %s %s %s VIP" % (amount, currency, payment_provider, settings.APP_NAME, userobject.username, ))
+
     finally:
       translation.activate(previous_language)
         
@@ -209,7 +212,8 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
       check_payment_and_update_structures(userobject, currency, num_days_awarded, 
                                           num_days_awarded, txn_id, "manually assigned", "NA - manually awarded", "NA - manually awarded")
     
-    message_content = update_userobject_vip_status("manually awarded", userobject,  num_days_awarded, payer_account_info = "NA - manually awarded") 
+    message_content = update_userobject_vip_status("manually awarded", userobject,  num_days_awarded,
+                                                   "Manually awarded", "0", "NA")
     return http.HttpResponse(message_content)
   
   except:

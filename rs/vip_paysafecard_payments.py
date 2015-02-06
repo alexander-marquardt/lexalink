@@ -306,7 +306,9 @@ def payment_notification(request):
                         serial_numbers,
                         "Last name not available"):
 
-                    vip_status_support.update_userobject_vip_status("paysafecard", userobject,  paysafe_disposition.num_days_to_be_awarded, serial_numbers)
+                    vip_status_support.update_userobject_vip_status("paysafecard", userobject,
+                        paysafe_disposition.num_days_to_be_awarded, serial_numbers,
+                        paysafe_disposition.transaction_amount, paysafe_disposition.transaction_currency)
 
             else:
                 error_message = 'Paysafecard merchant_transaction_id: %s is already complete - why is it executing again?' % merchant_transaction_id
