@@ -55,6 +55,16 @@ if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
     logging.error("You cannot set USE_COMPRESSED_STATIC_FILES in site_configuration.py without enabling Grunt (ENABLE_GRUNT)")
     exit(1)
 
+# Other debugging/build-related flags
+TESTING_PAYPAL_SANDBOX = True
+TESTING_PAYSAFECARD = True
+if TESTING_PAYSAFECARD and TESTING_PAYPAL_SANDBOX:
+    VERSION_ID = 'pp-and-paysafecard'
+elif TESTING_PAYPAL_SANDBOX:
+    VERSION_ID = 'pp'
+elif TESTING_PAYSAFECARD:
+    VERSION_ID = 'paysafecard'
+
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
 # version id of the javascript that we are currently serving for the server. Change this number if you
@@ -65,9 +75,6 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
-# Other debugging/build-related flags
-TESTING_PAYPAL_SANDBOX = False
-TESTING_PAYSAFECARD = True
 
 BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
@@ -86,7 +93,6 @@ if os.path.isdir('rs/proprietary'):
 else:
     PROPRIETARY_BUILDS_AVAILABLE = False
     
-    
 if PROPRIETARY_BUILDS_AVAILABLE:
     if BATCH_BUILD_NAME == '':
         # Since we are currently running 7 sites using the same code base, we just un-comment whichever build 
@@ -101,7 +107,6 @@ if PROPRIETARY_BUILDS_AVAILABLE:
         #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
         #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
         #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
-    
     else:
         BUILD_NAME = BATCH_BUILD_NAME
 else:
@@ -152,12 +157,6 @@ if BUILD_STAGING:
     # we are uploading the code for the "discrete_build" website to a staging appid - this is used for debugging the code
     # in the actual AppEngine (in-the-cloud) environment . 
     app_id_dict[BUILD_NAME] = staging_appid, 
-    
-if TESTING_PAYPAL_SANDBOX:
-    VERSION_ID = 'pp'
-if TESTING_PAYSAFECARD:
-    VERSION_ID = 'paysafecard'
-
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
 shutdown_time = datetime.datetime(2012, 06, 05, 8, 30) 
@@ -175,8 +174,6 @@ if PROPRIETARY_BUILDS_AVAILABLE:
         BUILD_NAME_USED_FOR_MENUBAR = BUILD_NAME
 else:
     BUILD_NAME_USED_FOR_MENUBAR = 'default_build'
-    
-
 
 # For some reason that I have not yet investigated, settings.py is called multiple times, and the environment changes
 # between calls, so that in some cases "SERVER_SOFTWARE" is available, and in other cases 'LOGNAME' is available.
