@@ -29,6 +29,7 @@ def render_payment_options(request, username, owner_nid):
             return template.render(context)
 
         else:
+            error_reporting.log_exception(logging.error, error_message="Why is render_payment_options called for a build that doesn't support VIP memberships?")
             return ''
 
     except:
