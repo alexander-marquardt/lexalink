@@ -1250,10 +1250,13 @@ def store_report_unacceptable_profile(request, display_uid):
         if count_unacceptable_profile.count >= NUM_REPORTS_FOR_UNACCEPTABLE_PROFILE:
             error_message = """Profile %s has been reported as unacceptable %s times<br>
             Most recent report by: %s who has reported %s profiles as unacceptable.<br>
-            Admin view of reported profile: %s<br>
-            Admin view of reporting profile: %s<br>""" \
+            <br>Admin view %s: %s<br>
+            <br>Admin view %s: %s<br>""" \
                           % (displayed_profile_href, count_unacceptable_profile.count, sender_profile_href,
-                             count_reporting_profile.count, utils.generate_profile_information_for_administrator(displayed_profile, True),
+                             count_reporting_profile.count,
+                             displayed_profile_href,
+                             utils.generate_profile_information_for_administrator(displayed_profile, True),
+                             sender_profile_href,
                              utils.generate_profile_information_for_administrator(sender_userobject, True))
 
             email_utils.send_admin_alert_email(error_message, subject = "%s %s Unacceptable profile" % (settings.APP_NAME, displayed_profile.username))
