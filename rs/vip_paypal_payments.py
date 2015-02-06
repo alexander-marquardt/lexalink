@@ -216,7 +216,7 @@ def paypal_instant_payment_notification(request):
             else:
                 raise Exception("Paypal currency %s not handled by code" % currency)
 
-            if vip_status_support.check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "paypal", payer_email, last_name):
+            if vip_status_support.check_payment_and_update_structures(userobject, currency, amount_paid, num_days_awarded, txn_id, "Paypal", payer_email, last_name):
                 # only process the payment if this is the first time we have seen this txn_id.
                 vip_status_support.update_userobject_vip_status("paypal", userobject,  num_days_awarded, payer_email,
                                                                 amount_paid, currency)

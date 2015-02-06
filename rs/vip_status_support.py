@@ -210,9 +210,9 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
       # manually add in the txn_id if it is inclded
       currency = "NA - Manually Assigned"
       check_payment_and_update_structures(userobject, currency, num_days_awarded, 
-                                          num_days_awarded, txn_id, "manually assigned", "NA - manually awarded", "NA - manually awarded")
+                                          num_days_awarded, txn_id, "Manual", "NA - manually awarded", "NA - manually awarded")
     
-    message_content = update_userobject_vip_status("manually awarded", userobject,  num_days_awarded,
+    message_content = update_userobject_vip_status("Manual", userobject,  num_days_awarded,
                                                    "Manually awarded", "0", "NA")
     return http.HttpResponse(message_content)
   

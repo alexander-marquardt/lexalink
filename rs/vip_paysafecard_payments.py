@@ -350,7 +350,7 @@ def payment_notification(request):
                         serial_numbers,
                         "Last name not available"):
 
-                    vip_status_support.update_userobject_vip_status("paysafecard", userobject,
+                    vip_status_support.update_userobject_vip_status("Paysafecard", userobject,
                         paysafe_disposition.num_days_to_be_awarded, serial_numbers,
                         paysafe_disposition.transaction_amount, paysafe_disposition.transaction_currency)
 
