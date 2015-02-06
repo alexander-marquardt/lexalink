@@ -65,6 +65,7 @@ vip_paysafe_card_valid_countries = {
     'TR', # Turkey
     'GB', # United Kingdom
     'US', # United States
+    'UY', # Uruguay
 }
 
 vip_paysafecard_valid_currencies = ['EUR']#, 'USD', 'MXN', 'USD_NON_US']
