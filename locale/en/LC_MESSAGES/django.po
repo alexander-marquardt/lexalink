@@ -460,7 +460,7 @@ msgstr ""
 msgid "View photo upload rules"
 msgstr ""
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:23
+#: client/app/html/user_main_helpers/vip_payment_options.html:23
 msgid ""
 "Purchase VIP status with cash!\n"
 "            <a class=\"cl-override-widget-css\" href=\"https://www."
@@ -468,9 +468,9 @@ msgid ""
 "near you."
 msgstr ""
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:31
-#: client/app/html/user_main_helpers/purchase_buttons.html:47
-#: client/app/html/user_main_helpers/purchase_buttons.html:74
+#: client/app/html/user_main_helpers/vip_payment_options.html:31
+#: client/app/html/user_main_helpers/vip_payment_options.html:47
+#: client/app/html/user_main_helpers/vip_payment_options.html:74
 msgid ""
 "\n"
 "        This is a one-time VIP membership payment that does not "
@@ -478,11 +478,11 @@ msgid ""
 "        "
 msgstr ""
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:41
+#: client/app/html/user_main_helpers/vip_payment_options.html:41
 msgid "Purchase VIP status with a credit or debit card"
 msgstr ""
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:52
+#: client/app/html/user_main_helpers/vip_payment_options.html:52
 msgid ""
 "\n"
 "        Credit and debit card payments are processed by PayPal, an eBay "
@@ -490,7 +490,7 @@ msgid ""
 "        "
 msgstr ""
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:58
+#: client/app/html/user_main_helpers/vip_payment_options.html:58
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit or debit card you "
@@ -500,7 +500,7 @@ msgid ""
 "            "
 msgstr ""
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:67
+#: client/app/html/user_main_helpers/vip_payment_options.html:67
 msgid "Purchase VIP status with a PayPal account"
 msgstr ""
 

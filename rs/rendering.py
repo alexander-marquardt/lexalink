@@ -322,7 +322,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['this_is_a_logout'] = this_is_a_logout
  
 
-        purchase_buttons = vip_render_purchase_options.render_purchase_buttons(request, username, owner_nid)
+        vip_payment_options = vip_render_purchase_options.render_payment_options(request, username, owner_nid)
         
         meta_info = {}
         if page_title:
@@ -411,7 +411,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 'verification_values_dict' : verification_values_dict,
                 'request' : request,
                 'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
-                'purchase_buttons' : purchase_buttons,
+                'vip_payment_options' : vip_payment_options,
                 }, **constants.template_common_fields))
         
             body_main_html = template.render(context)

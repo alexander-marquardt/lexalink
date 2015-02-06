@@ -489,7 +489,7 @@ msgstr "Guardar cambios"
 msgid "View photo upload rules"
 msgstr "Ver las reglas para fotos"
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:23
+#: client/app/html/user_main_helpers/vip_payment_options.html:23
 msgid ""
 "Purchase VIP status with cash!\n"
 "            <a class=\"cl-override-widget-css\" href=\"https://www."
@@ -500,9 +500,9 @@ msgstr ""
 "\" href=\"https://www.paysafecard.com/pos/\" target=\"_blank\">Compra una "
 "paysafecard</a> en un lugar cerca de ti."
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:31
-#: client/app/html/user_main_helpers/purchase_buttons.html:47
-#: client/app/html/user_main_helpers/purchase_buttons.html:74
+#: client/app/html/user_main_helpers/vip_payment_options.html:31
+#: client/app/html/user_main_helpers/vip_payment_options.html:47
+#: client/app/html/user_main_helpers/vip_payment_options.html:74
 msgid ""
 "\n"
 "        This is a one-time VIP membership payment that does not "
@@ -513,11 +513,11 @@ msgstr ""
 "Este es un pago de membresía VIP de una sola vez que no se renueva "
 "automáticamente."
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:41
+#: client/app/html/user_main_helpers/vip_payment_options.html:41
 msgid "Purchase VIP status with a credit or debit card"
 msgstr "Compra estado VIP con una tarjeta de crédito o débito"
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:52
+#: client/app/html/user_main_helpers/vip_payment_options.html:52
 msgid ""
 "\n"
 "        Credit and debit card payments are processed by PayPal, an eBay "
@@ -530,7 +530,7 @@ msgstr ""
 "grandes del mundo.\n"
 "        "
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:58
+#: client/app/html/user_main_helpers/vip_payment_options.html:58
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit or debit card you "
@@ -543,7 +543,7 @@ msgstr ""
 "débito, se te cobrará con un nombre discreto que sería difícil de vincular a "
 "%(app_name)s."
 
-#: client/app/html/user_main_helpers/purchase_buttons.html:67
+#: client/app/html/user_main_helpers/vip_payment_options.html:67
 msgid "Purchase VIP status with a PayPal account"
 msgstr "Compra estado VIP con una cuenta de PayPal"
 
