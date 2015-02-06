@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% if paypal_data.country_override %}
-    <h1>Warning - PayPal country override to {{ paypal_data.country_override }}</h1>
+    <h1>Warning - PayPal country override to {{ paypal_data.country_code }}</h1>
 {% endif %}
 
 {% if paypal_data.testing_paypal_sandbox %}

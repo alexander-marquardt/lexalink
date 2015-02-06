@@ -115,14 +115,16 @@ def generate_paypal_data(request, username, owner_nid):
     # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
     if not TESTING_COUNTRY:
         http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+        country_override = False
     else:
         error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
         http_country_code = TESTING_COUNTRY
+        country_override = True
 
     internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies)
 
     paypal_data = {}
-    paypal_data['country_override'] = TESTING_COUNTRY
+    paypal_data['country_override'] = country_override
     paypal_data['country_code'] = http_country_code
     paypal_data['language'] = request.LANGUAGE_CODE
     paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX

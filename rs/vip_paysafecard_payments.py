@@ -101,9 +101,11 @@ def generate_paysafecard_data(request, owner_nid):
         # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
         if not TESTING_COUNTRY:
             http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
+            country_override = False
         else:
             error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
             http_country_code = TESTING_COUNTRY
+            country_override = True
 
 
         if site_configuration.TESTING_PAYSAFECARD:
@@ -116,7 +118,8 @@ def generate_paysafecard_data(request, owner_nid):
         paysafecard_data = {}
         paysafecard_data['owner_nid'] = owner_nid
         paysafecard_data['currency_code'] = vip_payments_common.real_currency_codes[internal_currency_code]
-        paysafecard_data['country_override'] = TESTING_COUNTRY
+        paysafecard_data['country_override'] = country_override
+        paysafecard_data['country_code'] = http_country_code
         paysafecard_data['testing_paysafecard'] = site_configuration.TESTING_PAYSAFECARD
         paysafecard_data['radio_options'] = generate_paysafe_radio_options(internal_currency_code)
         paysafecard_data['paysafecard_customer_panel_url'] = paysafecard_customer_panel_url
