@@ -67,7 +67,8 @@ vip_paysafe_card_valid_countries = {
     'US', # United States
 }
 
-vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
+vip_paysafecard_valid_currencies = ['EUR']#, 'USD', 'MXN', 'USD_NON_US']
+VIP_DEFAULT_CURRENCY = 'EUR' # Temporarily, we only support Euros - we are waiting for authorization for USD and MXN
 
 # The following are used for storing ints as a string, which will make them shorter. These correspond to paysafecard
 # documentation, which states that only  A-Z, a-z, 0-9, -(hyphen) and _ (underline) are allowed. We use
@@ -154,7 +155,7 @@ def generate_paysafecard_data(request, owner_nid):
             else:
                 paysafecard_customer_panel_url = settings.PAYSAFE_CUSTOMER_PANEL_URL
 
-            internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paysafecard_valid_currencies)
+            internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paysafecard_valid_currencies, VIP_DEFAULT_CURRENCY)
 
             paysafecard_data['owner_nid'] = owner_nid
             paysafecard_data['currency_code'] = vip_payments_common.real_currency_codes[internal_currency_code]

@@ -46,6 +46,8 @@ from rs.localization_files import currency_by_country
 # keep track of which currencies we currently support.
 vip_paypal_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 
+VIP_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
+
 
 if settings.TESTING_PAYPAL_SANDBOX:
     PP_URL = "https://www.sandbox.paypal.com/cgi-bin/webscr"
@@ -117,7 +119,7 @@ def generate_paypal_data(request, username, owner_nid):
         http_country_code = vip_payments_common.TESTING_COUNTRY
         country_override = True
 
-    internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies)
+    internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies, VIP_DEFAULT_CURRENCY)
 
     paypal_data = {}
     paypal_data['country_override'] = country_override

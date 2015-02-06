@@ -9,7 +9,7 @@ from rs.localization_files import currency_by_country
 
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
-TESTING_COUNTRY = 'ES'
+TESTING_COUNTRY = ''
 
 #VIP_1_DAY = "1 day"
 VIP_3_DAYS  = "3 days"
@@ -92,7 +92,6 @@ for key in vip_standard_membership_prices.keys() :
 
 real_currency_codes['USD_NON_US'] = 'USD'
 
-VIP_DEFAULT_CURRENCY = 'USD_NON_US' # International US dollars "$US" instead of just "$"
 
 def generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices):
     price_to_membership_category_lookup = {}
@@ -105,25 +104,25 @@ def generate_vip_price_to_membership_category_lookup(vip_standard_membership_pri
 
 vip_price_to_membership_category_lookup  = generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices)
 
-def get_internal_currency_code(http_country_code, vip_valid_currencies):
+def get_internal_currency_code(http_country_code, vip_valid_currencies, vip_default_currency):
 
     try:
         # Lookup currency for the country
         if http_country_code in currency_by_country.country_to_currency_map:
             internal_currency_code = currency_by_country.country_to_currency_map[http_country_code]
         else:
-            internal_currency_code = VIP_DEFAULT_CURRENCY
+            internal_currency_code = vip_default_currency
 
         # make sure that we have defined the papal structures for the current currency
         if internal_currency_code not in vip_valid_currencies:
-            internal_currency_code = VIP_DEFAULT_CURRENCY
+            internal_currency_code = vip_default_currency
 
         if internal_currency_code not in currency_by_country.currency_symbols:
             raise Exception('Verify that currency_symbols contains all expected currencies. Received %s' % internal_currency_code)
 
     except:
         # If there is any error, report it, and default to the "international" $US
-        internal_currency_code = VIP_DEFAULT_CURRENCY
+        internal_currency_code = vip_default_currency
         error_reporting.log_exception(logging.error)
 
     return internal_currency_code
