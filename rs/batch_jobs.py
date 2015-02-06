@@ -38,25 +38,17 @@ from google.appengine.api import mail
 from google.appengine.api import taskqueue
 
 from django.utils import translation
-from django.utils.translation import ugettext, ungettext
+from django.utils.translation import ugettext
 from django import http
-from django.core.validators import email_re
 from django.template import loader, Context
 
 from models import UserModel
-import models
-import email_utils
-from constants import offset_values
-import store_data, login_utils, utils_top_level
 
-import sharding
-import mailbox
+import utils_top_level
 import models
 import utils, error_reporting
 import html2text
 import constants, settings
-    
-from google.appengine.runtime import DeadlineExceededError
 
 from mapreduce import operation as op
 

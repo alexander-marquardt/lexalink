@@ -1,4 +1,5 @@
 mapreduce:
+  # To see mapreduce jobs, browse to /mapreduce, and it will show a list of all currently defined jobs
 
 - name: Example of using mapreduce to modify userobject
   #params:
