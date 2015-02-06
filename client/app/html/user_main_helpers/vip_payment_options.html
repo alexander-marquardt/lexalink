@@ -5,27 +5,30 @@
 <div class="cl-payment_tabs">
     <ul>
         {% if paysafecard_data.paysafecard_supported_country %}
-        <li><a href="#paysafecard-tab"><img src="/images/payment_images/paysafecard_blue_174x47.png"></a></li>
+            <li><a href="#paysafecard-tab"><img src="/images/payment_images/paysafecard_blue_174x47.png"></a></li>
         {% endif %}
 
         {% if paypal_data.country_code == 'MX' %}
-        <!-- Mexico accepts debit cards -->
-        <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_mx_debit_logo_215x47.jpg"></a></li>
+            <!-- Mexico accepts debit cards -->
+            <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_mx_debit_logo_215x47.jpg"></a></li>
         {% else %}
-        <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_credit_187x47.png"></a></li>
+            <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_credit_187x47.png"></a></li>
         {% endif %}
+
         <li><a href="#paypal-tab"><img src="/images/payment_images/paypal_logo_75x47.png"></a></li>
 
     </ul>
 
     {% if paysafecard_data.paysafecard_supported_country %}
     <div id="paysafecard-tab">
-        <p class="cl-text-large-format">
+        <div class="cl-text-large-format">
+            <p></p>
             <strong>
                 {% blocktrans with app_name as app_name %}Purchase VIP status with cash!
                 <a class="cl-override-widget-css" href="https://www.paysafecard.com/pos/" target="_blank">Buy a paysafecard</a> at a location near you.{% endblocktrans %}
             </strong>
 
+        </div>
         <p>
             {% include "user_main_helpers/paysafecard_purchase_form.html" %}
 
@@ -39,10 +42,12 @@
 
     <div id="credit-card-tab">
 
-        <p class="cl-text-large-format">
+        <div class="cl-text-large-format">
+            <p></p>
             <strong>
                 {% blocktrans with app_name as app_name %}Purchase VIP status with a credit or debit card{% endblocktrans %}
             </strong>
+        </div>
         <p>
             {% include "user_main_helpers/paypal_purchase_form.html" %}
 
@@ -65,11 +70,13 @@
     </div>
 
     <div id="paypal-tab">
-        <p class="cl-text-large-format">
+        <div class="cl-text-large-format">
+            <p></p>
             <strong>
                 {% blocktrans with app_name as app_name %}Purchase VIP status with a PayPal account{% endblocktrans %}
             </strong>
 
+        </div>
         <p>
             {% include "user_main_helpers/paypal_purchase_form.html" %}
 
