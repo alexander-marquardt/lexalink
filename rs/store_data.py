@@ -51,6 +51,7 @@ import constants, models, text_fields, messages
 import friend_bazaar_specific_code
 
 from rs import vip_render_purchase_options
+from rs import profile_utils
 from rs.import_search_engine_overrides import *
 
 
@@ -1197,7 +1198,7 @@ def increase_reporting_or_reporter_unacceptable_count(model_class, userobject_ke
 @ajax_call_requires_login
 def store_report_unacceptable_profile(request, display_uid):
     # This function is used for allowing users to notify us if a particular profile should be considered unacceptable. 
-    # Once a profile receives a certian number of reports, we will generate a warning, and we will investigate.
+    # Once a profile receives a certain number of reports, we will generate a warning, and we will investigate.
     
     try:
         sender_userobject =  utils_top_level.get_userobject_from_request(request)
@@ -1230,14 +1231,32 @@ def store_report_unacceptable_profile(request, display_uid):
         count_reporting_profile = increase_reporting_or_reporter_unacceptable_count(models.CountReportingProfile, owner_uid_key, increase_or_decrease_count)
         
         count_unacceptable_profile = increase_reporting_or_reporter_unacceptable_count(models.CountUnacceptableProfile, displayed_uid_key, increase_or_decrease_count)
+
+        lang_code = 'en'
+        displayed_profile = utils_top_level.get_object_from_string(display_uid)
+        displayed_href = "http://www.%(domain_name)s%(profile_href)s" % {
+            'domain_name': settings.DOMAIN_NAME,
+            'profile_href' :  profile_utils.get_userprofile_href(lang_code, displayed_profile),
+        }
+        displayed_profile_href = '<a href="%(href)s">%(username)s</a>' % {'href': displayed_href, 'username' : displayed_profile.username}
+
+        sender_href = "http://www.%(domain_name)s%(profile_href)s" % {
+            'domain_name': settings.DOMAIN_NAME,
+            'profile_href' :  profile_utils.get_userprofile_href(lang_code, sender_userobject)
+        }
+        sender_profile_href = '<a href="%(href)s">%(username)s</a>' % {'href': sender_href, 'username' : sender_userobject.username}
+
+
         if count_unacceptable_profile.count >= NUM_REPORTS_FOR_UNACCEPTABLE_PROFILE:
-            displayed_profile = utils_top_level.get_object_from_string(display_uid)
             error_message = """Profile %s has been reported as unacceptable %s times<br>
             Most recent report by: %s who has reported %s profiles as unacceptable.<br>
-            Admin view: %s""" \
-                          % (displayed_profile.username, count_unacceptable_profile.count, sender_userobject.username, 
-                             count_reporting_profile.count, utils.generate_profile_information_for_administrator(displayed_profile, True))
-            email_utils.send_admin_alert_email(error_message, subject = "%s Unacceptable profile" % settings.APP_NAME)
+            Admin view of reported profile: %s<br>
+            Admin view of reporting profile: %s<br>""" \
+                          % (displayed_profile_href, count_unacceptable_profile.count, sender_profile_href,
+                             count_reporting_profile.count, utils.generate_profile_information_for_administrator(displayed_profile, True),
+                             utils.generate_profile_information_for_administrator(sender_userobject, True))
+
+            email_utils.send_admin_alert_email(error_message, subject = "%s %s Unacceptable profile" % (settings.APP_NAME, displayed_profile.username))
             logging.error(error_message)
             
             
@@ -1253,7 +1272,7 @@ def store_report_unacceptable_profile(request, display_uid):
                 
                 # Note could consider calling batch_jobs.batch_fix_remove_all_users_with_given_ip_or_name to remove all profiles that have
                 # ever been accessed from this IP - think about this in the future
-                error_message = "Profile %s has been deleted due to reports from other users in the time window" % displayed_profile.username 
+                error_message = "Profile %s has been deleted due to reports from other users in the time window" % displayed_profile_href
                 email_utils.send_admin_alert_email(error_message, subject = "%s Deleted Profile" % settings.APP_NAME)
                 logging.critical(error_message)
                 login_utils.take_action_on_account_and_generate_response(request, displayed_profile, action_to_take = "delete", reason_for_profile_removal = "terms")
