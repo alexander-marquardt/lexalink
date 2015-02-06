@@ -3,79 +3,82 @@
 <div class="cl-clear"></div>
 
 <div class="cl-payment_tabs">
-  <ul>
-      <li><a href="#paysafecard-tab"><img src="/images/payment_images/paysafecard_blue_174x47.png"></a></li>
+    <ul>
+        {% if paysafecard_data.paysafecard_supported_country %}
+        <li><a href="#paysafecard-tab"><img src="/images/payment_images/paysafecard_blue_174x47.png"></a></li>
+        {% endif %}
 
-      {% if paypal_data.country_code == 'MX' %}
-          <!-- Mexico accepts debit cards -->
-          <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_mx_debit_logo_215x47.jpg"></a></li>
-      {% else %}
-          <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_credit_187x47.png"></a></li>
-      {% endif %}
-      <li><a href="#paypal-tab"><img src="/images/payment_images/paypal_logo_75x47.png"></a></li>
+        {% if paypal_data.country_code == 'MX' %}
+        <!-- Mexico accepts debit cards -->
+        <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_mx_debit_logo_215x47.jpg"></a></li>
+        {% else %}
+        <li><a href="#credit-card-tab"><img src="/images/payment_images/paypal_credit_187x47.png"></a></li>
+        {% endif %}
+        <li><a href="#paypal-tab"><img src="/images/payment_images/paypal_logo_75x47.png"></a></li>
 
-  </ul>
+    </ul>
 
+    {% if paysafecard_data.paysafecard_supported_country %}
+    <div id="paysafecard-tab">
+        <p class="cl-text-large-format">
+            <strong>
+                {% blocktrans with app_name as app_name %}Purchase VIP status with cash!
+                <a class="cl-override-widget-css" href="https://www.paysafecard.com/pos/" target="_blank">Buy a paysafecard</a> at a location near you.{% endblocktrans %}
+            </strong>
 
-  <div id="paysafecard-tab">
-      <p class="cl-text-large-format">
-        <strong>
-        {% blocktrans with app_name as app_name %}Purchase VIP status with cash!
-            <a class="cl-override-widget-css" href="https://www.paysafecard.com/pos/" target="_blank">Buy a paysafecard</a> at a location near you.{% endblocktrans %}
-        </strong>
+        <p>
+            {% include "user_main_helpers/paysafecard_purchase_form.html" %}
 
-      <p>
-        {% include "user_main_helpers/paysafecard_purchase_form.html" %}
+        <p>
+            {% blocktrans %}
+            This is a one-time VIP membership payment that does not automatically renew.
+            {% endblocktrans %}
 
-      <p>
-        {% blocktrans %}
-        This is a one-time VIP membership payment that does not automatically renew.
-        {% endblocktrans %}
+    </div>
+    {% endif %}
 
-  </div>
+    <div id="credit-card-tab">
 
-  <div id="credit-card-tab">
+        <p class="cl-text-large-format">
+            <strong>
+                {% blocktrans with app_name as app_name %}Purchase VIP status with a credit or debit card{% endblocktrans %}
+            </strong>
+        <p>
+            {% include "user_main_helpers/paypal_purchase_form.html" %}
 
-      <p class="cl-text-large-format">
-        <strong>
-        {% blocktrans with app_name as app_name %}Purchase VIP status with a credit or debit card{% endblocktrans %}
-        </strong>
-      <p>
-        {% include "user_main_helpers/paypal_purchase_form.html" %}
+        <p>
+            {% blocktrans %}
+            This is a one-time VIP membership payment that does not automatically renew.
+            {% endblocktrans %}
 
-      <p>
-        {% blocktrans %}
-        This is a one-time VIP membership payment that does not automatically renew.
-        {% endblocktrans %}
+        <p>
+            {% blocktrans %}
+            Credit and debit card payments are processed by PayPal, an eBay company, and one of the worlds largest online payment processors.
+            {% endblocktrans%}
 
-      <p>
-        {% blocktrans %}
-        Credit and debit card payments are processed by PayPal, an eBay company, and one of the worlds largest online payment processors.
-        {% endblocktrans%}
-
-      <p>
-        {% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "lesbian_build" or build_name == "swinger_build" %}
+        <p>
+            {% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "lesbian_build" or build_name == "swinger_build" %}
             {% blocktrans with app_name as app_name %}To protect your privacy, if you choose to pay with credit or debit card you will be billed
             with a discrete name that cannot be easily linked to {{ app_name }}.
             {% endblocktrans %}
-        {% endif %}
-  </div>
+            {% endif %}
+    </div>
 
-  <div id="paypal-tab">
-      <p class="cl-text-large-format">
-        <strong>
-        {% blocktrans with app_name as app_name %}Purchase VIP status with a PayPal account{% endblocktrans %}
-        </strong>
+    <div id="paypal-tab">
+        <p class="cl-text-large-format">
+            <strong>
+                {% blocktrans with app_name as app_name %}Purchase VIP status with a PayPal account{% endblocktrans %}
+            </strong>
 
-      <p>
-        {% include "user_main_helpers/paypal_purchase_form.html" %}
+        <p>
+            {% include "user_main_helpers/paypal_purchase_form.html" %}
 
-      <p>
-        {% blocktrans %}
-        This is a one-time VIP membership payment that does not automatically renew.
-        {% endblocktrans %}
+        <p>
+            {% blocktrans %}
+            This is a one-time VIP membership payment that does not automatically renew.
+            {% endblocktrans %}
 
-  </div>
+    </div>
 
 </div>
 

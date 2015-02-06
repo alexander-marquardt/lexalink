@@ -8,6 +8,8 @@ from rs.localization_files import currency_by_country
 
 
 
+# Leave the following value set to None if we are not trying to force a particular country's options to be displayed
+TESTING_COUNTRY = 'ES'
 
 #VIP_1_DAY = "1 day"
 VIP_3_DAYS  = "3 days"

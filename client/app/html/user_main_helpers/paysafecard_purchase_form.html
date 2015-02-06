@@ -8,83 +8,86 @@
         <h1>Warning - paysafecard testing code enabled</h1>
 {%endif %}
 
-<form id="id-create-paysafecard-disposition" method="post">
 
-    <p>
-    <input type="hidden" name="charset" value="utf-8">
-    <input type="hidden" name="currency_code" value="{{ paysafecard_data.currency_code }}">
-    <input type="hidden" name="owner_nid" value="{{ paysafecard_data.owner_nid }}">
-    {{ paysafecard_data.radio_options|safe }}
-    <p>
-    <input class="cl-payment_button" type="submit" name="submit" value="{% trans 'Purchase' %}">
+{% if paysafecard_data.paysafecard_supported_country %}
+    <form id="id-create-paysafecard-disposition" method="post">
 
-</form>
+        <p>
+        <input type="hidden" name="charset" value="utf-8">
+        <input type="hidden" name="currency_code" value="{{ paysafecard_data.currency_code }}">
+        <input type="hidden" name="owner_nid" value="{{ paysafecard_data.owner_nid }}">
+        {{ paysafecard_data.radio_options|safe }}
+        <p>
+        <input class="cl-payment_button" type="submit" name="submit" value="{% trans 'Purchase' %}">
 
-<div id="id-paysafecard-purchase-dialog" style="display:none;"></div>
+    </form>
 
-<script type="text/javascript">
+    <div id="id-paysafecard-purchase-dialog" style="display:none;"></div>
 
-$(document).ready(function(){
+    <script type="text/javascript">
 
-    $("#id-create-paysafecard-disposition").submit(function(e) {
+    $(document).ready(function(){
 
-        // indicate that the next page is loading
-        $('#id-show-loading-spinner').show();
+        $("#id-create-paysafecard-disposition").submit(function(e) {
 
-        $("#id-show_vip_benefits_dialog_box").dialog('close');
+            // indicate that the next page is loading
+            $('#id-show-loading-spinner').show();
 
-        var paysafe_card_disposition_url = "{% url paysafecard.create_disposition %}";
-        $.ajax({
-            type: "POST",
-            url: paysafe_card_disposition_url,
-            data: $(this).serialize(), // this should point to the form and serialize its data
-            dataType: "json", // response type
+            $("#id-show_vip_benefits_dialog_box").dialog('close');
 
-            // We have created to card disposition on both our servers and on paysafecard servers, now we
-            // make a request to paysafecard to show the customer panel.
-            success: function (post_response) {
-                var page = "{{ paysafecard_data.paysafecard_customer_panel_url }}?" +
-                                "mid=" + post_response.merchant_id +
-                                "&currency=" + post_response.currency_code +
-                                "&mtid=" + post_response.merchant_transaction_id +
-                                "&amount=" + post_response.amount;
+            var paysafe_card_disposition_url = "{% url paysafecard.create_disposition %}";
+            $.ajax({
+                type: "POST",
+                url: paysafe_card_disposition_url,
+                data: $(this).serialize(), // this should point to the form and serialize its data
+                dataType: "json", // response type
+
+                // We have created to card disposition on both our servers and on paysafecard servers, now we
+                // make a request to paysafecard to show the customer panel.
+                success: function (post_response) {
+                    var page = "{{ paysafecard_data.paysafecard_customer_panel_url }}?" +
+                                    "mid=" + post_response.merchant_id +
+                                    "&currency=" + post_response.currency_code +
+                                    "&mtid=" + post_response.merchant_transaction_id +
+                                    "&amount=" + post_response.amount;
 
 
-                var $dialog =  $("#id-paysafecard-purchase-dialog");
-                $dialog.html('<iframe id="id-paysafe-iframe" style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
-                   .dialog({
-                       autoOpen: false,
-                       modal: true,
-                       width: '750',
-                       height: '850',
-                       title: "Paysafecard",
-                       close: function() {
-                           // clear the html. This is necessary so that if the user closes the dialog, and then
-                           // opens it again, that we can still detect the "load" event below, that is used for
-                           // removing the spinner icon. Without this, the spinner continues to show the second
-                           // time that the iframe is loaded.
-                          $dialog.html('');
-                       }
-                   });
-                $dialog.dialog('open');
+                    var $dialog =  $("#id-paysafecard-purchase-dialog");
+                    $dialog.html('<iframe id="id-paysafe-iframe" style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
+                       .dialog({
+                           autoOpen: false,
+                           modal: true,
+                           width: '750',
+                           height: '850',
+                           title: "Paysafecard",
+                           close: function() {
+                               // clear the html. This is necessary so that if the user closes the dialog, and then
+                               // opens it again, that we can still detect the "load" event below, that is used for
+                               // removing the spinner icon. Without this, the spinner continues to show the second
+                               // time that the iframe is loaded.
+                              $dialog.html('');
+                           }
+                       });
+                    $dialog.dialog('open');
 
-                // Only once the customer panel is loaded, hide the spinner
-                $('#id-paysafe-iframe').load(function () {
-                    $('#id-show-loading-spinner').hide();
-                });
+                    // Only once the customer panel is loaded, hide the spinner
+                    $('#id-paysafe-iframe').load(function () {
+                        $('#id-show-loading-spinner').hide();
+                    });
 
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                reportAjaxError(textStatus, errorThrown, "paysafecard-disposition", 'critical');
-            },
-            complete: function () {
-                // remove the main vip benefits dialog box, as the user has now selected a paysafecard payment
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    reportAjaxError(textStatus, errorThrown, "paysafecard-disposition", 'critical');
+                },
+                complete: function () {
+                    // remove the main vip benefits dialog box, as the user has now selected a paysafecard payment
 
-            }
+                }
+            });
+            e.preventDefault();
+            e.stopPropagation();
         });
-        e.preventDefault();
-        e.stopPropagation();
     });
-});
 
-</script>
+    </script>
+{% endif %}

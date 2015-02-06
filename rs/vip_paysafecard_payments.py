@@ -27,11 +27,47 @@ from rs import vip_status_support
 from rs import vip_paysafe_soap_messages
 
 
-# Leave the following value set to None if we are not trying to force a particular country's options to be displayed
-TESTING_COUNTRY = 'ES'
+# Declar all countries tha paysafecard is supported. Use a set literal for lookup efficiency
+vip_paysafe_card_valid_countries = {
+    'AR', # Argentina
+    'AU', # Australia
+    'AT', # Austria
+    'BE', # Belgium
+    'BG', # Bulgaria
+    'CA', # Canada
+    'HR', # Croatia
+    'CY', # Cyprus
+    'CZ', # Czech Republic
+    'DK', # Denmark
+    'FI', # Finland
+    'FR', # France
+    'DE', # Germany
+    'GR', # Greece
+    'HU', # Hungary
+    'IE', # Ireland
+    'IT', # Italy
+    'LV', # Latvia
+    'LT', # Lithuania
+    'LU', # Luxembourg
+    'MT', # Malta
+    'MX', # Mexico
+    'NL', # Netherlands
+    'NO', # Norway
+    'PE', # Peru
+    'PL', # Poland
+    'PT', # Portugal
+    'RO', # Romania
+    'SK', # Slovakia
+    'SI', # Slovenia
+    'ES', # Spain
+    'SE', # Sweeden
+    'CH', # Switzerland
+    'TR', # Turkey
+    'GB', # United Kingdom
+    'US', # United States
+}
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
-vip_paysafecard_valid_currencies = ['EUR']
 
 # The following are used for storing ints as a string, which will make them shorter. These correspond to paysafecard
 # documentation, which states that only  A-Z, a-z, 0-9, -(hyphen) and _ (underline) are allowed. We use
@@ -96,33 +132,37 @@ def generate_paysafe_radio_options(currency):
 def generate_paysafecard_data(request, owner_nid):
 
     try:
+        paysafecard_data = {}
+
         # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the
         # appropriate currency to display. If country code is missing, then we will display
         # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
-        if not TESTING_COUNTRY:
+        if not vip_payments_common.TESTING_COUNTRY:
             http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
             country_override = False
         else:
             error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-            http_country_code = TESTING_COUNTRY
+            http_country_code = vip_payments_common.TESTING_COUNTRY
             country_override = True
 
-
-        if site_configuration.TESTING_PAYSAFECARD:
-            paysafecard_customer_panel_url = settings.PAYSAFE_CUSTOMER_PANEL_TEST_URL
+        if http_country_code not in vip_paysafe_card_valid_countries:
+            paysafecard_data['paysafecard_supported_country'] = False
         else:
-            paysafecard_customer_panel_url = settings.PAYSAFE_CUSTOMER_PANEL_URL
+            paysafecard_data['paysafecard_supported_country'] = True
+            if site_configuration.TESTING_PAYSAFECARD:
+                paysafecard_customer_panel_url = settings.PAYSAFE_CUSTOMER_PANEL_TEST_URL
+            else:
+                paysafecard_customer_panel_url = settings.PAYSAFE_CUSTOMER_PANEL_URL
 
-        internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paysafecard_valid_currencies)
+            internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paysafecard_valid_currencies)
 
-        paysafecard_data = {}
-        paysafecard_data['owner_nid'] = owner_nid
-        paysafecard_data['currency_code'] = vip_payments_common.real_currency_codes[internal_currency_code]
-        paysafecard_data['country_override'] = country_override
-        paysafecard_data['country_code'] = http_country_code
-        paysafecard_data['testing_paysafecard'] = site_configuration.TESTING_PAYSAFECARD
-        paysafecard_data['radio_options'] = generate_paysafe_radio_options(internal_currency_code)
-        paysafecard_data['paysafecard_customer_panel_url'] = paysafecard_customer_panel_url
+            paysafecard_data['owner_nid'] = owner_nid
+            paysafecard_data['currency_code'] = vip_payments_common.real_currency_codes[internal_currency_code]
+            paysafecard_data['country_override'] = country_override
+            paysafecard_data['country_code'] = http_country_code
+            paysafecard_data['testing_paysafecard'] = site_configuration.TESTING_PAYSAFECARD
+            paysafecard_data['radio_options'] = generate_paysafe_radio_options(internal_currency_code)
+            paysafecard_data['paysafecard_customer_panel_url'] = paysafecard_customer_panel_url
 
         return paysafecard_data
     except:
