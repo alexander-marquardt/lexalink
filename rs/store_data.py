@@ -50,7 +50,7 @@ import login_utils, utils, utils_top_level
 import constants, models, text_fields, messages
 import friend_bazaar_specific_code
 
-from rs import vip_render_purchase_options
+from rs import vip_render_payment_options
 from rs import profile_utils
 from rs.import_search_engine_overrides import *
 
@@ -1042,7 +1042,7 @@ def store_initiate_contact(request, to_uid):
                                             {'max_requests' : MAX_CHAT_FRIEND_REQUESTS_ALLOWED}
                                      
 
-                                        response_text += vip_render_purchase_options.render_payment_options(request, userobject.username, userobject_nid)
+                                        response_text += vip_render_payment_options.render_payment_options(request, userobject.username, userobject_nid)
                                         
                                         see_vip_benefits_txt = ugettext("See VIP benefits")
                                         response_text += '<strong><a class="cl-dialog_anchor cl-see_all_vip_benefits" href="#">%s</a></strong>' % see_vip_benefits_txt

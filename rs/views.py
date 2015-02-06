@@ -41,7 +41,7 @@ import mailbox, login_utils
 import utils_top_level, sitemaps
 import error_reporting, text_fields
 from rs import profile_utils, track_viewers
-from rs import vip_render_purchase_options
+from rs import vip_render_payment_options
 from django import http
 
 try:
@@ -323,7 +323,7 @@ def welcome_html():
 def vip_purchase_main_html(request, owner_nid):
 
     userobject = utils_top_level.get_userobject_from_nid(owner_nid)
-    vip_payment_options = vip_render_purchase_options.render_payment_options(request, userobject.username, owner_nid)
+    vip_payment_options = vip_render_payment_options.render_payment_options(request, userobject.username, owner_nid)
 
     return render_to_response('user_main_helpers/vip_purchase_main.html',
                               dict({'vip_payment_options':vip_payment_options}, **constants.template_common_fields))

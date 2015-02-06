@@ -45,7 +45,7 @@ from rs import localizations
 from rs import common_data_structs
 from rs import online_presence_support
 from rs import menubar
-from rs import vip_render_purchase_options
+from rs import vip_render_payment_options
 from rs.import_search_engine_overrides import *
 from rs import utils_top_level, html_container
 
@@ -322,7 +322,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['this_is_a_logout'] = this_is_a_logout
  
 
-        vip_payment_options = vip_render_purchase_options.render_payment_options(request, username, owner_nid)
+        vip_payment_options = vip_render_payment_options.render_payment_options(request, username, owner_nid)
         
         meta_info = {}
         if page_title:
