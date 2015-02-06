@@ -320,10 +320,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['activate_account_passed_in_username'] = activate_account_passed_in_username
         general_information_data_fields['message_for_client'] = message_for_client
         general_information_data_fields['this_is_a_logout'] = this_is_a_logout
- 
 
-        vip_payment_options = vip_render_payment_options.render_payment_options(request, username, owner_nid)
-        
         meta_info = {}
         if page_title:
             meta_info['page_title'] = page_title
@@ -411,7 +408,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 'verification_values_dict' : verification_values_dict,
                 'request' : request,
                 'javascript_version_id': settings.JAVASCRIPT_VERSION_ID,
-                'vip_payment_options' : vip_payment_options,
                 }, **constants.template_common_fields))
         
             body_main_html = template.render(context)
