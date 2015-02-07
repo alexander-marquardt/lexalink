@@ -50,7 +50,7 @@ class ExtraFieldLookup(object):
     def convert_value(self, value):
         if value is not None:
             if isinstance(value, (tuple, list)):
-                value = [self._convert_value(val) for val in value]
+                value = [self._convert_value(val) for val in value if val is not None]
             else:
                 value = self._convert_value(value)
         return value
@@ -75,6 +75,9 @@ class ExtraFieldLookup(object):
         return field_to_add
 
 class DateLookup(ExtraFieldLookup):
+    # DateLookup is abstract so set lookup_types to None so it doesn't match
+    lookup_types = None
+
     def __init__(self, *args, **kwargs):
         defaults = {'new_lookup': 'exact',
                     'field_to_add': models.IntegerField(editable=False, null=True)}
@@ -259,4 +262,5 @@ class StandardLookup(ExtraFieldLookup):
         if isinstance(field_to_add, (models.DateTimeField,
                                     models.DateField, models.TimeField)):
             field_to_add.auto_now_add = field_to_add.auto_now = False
+        field_to_add.name = self.index_name
         return field_to_add

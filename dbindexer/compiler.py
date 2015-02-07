@@ -31,7 +31,6 @@ class SQLCompiler(BaseCompiler):
         self.convert_filters()
         return super(SQLCompiler, self).has_results()
 
-
 class SQLInsertCompiler(BaseCompiler):
     def execute_sql(self, return_id=False):
         resolver.convert_insert_query(self.query)
@@ -41,4 +40,13 @@ class SQLUpdateCompiler(BaseCompiler):
     pass
 
 class SQLDeleteCompiler(BaseCompiler):
+    pass
+
+class SQLDateCompiler(BaseCompiler):
+    pass
+
+class SQLDateTimeCompiler(BaseCompiler):
+    pass
+
+class SQLAggregateCompiler(BaseCompiler):
     pass

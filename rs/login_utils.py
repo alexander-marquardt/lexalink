@@ -110,7 +110,7 @@ def get_or_create_unique_last_login(userobject, username):
     the search results will be ordered based on the settings of the current user.
     
     If the unique_last_login_ref object doesn't exist, this function will create it
-    and it will be passed back to the calilng function for association with the userobject.
+    and it will be passed back to the calling function for association with the userobject.
     
     This function returns the new value for "unique_last_login", but also returns the reference to
     the unique_last_login_offset_ref object -- which can be ignored if it is not neede (if, if you

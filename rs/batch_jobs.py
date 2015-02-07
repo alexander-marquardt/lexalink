@@ -52,14 +52,26 @@ import constants, settings
 
 from mapreduce import operation as op
 
+
+def change_username(userobject):
+    userobject.username = 'CHANGED-' + userobject.username
+    op.db.Put(userobject)
+
+
+
 def mapreduce_update_userobject(userobject):
+
+    # This function is "called" from mapreduce.yaml
     
     # ADD all pending userobjects updates to the comments here. Next time this code is run *all* updates
     # should be addressed.
     # 1) move language settings out of search_preferences into a seperate object.
-    
-    pass
-    
+    # 2) Update unique_last_login_offset for all users. It was not computed correctly due to a bug
+
+    userobject.username = 'CHANGED-' + userobject.username
+    yield op.db.Put(userobject)
+    #yield change_username(userobject)
+
     # NOTE: The database appears to be doing some strange things, which I strongly suspect are due to the
     # database models using NDB, and the mapreduce operations working on the standard DB. Until it has been
     # confirmed exactly how these interact, it is probably better to explicitly write the object to the database

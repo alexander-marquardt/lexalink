@@ -175,6 +175,8 @@ if PROPRIETARY_BUILDS_AVAILABLE:
 else:
     BUILD_NAME_USED_FOR_MENUBAR = 'default_build'
 
+ALLOWED_HOSTS = []
+
 # For some reason that I have not yet investigated, settings.py is called multiple times, and the environment changes
 # between calls, so that in some cases "SERVER_SOFTWARE" is available, and in other cases 'LOGNAME' is available.
 # Both of these are indicators that I am running locally, and therefore I set up for local development.
@@ -186,10 +188,14 @@ if ('SERVER_SOFTWARE' in os.environ):
         TEMPLATE_DEBUG = True
         TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'
         DEVELOPMENT_SERVER = True
-
+        ALLOWED_HOSTS.append('*')
     else:
         # probably running on production server - disable all debugging and LOCAL outputs etc.
         logging.info("Appears to be running on production server" )
         DEBUG = False
         TEMPLATE_DEBUG = False
         DEVELOPMENT_SERVER = False
+
+        for build_name, domain_name in domain_name_dict.iteritems():
+            ALLOWED_HOSTS.append("." + domain_name)
+
