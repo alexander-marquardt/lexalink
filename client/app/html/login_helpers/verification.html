@@ -133,7 +133,7 @@ function handle_verification_code_input() {
                     // only attempt submission of username and secret code if it appears that they might be valid
                     var username = "{{ verification_values_dict.verification_username }}";
                     var secret_verification_code = $secret_verification_code.val();
-                    var submit_verification_code_url = "{% url login.check_verification_and_authorize_user %}" ;
+                    var submit_verification_code_url = "{% url 'login.check_verification_and_authorize_user' %}" ;
 
                     $(this).ajaxSubmit({
                         url: submit_verification_code_url,

@@ -48,7 +48,7 @@
         <li class="top-right">
             {% if general_information_data_fields.register_enter_click_sends_to_landing %}
                <a id="id-register_enter_click_sends_to_landing-href" class="top_link"
-                href="{% url search_gen %}?query_order=unique_last_login&show_registration_login_popup=true">
+                href="{% url 'search_gen' %}?query_order=unique_last_login&show_registration_login_popup=true">
             {% else %}
                 <a class="cl-register-enter-href top_link" href="#">
             {% endif %}
@@ -103,7 +103,7 @@
     {% else %} <!-- registered user logged in -->
 
         <li class="top">
-            <a href="{% url edit_profile_url display_nid=primary_user_presentation_data_fields.owner_nid %}" class="top_link">
+            <a href="{% url 'edit_profile_url' display_nid=primary_user_presentation_data_fields.owner_nid %}" class="top_link">
                 <span>{% trans "My Profile" %} [ {{ primary_user_presentation_data_fields.username }} ]</span>
             </a>
         </li>
@@ -119,27 +119,27 @@
             </span></a>
             <ul class="sub">
                 <li>
-                    <a href="{% url generate_mailbox mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                    <a href="{% url 'generate_mailbox' mailbox_name='inbox' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
                         {% trans "All (messages - override)" %}
                     </a>
                 </li>
                 <li>
-                    <a href="{% url generate_mailbox mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                    <a href="{% url 'generate_mailbox' mailbox_name='new' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
                         {% trans "Unread (plural - override)" %}
                     </a>
                 </li>
                 <li>
-                    <a href="{% url generate_mailbox mailbox_name='favorites' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                    <a href="{% url 'generate_mailbox' mailbox_name='favorites' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
                         {% trans "Favorites" %}
                     </a>
                 </li>
                 <li>
-                    <a href="{% url generate_mailbox mailbox_name='received' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                    <a href="{% url 'generate_mailbox' mailbox_name='received' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
                         {% trans "Received (plural - override)" %}
                     </a>
                 </li>
                 <li>
-                    <a href="{% url generate_mailbox mailbox_name='sent' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
+                    <a href="{% url 'generate_mailbox' mailbox_name='sent' owner_uid=primary_user_presentation_data_fields.owner_uid %}">
                         {% trans "Sent (plural - override)" %}
                     </a>
                 </li>
@@ -149,7 +149,7 @@
         {{ primary_user_presentation_data_fields.contacts_dropdown_html|safe }}
 
         <li class="top">
-            <a href="{% url show_profile_views %}" class="top_link">
+            <a href="{% url 'show_profile_views' %}" class="top_link">
                 <span>{% trans "Profile views" %}
                 {% if primary_user_presentation_data_fields.num_profile_views_since_last_check %}
                     [{{ primary_user_presentation_data_fields.num_profile_views_since_last_check }} {% trans "new" %}]
@@ -178,7 +178,7 @@
 
 
         <li class="top-right">
-            <a href="{% url views.logout %}"
+            <a href="{% url 'views.logout' %}"
             class="top_link"><span>{% trans "Exit" %}</span></a>
         </li>
 

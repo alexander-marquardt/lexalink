@@ -134,7 +134,7 @@
 
                     clearBothRegistrationAndLoginFieldsErrors();
 
-                    var submit_signup_form_url = "{% url login.process_registration %}";
+                    var submit_signup_form_url = "{% url 'login.process_registration' %}";
                     $(this).ajaxSubmit({
                         url: submit_signup_form_url,
                         data: {'currently_displayed_url' : window.location.pathname}, // posted data

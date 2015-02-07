@@ -30,7 +30,7 @@
      side-effect of remembering the search for the next time the user wants to do a new search. 
      This is necessary for the back button to work properly in IE.-->
 <div id="id-simple-search-section">
-<form id="id-simple-search-form" method=GET action="{% url search_gen %}">
+<form id="id-simple-search-form" method=GET action="{% url 'search_gen' %}">
     <table id="id-search-table">
         <tbody>
         {{ search_bar.search_as_table_of_td_items|safe }}
@@ -43,7 +43,7 @@
 
         
 <div id="id-search-by-name-section">
-<form id="id-search-by-name-form" method=GET action="{% url search_by_name_gen %}">
+<form id="id-search-by-name-form" method=GET action="{% url 'search_by_name_gen' %}">
     <table id="id-search-by-name-table">
         <tbody>
         {{ search_bar.search_by_name_td_items|safe }}

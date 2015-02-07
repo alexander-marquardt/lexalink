@@ -35,7 +35,7 @@
 
             $("#id-show_vip_benefits_dialog_box").dialog('close');
 
-            var paysafe_card_disposition_url = "{% url paysafecard.create_disposition %}";
+            var paysafe_card_disposition_url = "{% url 'paysafecard.create_disposition' %}";
             $.ajax({
                 type: "POST",
                 url: paysafe_card_disposition_url,

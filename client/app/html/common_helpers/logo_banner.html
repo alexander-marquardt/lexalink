@@ -27,7 +27,7 @@
         <table class="cl-float-right">
             <tr>
                 {% for lang in LANGUAGES %}
-                    <td class="cl-info-td"><a class="cl-setlang" href="/setlang/{{ lang.0 }}" rel="address:/{{ lang.0 }}{{ request.path_info }}" >{{ lang.1 }}</a></td>
+                    <td class="cl-info-td"><a class="cl-setlang" href="/setlang/{{ lang.0 }}" >{{ lang.1 }}</a></td>
                 {% endfor %}
 
         </table>
@@ -37,13 +37,13 @@
             <tr>
                 <td>&nbsp;</td>
 
-                <td class="cl-info-td"><a href="{% url views.welcome %}" rel="address:{% url views.welcome %}">
+                <td class="cl-info-td"><a href="{% url 'views.welcome' %}">
                     {% trans "About" %} {{ app_name }}</a></td>
 
                 {% ifequal app_name "RomanceSecreto" %}
                     <td class="cl-info-td"><img src="/images/info_divider.png"
                                                 align="middle" alt=""></td>
-                    <td class="cl-info-td"><a href="{% url views.press %}" rel="address:{% url views.press %}">{% trans "Press" %}</a></td>
+                    <td class="cl-info-td"><a href="{% url 'views.press' %}">{% trans "Press" %}</a></td>
                 {% endifequal %}
 
             </tr>

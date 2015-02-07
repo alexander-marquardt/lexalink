@@ -1,6 +1,6 @@
 {% load i18n %}
 
-    <form id="id-login_form" method=POST action="{% url login.process_login %}">
+    <form id="id-login_form" method=POST action="{% url 'login.process_login' %}">
 
     <div class="cl-horiz-bar-div">
         {% if not is_popup_login_registration %}
@@ -53,7 +53,7 @@
 
      <div id="id-forgot-password" ><div  class="cl-right-text" >
         <br>
-        <a class="cl-dialog_anchor" href="{% url reset_password %}">
+        <a class="cl-dialog_anchor" href="{% url 'reset_password' %}">
             {% trans "Have you forgotten your password?" %}
         </a>
         <br><br>
