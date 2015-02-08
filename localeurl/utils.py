@@ -17,7 +17,7 @@ def split_locale_from_request(request):
     if localeurl.settings.URL_TYPE == 'domain':
         raise AssertionError("URL_TYPE 'domain' not yet supported")
     elif localeurl.settings.URL_TYPE == 'domain_component':
-        locale, _ = utils.strip_domain(request.get_host())
+        locale, _ = strip_domain(request.get_host())
         path_info = request.path_info
     else:
         locale, path_info = strip_path(request.path_info)

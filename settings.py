@@ -79,6 +79,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+
     'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware', 
 
     # This loads the index definitions, so it has to come first
@@ -90,6 +91,11 @@ MIDDLEWARE_CLASSES = (
     #'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
+
+if REDIRECT_APPSPOT_URL:
+    # Place the URL redirect at the start of the list, so that it occurs before any other middleware
+    MIDDLEWARE_CLASSES =  ('redirect_urls_middleware.RedirectAppspotURLs',) + MIDDLEWARE_CLASSES
+
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     #'django.contrib.auth.context_processors.auth',

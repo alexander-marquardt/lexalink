@@ -55,6 +55,13 @@ if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
     logging.error("You cannot set USE_COMPRESSED_STATIC_FILES in site_configuration.py without enabling Grunt (ENABLE_GRUNT)")
     exit(1)
 
+# Generally we don't want to allow access to our app from *.appspot.com, and should re-direct to the custom domain.
+# However, in certain cases, such as development and debugging it may be preferable to be allowed to directly
+# access the appspot.com URL without a redirect.
+REDIRECT_APPSPOT_URL = True
+if not REDIRECT_APPSPOT_URL:
+    logging.error("You are running with REDIRECT_APPSPOT_URL set to False - this should be enabled for production code!")
+
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = False
 TESTING_PAYSAFECARD = False
@@ -62,10 +69,14 @@ TESTING_PAYSAFECARD = False
 
 if TESTING_PAYSAFECARD and TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp-and-paysafecard'
+    REDIRECT_APPSPOT_URL = False
 elif TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp'
+    REDIRECT_APPSPOT_URL = False
+
 elif TESTING_PAYSAFECARD:
     VERSION_ID = 'paysafecard'
+    REDIRECT_APPSPOT_URL = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
@@ -191,6 +202,7 @@ if ('SERVER_SOFTWARE' in os.environ):
         TEMPLATE_STRING_IF_INVALID = '************* ERROR in template: %s ******************'
         DEVELOPMENT_SERVER = True
         ALLOWED_HOSTS.append('*')
+
     else:
         # probably running on production server - disable all debugging and LOCAL outputs etc.
         logging.info("Appears to be running on production server" )
@@ -201,5 +213,7 @@ if ('SERVER_SOFTWARE' in os.environ):
         for build_name, domain_name in domain_name_dict.iteritems():
             ALLOWED_HOSTS.append("." + domain_name)
 
-        for build_name, app_name in app_id_dict.iteritems():
+
+        for app_name, build_name in redirect_app_id_dict.iteritems():
             ALLOWED_HOSTS.append("." + app_name + ".appspot.com")
+
