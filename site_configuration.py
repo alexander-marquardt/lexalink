@@ -58,6 +58,8 @@ if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
 # Other debugging/build-related flags
 TESTING_PAYPAL_SANDBOX = True
 TESTING_PAYSAFECARD = True
+
+
 if TESTING_PAYSAFECARD and TESTING_PAYPAL_SANDBOX:
     VERSION_ID = 'pp-and-paysafecard'
 elif TESTING_PAYPAL_SANDBOX:
@@ -199,3 +201,5 @@ if ('SERVER_SOFTWARE' in os.environ):
         for build_name, domain_name in domain_name_dict.iteritems():
             ALLOWED_HOSTS.append("." + domain_name)
 
+        for build_name, app_name in app_id_dict.iteritems():
+            ALLOWED_HOSTS.append("." + app_name + ".appspot.com")
