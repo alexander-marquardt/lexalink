@@ -323,7 +323,7 @@ urlpatterns = patterns('',
     
     (r'^rs/admin/fix_items_sub_batch/$', batch_jobs.fix_items_sub_batch),
     
-    url(r'^rs/admin/login/$', login.landing_page, {'is_admin_login': True}, name="login.admin_landing_page"),
+    url(r'^rs/admin/login/$', login.landing_page, name="login.admin_landing_page"),
       
     (r'^rs/admin/count_clients/$', admin.count_clients),
     
