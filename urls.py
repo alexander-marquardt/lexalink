@@ -24,7 +24,7 @@
 ################################################################################
 
 
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from rs import error_reporting
 from rs import url_utils
 

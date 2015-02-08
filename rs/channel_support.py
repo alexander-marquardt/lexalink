@@ -28,7 +28,8 @@
 
 from django.core.urlresolvers import reverse
 
-from django.utils import simplejson
+import json
+
 from django import http
 from google.appengine.api import memcache
 from django.utils.translation import ugettext
@@ -217,7 +218,7 @@ def poll_server_for_status_and_new_messages(request):
             owner_uid = request.session['userobject_str']            
         
             if request.method == 'POST':
-                json_post_data = simplejson.loads(request.raw_post_data)
+                json_post_data = json.loads(request.body)
                 
                 last_update_time_string_dict = json_post_data['lastUpdateTimeStringDict']
                 user_presence_status = json_post_data['userPresenceStatus']
@@ -345,7 +346,7 @@ def poll_server_for_status_and_new_messages(request):
         error_reporting.log_exception(logging.error)
 
         
-    json_response = simplejson.dumps(response_dict)
+    json_response = json.dumps(response_dict)
     return http.HttpResponse(json_response, mimetype='text/javascript')
 
 
@@ -408,7 +409,7 @@ def post_message(request):
         online_presence_support.update_online_status(from_uid, constants.OnlinePresence.ACTIVE)
         
         if request.method == 'POST':
-            json_post_data = simplejson.loads(request.raw_post_data)
+            json_post_data = json.loads(request.body)
             to_uid = json_post_data['toUid']
             # for efficiency we pull username from post instead of reading from database, however this is a
             # potential security hole that could allow someone to (sort of) pretend to be another user.            
@@ -492,7 +493,7 @@ def open_new_chatbox(request):
             owner_uid = request.session['userobject_str']
             
             if request.method == 'POST':
-                json_post_data = simplejson.loads(request.raw_post_data)  
+                json_post_data = json.loads(request.body)  
                 other_uid = json_post_data['otherUid']
                 type_of_conversation = json_post_data['typeOfConversation']            
                     

@@ -25,7 +25,7 @@
 ################################################################################
 
 
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 from rs import views, login, ajax, store_data, search_results, mailbox, contacts, \
      reset_password, blobstore_handlers, batch_jobs, email_utils, admin, login_utils,\
