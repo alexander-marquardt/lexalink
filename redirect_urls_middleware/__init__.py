@@ -4,7 +4,7 @@ import re
 
 from django import http
 
-main_domain_pattern = re.compile(r'.*?\.*([^\.]*)\.appspot\.com$')
+main_domain_pattern = re.compile(r'.*?([^\.]+)\.appspot\.com$')
 
 class RedirectAppspotURLs(object):
     """
