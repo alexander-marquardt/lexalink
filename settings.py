@@ -154,4 +154,7 @@ LOCALE_INDEPENDENT_PATHS = (
 )
 
 
-
+# Tell django where to fine the translation files
+LOCALE_PATHS = (
+    os.path.abspath(os.path.join(os.path.dirname(__file__), 'locale')),
+)

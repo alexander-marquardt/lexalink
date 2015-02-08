@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-04 03:39-0500\n"
+"POT-Creation-Date: 2015-02-07 21:37-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -302,27 +302,27 @@ msgstr "Actualmente no tienes estado VIP"
 msgid "See my profile:"
 msgstr "Ver mi perfil:"
 
-#: client/app/html/user_main_helpers/main_body.html:354
-#: client/app/html/user_main_helpers/main_body.html:377
-#: client/app/html/user_main_helpers/main_body.html:379
+#: client/app/html/user_main_helpers/main_body.html:353
+#: client/app/html/user_main_helpers/main_body.html:376
+#: client/app/html/user_main_helpers/main_body.html:378
 msgid "click here"
 msgstr "clic aquí"
 
-#: client/app/html/user_main_helpers/main_body.html:360
+#: client/app/html/user_main_helpers/main_body.html:359
 msgid "If you want to see how your profile will appear."
 msgstr ""
 "Si quieres ver cómo se muestra tu perfil desde la perspectiva de otros "
 "usuarios, haz click en el link en la izquierda."
 
-#: client/app/html/user_main_helpers/main_body.html:373
+#: client/app/html/user_main_helpers/main_body.html:372
 msgid "Eliminate your profile:"
 msgstr "Eliminar tu perfil:"
 
-#: client/app/html/user_main_helpers/main_body.html:377
+#: client/app/html/user_main_helpers/main_body.html:376
 msgid "Are you sure you want to eliminate your profile?"
 msgstr "¿Seguro que quieres eliminar tu perfil?"
 
-#: client/app/html/user_main_helpers/main_body.html:385
+#: client/app/html/user_main_helpers/main_body.html:384
 msgid "If you want to eliminate your profile/account."
 msgstr ""
 "Si quieres eliminar tu perfil/cuenta, haz click en el link en la izquierda "
@@ -414,7 +414,7 @@ msgid "VIP Membership"
 msgstr "Membresía VIP"
 
 #: client/app/html/user_main_helpers/paypal_purchase_form.html:33
-#: client/app/html/user_main_helpers/paysafecard_purchase_form.html:19
+#: client/app/html/user_main_helpers/paysafecard_purchase_form.html:21
 msgid "Purchase"
 msgstr "Comprar"
 
@@ -489,64 +489,6 @@ msgstr "Guardar cambios"
 msgid "View photo upload rules"
 msgstr "Ver las reglas para fotos"
 
-#: client/app/html/user_main_helpers/vip_payment_options.html:23
-msgid ""
-"Purchase VIP status with cash!\n"
-"            <a class=\"cl-override-widget-css\" href=\"https://www."
-"paysafecard.com/pos/\" target=\"_blank\">Buy a paysafecard</a> at a location "
-"near you."
-msgstr ""
-"¡Consigue estado VIP con dinero en efectivo! <a class=\"cl-override-widget-css"
-"\" href=\"https://www.paysafecard.com/pos/\" target=\"_blank\">Compra una "
-"paysafecard</a> en un lugar cerca de ti."
-
-#: client/app/html/user_main_helpers/vip_payment_options.html:31
-#: client/app/html/user_main_helpers/vip_payment_options.html:47
-#: client/app/html/user_main_helpers/vip_payment_options.html:74
-msgid ""
-"\n"
-"        This is a one-time VIP membership payment that does not "
-"automatically renew.\n"
-"        "
-msgstr ""
-"\n"
-"Este es un pago de membresía VIP de una sola vez que no se renueva "
-"automáticamente."
-
-#: client/app/html/user_main_helpers/vip_payment_options.html:41
-msgid "Purchase VIP status with a credit or debit card"
-msgstr "Compra estado VIP con una tarjeta de crédito o débito"
-
-#: client/app/html/user_main_helpers/vip_payment_options.html:52
-msgid ""
-"\n"
-"        Credit and debit card payments are processed by PayPal, an eBay "
-"company, and one of the worlds largest online payment processors.\n"
-"        "
-msgstr ""
-"\n"
-"Los pagos con tarjeta de crédito y débito son procesados a través de PayPal, "
-"una compañía del grupo eBay, y una de las empresas de pago online más "
-"grandes del mundo.\n"
-"        "
-
-#: client/app/html/user_main_helpers/vip_payment_options.html:58
-#, python-format
-msgid ""
-"To protect your privacy, if you choose to pay with credit or debit card you "
-"will be billed\n"
-"            with a discrete name that cannot be easily linked to "
-"%(app_name)s.\n"
-"            "
-msgstr ""
-"Para proteger tu privacidad, si eliges pagar con tarjeta de crédito o "
-"débito, se te cobrará con un nombre discreto que sería difícil de vincular a "
-"%(app_name)s."
-
-#: client/app/html/user_main_helpers/vip_payment_options.html:67
-msgid "Purchase VIP status with a PayPal account"
-msgstr "Compra estado VIP con una cuenta de PayPal"
-
 #: client/app/html/user_main_helpers/search_inline_javascript.html:38
 msgid "All Regions"
 msgstr "Todas Las Regiones"
@@ -614,7 +556,7 @@ msgstr ""
 "miembros."
 
 #: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:34
-#: rs/store_data.py:1046
+#: rs/store_data.py:1047
 msgid "See VIP benefits"
 msgstr "Ver beneficios VIP"
 
@@ -810,6 +752,67 @@ msgstr ""
 "Puedes modificar tu dirección de correo electrónico cuando lo desees "
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
+
+#: client/app/html/user_main_helpers/vip_payment_options.html:27
+#, fuzzy
+msgid ""
+"Purchase VIP status with cash!\n"
+"                <a class=\"cl-override-widget-css\" href=\"https://www."
+"paysafecard.com/pos/\" target=\"_blank\">Buy a paysafecard</a> at a location "
+"near you."
+msgstr ""
+"¡Consigue estado VIP con dinero en efectivo! <a class=\"cl-override-widget-"
+"css\" href=\"https://www.paysafecard.com/pos/\" target=\"_blank\">Compra una "
+"paysafecard</a> en un lugar cerca de ti."
+
+#: client/app/html/user_main_helpers/vip_payment_options.html:36
+#: client/app/html/user_main_helpers/vip_payment_options.html:55
+#: client/app/html/user_main_helpers/vip_payment_options.html:84
+#, fuzzy
+msgid ""
+"\n"
+"            This is a one-time VIP membership payment that does not "
+"automatically renew.\n"
+"            "
+msgstr ""
+"\n"
+"Este es un pago de membresía VIP de una sola vez que no se renueva "
+"automáticamente."
+
+#: client/app/html/user_main_helpers/vip_payment_options.html:48
+msgid "Purchase VIP status with a credit or debit card"
+msgstr "Compra estado VIP con una tarjeta de crédito o débito"
+
+#: client/app/html/user_main_helpers/vip_payment_options.html:60
+#, fuzzy
+msgid ""
+"\n"
+"            Credit and debit card payments are processed by PayPal, an eBay "
+"company, and one of the worlds largest online payment processors.\n"
+"            "
+msgstr ""
+"\n"
+"Los pagos con tarjeta de crédito y débito son procesados a través de PayPal, "
+"una compañía del grupo eBay, y una de las empresas de pago online más "
+"grandes del mundo.\n"
+"        "
+
+#: client/app/html/user_main_helpers/vip_payment_options.html:66
+#, python-format
+msgid ""
+"To protect your privacy, if you choose to pay with credit or debit card you "
+"will be billed\n"
+"            with a discrete name that cannot be easily linked to "
+"%(app_name)s.\n"
+"            "
+msgstr ""
+"Para proteger tu privacidad, si eliges pagar con tarjeta de crédito o "
+"débito, se te cobrará con un nombre discreto que sería difícil de vincular a "
+"%(app_name)s."
+
+#: client/app/html/user_main_helpers/vip_payment_options.html:76
+msgid "Purchase VIP status with a PayPal account"
+msgstr "Compra estado VIP con una cuenta de PayPal"
 
 #: client/app/html/user_main_helpers/vip_purchase_main.html:37
 #, python-format
@@ -1425,19 +1428,19 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:736 rs/forms.py:1084 rs/login.py:763 rs/messages.py:519
-#: rs/rendering.py:435 rs/utils.py:1535
+#: rs/rendering.py:431 rs/utils.py:1535
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
 msgstr ""
 "Error interno - este error se ha registrado y será investigado inmediatemente"
 
-#: rs/batch_jobs.py:105
+#: rs/batch_jobs.py:109
 #, python-format
 msgid "FriendBazaar.com - from the creators of %(app_name)s"
 msgstr "FriendBazaar.com - de los creadores de %(app_name)s"
 
-#: rs/batch_jobs.py:112
+#: rs/batch_jobs.py:116
 #, python-format
 msgid "friend_build welcome %(username)s %(app_name)s"
 msgstr ""
@@ -4107,7 +4110,7 @@ msgstr "Para: %(relationship_status)s"
 msgid "Showing results for"
 msgstr "Mostrando resultados para"
 
-#: rs/store_data.py:1004
+#: rs/store_data.py:1005
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -4119,7 +4122,7 @@ msgstr ""
 "enviar. Antes de enviar las llaves adicionales, debes recuperar las llaves "
 "que has dado a otros usuarios."
 
-#: rs/store_data.py:1010
+#: rs/store_data.py:1011
 #, python-format
 msgid ""
 "\n"
@@ -4135,7 +4138,7 @@ msgstr ""
 "se te permite solicitar. Antes de solicitar amigos adicionales de chat, "
 "debes quitar algunos de tus amigos actuales de chat."
 
-#: rs/store_data.py:1038
+#: rs/store_data.py:1039
 #, python-format
 msgid ""
 "\n"
@@ -5433,23 +5436,23 @@ msgstr "Registrate para una <strong>cuenta gratuita</strong> debajo."
 msgid "terms.html"
 msgstr "terminos.html"
 
-#: rs/vip_payments_common.py:36
+#: rs/vip_payments_common.py:38
 msgid "days"
 msgstr "días"
 
-#: rs/vip_payments_common.py:37
+#: rs/vip_payments_common.py:39
 msgid "month"
 msgstr "mes"
 
-#: rs/vip_payments_common.py:38 rs/vip_payments_common.py:39
+#: rs/vip_payments_common.py:40 rs/vip_payments_common.py:41
 msgid "months"
 msgstr "meses"
 
-#: rs/vip_payments_common.py:40
+#: rs/vip_payments_common.py:42
 msgid "year"
 msgstr "año"
 
-#: rs/vip_paysafecard_payments.py:342
+#: rs/vip_paysafecard_payments.py:389
 msgid ""
 "Congratulations. Your payment has been assigned.  We will now debit your "
 "card, and you will receive a message in a few moments confirming your VIP "
@@ -5458,7 +5461,7 @@ msgstr ""
 "Felicitaciones. Tu pago se ha asignado. Ahora vamos a cargar en tu tarjeta, "
 "y recibirás un mensaje en unos momentos para confirmar tu estado VIP."
 
-#: rs/vip_paysafecard_payments.py:351
+#: rs/vip_paysafecard_payments.py:398
 msgid ""
 "Sorry, we were unable to process your payment. You card will not be charged, "
 "and VIP status has not been awarded."
