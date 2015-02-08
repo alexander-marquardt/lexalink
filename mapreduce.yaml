@@ -7,7 +7,7 @@ mapreduce:
   #  value: /done
   mapper:
 
-    handler: rs.batch_jobs.UserObjectPipeline
+    handler: rs.batch_jobs.mapreduce_update_userobject
     input_reader: mapreduce.input_readers.DatastoreInputReader
     params:
     - name: entity_kind
