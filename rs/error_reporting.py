@@ -160,7 +160,7 @@ def report_bad_url(request):
         # a bad URL was generated -- however, in production this will show up in the logs
         raise Exception(msg)
     
-    return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
+    return http.HttpResponsePermanentRedirect("/%s/" % request.LANGUAGE_CODE)
 
 
 def check_if_trend_micro_scanning():
