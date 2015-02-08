@@ -63,6 +63,7 @@ USE_I18N = True
 
 
 INSTALLED_APPS = (
+    'mapreduce',
     #'django.contrib.admin',
     'localeurl',
     'django.contrib.contenttypes',
@@ -71,6 +72,7 @@ INSTALLED_APPS = (
     'djangotoolbox',
     'autoload',
     'dbindexer',
+
 
     # djangoappengine should come last, so it can override a few manage.py commands
     'djangoappengine',

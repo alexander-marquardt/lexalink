@@ -58,6 +58,17 @@ def change_username(userobject):
     op.db.Put(userobject)
 
 
+from djangoappengine.mapreduce import pipeline as django_pipeline
+from mapreduce import base_handler
+
+def put_to_db(userobject):
+    logging.info('put_to_db')
+    yield op.db.Put(userobject)
+
+class UserObjectPipeline(base_handler.PipelineBase):
+    def run(self):
+        yield django_pipeline.DjangoModelMap(UserModel, put_to_db)
+
 
 def mapreduce_update_userobject(userobject):
 
@@ -68,7 +79,8 @@ def mapreduce_update_userobject(userobject):
     # 1) move language settings out of search_preferences into a seperate object.
     # 2) Update unique_last_login_offset for all users. It was not computed correctly due to a bug
 
-    userobject.username = 'CHANGED-' + userobject.username
+    logging.info("updating userobject")
+    #userobject.username = 'CHANGED-' + userobject.username
     yield op.db.Put(userobject)
     #yield change_username(userobject)
 
