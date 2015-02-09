@@ -64,8 +64,9 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
         userobject = utils_top_level.get_object_from_string(display_uid)
         redirect_url = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user)
         logging.info("Re-directing old url for uid: %s to new url %s" % (display_uid, redirect_url))
-        return http.HttpResponsePermanentRedirect(redirect_url)  
-    
+        return http.HttpResponsePermanentRedirect(redirect_url)
+
+
     except BadRequestError:
         # The request to the datastore service has one or more invalid properties. This has occured after moving
         # data from one application to another, and people/google have stored URLs that contain stale display_uid strings.
@@ -79,9 +80,21 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
             return redirect_to_user_main(request, new_uid, is_primary_user)
         else:
             raise Exception("Bad display_uid passed into views.user_main")
-    except:
-        error_reporting.log_exception(logging.critical)        
-        return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
+
+    except Exception as e:
+
+        # due to a strange bug in NDB, we cannot directly catch the ProtocolBufferDecodeError exception, and
+        # instead have to check the name of the exception. This exception is caused by a key that cannot
+        # be correctly decoded.
+        if e.__class__.__name__ == 'ProtocolBufferDecodeError':
+            error_message = "display_uid is invalid, and cannot be used to get a userobject"
+            error_reporting.log_exception(logging.error, error_message = error_message)
+
+            # do a permanent redirect back to the main search results to prevent this URL from being accessed again
+            return http.HttpResponsePermanentRedirect("/%s/" % request.LANGUAGE_CODE)
+        else:
+            error_reporting.log_exception(logging.critical)
+            return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
 
 def user_main(request, display_nid, is_primary_user = False, profile_url_description = None):
