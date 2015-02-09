@@ -41,6 +41,7 @@ import utils_top_level, sitemaps
 import error_reporting, text_fields
 from rs import profile_utils, track_viewers
 from rs import vip_render_payment_options
+from rs import store_data
 from django import http
 
 try:
@@ -304,6 +305,9 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                                           page_meta_description = meta_description)
     
     except:
+        # something went wrong, perhaps there is a problem with the userobject. Check it and fix if necessary:
+        store_data.check_and_fix_userobject(display_userobject, lang_code)
+
         error_reporting.log_exception(logging.critical)        
         return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
