@@ -455,14 +455,15 @@ def get_photo_message(userobject):
     # generate the message to be shown in the profile photo space if a photos is not available,
     # and when viewed by non-owners of the account.
 
-    unique_last_login_object = userobject.unique_last_login_offset_ref.get()
-    
+
+    user_photo_tracker = userobject.user_photos_tracker_key.get()
+
     try:
-        if unique_last_login_object.has_public_photo_offset and unique_last_login_object.has_private_photo_offset:
+        if user_photo_tracker.public_photos_keys and user_photo_tracker.private_photos_keys:
             photo_message = u"%s" % (text_fields.has_private_and_public_photos)
-        elif unique_last_login_object.has_public_photo_offset:
+        elif user_photo_tracker.public_photos_keys:
             photo_message = u"%s" % (text_fields.has_public_photos)
-        elif unique_last_login_object.has_private_photo_offset:
+        elif user_photo_tracker.private_photos_keys:
             photo_message = u"%s" %  (text_fields.has_private_photos)
         else:
             photo_message = u"%s" %  (text_fields.has_no_photos)

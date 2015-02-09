@@ -108,12 +108,8 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
     # If this is called by the administrator/photo review - then we deal with only one photo at a time
     # meaning that there are no lists of photo keys etc. posted to this function.
     #
-    # if is_admin_photo_review is True, then we will not write the userobject to the database, but we
-    # *will* write the userobject.unique_last_login_offset_ref to the database to reflect any 
-    # changes that may have occured with respect to the number of photos that the current user
-    # has associated with their profile. This is necssary for cases when the administrator modifies
-    # or removes photos associated with a given profile.
-    #
+    # if is_admin_photo_review is True, then we will not write the userobject to the database.
+
     # review_action_dict is a dictionary that will contain one of the following values:
     # is_profile : ref_key *or* is_private : ref_key *or* delete : ref_key
     # were the first dictionary key tell the action, and the ref_key refers to the photo that we
@@ -228,23 +224,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
             user_photos_tracker.public_photos_keys = list(public_photos_keys_list)
             user_photos_tracker.private_photos_keys = list(private_photos_keys_list)
             user_photos_tracker.put()          
-                
 
-        has_profile_photo = True if profile_photo_key else False
-        has_public_photos = True if public_photos_keys_list else False
-        has_private_photos = True if private_photos_keys_list else False
-               
-        # update the offsets for displaying the user with higher (or lower) priority in the search results.
-        unique_last_login_offset_object = userobject.unique_last_login_offset_ref.get()
-        unique_last_login_offset_object.has_profile_photo_offset = has_profile_photo
-        unique_last_login_offset_object.has_public_photo_offset = has_public_photos
-        unique_last_login_offset_object.has_private_photo_offset = has_private_photos
-
-        unique_last_login_offset_object.put()
-    
-        if not is_admin_photo_review:
-            userobject.unique_last_login  = login_utils.compute_unique_last_login(userobject)
-            put_userobject(userobject)       
            
         #utils.invalidate_user_summary_memcache(owner_uid) 
         return HttpResponse('Success')
@@ -272,13 +252,7 @@ def store_about_user(request, owner_uid, section_name):
             userobject.about_user = text[:ABOUT_USER_MAX_DESCRIPTION_LEN]         
         else:
             userobject.about_user = "----"
-            
 
-        unique_last_login_offset_obj = userobject.unique_last_login_offset_ref.get()
-        unique_last_login_offset_obj.has_about_user_offset = True
-        unique_last_login_offset_obj.put()
-        userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
-        
         put_userobject(userobject)
             
         return HttpResponse('Success')
@@ -367,15 +341,13 @@ def store_email_address(request, owner_uid):
             posted_email =posted_email.lower()
             email_is_valid = False
             
-            unique_last_login_offset = userobject.unique_last_login_offset_ref.get()
-    
+
             if posted_email:
                 email_is_valid = email_re.match(posted_email)
                 
                 if  email_is_valid:
                     userobject.email_address_is_valid = True                    
-                    unique_last_login_offset.has_email_address_offset = True
-                    userobject.email_address = posted_email                
+                    userobject.email_address = posted_email
                     logging.info("User %s has modified their email address %s to %s" % (
                         userobject.username, userobject.email_address, posted_email))
                
@@ -389,10 +361,8 @@ def store_email_address(request, owner_uid):
                 userobject.email_address = "----" 
                 logging.warning("User %s erased their email address %s" % (userobject.username, userobject.email_address))
                 userobject.email_address_is_valid = False
-                unique_last_login_offset.has_email_address_offset = False
-            
-            unique_last_login_offset.put()
-            put_userobject(userobject)  
+
+            put_userobject(userobject)
                 
             # in all cases if the email is cahnged we should updated the message queuing values - this is in case we go from
             # having a valid email to invalid or vice-versa -- we could explicity check for this is this becomes a bottleneck
@@ -464,7 +434,6 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
     # - prepend_dont_care_to_list: we add a value of "----" to the list, which will be used in search queries where the condition is "don't care"
 
     try:
-        userobject_ok_to_write = True
         assert(owner_uid == request.session['userobject_str'])
         userobject = utils_top_level.get_userobject_from_request(request)
         
@@ -473,7 +442,6 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
         
         for field in fields_to_store:
                        
-            post_val = ""
             if not is_a_list:
                 post_val = request.POST.get(field,'')
             else: # it is a list of values that will be stored in a single variable (array)
@@ -529,41 +497,15 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
             if post_val:
                 # set the value on the userobject
                 setattr(userobject, field, post_val)
-                 
-                # The following piece of code is used for computing the unique_last_login value, which allows us to display
-                # profiles sorted based on whatever weighting we have given to the different critera (eg. if they have a photo,
-                # that could move their profile up by 2 days, and if they have an email address that could move it up by 8 hours, etc.).
-                # Ultimately, the value is written into the "unique_last_login" value contained on the userobject.
-                # update the value for has_xxx_offset (if the value has changed -- since database
-                # writes are expensive.
-                unique_last_login_offset_ref = userobject.unique_last_login_offset_ref
-                has_offset_name = "has_" + field + "_offset"
 
-                unique_last_login_offset_obj = unique_last_login_offset_ref.get()
-                
-                # make sure that the database has the current field defined -- some fields such as 
-                # email options, etc.. might be post_val to the current function, but do not have values
-                # defined in the login_offset data structure.
-                if hasattr(unique_last_login_offset_obj, has_offset_name):
-                    offset_is_set = getattr(unique_last_login_offset_obj, has_offset_name)
-                    if not offset_is_set:
-                        setattr(unique_last_login_offset_obj, has_offset_name, True)
-                        unique_last_login_offset_obj.put()
-                        userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
- 
                 
         if is_signup_fields:
             # copy the current field into the search index list for the current field
             login_utils.copy_principal_user_data_fields_into_ix_lists(userobject)
 
-        if userobject_ok_to_write:
-            put_userobject(userobject)
-            return HttpResponse('Success')
-        else:
-            error_message = 'Unable to store data to userobject'
-            error_reporting.log_exception(logging.critical, error_message=error_message)
-            return HttpResponse(error_message)
-       
+        put_userobject(userobject)
+        return HttpResponse('Success')
+
     except:
         error_message="Unable to store data for user - check POST"
         error_reporting.log_exception(logging.critical, error_message=error_message, request = request)       
@@ -1257,7 +1199,6 @@ def check_and_fix_userobject(userobject, lang_code):
             'previous_last_login': (datetime.datetime.now, ()),
             'user_tracker': (utils.create_and_return_usertracker, ()),
             'hash_of_creation_date': (utils.old_passhash, (str(userobject.creation_date),)),
-            'unique_last_login_offset_ref' : (login_utils.create_and_put_unique_last_login_offset_ref, ()),
             'email_options' : (lambda x: x, (['daily_notification_of_new_messages',],)),
             'user_photos_tracker_key' : (utils.create_and_return_user_photos_tracker, ()),
 

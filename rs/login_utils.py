@@ -42,8 +42,7 @@ from django.core.validators import email_re
 from django.utils.translation import ugettext
 from django import http
 
-from models import UserSearchPreferences2, UniqueLastLoginOffsets
-from user_profile_details import UserProfileDetails
+from models import UserSearchPreferences2
 from user_profile_main_data import UserSpec
 
 
@@ -97,61 +96,47 @@ def store_session(request, userobject):
         error_reporting.log_exception(logging.critical)      
     
 
+###################################################
+## START Profile Display Offset values
 
+# This data structure is used for offsetting the unique_last_login value so that search order will be
+# modified based on profile characteristics that are considered to be important.
+# offsets are given in hours
 
-def create_and_put_unique_last_login_offset_ref():
-    
-    unique_last_login_offset_obj = UniqueLastLoginOffsets()
-    unique_last_login_offset_obj.put()
-    return unique_last_login_offset_obj.key
-    
+# Note: to avoid double counting only on of the photo-related offsets will be counted. See code in login_utils -
+# compute_unique_last_login() for how these special cases are counted.
+offset_values = {'has_profile_photo_offset':48,
+                 'has_private_photo_offset':12,
+                 #Note, it is possible to have public photos without having a profile photo -- but you cannot have a
+                 # profile photo without having a public photo.
+                 'has_public_photo_offset':24,
+                 'has_about_user_offset': 24,
+                 }
+
+## END Profile Display Offset values
+###################################################
+
 def compute_unique_last_login(userobject):
     """ adds appropriate offsets to the current "unique_last_login" value so that 
-    the search results will be ordered based on the settings of the current user.
-    
-    If the unique_last_login_ref object doesn't exist, this function will create it
-    and it will be passed back to the calling function for association with the userobject.
-    
-    This function returns the new value for "unique_last_login", but also returns the reference to
-    the unique_last_login_offset_ref object -- which can be ignored if it is not neede (if, if you
-    are 100% certian that this object already exists, and it is already stored in the userobject). We
-    don't write this value directly to the userobject (we don't put() it to the database), because 
-    generally this function is called right before a put of the userobject is going to happen, and it
-    would be wasteful to write this value 2x when we can just do it 1x by passing the value to the 
-    caller.
+    the search results will be ordered based on the profile completeness of the current user.
     """
     
     try:
-    
         offset = 0 # the offset is in Days.
-        # make sure it has the attribute, and that the attribute is set
-        if hasattr(userobject, 'unique_last_login_offset_ref') and userobject.unique_last_login_offset_ref:
-            unique_last_login_offset_key = userobject.unique_last_login_offset_ref
-            unique_last_login_offset_obj = unique_last_login_offset_key.get()
-            
-            # loop over all offset values, and assign the value if the boolean in offset_ref indicates
-            # that it should be assigned.
-            for (offset_name, value) in constants.offset_values.iteritems():
-                has_offset = getattr(unique_last_login_offset_obj, offset_name)
-                if has_offset:
-                    
-                    if offset_name == "has_private_photo_offset":
-                        # only count private photos if they don't have any public/profile photos
-                        if not unique_last_login_offset_obj.has_profile_photo_offset and not unique_last_login_offset_obj.has_public_photo_offset:
-                            # if it has a profile photo offset, don't count private_photo or public_photo offsets - 
-                            # we want to avoid double counting.
-                            offset += value
-                    elif offset_name == "has_public_photo_offset":
-                        # only count public photos if they don't have a profile photo
-                        if not unique_last_login_offset_obj.has_profile_photo_offset:
-                            offset += value
-                    else:
-                        offset += value
-        else:
-            # This attribute should be available on all userobjects.
-            raise Exception("userobject %s does not have unique_last_login_offset_ref" % userobject.username)
-            
-                    
+
+        user_photo_tracker = userobject.user_photos_tracker_key.get()
+
+        if user_photo_tracker.profile_photo_key:
+            offset += offset_values['has_profile_photo_offset']
+        elif user_photo_tracker.public_photos_keys:
+            offset += offset_values['has_public_photo_offset']
+        elif user_photo_tracker.private_photos_keys:
+            offset += offset_values['has_private_photo_offset']
+
+        if userobject.about_user != '----':
+            offset += offset_values['has_about_user_offset']
+
+        logging.info('Adding %d hours to %s\'s unique_last_login_offset' % (offset, userobject.username))
         unique_last_login_with_offset = userobject.last_login + datetime.timedelta(hours=offset)
         unique_last_login = "%s_%s" % (unique_last_login_with_offset, userobject.username)
         
@@ -812,9 +797,8 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
         
         userobject.hash_of_creation_date = utils.old_passhash(str(userobject.creation_date))
 
-        userobject.unique_last_login = datetime.datetime.now()
-        userobject.unique_last_login_offset_ref = create_and_put_unique_last_login_offset_ref()
-        
+        userobject.unique_last_login = str(datetime.datetime.now())
+
         userobject.unread_mail_count_ref = utils.create_unread_mail_object()
         userobject.new_contact_counter_ref = utils.create_contact_counter_object()
         

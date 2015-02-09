@@ -74,32 +74,7 @@ class SpamMailStructures(ndb.Model):
     # keep track of when each object is last written - needed if for some reason we need to see objects
     # that were recently modified. 
     last_write_time = ndb.DateTimeProperty(auto_now = True)
-    
 
-class UniqueLastLoginOffsets(ndb.Model):
-    # Contains the offsets that will be applied to the unique_last_login value in UserMode objects.
-    # Since all query results on UnserModel are ordered according to unique_last_login, we can use
-    # these offsets to give certian users priority. For example, a user who has posted a profile
-    # photo might be bumped up by 5 days, someone with private photos by 2 days, someone with an 
-    # "about me" secion +2 days .. etc.
-    # It is expected that this will be a reference property of UserModel, and therefore each
-    # userobject should only contain a single one of this object.
-    
-    
-    # Note: we store these as boolean values so that if we decide to change the weight of any of the
-    # values in the future, the database will remain unaffected (it will only be a code modification)
-    has_profile_photo_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_private_photo_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_public_photo_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_about_user_offset =  ndb.BooleanProperty(default=False, indexed = False)
-    has_languages_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_entertainment_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_athletics_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_turn_ons_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_erotic_encounters_offset = ndb.BooleanProperty(default=False, indexed = False)
-    has_email_address_offset = ndb.BooleanProperty(default=False, indexed = False)
-
-    
 class UserSearchPreferences2(ndb.Model):
     # This classs contain the stored parameters from the last search that the user has done.
     # This allows the search boxes to be set to appropriate values (based on the last settings)
@@ -413,7 +388,7 @@ class UserPhotosTracker(ndb.Model):
     This class is used for keeping track of the photos that each user has in their profile. There should be a one-to-one
     mapping from UserModel to UserPhotos (ie. each UserModel should contain a single UserPhotos object). 
     """
-    profile_photo_key = ndb.KeyProperty(kind='PhotoModel')
+    profile_photo_key = ndb.KeyProperty(kind='PhotoModel', default=None)
     public_photos_keys = ndb.KeyProperty(kind='PhotoModel', repeated = True)
     private_photos_keys = ndb.KeyProperty(kind='PhotoModel', repeated = True)
 
@@ -561,8 +536,7 @@ class UserModel(ndb.Model):
     # such as if the user has photos, a description, etc. Each of these factors make the user profile
     # show up earlier in the search results.
     unique_last_login = ndb.StringProperty(default=None)
-    unique_last_login_offset_ref = ndb.KeyProperty(kind=UniqueLastLoginOffsets, required=False)
-    
+
     creation_date = ndb.DateTimeProperty(auto_now_add=True) 
     
     # every time this object is written, the auto_now will be updated. This should be useful for error recovery if 

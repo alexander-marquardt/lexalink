@@ -36,7 +36,6 @@ from forms import *
 from login_utils import *
 from utils import return_time_difference_in_friendly_format
 import search_results
-import debugging
 import mailbox, login_utils
 import utils_top_level, sitemaps
 import error_reporting, text_fields
@@ -161,10 +160,10 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                 if not owner_userobject.email_address_is_valid:
                     email_is_not_entered_text = u"%s<br><br>" % text_fields.email_is_not_entered_text
                                  
-                
-                unique_last_login_offset_object = owner_userobject.unique_last_login_offset_ref.get()
-                if not (unique_last_login_offset_object.has_public_photo_offset or \
-                        unique_last_login_offset_object.has_private_photo_offset):
+
+                user_photo_tracker = owner_userobject.user_photos_tracker_key.get()
+
+                if not (user_photo_tracker.public_photos_keys or user_photo_tracker.private_photos_keys):
                     user_has_no_photo_text = u"%s<br><br>" % text_fields.user_has_no_photo_text
                 else:
                     user_has_no_photo_text = ''
@@ -226,7 +225,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
                   
         last_entrance = return_time_difference_in_friendly_format(display_userobject.previous_last_login)
         current_entrance = return_time_difference_in_friendly_format(display_userobject.last_login)
-        debugging_html = debugging.get_html_for_unique_last_login_calculations(display_userobject)
+        debugging_html = ''
         
                 
         # Display the welcome section
@@ -279,9 +278,8 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 
         # photo boxes -- allows us to hide the photo section if no photos are present
-        unique_last_login_offset = display_userobject.unique_last_login_offset_ref.get()
-        viewed_profile_data_fields['show_photos_section'] = is_primary_user or unique_last_login_offset.has_public_photo_offset \
-                                  or unique_last_login_offset.has_private_photo_offset
+        user_photos_list = PhotoModel.query().filter(PhotoModel.parent_object == display_userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)
+        viewed_profile_data_fields['show_photos_section'] = is_primary_user or user_photos_list
         
         if show_vip_info:
             viewed_profile_data_fields['show_online_status'] = utils.get_vip_online_status_string(display_uid)

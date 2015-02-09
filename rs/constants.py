@@ -505,31 +505,7 @@ BLOCK_ONLINE_STATUS_TRIAL_TIMEOUT_MEMCACHE_PREFIX = "_BLOCK_ONLINE_STATUS_TRIAL_
 
 NUMER_OF_DAYS_PROFILE_VIEWS_STORED = 30
 
-###################################################
-## START Profile Display Offset values
 
-# This data structure is used for offsetting the unique_last_login value so that search order will be
-# modified based on profile characteristics that are considered to be important.
-# offsets are given in hours
-
-# Note: to avoid double counting only on of the photo-related offsets will be counted. See code in login_utils - 
-# compute_unique_last_login() for how these special cases are counted.
-offset_values = {'has_profile_photo_offset':24, 
-                 'has_private_photo_offset':12,
-                 #Note, it is possible to have public photos without having a profile photo -- but you cannot have a
-                 # profile photo without having a public photo.
-                 'has_public_photo_offset':12,
-                 'has_about_user_offset': 24, 
-                 'has_languages_offset': 0, 
-                 'has_entertainment_offset': 0.1, 
-                 'has_athletics_offset': 0.1,
-                 'has_turn_ons_offset': 0.1,
-                 'has_erotic_encounters_offset':0.1,
-                 'has_email_address_offset': 0,
-                 }
-
-## END Profile Display Offset values
-###################################################
 
 ###################################################
 ## START Formatting Options

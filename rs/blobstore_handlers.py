@@ -25,19 +25,17 @@
 
 
 import cgi 
-import logging, traceback
+import logging
 
 from google.appengine.ext import blobstore
 from google.appengine.api import images
-from google.appengine.api import urlfetch
 
 
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 
 
 from models import PhotoModel, WatermarkPhotoModel
 from constants import MAX_NUM_PHOTOS, SMALL_IMAGE_X, SMALL_IMAGE_Y, MEDIUM_IMAGE_X, MEDIUM_IMAGE_Y, LARGE_IMAGE_X, LARGE_IMAGE_Y
-from utils import put_userobject
 import error_reporting, utils_top_level
 import settings, utils, constants
 
@@ -194,16 +192,7 @@ def resize_and_put_photos(userobject, blob_info):
                 photo.is_profile = True
                 
             utils.put_object(photo)
-            
-            # The following writing of unique_last_login_offset_ref is necessary here in-case the user doesn't 
-            # click on the "save changes" button, which is where we also set these values. Note, if this is not 
-            # written (either here or in store_photo_options), then the users photos will not be displayed when 
-            # someone views their profile.
-            unique_last_login_offset_obj = userobject.unique_last_login_offset_ref.get()
-            unique_last_login_offset_obj.has_public_photo_offset = True
-            unique_last_login_offset_obj.has_profile_photo_offset = True
-            unique_last_login_offset_obj.put()
-            
+
             user_photos_tracker_key = userobject.user_photos_tracker_key            
             if user_photos_tracker_key:     
                 logging.warning("Remove check on user_photos_tracker once all userobjects have been updated to have one defined") 
