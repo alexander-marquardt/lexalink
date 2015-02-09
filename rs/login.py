@@ -362,11 +362,7 @@ def process_login(request):
                     spam_tracker.number_of_captchass_solved_total = spam_tracker.num_times_reported_as_spammer_total
                     spam_tracker.put()
                     
-                    
-                    
-                (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-                 login_utils.get_or_create_unique_last_login(userobject, userobject.username)
-                
+                userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
                 
                 # remove chat boxes from previous sessions.
                 channel_support.close_all_chatboxes_internal(owner_uid)

@@ -105,7 +105,7 @@ def create_and_put_unique_last_login_offset_ref():
     unique_last_login_offset_obj.put()
     return unique_last_login_offset_obj.key
     
-def get_or_create_unique_last_login(userobject, username):
+def compute_unique_last_login(userobject):
     """ adds appropriate offsets to the current "unique_last_login" value so that 
     the search results will be ordered based on the settings of the current user.
     
@@ -148,14 +148,14 @@ def get_or_create_unique_last_login(userobject, username):
                     else:
                         offset += value
         else:
-            # create the attribute
-            unique_last_login_offset_key = create_and_put_unique_last_login_offset_ref()
+            # This attribute should be available on all userobjects.
+            raise Exception("userobject %s does not have unique_last_login_offset_ref" % userobject.username)
             
                     
         unique_last_login_with_offset = userobject.last_login + datetime.timedelta(hours=offset)
-        unique_last_login = "%s_%s" % (unique_last_login_with_offset, username)
+        unique_last_login = "%s_%s" % (unique_last_login_with_offset, userobject.username)
         
-        return (unique_last_login, unique_last_login_offset_key)
+        return unique_last_login
 
     except: 
         error_reporting.log_exception(logging.critical)  
@@ -811,9 +811,9 @@ def setup_new_user_defaults_and_structures(userobject, username, lang_code):
         userobject.previous_last_login = datetime.datetime.now()
         
         userobject.hash_of_creation_date = utils.old_passhash(str(userobject.creation_date))
-            
-        (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-         get_or_create_unique_last_login(userobject, username)
+
+        userobject.unique_last_login = datetime.datetime.now()
+        userobject.unique_last_login_offset_ref = create_and_put_unique_last_login_offset_ref()
         
         userobject.unread_mail_count_ref = utils.create_unread_mail_object()
         userobject.new_contact_counter_ref = utils.create_contact_counter_object()

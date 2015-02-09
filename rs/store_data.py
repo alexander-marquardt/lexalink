@@ -243,8 +243,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         unique_last_login_offset_object.put()
     
         if not is_admin_photo_review:
-            (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-             login_utils.get_or_create_unique_last_login(userobject, userobject.username)
+            userobject.unique_last_login  = login_utils.compute_unique_last_login(userobject)
             put_userobject(userobject)       
            
         #utils.invalidate_user_summary_memcache(owner_uid) 
@@ -278,11 +277,9 @@ def store_about_user(request, owner_uid, section_name):
         unique_last_login_offset_obj = userobject.unique_last_login_offset_ref.get()
         unique_last_login_offset_obj.has_about_user_offset = True
         unique_last_login_offset_obj.put()
-        (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-         login_utils.get_or_create_unique_last_login(userobject, userobject.username)
+        userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
         
-        
-        put_userobject(userobject)  
+        put_userobject(userobject)
             
         return HttpResponse('Success')
     
@@ -545,15 +542,14 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
                 unique_last_login_offset_obj = unique_last_login_offset_ref.get()
                 
                 # make sure that the database has the current field defined -- some fields such as 
-                # email options, etc.. might be post_valed to the current function, but do not have values
+                # email options, etc.. might be post_val to the current function, but do not have values
                 # defined in the login_offset data structure.
                 if hasattr(unique_last_login_offset_obj, has_offset_name):
                     offset_is_set = getattr(unique_last_login_offset_obj, has_offset_name)
                     if not offset_is_set:
                         setattr(unique_last_login_offset_obj, has_offset_name, True)
                         unique_last_login_offset_obj.put()
-                        (userobject.unique_last_login, userobject.unique_last_login_offset_ref) = \
-                         login_utils.get_or_create_unique_last_login(userobject, userobject.username)
+                        userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
  
                 
         if is_signup_fields:
