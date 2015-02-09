@@ -1230,12 +1230,16 @@ def check_and_fix_userobject(userobject, lang_code):
                 
         if is_modified:
             error_message = "Userobject has been repaired and re-written (see logs for what was changed):\n %s" % repr(userobject)
-            error_reporting.log_exception(logging.critical, error_message=error_message)            
+            error_reporting.log_exception(logging.error, error_message=error_message)
             utils.put_userobject(userobject)
+
+
+        return is_modified
             
     except:
         error_message = "Critical error in check_and_fix_userobject %s" % repr(userobject)
         error_reporting.log_exception(logging.critical, error_message=error_message)
+        return False
         
         
         

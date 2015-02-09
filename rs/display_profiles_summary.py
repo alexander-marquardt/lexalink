@@ -43,10 +43,9 @@ from rs import user_profile_main_data
 def display_userobject_first_half_summary(request, display_userobject, display_online_status, extra_info_html = None):
     # returns a summary of a single users userobject. 
     #
-    
+    lang_code = request.LANGUAGE_CODE
+
     try:
-        
-        lang_code = request.LANGUAGE_CODE
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
         lang_idx_offset = lang_idx + 1        
         
@@ -185,7 +184,17 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
                 generated_html += u'%s<br>' % mylist
     
         return generated_html
+
     except:
+        # Something went wrong, perhaps there is a problem with the userobject. Check it and fix if necessary.
+        # If the userobject is able to be fixed, then generate the summary for the userobject again.
+        import store_data
+        has_been_fixed = store_data.check_and_fix_userobject(display_userobject, lang_code)
+        # if userobject has been fixed, we try rendering it again
+        if has_been_fixed:
+            return display_userobject_first_half_summary(request, display_userobject, display_online_status, extra_info_html)
+
+        # if we get to this line, then there was not a problem with the userobject, and so we report the error.
         error_reporting.log_exception(logging.critical, error_message = 'display_userobject_first_half_summary %s exception.' % display_userobject.username)
         return ""
 

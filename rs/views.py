@@ -324,9 +324,12 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
     except:
         # something went wrong, perhaps there is a problem with the userobject. Check it and fix if necessary:
         if display_userobject:
-            store_data.check_and_fix_userobject(display_userobject, lang_code)
+            has_been_fixed = store_data.check_and_fix_userobject(display_userobject, lang_code)
+            # if userobject has been fixed, we try rendering it again
+            if has_been_fixed:
+                return user_main(request, display_nid, is_primary_user, profile_url_description)
 
-        error_reporting.log_exception(logging.critical)        
+        error_reporting.log_exception(logging.critical)
         return http.HttpResponseRedirect("/%s/" % request.LANGUAGE_CODE)
 
         
