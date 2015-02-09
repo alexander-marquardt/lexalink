@@ -124,12 +124,17 @@ $(document).ready(function() {
                 {% if guest_user_data_fields.registered_user_bool %}
                 <br><br>
                 <div class="grid_9 alpha omega cl-divider-line"></div>
-                <div class="grid_9 alpha omega">
-                    <div class="cl-left-text cl-text-large-format"><br><br>
-                        {% blocktrans with app_name as app_name %}If you like {{ app_name }}, consider becoming a {% endblocktrans %}
-                        <strong><a class="cl-see_all_vip_benefits" href="#">{% trans 'VIP member' %}</a></strong>.
+
+                    {% if SHOW_VIP_UPGRADE_OPTION %}
+                    <div class="grid_9 alpha omega">
+                        <div class="cl-left-text cl-text-large-format"><br><br>
+                            {% blocktrans with app_name as app_name %}If you like {{ app_name }}, consider becoming a {% endblocktrans %}
+                            <strong><a class="cl-see_all_vip_benefits" href="#">{% trans 'VIP member' %}</a></strong>.
+                        </div>
+                        <br><br>
                     </div>
-                </div>
+                    {% endif %}
+
                 {% endif %}
 
 
