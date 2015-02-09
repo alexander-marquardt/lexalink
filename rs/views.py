@@ -79,7 +79,8 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
             logging.info("Stale uid (from old application identifier): %s converted to %s" % (display_uid, new_uid))            
             return redirect_to_user_main(request, new_uid, is_primary_user)
         else:
-            raise Exception("Bad display_uid passed into views.user_main")
+            error_reporting.log_exception(logging.warning, error_message="Bad display_uid passed into views.user_main")
+            return http.HttpResponsePermanentRedirect("/%s/" % request.LANGUAGE_CODE)
 
     except Exception as e:
 
@@ -88,7 +89,7 @@ def redirect_to_user_main(request, display_uid,  is_primary_user = False):
         # be correctly decoded.
         if e.__class__.__name__ == 'ProtocolBufferDecodeError':
             error_message = "display_uid is invalid, and cannot be used to get a userobject"
-            error_reporting.log_exception(logging.error, error_message = error_message)
+            error_reporting.log_exception(logging.warning, error_message = error_message)
 
             # do a permanent redirect back to the main search results to prevent this URL from being accessed again
             return http.HttpResponsePermanentRedirect("/%s/" % request.LANGUAGE_CODE)
