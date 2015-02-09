@@ -200,14 +200,13 @@ def error_check_signup_parameters(login_dict, lang_idx):
         try_remaining_signup_fields("sex")       
         try_remaining_signup_fields("age")
         
-        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":   
+        if settings.BUILD_NAME != "language_build":
             try_remaining_signup_fields("preference")
             try_remaining_signup_fields("relationship_status")
         
-        else:
-            if settings.BUILD_NAME == "language_build":
-                try_remaining_signup_fields("native_language")
-                try_remaining_signup_fields("language_to_learn")         
+        else: # settings.BUILD_NAME == "language_build":
+            try_remaining_signup_fields("native_language")
+            try_remaining_signup_fields("language_to_learn")
             
         return(error_dict)
     
@@ -267,7 +266,7 @@ def create_search_preferences2_object(userobject, lang_code):
     # Search location and age are set to the same as the client.
     
     try:
-        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+        if settings.BUILD_NAME != "language_build":
             search_preferences2 = UserSearchPreferences2(sex=userobject.preference,
                                                        relationship_status='----',
                                                        country= "----",
@@ -279,32 +278,19 @@ def create_search_preferences2_object(userobject, lang_code):
                                                        query_order="unique_last_login",
                                                        lang_code=lang_code,
                                                        )
-        else:
-            if settings.BUILD_NAME == "language_build":
-                search_preferences2 = UserSearchPreferences2(sex='----',
-                                                             country='----',
-                                                             region = '----',
-                                                             sub_region = '----', # intentionally leave this loose.
-                                                             age='----', 
-                                                             user_has_done_a_search = False,
-                                                             query_order="unique_last_login",
-                                                             language_to_teach = userobject.native_language,
-                                                             language_to_learn = userobject.language_to_learn,
-                                                             lang_code = lang_code,
-                                                             )
-            if settings.BUILD_NAME == "friend_build":
-                search_preferences2 = UserSearchPreferences2(sex='----',
-                                                             country='----',
-                                                             region = '----',
-                                                             sub_region = '----', # intentionally leave this loose.
-                                                             age='----', 
-                                                             for_sale = "----", 
-                                                             for_sale_sub_menu = "----",
-                                                             user_has_done_a_search = False,
-                                                             query_order="unique_last_login",
-                                                             lang_code = lang_code,
-                                                             )
-        
+        else: # if settings.BUILD_NAME == "language_build":
+            search_preferences2 = UserSearchPreferences2(sex='----',
+                                                         country='----',
+                                                         region = '----',
+                                                         sub_region = '----', # intentionally leave this loose.
+                                                         age='----',
+                                                         user_has_done_a_search = False,
+                                                         query_order="unique_last_login",
+                                                         language_to_teach = userobject.native_language,
+                                                         language_to_learn = userobject.language_to_learn,
+                                                         lang_code = lang_code,
+                                                         )
+
         search_preferences2.put()
         
         return search_preferences2.key

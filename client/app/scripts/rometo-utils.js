@@ -43,7 +43,6 @@
 /* exported confirmDecision */
 /* exported checkIfJavascriptVersionIdHasChanged */
 /* exported sufficientTimeHasPassedSinceLastSearch */
-/* exported loadForSaleToBuyOnChange */
 /* exported setDropdownOptionsAndSettings */
 /* exported fancyboxSetup */
 /* exported handleLinkForEdit */
@@ -266,38 +265,6 @@ function loadSelectorOptions(childFeldId, parentFieldVal, defaultOptionText, hid
 }
 
 
-function handleChangeOnForSaleToBuy(menuId, subMenuId, defaultText) {
-
-    try {
-        $(menuId).change(function() {
-            var currMenuVal = $(menuId).val();
-            if (currMenuVal === "----") {
-                $(subMenuId).html('<option value="----">' + defaultText);
-            } else {
-                loadSelectorOptions(subMenuId, currMenuVal, defaultText, false, "----",
-                        "Not defined (this should never appear)", "/rs/ajax/get_for_sale_to_buy_options/");
-            }
-        });
-    } catch(err) {
-        reportTryCatchError( err, "handleChangeOnForSaleToBuy");
-    }
-}
-
-function loadForSaleToBuyOnChange(idPrefix, defaultText) {
-
-    try {
-        var forSaleId = idPrefix + "-for_sale";
-        var forSaleSubMenuId = idPrefix + "-for_sale_sub_menu";
-        var toBuyId = idPrefix + "-to_buy";
-        var toBuySubMenuId = idPrefix + "-to_buy_sub_menu";
-
-        handleChangeOnForSaleToBuy(forSaleId, forSaleSubMenuId, defaultText['for_sale_sub_menu']);
-        handleChangeOnForSaleToBuy(toBuyId, toBuySubMenuId, defaultText['to_buy_sub_menu']);
-    } catch(err) {
-        reportTryCatchError( err, "loadForSaleToBuyOnChange");
-    }
-}
-
 
 
 function undoFuncLoadLocationSettingsOnChange(idPrefix) {
@@ -448,7 +415,7 @@ function setSearchValuesToData(data, idPrefix, defaultText, hideFieldIfNotSelect
     // dropdown menus to reflect the correct value
 
     try {
-        var fieldsToSetup = ['region', 'sub_region', 'for_sale_sub_menu', 'to_buy_sub_menu'];
+        var fieldsToSetup = ['region', 'sub_region'];
         var fieldId = {};
         var fieldObject = {};
         var optionsHtmlName = {};
@@ -464,8 +431,7 @@ function setSearchValuesToData(data, idPrefix, defaultText, hideFieldIfNotSelect
         var matrixOfObjectsToHideIfNotSelected = {};
         matrixOfObjectsToHideIfNotSelected['region'] = [fieldObject['region'], fieldObject['sub_region']]; // this is used on the login screen to hide dropdowns until they are needed/defined
         matrixOfObjectsToHideIfNotSelected['sub_region'] = [fieldObject['sub_region']];
-        matrixOfObjectsToHideIfNotSelected['for_sale_sub_menu'] = []; // no reason to hide the for_sale/to_buy fields for the moment
-        matrixOfObjectsToHideIfNotSelected['to_buy_sub_menu'] = [];
+
 
 
         for (idx in fieldsToSetup) {
@@ -478,7 +444,7 @@ function setSearchValuesToData(data, idPrefix, defaultText, hideFieldIfNotSelect
         // load the value that is selected for all dropdown data fields (note that the "_options_html" data is not a data field, it is a value
         // (containing the dropdown menu contents) that we have loaded into a data field.
         for (var field in data) {
-            if (field !== 'region_options_html' && field !== 'sub_region_options_html' && field !== 'for_sale_sub_menu_options_html' && field !== 'to_buy_sub_menu_options_html') {
+            if (field !== 'region_options_html' && field !== 'sub_region_options_html') {
                 var idName = idPrefix + "-" + field;
                 if (data[field] !== "----") {
                     rsSetSelectorToValue(idName, data[field]);
@@ -519,9 +485,6 @@ function jsonSetDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFi
     try {
         showMenusAsLoading('region', idPrefix);
         showMenusAsLoading('sub_region', idPrefix);
-        showMenusAsLoading('for_sale_sub_menu', idPrefix);
-        showMenusAsLoading('to_buy_sub_menu', idPrefix);
-
 
         $.getJSON(action, function(data) {
             // set the dropdown menus to correct values, and remove the spinners after dynamically loaded menus are setup
@@ -568,10 +531,8 @@ function setValuesOnDataObject(dataObject, fieldsList) {
 function setDropdownOptionsAndSettings(action, idPrefix, defaultText, hideFieldIfNotDefined, isRegisteredUser) {
 
     var fieldsList = ['sex', 'age', 'preference', 'relationship_status', 'language_to_learn', 'language_to_teach',
-    'country', 'region', 'sub_region', 'for_sale', 'to_buy',
-    'for_sale_sub_menu', 'to_buy_sub_menu', 'query_order',
-    'sub_region_options_html', 'region_options_html',
-    'for_sale_sub_menu_options_html', 'to_buy_sub_menu_options_html'];
+    'country', 'region', 'sub_region',
+    'query_order', 'sub_region_options_html', 'region_options_html'];
 
     var dataObject = {};
 

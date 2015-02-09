@@ -31,9 +31,6 @@ import settings
 import translation_helpers, localizations
 from data_struct_utils import *
 from translation_helpers import ugettext_tuple
-if settings.BUILD_NAME == "friend_build":
-    import friend_bazaar_specific_code
-
 
 ugettext = lambda s: s # do nothing - but allows text to be tagged for translation at the source
 def pgettext(x,y):
@@ -186,13 +183,13 @@ class UserProfileDetails:
     monthly_notification_of_message = ugettext('Monthly notification of new messages.')    
     password_recovery_only = ugettext('I do not want to receive notificatoins of new messages or new contacts. My email is primarily to be used to recover my password.')
 
-    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != "language_build":
         immediate_notification_of_message_or_contacts = ugettext('Immediate notification of new messages or contacts (a kiss, a wink, or a key).')
         daily_notification_of_message_or_contacts = ugettext('Daily notification of new messages or contacts (kisses, winks, or keys).')
         weekly_notification_of_message_or_contacts = ugettext('Weekly notification of new messages or contacts (kisses, winks, or keys).')
         monthly_notification_of_message_or_contacts = ugettext('Monthly notification of new messages or contacts (kisses, winks, or keys).')
         
-    else: # language_build/friend_build -- no kisses or winks
+    else: # language_build -- no kisses or winks
         immediate_notification_of_message_or_contacts = ugettext('Immediate notification of new messages or contacts (a greeting or a key).')       
         daily_notification_of_message_or_contacts = ugettext('Daily notification of new messages or contacts (greetings or keys).')        
         weekly_notification_of_message_or_contacts = ugettext('Weekly notification of new messages or contacts (greetings or keys).')        
@@ -241,168 +238,165 @@ class UserProfileDetails:
     }
     checkbox_fields.update(email_options_checkbox_fields)    
     
-    if settings.BUILD_NAME != "friend_build":
-        languages_checkbox_fields = {
-            'languages' : {
-                'label': languages_label,
-                'choices': languages_list,
-                'start_sorting_index' : 0,
-                'stop_sorting_index' : len(languages_list) - languages_end_sorting_index_offset,
-                'options' : [],
-                'input_type' : u'checkbox',
+    languages_checkbox_fields = {
+        'languages' : {
+            'label': languages_label,
+            'choices': languages_list,
+            'start_sorting_index' : 0,
+            'stop_sorting_index' : len(languages_list) - languages_end_sorting_index_offset,
+            'options' : [],
+            'input_type' : u'checkbox',
 
-            },
-        }
-        checkbox_fields.update(languages_checkbox_fields)
-        enabled_checkbox_fields_list.append("languages")
-        
-        entertainmnet_checkbox_fields = {
-            'entertainment' : {
-                'label': ugettext_tuple(ugettext('Hobbies')),
-                'choices': [
-                    ('astrology',) + ugettext_tuple(ugettext('Astrology')),
-                    ('bars_pubs',) + ugettext_tuple(ugettext('Go for drinks')),
-                    ('camping',) + ugettext_tuple(ugettext('Camping')),
-                    ('cooking',) + ugettext_tuple(ugettext('Cooking')),
-                    ('concerts',) + ugettext_tuple(ugettext('Concerts')),
-                    ('computers',) + ugettext_tuple(ugettext('Computers')),
-                    ('crafts',) + ugettext_tuple(ugettext('Crafts')),
-                    ('cultural_events',) + ugettext_tuple(ugettext('Cultural events')),
-                    ('dancing',) + ugettext_tuple(ugettext('Dancing')),
-                    ('dance_clubs',) + ugettext_tuple(ugettext('Dance clubs')),
-                    ('dinner_parties',) + ugettext_tuple(ugettext('Dinner parties')),
-                    ('fashion_events',) + ugettext_tuple(ugettext('Fashion events')),
-                    ('fine_dining',) + ugettext_tuple(ugettext('Fine dining')),
-                    ('fishing',) + ugettext_tuple(ugettext('Fishing')),
-                    ('games',) + ugettext_tuple(ugettext('Traditional games')),
-                    ('internet',) + ugettext_tuple(ugettext('Surfing the web')),
-                    ('investing',) + ugettext_tuple(ugettext('Investing')),
-                    ('listen_to_music',) + ugettext_tuple(ugettext('Listen to music')),
-                    ('movies',) + ugettext_tuple(ugettext('Movies')),
-                    ('news',) + ugettext_tuple(ugettext('News')),
-                    ('Painting',) + ugettext_tuple(ugettext('Painting')),
-                    ('Photography',) + ugettext_tuple(ugettext('Photography')),
-                    ('play_music',) + ugettext_tuple(ugettext('Play Music')),
-                    ('poetry',) + ugettext_tuple(ugettext('Poetry')),
-                    ('politics',) + ugettext_tuple(ugettext('Politics')),
-                    ('reading',) + ugettext_tuple(ugettext('Reading')),
-                    ('restaurants',) + ugettext_tuple(ugettext('Restaurants')),
-                    ('shopping',) + ugettext_tuple(ugettext('Shopping')),
-                    ('traveling',) + ugettext_tuple(ugettext('Travel')),
-                    ('tv',) + ugettext_tuple(ugettext('Watch TV')),
-                    ('video_games',) + ugettext_tuple(ugettext('Video games')),
-                    ('walking',) + ugettext_tuple(ugettext('Walking')),
-                    ('wine_tasting',) + ugettext_tuple(ugettext('Wine tasting')),
-                    ('Writing',) + ugettext_tuple(ugettext('Writing')),
-                    ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say')),
-                    ],
+        },
+    }
+    checkbox_fields.update(languages_checkbox_fields)
+    enabled_checkbox_fields_list.append("languages")
 
-                'wrap_choice_with_anchor' : {
-                    # 'camping': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=camping&linkCode=ur2&rh=n%3A2454136031%2Ck%3Acamping&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'crafts': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=artesania&linkCode=ur2&rh=n%3A599391031%2Ck%3Aartesania&sprefix=artesania%2Ckitchen%2C225&tag=wwwlexabitcom-21&url=search-alias%3Dkitchen">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'cooking': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=cocinar&linkCode=ur2&rh=n%3A599364031%2Ck%3Acocinar&tag=wwwlexabitcom-21&url=search-alias%3Dstripbooks">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'fishing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=pescar&linkCode=ur2&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'games': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=juegos%20de%20mesa%20adultos&linkCode=ur2&rh=n%3A599385031%2Ck%3Ajuegos%20de%20mesa%20adultos&sprefix=juegos%20de%20mesa%20para%20ni%C3%B1os%2Cshoes%2C223&tag=wwwlexabitcom-21&url=search-alias%3Dtoys">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'computers': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=667049031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'investing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=invertir&linkCode=ur2&rh=n%3A599364031%2Ck%3Ainvertir&tag=wwwlexabitcom-21&url=search-alias%3Dstripbooks">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'listen_to_music': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&camp=3626&creative=24822&linkCode=ur2&node=664684031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'movies': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=peliculas&linkCode=ur2&sprefix=peliculas%2Caps%2C236&tag=wwwlexabitcom-21&url=search-alias%3Ddvd">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'Painting': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=juego%20de%20pintura&linkCode=ur2&rh=i%3Aaps%2Ck%3Ajuego%20de%20pintura&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'Photography': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=cameras%20digitales&linkCode=ur2&rh=i%3Aaps%2Ck%3Acameras%20digitales&sprefix=cameras%2Cshoes%2C261&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'play_music': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=3628866031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'poetry': {'es':u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=poesia&linkCode=ur2&rh=n%3A599364031%2Ck%3Apoesia&tag=wwwlexabitcom-21&url=search-alias%3Dstripbooks">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'reading': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=599364031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'tv': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&camp=3626&creative=24822&linkCode=ur2&node=664659031&pf_rd_i=televisiones&pf_rd_m=A1AT7YVPFBWXBL&pf_rd_p=505144087&pf_rd_r=1N72X0NQP2B6JBA9QHQ4&pf_rd_s=auto-sparkle&pf_rd_t=301&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'video_games': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=599382031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-
-                },
-                'start_sorting_index' : 0,
-                'stop_sorting_index' : -1,
-                'options' : [],
-                'input_type' : u'checkbox',
-            },
-        }
-        
-        
-        athletics_checkbox_fields = {
-            'athletics' : {
-                'label': ugettext_tuple(ugettext('Sports that I practice / like')),
-                'choices' : [
-                    ('aerobics',) + ugettext_tuple(ugettext('Aerobics')),
-                    ('basketball',) + ugettext_tuple(ugettext('Basketball')),
-                    ('biking',) + ugettext_tuple(ugettext('Biking')),
-                    ('billiards',) + ugettext_tuple(ugettext('Billiards')),
-                    ('bowling',) + ugettext_tuple(ugettext('Bowling')),
-                    ('canoeing',) + ugettext_tuple(ugettext('Canoeing')),
-                    ('diving',) + ugettext_tuple(ugettext('Diving')),
-                    ('golf',) + ugettext_tuple(ugettext('Golf')),
-                    ('hiking',) + ugettext_tuple(ugettext('Hiking')),
-                    ('horseback_riding',) + ugettext_tuple(ugettext('Horseback Riding')),
-                    ('jogging_running',) + ugettext_tuple(ugettext('Jogging / running')),
-                    ('kayaking',) + ugettext_tuple(ugettext('Kayaking')),
-                    ('kitesurfing',) + ugettext_tuple(ugettext('Kitesurfing')),
-                    ('martial_arts',) + ugettext_tuple(ugettext('Martial Arts')),
-                    ('mountain_climbing',) + ugettext_tuple(ugettext('Mountain climbing')),
-                    ('rugby',) + ugettext_tuple(ugettext('Rugby')),
-                    ('sailing',) + ugettext_tuple(ugettext('Sailing')),
-                    ('skating',) + ugettext_tuple(ugettext('Skating')),
-                    ('skiing',) + ugettext_tuple(ugettext('Snow skiing')),
-                    ('snowboarding',) + ugettext_tuple(ugettext('Snowboarding')),
-                    ('soccer',) + ugettext_tuple(ugettext('Soccer')),
-                    ('surfing',) + ugettext_tuple(ugettext('Surfing')),
-                    ('swimming',) + ugettext_tuple(ugettext('Swimming')),
-                    ('tennis',) + ugettext_tuple(ugettext('Tennis')),
-                    ('volleyball',) + ugettext_tuple(ugettext('Volleyball')),
-                    ('water_skiing',) + ugettext_tuple(ugettext('Water skiing')),
-                    ('weight_lifting',) + ugettext_tuple(ugettext('Weight lifting')),
-                    ('windsurfing',) + ugettext_tuple(ugettext('Wind surfing')),
-                    ('yoga',) + ugettext_tuple(ugettext('Yoga')),
-                    ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say')),
+    entertainmnet_checkbox_fields = {
+        'entertainment' : {
+            'label': ugettext_tuple(ugettext('Hobbies')),
+            'choices': [
+                ('astrology',) + ugettext_tuple(ugettext('Astrology')),
+                ('bars_pubs',) + ugettext_tuple(ugettext('Go for drinks')),
+                ('camping',) + ugettext_tuple(ugettext('Camping')),
+                ('cooking',) + ugettext_tuple(ugettext('Cooking')),
+                ('concerts',) + ugettext_tuple(ugettext('Concerts')),
+                ('computers',) + ugettext_tuple(ugettext('Computers')),
+                ('crafts',) + ugettext_tuple(ugettext('Crafts')),
+                ('cultural_events',) + ugettext_tuple(ugettext('Cultural events')),
+                ('dancing',) + ugettext_tuple(ugettext('Dancing')),
+                ('dance_clubs',) + ugettext_tuple(ugettext('Dance clubs')),
+                ('dinner_parties',) + ugettext_tuple(ugettext('Dinner parties')),
+                ('fashion_events',) + ugettext_tuple(ugettext('Fashion events')),
+                ('fine_dining',) + ugettext_tuple(ugettext('Fine dining')),
+                ('fishing',) + ugettext_tuple(ugettext('Fishing')),
+                ('games',) + ugettext_tuple(ugettext('Traditional games')),
+                ('internet',) + ugettext_tuple(ugettext('Surfing the web')),
+                ('investing',) + ugettext_tuple(ugettext('Investing')),
+                ('listen_to_music',) + ugettext_tuple(ugettext('Listen to music')),
+                ('movies',) + ugettext_tuple(ugettext('Movies')),
+                ('news',) + ugettext_tuple(ugettext('News')),
+                ('Painting',) + ugettext_tuple(ugettext('Painting')),
+                ('Photography',) + ugettext_tuple(ugettext('Photography')),
+                ('play_music',) + ugettext_tuple(ugettext('Play Music')),
+                ('poetry',) + ugettext_tuple(ugettext('Poetry')),
+                ('politics',) + ugettext_tuple(ugettext('Politics')),
+                ('reading',) + ugettext_tuple(ugettext('Reading')),
+                ('restaurants',) + ugettext_tuple(ugettext('Restaurants')),
+                ('shopping',) + ugettext_tuple(ugettext('Shopping')),
+                ('traveling',) + ugettext_tuple(ugettext('Travel')),
+                ('tv',) + ugettext_tuple(ugettext('Watch TV')),
+                ('video_games',) + ugettext_tuple(ugettext('Video games')),
+                ('walking',) + ugettext_tuple(ugettext('Walking')),
+                ('wine_tasting',) + ugettext_tuple(ugettext('Wine tasting')),
+                ('Writing',) + ugettext_tuple(ugettext('Writing')),
+                ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say')),
                 ],
-                'wrap_choice_with_anchor' : {
-                    # 'aerobics': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=aerobic&linkCode=ur2&sprefix=aerobic%2Caps&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'basketball': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=Baloncesto&linkCode=ur2&rh=i%3Aaps%2Ck%3ABaloncesto&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'biking': {'es': u'<a target="_blank" href="http://www.amazon.es/Ciclismo-Bicicletas-Cascos-Luces-Herramientas/b/?_encoding=UTF8&camp=3626&creative=24822&linkCode=ur2&node=2928487031&pf_rd_i=ciclismo&pf_rd_m=A1AT7YVPFBWXBL&pf_rd_p=506092667&pf_rd_r=0BNNX1A815RDAJZ6B479&pf_rd_s=auto-sparkle&pf_rd_t=301&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'billards': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=billar&linkCode=ur2&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'canoeing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=canoa&linkCode=ur2&rh=n%3A2454136031%2Ck%3Acanoa&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'diving': {'es': u'<a target="_blank" href="http://www.amazon.es/gp/search/?ie=UTF8&camp=3626&creative=24822&keywords=buceo&linkCode=ur2&qid=1417198333&rh=i%3Asporting%2Ck%3Abuceo&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'golf': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=golf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Agolf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'hiking': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=excursionismo&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aexcursionismo&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'horseback_riding': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=montar%20caballo&linkCode=ur2&rh=n%3A2454136031%2Ck%3Amontar%20caballo&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'jogging_running': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=correr&linkCode=ur2&rh=n%3A2454136031%2Ck%3Acorrer&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'kayaking': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=kayak&linkCode=ur2&rh=n%3A2454136031%2Ck%3Akayak&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'kitesurfing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=kitesurf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Akitesurf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'martial_arts': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=artes%20marciales&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aartes%20marciales&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'mountain_climbing': {'es': u'<a target="_blank" href="http://www.amazon.es/gp/search/?ie=UTF8&camp=3626&creative=24822&keywords=monta%C3%B1ismo&linkCode=ur2&qid=1417195260&rh=i%3Asporting%2Ck%3Amonta%C3%B1ismo&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'rugby': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=rugby&linkCode=ur2&rh=n%3A2454136031%2Ck%3Arugby&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'sailing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=navegaci%C3%B3n&linkCode=ur2&rh=n%3A2454136031%2Ck%3Anavegaci%C3%B3n&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'skating': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=patinaje&linkCode=ur2&rh=n%3A2454136031%2Ck%3Apatinaje&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'skiing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=esqui&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aesqui&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'snowboarding': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=snowboard&linkCode=ur2&rh=n%3A2454136031%2Ck%3Asnowboard&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'soccer': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=futbol&linkCode=ur2&rh=n%3A2454136031%2Ck%3Afutbol&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'surfing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=surf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Asurf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'tennis': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=tenis&linkCode=ur2&rh=n%3A2454136031%2Ck%3Atenis&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'volleyball': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=voleibol&linkCode=ur2&rh=n%3A2454136031%2Ck%3Avoleibol&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'water_skiing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=esqui%20acuatico&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aesqui%20acuatico&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'weight_lifting': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=levantar%20pesas&linkCode=ur2&rh=n%3A2454136031%2Ck%3Alevantar%20pesas&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'windsurfing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=windsurf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Awindsurf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                    # 'yoga': {'es': u'<a target="_blank" href="http://www.amazon.es/mn/search/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=nadar&linkCode=ur2&rh=n%3A2454136031%2Ck%3Anadar&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
-                },
-                'start_sorting_index' : 0,
-                'stop_sorting_index' : -1,
-                'options' : [],
-                'input_type' : u'checkbox',
+
+            'wrap_choice_with_anchor' : {
+                # 'camping': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=camping&linkCode=ur2&rh=n%3A2454136031%2Ck%3Acamping&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'crafts': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=artesania&linkCode=ur2&rh=n%3A599391031%2Ck%3Aartesania&sprefix=artesania%2Ckitchen%2C225&tag=wwwlexabitcom-21&url=search-alias%3Dkitchen">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'cooking': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=cocinar&linkCode=ur2&rh=n%3A599364031%2Ck%3Acocinar&tag=wwwlexabitcom-21&url=search-alias%3Dstripbooks">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'fishing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=pescar&linkCode=ur2&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'games': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=juegos%20de%20mesa%20adultos&linkCode=ur2&rh=n%3A599385031%2Ck%3Ajuegos%20de%20mesa%20adultos&sprefix=juegos%20de%20mesa%20para%20ni%C3%B1os%2Cshoes%2C223&tag=wwwlexabitcom-21&url=search-alias%3Dtoys">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'computers': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=667049031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'investing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=invertir&linkCode=ur2&rh=n%3A599364031%2Ck%3Ainvertir&tag=wwwlexabitcom-21&url=search-alias%3Dstripbooks">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'listen_to_music': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&camp=3626&creative=24822&linkCode=ur2&node=664684031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'movies': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=peliculas&linkCode=ur2&sprefix=peliculas%2Caps%2C236&tag=wwwlexabitcom-21&url=search-alias%3Ddvd">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'Painting': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=juego%20de%20pintura&linkCode=ur2&rh=i%3Aaps%2Ck%3Ajuego%20de%20pintura&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'Photography': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=cameras%20digitales&linkCode=ur2&rh=i%3Aaps%2Ck%3Acameras%20digitales&sprefix=cameras%2Cshoes%2C261&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'play_music': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=3628866031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'poetry': {'es':u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=poesia&linkCode=ur2&rh=n%3A599364031%2Ck%3Apoesia&tag=wwwlexabitcom-21&url=search-alias%3Dstripbooks">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'reading': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=599364031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'tv': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&camp=3626&creative=24822&linkCode=ur2&node=664659031&pf_rd_i=televisiones&pf_rd_m=A1AT7YVPFBWXBL&pf_rd_p=505144087&pf_rd_r=1N72X0NQP2B6JBA9QHQ4&pf_rd_s=auto-sparkle&pf_rd_t=301&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'video_games': {'es': u'<a target="_blank" href="http://www.amazon.es/b/?_encoding=UTF8&ajr=0&camp=3626&creative=24822&linkCode=ur2&node=599382031&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+
             },
-        }
-        
+            'start_sorting_index' : 0,
+            'stop_sorting_index' : -1,
+            'options' : [],
+            'input_type' : u'checkbox',
+        },
+    }
 
-        checkbox_fields.update(entertainmnet_checkbox_fields)
-        checkbox_fields.update(athletics_checkbox_fields)
 
-        enabled_checkbox_fields_list.append("entertainment")
-        enabled_checkbox_fields_list.append("athletics")
-    else:  # friend_build   
-        friend_bazaar_specific_code.friend_bazaar_specific_choices(checkbox_fields, enabled_checkbox_fields_list)
+    athletics_checkbox_fields = {
+        'athletics' : {
+            'label': ugettext_tuple(ugettext('Sports that I practice / like')),
+            'choices' : [
+                ('aerobics',) + ugettext_tuple(ugettext('Aerobics')),
+                ('basketball',) + ugettext_tuple(ugettext('Basketball')),
+                ('biking',) + ugettext_tuple(ugettext('Biking')),
+                ('billiards',) + ugettext_tuple(ugettext('Billiards')),
+                ('bowling',) + ugettext_tuple(ugettext('Bowling')),
+                ('canoeing',) + ugettext_tuple(ugettext('Canoeing')),
+                ('diving',) + ugettext_tuple(ugettext('Diving')),
+                ('golf',) + ugettext_tuple(ugettext('Golf')),
+                ('hiking',) + ugettext_tuple(ugettext('Hiking')),
+                ('horseback_riding',) + ugettext_tuple(ugettext('Horseback Riding')),
+                ('jogging_running',) + ugettext_tuple(ugettext('Jogging / running')),
+                ('kayaking',) + ugettext_tuple(ugettext('Kayaking')),
+                ('kitesurfing',) + ugettext_tuple(ugettext('Kitesurfing')),
+                ('martial_arts',) + ugettext_tuple(ugettext('Martial Arts')),
+                ('mountain_climbing',) + ugettext_tuple(ugettext('Mountain climbing')),
+                ('rugby',) + ugettext_tuple(ugettext('Rugby')),
+                ('sailing',) + ugettext_tuple(ugettext('Sailing')),
+                ('skating',) + ugettext_tuple(ugettext('Skating')),
+                ('skiing',) + ugettext_tuple(ugettext('Snow skiing')),
+                ('snowboarding',) + ugettext_tuple(ugettext('Snowboarding')),
+                ('soccer',) + ugettext_tuple(ugettext('Soccer')),
+                ('surfing',) + ugettext_tuple(ugettext('Surfing')),
+                ('swimming',) + ugettext_tuple(ugettext('Swimming')),
+                ('tennis',) + ugettext_tuple(ugettext('Tennis')),
+                ('volleyball',) + ugettext_tuple(ugettext('Volleyball')),
+                ('water_skiing',) + ugettext_tuple(ugettext('Water skiing')),
+                ('weight_lifting',) + ugettext_tuple(ugettext('Weight lifting')),
+                ('windsurfing',) + ugettext_tuple(ugettext('Wind surfing')),
+                ('yoga',) + ugettext_tuple(ugettext('Yoga')),
+                ('prefer_no_say',) + ugettext_tuple(ugettext('Prefer not to say')),
+            ],
+            'wrap_choice_with_anchor' : {
+                # 'aerobics': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=aerobic&linkCode=ur2&sprefix=aerobic%2Caps&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'basketball': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=Baloncesto&linkCode=ur2&rh=i%3Aaps%2Ck%3ABaloncesto&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'biking': {'es': u'<a target="_blank" href="http://www.amazon.es/Ciclismo-Bicicletas-Cascos-Luces-Herramientas/b/?_encoding=UTF8&camp=3626&creative=24822&linkCode=ur2&node=2928487031&pf_rd_i=ciclismo&pf_rd_m=A1AT7YVPFBWXBL&pf_rd_p=506092667&pf_rd_r=0BNNX1A815RDAJZ6B479&pf_rd_s=auto-sparkle&pf_rd_t=301&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'billards': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=billar&linkCode=ur2&tag=wwwlexabitcom-21&url=search-alias%3Daps">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'canoeing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=canoa&linkCode=ur2&rh=n%3A2454136031%2Ck%3Acanoa&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'diving': {'es': u'<a target="_blank" href="http://www.amazon.es/gp/search/?ie=UTF8&camp=3626&creative=24822&keywords=buceo&linkCode=ur2&qid=1417198333&rh=i%3Asporting%2Ck%3Abuceo&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'golf': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=golf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Agolf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'hiking': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=excursionismo&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aexcursionismo&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'horseback_riding': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=montar%20caballo&linkCode=ur2&rh=n%3A2454136031%2Ck%3Amontar%20caballo&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'jogging_running': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=correr&linkCode=ur2&rh=n%3A2454136031%2Ck%3Acorrer&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'kayaking': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=kayak&linkCode=ur2&rh=n%3A2454136031%2Ck%3Akayak&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'kitesurfing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=kitesurf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Akitesurf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'martial_arts': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=artes%20marciales&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aartes%20marciales&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'mountain_climbing': {'es': u'<a target="_blank" href="http://www.amazon.es/gp/search/?ie=UTF8&camp=3626&creative=24822&keywords=monta%C3%B1ismo&linkCode=ur2&qid=1417195260&rh=i%3Asporting%2Ck%3Amonta%C3%B1ismo&tag=wwwlexabitcom-21">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'rugby': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=rugby&linkCode=ur2&rh=n%3A2454136031%2Ck%3Arugby&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'sailing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=navegaci%C3%B3n&linkCode=ur2&rh=n%3A2454136031%2Ck%3Anavegaci%C3%B3n&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'skating': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=patinaje&linkCode=ur2&rh=n%3A2454136031%2Ck%3Apatinaje&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'skiing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=esqui&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aesqui&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'snowboarding': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=snowboard&linkCode=ur2&rh=n%3A2454136031%2Ck%3Asnowboard&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'soccer': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=futbol&linkCode=ur2&rh=n%3A2454136031%2Ck%3Afutbol&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'surfing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=surf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Asurf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'tennis': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=tenis&linkCode=ur2&rh=n%3A2454136031%2Ck%3Atenis&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'volleyball': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=voleibol&linkCode=ur2&rh=n%3A2454136031%2Ck%3Avoleibol&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'water_skiing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=esqui%20acuatico&linkCode=ur2&rh=n%3A2454136031%2Ck%3Aesqui%20acuatico&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'weight_lifting': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=levantar%20pesas&linkCode=ur2&rh=n%3A2454136031%2Ck%3Alevantar%20pesas&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'windsurfing': {'es': u'<a target="_blank" href="http://www.amazon.es/s/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=windsurf&linkCode=ur2&rh=n%3A2454136031%2Ck%3Awindsurf&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+                # 'yoga': {'es': u'<a target="_blank" href="http://www.amazon.es/mn/search/?_encoding=UTF8&camp=3626&creative=24822&field-keywords=nadar&linkCode=ur2&rh=n%3A2454136031%2Ck%3Anadar&tag=wwwlexabitcom-21&url=search-alias%3Dsporting">{option_string}</a><img src="https://ir-es.amazon-adsystem.com/e/ir?t=wwwlexabitcom-21&l=ur2&o=30" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />'},
+            },
+            'start_sorting_index' : 0,
+            'stop_sorting_index' : -1,
+            'options' : [],
+            'input_type' : u'checkbox',
+        },
+    }
+
+
+    checkbox_fields.update(entertainmnet_checkbox_fields)
+    checkbox_fields.update(athletics_checkbox_fields)
+
+    enabled_checkbox_fields_list.append("entertainment")
+    enabled_checkbox_fields_list.append("athletics")
 
     
     if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build" \

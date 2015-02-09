@@ -122,23 +122,21 @@ class UserSearchPreferences2(ndb.Model):
     user_has_done_a_search = ndb.BooleanProperty(default = False, indexed = False)
 
     
-    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != "language_build":
         relationship_status = ndb.StringProperty(default="----", indexed = False)
         # preference refers to the sex that other users are looking for (ie. the sex that the current user is claiming to be)
         preference = ndb.StringProperty(default="----", indexed = False)
-    if settings.BUILD_NAME == "language_build":
+    else:
         #native_language = ndb.StringProperty(required=False, default="----")
         language_to_teach = ndb.StringProperty(default="----", indexed = False)
         language_to_learn = ndb.StringProperty(default="----", indexed = False) 
-    if settings.BUILD_NAME == "friend_build":
-        for_sale = ndb.StringProperty(required=True,  indexed = False)
-        for_sale_sub_menu = ndb.StringProperty(required=True, indexed = False)
+
 
         
     # Note: the following value is not a search-vale -- but, it did not make sense to create a new structure 
     # just for storing this, and I didn't want to write it onto the main userobject.
     # Looking back on this - I should have made a new object for this. TODO
-    if settings.BUILD_NAME != 'language_build' and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != 'language_build':
         lang_code = ndb.StringProperty(default = 'es', indexed = False)
     else:
         lang_code = ndb.StringProperty(default = 'en', indexed = False)
@@ -491,19 +489,16 @@ class UserModel(ndb.Model):
     password_salt = ndb.StringProperty(default = None)
     email_address = ndb.StringProperty(default = "----")
     
-    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != "language_build":
         preference = ndb.StringProperty(default = None)    
         preference_ix_list = ndb.StringProperty(repeated = True)
         relationship_status = ndb.StringProperty(default = None) 
         relationship_status_ix_list = ndb.StringProperty(repeated = True)
-    else:
-        if settings.BUILD_NAME == "language_build":
+    else: #settings.BUILD_NAME == "language_build":
         # The following values will be copied into lists so  that the user can specify multiple values for each of the fields.
-            native_language = ndb.StringProperty(default = None)    
-            language_to_learn = ndb.StringProperty(default = None) # only used while user is signing up - will be copied into array of
-                                                                                 # languages spoken by the user, and ignored thereafter.
-        if settings.BUILD_NAME == "friend_build":
-            pass
+        native_language = ndb.StringProperty(default = None)
+        language_to_learn = ndb.StringProperty(default = None) # only used while user is signing up - will be copied into array of
+                                                               # languages spoken by the user, and ignored thereafter.
 
                                                                              
     # location requires special storage, because we break up the input into
@@ -515,10 +510,6 @@ class UserModel(ndb.Model):
     region_ix_list = ndb.StringProperty(repeated = True)
     sub_region = ndb.StringProperty(default="----")
     sub_region_ix_list = ndb.StringProperty(repeated = True)
-    
-    if settings.BUILD_NAME == "friend_build":
-        for_sale_ix_list = ndb.StringProperty(repeated = True)
-        
 
     # Status (what am I thinking) allows the user to enter in their thought for the day
     current_status = ndb.StringProperty(default='----')

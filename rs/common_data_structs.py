@@ -25,8 +25,6 @@
 ################################################################################
 
 import settings
-import friend_bazaar_specific_code
-
 
 wrapper_data_fields = {}
 wrapper_data_fields['debugging_enabled'] = settings.DEBUG

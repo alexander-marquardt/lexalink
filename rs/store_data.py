@@ -48,7 +48,6 @@ from user_profile_details import UserProfileDetails
 import email_utils
 import login_utils, utils, utils_top_level
 import constants, models, text_fields, messages
-import friend_bazaar_specific_code
 
 from rs import vip_render_payment_options
 from rs import profile_utils
@@ -432,80 +431,23 @@ def store_current_status(request, owner_uid):
     except:
         error_reporting.log_exception(logging.critical, request = request)       
         return HttpResponse('Error')      
-            
 
-        
-def re_compute_for_sale_to_buy_ix_list(userobject, parent_ix_list_name): 
-    # Used in friend_build, for computing ix_lists that are necessary for search queries    
-    # Returns True if the lists are stored correctly (ie. they are not longer than the cutoff value)
-    # and returns False if the lists have violated a constraint.
-    
-    try:
-        ix_list_length = 0
-        
-        ix_field_name =  parent_ix_list_name + "_ix_list"
-        ix_list = ["----",]
-        # loop over all the to_buy or for_sale child fields, and add the values into the ix_list
-        for category in friend_bazaar_specific_code.categories_label_dict.keys():
-            
-            field_name = '%s_%s' % (parent_ix_list_name, category)
-            field_list = getattr(userobject, field_name)
-
-            # By construction, 'prefer_no_say' is only allowed if there are no other values present in the list.
-            if field_list[0] != 'prefer_no_say':                
-                # add the category name to the list
-                ix_list.append(field_name)
-                # now copy all the values within the category into the ix_list
-                ix_list  += field_list
-                ix_list_length += len(field_list)
-            
-        if settings.DEBUG:
-            # make sure that the ix_list is clean (no extra prefer_no_say or ---- values)
-            assert(not "prefer_no_say" in ix_list)
-            assert(not "----" in ix_list[1:]) # note, we ignore the first value since it *should* be set to "----"
-            
-        # we  cut-off the list since it exceeds the maximum allowed (we don't want people selecting every single activity)
-        if ix_list_length > constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST:
-            error_reporting.log_exception(logging.critical, error_message = "Long ix_list length %s for user %s\nlist=%s" % (
-                ix_list_length, userobject.username, ix_list,))
-            return False
-        else:            
-            setattr(userobject, ix_field_name, ix_list)
-            return True
-        
-    except:
-        error_message = "Unknown error userobject: %s" % (repr(userobject))
-        error_reporting.log_exception(logging.critical, error_message = error_message)
-        return False
-        
-        
-for_sale_pattern = re.compile(r'for_sale.*')        
-to_buy_pattern = re.compile(r'to_buy.*')
 
 @ajax_call_requires_login
 def store_generic_checkbox_option_list(request, option_name, owner_uid):
     
     prepend_dont_care_to_list = False
-    parent_ix_list_name = None
-    
+
     try:
         if settings.BUILD_NAME == "language_build":
             # This is necessary for ensuring that the languages and languages_to_learn contain "----" which is necessary for
             # ensuring that all profiles show up in "dont_care" searches.
             prepend_dont_care_to_list = True
             
-        if settings.BUILD_NAME == "friend_build":
-            # we must copy the list into the appropriate for_sale_ix_list, or to_buy_ix_list (depending on if this is a for_sale or to_buy sub-list)
-            if for_sale_pattern.match(option_name):
-                parent_ix_list_name = "for_sale"
-            #elif to_buy_pattern.match(option_name):
-                #parent_ix_list_name = "to_buy"
-            else: 
-                assert(0)
-            
+
         fields_to_store = [option_name,]
-        http_return = store_data(request, fields_to_store, owner_uid, is_a_list = True, prepend_dont_care_to_list = prepend_dont_care_to_list,
-                                 parent_ix_list_name = parent_ix_list_name)
+        http_return = store_data(request, fields_to_store, owner_uid, is_a_list = True,
+                                 prepend_dont_care_to_list = prepend_dont_care_to_list)
         
     except:
         error_reporting.log_exception(logging.critical, request = request)      
@@ -515,7 +457,7 @@ def store_generic_checkbox_option_list(request, option_name, owner_uid):
     
 @ajax_call_requires_login
 def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_title = False, is_signup_fields = False, 
-               prepend_dont_care_to_list = False, parent_ix_list_name = None):
+               prepend_dont_care_to_list = False):
     # recieves to POST from the "edit_xxxx" call, and stores to the appropriate data structure.
     # then re-direct back to the user profile.
     # - uid - id of current user
@@ -523,9 +465,7 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
     # - is_a_list - if the post contains data from a checkbox, it should be processed as
     #               a list. 
     # - prepend_dont_care_to_list: we add a value of "----" to the list, which will be used in search queries where the condition is "don't care"
-    # - parent_ix_list_name: "for_sale" or "to_buy" - indicates that this list will be added to a larger ix_list that is used for
-    #                         efficiently searching through profiles specified in the search box.
-    
+
     try:
         userobject_ok_to_write = True
         assert(owner_uid == request.session['userobject_str'])
@@ -619,9 +559,6 @@ def store_data(request, fields_to_store, owner_uid, is_a_list = False, update_ti
         if is_signup_fields:
             # copy the current field into the search index list for the current field
             login_utils.copy_principal_user_data_fields_into_ix_lists(userobject)
-            
-        if parent_ix_list_name:
-            userobject_ok_to_write = re_compute_for_sale_to_buy_ix_list(userobject, parent_ix_list_name)
 
         if userobject_ok_to_write:
             put_userobject(userobject)

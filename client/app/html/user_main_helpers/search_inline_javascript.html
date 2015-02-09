@@ -37,8 +37,6 @@
         var default_text = new Object();
         default_text['region'] = "{% trans 'All Regions' %}";
         default_text['sub_region'] = "{% trans 'All Sub-Regions' %}";
-        default_text['for_sale_sub_menu'] = "{% trans 'Show All' %}";
-        default_text['to_buy_sub_menu'] = "{% trans 'Show All' %}";
         default_text['not_available'] = "{% trans 'Not Defined Yet' %}";
 
         var id_prefix = "#id-search";
@@ -51,11 +49,6 @@
 
         setDropdownOptionsAndSettings(search_url, id_prefix, default_text, false, is_registered_user);
         loadLocationSettingsOnChange(id_prefix, default_text, false);
-
-        {% if build_name == "friend_build" %}
-            loadForSaleToBuyOnChange(id_prefix, default_text);
-        {% endif %}
-
 
         $("#id-simple-search-form").submit(function() {
 

@@ -160,21 +160,20 @@ def generate_profile_summary_table(request_lang_code, profile):
     generated_html = ''
     
     try:
-        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":        
+        if settings.BUILD_NAME != "language_build" :
             relationship_status_def = "%s"\
                 % user_profile_main_data.UserSpec.signup_fields_options_dict['relationship_status'][lang_idx][profile.relationship_status]
             preference_def =  u"%s" % user_profile_main_data.UserSpec.signup_fields_options_dict['preference'][lang_idx][profile.preference]
 
-        else:
-            if settings.BUILD_NAME == "language_build":
+        else: # settings.BUILD_NAME == "language_build":
             
-                languages_spoken_list = generic_html_generator_for_list(lang_idx, 'languages', profile.languages, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
-                languages_to_learn_list = generic_html_generator_for_list(lang_idx, 'languages_to_learn', profile.languages_to_learn, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
-                
-                native_language_def = "%s"\
-                    % user_profile_main_data.UserSpec.signup_fields_options_dict['native_language'][lang_idx][profile.native_language]
-                #language_to_learn_def = "%s"\
-                 #   % user_profile_main_data.UserSpec.signup_fields_options_dict['language_to_learn'][lang_idx][profile.language_to_learn]
+            languages_spoken_list = generic_html_generator_for_list(lang_idx, 'languages', profile.languages, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
+            languages_to_learn_list = generic_html_generator_for_list(lang_idx, 'languages_to_learn', profile.languages_to_learn, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
+
+            native_language_def = "%s"\
+                % user_profile_main_data.UserSpec.signup_fields_options_dict['native_language'][lang_idx][profile.native_language]
+            #language_to_learn_def = "%s"\
+             #   % user_profile_main_data.UserSpec.signup_fields_options_dict['language_to_learn'][lang_idx][profile.language_to_learn]
 
         sex_def = u"%s" % user_profile_main_data.UserSpec.signup_fields_options_dict['sex'][lang_idx][profile.sex]
         
@@ -216,14 +215,14 @@ def generate_profile_summary_table(request_lang_code, profile):
         age_text = u"%s:" % ugettext("My age")
         price_text = u"%s:" % ugettext("My price")
 
-        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+        if settings.BUILD_NAME != "language_build":
             location_text = u"%s:" % ugettext("In location") # override this for english (and obviously for others as well)
         else:
             location_text = u"%s:" % ugettext("I am currently in")
         
 
         first_row_html = second_row_html = ''
-        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+        if settings.BUILD_NAME != "language_build":
             first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % sex_text
             second_row_html += '<td class = "cl-summary-info">%s</td>' % sex_def
             
@@ -243,13 +242,12 @@ def generate_profile_summary_table(request_lang_code, profile):
             first_row_html += '<td class = "cl-left-align-user-summary-text-230px"><strong>%s</strong></td>' % location_text
             second_row_html += '<td class = "cl-summary-info">%s</td>' % location_def
             
-        else:
-            if settings.BUILD_NAME == "language_build":
-                first_row_html += '<td class = "cl-left-align-user-summary-text-for-languages"><strong>%s</strong></td>' % languages_spoken_text
-                second_row_html += '<td class = "cl-summary-info">%s</td>' % languages_spoken_list
-    
-                first_row_html += '<td class = "cl-left-align-user-summary-text-for-languages"><strong>%s</strong></td>' % languages_to_learn_text
-                second_row_html += '<td class = "cl-summary-info">%s</td>' % languages_to_learn_list
+        else: #  settings.BUILD_NAME == "language_build":
+            first_row_html += '<td class = "cl-left-align-user-summary-text-for-languages"><strong>%s</strong></td>' % languages_spoken_text
+            second_row_html += '<td class = "cl-summary-info">%s</td>' % languages_spoken_list
+
+            first_row_html += '<td class = "cl-left-align-user-summary-text-for-languages"><strong>%s</strong></td>' % languages_to_learn_text
+            second_row_html += '<td class = "cl-summary-info">%s</td>' % languages_to_learn_list
 
             first_row_html += '<td class = "cl-left-align-user-summary-text-normal"><strong>%s</strong></td>' % sex_text
             second_row_html += '<td class = "cl-summary-info">%s</td>' % sex_def
@@ -969,60 +967,7 @@ def get_field_in_current_language(field_name, field_val, lang_code):
     lang_idx = localizations.input_field_lang_idx[lang_code]
     field_dictionary_by_field_name = getattr(user_profile_main_data.UserSpec, "signup_fields_options_dict")
     return field_dictionary_by_field_name[field_name][lang_idx][field_val]
-    
-    
-def get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx):
-    # returns an abbreviated string (comma seperated list) of the activities that the user being viewed 
-    # (indicated by userobject) has indicated they are interested in.
-    
-    MAX_NUM_ACTIVITIES = 10
-    current_num_activities_displayed = 0
-    
-    activity_list = []
-    generated_html = ''
-    
-    try:
-    
-        
-        for current_field in user_profile_main_data.UserSpec.list_of_activity_categories:
-            # Side note: If we update the python version, the order of these elements might change - this will make old URLs obsolete. 
-            list_for_current_field = getattr(userobject, current_field)
-            
-            for (idx, field_val) in enumerate(list_for_current_field):
-                
-                if field_val == "prefer_no_say":
-                    continue
-                
-                option_in_current_language = user_profile_details.UserProfileDetails.checkbox_options_dict[current_field][lang_idx][field_val]
-                    
-                if current_num_activities_displayed < MAX_NUM_ACTIVITIES:
-                    activity_list.append(u'%s' % option_in_current_language)
-                    current_num_activities_displayed += 1
-                else:
-                    # break out early, we are finished
-                    break
-                
-            # end inner for loop
-            
-            if current_num_activities_displayed >= MAX_NUM_ACTIVITIES:
-                # break out of outer loop if we have already retrieved tha max number of activities
-                break;
-            
-        if len(activity_list) > 0:
-            generated_html += u" %s " % ugettext("Interested in:")
-            generated_html += ", ".join(activity_list[:-1])
-            if len(activity_list) > 1:
-                generated_html += "%s %s" % (ugettext(", and"), activity_list[-1])
-            else:
-                generated_html += "%s" % activity_list[-1]
-                
 
-        return generated_html
-    except:
-        error_reporting.log_exception(logging.critical)       
-        return ''    
-    
-    
     
 def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = True, search_or_profile_fields = "profile"):
         
@@ -1051,11 +996,6 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                             'language_to_learn': '----',        
                             })
         
-    elif settings.BUILD_NAME == "friend_build":
-        return_dict.update({# following is only for friend_build
-                            'for_sale' : '----',
-                            'for_sale_sub_menu' : '----',
-                            })
         #return_dict.update(user_profile_details.UserSpec.activity_categories_unset_dict)
     else:
         return_dict.update({# following is only for dating websites
@@ -1074,14 +1014,8 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
         
 
         for (field_name, field_val) in field_vals_dict.iteritems():
-            if field_name == 'for_sale_sub_menu':
-                # the "for_sale_sub_menu" data field is only a place holder in the search box that is over-written by ajax calls 
-                # depending on the value selected in the "for_sale" menu -- therefore, it does not contain valid data.
-                # So, we need to look up the current value selected in the 'for_sale_menu', and lookup the value in the 
-                # appropriate sub_menu
-                lookup_field_name = field_vals_dict['for_sale']
-            else:
-                lookup_field_name = field_name
+
+            lookup_field_name = field_name
             
             try:
                 if not isinstance(field_val, list):
@@ -1113,7 +1047,7 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
         try:
             if pluralize_sex:
     
-                if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+                if settings.BUILD_NAME != "language_build":
                     # if pluralized, lookup the field name in the "preference" setting (since it is pluralized),
                     # otherwise use the "sex" setting.
                     if field_vals_dict['preference'] != "----":
@@ -1121,11 +1055,11 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                     if field_vals_dict['sex'] != "----":
                         return_dict["sex"] = field_dictionary_by_field_name["preference"][lang_idx][field_vals_dict['sex']]
                 else:
-                    # preference fields do not exist for language_build or friend_build, so lookup in the "sex" field
+                    # preference fields do not exist for language_build, so lookup in the "sex" field
                     if field_vals_dict['sex'] != "----":
                         return_dict["sex"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['sex']]
             else:
-                if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+                if settings.BUILD_NAME != "language_build":
                     if field_vals_dict['preference'] != "----":
                         return_dict["preference"] = field_dictionary_by_field_name["sex"][lang_idx][field_vals_dict['preference'] ]
                 if field_vals_dict['sex'] != "----":
@@ -1143,7 +1077,7 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                     lang_code = localizations.lang_code_by_idx[lang_idx]
                     return_dict["sex"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["sex"])
                     
-                    if settings.BUILD_NAME != "friend_build" and settings.BUILD_NAME != "language_build":
+                    if settings.BUILD_NAME != "language_build":
                         return_dict["preference"] = search_engine_overrides.override_sex(lang_code, int(field_vals_dict['age']), return_dict["preference"])
                 
             if field_vals_dict['sub_region'] and field_vals_dict['sub_region'] != "----":
@@ -1195,50 +1129,6 @@ def add_session_id_to_user_tracker(user_tracker_ref, session_id):
         error_reporting.log_exception(logging.critical)
         
 
-        
-
-def get_for_sale_to_buy(for_sale_to_buy_current_selection, lang_idx):
-    
-    if for_sale_to_buy_current_selection and for_sale_to_buy_current_selection in user_profile_main_data.UserSpec.search_fields:
-        return user_profile_main_data.UserSpec.search_fields[for_sale_to_buy_current_selection]['options'][lang_idx]
-    else:
-        return "Unknown get_for_sale_to_buy_options value %s requested" % for_sale_to_buy_current_selection
-    
-    
-# the following code is intentionally oustside of a function, so that it will only be executed a single time upon
-# initialization of the program. 
-# This dictionary will cache the generated html for the for_sale/to_buy sub-menus. This is necessary because these sub menus
-# are stored as arrays, but must be converted to a string of html to be passed to the template.
-for_sale_to_buy_dropdown_options_dict_cache = []
-for lang_idx, language_tuple in enumerate(settings.LANGUAGES):
-    for_sale_to_buy_dropdown_options_dict_cache.append({})
-    
-def get_child_dropdown_options_and_details(parent_val, lang_idx):
-    # Fills in location information that is required on the client side for filling in location menu and 
-    # sub-region dropdown menus.
-    
-    response_dict = {}
-    
-    try:
-        
-        # for efficiency, 
-        if parent_val == "----":
-            return "----"
-        if not for_sale_to_buy_dropdown_options_dict_cache[lang_idx].has_key(parent_val):    
-            if parent_val in user_profile_main_data.UserSpec.search_fields:
-                generated_options_html = ''
-                for option_line in user_profile_main_data.UserSpec.search_fields[parent_val]['options'][lang_idx]:
-                    generated_options_html += option_line
-                for_sale_to_buy_dropdown_options_dict_cache[lang_idx][parent_val] = generated_options_html
-        else:
-            pass
-        
-        return for_sale_to_buy_dropdown_options_dict_cache[lang_idx][parent_val]
-    except:
-        error_reporting.log_exception(logging.critical)   
-        return 'Error in get_child_dropdown_options_and_details'
-    
-    
 def get_fake_mail_parent_entity_key(uid1, uid2):
     # in order to ensure that all messages between two users are in the same entity group, we create a "fake"
     # entity key, which will be assigned as a parent to all messages between this pair of users. To ensure that

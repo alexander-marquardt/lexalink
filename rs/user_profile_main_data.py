@@ -34,15 +34,8 @@ import logging
 import settings
 from django.utils.encoding import smart_unicode
 from data_struct_utils import *
-import constants,  localizations, friend_bazaar_specific_code
+import constants,  localizations
 from translation_helpers import ugettext_tuple
-
-if settings.BUILD_NAME == "friend_build":
-    # *hack* April 18 2012 **  
-    # This is a hack - user_profile_details must be imported before user_profile_main in order to setup 
-    # the original_activity_list_used_to_derive_checkbox_list data structure. 
-    from rs import user_profile_details    
-
 
 class UserSpec():
     
@@ -51,21 +44,17 @@ class UserSpec():
     # places. It is necessary to set up and store all language translations in one go, which means that we store information
     # for different languages in arrays that will be indexed by the current language configuration. 
     
-    if settings.BUILD_NAME != 'language_build' and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != 'language_build':
         principal_user_data = ['sex', 'preference', 'relationship_status', 'age', 'country', 'username',]
-        simple_search_fields = [ 'sex', 'country', 'relationship_status','preference', 'region', 'query_order', 'age', 'sub_region',   ]
+        simple_search_fields = [ 'sex', 'country', 'relationship_status','preference', 'region', 'query_order',
+                                 'age', 'sub_region',   ]
 
-    else:
-        if settings.BUILD_NAME == 'language_build':
-            principal_user_data = ['native_language', 'language_to_learn',  'age', 'sex', 'country',  'username',]
-            simple_search_fields = [ 'language_to_learn',   'country', 'age', 'language_to_teach', 'region', 'query_order',  'sex', 'sub_region',   ]  
-        elif settings.BUILD_NAME == 'friend_build':
-            principal_user_data = [ 'username', 'age',  'sex',  'country', ]
-            simple_search_fields = ['for_sale',          'country',    'age',
-                                    'for_sale_sub_menu', 'region',     'query_order',
-                                    'sex',               'sub_region',]  
-        else:
-            assert(0)
+    else: #settings.BUILD_NAME == 'language_build':
+        principal_user_data = ['native_language', 'language_to_learn',  'age', 'sex', 'country',  'username',]
+        simple_search_fields = [ 'language_to_learn',   'country', 'age', 'language_to_teach', 'region', 'query_order',
+                                 'sex', 'sub_region',   ]
+
+
             
     signup_fields_to_display_in_order =  principal_user_data + ['email_address', 'password' ]
     principal_signup_fields =  principal_user_data
@@ -192,17 +181,7 @@ class UserSpec():
             ('male',)          + ugettext_tuple(ugettext('Males')),
             ('prefer_no_say',) + ugettext_tuple(ugettext("People Who Don't Specify")),       
         ]               
-        
-      
-    elif settings.BUILD_NAME == 'friend_build':
-        gender_categories = [
-            ('female',)        + ugettext_tuple(ugettext('Female')), 
-            ('male', )         + ugettext_tuple(ugettext('Male')),
-        ]      
-        gender_preference_categories =  [ # only used for setting up the gender_search_categories below
-            ('female',)        + ugettext_tuple(ugettext('Females')), 
-            ('male',)          + ugettext_tuple(ugettext('Males')),
-        ]               
+
 
     elif settings.BUILD_NAME == 'lesbian_build': 
         gender_categories = [
@@ -236,7 +215,7 @@ class UserSpec():
     gender_search_categories = [gender_dont_care_tuple,] + gender_preference_categories
         
     # common to different builds     
-    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != "language_build":
         preference_search_categories = [dont_care_tuple,] + gender_preference_categories    
     
         
@@ -310,13 +289,6 @@ class UserSpec():
         assert(0)
         
         
-    if settings.BUILD_NAME == "friend_build":
-        assert(constants.minimum_registration_age == 16)
-        age_categories = [
-            #('14',) + ugettext_tuple('14-15'),
-            ('16',) + ugettext_tuple('16-17'),
-        ] + age_categories
-            
     age_search_categories = [dont_care_tuple,] + age_categories
     
     order_categories = [
@@ -330,7 +302,7 @@ class UserSpec():
     
     # Note that the "label" is the information that appears for the field in the login/signup page
     # The "label" is the information taht appears beside the field in the search section. 
-    if settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
+    if settings.BUILD_NAME == "language_build":
         signup_country_label_tuple = ugettext_tuple(ugettext('I Am Currently In'))
     elif settings.BUILD_NAME == "swinger_build":
         signup_country_label_tuple = ugettext_tuple(ugettext('I / We Live In'))
@@ -372,8 +344,6 @@ class UserSpec():
     elif settings.BUILD_NAME == 'language_build' :
         signup_language_to_learn_label_tuple = ugettext_tuple(ugettext('Language That I Want To Practice'))
         signup_native_language_label_tuple = ugettext_tuple(ugettext('My Native Language'))
-    elif settings.BUILD_NAME == "friend_build":
-        pass
     else:
         assert(False)
         
@@ -441,7 +411,7 @@ class UserSpec():
     }
     
     
-    if settings.BUILD_NAME != 'language_build' and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != 'language_build':
         
         custom_signup_fields =  {            
 
@@ -467,51 +437,41 @@ class UserSpec():
                 
         }
     
-    else:
-        if settings.BUILD_NAME == 'language_build':
+    else: # settings.BUILD_NAME == 'language_build':
             
-            custom_signup_fields = {
-                
-                'important_languages_list': 
-                # This is a dummy data structure that allows us to generate the sorted options for the "important" part
-                # of the languages list.
-                {'label':        "This should never appear to the user - it is for internal use only",
-                 'choices':      localizations.important_languages_list,
-                 'start_sorting_index' : 0,
-                 'options':      [],
-                 'input_type':   u'select',
-                 'required':     True},    
-    
-                'native_language': 
-                {'label':        signup_native_language_label_tuple,
-                 'choices':      localizations.languages_list,
-                 'start_sorting_index' : 0,
-                 'options':      [],
-                 'input_type':   u'select'},
-                
-                'language_to_learn':
-                {'label':        signup_language_to_learn_label_tuple,
-                 'choices':      localizations.languages_list,
-                 'start_sorting_index' : 0,
-                 'options':      [],
-                 'input_type': u'select'},
-                    
-            }    
-        elif settings.BUILD_NAME == 'friend_build':
-            custom_signup_fields = {
-            }
-    
-        else:
-            assert(0);
+        custom_signup_fields = {
+
+            'important_languages_list':
+            # This is a dummy data structure that allows us to generate the sorted options for the "important" part
+            # of the languages list.
+            {'label':        "This should never appear to the user - it is for internal use only",
+             'choices':      localizations.important_languages_list,
+             'start_sorting_index' : 0,
+             'options':      [],
+             'input_type':   u'select',
+             'required':     True},
+
+            'native_language':
+            {'label':        signup_native_language_label_tuple,
+             'choices':      localizations.languages_list,
+             'start_sorting_index' : 0,
+             'options':      [],
+             'input_type':   u'select'},
+
+            'language_to_learn':
+            {'label':        signup_language_to_learn_label_tuple,
+             'choices':      localizations.languages_list,
+             'start_sorting_index' : 0,
+             'options':      [],
+             'input_type': u'select'},
+
+        }
     
     # copy the common and custom signup fields
     signup_fields = {}
     signup_fields.update(custom_signup_fields)
     signup_fields.update(common_signup_fields)
-    
-    if settings.BUILD_NAME == 'friend_build':
-        list_of_activity_categories = friend_bazaar_specific_code.get_list_of_activity_categories()
-    
+
     signup_fields_options_dict = {}
     # populate the 'options' data structure inside each of the fields specified
     # in the signup_fields. Also (almost as a side effect), compute the 
@@ -549,7 +509,7 @@ class UserSpec():
     search_age_label_tuple = ugettext_tuple(ugettext('Age')) # this is the age that the client is searching for
     search_query_order_label_tuple = ugettext_tuple(ugettext('Order'))       
     
-    if settings.BUILD_NAME != 'language_build' and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != 'language_build' :
         search_sex_label_tuple = ugettext_tuple(ugettext('I Would Like To See'))
         if settings.BUILD_NAME != 'lesbian_build':
             search_preference_label_tuple = ugettext_tuple(ugettext('That Are Interested In'))
@@ -588,21 +548,7 @@ class UserSpec():
             search_age_label_num = "5."
             search_query_order_label_num = "6."
             
-        
-        if settings.BUILD_NAME == "friend_build":
-            
-            # Note: the other friend_build labels are defined directly in friend_bazaar_specific_code.py 
-            #       (I wanted to define them here, but this would require importing this file into friend_bazaar_specific_code
-            #        which would create a circular dependency since we also have imported friend_bazaar_specific_code into this module)     
-            
-            #label_nums['for_sale'] = "1a."  # see friend_bazaar_specific_code.py for definition
-            #label_nums['for_sale_sub_menu']  = "1b."  # see friend_bazaar_specific_code.py for definition
-            search_sex_label_num = "2."           
-            search_country_label_num = "3a."
-            search_region_label_num = "3b."
-            search_sub_region_label_num = "3c."
-            search_age_label_num = "4."
-            search_query_order_label_num = "5."
+
         
     common_search_fields = {
         # note "preference" refers to the sex of the current user, because this would be the prefernce that
@@ -611,7 +557,7 @@ class UserSpec():
         'sex': 
         { 
             'label':        search_sex_label_tuple,
-            'label_num':        search_sex_label_num,
+            'label_num':    search_sex_label_num,
             'choices':      gender_search_categories,
             'options':      [],
             'input_type':   u'select',
@@ -629,7 +575,7 @@ class UserSpec():
         'country': 
         {
             'label':        search_country_label_tuple,
-            'label_num':        search_country_label_num,
+            'label_num':    search_country_label_num,
             'choices':      None,
             'options':      localizations.country_search_options,
             'input_type':   u'select',
@@ -681,7 +627,7 @@ class UserSpec():
         
     }
 
-    if settings.BUILD_NAME != 'language_build' and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != 'language_build':
         search_fields = {        
             'relationship_status':
             {
@@ -703,66 +649,53 @@ class UserSpec():
                 'ordered_choices_tuples': 'to be computed',
                 'required':     True},
         }
-    else:
-        
-        if settings.BUILD_NAME == 'language_build':
-            important_language_search_categories =  [('----',) + \
-                            ugettext_tuple(ugettext("Any Language")),] + localizations.important_languages_list 
-            language_search_categories = [('----',) + ugettext_tuple(ugettext("Any Language")),] + localizations.languages_list            
+    else: # settings.BUILD_NAME == 'language_build':
+        important_language_search_categories =  [('----',) + \
+                        ugettext_tuple(ugettext("Any Language")),] + localizations.important_languages_list
+        language_search_categories = [('----',) + ugettext_tuple(ugettext("Any Language")),] + localizations.languages_list
 
-            search_fields = {       
-                
-                
-                'important_languages_list': 
-                # This is a dummy data structurethat allows us to generate the sorted options for the "important" part
-                # of the languages list.
-                {
-                    'label':        "This label should never appear to the user - defined here for consistency only",
-                    'choices':      important_language_search_categories,
-                    'start_sorting_index' : 1, # first value is for all languages
-                    'options':      [],
-                    'input_type':   u'select',
-                    'ordered_choices_tuples': 'to be computed',
-                    'required':     True},                 
-                
-                'language_to_learn': 
-                {
-                    'label':        search_language_to_learn_label_tuple,
-                    'label_num':    search_language_to_learn_label_num,
-                    'choices':      language_search_categories,
-                    'start_sorting_index' : 1, # first value is for all languages
-                    'options':      [],
-                    'input_type':   u'select',
-                    'ordered_choices_tuples': 'to be computed',
-                    'required':     True},     
-                
-                'language_to_teach': 
-                {
-                    'label':        search_language_to_teach_label_tuple, 
-                    'label_num':    search_language_to_teach_label_num, 
-                    'choices':      language_search_categories, 
-                    'start_sorting_index' : 1,
-                    'options':      [],
-                    'input_type':   u'select',
-                    'ordered_choices_tuples': 'to be computed',
-                    'required':     True},    
-            }
-        
-        if settings.BUILD_NAME == "friend_build":
+        search_fields = {
 
-            search_fields = {
-            }            
-            friend_bazaar_specific_code.update_friend_bazaar_data_fields_dict(search_fields)
+
+            'important_languages_list':
+            # This is a dummy data structurethat allows us to generate the sorted options for the "important" part
+            # of the languages list.
+            {
+                'label':        "This label should never appear to the user - defined here for consistency only",
+                'choices':      important_language_search_categories,
+                'start_sorting_index' : 1, # first value is for all languages
+                'options':      [],
+                'input_type':   u'select',
+                'ordered_choices_tuples': 'to be computed',
+                'required':     True},
+
+            'language_to_learn':
+            {
+                'label':        search_language_to_learn_label_tuple,
+                'label_num':    search_language_to_learn_label_num,
+                'choices':      language_search_categories,
+                'start_sorting_index' : 1, # first value is for all languages
+                'options':      [],
+                'input_type':   u'select',
+                'ordered_choices_tuples': 'to be computed',
+                'required':     True},
+
+            'language_to_teach':
+            {
+                'label':        search_language_to_teach_label_tuple,
+                'label_num':    search_language_to_teach_label_num,
+                'choices':      language_search_categories,
+                'start_sorting_index' : 1,
+                'options':      [],
+                'input_type':   u'select',
+                'ordered_choices_tuples': 'to be computed',
+                'required':     True},
+        }
+
         
     # copy the common search fields
     search_fields.update(common_search_fields)
-    
-    
-    if settings.BUILD_NAME == "friend_build":
-        # create a list of keys that has removed extra sub-menu keys for efficiency later on
-        search_fields_expected_keys = friend_bazaar_specific_code.get_search_fields_expected_keys(search_fields)
-    else:
-        search_fields_expected_keys = search_fields.keys()
+    search_fields_expected_keys = search_fields.keys()
         
     
     # see comments in previous call to this function for more info.

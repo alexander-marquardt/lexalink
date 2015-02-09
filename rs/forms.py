@@ -1303,15 +1303,7 @@ def print_current_search_settings(search_vals_dict, lang_idx):
                     # contain the "----" value, we need to hard-code a lookup here.
                     printed_value = UserSpec.dont_care_tuple[lang_idx + 1] 
                     printed_value_already_computed = True
-                    
-                elif settings.BUILD_NAME == "friend_build":
-                    if field_name == "for_sale" or field_name == "to_buy":
-                        printed_value = friend_bazaar_specific_code.all_activities_tuple[lang_idx + 1] 
-                        printed_value_already_computed = True
-                    if field_name == "for_sale_sub_menu" or field_name == "to_buy_sub_menu":
-                        printed_value = UserSpec.show_all_tuple[lang_idx + 1] 
-                        printed_value_already_computed = True
-                        
+
                 if not printed_value_already_computed:
                     field_dict_by_field_name = getattr(UserSpec, 'search_fields_options_dict')
                     field_val = search_vals_dict[field_name]

@@ -31,7 +31,6 @@ from django.utils.translation import ugettext
 from django.template import loader
 from django.template.context import Context
 from django import http
-from django.utils import simplejson
 
 import random
 import settings, site_configuration
@@ -45,13 +44,9 @@ from rs import localizations
 from rs import common_data_structs
 from rs import online_presence_support
 from rs import menubar
-from rs import vip_render_payment_options
 from rs.import_search_engine_overrides import *
 from rs import utils_top_level, html_container
 
-
-if settings.BUILD_NAME == "friend_build":
-    import friend_bazaar_specific_code
 
 def get_my_internal_advertisements(additional_ads_to_include = []):
     
@@ -85,7 +80,7 @@ def get_additional_ads_to_append(request, userobject = None):
     additional_ads_to_append = []
     
     try:
-        if settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
+        if settings.BUILD_NAME == "language_build":
             # we don't currently append any additional advertisements. 
             return additional_ads_to_append
         
@@ -262,16 +257,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         location_response_dict = utils.get_location_dropdown_options_and_details(country_code, region_code)
         region_options_html = location_response_dict['region_options_html']
         sub_region_options_html = location_response_dict['sub_region_options_html']
-        
-        if settings.BUILD_NAME == "friend_build":
-            for_sale = request.GET.get('for_sale', '----')
-            to_buy = request.GET.get('to_buy', '----')
-            for_sale_sub_menu_options_html = utils.get_child_dropdown_options_and_details(for_sale, localizations.input_field_lang_idx[request.LANGUAGE_CODE])
-            to_buy_sub_menu_options_html = utils.get_child_dropdown_options_and_details(to_buy, localizations.input_field_lang_idx[request.LANGUAGE_CODE])
-        else:
-            for_sale_sub_menu_options_html = "Not used - only for friend_build"
-            to_buy_sub_menu_options_html = "Not used - only for friend_build"
-                        
+
                         
         # Handle user registration/verification popup if necessary
         verification_values_dict = utils_top_level.get_verification_vals_from_get(request)
@@ -310,8 +296,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['maintenance_shutdown_warning'] = maintenance_shutdown_warning 
         general_information_data_fields['region_options_html'] = region_options_html
         general_information_data_fields['sub_region_options_html'] = sub_region_options_html
-        general_information_data_fields['for_sale_sub_menu_options_html'] = for_sale_sub_menu_options_html
-        general_information_data_fields['to_buy_sub_menu_options_html'] = to_buy_sub_menu_options_html
         general_information_data_fields['link_to_hide'] = link_to_hide
         general_information_data_fields['register_enter_click_sends_to_landing'] = register_enter_click_sends_to_landing 
         general_information_data_fields['show_login_link_override'] = show_login_link_override

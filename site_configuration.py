@@ -118,7 +118,6 @@ if PROPRIETARY_BUILDS_AVAILABLE:
         #BUILD_NAME = 'language_build'  # originally used for LikeLanguage.com
         #BUILD_NAME = 'swinger_build'   # originally used for SwingerSetup.com
         #BUILD_NAME = 'gay_build'       # originally used for GaySetup.com
-        #BUILD_NAME = 'friend_build'    # originally used for FriendBazaar.com
         #BUILD_NAME = 'mature_build' # originallly used for MellowDating.com
     else:
         BUILD_NAME = BATCH_BUILD_NAME
@@ -172,11 +171,8 @@ if BUILD_STAGING:
     app_id_dict[BUILD_NAME] = staging_appid, 
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
-shutdown_time = datetime.datetime(2012, 06, 05, 8, 30) 
-if BUILD_NAME == 'friend_build':
-    SHUTDOWN_DURATION = 0 # minutes
-else:
-    SHUTDOWN_DURATION = 0
+shutdown_time = False # datetime.datetime(2012, 06, 05, 8, 30)
+SHUTDOWN_DURATION = 0
 
 if PROPRIETARY_BUILDS_AVAILABLE:
     if BUILD_NAME == 'discrete_build' or BUILD_NAME == 'lesbian_build' or BUILD_NAME == 'swinger_build' or BUILD_NAME == 'single_build':

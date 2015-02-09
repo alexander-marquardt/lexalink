@@ -54,7 +54,6 @@ except:
         'lesbian_build':   'Your-Site-Name-Here',
         'gay_build':       'Your-Site-Name-Here',
         'swinger_build':   'Your-Site-Name-Here',
-        'friend_build':    'Your-Site-Name-Here',
         'mature_build':    'Your-Site-Name-Here',
         
     }
@@ -71,8 +70,7 @@ except:
         'lesbian_build':   'your-site-name-here.com',
         'gay_build':       'your-site-name-here.com',
         'swinger_build':   'your-site-name-here.com',
-        'friend_build':    'your-site-name-here.com',    
-        'mature_build':    'your-site-name-here.com',    
+        'mature_build':    'your-site-name-here.com',
         
     }
     
@@ -87,7 +85,6 @@ except:
         'lesbian_build':   'yourappid4',
         'gay_build':       'yourappid5',
         'swinger_build':   'yourappid6',
-        'friend_build':    'yourappid7',
         'mature_build':    'yourappid8',
         
     }
@@ -138,8 +135,6 @@ except:
     # identifier for each page. 
     analytics_id_dict = {
         "default_build"  : 'UA-YOUR-IDX-X',
-
-        "friend_build"   : 'UA-YOUR-IDX-X',
         "discrete_build" : 'UA-YOUR-IDX-X',
         "language_build" : 'UA-YOUR-IDX-X',
         "single_build"   : 'UA-YOUR-IDX-X',

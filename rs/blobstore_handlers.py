@@ -61,10 +61,10 @@ if settings.BUILD_NAME == "discrete_build":
     main_watermark_opacity = 0.25
     secondary_watermark_opacity = 0.25
 
-if settings.BUILD_NAME == "language_build" or settings.BATCH_BUILD_NAME == "friend_build":
+if settings.BUILD_NAME == "language_build":
     watermark_x = int(LARGE_IMAGE_X/1.1)
     watermark_y = int(LARGE_IMAGE_Y/1.1)
-    
+
 if settings.BUILD_NAME == "gay_build":
     watermark_x = int(LARGE_IMAGE_X/1.5)
     watermark_y = int(LARGE_IMAGE_Y/1.5)

@@ -98,7 +98,7 @@ languages_list =  [
     ('ukrainian',) +    ugettext_tuple(ugettext('Ukrainian')),
 ]
     
-if settings.BUILD_NAME == 'language_build' or settings.BUILD_NAME == "friend_build":
+if settings.BUILD_NAME == 'language_build':
     languages_list +=  [    
         # Additional languages, but not for the dating websites
         

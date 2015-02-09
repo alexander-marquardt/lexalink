@@ -113,22 +113,6 @@ def setup_and_run_user_search_query(search_vals_dict, num_results_needed):
             # this is a query on the "languages" list to see if *any* of the values match
             q = q.filter(UserModel.languages == search_vals_dict['language_to_learn'])
             q = q.filter(UserModel.languages_to_learn == search_vals_dict['language_to_teach'])
-            
-        elif settings.BUILD_NAME == "friend_build": # Setup friend_build
-            
-            #for menu_name in ['for_sale', 'to_buy']:
-            menu_name = "for_sale"
-            if search_vals_dict['%s_sub_menu' % menu_name] != "----":
-                # if the sub-menu is passed in, then try to to match the value in the sub-menu, otherwise try to match the
-                # category.
-                q = q.filter(UserModel._properties['%s_ix_list' % menu_name] == search_vals_dict['%s_sub_menu' % menu_name])
-            elif search_vals_dict[menu_name] != "----":
-                # Note: this is a very special case - if no value is passed in for the "for_sale" parameter,
-                # then we completely exclude it from the search - this can only be done because the composite index 
-                # for this value is completely separate from the other index values, and therefore leaving it out
-                # of the query completely will result in a more efficient lookup. 
-                q = q.filter(UserModel._properties['%s_ix_list' % menu_name] == search_vals_dict['%s' % menu_name])
-                
 
                         
         else: # setup for "dating" websites
@@ -164,7 +148,7 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
         
         (curr_lang_dict) = utils.get_fields_in_current_language(search_vals_dict, lang_idx, pluralize_sex = True, search_or_profile_fields = "search")
         
-        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != 'friend_build':
+        if settings.BUILD_NAME != "language_build" :
             if curr_lang_dict['sex'] != "----":
                 sex_title = u"%s" % ugettext("generated_search_title %(sex)s") % {'sex': curr_lang_dict['sex']}
             else:
@@ -181,43 +165,25 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
             get_additional_description = utils_top_level.get_additional_description_from_sex_and_preference(search_vals_dict['sex'], search_vals_dict['preference'], pluralize = True)
                 
             start_title = u"%s%s%s. " % (sex_title, preference_title, get_additional_description)
-        else: 
-            if settings.BUILD_NAME == "language_build":
-                if curr_lang_dict['language_to_learn'] != "----":
-                    languages_to_learn_title = u"%s" % ugettext("generated_search_title %(language_to_learn)s") % {
-                        'language_to_learn': curr_lang_dict['language_to_learn']}
-                else:
-                    languages_to_learn_title = u"%s" % ugettext("All people (feminine)")            
-                
-                if curr_lang_dict['language_to_teach'] != "----":
-                    language_title = u"%s" % ugettext("generated_search_title %(language_to_teach)s") % {'language_to_teach': curr_lang_dict['language_to_teach']}
-                    start_title = u"%s %s. " % (languages_to_learn_title, language_title)
-                else:
-                    start_title = u"%s. " % (languages_to_learn_title)
-    
-                if curr_lang_dict['sex'] != "----":
-                    sex_title = u'%s. ' % ugettext("Sex: %(sex)s") % {'sex': curr_lang_dict['sex']}
-                else:
-                    sex_title = u''
-                    
-            elif settings.BUILD_NAME == 'friend_build':
-                if curr_lang_dict['sex'] != "----":
-                    sex_title = u"%s" % ugettext("generated_search_title %(sex)s") % {'sex': curr_lang_dict['sex']}
-                else:
-                    sex_title = u"%s" % ugettext("All people (feminine)")    
-                
-                if curr_lang_dict['for_sale_sub_menu'] != "----":
-                    interested_in_title = u" %s." % ugettext("interested in %(for_sale_sub_menu)s") % {
-                        'for_sale_sub_menu' : curr_lang_dict['for_sale_sub_menu']}
-                elif curr_lang_dict['for_sale'] != "----":
-                    interested_in_title = u" %s." % ugettext("interested in %(for_sale)s") % {'for_sale' : curr_lang_dict['for_sale']}
-                else:
-                    interested_in_title = '.'
-            
-                    
-                start_title = u"%s%s " % (sex_title, interested_in_title)
+        else: # settings.BUILD_NAME == "language_build":
+            if curr_lang_dict['language_to_learn'] != "----":
+                languages_to_learn_title = u"%s" % ugettext("generated_search_title %(language_to_learn)s") % {
+                    'language_to_learn': curr_lang_dict['language_to_learn']}
             else:
-                assert(0)
+                languages_to_learn_title = u"%s" % ugettext("All people (feminine)")
+
+            if curr_lang_dict['language_to_teach'] != "----":
+                language_title = u"%s" % ugettext("generated_search_title %(language_to_teach)s") % {'language_to_teach': curr_lang_dict['language_to_teach']}
+                start_title = u"%s %s. " % (languages_to_learn_title, language_title)
+            else:
+                start_title = u"%s. " % (languages_to_learn_title)
+
+            if curr_lang_dict['sex'] != "----":
+                sex_title = u'%s. ' % ugettext("Sex: %(sex)s") % {'sex': curr_lang_dict['sex']}
+            else:
+                sex_title = u''
+                    
+
                 
                 
                 
@@ -243,14 +209,11 @@ def generate_title_for_current_search(search_vals_dict, lang_idx, extended_resul
                 relationship_status_title += u"%s. " % ugettext("For generated_search_title %(relationship_status)s") % {
                     'relationship_status': curr_lang_dict['relationship_status']}
             
-        if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+        if settings.BUILD_NAME != "language_build":
             generated_title = u"%s%s%s%s%s" % (start_title, location_title, relationship_status_title, age_title, query_order_title)
-        else:
-            if settings.BUILD_NAME == "language_build":
-                generated_title = u"%s%s%s%s%s%s" % (start_title, location_title, relationship_status_title, sex_title, age_title, query_order_title)
-            elif settings.BUILD_NAME == "friend_build":
-                generated_title = "%s%s%s%s" % (start_title, age_title, location_title, query_order_title)
-    
+        else: # settings.BUILD_NAME == "language_build":
+            generated_title = u"%s%s%s%s%s%s" % (start_title, location_title, relationship_status_title, sex_title, age_title, query_order_title)
+
     except:
         error_reporting.log_exception(logging.critical)       
         return '' 
@@ -263,7 +226,7 @@ def loosen_search_criteria(search_vals_dict):
     break_out_of_loop = False
     
     
-    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != "language_build":
         if search_vals_dict['relationship_status'] != '----' or search_vals_dict['age'] != '----' or \
            search_vals_dict['sub_region'] != '----' or search_vals_dict['preference'] != '----':
             # Temporarly change a group of search parameters -- this should be acceptable since
@@ -305,25 +268,7 @@ def loosen_search_criteria(search_vals_dict):
         else:    
             # we have already loosened all search criteria -- nothing left to show
             break_out_of_loop = True
-        
-    elif settings.BUILD_NAME == "friend_build":
-        if search_vals_dict['age'] != '----' or search_vals_dict['sex'] != '----':
-            search_vals_dict['sex'] = '----'                        
-            search_vals_dict['age'] = '----'    
-        elif search_vals_dict['for_sale_sub_menu'] != '----' or search_vals_dict['for_sale'] != '----':
-            search_vals_dict['for_sale_sub_menu'] = '----'
-            search_vals_dict['for_sale'] = '----'
-        elif  search_vals_dict['sub_region'] != '----' \
-           or search_vals_dict['region'] != '----' or search_vals_dict['country'] != '----':
-            # Temporarly change a group of search parameters -- this should be acceptable since
-            # we are loosening the parameters in a somewhat arbitrary order anyway.
-            search_vals_dict['sub_region'] = '----'
-            search_vals_dict['region'] = '----'
-            search_vals_dict['country'] = '----' 
-        else:    
-            # we have already loosened all search criteria -- nothing left to show
-            break_out_of_loop = True
-        
+
     else: # should never enter this branch
         assert(0)
         

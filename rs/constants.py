@@ -58,8 +58,6 @@ else:
     
 if settings.BUILD_NAME == "language_build" : 
     minimum_registration_age = 14
-elif settings.BUILD_NAME == "friend_build":
-    minimum_registration_age = 16
 else:
     minimum_registration_age = 18
     
@@ -109,11 +107,7 @@ else:
 
     
 RESET_MAIL_LEEWAY = 2 # we tell the user that they can only send every X hours, but in reality it is X - RESET_MAIL_LEEWAY hours
-    
-# the number of activities  that the user can select in the various affictions/activities/etc. checkboxes. This is currently only used
-# in friend_build. This limit is required to prevent index explosion
-MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST = 40
-    
+
 SMALL_IMAGE_X = SMALL_IMAGE_Y = 65
 MEDIUM_IMAGE_X = MEDIUM_IMAGE_Y = 120
 LARGE_IMAGE_X = LARGE_IMAGE_Y = 400 
@@ -329,9 +323,6 @@ enable_amazon_ads = False
 if settings.BUILD_NAME == 'default_build':
     enable_google_ads = False
     
-elif settings.BUILD_NAME == 'friend_build':
-    enable_google_ads = True
-
 elif settings.BUILD_NAME == 'language_build':
     enable_google_ads = True
     
@@ -477,9 +468,6 @@ elif settings.BUILD_NAME == "swinger_build":
     SITE_TYPE = ugettext_lazy('swingers website')
     ADULT_ORIENTED_SITE = True
 
-elif settings.BUILD_NAME == "friend_build":
-    SITE_TYPE = ugettext_lazy('website to meet people and make friends')
-    
 elif settings.BUILD_NAME == "mature_build":
     SITE_TYPE = ugettext_lazy('dating website to meet mature adults over 40 years old')
     
@@ -649,7 +637,7 @@ You must register for a <strong>free account</strong> in order to contact our me
 """)
 
 ############################################
-if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+if settings.BUILD_NAME != "language_build":
     list_of_contact_icons = [ 'favorite', 'wink', 'kiss',  'key', 'chat_friend','blocked']
     menu_items_list = ['wink', 'kiss', 'key', 'chat_friend']
 else:
@@ -695,7 +683,7 @@ class ContactIconText():
         #'': '',
     }       
     
-    if settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
+    if settings.BUILD_NAME == "language_build":
         plural_winks = ugettext_lazy('Greetings')
         wink_text = ugettext_lazy("Send them a greeting")
         singular_wink = ugettext_lazy('Greeting')
@@ -737,7 +725,7 @@ class ContactIconText():
         'chat_friend': ugettext_lazy("Invite them to chat with you"),
         'blocked' : ugettext_lazy("Block this user (delete new messages automatically)"),
     }
-    if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+    if settings.BUILD_NAME != "language_build":
         wink_icon = "wink.png"
     else:
         wink_icon = "greeting.png"

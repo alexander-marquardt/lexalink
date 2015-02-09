@@ -510,8 +510,7 @@ def send_new_message_notification_email(request):
             bar_color = ugettext("violet")
         elif  settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "default_build":
             bar_color = ugettext("gray")
-        elif settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build" or \
-             settings.BUILD_NAME == "mature_build":
+        elif settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "mature_build":
             bar_color = ugettext("green")
         else:
             raise Exception("Unknown build")        
@@ -609,7 +608,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             initiate_contact_list = []
 
             initiate_contact_list.append(u" %d %s" %  (new_wink_count, constants.ContactIconText.plural_icon_name['wink']))
-            if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+            if settings.BUILD_NAME != "language_build":
                 initiate_contact_list.append(u" %d %s" %  (new_kiss_count, constants.ContactIconText.plural_icon_name['kiss']))
             initiate_contact_list.append(u" %d %s" %  ( new_key_count, constants.ContactIconText.plural_icon_name['key']))
             initiate_contact_list.append(u" %d %s" %  ( new_friend_request_count, constants.ContactIconText.chat_friend_plural_text['request_received']))

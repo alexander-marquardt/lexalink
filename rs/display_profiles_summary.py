@@ -40,10 +40,6 @@ from rs import constants
 from rs import user_profile_details
 from rs import user_profile_main_data
 
-if site_configuration.BUILD_NAME == "friend_build":
-    import friend_bazaar_specific_code
-
-
 def display_userobject_first_half_summary(request, display_userobject, display_online_status, extra_info_html = None):
     # returns a summary of a single users userobject. 
     #
@@ -135,7 +131,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
                 generated_html += u'<span class="cl-compressed-display-user-text">%s</span>\n' % about_user
                 generated_html += u'<br><br>'
             
-        if site_configuration.BUILD_NAME != "language_build" and site_configuration.BUILD_NAME != "friend_build":
+        if site_configuration.BUILD_NAME != "language_build" :
             # section for getting physical description of the user
             description_printed = False
             for detail_field in user_profile_details.UserProfileDetails.details_fields_to_display_in_order:
@@ -155,7 +151,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
                 generated_html += u'<br>\n'
             
         # section for getting all other information about the user
-        if site_configuration.BUILD_NAME != "language_build" and site_configuration.BUILD_NAME != "friend_build":
+        if site_configuration.BUILD_NAME != "language_build" :
             if display_userobject.languages[0] != "prefer_no_say":
                 mylist = u'<strong>%s:</strong> ' % ugettext("Languages I speak")
                 mylist += utils.generic_html_generator_for_list(lang_idx, 'languages' , display_userobject.languages )
@@ -166,34 +162,17 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
             generated_html += u'<strong>%s:</strong> %s<br>' % (ugettext("Native language"),
                 user_profile_main_data.UserSpec.signup_fields_options_dict['native_language'][lang_idx][display_userobject.native_language])
   
-        if site_configuration.BUILD_NAME != "friend_build":
-            if display_userobject.entertainment[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['entertainment']['label'][lang_idx]
-                mylist += utils.generic_html_generator_for_list(lang_idx, 'entertainment', display_userobject.entertainment)
-                generated_html += u'%s<br>' % mylist
+        if display_userobject.entertainment[0] != "prefer_no_say":
+            mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['entertainment']['label'][lang_idx]
+            mylist += utils.generic_html_generator_for_list(lang_idx, 'entertainment', display_userobject.entertainment)
+            generated_html += u'%s<br>' % mylist
+
+        if display_userobject.athletics[0] != "prefer_no_say":
+            mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['athletics']['label'][lang_idx]
+            mylist += utils.generic_html_generator_for_list(lang_idx, 'athletics', display_userobject.athletics)
+            generated_html += u'%s<br>' % mylist
                 
-            if display_userobject.athletics[0] != "prefer_no_say":
-                mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['athletics']['label'][lang_idx]
-                mylist += utils.generic_html_generator_for_list(lang_idx, 'athletics', display_userobject.athletics)
-                generated_html += u'%s<br>' % mylist
-                
-        else: # friend_build
-            #sale_or_buy in ['for_sale', 'to_buy']:
-            if len(display_userobject.for_sale_ix_list) > 1:
-                sale_or_buy = 'for_sale'
-                master_label = friend_bazaar_specific_code.label_tuples[sale_or_buy][lang_idx]
-                generated_html += u"<strong>%s:</strong><br>" % master_label
-                
-                for category in friend_bazaar_specific_code.category_definitions_dict.keys():
-                    field_name = '%s_%s' % (sale_or_buy, category)                
-                    
-                    field_list = getattr(display_userobject, field_name)
-                    if field_list[0] != "prefer_no_say":
-                        mylist = u'<em>%s:</em> ' % user_profile_details.UserProfileDetails.checkbox_fields[field_name]['label'][lang_idx]
-                        mylist += utils.generic_html_generator_for_list(lang_idx, field_name, field_list)
-                        generated_html += u'%s<br>' % mylist
-                generated_html += u'<br>'
-        
+
         if site_configuration.BUILD_NAME == "discrete_build" or site_configuration.BUILD_NAME == "gay_build" or site_configuration.BUILD_NAME == "swinger_build": # do not show turn-ons for other builds
             if display_userobject.turn_ons[0] != "prefer_no_say":
                 mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['turn_ons']['label'][lang_idx]

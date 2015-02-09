@@ -89,19 +89,7 @@ def get_location_options(request, location_code):
 
     return HttpResponse("----")
 
-def get_for_sale_to_buy_options(request, current_selection):
-    """
-    get the options for either the for_sale or to_buy sub-menu
-    for_sale_or_to_buy: either "for_sale" or "to_buy" - just tells us which dropdown we are filling in
-    current_selection: tells the current value of the for_sale or to_buy menu, which is necessary to get the appropriate child menus
-    """
-    try:
-        lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
-        http_response = utils.get_for_sale_to_buy(current_selection, lang_idx)
-        return HttpResponse(http_response)
-    except:
-        error_reporting.log_exception(logging.critical, request=request, error_message="Error in get_for_sale_to_buy_options")
-        return HttpResponse("Error")
+
 
 def get_settings(request, list_of_fields, data_structure_to_extract_values):
     # This is a generic handler for looking up settings, given a list of fields to loop over, and 
@@ -129,9 +117,6 @@ def get_settings(request, list_of_fields, data_structure_to_extract_values):
 default_response_dict = {'query_order': 'unique_last_login',  'region_options_html': '', 'sub_region_options_html': ''}
 for field in UserSpec.simple_search_fields:   
     default_response_dict[field] = "----"
-if settings.BUILD_NAME == "friend_build":
-    default_response_dict["for_sale_sub_menu_options_html"] = ''
-    default_response_dict["to_buy_sub_menu_options_html"] = ''
 
 def get_simple_search_settings(request):
     # this function returns the default simple search settings, based on the values that were previously
@@ -157,14 +142,7 @@ def get_simple_search_settings(request):
 
         # Now we generate the dynamically allocated sub-menus, depending on the currently selected values.
         response_dict.update(utils.get_location_dropdown_options_and_details(response_dict['country'], response_dict['region']))
-        
-        if settings.BUILD_NAME == "friend_build":
-            response_dict['for_sale_sub_menu_options_html'] = utils.get_child_dropdown_options_and_details(response_dict['for_sale'], 
-                                localizations.input_field_lang_idx[request.LANGUAGE_CODE])
-            
-            #response_dict['to_buy_sub_menu_options_html'] = utils.get_child_dropdown_options_and_details(response_dict['to_buy'], 
-                                #localizations.input_field_lang_idx[request.LANGUAGE_CODE])
-                
+
     except:
         error_reporting.log_exception(logging.critical)
 

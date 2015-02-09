@@ -16,12 +16,10 @@ from rs.user_profile_main_data import UserSpec
 fields_for_title_generation = []
 
 # define which fields can be used in generating titles for profiles and search results. 
-if settings.BUILD_NAME != "language_build" and settings.BUILD_NAME != "friend_build":
+if settings.BUILD_NAME != "language_build":
     fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region']
 elif settings.BUILD_NAME == "language_build":
     fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region', 'languages', 'languages_to_learn']    
-elif settings.BUILD_NAME == "friend_build":
-    fields_for_title_generation = UserSpec.principal_user_data + ['region', 'sub_region',]
 else:
     assert(0)
 
@@ -136,16 +134,9 @@ def get_base_userobject_title(lang_code, uid):
                 base_title = u"%s" % ugettext("Speaker Of %(languages)s Seeking Speakers Of %(languages_to_learn)s In %(location)s") % {
                 'languages': vals_in_curr_language_dict['languages'], 'location': vals_in_curr_language_dict['location'], 
                 'languages_to_learn' : vals_in_curr_language_dict['languages_to_learn']} 
-                
-            elif settings.BUILD_NAME == 'friend_build':
-                activity_summary = utils.get_friend_bazaar_specific_interests_in_current_language(userobject, lang_idx)
-                base_title = u"%s" % (ugettext("%(sex)s In %(location)s") % {
-                    'sex': vals_in_curr_language_dict['sex'],
-                    'location' : vals_in_curr_language_dict['location'],
-                })
-                base_title += u"%s" % activity_summary
             else:
-                assert(0)        
+                assert(False)
+
         
             return base_title
     except:

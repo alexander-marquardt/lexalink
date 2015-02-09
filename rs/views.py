@@ -248,7 +248,6 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
             primary_user_profile_data_fields['email_is_not_entered_text'] = email_is_not_entered_text
             primary_user_profile_data_fields['new_user_welcome_text'] = new_user_welcome_text
             primary_user_profile_data_fields['user_has_no_photo_text'] = user_has_no_photo_text
-            primary_user_profile_data_fields['max_checkbox_values_in_combined_ix_list'] = constants.MAX_CHECKBOX_VALUES_IN_COMBINED_IX_LIST
             primary_user_profile_data_fields['owner_uid'] = owner_uid
             primary_user_profile_data_fields['owner_nid'] = owner_nid
             
@@ -455,14 +454,12 @@ def robots_txt(request):
     if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME ==  "single_build" or settings.BUILD_NAME ==  "lesbian_build":
          site_specific_allow_disallow = ''
 
-    elif settings.BUILD_NAME == "language_build" or settings.BUILD_NAME == "friend_build":
+    elif settings.BUILD_NAME == "language_build":
                 site_specific_allow_disallow = """
 Disallow: /*/search/?*sex=*
 Disallow: /*/search/?*age=*
 Disallow: /*/search/?*region=*
 Disallow: /*/search/?*sub_region=*
-Disallow: /*/search/?*for_sale=*
-Disallow: /*/search/?*for_sale_sub_menu=*
 """
 
     else:

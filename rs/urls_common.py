@@ -156,7 +156,6 @@ urlpatterns = patterns('',
     # note, we use "photo" as opposed to "ajax" here because we have blocked crawlers from exploring all ajax directories
     # but in reality we *want* them to discover photos
     (r'^rs/photo/get_(?P<photo_size>[\w]+)_photo/(?P<photo_object_key_str>[\w|-]+).png$', ajax.get_photo), 
-    (r'^rs/ajax/get_for_sale_to_buy_options/(?P<current_selection>[\w|-|_]+)/', ajax.get_for_sale_to_buy_options),
     # following line will catch calls to get_entertainment_settings, get_athletics_settings, etc.
     (r'^rs/ajax/get_(?P<option_name>[\w|-|_]+)_settings/(?P<uid>[\w|-]+)/[\w|-]+/$', ajax.get_generic_options_settings),
     

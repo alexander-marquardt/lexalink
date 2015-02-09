@@ -116,10 +116,10 @@ def send_new_feature_email(userobject, return_message_html = False):
         
         message.to = u"%s <%s>" % (username, email_address)
                 
-        message.html = ugettext("friend_build welcome %(username)s %(app_name)s") % {
+        message.html = ugettext("newsite welcome %(username)s %(app_name)s") % {
             'username': username, 'app_name' : settings.APP_NAME}
         
-        # Now, get a description of what friend_build is:
+        # Now, get a description of what newsite is:
         template = loader.get_template("common_helpers/welcome_message.html")
         context = Context(constants.template_common_fields)
                 

@@ -203,62 +203,19 @@
 
 
 
-{% if build_name != "friend_build" %}
 
-    {% if build_name != "language_build" %}
-        {{ html_for_main.languages|safe }}
-    {% endif %}
-
-    <!------------------------------------------------------------>
-    <!-- "entertainment" section -->
-    {{ html_for_main.entertainment|safe }}
-
-    <!------------------------------------------------------------>
-    <!-- "sports" section -->
-    {{ html_for_main.athletics|safe }}
-
-{% else  %}
-    <div class="cl-clear"></div>
-    <div class="grid_2 alpha">
-        <strong>{% trans "Last entrance:" %}</strong>
-    </div> <!-- end grid_2 -->
-    <div class="grid_7 omega">
-        <!-- for other users viewing this profile, show the "current_entrance" as the last time the user was in the system -->
-        {{ viewed_profile_data_fields.current_entrance|safe }}
-    </div> <!-- end grid10 omega -->
-    <div class="grid_9 alpha omega"><p>&nbsp;</p></div>
-    <div class="cl-clear"></div>
-
-
-    <div class="grid_9 alpha omega cl-divider-line"></div>
-    <div class="cl-clear"></div>
-    <div class="grid_9 alpha omega"><p>&nbsp;</p></div>
-
-    <!------------------------------------------------------------>
-
-    <div class="cl-clear"></div>
-    <div class="grid_9 alpha omega cl-left-text cl-text-large-format">
-        <strong>{% blocktrans %}Activities that I am interested in{% endblocktrans %}
-            {% if primary_user_profile_data_fields.is_primary_user %}
-                {% blocktrans with primary_user_profile_data_fields.max_checkbox_values_in_combined_ix_list as num %}(a maximum of {{ num }} activities may be selected){% endblocktrans %}
-            {% endif %}
-         </strong><br><br><br>
-    </div>
-
-{{ html_for_main.for_sale_going_out|safe }}
-{{ html_for_main.for_sale_athletics|safe }}
-{{ html_for_main.for_sale_outdoor_activities|safe }}
-{{ html_for_main.for_sale_hanging_out|safe }}
-{{ html_for_main.for_sale_dancing|safe }}
-{{ html_for_main.for_sale_domestic_help|safe }}
-{{ html_for_main.for_sale_culture_and_sightseeing|safe }}
-{{ html_for_main.for_sale_games|safe }}
-{{ html_for_main.for_sale_hobbies|safe }}
-{{ html_for_main.for_sale_music|safe }}
-{{ html_for_main.for_sale_languages|safe }}
-
-
+{% if build_name != "language_build" %}
+    {{ html_for_main.languages|safe }}
 {% endif %}
+
+<!------------------------------------------------------------>
+<!-- "entertainment" section -->
+{{ html_for_main.entertainment|safe }}
+
+<!------------------------------------------------------------>
+<!-- "sports" section -->
+{{ html_for_main.athletics|safe }}
+
 
 <!------------------------------------------------------------>
 <!-- "turn_ons" section -->
@@ -272,7 +229,6 @@
 {% endif %}
 
 
-{% if build_name != "friend_build" %}
 <div class="cl-clear"></div>
 <div class="grid_2 alpha">
     <strong>{% trans "Last entrance:" %}</strong>
@@ -281,7 +237,6 @@
     <!-- for other users viewing this profile, show the "current_entrance" as the last time the user was in the system -->
     {{ viewed_profile_data_fields.current_entrance|safe }}
 </div> <!-- end grid10 omega -->
-{% endif %}
 
 <!--
     <div class="cl-clear"></div>
