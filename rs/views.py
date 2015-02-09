@@ -278,8 +278,9 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         
         # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 
         # photo boxes -- allows us to hide the photo section if no photos are present
-        user_photos_list = PhotoModel.query().filter(PhotoModel.parent_object == display_userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)
-        viewed_profile_data_fields['show_photos_section'] = is_primary_user or user_photos_list
+        user_photo_tracker = display_userobject.user_photos_tracker_key.get()
+        viewed_profile_data_fields['show_photos_section'] = is_primary_user or user_photo_tracker.public_photos_keys or\
+            user_photo_tracker.private_photos_keys
         
         if show_vip_info:
             viewed_profile_data_fields['show_online_status'] = utils.get_vip_online_status_string(display_uid)
