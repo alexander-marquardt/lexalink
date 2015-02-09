@@ -105,12 +105,10 @@ def store_session(request, userobject):
 
 # Note: to avoid double counting only on of the photo-related offsets will be counted. See code in login_utils -
 # compute_unique_last_login() for how these special cases are counted.
-offset_values = {'has_profile_photo_offset':48,
-                 'has_private_photo_offset':12,
-                 #Note, it is possible to have public photos without having a profile photo -- but you cannot have a
-                 # profile photo without having a public photo.
-                 'has_public_photo_offset':24,
-                 'has_about_user_offset': 24,
+offset_values = {'has_profile_photo_offset':72,
+                 'has_private_photo_offset':24,
+                 'has_public_photo_offset':36,
+                 'has_about_user_offset': 48,
                  }
 
 ## END Profile Display Offset values
