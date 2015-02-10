@@ -791,4 +791,5 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'SITE_IS_TOTALLY_FREE' : SITE_IS_TOTALLY_FREE, 
                           'MANUALLY_VERSIONED_IMAGES_DIR' : site_configuration.MANUALLY_VERSIONED_IMAGES_DIR,
                           'ENABLE_GRUNT' : site_configuration.ENABLE_GRUNT,
+                           'minimum_registration_age': minimum_registration_age,
                           }        

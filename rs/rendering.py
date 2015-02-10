@@ -286,7 +286,6 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         guest_user_data_fields['unregistered_user_welcome_text'] = unregistered_user_welcome_text
         guest_user_data_fields['why_to_register'] =  why_to_register
         guest_user_data_fields['show_social_buttons'] = show_social_buttons
-        guest_user_data_fields['minimum_registration_age'] = constants.minimum_registration_age
         guest_user_data_fields['language'] = request.LANGUAGE_CODE
 
     

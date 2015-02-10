@@ -1,33 +1,22 @@
 {% load i18n %}
 
-<strong>{{ app_name }} {% trans "Rules:" %}</strong>
-<ul>
-    <li>{% trans 'Photos that are not marked as private are public and visible to everyone'%}.
 
+<ul class="cl-margin-below">
+    <li class="cl-indent">{% trans 'Photos that are not marked as private are public and visible to everyone'%}.
+    <li class="cl-indent">{% trans 'When you view other profiles, you will see a key symbol that you can click on to give access to you private photos' %}.
+    <li class="cl-indent">{% trans 'Private photos are hidden from everyone except people that you have authorized by giving them your key'%}.
+    <li class="cl-indent">{% trans "To remove access to your private photos, click on the key symbol in the profile that you have previously given a key to" %}.
+    <li class="cl-indent">{% blocktrans with app_name as app %}Public photos (all photos not marked private) may show up
+    in search engines such as Google and are visible to non-registered guests viewing {{ app}}{% endblocktrans %}.
 {% if ADULT_ORIENTED_SITE %}
-
-    {% if build_name == "swinger_build" or build_name == "gay_build" %}
-        <li>{% trans "No nude photos in public" %}.
-        <li>{% trans "Allowed in private" %}.
-    {% else %}
-        <li>{% trans "No nude photos in public" %}.
-        <li>{% trans "Allowed in private no genitals" %}.
-    {% endif %}
-
-
+    <li class="cl-indent">{% trans "Photos that contain nudity or that are sexually provocative will not be approved as publicly visible" %}.
+    <li class="cl-indent">{% trans "Private photos may be sensual but must not be pornographic and must not focus on intimate parts of the body" %}.
 {% else %}
-
-    <li>{% trans "No pornographic or nude photos allowed" %}.
-
-
+    <li class="cl-indent">{% trans "No pornographic or nude photos allowed" %}.
 {% endif %}
-    <li>{% trans "Only authorized people will have access to your private photos" %}.
-    <li>{% trans "Public photos may show up in search engines such as Google"%}.
-    <li>
-        {% trans "Read - command verb" %}
-        <a href="{% url 'views.terms' %}">{% trans "terms and conditions" %}</a>
-        {% trans "for the rules of" %} {{ app_name }}.
-    <li>{% trans "Photos that do not follow the rules will be erased without notification" %}.
+    <li class="cl-indent">{% trans 'Public photos must not be focused on the crotch, breasts, or butt' %}.
+    <li class="cl-indent">{% blocktrans with minimum_registration_age as age %}All people shown in an image must be at least {{ age }} years old{% endblocktrans %}.
+    <li class="cl-indent">{% trans "Photos that do not follow the rules will be erased without notification" %}.
 
 </ul>
 

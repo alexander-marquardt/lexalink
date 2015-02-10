@@ -378,7 +378,7 @@ def terms(request):
         # If you have not specified a terms and conditions file, then the "default_terms.html" file will be loaded,
         # which should be overwritten before you go live with your website.
         template = loader.select_template(['proprietary_html_content/' + ugettext("terms.html"), "common_helpers/default_terms.html"])
-        context = Context(dict({ 'minimum_registration_age': constants.minimum_registration_age}, **constants.template_common_fields))
+        context = Context(dict({}, **constants.template_common_fields))
         generated_html = template.render(context)
         return rendering.render_main_html(request, generated_html, userobject, hide_why_to_register = True)
 

@@ -468,6 +468,10 @@ table.cl-float-right {
     font-size: 8pt;
 }
 
+.cl-margin-below {
+    margin-bottom: 15px;
+}
+
 li.cl-indent {
     margin-left: 25px;
 }

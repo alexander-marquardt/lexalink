@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<ul class="cl-margin-below">
+    <li class="cl-indent">{% trans 'Images that could be considered immoral or distasteful' %}.
+    <li class="cl-indent">{% trans 'Images that are pornographic' %}.
+    <li class="cl-indent">{% blocktrans with app_name as app %}Images that include people who have not consented to have their image published on {{ app_name }}{% endblocktrans %}.
+    <li class="cl-indent">{% trans 'Images that are protected by copyright or intellectual property laws' %}.
+    <li class="cl-indent">{% trans 'Images that are intended to promote products or services' %}.
+    <li class="cl-indent">{% trans 'Any image that might be subject to possible legal action' %}.
+</ul>
