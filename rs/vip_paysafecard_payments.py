@@ -5,11 +5,11 @@ import hashlib
 import string
 import hmac
 import math
+import json
 from random import randint
 
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext
-from django.utils import simplejson
 from django import http
 
 from google.appengine.ext import ndb
@@ -69,7 +69,7 @@ vip_paysafe_card_valid_countries = {
 }
 
 # Temporariliy remove display of paysafecard payment, while we are waiting for authorization from them
-vip_paysafe_card_valid_countries = {}
+#vip_paysafe_card_valid_countries = {}
 
 vip_paysafecard_valid_currencies = ['EUR']#, 'USD', 'MXN', 'USD_NON_US']
 VIP_DEFAULT_CURRENCY = 'EUR' # Temporarily, we only support Euros - we are waiting for authorization for USD and MXN
@@ -237,32 +237,41 @@ def create_disposition(request):
             owner_nid,
             pn_url)
 
-        logging.info('paysafecard_disposition_response: %s'  % repr(paysafecard_disposition_response))
+        log_disposition_resonse_msg = 'paysafecard_disposition_response: %s'  % repr(paysafecard_disposition_response)
+        if (int(paysafecard_disposition_response['errorCode']) == 0) and \
+                (int(paysafecard_disposition_response['resultCode']) == 0) and\
+                (paysafecard_disposition_response['mid'] == merchant_id) and \
+                (paysafecard_disposition_response['mtid'] == merchant_transaction_id):
 
-        assert(int(paysafecard_disposition_response['errorCode']) == 0)
-        assert(int(paysafecard_disposition_response['resultCode']) == 0)
-        assert(paysafecard_disposition_response['mid'] == merchant_id)
-        assert(paysafecard_disposition_response['mtid'] == merchant_transaction_id)
+            logging.info(log_disposition_resonse_msg)
 
-        # It appears that the disposition was created without any issues - therefore write it to the database
-        paysafecard_disposition = models.PaysafecardDisposition(
-            id=merchant_transaction_id,
-            transaction_amount = amount,
-            transaction_currency = currency_code,
-            membership_category = membership_category,
-            num_days_to_be_awarded = num_days_to_be_awarded,
-            owner_userobject = user_key)
+            # It appears that the disposition was created without any issues - therefore write it to the database
+            paysafecard_disposition = models.PaysafecardDisposition(
+                id=merchant_transaction_id,
+                transaction_amount = amount,
+                transaction_currency = currency_code,
+                membership_category = membership_category,
+                num_days_to_be_awarded = num_days_to_be_awarded,
+                owner_userobject = user_key)
 
-        paysafecard_disposition.put()
+            paysafecard_disposition.put()
 
-        response_dict = {
-            'merchant_id' : merchant_id,
-            'merchant_transaction_id': merchant_transaction_id,
-            'currency_code': currency_code,
-            'amount': amount
-        }
+            response_dict = {
+                'create_disposition_success_flag': True,
+                'merchant_id' : merchant_id,
+                'merchant_transaction_id': merchant_transaction_id,
+                'currency_code': currency_code,
+                'amount': amount
+            }
+        else:
+            # There was a problem with creating the disposition
+            response_dict = {
+                'create_disposition_success_flag': False
+            }
+            error_reporting.log_exception(logging.error, error_message = log_disposition_resonse_msg)
+            email_utils.send_admin_alert_email(log_disposition_resonse_msg, subject = "%s Paysafe Error" % settings.APP_NAME)
 
-        json_response = simplejson.dumps(response_dict)
+        json_response = json.dumps(response_dict)
         return http.HttpResponse(json_response, mimetype='text/javascript')
 
     except:
@@ -398,8 +407,8 @@ def transaction_ok(request):
     return http_response
 
 def transaction_nok(request):
-    message_to_display = ugettext("Sorry, we were unable to process your payment. "
-                                  "You card will not be charged, and VIP status has not been awarded.")
+    message_to_display = ugettext("Transaction aborted by user."
+                                  "You will not be charged, and VIP status has not been awarded.")
     http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', {
         'message_to_display': message_to_display,
         })

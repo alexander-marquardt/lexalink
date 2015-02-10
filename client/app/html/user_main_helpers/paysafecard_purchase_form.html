@@ -24,6 +24,13 @@
 
     <div id="id-paysafecard-purchase-dialog" style="display:none;"></div>
 
+    <div id="id-paysafecard-disposition-not-created" style="display:none;">
+        <p>Transaction could not be initiated due to connection problems.
+        If the problem persists, please contact our support.
+
+        <p>If you wish to re-load payment options, please click <strong><a class="cl-see_all_vip_benefits" href="#">here</a></strong>.
+    </div>
+
     <script type="text/javascript">
 
     $(document).ready(function(){
@@ -45,35 +52,54 @@
                 // We have created to card disposition on both our servers and on paysafecard servers, now we
                 // make a request to paysafecard to show the customer panel.
                 success: function (post_response) {
-                    var page = "{{ paysafecard_data.paysafecard_customer_panel_url }}?" +
-                                    "mid=" + post_response.merchant_id +
-                                    "&currency=" + post_response.currency_code +
-                                    "&mtid=" + post_response.merchant_transaction_id +
-                                    "&amount=" + post_response.amount;
+
+                    if (post_response.create_disposition_success_flag === true) {
+                        var page = "{{ paysafecard_data.paysafecard_customer_panel_url }}?" +
+                                "mid=" + post_response.merchant_id +
+                                "&currency=" + post_response.currency_code +
+                                "&mtid=" + post_response.merchant_transaction_id +
+                                "&amount=" + post_response.amount;
 
 
-                    var $dialog =  $("#id-paysafecard-purchase-dialog");
-                    $dialog.html('<iframe id="id-paysafe-iframe" style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
-                       .dialog({
-                           autoOpen: false,
-                           modal: true,
-                           width: '750',
-                           height: '850',
-                           title: "Paysafecard",
-                           close: function() {
-                               // clear the html. This is necessary so that if the user closes the dialog, and then
-                               // opens it again, that we can still detect the "load" event below, that is used for
-                               // removing the spinner icon. Without this, the spinner continues to show the second
-                               // time that the iframe is loaded.
-                              $dialog.html('');
-                           }
-                       });
-                    $dialog.dialog('open');
+                        var $dialog = $("#id-paysafecard-purchase-dialog");
+                        $dialog.html('<iframe id="id-paysafe-iframe" style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
+                                .dialog({
+                                    autoOpen: false,
+                                    modal: true,
+                                    width: '750',
+                                    height: '850',
+                                    title: "Paysafecard",
+                                    close: function () {
+                                        // clear the html. This is necessary so that if the user closes the dialog, and then
+                                        // opens it again, that we can still detect the "load" event below, that is used for
+                                        // removing the spinner icon. Without this, the spinner continues to show the second
+                                        // time that the iframe is loaded.
+                                        $dialog.html('');
+                                    }
+                                });
+                        $dialog.dialog('open');
 
-                    // Only once the customer panel is loaded, hide the spinner
-                    $('#id-paysafe-iframe').load(function () {
+                        // Only once the customer panel is loaded, hide the spinner
+                        $('#id-paysafe-iframe').load(function () {
+                            $('#id-show-loading-spinner').hide();
+                        });
+                    }
+                    else {
+                        // we failed to create the disposition
                         $('#id-show-loading-spinner').hide();
-                    });
+                        var $dialog = $("#id-paysafecard-disposition-not-created");
+                        $dialog.dialog({
+                            autoOpen: true,
+                            modal: true,
+                            title: "Paysafecard error"
+                        });
+
+                        // we include an anchor inside the dialog that allows the user to re-load the payment options
+                        // panel. If they do this, then close this warning panel.
+                        $dialog.find("a").click(function(e) {
+                            $dialog.dialog('close');
+                        })
+                    }
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
