@@ -6,6 +6,14 @@ from string import Template
 import settings
 
 
+def generate_patter_dict_for_pulling_keys_from_response(expected_keys_list):
+    keys_pattern = {}
+    for key in expected_keys_list:
+        keys_pattern[key] = re.compile(r'.*<ns1:%(key)s>(.*)</ns1:%(key)s>' % {'key': key})
+
+    return keys_pattern
+
+
 DISPOSITION_TEMPLATE = Template("""
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
 xmlns:urn="urn:pscservice">
@@ -44,10 +52,8 @@ xmlns:urn="urn:pscservice">
 """)
 
 disposition_expected_keys = ['errorCode', 'resultCode', 'mid', 'mtid']
+disposition_keys_pattern = generate_patter_dict_for_pulling_keys_from_response(disposition_expected_keys)
 
-disposition_keys_pattern = {}
-for key in disposition_expected_keys:
-    disposition_keys_pattern[key] = re.compile(r'.*<ns1:%(key)s>(.*)</ns1:%(key)s>' % {'key': key})
 
 def get_soap_response(template_string, template_dict):
 
@@ -106,9 +112,7 @@ xmlns:urn="urn:pscservice">
 """)
 
 execute_debit_expected_keys = ['errorCode', 'resultCode', 'mtid']
-execute_debit_keys_pattern = {}
-for key in execute_debit_expected_keys:
-    execute_debit_keys_pattern[key] = re.compile(r'.*<ns1:%(key)s>(.*)</ns1:%(key)s>' % {'key': key})
+execute_debit_keys_pattern = generate_patter_dict_for_pulling_keys_from_response(execute_debit_expected_keys)
 
 def execute_debit(username,
                   password,
@@ -123,4 +127,33 @@ def execute_debit(username,
 
     return response_dict
 
+get_serial_numbers_expected_keys = ['errorCode', 'resultCode', 'mtid', 'amount', 'currency', 'dispositionState', 'serialNumbers']
+get_serial_numbers_keys_pattern = generate_patter_dict_for_pulling_keys_from_response(get_serial_numbers_expected_keys)
 
+GET_SERIAL_NUMBERS_TEMPLATE = Template("""
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:urn="urn:pscservice">
+<soapenv:Header/>
+<soapenv:Body>
+<urn:getSerialNumbers>
+<urn:username>$username</urn:username>
+<urn:password>$password</urn:password>
+<urn:mtid>$merchant_transaction_id</urn:mtid>
+<!--Zero or more repetitions:-->
+<urn:subId></urn:subId>
+<urn:currency>$transaction_currency</urn:currency>
+</urn:getSerialNumbers>
+</soapenv:Body>
+</soapenv:Envelope>
+""")
+
+def get_serial_numbers(username,
+                       password,
+                       merchant_transaction_id,
+                       transaction_currency):
+
+    template_dict = locals()
+    soap_response = get_soap_response(GET_SERIAL_NUMBERS_TEMPLATE, template_dict)
+    response_dict = parse_soap_response(soap_response, get_serial_numbers_expected_keys, get_serial_numbers_keys_pattern)
+
+    return response_dict
