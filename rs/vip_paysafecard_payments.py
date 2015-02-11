@@ -1,10 +1,9 @@
 import logging
-import binascii
 import urllib
-import hashlib
 import string
 import math
 import json
+import time
 from random import randint
 
 from django.shortcuts import render_to_response
@@ -85,7 +84,7 @@ encode_dict = dict((c, i) for i, c in enumerate(encode_allowed_chars))
 
 # The following definitions ensure that if we want for example a maximum of 6 characters to be returned from
 # our random id postfix generator, then the 'largest' string generated will be 'ZZZZZZ'
-number_of_encoded_chars_to_generate = 10
+number_of_encoded_chars_to_generate = 5
 max_number_for_random_id_postfix = int(math.pow(len(encode_allowed_chars), number_of_encoded_chars_to_generate)) - 1
 # Find the minimum number that will result in the specified number of digits (this is only for aesthetics, and
 # is not really necessary, but it will result in each random number being the same number of digits in length)
@@ -207,9 +206,10 @@ def create_disposition(request):
         #     pn_url = urllib.quote('http://%s/paysafecard/payment_notification/' % request.META['HTTP_HOST'], '')
 
 
-
+        time_in_millis = int(round(time.time() * 1000))
+        encoded_time = utils.base_encode(time_in_millis, base=encode_allowed_chars)
         random_postfix = get_random_number_string_for_transaction_id()
-        unique_id = str(owner_nid) + '-' + random_postfix
+        unique_id = str(owner_nid) + '-' + random_postfix + '-' + encoded_time
         merchant_transaction_id = unique_id
 
         # make sure to pass a '' as the second parameter to urllib.quote -- otherwise, '/' will not be quoted.
