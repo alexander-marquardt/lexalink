@@ -16,6 +16,7 @@ from google.appengine.ext import ndb
 import site_configuration
 import settings
 
+from rs import constants
 from rs import email_utils
 from rs import error_reporting
 from rs import models
@@ -84,7 +85,7 @@ encode_dict = dict((c, i) for i, c in enumerate(encode_allowed_chars))
 
 # The following definitions ensure that if we want for example a maximum of 6 characters to be returned from
 # our random id postfix generator, then the 'largest' string generated will be 'ZZZZZZ'
-number_of_encoded_chars_to_generate = 14
+number_of_encoded_chars_to_generate = 10
 max_number_for_random_id_postfix = int(math.pow(len(encode_allowed_chars), number_of_encoded_chars_to_generate)) - 1
 # Find the minimum number that will result in the specified number of digits (this is only for aesthetics, and
 # is not really necessary, but it will result in each random number being the same number of digits in length)
@@ -317,6 +318,10 @@ def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, seri
                     vip_status_support.update_userobject_vip_status("Paysafecard", userobject,
                         paysafe_disposition.num_days_to_be_awarded, serial_numbers,
                         paysafe_disposition.transaction_amount, paysafe_disposition.transaction_currency)
+                else:
+                    # This branch should never be entered, since transaction should not be in the database since it has
+                    # been confirmed to not already be complete in the paysafe_disposition struture - but check just in case
+                    error_message = 'By construction, we should not be attempting to store transaction %s again' % merchant_transaction_id
             else:
                 error_message = 'Paysafecard error in paysafecard_debit_response: %s ' % repr(paysafecard_debit_response)
         else:
@@ -406,7 +411,6 @@ def transaction_ok(request):
     error_message = ugettext("There has been an error processing your payment. "
                              "We have been notified of this problem and will investigate as soon as possible")
 
-    logging.info(" transaction_ok request: %s" % repr(request))
     paysafe_get_serial_numbers_response = vip_paysafe_soap_messages.get_serial_numbers(paysafe_username,
                                                                                        paysafe_password,
                                                                                        merchant_transaction_id,
@@ -430,17 +434,22 @@ def transaction_ok(request):
     else:
         # Unknown disposition state - generate an error
         message_to_display = error_message
+        disposition_error_message = "Un-handled dispositionState in paysafe_get_serial_numbers_response: %s " % repr(paysafe_get_serial_numbers_response)
+        error_reporting.log_exception(logging.critical, error_message=disposition_error_message)
+        email_utils.send_admin_alert_email(disposition_error_message, subject = "%s Paysafe Error" % settings.APP_NAME)
 
-    http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', {
-        'message_to_display': message_to_display,
-        })
+    http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', dict(
+        {'message_to_display': message_to_display,
+         }, **constants.template_common_fields))
+
     return http_response
 
 
 def transaction_nok(request):
     message_to_display = ugettext("Transaction aborted by user. "
                                   "Your paysafecard will not be charged, and VIP status has not been awarded.")
-    http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', {
-        'message_to_display': message_to_display,
-        })
+    http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', dict(
+        {'message_to_display': message_to_display,
+         }, **constants.template_common_fields))
+
     return http_response
