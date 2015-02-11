@@ -850,26 +850,30 @@ def batch_email_notification_launcher(request):
         return http.HttpResponseServerError()    
     
 def send_admin_alert_email(message_content, subject, is_raw_text = False, to_address = constants.admin_address):
-    # send a critical system status/warning message to the admin email address
-    try:
-        message = mail.EmailMessage(sender=constants.sender_address,
-                                    subject=subject)
-        message.to = to_address
-        
-        if not is_raw_text:
-            message.html = message_content
-            message.body = html2text.html2text(message.html)  
-        else: 
-            message.body = message_content
-        
-        try:
-            message.send()
-        except:
-            message.send()
-        
-        info_message = u"%s\n%s\n%s\n" % (message.sender, message.to, message.body)
-        logging.info(info_message)
-    except:
-        error_message = u"Unable to send message\n\n%s\n%s\n%s\n" % (message.sender, message.to, message.body)
-        error_reporting.log_exception(logging.critical, error_message = error_message)
 
+    if not settings.DEVELOPMENT_SERVER:
+        # send a critical system status/warning message to the admin email address
+        try:
+            message = mail.EmailMessage(sender=constants.sender_address,
+                                        subject=subject)
+            message.to = to_address
+
+            if not is_raw_text:
+                message.html = message_content
+                message.body = html2text.html2text(message.html)
+            else:
+                message.body = message_content
+
+            try:
+                message.send()
+            except:
+                message.send()
+
+            info_message = u"%s\n%s\n%s\n" % (message.sender, message.to, message.body)
+            logging.info(info_message)
+        except:
+            error_message = u"Unable to send message\n\n%s\n%s\n%s\n" % (message.sender, message.to, message.body)
+            error_reporting.log_exception(logging.critical, error_message = error_message)
+
+    else:
+        logging.warning("(fake) Sending message to ADMIN: %s" % message_content)

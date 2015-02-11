@@ -408,8 +408,9 @@ def transaction_ok(request):
 
     userobject = utils_top_level.get_userobject_from_request(request)
     success_message = ugettext("Congratulations. You have been awarded VIP status! Check your messages for more details")
-    error_message = ugettext("There has been an error processing your payment. "
-                             "We have been notified of this problem and will investigate as soon as possible")
+    user_error_message = ugettext("<p>There has been an error processing your payment."
+                             "<p>Our automated systems have notified us of this problem and we "
+                             "will investigate as soon as possible.")
 
     paysafe_get_serial_numbers_response = vip_paysafe_soap_messages.get_serial_numbers(paysafe_username,
                                                                                        paysafe_password,
@@ -418,7 +419,13 @@ def transaction_ok(request):
 
     logging.info('paysafe_get_serial_numbers_response: %s' % paysafe_get_serial_numbers_response)
 
-    if paysafe_get_serial_numbers_response['dispositionState'] == 'O':
+    internal_error_message = ''
+
+    if (int(paysafe_get_serial_numbers_response['errorCode']) != 0) or (int(paysafe_get_serial_numbers_response['resultCode']) != 0):
+        message_to_display = user_error_message
+        internal_error_message = 'errorCode or resultCode is not zero'
+
+    elif paysafe_get_serial_numbers_response['dispositionState'] == 'O':
         # The payment has been Consumed (final debit has been called) - nothing else to do - show success message
         message_to_display = success_message
 
@@ -429,12 +436,17 @@ def transaction_ok(request):
         if successful_debit:
              message_to_display = success_message
         else:
-            message_to_display = error_message
+            # debit failed - we don't generate an error message here, since a message was already generated
+            # inside do_debit_and_update_vip_structures
+            message_to_display = user_error_message
 
     else:
         # Unknown disposition state - generate an error
-        message_to_display = error_message
-        disposition_error_message = "Un-handled dispositionState in paysafe_get_serial_numbers_response: %s " % repr(paysafe_get_serial_numbers_response)
+        message_to_display = user_error_message
+        internal_error_message = 'Un-handled disposition state of %s' % paysafe_get_serial_numbers_response['dispositionState']
+
+    if internal_error_message:
+        disposition_error_message = "Error caused in paysafe_get_serial_numbers_response: %s " % repr(paysafe_get_serial_numbers_response)
         error_reporting.log_exception(logging.critical, error_message=disposition_error_message)
         email_utils.send_admin_alert_email(disposition_error_message, subject = "%s Paysafe Error" % settings.APP_NAME)
 
