@@ -88,7 +88,8 @@ def send_generic_email_message(request):
     # user must be passed in, either in the POST (as is currently done), or on the command line.
     previous_language = translation.get_language() # remember the original language, so we can set it back when we finish 
     info_message = ''
-    try:   
+
+    try:
         usernmae = message_html = email_address = lang_code =  None
         if request.method == 'POST':
             username = request.POST.get('username', None)
@@ -96,43 +97,49 @@ def send_generic_email_message(request):
             subject = request.POST.get('subject', None)
             lang_code = request.POST.get('lang_code', None)
             message_html = request.POST.get('message_html',None)
-         
-        if not username or not email_address or not subject or not lang_code or not message_html:    
+
+        if not username or not email_address or not subject or not lang_code or not message_html:
             error_message = "username: %s\nemail_address: %s\nsubject: %s\nlang_code: %s\nmessage_html: %s" % (\
                 username, email_address, subject, lang_code, message_html)
-            error_reporting.log_exception(logging.critical, error_message = error_message)   
+            error_reporting.log_exception(logging.critical, error_message = error_message)
             # return a non-errorr http response, so that this will not be re-queued -- this error will not resolve itself.
             return http.HttpResponse(error_message)
-        
+
         # set the language to be the users preferred language
         translation.activate(lang_code)
-        
-        message = mail.EmailMessage(sender= constants.sender_address,
-                                    subject=subject)
-        
-        message.to = u"%s <%s>" % (username, email_address)
-        
-        
-        message.html = message_html
-            
-        message.body = html2text.html2text(message.html) 
-        info_message = u"%s\n%s\n%s\n" % (message.sender, message.to, message.body)
-        
-        message.send()
 
-        logging.info(info_message)
+        if not settings.DEVELOPMENT_SERVER:
+
+            message = mail.EmailMessage(sender= constants.sender_address,
+                                        subject=subject)
+
+            message.to = u"%s <%s>" % (username, email_address)
+
+
+            message.html = message_html
+
+            message.body = html2text.html2text(message.html)
+            info_message = u"%s\n%s\n%s\n" % (message.sender, message.to, message.body)
+
+            message.send()
+
+            logging.info(info_message)
+        else:
+            # we are running locally - don't try to send messages
+            logging.info('(fake) sending message to %s: \n%s'  % (username,  html2text.html2text(message_html) ))
+
         return_val =  http.HttpResponse(info_message)
 
     except:
         error_message = u"Unable to send verification email. info_message: %s" % info_message
         error_reporting.log_exception(logging.critical, error_message = error_message)
-        return_val =  http.HttpResponseServerError(error_message)    
+        return_val =  http.HttpResponseServerError(error_message)
 
     finally:
-        # activate the original language -- not sure if this is really necessary, but is 
+        # activate the original language -- not sure if this is really necessary, but is
         # somewhat safer (until I fully understand how multiple processes in a single thread are interacting)
         translation.activate(previous_language)
-        
+
     return return_val
 
 
