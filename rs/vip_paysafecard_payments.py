@@ -68,7 +68,7 @@ vip_paysafe_card_valid_countries = {
 }
 
 # Temporariliy remove display of paysafecard payment, while we are waiting for authorization from them
-#vip_paysafe_card_valid_countries = {}
+vip_paysafe_card_valid_countries = {}
 
 vip_paysafecard_valid_currencies = ['EUR']#, 'USD', 'MXN', 'USD_NON_US']
 VIP_DEFAULT_CURRENCY = 'EUR' # Temporarily, we only support Euros - we are waiting for authorization for USD and MXN
