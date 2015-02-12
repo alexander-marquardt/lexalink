@@ -40,15 +40,7 @@ AUTOLOAD_SITECONF = 'indexes'
 
 TIME_ZONE = 'UTC'
 
-# language_build code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
-if BUILD_NAME == "language_build":
-    LANGUAGE_CODE = 'en'
-else:
-    # dating sites are primarily focussed on Spanish speaking market - we therefore want
-    # google to default to viewing the pages in Spanish. Normal browsers will have a language
-    # defined and LANGUAGE_CODE will therefore probably be ignored for most "normal" browsing cases. 
-    LANGUAGE_CODE = 'es'
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
     ('en', u'English'),

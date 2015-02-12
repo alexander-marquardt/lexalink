@@ -37,13 +37,6 @@ import settings, site_configuration
 # This file contains all the declarations for constant values that are used at various places in the code
 # This should help to keep the code more maintainable, and consistent.
 
-if settings.LANGUAGE_CODE == 'en':
-    default_languages_field_value = "english"
-elif settings.LANGUAGE_CODE == 'es':
-    default_languages_field_value = "spanish"
-else:
-    raise Exception("Unknown settings.LANGUAGE_CODE")
-
 
 # The following "SHOW_VIP_UPGRADE_OPTION" is at the top because it is used in some of the other 
 # constant declarations. If we don't allow the users to purchase a VIP option for a particular build,
