@@ -124,8 +124,8 @@ def get_additional_ads_to_append(request, userobject = None):
 
             # If the user is logged in, then show them the option to upgrade to a VIP membership
             if (userobject and not userobject.client_paid_status):
-                additional_ads_to_append.append('RS_VIP_for_all_1')
-                additional_ads_to_append.append('RS_VIP_for_all_1')
+                additional_ads_to_append.append('rs_vip_for_all_1')
+                additional_ads_to_append.append('rs_vip_for_all_1')
 
 
             # Let the swingers know about swinger_build site and the lesbian_build site
