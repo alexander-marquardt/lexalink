@@ -21,7 +21,7 @@
 
     {% if not hide_logo_banner_links %}
 
-    <div class="grid_4 omega cl-right-text cl-language-selector" id="id-beside-top-banner-top">
+    <div class="grid_4 omega cl-right-text cl-language-selector cl-text-large-format" id="id-beside-top-banner-top">
 
 
         <table class="cl-float-right">
@@ -30,6 +30,9 @@
                     <td class="cl-info-td"><a class="cl-setlang" href="/setlang/{{ lang.0 }}" >{{ lang.1 }}</a></td>
                 {% endfor %}
 
+            <td><div class='cl-language-selector' id="google_translate_element"></div></td>
+
+            </tr>
         </table>
     </div>
     <div class="grid_4 omega cl-right-text info-link-format" id="id-beside-top-banner-bottom">
@@ -57,3 +60,34 @@
 <!-- end banner container div -->
 <div class="cl-clear"></div>
 
+
+<script type="text/javascript">
+$('document').ready(function () {
+
+    /* This code is used for styling the google translate element. It is necessary because the languages dropdown is shown in
+       an iframe, which cannot be styled with normal CSS.
+     */
+    var anchor_color = $('.cl-language-selector a').css('color');
+    var body_color = $('body').css('color');
+
+    $('#google_translate_element').on("click", function () {
+        // Change font family and color
+        $("iframe").contents().find(".goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div, .goog-te-menu2 *")
+            .css({
+                'color': body_color,
+                'font-family': 'Arial'
+            });
+
+        // Change hover effects
+        $("iframe").contents().find(".goog-te-menu2-item div").hover(function () {
+            $(this).css('background-color', anchor_color).find('span.text').css('color', 'white');
+        }, function () {
+            $(this).css('background-color', 'white').find('span.text').css('color', body_color);
+        });
+
+        // Change Google's default blue border
+        $("iframe").contents().find('.goog-te-menu2').css('border', '1px solid gray');
+
+    });
+});
+</script>

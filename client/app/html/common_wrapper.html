@@ -67,6 +67,7 @@
     <meta name="description" content="{{ meta_info.content_description }}">
     <meta name = "keywords" content="{{  meta_info.keywords_description }}">
     <meta name="robots" content="{{ meta_info.web_crawler_access }}">
+    {% include "user_main_helpers/google_translate_meta_tags.html" %}
 
     <!-- The following "link rel" code is to help facebook pick the correct image when someone Likes the page -->
     {% if PROPRIETARY_BUILDS_AVAILABLE %}
