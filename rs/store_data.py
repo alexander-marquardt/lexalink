@@ -1208,8 +1208,8 @@ def check_and_fix_userobject(userobject, lang_code):
         # Some checkbox fields may or may not appear in individual builds, and therefore we have to check the
         # UserProfileDetails.enabled_checkbox_fields_list[] to see if it is necessary to check the field 
         # for correctness.
-
-        execution_dict[field] = (lambda x: x, (['prefer_no_say',],))
+        for field in UserProfileDetails.enabled_checkbox_fields_list:
+            execution_dict[field] = (lambda x: x, (['prefer_no_say',],))
         
         for (field, function_and_args_tuple) in execution_dict.items():
             try:
