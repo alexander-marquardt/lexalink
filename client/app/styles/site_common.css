@@ -31,7 +31,6 @@
 body {
 	font-family:  Arial, Verdana, SunSans-Regular, Sans-Serif;
 	border-top: 0px;
-	/* color: #333333; /* almost-white/light gray */
 	font-size: 12px;
 	padding: 0px 0px;
     color: #333333; /* the text color */
@@ -186,12 +185,21 @@ select {
 }
 
 #id-beside-top-banner-top {
+    padding-top: 20px;
 	vertical-align: bottom;
-	height: 75px;
+	height: 55px;
 }
 #id-beside-top-banner-bottom {
 	vertical-align: bottom;
 	height: 35px;
+}
+
+.goog-te-gadget-icon {display:none;}
+.goog-te-gadget-simple span {
+    font-size: 18px;
+}
+.goog-te-gadget {
+    margin-top: 3px;
 }
 
 
@@ -200,20 +208,34 @@ select {
     line-height: 125%;
 }
 .cl-text-big-format {
-    font-size: 180%;}
-.cl-text-large-format {font-size: 160%;
+    font-size: 20px;
     line-height: 125%; /* adds spacing between the lines of text */
 }
+
+.cl-text-large-format {
+    font-size: 18px;
+    line-height: 125%; /* adds spacing between the lines of text */
+}
+
 .cl-text-medium-format {
-    font-size: 140%;}
-.cl-text-14pt-format {font-size: 14pt;
+    font-size: 14px;
+}
+
+.cl-text-14pt-format {
+    font-size: 14pt;
     line-height: 125%; /* adds spacing between the lines of text */
 }
+
 .cl-text-12pt-format {
-    font-size: 12pt;}
-.cl-text-10pt-format {font-size: 10pt;
+    font-size: 12pt;
     line-height: 125%; /* adds spacing between the lines of text */
 }
+
+.cl-text-10pt-format {
+    font-size: 10pt;
+    line-height: 125%; /* adds spacing between the lines of text */
+}
+
 .cl-text-8pt-format {
     font-size: 8pt;
     line-height: 125%; /* adds spacing between the lines of text */
