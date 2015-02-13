@@ -226,10 +226,21 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 lang_idx, userobject, "about_user_dialog_popup", section_label, None, owner_uid, 
                 "about_user_dialog_popup", is_primary_user = True)
 
-            if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES and not userobject.client_paid_status:
-                show_vip_upgrade_now = utils.check_if_display_vip_upgrade_dialog(owner_nid, constants.SECONDS_BETWEEN_BECOME_A_VIP_POPUP)
-            else:
-                show_vip_upgrade_now = False
+            if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
+                # only show VIP upgrade dialog on builds that allow VIP upgrades
+                if userobject.client_paid_status:
+                    show_vip_upgrade_now = False
+                else:
+                    # not a VIP member, so we should show them VIP upgrade dialog
+                    if this_is_a_logout:
+                        # always show vip upgrade message when they logout
+                        show_vip_upgrade_now = True
+                    else:
+                        # periodically show vip upgrade dialog to non VIP members
+                        show_vip_upgrade_now = utils.check_if_display_vip_upgrade_dialog(owner_nid, constants.SECONDS_BETWEEN_BECOME_A_VIP_POPUP)
+
+
+
 
         else:
             registered_user_bool = False
@@ -248,11 +259,11 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 why_to_register = ''
                 
             chat_is_disabled = "yes"
+
+            # Users that are not logged in will not be shown VIP upgrade dialog box
             show_vip_upgrade_now = False
 
-        if this_is_a_logout and not userobject.client_paid_status:
-            # always show vip upgrade message when they logout
-            show_vip_upgrade_now = True
+
 
         # This code is used for generating maintenance warning messages. 
         (maintenance_soon_warning, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
