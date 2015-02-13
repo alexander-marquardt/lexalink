@@ -968,6 +968,9 @@ msgstr ""
 msgid "Advertise on %(app_name)s"
 msgstr "Pon publicidad en %(app_name)s"
 
+msgid "Become a"
+msgstr "Hazte"
+
 #: client/app/proprietary/html/proprietary_ads/rs_vip_for_all_1.html:10
 msgid "Become a VIP member, and get up to 20x more dates"
 msgstr "Hazte miembro VIP para conseguir hasta 20 veces mas citas"

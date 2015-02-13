@@ -382,7 +382,8 @@ def process_login(request):
             # update session to point to the current userobject
             login_utils.store_session(request, userobject)
 
-            utils.set_display_vip_upgrade_dialog_timeout(owner_nid, constants.SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP)
+            if constants.SHOW_VIP_UPGRADE_OPTION:
+                utils.set_display_vip_upgrade_dialog_timeout(owner_nid, constants.SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP)
 
         
             http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)

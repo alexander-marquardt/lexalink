@@ -270,10 +270,8 @@ $(document).ready(function() {
         event.stopPropagation()
     });
 
-    {% if SHOW_VIP_UPGRADE_OPTION %}
-        {% if general_information_data_fields.show_vip_upgrade_now %}
-            showAllVipBenefitsDialog({{ primary_user_presentation_data_fields.owner_nid }});
-        {% endif %}
+    {% if general_information_data_fields.show_vip_upgrade_now %}
+        showAllVipBenefitsDialog({{ primary_user_presentation_data_fields.owner_nid }});
     {% endif %}
 
 });

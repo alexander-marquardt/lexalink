@@ -1,9 +1,19 @@
+{% load i18n %}
 
 {% if advertising_info.enable_ads %}
 <div id="id-advertising-sidebar" class="grid_custom cl-grid_160px alpha omega cl-float_right">
 
-    <br>
-   
+    {% if guest_user_data_fields.registered_user_bool %}
+        {% if SHOW_VIP_UPGRADE_OPTION %}
+            {% if not primary_user_presentation_data_fields.client_paid_status %}
+                    <div class="cl-left-text cl-text-large-format"><br>
+                        {% trans 'Become a' %}
+                        <strong><a class="cl-see_all_vip_benefits" href="#">{% trans 'VIP member' %}</a></strong>.
+                    </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
     
     {% for ad in advertising_info.ad_template_list %}
         {{ ad|safe }}
