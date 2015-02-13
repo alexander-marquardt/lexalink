@@ -23,35 +23,33 @@
 
     <div class="grid_4 omega cl-right-text cl-language-selector cl-text-large-format" id="id-beside-top-banner-top">
 
+        <div class="grid_4 alpha omega">
+            <div class="cl-inline cl-vertical-align-middle cl-gray-text ">{% trans 'Translate' %}: </div><div class='cl-language-selector cl-inline cl-vertical-align-middle' id="google_translate_element"></div>
+        </div>
 
-        <table class="cl-float-right">
-            <tr>
-                {% for lang in LANGUAGES %}
-                    <td class="cl-info-td"><a class="cl-setlang" href="/setlang/{{ lang.0 }}" >{{ lang.1 }}</a></td>
-                {% endfor %}
+        <div class="grid_4 alpha omega">
 
-            <td><div class='cl-language-selector' id="google_translate_element"></div></td>
+            <div class="cl-padding-5px cl-gray-text">
+                {% if request.LANGUAGE_CODE == 'es' %}
+                    View in <a class="cl-setlang" href="/setlang/en">English</a>
+                {% endif %}
+                {% if request.LANGUAGE_CODE == 'en' %}
+                    Mirar en <a class="cl-setlang" href="/setlang/es">Español</a>
+                {% endif %}
+            </div>
+        </div>
 
-            </tr>
-        </table>
     </div>
     <div class="grid_4 omega cl-right-text info-link-format" id="id-beside-top-banner-bottom">
-        <table class="cl-float-right">
-            <tr>
-                <td>&nbsp;</td>
+        <div class="cl-padding-5px">
+            <a href="{% url 'views.welcome' %}">
+                {% trans "About" %} {{ app_name }}</a>
 
-                <td class="cl-info-td"><a href="{% url 'views.welcome' %}">
-                    {% trans "About" %} {{ app_name }}</a></td>
-
-                {% ifequal app_name "RomanceSecreto" %}
-                    <td class="cl-info-td"><img src="/images/info_divider.png"
-                                                align="middle" alt=""></td>
-                    <td class="cl-info-td"><a href="{% url 'views.press' %}">{% trans "Press" %}</a></td>
-                {% endifequal %}
-
-            </tr>
-        </table>
-
+            {% ifequal app_name "RomanceSecreto" %}
+                <img src="/images/info_divider.png" align="middle" alt="">
+                <a href="{% url 'views.press' %}">{% trans "Press" %}</a>
+            {% endifequal %}
+        </div>
     </div>
 
     {% endif %}

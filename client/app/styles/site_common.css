@@ -185,9 +185,8 @@ select {
 }
 
 #id-beside-top-banner-top {
-    padding-top: 20px;
-	vertical-align: bottom;
-	height: 55px;
+	vertical-align: top;
+	height: 75px;
 }
 #id-beside-top-banner-bottom {
 	vertical-align: bottom;
@@ -199,7 +198,6 @@ select {
     font-size: 18px;
 }
 .goog-te-gadget {
-    margin-top: 3.5px;
     margin-right: 3px;
 }
 

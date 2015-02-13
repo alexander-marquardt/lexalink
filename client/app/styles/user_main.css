@@ -644,3 +644,7 @@ td.cl-registration-big-prompt-td {
 
 a.cl-dialog_anchor {text-decoration: underline; color:#000 ; outline: none; font-weight: bold; } /* #B857AB close to purple */
 a.cl-dialog_anchor:hover {text-decoration: underline; color:#EB485D ; outline: none;  font-weight: bold;} /* #EB485D soft RED */
+
+.cl-inline {
+    display: inline-block;
+}
