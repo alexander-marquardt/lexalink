@@ -29,7 +29,7 @@
 <div id="id-navigation-menu">
 <ul id="rs-nav">
 
-    
+
     {% if not guest_user_data_fields.registered_user_bool or general_information_data_fields.this_is_a_logout %}
         {% if text_override_for_navigation_bar %}
             <li class="top">
@@ -269,6 +269,12 @@ $(document).ready(function() {
         show_dropdown($(this), event);
         event.stopPropagation()
     });
+
+    {% if SHOW_VIP_UPGRADE_OPTION %}
+        {% if general_information_data_fields.show_vip_upgrade_now %}
+            showAllVipBenefitsDialog({{ primary_user_presentation_data_fields.owner_nid }});
+        {% endif %}
+    {% endif %}
 
 });
 

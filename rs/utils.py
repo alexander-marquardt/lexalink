@@ -1662,3 +1662,29 @@ def base_encode(integer, base=BASE_LIST):
         integer /= length
 
     return ret
+
+
+DONT_SHOW_UPGRADE_DIALOG_MEMCACHE_PREFIX = "_hide_upgrade_dialog_"
+
+def set_display_vip_upgrade_dialog_timeout(nid, seconds_before_display):
+    # set a delay that will pass before we show a "become a vip" dialog popup
+    logging.info('setting vip_dialog_timeout to %d seconds' % seconds_before_display)
+    memcache_key = DONT_SHOW_UPGRADE_DIALOG_MEMCACHE_PREFIX + str(nid)
+    memcache.set(memcache_key, "don't show vip upgrade", seconds_before_display)
+
+
+def check_if_display_vip_upgrade_dialog(nid, seconds_between_display):
+    # check if enough time has passed that we should now show a "become a vip" dialog
+    memcache_key = DONT_SHOW_UPGRADE_DIALOG_MEMCACHE_PREFIX + str(nid)
+    hide_upgrade = memcache.get(memcache_key)
+
+    if hide_upgrade:
+        # Memcache has not expired yet, therefore we don't show the VIP upgrade
+        return False
+
+    else:
+        # if memcache has expired, or not found then we show the VIP upgrade and add a new memcache object
+        # that will expire in seconds_between_display seconds
+        logging.info('setting vip_dialog_timeout to %d seconds' % seconds_between_display)
+        set_display_vip_upgrade_dialog_timeout(nid, seconds_between_display)
+        return True

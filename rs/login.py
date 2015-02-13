@@ -381,6 +381,9 @@ def process_login(request):
 
             # update session to point to the current userobject
             login_utils.store_session(request, userobject)
+
+            utils.set_display_vip_upgrade_dialog_timeout(owner_nid, constants.SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP)
+
         
             http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
             logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
@@ -413,7 +416,8 @@ def process_login(request):
             # there were errors - report them
             response_dict['Login_Error'] = error_dict
             
-            
+
+
         json_response = simplejson.dumps(response_dict)
         return http.HttpResponse(json_response, mimetype='text/javascript')  
         

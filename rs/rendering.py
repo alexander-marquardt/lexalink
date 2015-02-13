@@ -224,7 +224,12 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             section_label = ugettext("About myself and what I am looking for")
             about_user_dialog_popup =  html_container.UserMainHTML.define_html_for_main_body_input_section(
                 lang_idx, userobject, "about_user_dialog_popup", section_label, None, owner_uid, 
-                "about_user_dialog_popup", is_primary_user = True)   
+                "about_user_dialog_popup", is_primary_user = True)
+
+            if userobject.client_paid_status:
+                show_vip_upgrade_now = False
+            else:
+                show_vip_upgrade_now = utils.check_if_display_vip_upgrade_dialog(owner_nid, constants.SECONDS_BETWEEN_BECOME_A_VIP_POPUP)
     
         else:
             registered_user_bool = False
@@ -243,8 +248,12 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 why_to_register = ''
                 
             chat_is_disabled = "yes"
-            
-    
+            show_vip_upgrade_now = False
+
+        if this_is_a_logout:
+            # always show vip upgrade message when they logout
+            show_vip_upgrade_now = True
+
         # This code is used for generating maintenance warning messages. 
         (maintenance_soon_warning, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
         
@@ -302,6 +311,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         general_information_data_fields['activate_account_passed_in_username'] = activate_account_passed_in_username
         general_information_data_fields['message_for_client'] = message_for_client
         general_information_data_fields['this_is_a_logout'] = this_is_a_logout
+        general_information_data_fields['show_vip_upgrade_now'] = show_vip_upgrade_now
 
         meta_info = {}
         if page_title:

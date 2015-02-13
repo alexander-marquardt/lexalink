@@ -126,6 +126,9 @@ SECONDS_PER_YEAR = 365 * SECONDS_PER_DAY
 ## END - Time Constants
 ######################################################################
 
+# Timing for how often we will show "become a vip member" popups
+SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP = SECONDS_PER_MINUTE * 10
+SECONDS_BETWEEN_BECOME_A_VIP_POPUP = 2 * SECONDS_PER_HOUR
 
 ######################################################################
 ## START - Session and Malicious User Controls
