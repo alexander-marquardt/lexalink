@@ -400,7 +400,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                 
             else:               
                 # This is a traditional HTML request - entire page will be loaded
-                http_response = render_to_response("common_wrapper.html", dict({      
+                http_response = render_to_response("common_wrapper.html", dict({
+                    'language_code': request.LANGUAGE_CODE,
                     'meta_info' : meta_info,
                     'body_main_html' : body_main_html,
                     'wrapper_data_fields' : common_data_structs.wrapper_data_fields,
