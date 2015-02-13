@@ -2,6 +2,7 @@ import logging
 
 from django.utils.translation import ugettext_lazy
 
+import settings
 from rs import error_reporting
 
 from rs.localization_files import currency_by_country
@@ -10,6 +11,8 @@ from rs.localization_files import currency_by_country
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
 TESTING_COUNTRY = ''
+if not (settings.TESTING_PAYPAL_SANDBOX or settings.TESTING_PAYSAFECARD) and TESTING_COUNTRY:
+    error_reporting.log_exception(logging.critical, error_message='Don\'t override payment country unless you are building a TESTING_* app')
 
 #VIP_1_DAY = "1 day"
 VIP_3_DAYS  = "3 days"

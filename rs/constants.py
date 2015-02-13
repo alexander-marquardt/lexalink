@@ -290,7 +290,7 @@ CHECK_CHAT_FRIENDS_ONLINE_LAST_UPDATE_MEMCACHE_PREFIX = "_check_friends_online_l
 ## AcceptTermsAndRules Constants
 # if the userobject AcceptTermsAndRules show_photo_rules_string does not match this value, then
 # the user will be shown the photo rules again.
-SHOW_PHOTO_RULES_CURRENT_RULES = "July 11 2013" 
+SHOW_PHOTO_RULES_CURRENT_RULES = "Feb 13 2015"
 
 ######################################################################
 ## Database (Google Cloud Storage) Backup Constants

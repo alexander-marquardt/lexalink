@@ -25,50 +25,50 @@ from rs import vip_payments_common
 from rs import vip_status_support
 from rs import vip_paysafe_soap_messages
 
-
-# Declar all countries tha paysafecard is supported. Use a set literal for lookup efficiency
-vip_paysafe_card_valid_countries = {
-    'AR', # Argentina
-    'AU', # Australia
-    'AT', # Austria
-    'BE', # Belgium
-    'BG', # Bulgaria
-    'CA', # Canada
-    'HR', # Croatia
-    'CY', # Cyprus
-    'CZ', # Czech Republic
-    'DK', # Denmark
-    'FI', # Finland
-    'FR', # France
-    'DE', # Germany
-    'GR', # Greece
-    'HU', # Hungary
-    'IE', # Ireland
-    'IT', # Italy
-    'LV', # Latvia
-    'LT', # Lithuania
-    'LU', # Luxembourg
-    'MT', # Malta
-    'MX', # Mexico
-    'NL', # Netherlands
-    'NO', # Norway
-    'PE', # Peru
-    'PL', # Poland
-    'PT', # Portugal
-    'RO', # Romania
-    'SK', # Slovakia
-    'SI', # Slovenia
-    'ES', # Spain
-    'SE', # Sweeden
-    'CH', # Switzerland
-    'TR', # Turkey
-    'GB', # United Kingdom
-    'US', # United States
-    'UY', # Uruguay
-}
-
-# Temporariliy remove display of paysafecard payment, while we are waiting for authorization from them
-vip_paysafe_card_valid_countries = {}
+if settings.ENABLE_PAYSAFECARD:
+    # Declar all countries tha paysafecard is supported. Use a set literal for lookup efficiency
+    vip_paysafe_card_valid_countries = {
+        'AR', # Argentina
+        'AU', # Australia
+        'AT', # Austria
+        'BE', # Belgium
+        'BG', # Bulgaria
+        'CA', # Canada
+        'HR', # Croatia
+        'CY', # Cyprus
+        'CZ', # Czech Republic
+        'DK', # Denmark
+        'FI', # Finland
+        'FR', # France
+        'DE', # Germany
+        'GR', # Greece
+        'HU', # Hungary
+        'IE', # Ireland
+        'IT', # Italy
+        'LV', # Latvia
+        'LT', # Lithuania
+        'LU', # Luxembourg
+        'MT', # Malta
+        'MX', # Mexico
+        'NL', # Netherlands
+        'NO', # Norway
+        'PE', # Peru
+        'PL', # Poland
+        'PT', # Portugal
+        'RO', # Romania
+        'SK', # Slovakia
+        'SI', # Slovenia
+        'ES', # Spain
+        'SE', # Sweeden
+        'CH', # Switzerland
+        'TR', # Turkey
+        'GB', # United Kingdom
+        'US', # United States
+        'UY', # Uruguay
+    }
+else:
+    # Temporariliy remove display of paysafecard payment, while we are waiting for authorization from them
+    vip_paysafe_card_valid_countries = {}
 
 vip_paysafecard_valid_currencies = ['EUR']#, 'USD', 'MXN', 'USD_NON_US']
 VIP_DEFAULT_CURRENCY = 'EUR' # Temporarily, we only support Euros - we are waiting for authorization for USD and MXN
@@ -199,11 +199,11 @@ def create_disposition(request):
         else:
             raise Exception("Paysafecard currency %s not handled by code" % currency_code)
 
-        # if site_configuration.DEVELOPMENT_SERVER:
-        #     # Give "real" URLs so that we can check if payment notifications are being received.
-        #     pn_url = urllib.quote(development_payment_notification_server + '/paysafecard/payment_notification/', '')
-        # else:
-        #     pn_url = urllib.quote('http://%s/paysafecard/payment_notification/' % request.META['HTTP_HOST'], '')
+        if site_configuration.DEVELOPMENT_SERVER:
+            # Give "real" URLs so that we can check if payment notifications are being received.
+            pn_url = urllib.quote(development_payment_notification_server + '/paysafecard/pn_url/', '')
+        else:
+            pn_url = urllib.quote('http://%s/paysafecard/pn_url/' % request.META['HTTP_HOST'], '')
 
 
         time_in_millis = int(round(time.time() * 1000))
@@ -225,7 +225,7 @@ def create_disposition(request):
             ok_url,
             nok_url,
             owner_nid,
-            pn_url = '', # disable pn_url since we take care of the notification and debit on the ok_url
+            pn_url,
             )
 
         log_disposition_resonse_msg = 'paysafecard_disposition_response: %s'  % repr(paysafecard_disposition_response)
@@ -325,7 +325,11 @@ def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, seri
             else:
                 error_message = 'Paysafecard error in paysafecard_debit_response: %s ' % repr(paysafecard_debit_response)
         else:
-            error_message = 'Paysafecard merchant_transaction_id: %s is already complete - why is it executing again?' % merchant_transaction_id
+            # This condition could happen if we process the payment directly from the okUrl (before pn_url is called),
+            # and then receive a pnUrl notification of the message after we have already processed the payment, or vice versa.
+            logging.warning('Paysafecard merchant_transaction_id: %s is already complete - no action taken.' % merchant_transaction_id)
+            if not userobject.client_paid_status:
+                error_message = 'Paysafecard merchant_transaction_id: %s is already complete - but user %s does not have VIP status' % (merchant_transaction_id, userobject.username)
     else:
         # if someone calls this URL without us having first created an associated disposition.
         error_message = 'Paysafecard - could not find disposition for merchant_transaction_id: %s' % merchant_transaction_id
@@ -343,62 +347,62 @@ def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, seri
     return successful_debit
 
 
-# def payment_notification(request):
-#
-#     # After the client eneters their paysafecard information and transmits it toe paysafecard's servers, we will
-#     # receive a notification indicating the transaction ID, the amount received, and other information. If the client
-#     # pays in a currency other than the billing currency, then currency conversions are done by paysafecard, and we
-#     # therefore cannot look at the payment amount to figure out exactly which VIP status to award to the user.
-#     # For this reason, we must look up the transaction using the merchant_transaction_id to determine what
-#     # to award to the user. If the merchant_transaction_id is not found in our database, then this may be
-#     # a fraudulent attempt to get free VIP status.
-#     try:
-#
-#         if request.method != 'POST':
-#             error_message = "payment_notification was not called with POST data"
-#             error_reporting.log_exception(logging.critical, error_message = error_message)
-#             return http.HttpResponseBadRequest(error_message)
-#
-#         logging.info('request = %s ' % repr(request))
-#         merchant_transaction_id = request.POST.get('mtid', None); assert(merchant_transaction_id)
-#         event_type = request.POST.get('eventType', None); assert(event_type == 'ASSIGN_CARDS')
-#
-#         # Make sure that the merchant transaction is signed correctly so that we know that it was initiated from
-#         # our servers. This will prevent someone from sending fraudulent payment notifications to our server, as they
-#         # would need our hmac key to generate the correct signature
-#         (nid_str, random_postfix, original_hmac_signature) = merchant_transaction_id.split('-')
-#         unique_id = nid_str + '-' + random_postfix
-#         verify_hmac_signature = generate_hmac(unique_id)
-#         assert(verify_hmac_signature == original_hmac_signature)
-#
-#         nid = long(nid_str)
-#
-#         # Note: serial_numbers is actually made up of 4 values seperated by ';' that may be repeated multiple times
-#         # in the case that more than one card was used to make the payment. eg. a payment from a single card would
-#         # be SerialNumber;CurrencyCode;Amount;CardTypeId - a payment from two cards would be
-#         # SerialNumber1;CurrencyCode1;Amount1;CardTypeId1;SerialNumber2;CurrencyCode2;Amount2;CardTypeId2 etc.
-#         serial_numbers = request.POST.get('serialNumbers', None); assert(serial_numbers)
-#
-#         uid = utils.get_uid_from_nid(nid)
-#         userobject = utils_top_level.get_object_from_string(uid)
-#
-#         do_debit_and_update_vip_structures(userobject, merchant_transaction_id, serial_numbers)
-#
-#         return http.HttpResponse("OK")
-#
-#     except:
-#         try:
-#             # This is serious enough, that it warrants sending an email to the administrator.
-#             message_content = """Paysafecard error - unable to process payment notification"""
-#             email_utils.send_admin_alert_email(message_content, subject = "%s Paysafe Error" % settings.APP_NAME)
-#
-#         finally:
-#             error_reporting.log_exception(logging.critical, request=request)
-#             return http.HttpResponseServerError('Error in payment_notification')
+def pn_url(request):
+
+    # After the client enters their paysafecard information and transmits it to paysafecard's servers, we will
+    # receive a notification indicating the transaction ID, the amount received, and other information. If the client
+    # pays in a currency other than the billing currency, then currency conversions are done by paysafecard, and we
+    # therefore cannot look at the payment amount to figure out exactly which VIP status to award to the user.
+    # For this reason, we must look up the transaction using the merchant_transaction_id to determine what
+    # to award to the user. If the merchant_transaction_id is not found in our database, then this may be
+    # a fraudulent attempt to get free VIP status.
+    try:
+
+        if request.method != 'POST':
+            error_message = "pn_url was not called with POST data"
+            error_reporting.log_exception(logging.critical, error_message = error_message)
+            return http.HttpResponseBadRequest(error_message)
+
+        logging.info('request = %s ' % repr(request))
+        merchant_transaction_id = request.POST.get('mtid', None); assert(merchant_transaction_id)
+        event_type = request.POST.get('eventType', None); assert(event_type == 'ASSIGN_CARDS')
+
+        (nid_str, random_postfix, encoded_time) = merchant_transaction_id.split('-')
+        nid = long(nid_str)
+
+        # Note: serial_numbers is actually made up of 4 values seperated by ';' that may be repeated multiple times
+        # in the case that more than one card was used to make the payment. eg. a payment from a single card would
+        # be SerialNumber;CurrencyCode;Amount;CardTypeId - a payment from two cards would be
+        # SerialNumber1;CurrencyCode1;Amount1;CardTypeId1;SerialNumber2;CurrencyCode2;Amount2;CardTypeId2 etc.
+        serial_numbers = request.POST.get('serialNumbers', None); assert(serial_numbers)
+
+        uid = utils.get_uid_from_nid(nid)
+        userobject = utils_top_level.get_object_from_string(uid)
+
+        successful_debit = do_debit_and_update_vip_structures(userobject, merchant_transaction_id, serial_numbers)
+        if successful_debit:
+             logging.info('pn_url - Paysafecard payment successfully debited')
+
+        else:
+            # debit failed - we don't generate an error message here, since a message was already generated
+            # inside do_debit_and_update_vip_structures
+            logging.info('pn_url - Error - Paysafecard payment not debited')
+
+        return http.HttpResponse("OK")
+
+    except:
+        try:
+            # This is serious enough, that it warrants sending an email to the administrator.
+            message_content = """Paysafecard error - unable to process payment notification"""
+            email_utils.send_admin_alert_email(message_content, subject = "%s Paysafe Error" % settings.APP_NAME)
+
+        finally:
+            error_reporting.log_exception(logging.critical, request=request)
+            return http.HttpResponseServerError('Error in pn_url')
 
 
 
-def transaction_ok(request):
+def ok_url(request):
     # Customer card has been sucessfully entered 'assigned' and the user has been redirected to the URL associated
     # with this function. Show the user the status of their payment.
     paysafe_username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
@@ -427,18 +431,24 @@ def transaction_ok(request):
 
     elif paysafe_get_serial_numbers_response['dispositionState'] == 'O':
         # The payment has been Consumed (final debit has been called) - nothing else to do - show success message
+        logging.info('ok_url - Paysafecard payment already consumed - Nothing else to do except inform user of successful payment ')
         message_to_display = success_message
 
     elif paysafe_get_serial_numbers_response['dispositionState'] == 'S':
+        logging.info('ok_url - Paysafecard payment not yet consumed - we will now debit the payment')
+
         # Paysafecard has been assigned to disposition - we can now debit their account to finalize the transaction
         serial_numbers = paysafe_get_serial_numbers_response['serialNumbers']
         successful_debit = do_debit_and_update_vip_structures(userobject, merchant_transaction_id, serial_numbers)
         if successful_debit:
              message_to_display = success_message
+             logging.info('ok_url - Paysafecard payment successfully debited')
+
         else:
             # debit failed - we don't generate an error message here, since a message was already generated
             # inside do_debit_and_update_vip_structures
             message_to_display = user_error_message
+            logging.info('ok_url - Error - Paysafecard payment not debited')
 
     else:
         # Unknown disposition state - generate an error
@@ -457,7 +467,7 @@ def transaction_ok(request):
     return http_response
 
 
-def transaction_nok(request):
+def nok_url(request):
     message_to_display = ugettext("Transaction aborted by user. "
                                   "Your paysafecard will not be charged, and VIP status has not been awarded.")
     http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', dict(

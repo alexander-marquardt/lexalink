@@ -78,6 +78,11 @@ elif TESTING_PAYSAFECARD:
     VERSION_ID = 'paysafecard'
     REDIRECT_APPSPOT_URL = False
 
+if TESTING_PAYSAFECARD:
+    ENABLE_PAYSAFECARD = True
+else:
+    ENABLE_PAYSAFECARD = False
+
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
 # version id of the javascript that we are currently serving for the server. Change this number if you
