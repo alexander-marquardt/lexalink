@@ -321,18 +321,18 @@ def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, seri
                 else:
                     # This branch should never be entered, since transaction should not be in the database since it has
                     # been confirmed to not already be complete in the paysafe_disposition struture - but check just in case
-                    error_message = 'By construction, we should not be attempting to store transaction %s again' % merchant_transaction_id
+                    error_message = 'By construction, we should not be attempting to store transaction again'
             else:
                 error_message = 'Paysafecard error in paysafecard_debit_response: %s ' % repr(paysafecard_debit_response)
         else:
             # This condition could happen if we process the payment directly from the okUrl (before pn_url is called),
             # and then receive a pnUrl notification of the message after we have already processed the payment, or vice versa.
-            logging.warning('Paysafecard merchant_transaction_id: %s is already complete - no action taken.' % merchant_transaction_id)
+            logging.warning('Paysafecard transaction %s is already complete - no action taken.')
             if not userobject.client_paid_status:
-                error_message = 'Paysafecard merchant_transaction_id: %s is already complete - but user %s does not have VIP status' % (merchant_transaction_id, userobject.username)
+                error_message = 'Paysafecard transaction is already complete - but user %s does not have VIP status' % (userobject.username)
     else:
         # if someone calls this URL without us having first created an associated disposition.
-        error_message = 'Paysafecard - could not find disposition for merchant_transaction_id: %s' % merchant_transaction_id
+        error_message = 'Paysafecard - could not find disposition for transaction'
 
     transaction_info = 'merchant_transaction_id: %s serial_numbers: %s' % (merchant_transaction_id, serial_numbers)
     if error_message:
