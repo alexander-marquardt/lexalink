@@ -89,12 +89,6 @@
             }
             flash_between_light_and_dark(3);
 
-            {% if THIS_BUILD_ALLOWS_VIP_UPGRADES %}
-                {% if general_information_data_fields.this_is_a_logout and guest_user_data_fields.registered_user_bool %}
-                    showAllVipBenefitsDialog({{ primary_user_presentation_data_fields.owner_nid }});
-                {% endif %}
-            {% endif %}
-
         });
         </script>
 

@@ -250,7 +250,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             chat_is_disabled = "yes"
             show_vip_upgrade_now = False
 
-        if this_is_a_logout:
+        if this_is_a_logout and not userobject.client_paid_status:
             # always show vip upgrade message when they logout
             show_vip_upgrade_now = True
 
