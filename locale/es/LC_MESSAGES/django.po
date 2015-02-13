@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-12 22:28-0500\n"
+"POT-Creation-Date: 2015-02-13 03:26-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -41,15 +41,15 @@ msgstr "Entrada no válida"
 msgid "Terms and conditions"
 msgstr "Términos y condiciones de uso"
 
-#: client/app/html/common_helpers/logo_banner.html:36
+#: client/app/html/common_helpers/logo_banner.html:27
 msgid "Translate"
 msgstr "Traducir"
 
-#: client/app/html/common_helpers/logo_banner.html:42
+#: client/app/html/common_helpers/logo_banner.html:46
 msgid "About"
 msgstr "Sobre"
 
-#: client/app/html/common_helpers/logo_banner.html:46
+#: client/app/html/common_helpers/logo_banner.html:50
 msgid "Press"
 msgstr "Prensa"
 
@@ -432,8 +432,8 @@ msgid ""
 "Private photos are hidden from everyone except people that you have "
 "authorized by giving them your key"
 msgstr ""
-"Las fotos privadas están ocultas de todos el mundo excepto a los perfiles "
-"que hayas autorizado haciendo clic en la llave"
+"Las fotos privadas están ocultas de todo el mundo excepto a los perfiles que "
+"hayas autorizado haciendo clic en la llave"
 
 #: client/app/html/user_main_helpers/photo_rules.html:8
 msgid ""
@@ -444,6 +444,74 @@ msgstr ""
 "llave en el perfil que has autorizado previamente"
 
 #: client/app/html/user_main_helpers/photo_rules.html:9
+msgid ""
+"Photos in your profile must be your own photos. Photos that you do not own "
+"or that you have copied may be deleted"
+msgstr ""
+"Fotos en tu perfil deben ser tus propias fotos. Fotos que no son de tu "
+"propiedad o que has copiado pueden ser eliminadas"
+
+#: client/app/html/user_main_helpers/photo_rules.html:10
+msgid "All photos in your profile must be of yourself"
+msgstr "Las fotos que pongas en tu perfil deben ser fotos de ti mismo"
+
+#: client/app/html/user_main_helpers/photo_rules.html:11
+msgid ""
+"While it is acceptable to hide your face or show only a part of yourself,\n"
+"                             photos must show enough of yourself to help our "
+"members to evaluate your\n"
+"                             profile"
+msgstr ""
+"Aunque es aceptable ocultar tu cara o mostrar sólo una parte de ti mismo, "
+"las fotos deben mostrar lo suficiente de ti mismo para ayudar a nuestros "
+"miembros evaluar tu perfil"
+
+#: client/app/html/user_main_helpers/photo_rules.html:14
+msgid ""
+"For example, a photo focused on a toe, a hand, or an eyeball is not helpful "
+"and may be deleted"
+msgstr ""
+"Por ejemplo, una foto enfocada en un dedo del pie, una mano, o un ojo no es "
+"útil y podría ser eliminada"
+
+#: client/app/html/user_main_helpers/photo_rules.html:15
+msgid "Photos must not be focused on the crotch, breasts, or butt"
+msgstr ""
+"Fotos no pueden estar focalizadas en zonas púbicas, los senos o "
+"las nalgas"
+
+#: client/app/html/user_main_helpers/photo_rules.html:17
+msgid ""
+"Photos that contain nudity or that are sexually provocative will not be "
+"approved as publicly visible"
+msgstr ""
+"Las fotos nudistas o que sean sexualmente provocativas, no serán aprobadas "
+"como fotos públicas"
+
+#: client/app/html/user_main_helpers/photo_rules.html:18
+msgid "Private photos may be sensual but must not be pornographic"
+msgstr ""
+"Las fotos privadas pueden ser sensuales pero no pueden ser pornográficas"
+
+#: client/app/html/user_main_helpers/photo_rules.html:20
+msgid "No pornographic or nude photos allowed"
+msgstr ""
+"No está permitido poner fotos pornográficas en ningún caso (ni fotos "
+"públicas o privadas)"
+
+#: client/app/html/user_main_helpers/photo_rules.html:22
+msgid ""
+"If we delete your principal profile photo and you have other publicly "
+"visible\n"
+"                             photos, then we may make any of these other "
+"publicly visible photos become your principal\n"
+"                             profile photo"
+msgstr ""
+"Si eliminamos la foto principal de tu perfil y todavía tienes otras fotos "
+"visibles públicamente, podemos hacer cualquiera de estas otras fotos "
+"públicas convertirse en la foto principal de tu perfil"
+
+#: client/app/html/user_main_helpers/photo_rules.html:25
 #, python-format
 msgid ""
 "Public photos (all photos not marked private) may show up\n"
@@ -454,40 +522,12 @@ msgstr ""
 "mostradas en buscadores tales como Google y son visibles a personas no "
 "registradas que estén visitando %(app)s"
 
-#: client/app/html/user_main_helpers/photo_rules.html:12
-msgid ""
-"Photos that contain nudity or that are sexually provocative will not be "
-"approved as publicly visible"
-msgstr ""
-"Las fotos nudistas o que sean sexualmente provocativas, no serán aprobadas "
-"como fotos públicas"
-
-#: client/app/html/user_main_helpers/photo_rules.html:13
-msgid ""
-"Private photos may be sensual but must not be pornographic and must not "
-"focus on intimate parts of the body"
-msgstr ""
-"Las fotos privadas pueden ser sensuales pero no pueden ser pornográficas y "
-"no deben estar focalizadas en partes íntimas del cuerpo"
-
-#: client/app/html/user_main_helpers/photo_rules.html:15
-msgid "No pornographic or nude photos allowed"
-msgstr ""
-"No está permitido poner fotos pornográficas en ningún caso (ni fotos "
-"públicas o privadas)"
-
-#: client/app/html/user_main_helpers/photo_rules.html:17
-msgid "Public photos must not be focused on the crotch, breasts, or butt"
-msgstr ""
-"Las fotos públicas no pueden estar focalizadas en zonas púbicas, los senos o "
-"las nalgas"
-
-#: client/app/html/user_main_helpers/photo_rules.html:18
+#: client/app/html/user_main_helpers/photo_rules.html:27
 #, python-format
 msgid "All people shown in an image must be at least %(age)s years old"
 msgstr "Las personas en las fotos deben ser mayores de %(age)s años"
 
-#: client/app/html/user_main_helpers/photo_rules.html:19
+#: client/app/html/user_main_helpers/photo_rules.html:28
 msgid "Photos that do not follow the rules will be erased without notification"
 msgstr "Las fotos que no sigan las normas serán borradas sin notificación"
 
@@ -1295,7 +1335,7 @@ msgstr ""
 "este conectado"
 
 #: rs/ajax.py:714 rs/forms.py:1084 rs/login.py:759 rs/messages.py:519
-#: rs/rendering.py:413 rs/utils.py:1426
+#: rs/rendering.py:414 rs/utils.py:1426
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -5014,12 +5054,11 @@ msgid ""
 msgstr ""
 
 #: rs/vip_paysafecard_payments.py:461
-#, fuzzy
 msgid ""
 "Transaction aborted by user. Your paysafecard will not be charged, and VIP "
 "status has not been awarded."
 msgstr ""
-"Lo sentimos, no pudimos procesar tu pago. Tu tarjeta no se cargará y el "
+"Has terminado la transacción. Tu tarjeta no se cargará y el "
 "estado VIP no ha sido concedido."
 
 #: rs/proprietary/search_engine_overrides.py:60
