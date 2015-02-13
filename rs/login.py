@@ -382,7 +382,7 @@ def process_login(request):
             # update session to point to the current userobject
             login_utils.store_session(request, userobject)
 
-            if constants.SHOW_VIP_UPGRADE_OPTION:
+            if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
                 utils.set_display_vip_upgrade_dialog_timeout(owner_nid, constants.SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP)
 
         

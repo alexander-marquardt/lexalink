@@ -909,7 +909,7 @@ def store_initiate_contact(request, to_uid):
                                     
                                     response_text = "<p>%s" % max_chat_friends_response_text(GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED)
                                     
-                                    if constants.SHOW_VIP_UPGRADE_OPTION:
+                                    if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
                                         
                                         response_text += "<p>%s" % ugettext("""
                                         If you wish to increase this limit to %(max_requests)s, 

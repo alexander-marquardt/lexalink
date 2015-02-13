@@ -15,7 +15,7 @@ def render_payment_options(request, username, owner_nid):
 
     try:
 
-        if constants.SHOW_VIP_UPGRADE_OPTION:
+        if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
             # only show payment options/buttons to users that are logged-in.
 
             paypal_data = vip_paypal_payments.generate_paypal_data(request, username, owner_nid)

@@ -1512,7 +1512,7 @@ def do_display_online_status(owner_uid):
 
     try:    
     
-        if constants.SHOW_VIP_UPGRADE_OPTION:
+        if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
             # This build has the option of upgrading to VIP - therefore we just give them a taste of the VIP benefits
             
             userobject = utils_top_level.get_object_from_string(owner_uid)
@@ -1542,7 +1542,7 @@ def do_display_online_status(owner_uid):
 
 def show_online_status(owner_uid):
     
-    if constants.SHOW_VIP_UPGRADE_OPTION:
+    if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
         userobject = utils_top_level.get_object_from_string(owner_uid)
         client_paid_status = userobject.client_paid_status
         

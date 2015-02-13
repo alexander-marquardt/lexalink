@@ -249,7 +249,7 @@ class MyHTMLCallbackGenerator():
                                     'people_in_the_past' : people_in_the_past,
                                     'will_be_reset' : will_be_reset }
                         else:
-                            if constants.SHOW_VIP_UPGRADE_OPTION:
+                            if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
                                 you_are_allowed_to_contact_prefix = ugettext("Since you are not yet a %(vip_member)s, you can") % {
                                     'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
                             else:
@@ -269,7 +269,7 @@ class MyHTMLCallbackGenerator():
                                     'people_in_the_past':people_in_the_past,
                                     'will_be_reset' : will_be_reset,}
 
-                        if constants.SHOW_VIP_UPGRADE_OPTION:
+                        if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
                                 generated_html += u" %s.<br><br>" % ugettext("""If you wish to increase this limit, read about the benefits of becoming a %(vip_member)s""") % {
                                     'vip_member' : constants.vip_member_anchor % constants.vip_member_txt}
 

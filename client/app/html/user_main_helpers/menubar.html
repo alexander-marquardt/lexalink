@@ -89,7 +89,7 @@
             }
             flash_between_light_and_dark(3);
 
-            {% if SHOW_VIP_UPGRADE_OPTION %}
+            {% if THIS_BUILD_ALLOWS_VIP_UPGRADES %}
                 {% if general_information_data_fields.this_is_a_logout and guest_user_data_fields.registered_user_bool %}
                     showAllVipBenefitsDialog({{ primary_user_presentation_data_fields.owner_nid }});
                 {% endif %}
@@ -159,7 +159,7 @@
         </li>
 
 
-        {% if SHOW_VIP_UPGRADE_OPTION %}
+        {% if THIS_BUILD_ALLOWS_VIP_UPGRADES %}
             <li class="top">
                 <a href="#" class="top_link">
                     <span class="down">
@@ -186,7 +186,7 @@
 </ul>
 </div>
 
-{% if SHOW_VIP_UPGRADE_OPTION %}
+{% if THIS_BUILD_ALLOWS_VIP_UPGRADES %}
     {% include "user_main_helpers/test_vip_benefits_dialog.html" %}
 {% endif %}
 

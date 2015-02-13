@@ -38,15 +38,15 @@ import settings, site_configuration
 # This should help to keep the code more maintainable, and consistent.
 
 
-# The following "SHOW_VIP_UPGRADE_OPTION" is at the top because it is used in some of the other 
+# The following "THIS_BUILD_ALLOWS_VIP_UPGRADES" is at the top because it is used in some of the other
 # constant declarations. If we don't allow the users to purchase a VIP option for a particular build,
 # then we treat all the users of that build as VIP (to some degree). 
 if site_configuration.BUILD_NAME == 'discrete_build':
-    SHOW_VIP_UPGRADE_OPTION = True
+    THIS_BUILD_ALLOWS_VIP_UPGRADES = True
 else:
     # currently, only discrete_build build allows users to upgrade to VIP. 
     # Other sites are supported by advertising.
-    SHOW_VIP_UPGRADE_OPTION = False
+    THIS_BUILD_ALLOWS_VIP_UPGRADES = False
 
     
 if settings.BUILD_NAME == "language_build" : 
@@ -65,10 +65,10 @@ URLS_THAT_NEED_REDIRECT_AFTER_ENTRY = set(["/", "/rs/admin/login/", "/rs/submit_
 
 # Define the number of new people that the user can send messages to in a given time window.
 
-# if this is a site where SHOW_VIP_UPGRADE_OPTION is true, then this is a site that we want the user to upgrade
+# if this is a site where THIS_BUILD_ALLOWS_VIP_UPGRADES is true, then this is a site that we want the user to upgrade
 # to a paying status. Therefore, there are more restrictions/limitations on the number of messages and people that
 # they are allowed to contact, as opposed to the totally free sites that have less restrictions.
-if SHOW_VIP_UPGRADE_OPTION:
+if THIS_BUILD_ALLOWS_VIP_UPGRADES:
     # They have the option of purchasing VIP - therefore the quota is lower (pay if they want more)
     GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 1 # after this number of messages, sending messages is blocked for non-paying members.
     GUEST_WINDOW_DAYS_FOR_NEW_PEOPLE_MESSAGES = 2  # days before the counters will be reset
@@ -88,7 +88,7 @@ VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW = 10
     
 NUM_HOURS_WINDOW_TO_RESET_MESSAGE_COUNT_TO_OTHER_USER = 36 # to prevent a pair of users from overloading the servers by sending infinite messages between them - put a limit
 
-if SHOW_VIP_UPGRADE_OPTION:
+if THIS_BUILD_ALLOWS_VIP_UPGRADES:
     # VIP purchase is available - this user should pay if they want to send more messages.
     STANDARD_NUM_MESSAGES_TO_OTHER_USER_IN_TIME_WINDOW = 1 # can only send X messages to another user in a window period
     # If the users are "chat friends" or one of them is VIP, then they can send more messages between them in time window period.
@@ -191,7 +191,7 @@ NUM_CHAT_MESSAGES_IN_QUERY = 30 # how many chat messages will we return in a que
 MAX_CHAT_FRIEND_REQUESTS_ALLOWED = 200 # requests + accepted friends cannot exceed this number - keep queries to manageable size
 
 # this is the limit on the number of chat_friends for non-registered users
-if SHOW_VIP_UPGRADE_OPTION:
+if THIS_BUILD_ALLOWS_VIP_UPGRADES:
     GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 1
 else:
     GUEST_NUM_CHAT_FRIEND_REQUESTS_ALLOWED = 50 
@@ -575,7 +575,7 @@ class ErrorMessages():
         generated_html = ''
             
         if not vip_status:
-            if SHOW_VIP_UPGRADE_OPTION:
+            if THIS_BUILD_ALLOWS_VIP_UPGRADES:
                 generated_html += ugettext_lazy("""
                 Given that neither you nor the person that you would like to contact is %(vip_member)s,
                 you can only send them %(guest_num)s message in each %(hours)s-hour period.
@@ -782,7 +782,7 @@ template_common_fields = {'build_name': site_configuration.BUILD_NAME,
                           'analytics_id' : site_configuration.ANALYTICS_ID,
                           'SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES' : SHOW_ONLINE_STATUS_TRIAL_TIMEOUT_MINUTES,
                           'BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS' : BLOCK_ONLINE_STATUS_TRIAL_RESET_HOURS,
-                          'SHOW_VIP_UPGRADE_OPTION' : SHOW_VIP_UPGRADE_OPTION,
+                          'THIS_BUILD_ALLOWS_VIP_UPGRADES' : THIS_BUILD_ALLOWS_VIP_UPGRADES,
                           'ADULT_ORIENTED_SITE' : ADULT_ORIENTED_SITE, 
                           'SITE_IS_TOTALLY_FREE' : SITE_IS_TOTALLY_FREE, 
                           'MANUALLY_VERSIONED_IMAGES_DIR' : site_configuration.MANUALLY_VERSIONED_IMAGES_DIR,
