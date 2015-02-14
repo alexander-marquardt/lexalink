@@ -256,7 +256,10 @@ def process_login(request):
                 error_dict['username_email'] = u"%s" % constants.ErrorMessages.username_alphabetic
                    
                               
-        if is_admin_login:
+        if is_admin_login and login_dict['password'] == "----":
+            # If administrator has entered in a password, then we assume that they are testing the "normal" login
+            # flow. Only if the password is not entered (as indicated by "----") will we login as admin.
+            
             # There should only be a single "active" (not eliminated) user for each username/email.
             userobject = q_username_email.get()            
         else:
@@ -295,7 +298,7 @@ def process_login(request):
         correct_username_password = False
         if userobject:
                 
-            if is_admin_login:
+            if is_admin_login and login_dict['password'] == "----":
                 correct_username_password = True
                 
             elif userobject.password == utils.old_passhash(login_dict['password']):
