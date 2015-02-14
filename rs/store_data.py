@@ -93,12 +93,15 @@ def store_search_preferences(request):
         
 def set_photo_rules_on_userobject(userobject, value_to_set):
 
-    accept_terms_and_rules_object = userobject.accept_terms_and_rules_key.get()
-    if accept_terms_and_rules_object.last_photo_rules_accepted != value_to_set:
-        # if it is already set don't bother writing to the datastore
-        accept_terms_and_rules_object.last_photo_rules_accepted = value_to_set
-        accept_terms_and_rules_object.put()
- 
+    try:
+        accept_terms_and_rules_object = userobject.accept_terms_and_rules_key.get()
+        if accept_terms_and_rules_object.last_photo_rules_accepted != value_to_set:
+            # if it is already set don't bother writing to the datastore
+            accept_terms_and_rules_object.last_photo_rules_accepted = value_to_set
+            accept_terms_and_rules_object.put()
+    except:
+        error_reporting.log_exception(logging.error, error_message='error in set_photo_rules_on_userobject')
+
     
 def store_photo_options(request, owner_uid, is_admin_photo_review = False, review_action_dict = {}):
     # recieves to POST from the "edit_photos" call, and stores to the appropriate data structure.
