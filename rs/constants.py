@@ -133,7 +133,11 @@ SECONDS_BETWEEN_BECOME_A_VIP_POPUP = 2 * SECONDS_PER_HOUR
 ######################################################################
 ## START - Session and Malicious User Controls
 
-SESSION_EXPIRE_HOURS = 90 * 24 # 90 days before sessions expire (if we need to manually kill all current sessions, change site_configuration.SECRET_KEY)
+SESSION_EXPIRE_HOURS =  3 # X hours before sessions expire (if we need to manually kill all current sessions, change site_configuration.SECRET_KEY)
+SESSION_RESET_HOURS_BEFORE_EXPIRY = 1 # If the user is within X hours of expiry and is curently active, then give an extension
+SESSION_RESET_SECONDS_BEFORE_EXPIRY = SESSION_RESET_HOURS_BEFORE_EXPIRY * SECONDS_PER_HOUR # If the user is within X hours of expiry and is curently active, then give an extension
+SESSION_ADDITIONAL_HOURS_IF_CLOSE_TO_EXPIRY = 2 # give X more hours if session is about to expire and is currently active
+SESSION_ADDITIONAL_SECONDS_IF_CLOSE_TO_EXPIRY = SESSION_ADDITIONAL_HOURS_IF_CLOSE_TO_EXPIRY * SECONDS_PER_HOUR
 
 MAX_STORED_SESSIONS = 5 # used for limiting the number of session ids that we will store for a single profile in the UserTracker object.
 

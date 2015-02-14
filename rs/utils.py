@@ -33,8 +33,8 @@ from google.appengine.api import memcache, users
 
 import hashlib, re, urllib
 import datetime
-import string, random, sys
-import base64
+import random, sys
+import time
 
 from django import http
 from django.utils.translation import ugettext, ungettext
@@ -1688,3 +1688,15 @@ def check_if_display_vip_upgrade_dialog(nid, seconds_between_display):
         logging.info('setting vip_dialog_timeout to %d seconds' % seconds_between_display)
         set_display_vip_upgrade_dialog_timeout(nid, seconds_between_display)
         return True
+
+
+def check_if_session_close_to_expiry_and_give_more_time(request):
+    # If the user is currently actively browsing the site and they have an open session, then we don't want to
+    # expire their session in the middle of their activity.
+
+    session_expiry = request.session.get_expiration()
+    if session_expiry != 0 and time.time() + constants.SESSION_RESET_SECONDS_BEFORE_EXPIRY > request.session.get_expiration():
+        logging.info("session %s expires at %s" % (request.session.sid, request.session.get_expiration_datetime()))
+        new_expiration_ts = session_expiry + constants.SESSION_ADDITIONAL_SECONDS_IF_CLOSE_TO_EXPIRY
+        request.session.regenerate_id(expiration_ts=new_expiration_ts)
+        logging.info("session %s extended to %s" % (request.session.sid, request.session.get_expiration_datetime()))

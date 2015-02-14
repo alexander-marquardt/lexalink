@@ -25,7 +25,7 @@
 # limitations under the License.
 ################################################################################
 
-import datetime
+import time
 
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext
@@ -171,6 +171,7 @@ def get_ad(request, ads_to_select_from):
     return banner_html
 
 
+
 def render_main_html(request, generated_html, userobject = None, link_to_hide = '', 
                      page_title = '', refined_links_html = '', show_social_buttons = False, page_meta_description = '',
                      show_search_box = True, text_override_for_navigation_bar = '', hide_page_from_webcrawler = False,
@@ -184,6 +185,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
 
     
     try:
+        utils.check_if_session_close_to_expiry_and_give_more_time(request)
+
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
         
         if show_search_box:

@@ -391,7 +391,11 @@ def post_message(request):
     # a more complete response)
     from django.utils.html import strip_tags
     
-    try: 
+    try:
+        # if user is actively posting chat messages, then we don't want to log them out in the middle of their
+        # conversation - give more time to their session.
+        utils.check_if_session_close_to_expiry_and_give_more_time(request)
+
         new_update_time_string = str(datetime.datetime.now())
         
         if 'userobject_str' in request.session:
