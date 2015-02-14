@@ -26,8 +26,8 @@
 ################################################################################
 
 import uuid
-import settings
 import logging, StringIO, pickle, datetime, os
+import json
 
 from google.appengine.api import users
 
@@ -259,7 +259,7 @@ def process_login(request):
         if is_admin_login and login_dict['password'] == "----":
             # If administrator has entered in a password, then we assume that they are testing the "normal" login
             # flow. Only if the password is not entered (as indicated by "----") will we login as admin.
-            
+
             # There should only be a single "active" (not eliminated) user for each username/email.
             userobject = q_username_email.get()            
         else:
@@ -541,7 +541,7 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
  
         if error_dict:
             # if there is an error, make them re-do login process (this should never happen though)
-            error_message = repr(error_list)
+            error_message = repr(error_dict)
             error_reporting.log_exception(logging.error, error_message=error_message)
             return ("Error", None)
         
@@ -741,11 +741,11 @@ def check_verification_and_authorize_user(request):
                 destination_url = '/?already_registered_username=%s&show_registration_login_popup=true' % username
             elif store_user_status == "username_deleted":
                 response_dict = {"username_deleted" : utils.get_removed_user_reason_html(userobject)}
-                json_response = simplejson.dumps(response_dict)
+                json_response = json.dumps(response_dict)
                 return http.HttpResponse(json_response, mimetype='text/javascript')                                     
             else:
                 destination_url = "/"                
-                error_reporting.log_exception(logging.critical, error_message = "unknown status %s returned from store_new_user_after_verify" % status)   
+                error_reporting.log_exception(logging.critical, error_message = "unknown status %s returned from store_new_user_after_verify" % store_user_status)
                 
 
         else:
@@ -769,7 +769,7 @@ def check_verification_and_authorize_user(request):
             response_dict = {"warning_html" : u'<strong><span class="cl-warning-text">%(warning_message)s</span></strong>' % {
                 'warning_message' : warning_message}
                              }
-            json_response = simplejson.dumps(response_dict)
+            json_response = json.dumps(response_dict)
             return http.HttpResponse(json_response, mimetype='text/javascript')    
         
     except: 
