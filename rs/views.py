@@ -294,15 +294,15 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         viewed_profile_data_fields['profile_information_for_admin'] = utils.generate_profile_information_for_administrator(display_userobject, utils.user_is_admin(owner_userobject))
         
         
-        # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the 
-        # photo boxes -- allows us to hide the photo section if no photos are present
-        user_photo_tracker = display_userobject.user_photos_tracker_key.get()
-        viewed_profile_data_fields['show_photos_section'] = is_primary_user or user_photo_tracker.public_photos_keys or\
-            user_photo_tracker.private_photos_keys
+        if not display_userobject.user_is_marked_for_elimination:
+            # Note, the following "or" ensures that if the user is viewing their own profile, they will always see the
+            # photo boxes -- allows us to hide the photo section if no photos are present
+            user_photo_tracker = display_userobject.user_photos_tracker_key.get()
+            viewed_profile_data_fields['show_photos_section'] = is_primary_user or user_photo_tracker.public_photos_keys or\
+                user_photo_tracker.private_photos_keys
         
         if show_vip_info:
             viewed_profile_data_fields['show_online_status'] = utils.get_vip_online_status_string(display_uid)
-        
         
         template = loader.get_template("user_main_helpers/main_body.html")
         context = Context(dict({
