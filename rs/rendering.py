@@ -25,6 +25,7 @@
 # limitations under the License.
 ################################################################################
 
+import datetime
 
 from django.shortcuts import render_to_response
 from django.utils.translation import ugettext
@@ -194,10 +195,13 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             username = userobject.username
             email_address = userobject.email_address
             client_paid_status = userobject.client_paid_status
+            client_paid_status_expiry_string = utils.return_time_difference_in_friendly_format(
+                userobject.client_paid_status_expiry, time_is_in_past=False, capitalize=False)
         else:
             username = ''
             email_address = ''
             client_paid_status = None
+            client_paid_status_expiry_string = ''
     
         additional_ads_to_append = []
         # render the HTML for the majority of pages that will be seen by users... However, individual profiles are rendered by views.user_main
@@ -297,6 +301,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         primary_user_presentation_data_fields['do_not_try_to_dynamically_load_search_values'] = do_not_try_to_dynamically_load_search_values
         primary_user_presentation_data_fields['remove_chatboxes'] = "yes" if remove_chatboxes else "no"
         primary_user_presentation_data_fields['client_paid_status'] = client_paid_status
+        primary_user_presentation_data_fields['client_paid_status_expiry_string'] = client_paid_status_expiry_string
         primary_user_presentation_data_fields['num_profile_views_since_last_check'] = num_profile_views_since_last_check
         primary_user_presentation_data_fields['about_user_dialog_popup'] = about_user_dialog_popup
             

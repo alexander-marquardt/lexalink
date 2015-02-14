@@ -10,7 +10,15 @@
                         {% trans 'Become a' %}
                         <strong><a class="cl-see_all_vip_benefits" href="#">{% trans 'VIP member' %}</a></strong>.
                     </div>
+
+            {% else %}
+                    <div class="cl-left-text cl-text-large-format"><br><br>
+                        {% trans 'Your VIP membership expires' %}
+                        {{ primary_user_presentation_data_fields.client_paid_status_expiry_string }}.
+                        <br><br>
+                    </div>
             {% endif %}
+
         {% endif %}
     {% endif %}
 
