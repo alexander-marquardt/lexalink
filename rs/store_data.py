@@ -212,6 +212,13 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                 else:
                     # photo is public
                     public_photos_keys_list.append(photo_key)
+
+
+                    # The following statement ensures that one of the public photos will be selected as the profile photo,
+                    # even if the user has not indicated that it is the profile photo.
+                    if not profile_photo_key:
+                        profile_photo_key = photo_key
+
                 if photo_object.is_profile:
                     assert(not photo_object.is_private)
                     profile_photo_key = photo_key
