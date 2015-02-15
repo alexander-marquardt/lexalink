@@ -246,7 +246,8 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                         # periodically show vip upgrade dialog to non VIP members
                         show_vip_upgrade_now = utils.check_if_display_vip_upgrade_dialog(owner_nid, constants.SECONDS_BETWEEN_BECOME_A_VIP_POPUP)
 
-
+            else:
+                show_vip_upgrade_now = False
 
 
         else:
