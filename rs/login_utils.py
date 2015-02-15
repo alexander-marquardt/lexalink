@@ -103,13 +103,7 @@ def store_session(request, userobject):
 # modified based on profile characteristics that are considered to be important.
 # offsets are given in hours
 
-# Note: to avoid double counting only on of the photo-related offsets will be counted. See code in login_utils -
-# compute_unique_last_login() for how these special cases are counted.
-offset_values = {'has_profile_photo_offset':72,
-                 'has_private_photo_offset':24,
-                 'has_public_photo_offset':36,
-                 'has_about_user_offset': 48,
-                 }
+
 
 ## END Profile Display Offset values
 ###################################################
@@ -125,19 +119,17 @@ def compute_unique_last_login(userobject):
         user_photo_tracker = userobject.user_photos_tracker_key.get()
 
         if user_photo_tracker.profile_photo_key:
-            offset += offset_values['has_profile_photo_offset']
-        elif user_photo_tracker.public_photos_keys:
-            offset += offset_values['has_public_photo_offset']
+            offset += constants.unique_last_login_offset_values_in_days['has_profile_photo_offset']
         elif user_photo_tracker.private_photos_keys:
-            offset += offset_values['has_private_photo_offset']
+            offset += constants.unique_last_login_offset_values_in_days['has_private_photo_offset']
 
         if userobject.about_user != '----':
-            offset += offset_values['has_about_user_offset']
+            offset += constants.unique_last_login_offset_values_in_days['has_about_user_offset']
 
         logging.info('Adding %d hours to %s\'s unique_last_login_offset' % (offset, userobject.username))
-        unique_last_login_with_offset = userobject.last_login + datetime.timedelta(hours=offset)
+        unique_last_login_with_offset = userobject.last_login + datetime.timedelta(days=offset)
         unique_last_login = "%s_%s" % (unique_last_login_with_offset, userobject.username)
-        
+
         return unique_last_login
 
     except: 
