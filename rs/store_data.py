@@ -226,6 +226,7 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
 
         if not profile_photo_found:
             if new_photo_key_as_possible_profile_photo:
+                logging.info("Promoted photo to principal profile photo for user %s " % userobject.username)
                 profile_photo_object = new_photo_key_as_possible_profile_photo.get()
                 profile_photo_object.is_profile = True
                 profile_photo_object.put()
@@ -237,7 +238,6 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         user_photos_tracker_key = userobject.user_photos_tracker_key            
         if user_photos_tracker_key:     
             user_photos_tracker = user_photos_tracker_key.get()
-            logging.warning("Remove check on user_photos_tracker once all userobjects have been updated to have one defined") 
             user_photos_tracker.profile_photo_key = profile_photo_key
             user_photos_tracker.public_photos_keys = list(public_photos_keys_list)
             user_photos_tracker.private_photos_keys = list(private_photos_keys_list)
