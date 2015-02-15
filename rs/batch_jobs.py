@@ -49,13 +49,10 @@ import models
 import utils, error_reporting
 import html2text
 import constants, settings
+from rs import login_utils
+from rs import store_data
 
 from mapreduce import operation as op
-
-
-def change_username(userobject):
-    userobject.username = 'CHANGED-' + userobject.username
-    op.db.Put(userobject)
 
 
 from djangoappengine.mapreduce import pipeline as django_pipeline
@@ -71,9 +68,46 @@ def mapreduce_update_userobject(userobject):
     # 2) Update unique_last_login_offset for all users. It was not computed correctly due to a bug
 
 
-    logging.info("updating userobject")
-    #userobject.username = 'CHANGED-' + userobject.username
-    #yield op.db.Put(userobject)
+    try:
+        logging.info("updating userobject %s" % userobject.username)
+
+        if userobject.user_is_marked_for_elimination:
+            logging.info("removing photos from elminated profile %s" % userobject.username)
+            login_utils.remove_photos_from_profile(userobject)
+
+        else:
+
+            user_photos_tracker = userobject.user_photos_tracker_key.get()
+            if not user_photos_tracker:
+                is_modified = store_data.check_and_fix_userobject(userobject, 'es')
+                # get a new userobject from the database since we just modified it.
+                if is_modified:
+                    userobject = userobject.key.get()
+                    # the userobject should now have a user_photo_tracker object since we just fixed it
+                    user_photos_tracker = userobject.user_photos_tracker_key.get()
+
+            if not user_photos_tracker.profile_photo_key:
+
+                # user doesn't have a principal profile photo - if they have any public photos, mark one of these
+                # as being the new principal photo. Arbitrarily take the first one.
+                if user_photos_tracker.public_photos_keys:
+                    logging.info("user %s does not have a principal profile photo - selecting a new one" % userobject.username)
+                    new_profile_photo_key = user_photos_tracker.public_photos_keys[0]
+                    user_photos_tracker.profile_photo_key = new_profile_photo_key
+                    new_profile_photo = new_profile_photo_key.get()
+                    new_profile_photo.is_profile = True
+                    new_profile_photo.put()
+                    user_photos_tracker.put()
+                else:
+                    logging.info("user %s does not have any public photos to make principal" % userobject.username)
+
+
+            userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
+            logging.info("recomputed unique_last_login for %s. New value is %s" % (userobject.username, userobject.unique_last_login))
+            userobject.put()
+
+    except:
+        error_reporting.log_exception(logging.critical)
 
     # NOTE: The database appears to be doing some strange things, which I strongly suspect are due to the
     # database models using NDB, and the mapreduce operations working on the standard DB. Until it has been
