@@ -336,6 +336,25 @@ def check_test_cookie(request):
     else:
         return False
 
+def remove_photos_from_profile(userobject):
+    # queries for all photos associated with a userprofile, and deletes them.
+    # Also updates the user_photos_tracker to not reference to any photos.
+
+
+    all_user_photo_keys = models.PhotoModel.query().filter(models.PhotoModel.parent_object == userobject.key).fetch(keys_only = True)
+    num_photos = len(all_user_photo_keys)
+    for photo_key in all_user_photo_keys:
+        photo_key.delete()
+
+    logging.info("Removing %d photos from userobject %s" % (num_photos, userobject.username))
+
+    if userobject.user_photos_tracker_key:
+        user_photos_tracker = userobject.user_photos_tracker_key.get()
+        user_photos_tracker.profile_photo_key = None
+        user_photos_tracker.public_photos_keys = []
+        user_photos_tracker.private_photos_keys = []
+        user_photos_tracker.put()
+
     
 def take_action_on_account_and_generate_response(request, userobject, action_to_take, reason_for_profile_removal = None, new_password = None, 
                                                  new_email_address = None, return_html_or_text = "html"):
@@ -346,14 +365,18 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
         remoteip  = os.environ['REMOTE_ADDR']
         profile_href = profile_utils.get_userprofile_href(request.LANGUAGE_CODE, userobject, is_primary_user=False)
         linked_username = """<a href="%s">%s</a>""" % (profile_href, userobject.username,)
-        
+
+        if action_to_take == "delete":
+            # doesn't need to be inside transaction since a conflict doesn't really matter, and because we are doing
+            # a query which does not work inside a transaction.
+            remove_photos_from_profile(userobject)
+
         def txn(user_key):
             # run in transaction to prevent conflicts with other writes to the userobject.
             userobject =  user_key.get()
         
             if action_to_take == "delete":
                 userobject.user_is_marked_for_elimination = True
-        
                 # The following html is multi-lingual because this branch can be executed by a user call, and the return value
                 # will be displayed as html to the user. 
                 html_for_action_on_account = u"%s %s.<br>" % (ugettext("We have deleted the profile of"), linked_username)
