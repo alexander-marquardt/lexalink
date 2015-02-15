@@ -539,12 +539,7 @@ class FormUtils():
                     is_checked = ""
                 else:
                     is_checked = "checked"
-                #insert a row which allows the user to specify that they do not wish to have a profile picture displayed
-                generated_html += u'<tr><td>&nbsp;</td></tr><tr><td class="cl-photo-options-label-td">%s</td>\
-                <td class = "cl-photo-options-select-td"><input type = "radio" %s name="%s"></td></tr>' %\
-                (ugettext("No primary photo"), is_checked, "is_profile")
-                generated_html += u'<tr><td>&nbsp;</td></tr>'
-                
+
             generated_html += u'</table>\n'
             
         
