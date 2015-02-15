@@ -209,7 +209,6 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                                 photo_object.is_profile = False
                                 utils.put_object(photo_object)
 
-            profile_photo_found = False
             if photo_object:
                 if photo_object.is_private:
                     private_photos_keys_list.append(photo_key)
@@ -226,10 +225,11 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                     profile_photo_found = True
 
         if not profile_photo_found:
-            profile_photo_object = new_photo_key_as_possible_profile_photo.get()
-            profile_photo_object.is_profile = True
-            profile_photo_object.put()
-            profile_photo_key = new_photo_key_as_possible_profile_photo
+            if new_photo_key_as_possible_profile_photo:
+                profile_photo_object = new_photo_key_as_possible_profile_photo.get()
+                profile_photo_object.is_profile = True
+                profile_photo_object.put()
+                profile_photo_key = new_photo_key_as_possible_profile_photo
 
 
         # The following block takes care of setting up the user_photos_tracker, which will allow efficient access to the 
