@@ -371,7 +371,7 @@ def take_action_on_account_and_generate_response(request, userobject, action_to_
                 userobject.user_is_marked_for_elimination = True
                 # The following html is multi-lingual because this branch can be executed by a user call, and the return value
                 # will be displayed as html to the user. 
-                html_for_action_on_account = u"%s %s.<br>" % (ugettext("We have deleted the profile of"), linked_username)
+                html_for_action_on_account = u"%s %s<br>" % (ugettext("We have deleted the profile of"), linked_username)
                 userobject.reason_for_profile_removal = reason_for_profile_removal
                 
             elif action_to_take == "undelete": 
