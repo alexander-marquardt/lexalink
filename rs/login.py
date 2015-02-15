@@ -344,8 +344,9 @@ def process_login(request):
             store_data.check_and_fix_userobject(userobject, request.LANGUAGE_CODE)
 
             # if administrator is logging in, do not update any of the user login times, or other data that should only be updated 
-            # if the real user logs in. 
-            if not is_admin_login:
+            # if the real user logs in. However, if the administrator is logging in, and has entered a password, then they
+            # would like to be recognized as a standard login, and therefore we should update the login times.
+            if (not is_admin_login) or login_dict['password'] == "----":
                 
                 userobject.password_reset = None # if the user has sucessfully logged in, then we know that the "reset_password" is no longer needed
                 userobject.previous_last_login = userobject.last_login
