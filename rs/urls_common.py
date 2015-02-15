@@ -136,7 +136,7 @@ urlpatterns = patterns('',
     
     # first page is a confirmation that they actually wish to delete their account
     (r'^rs/do_delete/(?P<username>[\w|-]+)/(?P<hash_of_creation_date>[\w|-]+)/$', 
-     login_utils.delete_userobject_with_name_and_security_hash),    
+     login_utils.delete_userobject_with_name_and_security_hash),
     
     # NOTE: for "get" operations, we pass in the UID. This is done so that the information is not 
     # incorrectly cached by external devices, which may wrongly interpret a single address as having
@@ -304,6 +304,7 @@ urlpatterns = patterns('',
     (r'^rs/admin/action/reset/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/(?P<new_email_address>.+)/(?P<new_password>[\w]+)/$', admin.batch_take_action_on_profiles,
      {'action_to_take': 'reset'}),    
     # keep the following URL below the above URLs since it is more of a catch-all.
+    # Eg: /rs/admin/action/undelete/name/alex/ will undelete the profile
     (r'^rs/admin/action/(?P<action_to_take>\w+)/(?P<field_for_action>\w+)/(?P<val_for_query>.+)/$', admin.batch_take_action_on_profiles),
     
     
