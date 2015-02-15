@@ -166,7 +166,10 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
         profile_photo_key = None
         public_photos_keys_list = []
         private_photos_keys_list = []
-         
+
+        # If the user has not marked one of their public photos as their profile photo, then we select one for them.
+        new_photo_key_as_possible_profile_photo = None
+        profile_photo_found = False
 
         # Loop over all photos, and mark them appropriately based on the inputs. 
         all_user_photo_keys = PhotoModel.query().filter(PhotoModel.parent_object == userobject.key).fetch(MAX_NUM_PHOTOS, keys_only = True)  
@@ -205,25 +208,30 @@ def store_photo_options(request, owner_uid, is_admin_photo_review = False, revie
                                 photo_object.is_private = False
                                 photo_object.is_profile = False
                                 utils.put_object(photo_object)
-            
+
+            profile_photo_found = False
             if photo_object:
                 if photo_object.is_private:
                     private_photos_keys_list.append(photo_key)
                 else:
                     # photo is public
                     public_photos_keys_list.append(photo_key)
-
-
-                    # The following statement ensures that one of the public photos will be selected as the profile photo,
-                    # even if the user has not indicated that it is the profile photo.
-                    if not profile_photo_key:
-                        profile_photo_key = photo_key
+                    new_photo_key_as_possible_profile_photo = photo_key
 
                 if photo_object.is_profile:
                     assert(not photo_object.is_private)
                     profile_photo_key = photo_key
-        
-        
+                    # since the user has selected a profile photo, we don't want to indicate that a different photo
+                    # is profile
+                    profile_photo_found = True
+
+        if not profile_photo_found:
+            profile_photo_object = new_photo_key_as_possible_profile_photo.get()
+            profile_photo_object.is_profile = True
+            profile_photo_object.put()
+            profile_photo_key = new_photo_key_as_possible_profile_photo
+
+
         # The following block takes care of setting up the user_photos_tracker, which will allow efficient access to the 
         # photos associated with each profile.
         user_photos_tracker_key = userobject.user_photos_tracker_key            
