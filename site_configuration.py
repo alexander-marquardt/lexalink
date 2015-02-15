@@ -94,7 +94,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 
-BUILD_STAGING = False # forces upload to staging server as opposed to the real server
+BUILD_STAGING = True # forces upload to staging server as opposed to the real server
 
 
 # this is used by the batch uploader to automatically change the name of the build that we will configure and upload. 
@@ -173,7 +173,8 @@ MANUALLY_VERSIONED_IMAGES_DIR = "/images/manually_versioned_images/" + VERSION_I
 if BUILD_STAGING:
     # we are uploading the code for the "discrete_build" website to a staging appid - this is used for debugging the code
     # in the actual AppEngine (in-the-cloud) environment . 
-    app_id_dict[BUILD_NAME] = staging_appid, 
+    app_id_dict[BUILD_NAME] = staging_appid
+    REDIRECT_APPSPOT_URL = False
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
 shutdown_time = False # datetime.datetime(2012, 06, 05, 8, 30)
@@ -214,7 +215,6 @@ if ('SERVER_SOFTWARE' in os.environ):
         for build_name, domain_name in domain_name_dict.iteritems():
             ALLOWED_HOSTS.append("." + domain_name)
 
-
         for app_name, build_name in redirect_app_id_dict.iteritems():
             ALLOWED_HOSTS.append("." + app_name + ".appspot.com")
-
+        ALLOWED_HOSTS.append(".rs-staging.appspot.com")

@@ -121,6 +121,11 @@ def mapreduce_update_userobject(userobject):
         #yield op.db.Put(userobject)  
         
 
+def test_mapreduce_update(request, nid):
+    userobject = utils_top_level.get_userobject_from_nid(nid)
+    mapreduce_update_userobject(userobject)
+    return http.HttpResponse("Tested on user: %s " % userobject.username)
+
 def send_new_feature_email(userobject, return_message_html = False):
     
     # sends an email to person indicated in the .
