@@ -629,7 +629,10 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         logging.info("New userobject stored: Username: %s Email: %s" %  (userobject.username, userobject.email_address))
 
         login_utils.store_session(request, userobject)
-        
+
+        if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
+            utils.set_display_vip_upgrade_dialog_timeout(userobject.key.integer_id(), constants.SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP)
+
         lang_set_in_session = lang_settings.set_language_in_session(request, request.LANGUAGE_CODE)
         assert(lang_set_in_session)    
                    
