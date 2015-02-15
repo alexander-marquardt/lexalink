@@ -190,7 +190,9 @@ def resize_and_put_photos(userobject, blob_info):
                 photo.is_private = False
                 photo.has_been_reviewed = False
                 if num_photos == 0:
-                    # mark photo as profile photo if they don't have one
+                    # num_photos is the nmber of photos that this user has already stored in the databse. If it is zero,
+                    # then the current photo will be the first photo that this user has stored --
+                    # mark photo as profile photo since it is the only photo that they have
                     photo.is_profile = True
 
                 utils.put_object(photo)
