@@ -159,9 +159,9 @@ SMALL_TIME_WINDOW_MAX_UNACCEPTABLE_PROFILE_REPORTS_BEFORE_BAN = 4 # if this numb
 
 # Note: to avoid double counting only on of the photo-related offsets will be counted. See code in login_utils -
 # compute_unique_last_login() for how these special cases are counted.
-unique_last_login_offset_values_in_days = {'has_profile_photo_offset': 365 * 5, # 5 years
-                                           'has_about_user_offset': 365 * 3,    # 3 years
-                                           'has_private_photo_offset': 365,     # 1 year
+unique_last_login_offset_values_in_days = {'has_profile_photo_offset': 365 * 2, # 2 years
+                                           'has_about_user_offset': 365 * 2,    # 2 years
+                                           'has_private_photo_offset': 365,     # 1 year - only applied if profile photo offset not applied
                                            }
 
 ######################################################################

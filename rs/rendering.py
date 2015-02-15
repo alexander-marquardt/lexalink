@@ -205,7 +205,9 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             email_address = ''
             client_paid_status = None
             client_paid_status_expiry_string = ''
-    
+
+        show_vip_upgrade_now = False
+
         additional_ads_to_append = []
         # render the HTML for the majority of pages that will be seen by users... However, individual profiles are rendered by views.user_main
         if userobject:

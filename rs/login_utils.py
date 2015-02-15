@@ -126,10 +126,9 @@ def compute_unique_last_login(userobject):
         if userobject.about_user != '----':
             offset += constants.unique_last_login_offset_values_in_days['has_about_user_offset']
 
-        logging.info('Adding %d hours to %s\'s unique_last_login_offset' % (offset, userobject.username))
         unique_last_login_with_offset = userobject.last_login + datetime.timedelta(days=offset)
         unique_last_login = "%s_%s" % (unique_last_login_with_offset, userobject.username)
-
+        logging.info('New unique_last_login: %s. last_login: %s' % (unique_last_login, userobject.last_login))
         return unique_last_login
 
     except: 
