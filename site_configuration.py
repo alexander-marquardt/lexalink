@@ -94,7 +94,7 @@ JAVASCRIPT_VERSION_ID = VERSION_ID # for now, force a reload everytime we update
 ENABLE_APPSTATS = False # this enables tracking/profiling code - has some overhead so set to False if it is not actively being used
 
 
-BUILD_STAGING = True # forces upload to staging server as opposed to the real server
+BUILD_STAGING = False # forces upload to staging server as opposed to the real server
 
 
 # this is used by the batch uploader to automatically change the name of the build that we will configure and upload. 
