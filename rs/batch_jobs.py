@@ -106,6 +106,9 @@ def mapreduce_update_userobject(userobject):
                     # the userobject should now have a user_photo_tracker object since we just fixed it
                     user_photos_tracker = userobject.user_photos_tracker_key.get()
 
+
+
+            # Make sure that user has a "principal" photo if they have any public photos.
             if not user_photos_tracker.profile_photo_key:
 
                 # user doesn't have a principal profile photo - if they have any public photos, mark one of these
@@ -122,6 +125,7 @@ def mapreduce_update_userobject(userobject):
                     logging.info("user %s does not have any public photos to make principal" % userobject.username)
 
 
+            # Make sure that user profile does not have any invalid UserProfileDetails keys
             if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build" \
                or settings.BUILD_NAME == "lesbian_build":
                 check_and_fix_user_profile_details_specified_fields(userobject, 'turn_ons')
@@ -129,6 +133,7 @@ def mapreduce_update_userobject(userobject):
             if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
                 check_and_fix_user_profile_details_specified_fields(userobject, 'erotic_encounters')
 
+            # Re-compute uniue_last_login values
             userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
             logging.info("recomputed unique_last_login for %s. New value is %s" % (userobject.username, userobject.unique_last_login))
             userobject.put()
