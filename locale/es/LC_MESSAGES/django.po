@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-16 15:22-0500\n"
+"POT-Creation-Date: 2015-02-16 18:08-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -417,12 +417,14 @@ msgstr "Comprar"
 
 #: client/app/html/user_main_helpers/photo_rules.html:5
 msgid ""
-"Photos that are not marked as private are public and visible to everyone"
+"Public photos (all photos not marked as private) are visible to everyone,\n"
+"                              including people that are not registered in "
+"%(app)s"
 msgstr ""
-"Las fotos que no estén marcadas como privadas son públicas y visibles para "
-"todo el mundo"
+"Las fotos públicas (todas las fotos no marcadas como privadas) son visibles "
+"a todo el mundo, incluidas las personas que no están registradas en %(app)s"
 
-#: client/app/html/user_main_helpers/photo_rules.html:6
+#: client/app/html/user_main_helpers/photo_rules.html:7
 msgid ""
 "When you view other profiles, you will see a key symbol that you can click "
 "on to give access to you private photos"
@@ -430,7 +432,7 @@ msgstr ""
 "Cuando mires otros perfiles, verás un símbolo de una llave en el que puedes "
 "hacer clic para dar acceso a tus fotos privadas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:7
+#: client/app/html/user_main_helpers/photo_rules.html:8
 msgid ""
 "Private photos are hidden from everyone except people that you have "
 "authorized by giving them your key"
@@ -438,7 +440,7 @@ msgstr ""
 "Las fotos privadas están ocultas de todo el mundo excepto a los perfiles que "
 "hayas autorizado haciendo clic en la llave"
 
-#: client/app/html/user_main_helpers/photo_rules.html:8
+#: client/app/html/user_main_helpers/photo_rules.html:9
 msgid ""
 "To remove access to your private photos, click on the key symbol in the "
 "profile that you have previously given a key to"
@@ -446,7 +448,7 @@ msgstr ""
 "Para eliminar el acceso a tus fotos privadas, haz clic en el símbolo de la "
 "llave en el perfil que has autorizado previamente"
 
-#: client/app/html/user_main_helpers/photo_rules.html:9
+#: client/app/html/user_main_helpers/photo_rules.html:10
 msgid ""
 "Photos in your profile must be your own photos. Photos that you do not own "
 "or that you have copied may be deleted"
@@ -454,16 +456,16 @@ msgstr ""
 "Fotos en tu perfil deben ser tus propias fotos. Fotos que no son de tu "
 "propiedad o que has copiado pueden ser eliminadas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:10
+#: client/app/html/user_main_helpers/photo_rules.html:11
 msgid "All photos in your profile must be of yourself"
 msgstr "Las fotos que pongas en tu perfil deben ser fotos de ti mismo"
 
-#: client/app/html/user_main_helpers/photo_rules.html:11
+#: client/app/html/user_main_helpers/photo_rules.html:12
 msgid "Photos must not be focused on the crotch, breasts, or butt"
 msgstr ""
 "Fotos no pueden estar focalizadas en zonas púbicas, los senos o las nalgas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:12
+#: client/app/html/user_main_helpers/photo_rules.html:13
 msgid ""
 "While it is acceptable to hide your face or show only a part of yourself,\n"
 "                             photos must show enough of yourself to help our "
@@ -474,7 +476,7 @@ msgstr ""
 "las fotos deben mostrar lo suficiente de ti mismo para ayudar a nuestros "
 "miembros evaluar tu perfil"
 
-#: client/app/html/user_main_helpers/photo_rules.html:15
+#: client/app/html/user_main_helpers/photo_rules.html:16
 msgid ""
 "For example, a photo focused on a toe, a hand, or an eyeball is not helpful "
 "and may be deleted"
@@ -482,7 +484,7 @@ msgstr ""
 "Por ejemplo, una foto enfocada en un dedo del pie, una mano, o un ojo no es "
 "útil y podría ser eliminada"
 
-#: client/app/html/user_main_helpers/photo_rules.html:17
+#: client/app/html/user_main_helpers/photo_rules.html:18
 msgid ""
 "Photos that contain nudity or that are sexually provocative will not be "
 "approved as publicly visible"
@@ -490,18 +492,18 @@ msgstr ""
 "Las fotos nudistas o que sean sexualmente provocativas, no serán aprobadas "
 "como fotos públicas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:18
+#: client/app/html/user_main_helpers/photo_rules.html:19
 msgid "Private photos may be sensual but must not be pornographic"
 msgstr ""
 "Las fotos privadas pueden ser sensuales pero no pueden ser pornográficas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:20
+#: client/app/html/user_main_helpers/photo_rules.html:21
 msgid "No pornographic or nude photos allowed"
 msgstr ""
 "No está permitido poner fotos pornográficas en ningún caso (ni fotos "
 "públicas o privadas)"
 
-#: client/app/html/user_main_helpers/photo_rules.html:22
+#: client/app/html/user_main_helpers/photo_rules.html:23
 msgid ""
 "If we delete your principal profile photo and you have other publicly "
 "visible\n"
@@ -513,23 +515,12 @@ msgstr ""
 "visibles públicamente, podemos hacer cualquiera de estas otras fotos "
 "públicas convertirse en la foto principal de tu perfil"
 
-#: client/app/html/user_main_helpers/photo_rules.html:25
-#, python-format
-msgid ""
-"Public photos (all photos not marked private) may show up\n"
-"    in search engines such as Google and are visible to non-registered "
-"guests viewing %(app)s"
-msgstr ""
-"Las fotos públicas (todas las fotos no marcadas como privadas) pueden ser "
-"mostradas en buscadores tales como Google y son visibles a personas no "
-"registradas que estén visitando %(app)s"
-
-#: client/app/html/user_main_helpers/photo_rules.html:27
+#: client/app/html/user_main_helpers/photo_rules.html:26
 #, python-format
 msgid "All people shown in an image must be at least %(age)s years old"
 msgstr "Las personas en las fotos deben ser mayores de %(age)s años"
 
-#: client/app/html/user_main_helpers/photo_rules.html:28
+#: client/app/html/user_main_helpers/photo_rules.html:27
 msgid "Photos that do not follow the rules will be erased without notification"
 msgstr "Las fotos que no sigan las normas serán borradas sin notificación"
 
@@ -5048,6 +5039,12 @@ msgstr "a cambio de"
 #: rs/proprietary/search_engine_overrides.py:283
 msgid "Refine your search results"
 msgstr "Filtrar los resultados de búsqueda"
+
+#~ msgid ""
+#~ "Photos that are not marked as private are public and visible to everyone"
+#~ msgstr ""
+#~ "Las fotos que no estén marcadas como privadas son públicas y visibles "
+#~ "para todo el mundo"
 
 #~ msgid "Adventurous sex"
 #~ msgstr "Aventura loca"

@@ -2,7 +2,8 @@
 
 
 <ul class="cl-margin-below">
-    <li class="cl-indent">{% trans 'Photos that are not marked as private are public and visible to everyone'%}.
+    <li class="cl-indent">{% blocktrans with app_name as app %}Public photos (all photos not marked as private) are visible to everyone,
+                              including people that are not registered in {{ app}}{% endblocktrans %}.
     <li class="cl-indent">{% trans 'When you view other profiles, you will see a key symbol that you can click on to give access to you private photos' %}.
     <li class="cl-indent">{% trans 'Private photos are hidden from everyone except people that you have authorized by giving them your key'%}.
     <li class="cl-indent">{% trans "To remove access to your private photos, click on the key symbol in the profile that you have previously given a key to" %}.
@@ -22,8 +23,6 @@
     <li class="cl-indent">{% blocktrans %}If we delete your principal profile photo and you have other publicly visible
                              photos, then we may make any of these other publicly visible photos become your principal
                              profile photo{% endblocktrans %}.
-    <li class="cl-indent">{% blocktrans with app_name as app %}Public photos (all photos not marked private) may show up
-    in search engines such as Google and are visible to non-registered guests viewing {{ app}}{% endblocktrans %}.
     <li class="cl-indent">{% blocktrans with minimum_registration_age as age %}All people shown in an image must be at least {{ age }} years old{% endblocktrans %}.
     <li class="cl-indent">{% trans "Photos that do not follow the rules will be erased without notification" %}.
 
