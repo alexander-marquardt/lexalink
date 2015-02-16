@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-15 23:52-0500\n"
+"POT-Creation-Date: 2015-02-16 15:22-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,7 +88,7 @@ msgstr ""
 msgid "Enter"
 msgstr ""
 
-#: client/app/html/login_helpers/login.html:57 rs/utils.py:408
+#: client/app/html/login_helpers/login.html:57 rs/utils.py:402
 msgid "Have you forgotten your password?"
 msgstr ""
 
@@ -1197,18 +1197,18 @@ msgid ""
 msgstr ""
 
 #: rs/ajax.py:714 rs/forms.py:1079 rs/login.py:771 rs/messages.py:519
-#: rs/rendering.py:446 rs/utils.py:1429
+#: rs/rendering.py:446 rs/utils.py:1423
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
 msgstr "Error internal - este error será investigado inmediatamente"
 
-#: rs/batch_jobs.py:183
+#: rs/batch_jobs.py:172
 #, python-format
 msgid "FriendBazaar.com - from the creators of %(app_name)s"
 msgstr ""
 
-#: rs/batch_jobs.py:190
+#: rs/batch_jobs.py:179
 #, fuzzy, python-format
 msgid "newsite welcome %(username)s %(app_name)s"
 msgstr ""
@@ -1762,7 +1762,7 @@ msgstr ""
 msgid "Would you like to eliminate the profile of"
 msgstr "Would you like to eliminate the profile of"
 
-#: rs/email_utils.py:450 rs/utils.py:411
+#: rs/email_utils.py:450 rs/utils.py:405
 msgid "Here"
 msgstr ""
 
@@ -3514,7 +3514,7 @@ msgstr ""
 #: rs/user_profile_details.py:140 rs/user_profile_details.py:155
 #: rs/user_profile_details.py:170 rs/user_profile_details.py:201
 #: rs/user_profile_details.py:293 rs/user_profile_details.py:356
-#: rs/user_profile_details.py:429 rs/user_profile_details.py:489
+#: rs/user_profile_details.py:427 rs/user_profile_details.py:489
 msgid "Prefer not to say"
 msgstr ""
 
@@ -4038,76 +4038,68 @@ msgstr ""
 msgid "Piercing"
 msgstr ""
 
-#: rs/user_profile_details.py:423
-msgid "Practice safe sex"
-msgstr ""
-
-#: rs/user_profile_details.py:425
+#: rs/user_profile_details.py:424
 msgid "Scented candles"
 msgstr ""
 
-#: rs/user_profile_details.py:426
-msgid "High stamina"
-msgstr ""
-
-#: rs/user_profile_details.py:427
+#: rs/user_profile_details.py:425
 msgid "Takes control"
 msgstr ""
 
-#: rs/user_profile_details.py:428
+#: rs/user_profile_details.py:426
 msgid "Tattoos"
 msgstr ""
 
-#: rs/user_profile_details.py:455
+#: rs/user_profile_details.py:453
 msgid "Erotic encounters I am open to"
 msgstr ""
 
-#: rs/user_profile_details.py:458
-msgid "Adventurous sex"
-msgstr ""
-
-#: rs/user_profile_details.py:459
+#: rs/user_profile_details.py:457
 msgid "Costumes"
 msgstr ""
 
-#: rs/user_profile_details.py:460
+#: rs/user_profile_details.py:458
 msgid "Cyber sex"
 msgstr ""
 
-#: rs/user_profile_details.py:463
+#: rs/user_profile_details.py:461
 msgid "Erotic Movies"
 msgstr ""
 
-#: rs/user_profile_details.py:464
+#: rs/user_profile_details.py:462
 msgid "Erotic Photography"
 msgstr ""
 
-#: rs/user_profile_details.py:465
+#: rs/user_profile_details.py:463
 msgid "Exhibitionism"
 msgstr ""
 
-#: rs/user_profile_details.py:466
+#: rs/user_profile_details.py:464
 msgid "Fetishes"
 msgstr ""
 
-#: rs/user_profile_details.py:469
+#: rs/user_profile_details.py:467
 msgid "Meet for a coffee"
 msgstr ""
 
-#: rs/user_profile_details.py:472
+#: rs/user_profile_details.py:470
 msgid "One night stand"
 msgstr ""
 
-#: rs/user_profile_details.py:475
-msgid "Role play"
+#: rs/user_profile_details.py:473
+msgid "Explore fantasies"
+msgstr ""
+
+#: rs/user_profile_details.py:479
+msgid "Practice safe sex"
+msgstr ""
+
+#: rs/user_profile_details.py:480
+msgid "High stamina"
 msgstr ""
 
 #: rs/user_profile_details.py:481
 msgid "Swinging"
-msgstr ""
-
-#: rs/user_profile_details.py:482
-msgid "Tantric sex"
 msgstr ""
 
 #: rs/user_profile_details.py:483
@@ -4452,144 +4444,140 @@ msgstr ""
 msgid "Any Language"
 msgstr ""
 
-#: rs/utils.py:135
-msgid "and other (languages)..."
-msgstr "and others..."
-
-#: rs/utils.py:212
+#: rs/utils.py:206
 msgid "I am"
 msgstr ""
 
-#: rs/utils.py:213
+#: rs/utils.py:207
 msgid "Preference"
 msgstr ""
 
-#: rs/utils.py:214
+#: rs/utils.py:208
 msgid "Relationship status"
 msgstr "Relationship&nbsp;status"
 
-#: rs/utils.py:215
+#: rs/utils.py:209
 msgid "I fluently speak"
 msgstr ""
 
-#: rs/utils.py:216
+#: rs/utils.py:210
 msgid "I want to practice"
 msgstr ""
 
-#: rs/utils.py:217
+#: rs/utils.py:211
 msgid "Looking for"
 msgstr "Looking&nbsp;for"
 
-#: rs/utils.py:218
+#: rs/utils.py:212
 msgid "My age"
 msgstr ""
 
-#: rs/utils.py:219
+#: rs/utils.py:213
 msgid "My price"
 msgstr ""
 
-#: rs/utils.py:222
+#: rs/utils.py:216
 msgid "In location"
 msgstr ""
 
-#: rs/utils.py:224
+#: rs/utils.py:218
 msgid "I am currently in"
 msgstr ""
 
-#: rs/utils.py:412
+#: rs/utils.py:406
 msgid "you can request a new password"
 msgstr ""
 
-#: rs/utils.py:519
+#: rs/utils.py:513
 #, python-format
 msgid "%(days)s day"
 msgid_plural "%(days)s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:532
+#: rs/utils.py:526
 #, python-format
 msgid "%(hours)s hour"
 msgid_plural "%(hours)s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:547
+#: rs/utils.py:541
 #, python-format
 msgid "%(minutes)s minute"
 msgid_plural "%(minutes)s minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:562
+#: rs/utils.py:556
 #, python-format
 msgid "%(seconds)s second"
 msgid_plural "%(seconds)s seconds"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/utils.py:579
+#: rs/utils.py:573
 msgid "ago (capitalize if first word)"
 msgstr "ago"
 
-#: rs/utils.py:581
+#: rs/utils.py:575
 msgid "ago"
 msgstr ""
 
-#: rs/utils.py:585
+#: rs/utils.py:579
 #, python-format
 msgid "%(joined_time)s %(ago_text)s"
 msgstr ""
 
-#: rs/utils.py:590
+#: rs/utils.py:584
 msgid "In"
 msgstr ""
 
-#: rs/utils.py:592
+#: rs/utils.py:586
 msgid "in"
 msgstr ""
 
-#: rs/utils.py:1371
+#: rs/utils.py:1365
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to "
 "%(support_email_address)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1377
+#: rs/utils.py:1371
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1382
+#: rs/utils.py:1376
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1389
+#: rs/utils.py:1383
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1396
+#: rs/utils.py:1390
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils.py:1597
+#: rs/utils.py:1591
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr ""
 
-#: rs/utils.py:1618 rs/utils.py:1620
+#: rs/utils.py:1612 rs/utils.py:1614
 msgid "is"
 msgstr ""
 
-#: rs/utils.py:1618 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1612 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -4604,19 +4592,19 @@ msgstr ""
 msgid "100 percent free"
 msgstr "100% free"
 
-#: rs/utils.py:1618
+#: rs/utils.py:1612
 msgid "We never ask for your credit card or any other form of payment"
 msgstr ""
 
-#: rs/utils.py:1620
+#: rs/utils.py:1614
 msgid "free"
 msgstr ""
 
-#: rs/utils.py:1620
+#: rs/utils.py:1614
 msgid "chat and messages included"
 msgstr ""
 
-#: rs/utils.py:1623
+#: rs/utils.py:1617
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -4756,6 +4744,9 @@ msgstr ""
 #: rs/proprietary/search_engine_overrides.py:283
 msgid "Refine your search results"
 msgstr ""
+
+#~ msgid "and other (languages)..."
+#~ msgstr "and others..."
 
 #, fuzzy
 #~ msgid "Receive a massage"
