@@ -51,12 +51,32 @@ import html2text
 import constants, settings
 from rs import login_utils
 from rs import store_data
+from rs import user_profile_details
 
 from mapreduce import operation as op
 
 
 from djangoappengine.mapreduce import pipeline as django_pipeline
 from mapreduce import base_handler
+
+def check_and_fix_user_profile_details_specified_fields(userobject, field_name):
+    # removes any fields that are no longer valid - this is done because we removed/renamed some of the user profile
+    # detail fields.
+    list_of_field_values = getattr(userobject, field_name)
+    lang_idx = 0 # arbitrary, and doesn't make a difference - if a value invalid in one language it is invalid in all
+
+    new_list_of_field_values = []
+    for field_value in list_of_field_values:
+        try:
+            user_profile_details.UserProfileDetails.checkbox_options_dict[field_name][0][field_value]
+            # no exception generated, append field_value to the new list
+            new_list_of_field_values.append(field_value)
+        except:
+            logging.info("removing field_value %s from user %s" % (field_value, userobject.username))
+
+    setattr(userobject, field_name, new_list_of_field_values)
+
+    # No need to put userobject, as long as it is put some time after this function is called.
 
 def mapreduce_update_userobject(userobject):
 
@@ -101,6 +121,13 @@ def mapreduce_update_userobject(userobject):
                 else:
                     logging.info("user %s does not have any public photos to make principal" % userobject.username)
 
+
+            if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build" \
+               or settings.BUILD_NAME == "lesbian_build":
+                check_and_fix_user_profile_details_specified_fields(userobject, 'turn_ons')
+
+            if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
+                check_and_fix_user_profile_details_specified_fields(userobject, 'erotic_encounters')
 
             userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
             logging.info("recomputed unique_last_login for %s. New value is %s" % (userobject.username, userobject.unique_last_login))
