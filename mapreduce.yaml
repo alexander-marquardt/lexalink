@@ -1,13 +1,13 @@
 mapreduce:
   # To see mapreduce jobs, browse to /mapreduce, and it will show a list of all currently defined jobs
 
-- name: Example of using mapreduce to modify userobject
+- name: Update userobject Feb 2015
   #params:
   #- name: done_callback
   #  value: /done
   mapper:
 
-    handler: rs.batch_jobs.mapreduce_update_userobject
+    handler: rs.batch_jobs.update_userobject_feb_2015
     input_reader: mapreduce.input_readers.DatastoreInputReader
     params:
     - name: entity_kind

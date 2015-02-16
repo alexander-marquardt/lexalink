@@ -59,26 +59,11 @@ from mapreduce import operation as op
 from djangoappengine.mapreduce import pipeline as django_pipeline
 from mapreduce import base_handler
 
-def check_and_fix_user_profile_details_specified_fields(userobject, field_name):
-    # removes any fields that are no longer valid - this is done because we removed/renamed some of the user profile
-    # detail fields.
-    list_of_field_values = getattr(userobject, field_name)
-    lang_idx = 0 # arbitrary, and doesn't make a difference - if a value invalid in one language it is invalid in all
 
-    new_list_of_field_values = []
-    for field_value in list_of_field_values:
-        try:
-            user_profile_details.UserProfileDetails.checkbox_options_dict[field_name][0][field_value]
-            # no exception generated, append field_value to the new list
-            new_list_of_field_values.append(field_value)
-        except:
-            logging.info("removing field_value %s from user %s" % (field_value, userobject.username))
-
-    setattr(userobject, field_name, new_list_of_field_values)
 
     # No need to put userobject, as long as it is put some time after this function is called.
 
-def mapreduce_update_userobject(userobject):
+def update_userobject_feb_2015(userobject):
 
     # This function is "called" from mapreduce.yaml
     
@@ -128,10 +113,14 @@ def mapreduce_update_userobject(userobject):
             # Make sure that user profile does not have any invalid UserProfileDetails keys
             if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build" \
                or settings.BUILD_NAME == "lesbian_build":
-                check_and_fix_user_profile_details_specified_fields(userobject, 'turn_ons')
+                is_modified, new_list = utils.get_valid_profile_details_for_specified_field(userobject, 'turn_ons')
+                if is_modified:
+                    setattr(userobject, 'turn_ons', new_list)
 
             if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
-                check_and_fix_user_profile_details_specified_fields(userobject, 'erotic_encounters')
+                is_modified, new_list = utils.get_valid_profile_details_for_specified_field(userobject, 'erotic_encounters')
+                if is_modified:
+                    setattr(userobject, 'erotic_encounters', new_list)
 
             # Re-compute uniue_last_login values
             userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
@@ -155,7 +144,7 @@ def mapreduce_update_userobject(userobject):
 
 def test_mapreduce_update(request, nid):
     userobject = utils_top_level.get_userobject_from_nid(nid)
-    mapreduce_update_userobject(userobject)
+    update_userobject_feb_2015(userobject)
     return http.HttpResponse("Tested on user: %s " % userobject.username)
 
 def send_new_feature_email(userobject, return_message_html = False):

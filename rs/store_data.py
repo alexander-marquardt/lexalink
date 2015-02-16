@@ -1183,11 +1183,6 @@ def store_report_unacceptable_profile(request, display_uid):
         return HttpResponse("Error")
     
 
-        
-
-    
-
-
 def check_and_fix_userobject(userobject, lang_code):
     # module that verifies that userobject contains the important variables and sub-objects that are expected
     # by other parts of the code. This detects profiles that have been corrupted and (not stored correctly
@@ -1197,7 +1192,7 @@ def check_and_fix_userobject(userobject, lang_code):
     # because a code error with incorrect allowable values could then cause a wipe out valid user data .. 
     
     try:
-        is_modified = False
+        usesrobject_is_modified = False
         
         owner_uid = userobject.key.urlsafe()
                       
@@ -1227,12 +1222,27 @@ def check_and_fix_userobject(userobject, lang_code):
         # UserProfileDetails.enabled_checkbox_fields_list[] to see if it is necessary to check the field 
         # for correctness.
         for field in UserProfileDetails.enabled_checkbox_fields_list:
-            execution_dict[field] = (lambda x: x, (['prefer_no_say',],))
-        
+            # This check can probably be removed at some point, as it is really only needed if we make changes
+            # to the valid field values.
+            try:
+                list_is_modified, new_list = utils.get_valid_profile_details_for_specified_field(userobject, field)
+                if len(new_list) >= 1:
+                    if list_is_modified:
+                        execution_dict[field] = (lambda x: x, (new_list,))
+                        setattr(userobject, field, []) # Force the code below to evaluate the execution_dict that we just defined
+
+                else: # empty list
+                    raise Exception("empty list should not appear since we just got it from "
+                                    "get_valid_profile_details_for_specified_field - should at least have a 'prefer_no_say' value defined")
+
+            except:
+                execution_dict[field] = (lambda x: x, (['prefer_no_say',],))
+                setattr(userobject, field, []) # Force the code below to evaluate the execution_dict that we just defined
+
         for (field, function_and_args_tuple) in execution_dict.items():
             try:
                 if not getattr(userobject, field, None):
-                    is_modified = True
+                    usesrobject_is_modified = True
                     (func, args) = function_and_args_tuple
                     utils.set_sub_object(userobject, field, func, args)   
             except:
@@ -1242,13 +1252,13 @@ def check_and_fix_userobject(userobject, lang_code):
                 error_reporting.log_exception(logging.critical, error_message=error_message)    
 
                 
-        if is_modified:
+        if usesrobject_is_modified:
             error_message = "Userobject has been repaired and re-written (see logs for what was changed):\n %s" % repr(userobject)
             error_reporting.log_exception(logging.error, error_message=error_message)
             utils.put_userobject(userobject)
 
 
-        return is_modified
+        return usesrobject_is_modified
             
     except:
         error_message = "Critical error in check_and_fix_userobject %s" % repr(userobject)

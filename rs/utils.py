@@ -110,7 +110,7 @@ def ajax_call_requires_login(view):
     return new_login_view
 
 ####
-def generic_html_generator_for_list(lang_idx, field_name, list_of_field_vals, max_num_entries = sys.maxint):
+def generic_html_generator_for_list(lang_idx, field_name, list_of_field_vals):
 
     # prints out the list of checkbox-selected values in a format appropriate for display
     # in the user_main page. 
@@ -119,7 +119,8 @@ def generic_html_generator_for_list(lang_idx, field_name, list_of_field_vals, ma
     
     try:
         generated_html = ''
-        
+        error_field_vals = []
+
         for (idx, field_val) in enumerate(list_of_field_vals):
             
             if field_val == "----":
@@ -128,25 +129,18 @@ def generic_html_generator_for_list(lang_idx, field_name, list_of_field_vals, ma
             try:
                 option_in_current_language = UserProfileDetails.checkbox_options_dict[field_name][lang_idx][field_val]
 
-                if idx >= max_num_entries - 1:
-                        # we are breaking out early .. should indicate that there are more values
-                    if field_val != list_of_field_vals[-1]:
-                        if settings.BUILD_NAME == 'language_build':
-                            generated_html += u"%s" % ugettext('and other (languages)...')
-                        else:
-                            assert(0)
-                    else:
-                        generated_html += u'%s' % option_in_current_language
-                    break
-
-                elif field_val != list_of_field_vals[-1]: # check to see if it is the last entry, and if so don't follow by a comma
+                if field_val != list_of_field_vals[-1]: # check to see if it is the last entry, and if so don't follow by a comma
                     generated_html += u'%s, ' % option_in_current_language
                 else:
                     # we could try to make this more gramatically correct in the future, however this requires applying additional
-                    # logic to determin if an "and" or an "or" should be inserted before the last entry - for now, leave it as comma seperated
+                    # logic to determine if an "and" or an "or" should be inserted before the last entry - for now, leave it as comma separated
                     generated_html += u'%s' % option_in_current_language
             except:
-                logging.error('Error generating value for field_name: %s lang_idx: %s field_val: %s' % (field_name, lang_idx, field_val))
+                error_field_vals.append(field_val)
+
+        if error_field_vals:
+            error_message = 'Error generating value for field_name: %s lang_idx: %s field_vals: %s' % (field_name, lang_idx, error_field_vals)
+            error_reporting.log_exception(logging.error, error_message=error_message)
 
         return generated_html
     except:
@@ -1703,3 +1697,28 @@ def check_if_session_close_to_expiry_and_give_more_time(request):
         new_expiration_ts = session_expiry + constants.SESSION_ADDITIONAL_SECONDS_IF_CLOSE_TO_EXPIRY
         request.session.regenerate_id(expiration_ts=new_expiration_ts)
         logging.info("session %s extended to %s" % (request.session.sid, request.session.get_expiration_datetime()))
+
+
+def get_valid_profile_details_for_specified_field(userobject, field_name):
+    # removes any fields that are no longer valid - this is done because we removed/renamed some of the user profile
+    # detail fields.
+    is_modified = False
+    list_of_field_values = getattr(userobject, field_name)
+    lang_idx = 0 # arbitrary, and doesn't make a difference - if a value invalid in one language it is invalid in all
+
+    new_list_of_field_values = []
+    for field_value in list_of_field_values:
+        try:
+            user_profile_details.UserProfileDetails.checkbox_options_dict[field_name][0][field_value]
+            # no exception generated, append field_value to the new list
+            new_list_of_field_values.append(field_value)
+        except:
+            is_modified = True
+            logging.warning("removing field_value %s from list %s passed in from user %s" % (field_value, field_name, userobject.username))
+
+    if len(new_list_of_field_values) < 1:
+        # empty lists must at least have a 'prefer_no_say' value defined.
+        new_list_of_field_values.append('prefer_no_say')
+        is_modified = True
+
+    return is_modified, new_list_of_field_values
