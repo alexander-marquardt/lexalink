@@ -124,26 +124,29 @@ def generic_html_generator_for_list(lang_idx, field_name, list_of_field_vals, ma
             
             if field_val == "----":
                 continue
-            
-            option_in_current_language = UserProfileDetails.checkbox_options_dict[field_name][lang_idx][field_val]
-                
-            if idx >= max_num_entries - 1:
-                    # we are breaking out early .. should indicate that there are more values
-                if field_val != list_of_field_vals[-1]:
-                    if settings.BUILD_NAME == 'language_build':
-                        generated_html += u"%s" % ugettext('and other (languages)...')
+
+            try:
+                option_in_current_language = UserProfileDetails.checkbox_options_dict[field_name][lang_idx][field_val]
+
+                if idx >= max_num_entries - 1:
+                        # we are breaking out early .. should indicate that there are more values
+                    if field_val != list_of_field_vals[-1]:
+                        if settings.BUILD_NAME == 'language_build':
+                            generated_html += u"%s" % ugettext('and other (languages)...')
+                        else:
+                            assert(0)
                     else:
-                        assert(0)
+                        generated_html += u'%s' % option_in_current_language
+                    break
+
+                elif field_val != list_of_field_vals[-1]: # check to see if it is the last entry, and if so don't follow by a comma
+                    generated_html += u'%s, ' % option_in_current_language
                 else:
+                    # we could try to make this more gramatically correct in the future, however this requires applying additional
+                    # logic to determin if an "and" or an "or" should be inserted before the last entry - for now, leave it as comma seperated
                     generated_html += u'%s' % option_in_current_language
-                break
-            
-            elif field_val != list_of_field_vals[-1]: # check to see if it is the last entry, and if so don't follow by a comma
-                generated_html += u'%s, ' % option_in_current_language
-            else:
-                # we could try to make this more gramatically correct in the future, however this requires applying additional
-                # logic to determin if an "and" or an "or" should be inserted before the last entry - for now, leave it as comma seperated
-                generated_html += u'%s' % option_in_current_language
+            except:
+                logging.error('Error generating value for field_name: %s lang_idx: %s field_val: %s' % (field_name, lang_idx, field_val))
 
         return generated_html
     except:
