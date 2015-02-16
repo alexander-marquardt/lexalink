@@ -1702,23 +1702,30 @@ def check_if_session_close_to_expiry_and_give_more_time(request):
 def get_valid_profile_details_for_specified_field(userobject, field_name):
     # removes any fields that are no longer valid - this is done because we removed/renamed some of the user profile
     # detail fields.
-    is_modified = False
-    list_of_field_values = getattr(userobject, field_name)
-    lang_idx = 0 # arbitrary, and doesn't make a difference - if a value invalid in one language it is invalid in all
 
-    new_list_of_field_values = []
-    for field_value in list_of_field_values:
-        try:
-            user_profile_details.UserProfileDetails.checkbox_options_dict[field_name][0][field_value]
-            # no exception generated, append field_value to the new list
-            new_list_of_field_values.append(field_value)
-        except:
+    try:
+        is_modified = False
+        list_of_field_values = getattr(userobject, field_name)
+        lang_idx = 0 # arbitrary, and doesn't make a difference - if a value invalid in one language it is invalid in all
+
+        new_list_of_field_values = []
+        for field_value in list_of_field_values:
+            try:
+                user_profile_details.UserProfileDetails.checkbox_options_dict[field_name][0][field_value]
+                # no exception generated, append field_value to the new list
+                new_list_of_field_values.append(field_value)
+            except:
+                is_modified = True
+                logging.warning("removing field_value %s from list %s passed in from user %s" % (field_value, field_name, userobject.username))
+
+        if len(new_list_of_field_values) < 1:
+            # empty lists must at least have a 'prefer_no_say' value defined.
+            new_list_of_field_values.append('prefer_no_say')
             is_modified = True
-            logging.warning("removing field_value %s from list %s passed in from user %s" % (field_value, field_name, userobject.username))
 
-    if len(new_list_of_field_values) < 1:
-        # empty lists must at least have a 'prefer_no_say' value defined.
-        new_list_of_field_values.append('prefer_no_say')
-        is_modified = True
+        return is_modified, new_list_of_field_values
 
-    return is_modified, new_list_of_field_values
+    except:
+        error_message = "Critical error in get_valid_profile_details_for_specified_field. User %s" % repr(userobject)
+        error_reporting.log_exception(logging.critical, error_message=error_message)
+        return False, []
