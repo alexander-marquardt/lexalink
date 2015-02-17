@@ -13,6 +13,6 @@ mapreduce:
     - name: entity_kind
       default: rs.models.UserModel
     - name: processing_rate
-      default: 100
+      default: 1000
     - name: shard_count
-      default: 4
+      default: 20
