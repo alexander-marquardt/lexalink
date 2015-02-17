@@ -164,8 +164,8 @@ def generate_profile_summary_table(request_lang_code, profile):
 
         else: # settings.BUILD_NAME == "language_build":
             
-            languages_spoken_list = generic_html_generator_for_list(lang_idx, 'languages', profile.languages, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
-            languages_to_learn_list = generic_html_generator_for_list(lang_idx, 'languages_to_learn', profile.languages_to_learn, max_num_entries = constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
+            languages_spoken_list = generic_html_generator_for_list(lang_idx, 'languages', profile.languages)
+            languages_to_learn_list = generic_html_generator_for_list(lang_idx, 'languages_to_learn', profile.languages_to_learn)
 
             native_language_def = "%s"\
                 % user_profile_main_data.UserSpec.signup_fields_options_dict['native_language'][lang_idx][profile.native_language]
@@ -1035,8 +1035,7 @@ def get_fields_in_current_language(field_vals_dict, lang_idx, pluralize_sex = Tr
                             
                 else:
                     field_vals_list_dict = field_val
-                    return_dict[field_name] = generic_html_generator_for_list(lang_idx, lookup_field_name, field_vals_list_dict, 
-                                                                              constants.NUM_LANGUAGES_IN_PROFILE_SUMMARY)
+                    return_dict[field_name] = generic_html_generator_for_list(lang_idx, lookup_field_name, field_vals_list_dict)
             except:
                 error_message = "*Error* get_fields_in_current_language - %s value: %s" % (field_name, field_val)
                 return_dict[field_name] = ''
