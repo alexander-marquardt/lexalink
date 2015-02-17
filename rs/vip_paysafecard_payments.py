@@ -267,14 +267,9 @@ def create_disposition(request):
             }
         else:
             # There was a problem with creating the disposition
-            response_dict = {
-                'create_disposition_success_flag': False
-            }
+            response_dict = {'create_disposition_success_flag': False}
             error_reporting.log_exception(logging.error, error_message = log_disposition_resonse_msg)
             email_utils.send_admin_alert_email(log_disposition_resonse_msg, subject = "%s Paysafe Error" % settings.APP_NAME)
-
-        json_response = json.dumps(response_dict)
-        return http.HttpResponse(json_response, mimetype='text/javascript')
 
     except:
         try:
@@ -284,7 +279,10 @@ def create_disposition(request):
 
         finally:
             error_reporting.log_exception(logging.critical, request=request)
-            return http.HttpResponseServerError('Error in create_disposition')
+            response_dict = {'create_disposition_success_flag': False}
+
+    json_response = json.dumps(response_dict)
+    return http.HttpResponse(json_response, mimetype='text/javascript')
 
 
 def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, serial_numbers):
