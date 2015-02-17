@@ -43,7 +43,7 @@ def render_payment_options(request, userobject):
             payments_common_data['user_has_discount_flag'] = vip_payments_common.USER_HAS_DISCOUNT_STRING if user_has_discount else vip_payments_common.USER_NO_DISCOUNT_STRING
 
             paypal_data = vip_paypal_payments.generate_paypal_data(request, userobject, http_country_code, user_has_discount)
-            paysafecard_data = vip_paysafecard_payments.generate_paysafecard_data(request, userobject)
+            paysafecard_data = vip_paysafecard_payments.generate_paysafecard_data(request, userobject, http_country_code, user_has_discount)
             template = loader.get_template("user_main_helpers/vip_payment_options.html")
             context = Context (dict({
                 'payments_common_data': payments_common_data,

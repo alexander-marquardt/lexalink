@@ -94,8 +94,14 @@ min_number_for_random_id_postfix = utils.base_decode('1' + '0'*(number_of_encode
 # therefore, just send the notifications to the server that we are using for debugging paysafecard transactions.
 development_payment_notification_server = 'http://paysafecard.romancesapp.appspot.com/'
 
-vip_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
+vip_standard_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
+
+vip_discounted_paysafecard_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
+    vip_payments_common.vip_discounted_membership_prices, vip_paysafecard_valid_currencies)
+
+vip_discounted_paysafe_prices_percentage_savings = vip_payments_common.compute_savings_percentage_discount(
+    vip_payments_common.vip_discounted_membership_prices, vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
 
 if site_configuration.TESTING_PAYSAFECARD:
     username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
@@ -108,7 +114,7 @@ else:
     merchant_id = site_configuration.PAYSAFE_MID
 
 
-def generate_paysafe_radio_options(currency):
+def generate_paysafe_radio_options(currency, membership_prices, prices_with_currency_units, original_prices_with_currency_units = []):
     # for efficiency don't call this from outside this module, instead perform a lookup in
     # paypal_radio_options
     generated_html = u''
@@ -121,30 +127,30 @@ def generate_paysafe_radio_options(currency):
         else:
             selected = ''
 
+        if original_prices_with_currency_units:
+            discount_percentage = vip_discounted_paysafe_prices_percentage_savings[currency][member_category]
+            original_price = '<span class="cl-text-6pt-format">(%s. %s: %s)</span>' % (
+                ugettext('%(discount_percentage)s discount') % {'discount_percentage': discount_percentage},
+                ugettext('Regular price'),
+                original_prices_with_currency_units[currency][member_category],
+            )
+        else:
+            original_price = ''
+
         generated_html += u"""<input type="radio" name="amount" value="%(price)s" %(selected)s>
-        <strong>%(duration)s %(duration_units)s</strong>: %(display_price)s<br>\n""" % {
+        <strong>%(duration)s %(duration_units)s</strong>: %(display_price)s  %(original_price)s<br>\n""" % {
             'duration': duration, 'duration_units' : duration_units,
             'selected' : selected,
-            'price' : vip_payments_common.vip_standard_membership_prices[currency][member_category],
-            'display_price' : vip_paysafecard_prices_with_currency_units[currency][member_category]}
+            'price' : membership_prices[currency][member_category],
+            'original_price': original_price,
+            'display_price' : prices_with_currency_units[currency][member_category]}
 
     return generated_html
 
-def generate_paysafecard_data(request, owner_nid):
+def generate_paysafecard_data(request, owner_nid, http_country_code, user_has_discount):
 
     try:
         paysafecard_data = {}
-
-        # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the
-        # appropriate currency to display. If country code is missing, then we will display
-        # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
-        if not vip_payments_common.TESTING_COUNTRY:
-            http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-            country_override = False
-        else:
-            error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-            http_country_code = vip_payments_common.TESTING_COUNTRY
-            country_override = True
 
         if http_country_code not in vip_paysafe_card_valid_countries:
             paysafecard_data['paysafecard_supported_country'] = False
@@ -157,12 +163,18 @@ def generate_paysafecard_data(request, owner_nid):
 
             internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paysafecard_valid_currencies, VIP_DEFAULT_CURRENCY)
 
-            paysafecard_data['owner_nid'] = owner_nid
             paysafecard_data['currency_code'] = vip_payments_common.real_currency_codes[internal_currency_code]
-            paysafecard_data['country_override'] = country_override
-            paysafecard_data['country_code'] = http_country_code
             paysafecard_data['testing_paysafecard'] = site_configuration.TESTING_PAYSAFECARD
-            paysafecard_data['radio_options'] = generate_paysafe_radio_options(internal_currency_code)
+
+            if user_has_discount:
+                paysafecard_data['radio_options'] = generate_paysafe_radio_options(
+                    internal_currency_code, vip_payments_common.vip_discounted_membership_prices,
+                    vip_discounted_paysafecard_prices_with_currency_units, vip_standard_paysafecard_prices_with_currency_units, )
+            else:
+                paysafecard_data['radio_options'] = generate_paysafe_radio_options(
+                    internal_currency_code, vip_payments_common.vip_standard_membership_prices,
+                    vip_standard_paysafecard_prices_with_currency_units )
+
             paysafecard_data['paysafecard_customer_panel_url'] = paysafecard_customer_panel_url
 
         return paysafecard_data

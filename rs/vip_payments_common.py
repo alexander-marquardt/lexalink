@@ -10,7 +10,7 @@ from rs.localization_files import currency_by_country
 
 
 # Leave the following value set to None if we are not trying to force a particular country's options to be displayed
-TESTING_COUNTRY = ''
+TESTING_COUNTRY = 'ES'
 if not (settings.TESTING_PAYPAL_SANDBOX or settings.TESTING_PAYSAFECARD) and TESTING_COUNTRY:
     error_reporting.log_exception(logging.critical, error_message='Don\'t override payment country unless you are building a TESTING_* app')
 
