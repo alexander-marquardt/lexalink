@@ -121,7 +121,8 @@ def get_new_vip_status_and_expiry(previous_expiry, num_days_awarded):
   return (just_paid_status, new_expiry_date)
   
   
-def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded, payer_account_info, amount, currency):
+def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded, payer_account_info, amount, currency,
+                                 transaction_id, additional_information):
 
   # updates VIP status on the userobject to reflect the new num_days_awarded that have either
   # been purchased or awarded to the userobject profile. 
@@ -157,6 +158,8 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
       Days awarded: %(num_days_awarded)s<br>
       Expiry date: %(expiry)s<br>
       Status: %(status)s<br>
+      Transaction ID: %(transaction_id)s<br>
+      Additional Information: %(additional_information)s<br>
       <br>
       ==========================================<br>
       <strong>Admin Stuff:</strong>
@@ -172,6 +175,8 @@ def update_userobject_vip_status(payment_provider, userobject,  num_days_awarded
              'num_days_awarded' : num_days_awarded, 
              'expiry' : userobject.client_paid_status_expiry,
              'status' : userobject.client_paid_status,
+             'transaction_id' : transaction_id,
+             'additional_information' : additional_information,
              'admin_info' : utils.generate_profile_information_for_administrator(userobject, True),
              }
         
@@ -213,7 +218,7 @@ def manually_give_paid_status(request, username, num_days_awarded, txn_id = None
                                           num_days_awarded, txn_id, "Manual", "NA - manually awarded", "NA - manually awarded")
     
     message_content = update_userobject_vip_status("Manual", userobject,  num_days_awarded,
-                                                   "Manually awarded", "0", "NA")
+                                                   "No account info", "No amount", "No currency", "Fake transaction", "No additional info")
     return http.HttpResponse(message_content)
   
   except:

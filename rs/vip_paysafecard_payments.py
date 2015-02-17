@@ -317,7 +317,8 @@ def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, seri
 
                     vip_status_support.update_userobject_vip_status("Paysafecard", userobject,
                         paysafe_disposition.num_days_to_be_awarded, serial_numbers,
-                        paysafe_disposition.transaction_amount, paysafe_disposition.transaction_currency)
+                        paysafe_disposition.transaction_amount, paysafe_disposition.transaction_currency,
+                        merchant_transaction_id, "No additional info")
                 else:
                     # This branch should never be entered, since transaction should not be in the database since it has
                     # been confirmed to not already be complete in the paysafe_disposition struture - but check just in case
