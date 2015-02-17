@@ -87,6 +87,7 @@ def create_disposition(
 
     template_dict = locals()
     soap_response = get_soap_response(DISPOSITION_TEMPLATE, template_dict)
+    logging.info('soap_response is: %s' % soap_response)
     response_dict = parse_soap_response(soap_response, disposition_expected_keys, disposition_keys_pattern)
 
     return response_dict
