@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-16 18:08-0500\n"
+"POT-Creation-Date: 2015-02-16 22:44-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +29,22 @@ msgstr ""
 
 #: client/app/html/advertising/sidebar.html:16
 msgid "Your VIP membership expires"
+msgstr ""
+
+#: client/app/html/advertising/sidebar.html:19
+msgid "Extend your"
+msgstr ""
+
+#: client/app/html/advertising/sidebar.html:20
+msgid "VIP membership"
+msgstr ""
+
+#: client/app/html/advertising/sidebar.html:21
+msgid "before it expires, and receive a"
+msgstr ""
+
+#: client/app/html/advertising/sidebar.html:23
+msgid "big discount"
 msgstr ""
 
 #: client/app/html/common_helpers/common_translations.html:4
@@ -381,7 +397,7 @@ msgid "Exit"
 msgstr ""
 
 #: client/app/html/user_main_helpers/paypal_purchase_form.html:23
-msgid "VIP Membership"
+msgid "VIP Membership Purchase"
 msgstr ""
 
 #: client/app/html/user_main_helpers/paypal_purchase_form.html:33
@@ -4647,6 +4663,15 @@ msgstr ""
 
 #: rs/vip_payments_common.py:45
 msgid "year"
+msgstr ""
+
+#: rs/vip_paypal_payments.py:87
+#, python-format
+msgid "%(discount_percentage)s discount"
+msgstr ""
+
+#: rs/vip_paypal_payments.py:88
+msgid "Regular price"
 msgstr ""
 
 #: rs/vip_paysafecard_payments.py:414

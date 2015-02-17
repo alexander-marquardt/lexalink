@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-16 18:08-0500\n"
+"POT-Creation-Date: 2015-02-16 22:44-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -25,7 +25,23 @@ msgstr "miembro VIP"
 
 #: client/app/html/advertising/sidebar.html:16
 msgid "Your VIP membership expires"
-msgstr "Tu membresía VIP caduca"
+msgstr "Tu estado de socio VIP caduca"
+
+#: client/app/html/advertising/sidebar.html:19
+msgid "Extend your"
+msgstr "Alarga tu"
+
+#: client/app/html/advertising/sidebar.html:20
+msgid "VIP membership"
+msgstr "estado de socio VIP"
+
+#: client/app/html/advertising/sidebar.html:21
+msgid "before it expires, and receive a"
+msgstr "antes de que expire y recibe un"
+
+#: client/app/html/advertising/sidebar.html:23
+msgid "big discount"
+msgstr "gran descuento"
 
 #: client/app/html/common_helpers/common_translations.html:4
 msgid "Captcha is incorrect, try again"
@@ -407,8 +423,8 @@ msgid "Exit"
 msgstr "Salir"
 
 #: client/app/html/user_main_helpers/paypal_purchase_form.html:23
-msgid "VIP Membership"
-msgstr "Membresía VIP"
+msgid "VIP Membership Purchase"
+msgstr "Cuota de miembro VIP"
 
 #: client/app/html/user_main_helpers/paypal_purchase_form.html:33
 #: client/app/html/user_main_helpers/paysafecard_purchase_form.html:21
@@ -416,6 +432,7 @@ msgid "Purchase"
 msgstr "Comprar"
 
 #: client/app/html/user_main_helpers/photo_rules.html:5
+#, python-format
 msgid ""
 "Public photos (all photos not marked as private) are visible to everyone,\n"
 "                              including people that are not registered in "
@@ -854,7 +871,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Este es un pago de membresía VIP de una sola vez que no se renueva "
+"Vamos a procesar un único pago de socio VIP que no se renueva "
 "automáticamente."
 
 #: client/app/html/user_main_helpers/vip_payment_options.html:48
@@ -4933,6 +4950,15 @@ msgstr "meses"
 #: rs/vip_payments_common.py:45
 msgid "year"
 msgstr "año"
+
+#: rs/vip_paypal_payments.py:87
+#, python-format
+msgid "%(discount_percentage)s discount"
+msgstr "Descuento de %(discount_percentage)s"
+
+#: rs/vip_paypal_payments.py:88
+msgid "Regular price"
+msgstr "Precio normal"
 
 #: rs/vip_paysafecard_payments.py:414
 msgid ""

@@ -65,45 +65,38 @@ vip_standard_membership_prices = {
         },
     'MXN': {
         #VIP_1_DAY: "69.95",
-        VIP_3_DAYS: "99.15",
+        VIP_3_DAYS: "99.95",
         VIP_1_MONTH: "299.95",
         VIP_3_MONTHS: "499.95",
         VIP_6_MONTHS: "699.95",
         VIP_1_YEAR: "999.95",
         },
-    #'GBP' : {
-        #VIP_1_WEEK: ".95",
-        #VIP_1_MONTH: "16.95",
-        #VIP_3_MONTHS: "39.95",
-        #VIP_6_MONTHS: "49.95",
-        #VIP_1_YEAR: "99.95",
-        #},
 }
 
 vip_discounted_membership_prices = {
       'EUR': {
         #VIP_1_DAY: "6.95",
-        VIP_3_DAYS: "6.95",
-        VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "29.95",
-        VIP_6_MONTHS: "39.95",
-        VIP_1_YEAR: "49.95",
+        VIP_3_DAYS: "8.95",
+        VIP_1_MONTH: "25.95",
+        VIP_3_MONTHS: "39.95",
+        VIP_6_MONTHS: "51.95",
+        VIP_1_YEAR: "69.95",
         },
     'USD': {
         #VIP_1_DAY: "6.95",
-        VIP_3_DAYS: "6.95",
-        VIP_1_MONTH: "19.95",
-        VIP_3_MONTHS: "29.95",
-        VIP_6_MONTHS: "39.95",
-        VIP_1_YEAR: "49.95",
+        VIP_3_DAYS: "8.95",
+        VIP_1_MONTH: "25.95",
+        VIP_3_MONTHS: "39.95",
+        VIP_6_MONTHS: "51.95",
+        VIP_1_YEAR: "69.95",
         },
     'MXN': {
         #VIP_1_DAY: "69.95",
-        VIP_3_DAYS: "99.15",
-        VIP_1_MONTH: "299.95",
-        VIP_3_MONTHS: "499.95",
-        VIP_6_MONTHS: "699.95",
-        VIP_1_YEAR: "999.95",
+        VIP_3_DAYS: "89.95",
+        VIP_1_MONTH: "259.95",
+        VIP_3_MONTHS: "399.95",
+        VIP_6_MONTHS: "519.95",
+        VIP_1_YEAR: "699.95",
         },
 }
 
@@ -168,3 +161,14 @@ def generate_prices_with_currency_units(prices_to_loop_over, vip_valid_currencie
         for category in vip_membership_categories:
             prices_dict_to_show[currency][category] = u"%s%s" % (currency_by_country.currency_symbols[currency], prices_to_loop_over[currency][category])
     return prices_dict_to_show
+
+
+def compute_savings_percentage_discount(discounted_membership_prices, standard_membership_prices, vip_valid_currencies):
+    discount_dict = {}
+    for currency in vip_valid_currencies:
+        discount_dict[currency] = {}
+        for category in vip_membership_categories:
+            discount = 100 * (1 - (float(discounted_membership_prices[currency][category]) / float(standard_membership_prices[currency][category])))
+            discount_dict[currency][category] = "%.0f%%" % discount
+
+    return discount_dict

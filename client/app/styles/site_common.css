@@ -240,6 +240,11 @@ select {
     line-height: 125%; /* adds spacing between the lines of text */
 }
 
+.cl-text-6pt-format {
+    font-size: 6pt;
+    line-height: 125%; /* adds spacing between the lines of text */
+}
+
 .cl-vertical-align-middle {
     vertical-align: middle;
 }

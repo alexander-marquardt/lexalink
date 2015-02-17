@@ -32,6 +32,7 @@ import urllib, urllib2
 import re
 
 from django.http import HttpResponse
+from django.utils.translation import ugettext
 
 import site_configuration
 
@@ -64,8 +65,10 @@ vip_standard_prices_with_currency_units = vip_payments_common.generate_prices_wi
 vip_discounted_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_discounted_membership_prices, vip_paypal_valid_currencies)
 
+vip_discounted_prices_percentage_savings =  vip_payments_common.compute_savings_percentage_discount(
+    vip_payments_common.vip_discounted_membership_prices, vip_payments_common.vip_standard_membership_prices, vip_paypal_valid_currencies)
 
-def generate_paypal_radio_options(currency, prices_with_currency_units):
+def generate_paypal_radio_options(currency, prices_with_currency_units, original_prices_with_currency_units = []):
     # for efficiency don't call this from outside this module, instead perform a lookup in
     # paypal_radio_options
     generated_html = u''
@@ -78,10 +81,21 @@ def generate_paypal_radio_options(currency, prices_with_currency_units):
         else:
             selected = ''
 
+        if original_prices_with_currency_units:
+            discount_percentage = vip_discounted_prices_percentage_savings[currency][member_category]
+            original_price = '<span class="cl-text-6pt-format">(%s. %s: %s)</span>' % (
+                ugettext('%(discount_percentage)s discount') % {'discount_percentage': discount_percentage},
+                ugettext('Regular price'),
+                original_prices_with_currency_units[currency][member_category],
+            )
+        else:
+            original_price = ''
+
         generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
-        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s<br>\n""" % {
+        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s %(original_price)s<br>\n""" % {
             'duration': duration, 'duration_units' : duration_units,
             'selected' : selected,
+            'original_price': original_price,
             'total_price' : prices_with_currency_units[currency][member_category]}
 
     return generated_html
@@ -144,7 +158,7 @@ def generate_paypal_data(request, userobject):
         paypal_data['paypal_account'] = site_configuration.PAYPAL_SANDBOX_ACCOUNT
 
     if user_has_discount:
-        paypal_data['radio_options'] = generate_paypal_radio_options(internal_currency_code, vip_discounted_prices_with_currency_units)
+        paypal_data['radio_options'] = generate_paypal_radio_options(internal_currency_code, vip_discounted_prices_with_currency_units, vip_standard_prices_with_currency_units)
         paypal_data['options_hidden_fields'] = generate_paypal_options_hidden_fields(internal_currency_code, vip_payments_common.vip_discounted_membership_prices)
     else:
         paypal_data['radio_options'] = generate_paypal_radio_options(internal_currency_code, vip_standard_prices_with_currency_units)
