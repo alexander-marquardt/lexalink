@@ -8,5 +8,5 @@ BUILD_NAMES_LIST = ['swinger_build'] # done and memcache cleared
 BUILD_NAMES_LIST = ['language_build'] # running mapreduce
 BUILD_NAMES_LIST = ['lesbian_build'] # running mapreduce
 BUILD_NAMES_LIST = ['single_build'] # running mapreduce
-BUILD_NAMES_LIST = ['discrete_build'] # running mapreduce
+BUILD_NAMES_LIST = ['discrete_build'] # done and memcache cleared
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-16 22:44-0500\n"
+"POT-Creation-Date: 2015-02-17 03:17-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,32 +19,36 @@ msgstr ""
 msgid "You must enable JavaScript to view this page"
 msgstr ""
 
-#: client/app/html/advertising/sidebar.html:10
+#: client/app/html/advertising/sidebar.html:16
 msgid "Become a"
 msgstr ""
 
-#: client/app/html/advertising/sidebar.html:11 rs/constants.py:569
+#: client/app/html/advertising/sidebar.html:17 rs/constants.py:569
 msgid "VIP member"
 msgstr ""
 
-#: client/app/html/advertising/sidebar.html:16
+#: client/app/html/advertising/sidebar.html:19
 msgid "Your VIP membership expires"
 msgstr ""
 
-#: client/app/html/advertising/sidebar.html:19
-msgid "Extend your"
-msgstr ""
-
-#: client/app/html/advertising/sidebar.html:20
-msgid "VIP membership"
-msgstr ""
-
-#: client/app/html/advertising/sidebar.html:21
-msgid "before it expires, and receive a"
+#: client/app/html/advertising/sidebar.html:22
+msgid "If you extend your"
 msgstr ""
 
 #: client/app/html/advertising/sidebar.html:23
-msgid "big discount"
+msgid "VIP membership"
+msgstr ""
+
+#: client/app/html/advertising/sidebar.html:24
+msgid "before it expires, then you can"
+msgstr ""
+
+#: client/app/html/advertising/sidebar.html:26
+msgid "take advantage of a special price"
+msgstr ""
+
+#: client/app/html/advertising/sidebar.html:28
+msgid "Offer expires"
 msgstr ""
 
 #: client/app/html/common_helpers/common_translations.html:4
@@ -4649,44 +4653,44 @@ msgstr ""
 msgid "terms.html"
 msgstr ""
 
-#: rs/vip_payments_common.py:41
+#: rs/vip_payments_common.py:44
 msgid "days"
 msgstr ""
 
-#: rs/vip_payments_common.py:42
+#: rs/vip_payments_common.py:45
 msgid "month"
 msgstr ""
 
-#: rs/vip_payments_common.py:43 rs/vip_payments_common.py:44
+#: rs/vip_payments_common.py:46 rs/vip_payments_common.py:47
 msgid "months"
 msgstr ""
 
-#: rs/vip_payments_common.py:45
+#: rs/vip_payments_common.py:48
 msgid "year"
 msgstr ""
 
-#: rs/vip_paypal_payments.py:87
+#: rs/vip_payments_common.py:185
 #, python-format
 msgid "%(discount_percentage)s discount"
 msgstr ""
 
-#: rs/vip_paypal_payments.py:88
+#: rs/vip_payments_common.py:186
 msgid "Regular price"
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:414
+#: rs/vip_paysafecard_payments.py:426
 msgid ""
 "Congratulations. You have been awarded VIP status! Check your messages for "
 "more details"
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:415
+#: rs/vip_paysafecard_payments.py:427
 msgid ""
 "<p>There has been an error processing your payment.<p>Our automated systems "
 "have notified us of this problem and we will investigate as soon as possible."
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:471
+#: rs/vip_paysafecard_payments.py:483
 msgid ""
 "Transaction aborted by user. Your paysafecard will not be charged, and VIP "
 "status has not been awarded."

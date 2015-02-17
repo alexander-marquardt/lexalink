@@ -103,6 +103,13 @@
 
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    $('#id-show-loading-spinner').hide();
+                    var $dialog = $("#id-paysafecard-disposition-not-created");
+                    $dialog.dialog({
+                        autoOpen: true,
+                        modal: true,
+                        title: "Paysafecard error"
+                    });
                     reportAjaxError(textStatus, errorThrown, "paysafecard-disposition", 'critical');
                 },
                 complete: function () {

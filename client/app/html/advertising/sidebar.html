@@ -1,32 +1,38 @@
 {% load i18n %}
 
+
 {% if advertising_info.enable_ads %}
+<br>
 <div id="id-advertising-sidebar" class="grid_custom cl-grid_160px alpha omega cl-float_right">
 
     {% if guest_user_data_fields.registered_user_bool %}
         {% if THIS_BUILD_ALLOWS_VIP_UPGRADES %}
-            {% if not primary_user_presentation_data_fields.client_paid_status %}
-                    <div class="cl-left-text cl-text-large-format"><br>
-                        {% trans 'Become a' %}
-                        <strong><a class="cl-see_all_vip_benefits" href="#">{% trans 'VIP member' %}</a></strong>.
-                    </div>
 
-            {% else %}
-                    <div class="cl-left-text cl-text-large-format"><br><br>
-                        {% trans 'Your VIP membership expires' %}
-                        {{ primary_user_presentation_data_fields.client_paid_status_expiry_string }}.
-                        <br><br>
-                        {% trans 'Extend your' %}
-                        {% trans 'VIP membership' %}
-                        {% trans 'before it expires, and receive a' %}
-                        <strong><a class="cl-see_all_vip_benefits" href="#">
-                        {% trans 'big discount' %}
-                        </a></strong>
-
-                    </div>
-            {% endif %}
-
+        <table class="rometo-advertising-table">
+            <tr>
+                <td class="rometo-advertising-td-header-footer">
+                    <span class="cl-text-large-format">
+                            {% if not primary_user_presentation_data_fields.client_paid_status %}
+                                        {% trans 'Become a' %}
+                                        <strong><a class="cl-see_all_vip_benefits" href="#">{% trans 'VIP member' %}</a></strong>.
+                            {% else %}
+                                        {% trans 'Your VIP membership expires' %}
+                                        {{ primary_user_presentation_data_fields.client_paid_status_expiry_string }}.
+                                        <br><br>
+                                        {% trans 'If you extend your' %}
+                                        {% trans 'VIP membership' %}
+                                        {% trans 'before it expires, then you can' %}
+                                        <strong><a class="cl-see_all_vip_benefits" href="#">
+                                        {% trans 'take advantage of a special price' %}.
+                                        </a></strong>
+                                        {% trans 'Offer expires' %} {{ primary_user_presentation_data_fields.client_paid_status_expiry_string }}.
+                            {% endif %}
+                    </span>
+                </td>
+        </table>
         {% endif %}
+
+
     {% endif %}
 
     

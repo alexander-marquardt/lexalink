@@ -33,6 +33,7 @@ def render_payment_options(request, userobject):
 
             # If user is VIP, then they will be offered a discounted price
             user_has_discount = utils.get_client_paid_status(userobject)
+            user_has_discount_flag = vip_payments_common.USER_HAS_DISCOUNT_STRING if user_has_discount else vip_payments_common.USER_NO_DISCOUNT_STRING
 
             payments_common_data = {}
             payments_common_data['country_override'] = country_override
@@ -40,10 +41,9 @@ def render_payment_options(request, userobject):
             payments_common_data['language'] = request.LANGUAGE_CODE
             payments_common_data['owner_nid'] = userobject.key.integer_id()
             payments_common_data['username'] = userobject.username
-            payments_common_data['user_has_discount_flag'] = vip_payments_common.USER_HAS_DISCOUNT_STRING if user_has_discount else vip_payments_common.USER_NO_DISCOUNT_STRING
-
+            payments_common_data['user_has_discount_flag'] = user_has_discount_flag
             paypal_data = vip_paypal_payments.generate_paypal_data(request, userobject, http_country_code, user_has_discount)
-            paysafecard_data = vip_paysafecard_payments.generate_paysafecard_data(request, userobject, http_country_code, user_has_discount)
+            paysafecard_data = vip_paysafecard_payments.generate_paysafecard_data(http_country_code, user_has_discount)
             template = loader.get_template("user_main_helpers/vip_payment_options.html")
             context = Context (dict({
                 'payments_common_data': payments_common_data,

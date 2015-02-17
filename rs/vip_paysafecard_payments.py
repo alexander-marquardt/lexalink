@@ -139,7 +139,7 @@ def generate_paysafe_radio_options(currency, membership_prices, prices_with_curr
 
     return generated_html
 
-def generate_paysafecard_data(request, owner_nid, http_country_code, user_has_discount):
+def generate_paysafecard_data(http_country_code, user_has_discount):
 
     try:
         paysafecard_data = {}
@@ -188,6 +188,10 @@ def create_disposition(request):
         owner_nid = request.POST.get('owner_nid', None); assert(owner_nid)
         user_key = ndb.Key('UserModel', long(owner_nid))
 
+        userobject = utils_top_level.get_userobject_from_nid(owner_nid)
+        user_has_discount = utils.get_client_paid_status(userobject)
+        user_has_discount_flag = vip_payments_common.USER_HAS_DISCOUNT_STRING if user_has_discount else vip_payments_common.USER_NO_DISCOUNT_STRING
+
         if request.method != 'POST':
             error_message = "create_disposition was not called with POST data"
             error_reporting.log_exception(logging.critical, error_message = error_message)
@@ -198,7 +202,11 @@ def create_disposition(request):
         currency_code = request.POST.get('currency_code', None); assert(currency_code)
 
         if currency_code in vip_paysafecard_valid_currencies:
-            membership_category = vip_payments_common.vip_standard_price_to_membership_category_lookup[currency_code][amount]
+            if user_has_discount:
+                membership_category = vip_payments_common.vip_discounted_price_to_membership_category_lookup[currency_code][amount]
+            else:
+                membership_category = vip_payments_common.vip_standard_price_to_membership_category_lookup[currency_code][amount]
+
             num_days_to_be_awarded = vip_payments_common.num_days_in_vip_membership_category[membership_category]
         else:
             raise Exception("Paysafecard currency %s not handled by code" % currency_code)
@@ -213,8 +221,7 @@ def create_disposition(request):
         time_in_millis = int(round(time.time() * 1000))
         encoded_time = utils.base_encode(time_in_millis, base=encode_allowed_chars)
         random_postfix = get_random_number_string_for_transaction_id()
-        unique_id = str(owner_nid) + '-' + random_postfix + '-' + encoded_time
-        merchant_transaction_id = unique_id
+        merchant_transaction_id = str(owner_nid) + '-' + random_postfix + '-' + encoded_time + '-' + user_has_discount_flag
 
         # make sure to pass a '' as the second parameter to urllib.quote -- otherwise, '/' will not be quoted.
         ok_url = urllib.quote('http://%s/paysafecard/ok_url/?mtid=%s&currency=%s' % (request.META['HTTP_HOST'], merchant_transaction_id, currency_code), '')
@@ -372,7 +379,7 @@ def pn_url(request):
         merchant_transaction_id = request.POST.get('mtid', None); assert(merchant_transaction_id)
         event_type = request.POST.get('eventType', None); assert(event_type == 'ASSIGN_CARDS')
 
-        (nid_str, random_postfix, encoded_time) = merchant_transaction_id.split('-')
+        (nid_str, random_postfix, encoded_time, user_has_discount_flag) = merchant_transaction_id.split('-')
         nid = long(nid_str)
 
         # Note: serial_numbers is actually made up of 4 values seperated by ';' that may be repeated multiple times
