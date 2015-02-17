@@ -123,34 +123,12 @@ def generate_paypal_options_hidden_fields(currency, vip_membership_prices):
 
 
 
-def generate_paypal_data(request, userobject):
-
-    # Get the ISO 3155-1 alpha-2 (2 Letter) country code, which we then use for a lookup of the
-    # appropriate currency to display. If country code is missing, then we will display
-    # prices for the value defined in vip_paypal_structures.DEFAULT_CURRENCY
-    if not vip_payments_common.TESTING_COUNTRY:
-        http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
-        country_override = False
-    else:
-        error_reporting.log_exception(logging.error, error_message = "TESTING_COUNTRY is over-riding HTTP_X_APPENGINE_COUNTRY")
-        http_country_code = vip_payments_common.TESTING_COUNTRY
-        country_override = True
-
-    internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies, VIP_DEFAULT_CURRENCY)
-
-    owner_nid = userobject.key.integer_id()
-
-    # If user is VIP, then they will be offered a discounted price
-    user_has_discount = utils.get_client_paid_status(userobject)
+def generate_paypal_data(request, userobject, http_country_code, user_has_discount):
 
     paypal_data = {}
-    paypal_data['country_override'] = country_override
-    paypal_data['country_code'] = http_country_code
-    paypal_data['language'] = request.LANGUAGE_CODE
-    paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
-    paypal_data['owner_nid'] = owner_nid
-    paypal_data['username'] = userobject.username
+    internal_currency_code = vip_payments_common.get_internal_currency_code(http_country_code, vip_paypal_valid_currencies, VIP_DEFAULT_CURRENCY)
     paypal_data['currency_code'] = vip_payments_common.real_currency_codes[internal_currency_code]
+    paypal_data['testing_paypal_sandbox'] = site_configuration.TESTING_PAYPAL_SANDBOX
 
     if not site_configuration.TESTING_PAYPAL_SANDBOX:
         paypal_data['paypal_account'] = site_configuration.PAYPAL_ACCOUNT
@@ -163,9 +141,6 @@ def generate_paypal_data(request, userobject):
     else:
         paypal_data['radio_options'] = generate_paypal_radio_options(internal_currency_code, vip_standard_prices_with_currency_units)
         paypal_data['options_hidden_fields'] = generate_paypal_options_hidden_fields(internal_currency_code,  vip_payments_common.vip_standard_membership_prices)
-
-
-    paypal_data['user_has_discount_flag'] = vip_payments_common.USER_HAS_DISCOUNT_STRING if user_has_discount else vip_payments_common.USER_NO_DISCOUNT_STRING
 
     return paypal_data
 
