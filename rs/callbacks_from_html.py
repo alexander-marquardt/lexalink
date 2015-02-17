@@ -65,11 +65,15 @@ class MyHTMLCallbackGenerator():
             # the following value is used for tracking if the user is viewing another profile, if these
             # two users have previously had contact. If so, then we dont show all the spam warning stuff.
             self.have_sent_messages_object = have_sent_messages_object
-            
-            # To save use from having to declare a bunch of functions, we dynamically create the response 
-            # to (some of) the html callback functions.
-            for field_name in UserProfileDetails.enabled_checkbox_fields_list:
-                setattr(self, field_name, self.standard_checkbox_html(field_name))
+
+            # if the user is marked for elimination, then due to changes in the code, the
+            # checkbox_fields might have invalid values. In any case, there is no point in showing
+            # these values since the user has been eliminated.
+            if not display_userobject.user_is_marked_for_elimination:
+                # To save use from having to declare a bunch of functions, we dynamically create the response
+                # to (some of) the html callback functions.
+                for field_name in UserProfileDetails.enabled_checkbox_fields_list:
+                    setattr(self, field_name, self.standard_checkbox_html(field_name))
                 
         except:
             error_reporting.log_exception(logging.critical) 

@@ -173,59 +173,58 @@
 
 
 <!------------------------------------------------------------>
-<!-- "about me" (text description) section -->
 {% if not viewed_profile_data_fields.account_has_been_removed_message or primary_user_profile_data_fields.is_primary_user %}
+    <!-- "about me" (text description) section -->
     {{ html_for_main.about_user|safe }}
-{% endif %}
+
+
+    <div class="grid_9 alpha omega">
+        <!-- this is just a dummy spacer -->
+        &nbsp;
+    </div>
+    <div class="cl-clear"></div>
+
+
+    <!------------------------------------------------------------>
+    <!-- "details" section - allow user to specify additional information, like hieght, body-type, etc.
+         -->
+    {% ifnotequal build_name "language_build" %}
+    {{ html_for_main.details_fields|safe }}
+    {% endifnotequal %}
+
+
+
+    <!------------------------------------------------------------>
+    <!-- "languages" section - generates current language options, and calls checkboxes to edit
+         if the user wishes -->
 
 
 
 
-<div class="grid_9 alpha omega">
-    <!-- this is just a dummy spacer -->
-    &nbsp;
-</div>
-<div class="cl-clear"></div>
+    {% if build_name != "language_build" %}
+        {{ html_for_main.languages|safe }}
+    {% endif %}
+
+    <!------------------------------------------------------------>
+    <!-- "entertainment" section -->
+    {{ html_for_main.entertainment|safe }}
+
+    <!------------------------------------------------------------>
+    <!-- "sports" section -->
+    {{ html_for_main.athletics|safe }}
 
 
-<!------------------------------------------------------------>
-<!-- "details" section - allow user to specify additional information, like hieght, body-type, etc.
-     -->
-{% ifnotequal build_name "language_build" %}
-{{ html_for_main.details_fields|safe }}
-{% endifnotequal %}
+    <!------------------------------------------------------------>
+    <!-- "turn_ons" section -->
+    {% if build_name == "discrete_build" or build_name == "lesbian_build" or build_name == "gay_build" or build_name == "swinger_build" %}
+    {{ html_for_main.turn_ons|safe }}
+    {% endif %}
+    <!------------------------------------------------------------>
 
+    {% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "swinger_build" %}
+    {{ html_for_main.erotic_encounters|safe }}
+    {% endif %}
 
-
-<!------------------------------------------------------------>
-<!-- "languages" section - generates current language options, and calls checkboxes to edit
-     if the user wishes -->
-
-
-
-
-{% if build_name != "language_build" %}
-    {{ html_for_main.languages|safe }}
-{% endif %}
-
-<!------------------------------------------------------------>
-<!-- "entertainment" section -->
-{{ html_for_main.entertainment|safe }}
-
-<!------------------------------------------------------------>
-<!-- "sports" section -->
-{{ html_for_main.athletics|safe }}
-
-
-<!------------------------------------------------------------>
-<!-- "turn_ons" section -->
-{% if build_name == "discrete_build" or build_name == "lesbian_build" or build_name == "gay_build" or build_name == "swinger_build" %}
-{{ html_for_main.turn_ons|safe }}
-{% endif %}
-<!------------------------------------------------------------>
-
-{% if build_name == "discrete_build" or build_name == "gay_build" or build_name == "swinger_build" %}
-{{ html_for_main.erotic_encounters|safe }}
 {% endif %}
 
 
