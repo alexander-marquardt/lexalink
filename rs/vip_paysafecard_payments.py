@@ -127,22 +127,14 @@ def generate_paysafe_radio_options(currency, membership_prices, prices_with_curr
         else:
             selected = ''
 
-        if original_prices_with_currency_units:
-            discount_percentage = vip_discounted_paysafe_prices_percentage_savings[currency][member_category]
-            original_price = '<span class="cl-text-6pt-format">(%s. %s: %s)</span>' % (
-                ugettext('%(discount_percentage)s discount') % {'discount_percentage': discount_percentage},
-                ugettext('Regular price'),
-                original_prices_with_currency_units[currency][member_category],
-            )
-        else:
-            original_price = ''
+        savings_html = vip_payments_common.get_html_showing_savings(currency, member_category, vip_discounted_paysafe_prices_percentage_savings, original_prices_with_currency_units)
 
         generated_html += u"""<input type="radio" name="amount" value="%(price)s" %(selected)s>
-        <strong>%(duration)s %(duration_units)s</strong>: %(display_price)s  %(original_price)s<br>\n""" % {
+        <strong>%(duration)s %(duration_units)s</strong>: %(display_price)s  %(savings_html)s<br>\n""" % {
             'duration': duration, 'duration_units' : duration_units,
             'selected' : selected,
             'price' : membership_prices[currency][member_category],
-            'original_price': original_price,
+            'savings_html': savings_html,
             'display_price' : prices_with_currency_units[currency][member_category]}
 
     return generated_html

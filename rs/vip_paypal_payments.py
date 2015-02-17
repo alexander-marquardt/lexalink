@@ -32,7 +32,6 @@ import urllib, urllib2
 import re
 
 from django.http import HttpResponse
-from django.utils.translation import ugettext
 
 import site_configuration
 
@@ -65,7 +64,7 @@ vip_standard_prices_with_currency_units = vip_payments_common.generate_prices_wi
 vip_discounted_prices_with_currency_units = vip_payments_common.generate_prices_with_currency_units(
     vip_payments_common.vip_discounted_membership_prices, vip_paypal_valid_currencies)
 
-vip_discounted_prices_percentage_savings =  vip_payments_common.compute_savings_percentage_discount(
+vip_paypal_discounted_prices_percentage_savings =  vip_payments_common.compute_savings_percentage_discount(
     vip_payments_common.vip_discounted_membership_prices, vip_payments_common.vip_standard_membership_prices, vip_paypal_valid_currencies)
 
 def generate_paypal_radio_options(currency, prices_with_currency_units, original_prices_with_currency_units = []):
@@ -81,21 +80,13 @@ def generate_paypal_radio_options(currency, prices_with_currency_units, original
         else:
             selected = ''
 
-        if original_prices_with_currency_units:
-            discount_percentage = vip_discounted_prices_percentage_savings[currency][member_category]
-            original_price = '<span class="cl-text-6pt-format">(%s. %s: %s)</span>' % (
-                ugettext('%(discount_percentage)s discount') % {'discount_percentage': discount_percentage},
-                ugettext('Regular price'),
-                original_prices_with_currency_units[currency][member_category],
-            )
-        else:
-            original_price = ''
+        savings_html = vip_payments_common.get_html_showing_savings(currency, member_category, vip_paypal_discounted_prices_percentage_savings, original_prices_with_currency_units)
 
         generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
-        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s %(original_price)s<br>\n""" % {
+        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s %(savings_html)s<br>\n""" % {
             'duration': duration, 'duration_units' : duration_units,
             'selected' : selected,
-            'original_price': original_price,
+            'savings_html': savings_html,
             'total_price' : prices_with_currency_units[currency][member_category]}
 
     return generated_html

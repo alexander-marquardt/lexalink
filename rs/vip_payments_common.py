@@ -1,6 +1,7 @@
 import logging
 
 from django.utils.translation import ugettext_lazy
+from django.utils.translation import ugettext
 
 import settings
 from rs import error_reporting
@@ -174,3 +175,18 @@ def compute_savings_percentage_discount(discounted_membership_prices, standard_m
             discount_dict[currency][category] = "%.0f%%" % discount
 
     return discount_dict
+
+
+def get_html_showing_savings(currency, member_category, vip_discounted_paysafe_prices_percentage_savings, original_prices_with_currency_units):
+
+    if original_prices_with_currency_units:
+        discount_percentage = vip_discounted_paysafe_prices_percentage_savings[currency][member_category]
+        savings_html = '<span class="cl-text-6pt-format">(%s. %s: %s)</span>' % (
+            ugettext('%(discount_percentage)s discount') % {'discount_percentage': discount_percentage},
+            ugettext('Regular price'),
+            original_prices_with_currency_units[currency][member_category],
+        )
+    else:
+        savings_html = ''
+
+    return savings_html
