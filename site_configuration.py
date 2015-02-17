@@ -63,8 +63,8 @@ if not REDIRECT_APPSPOT_URL:
     logging.error("You are running with REDIRECT_APPSPOT_URL set to False - this should be enabled for production code!")
 
 # Other debugging/build-related flags
-TESTING_PAYPAL_SANDBOX = True
-TESTING_PAYSAFECARD = True
+TESTING_PAYPAL_SANDBOX = False
+TESTING_PAYSAFECARD = False
 
 
 if TESTING_PAYSAFECARD and TESTING_PAYPAL_SANDBOX:
@@ -75,7 +75,7 @@ elif TESTING_PAYPAL_SANDBOX:
     REDIRECT_APPSPOT_URL = False
 
 elif TESTING_PAYSAFECARD:
-    VERSION_ID = 'paysafecard2'
+    VERSION_ID = 'paysafecard'
     REDIRECT_APPSPOT_URL = False
 
 if TESTING_PAYSAFECARD:
