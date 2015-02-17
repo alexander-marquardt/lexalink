@@ -23,7 +23,7 @@ VIP_1_YEAR  = "1 year"
 
 # the following list will allow us to iterate over the various membership options in the correct order
 vip_membership_categories = [VIP_3_DAYS, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
-SELECTED_VIP_DROPDOWN = VIP_3_MONTHS
+DEFAULT_SELECTED_VIP_OPTION = VIP_3_MONTHS
 
 
 num_days_in_vip_membership_category = {
@@ -78,6 +78,33 @@ vip_standard_membership_prices = {
         #VIP_6_MONTHS: "49.95",
         #VIP_1_YEAR: "99.95",
         #},
+}
+
+vip_discounted_membership_prices = {
+      'EUR': {
+        #VIP_1_DAY: "6.95",
+        VIP_3_DAYS: "6.95",
+        VIP_1_MONTH: "19.95",
+        VIP_3_MONTHS: "29.95",
+        VIP_6_MONTHS: "39.95",
+        VIP_1_YEAR: "49.95",
+        },
+    'USD': {
+        #VIP_1_DAY: "6.95",
+        VIP_3_DAYS: "9.95",
+        VIP_1_MONTH: "29.95",
+        VIP_3_MONTHS: "49.95",
+        VIP_6_MONTHS: "69.95",
+        VIP_1_YEAR: "99.95",
+        },
+    'MXN': {
+        #VIP_1_DAY: "69.95",
+        VIP_3_DAYS: "99.15",
+        VIP_1_MONTH: "299.95",
+        VIP_3_MONTHS: "499.95",
+        VIP_6_MONTHS: "699.95",
+        VIP_1_YEAR: "999.95",
+        },
 }
 
 # Pricing for international customers outside of the US

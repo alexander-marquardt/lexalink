@@ -70,7 +70,7 @@ def generate_paypal_radio_options(currency):
         duration = u"%s" % vip_payments_common.vip_option_values[member_category]['duration']
         duration_units = u"%s" % vip_payments_common.vip_option_values[member_category]['duration_units']
 
-        if member_category == vip_payments_common.SELECTED_VIP_DROPDOWN:
+        if member_category == vip_payments_common.DEFAULT_SELECTED_VIP_OPTION:
             selected = "checked"
         else:
             selected = ''
