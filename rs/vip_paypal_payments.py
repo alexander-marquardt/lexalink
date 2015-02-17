@@ -55,7 +55,7 @@ else:
     PP_URL = "https://www.paypal.com/cgi-bin/webscr"
 
 
-custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*);')
+custom_info_pattern = re.compile(r'site:(.*); username:(.*); nid:(.*); flag:(.*);')
 
 # generate the dictionary that will allow us to do a reverse lookup when we receive a payment amount
 # to the corresponding membership category
@@ -165,6 +165,8 @@ def generate_paypal_data(request, userobject):
         paypal_data['options_hidden_fields'] = generate_paypal_options_hidden_fields(internal_currency_code,  vip_payments_common.vip_standard_membership_prices)
 
 
+    paypal_data['user_has_discount_flag'] = vip_payments_common.USER_HAS_DISCOUNT_STRING if user_has_discount else vip_payments_common.USER_NO_DISCOUNT_STRING
+
     return paypal_data
 
 
@@ -216,8 +218,18 @@ def paypal_instant_payment_notification(request):
             match_custom = custom_info_pattern.match(custom)
             if match_custom:
                 nid = match_custom.group(3)
+                user_has_discount_flag = match_custom.group(4)
             else:
                 raise Exception("Paypal custom value does not match expected format: %s" % custom)
+
+            # This is not really a secure way of checking if the user has a discount - someone could fake a discount
+            # if the really wanted to - we could prevent this by adding a security hash to the payment if desired in
+            # the future.
+            user_has_discount = False
+            if user_has_discount_flag == vip_payments_common.USER_HAS_DISCOUNT_STRING:
+                user_has_discount = True
+
+
 
             #logging.info("Paypal parameters: %s" % parameters)
 
@@ -236,9 +248,6 @@ def paypal_instant_payment_notification(request):
 
             uid = utils.get_uid_from_nid(nid)
             userobject = utils_top_level.get_object_from_string(uid)
-
-            # TODO - THIS IS TEMPRARY - WE NEED TO PASS IN AN HMAC ENCODED VALUE THAT INDICATES THAT THIS IS A DISCOUNTED PURCHASE
-            user_has_discount = utils.get_client_paid_status(userobject)
 
             if currency in vip_paypal_valid_currencies:
                 if user_has_discount:

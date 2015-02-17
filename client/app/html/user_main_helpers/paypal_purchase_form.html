@@ -16,7 +16,7 @@
 {% endif %}
         <input type="hidden" name="charset" value="utf-8">
         <input type="hidden" name="notify_url" value="http://{{ request.META.HTTP_HOST }}/paypal/ipn/">
-        <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }};">
+        <input type="hidden" name="custom" value="site:{{ request.META.HTTP_HOST }}; username:{{ paypal_data.username }}; nid:{{ paypal_data.owner_nid }}; flag:{{ paypal_data.user_has_discount_flag }}; ">
 
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="business" value="{{ paypal_data.paypal_account }}">

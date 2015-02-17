@@ -25,6 +25,8 @@ VIP_1_YEAR  = "1 year"
 vip_membership_categories = [VIP_3_DAYS, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
 DEFAULT_SELECTED_VIP_OPTION = VIP_3_MONTHS
 
+USER_HAS_DISCOUNT_STRING = 'D'
+USER_NO_DISCOUNT_STRING = 'N'
 
 num_days_in_vip_membership_category = {
     #VIP_1_DAY : 1,
