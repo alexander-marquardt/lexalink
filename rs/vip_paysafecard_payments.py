@@ -194,7 +194,7 @@ def create_disposition(request):
         currency_code = request.POST.get('currency_code', None); assert(currency_code)
 
         if currency_code in vip_paysafecard_valid_currencies:
-            membership_category = vip_payments_common.vip_price_to_membership_category_lookup[currency_code][amount]
+            membership_category = vip_payments_common.vip_standard_price_to_membership_category_lookup[currency_code][amount]
             num_days_to_be_awarded = vip_payments_common.num_days_in_vip_membership_category[membership_category]
         else:
             raise Exception("Paysafecard currency %s not handled by code" % currency_code)

@@ -91,11 +91,11 @@ vip_discounted_membership_prices = {
         },
     'USD': {
         #VIP_1_DAY: "6.95",
-        VIP_3_DAYS: "9.95",
-        VIP_1_MONTH: "29.95",
-        VIP_3_MONTHS: "49.95",
-        VIP_6_MONTHS: "69.95",
-        VIP_1_YEAR: "99.95",
+        VIP_3_DAYS: "6.95",
+        VIP_1_MONTH: "19.95",
+        VIP_3_MONTHS: "29.95",
+        VIP_6_MONTHS: "39.95",
+        VIP_1_YEAR: "49.95",
         },
     'MXN': {
         #VIP_1_DAY: "69.95",
@@ -112,6 +112,7 @@ vip_discounted_membership_prices = {
 # processing code to distinguish between USD and USD_NON_US, which is currently does not do
 # and therefore if these values are different than USD the payment will not be processed correctly.
 vip_standard_membership_prices['USD_NON_US'] = vip_standard_membership_prices['USD']
+vip_discounted_membership_prices['USD_NON_US'] = vip_discounted_membership_prices['USD']
 
 
 # The following represent the "real" currency-codes that will be passed to paypal - principally it is designed to over-ride
@@ -132,7 +133,8 @@ def generate_vip_price_to_membership_category_lookup(vip_standard_membership_pri
     return price_to_membership_category_lookup
 
 
-vip_price_to_membership_category_lookup  = generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices)
+vip_standard_price_to_membership_category_lookup  = generate_vip_price_to_membership_category_lookup(vip_standard_membership_prices)
+vip_discounted_price_to_membership_category_lookup  = generate_vip_price_to_membership_category_lookup(vip_discounted_membership_prices)
 
 def get_internal_currency_code(http_country_code, vip_valid_currencies, vip_default_currency):
 

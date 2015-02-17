@@ -346,7 +346,7 @@ def welcome_html():
 def vip_purchase_main_html(request, owner_nid):
 
     userobject = utils_top_level.get_userobject_from_nid(owner_nid)
-    vip_payment_options = vip_render_payment_options.render_payment_options(request, userobject.username, owner_nid)
+    vip_payment_options = vip_render_payment_options.render_payment_options(request, userobject)
 
     return render_to_response('user_main_helpers/vip_purchase_main.html',
                               dict({'vip_payment_options':vip_payment_options}, **constants.template_common_fields))
