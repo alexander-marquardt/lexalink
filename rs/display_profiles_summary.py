@@ -236,7 +236,9 @@ def get_userobject_summary(request, viewer_userobject, display_userobject_key, d
     
     lang_code = request.LANGUAGE_CODE    
     display_uid = display_userobject_key.urlsafe()
-    display_userobject = utils_top_level.get_object_from_string(display_uid)  
+    display_userobject = utils_top_level.get_object_from_string(display_uid)
+
+    logging.info('get_userobject_summary for %s' % display_userobject.username)
 
     summary_first_half_html = display_userobject_first_half_summary(request, display_userobject, display_online_status, 
                                                                     extra_info_html)              
