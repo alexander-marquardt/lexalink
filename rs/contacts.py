@@ -42,7 +42,7 @@ from utils import requires_login
 from utils import return_time_difference_in_friendly_format, get_new_contact_count_sum
 from rs import profile_utils
 import queries, rendering, localizations, error_reporting, logging
-import utils, utils_top_level, display_profiles_summary
+import utils, utils_top_level, profiles_summary
 
 supress_sent_received_list = ['favorite', 'blocked']
 
@@ -145,10 +145,10 @@ def show_contacts(request, contact_type, sent_or_received):
             generated_html_bottom_next_button = ''  
             
             post_action = "/%s/show_contacts/%s/%s/" % (request.LANGUAGE_CODE, contact_type, sent_or_received)
-            generated_html_top = display_profiles_summary.generate_summary_html_top(header_html, image_html)
+            generated_html_top = profiles_summary.generate_summary_html_top(header_html, image_html)
             
-            generated_html_open_form = display_profiles_summary.generate_summary_html_open_form(post_action)        
-            generated_html_close_form = display_profiles_summary.generate_summary_html_close_form()
+            generated_html_open_form = profiles_summary.generate_summary_html_open_form(post_action)
+            generated_html_close_form = profiles_summary.generate_summary_html_close_form()
             
             cursor_str = request.GET.get('show_contacts_cursor',None)
             paging_cursor = Cursor(urlsafe = cursor_str)
@@ -167,7 +167,7 @@ def show_contacts(request, contact_type, sent_or_received):
                                                                   date_contact_received_list, profile_keys_list)
             
             if profile_keys_list:
-                generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, profile_keys_list, 
+                generated_html_body = profiles_summary.generate_html_for_list_of_profiles(request, userobject, profile_keys_list,
                                                                                               display_online_status, extra_info_html_dict)            
             else:
                 generated_html_body = "%s<br><br><br><br>" % (ugettext("You do not have any \"%(title)s\" yet") % {
@@ -177,7 +177,7 @@ def show_contacts(request, contact_type, sent_or_received):
                 generated_html_hidden_variables = \
                                     u'<input type=hidden id="id-show_contacts_cursor" name="show_contacts_cursor" \
                                     value="%(show_contacts_cursor)s">\n' % {'show_contacts_cursor': new_cursor.urlsafe()}           
-                (generated_html_top_next_button, generated_html_bottom_next_button) = display_profiles_summary.generate_next_button_html()
+                (generated_html_top_next_button, generated_html_bottom_next_button) = profiles_summary.generate_next_button_html()
                 
             
             

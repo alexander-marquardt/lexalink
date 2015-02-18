@@ -30,7 +30,7 @@ from django.utils.translation import ugettext, ungettext
 import models
 from google.appengine.ext import ndb
 from google.appengine.datastore.datastore_query import Cursor
-from rs import utils, models, error_reporting, display_profiles_summary, utils_top_level
+from rs import utils, models, error_reporting, profiles_summary, utils_top_level
 import rendering, site_configuration
 import datetime, logging
 
@@ -230,10 +230,10 @@ def generate_html_for_profile_views(request):
             generated_html_bottom_next_button = ''  
             
             post_action = "/%s/show_profile_views/" % (request.LANGUAGE_CODE)
-            generated_html_top = display_profiles_summary.generate_summary_html_top(header_html)
+            generated_html_top = profiles_summary.generate_summary_html_top(header_html)
             
-            generated_html_open_form = display_profiles_summary.generate_summary_html_open_form(post_action)        
-            generated_html_close_form = display_profiles_summary.generate_summary_html_close_form()
+            generated_html_open_form = profiles_summary.generate_summary_html_open_form(post_action)
+            generated_html_close_form = profiles_summary.generate_summary_html_close_form()
             
             cursor_str = request.GET.get('profile_views_cursor',None)
             paging_cursor = Cursor(urlsafe = cursor_str)
@@ -241,7 +241,7 @@ def generate_html_for_profile_views(request):
             (viewer_profile_keys_list, extra_info_html_dict, new_cursor, more_results) = get_list_of_profile_views(userobject.key, show_online_status, paging_cursor)            
             
                         
-            generated_html_body = display_profiles_summary.generate_html_for_list_of_profiles(request, userobject, viewer_profile_keys_list, 
+            generated_html_body = profiles_summary.generate_html_for_list_of_profiles(request, userobject, viewer_profile_keys_list,
                                                                                               display_online_status, extra_info_html_dict)
             
     
@@ -250,7 +250,7 @@ def generate_html_for_profile_views(request):
                 generated_html_hidden_variables = \
                                     u'<input type=hidden id="id-profile_views_cursor" name="profile_views_cursor" \
                                     value="%(profile_views_cursor)s">\n' % {'profile_views_cursor': new_cursor.urlsafe()}           
-                (generated_html_top_next_button, generated_html_bottom_next_button) = display_profiles_summary.generate_next_button_html()
+                (generated_html_top_next_button, generated_html_bottom_next_button) = profiles_summary.generate_next_button_html()
                 
             
             
