@@ -111,6 +111,11 @@ def store_session(request, userobject):
 def compute_unique_last_login(userobject):
     """ adds appropriate offsets to the current "unique_last_login" value so that 
     the search results will be ordered based on the profile completeness of the current user.
+
+    If this function is only called when the user logs in, then it may be the case that their profile
+    ranking does not reflect any photos that they upload during their session. They would have to
+    exit and login again to get credit for any photos added to their profile, and full credit is
+    not given until after their photo has been approved by the administrator for public display.
     """
     
     try:
@@ -118,17 +123,24 @@ def compute_unique_last_login(userobject):
 
         user_photo_tracker = userobject.user_photos_tracker_key.get()
 
-        if user_photo_tracker.profile_photo_key:
-            profile_photo = user_photo_tracker.profile_photo_key.get()
-            assert(profile_photo.is_profile)
-            if profile_photo.is_approved:
-                # photo is not approved yet, and therefore is not displayed. Don't move give full "credit"
-                # for the photo upload until the photo has been approved.
-                offset += constants.unique_last_login_offset_values_in_days['has_profile_photo_offset']
-            else:
-                offset += constants.unique_last_login_offset_values_in_days['has_private_photo_offset']
+        # The following logic is needed to ensure that a user only gets credit for a profile photo (or any public
+        # photo that may become their profile photo) in the case that it is approved for public viewing.
+        # If it is not approved, then we do not update their ranking to include the profile photo bonus.
+        has_at_least_one_public_approved_photo = False
+        for public_photo_key in user_photo_tracker.public_photos_keys:
+            public_photo = public_photo_key.get()
+            if public_photo.is_approved and not public_photo.is_private:
+                has_at_least_one_public_approved_photo = True
+                break
 
-        elif user_photo_tracker.private_photos_keys:
+        if has_at_least_one_public_approved_photo:
+            # if they have one public and approved photo, then give them the credit as if they had a profile
+            # photo - this photo will be made public if necessary when admin reviews all of their photos.
+            offset += constants.unique_last_login_offset_values_in_days['has_profile_photo_offset']
+
+        # Otherwise, check if user has any photos (public that are not approved yet) , or private photos. Give
+        # credit as if they have uploaded private photos, until the public photos receive approval.
+        elif user_photo_tracker.public_photos_keys or user_photo_tracker.private_photos_keys:
             offset += constants.unique_last_login_offset_values_in_days['has_private_photo_offset']
 
         if userobject.about_user != '----':
