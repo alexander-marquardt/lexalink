@@ -28,6 +28,8 @@
 """ This module is responsible for generating the results of user searches. 
 It will generate HTML based on the criteria specified in the user-search parameters. """
 
+import copy
+
 from google.appengine.datastore.datastore_query import Cursor
 
 from rs.user_profile_main_data import UserSpec
@@ -346,7 +348,10 @@ def generate_search_results(request, type_of_search = "normal", this_is_a_logout
             generated_header = generate_title_for_current_search(search_vals_dict, lang_idx, extended_results = True)
             
             if settings.SEO_OVERRIDES_ENABLED:
-                refined_links_html = search_engine_overrides.generate_refine_search_links_for_current_search(search_vals_dict, request.LANGUAGE_CODE)
+                refined_search_vals_dict = copy.copy(search_vals_dict)
+                # we use the last_login_string to ensure that web crawlers will see the most recent activity on the website
+                refined_search_vals_dict['query_order'] = 'last_login_string'
+                refined_links_html = search_engine_overrides.generate_refine_search_links_for_current_search(refined_search_vals_dict, request.LANGUAGE_CODE)
             else:
                 refined_links_html = ''
 
