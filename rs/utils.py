@@ -1315,8 +1315,8 @@ def check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_obje
         userobject = have_sent_messages_object.owner_ref.get()
         other_userobject = have_sent_messages_object.other_ref.get()
 
-        user_paid_status = userobject.client_paid_status
-        other_paid_status = other_userobject.client_paid_status
+        user_paid_status = get_client_vip_status(userobject)
+        other_paid_status = get_client_vip_status(other_userobject)
     else:
         user_paid_status = None
         other_paid_status = None
@@ -1395,7 +1395,7 @@ Please do not send emails or contact them in any manner, since their goal is to 
 
     return generated_html
 
-def get_client_paid_status(userobject):
+def get_client_vip_status(userobject):
     
     vip_status = None
     if userobject.client_paid_status and userobject.client_paid_status_expiry > datetime.datetime.now():
@@ -1450,7 +1450,7 @@ def generate_profile_information_for_administrator(display_userobject, is_admin)
         if is_admin:
             # show information about this user to the administrator.
             generated_html += u'<br><br><div>'            
-            if display_userobject.client_paid_status:
+            if get_client_vip_status(display_userobject):
                 generated_html += "<b>Is VIP</b><br><br>"
                 
                 
@@ -1512,7 +1512,7 @@ def do_display_online_status(owner_uid):
             # This build has the option of upgrading to VIP - therefore we just give them a taste of the VIP benefits
             
             userobject = utils_top_level.get_object_from_string(owner_uid)
-            client_paid_status = userobject.client_paid_status
+            client_paid_status = get_client_vip_status(userobject)
             
             if client_paid_status:
                 # This is a VIP (paid) member - always show online status 
@@ -1540,7 +1540,7 @@ def show_online_status(owner_uid):
     
     if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
         userobject = utils_top_level.get_object_from_string(owner_uid)
-        client_paid_status = userobject.client_paid_status
+        client_paid_status = get_client_vip_status(userobject)
         
         if client_paid_status:
             # This is a VIP (paid) member - always show online status 

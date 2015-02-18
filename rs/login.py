@@ -353,9 +353,8 @@ def process_login(request):
                 userobject.last_login =  datetime.datetime.now()   
                 userobject.last_login_string = str(userobject.last_login)
                                         
-                if not utils.get_client_paid_status(userobject):
-                    # client has lost their VIP status - clear from both the userobject and and the 
-                    # unique_last_login_offset structures.
+                if not utils.get_client_vip_status(userobject):
+                    # client has lost their VIP status - clear from both the userobject
                     userobject.client_paid_status = None
                     
                     # this user up until now has not had to solve any captchas since he was a VIP member - therefore, it is possible

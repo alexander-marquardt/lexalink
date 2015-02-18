@@ -189,7 +189,7 @@ def create_disposition(request):
         user_key = ndb.Key('UserModel', long(owner_nid))
 
         userobject = utils_top_level.get_userobject_from_nid(owner_nid)
-        user_has_discount = utils.get_client_paid_status(userobject)
+        user_has_discount = utils.get_client_vip_status(userobject)
         user_has_discount_flag = vip_payments_common.USER_HAS_DISCOUNT_STRING if user_has_discount else vip_payments_common.USER_NO_DISCOUNT_STRING
 
         if request.method != 'POST':
@@ -338,7 +338,7 @@ def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, seri
             # This condition could happen if we process the payment directly from the okUrl (before pn_url is called),
             # and then receive a pnUrl notification of the message after we have already processed the payment, or vice versa.
             logging.warning('Paysafecard transaction %s is already complete - no action taken.')
-            if not userobject.client_paid_status:
+            if not utils.get_client_vip_status(userobject):
                 error_message = 'Paysafecard transaction is already complete - but user %s does not have VIP status' % (userobject.username)
     else:
         # if someone calls this URL without us having first created an associated disposition.

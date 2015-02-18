@@ -180,7 +180,7 @@ class UserMainHTML():
             <p>
             <strong>%(section_label)s:</strong><br>"""% {
                                  "section_name": section_name, "section_label": section_label}
-            if is_primary_user and (input_type != "email_address" or userobject.client_paid_status or users.is_current_user_admin()):
+            if is_primary_user and (input_type != "email_address" or utils.get_client_vip_status(userobject) or users.is_current_user_admin()):
                 # Primary user can edit all fields except email_address.
                 # Normally email_address is not editable, unless the user is VIP or the admin is logged in. Other fields are editable,
                 # which accounts for the check to see that we are not editing email_address *unless* it is a VIP or admin trying to edit email

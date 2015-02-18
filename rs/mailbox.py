@@ -364,8 +364,9 @@ def generate_mail_textarea(textarea_section_name, from_uid, to_uid, have_sent_me
         else:
             userobject = have_sent_messages_object.owner_ref.get()
             generated_html += u"<div>%s</div>" % \
-                              constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets,
-                                                                                           userobject.client_paid_status)
+                              constants.ErrorMessages.num_messages_to_other_in_time_window(
+                                  txt_for_when_quota_resets,
+                                  utils.get_client_vip_status(userobject))
     except:
         error_reporting.log_exception(logging.critical)
     

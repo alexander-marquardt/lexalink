@@ -124,7 +124,8 @@ def get_additional_ads_to_append(request, userobject = None):
         if settings.BUILD_NAME == "discrete_build":
 
             # If the user is logged in, then show them the option to upgrade to a VIP membership
-            if (userobject and not userobject.client_paid_status):
+
+            if (userobject and not utils.get_client_vip_status(userobject)):
                 additional_ads_to_append.append('rs_vip_for_all_1')
                 additional_ads_to_append.append('rs_vip_for_all_1')
 
@@ -197,7 +198,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
         if userobject:
             username = userobject.username
             email_address = userobject.email_address
-            client_paid_status = userobject.client_paid_status
+            client_paid_status = utils.get_client_vip_status(userobject)
             client_paid_status_expiry_string = utils.return_time_difference_in_friendly_format(
                 userobject.client_paid_status_expiry, time_is_in_past=False, capitalize=False)
         else:
@@ -237,7 +238,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
 
             if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
                 # only show VIP upgrade dialog on builds that allow VIP upgrades
-                if userobject.client_paid_status:
+                if client_paid_status:
                     show_vip_upgrade_now = False
                 else:
                     # not a VIP member, so we should show them VIP upgrade dialog

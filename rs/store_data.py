@@ -349,7 +349,7 @@ def store_email_address(request, owner_uid):
         userobject = utils_top_level.get_userobject_from_request(request)
         
         # Only VIP clients can modify their email address. 
-        if userobject.client_paid_status or users.is_current_user_admin():
+        if utils.get_client_vip_status(userobject) or users.is_current_user_admin():
             
             
             # remove blank spaces from the email address -- to make it more likely to be acceptable
@@ -909,7 +909,7 @@ def store_initiate_contact(request, to_uid):
                                    % {'max_requests' : chat_friend_requests_allowed}
                                 
                         if action == "chat_friend":
-                            if userobject.client_paid_status or initiate_contact_object.chat_friend_stored != "request_sent":
+                            if utils.get_client_vip_status(userobject) or initiate_contact_object.chat_friend_stored != "request_sent":
                                 # VIP clients are allowed to have the max number of chat friends OR
                                 # we allow people to accept friend requests even after their free limit on friends has been exceeded. 
                                 # ... But not to initiate new friend requests, However, we *never* allow them to exceed

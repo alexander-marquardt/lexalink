@@ -253,7 +253,7 @@ def user_main(request, display_nid, is_primary_user = False, profile_url_descrip
         else:
             display_welcome_section = False
             
-        (vip_status) = utils.get_client_paid_status(display_userobject)
+        vip_status = utils.get_client_vip_status(display_userobject)
         
         # The following data fields are shown to the logged in user when they are viewing their own profile -- mostly
         # suggestions on what they need to do to make their profile complete.

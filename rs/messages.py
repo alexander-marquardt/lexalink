@@ -330,7 +330,8 @@ def determine_if_captcha_is_shown(userobject, have_sent_messages_bool):
     
     try:
 
-        if userobject.client_paid_status:
+
+        if utils.get_client_vip_status(userobject):
             # if this user is paid member, they do not have to see messages about spam, or to solve captchas
             # in the case that someone has indicated that they sent spam. 
             return (show_captcha, spam_statistics_string)
@@ -457,17 +458,16 @@ def store_send_mail(request, to_uid, text_post_identifier_string, captcha_bypass
             
             (is_allowed, txt_for_when_quota_resets) = utils.check_if_allowed_to_send_more_messages_to_other_user(have_sent_messages_object, initiate_contact_object)
             if not is_allowed:
-                
-                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window(txt_for_when_quota_resets, sender_userobject.client_paid_status)
+                error_message = u"%s" % constants.ErrorMessages.num_messages_to_other_in_time_window(
+                    txt_for_when_quota_resets, utils.get_client_vip_status(sender_userobject))
                 error_reporting.log_exception(logging.warning, error_message=error_message)  
                 return http.HttpResponse(error_message)                    
               
             spam_tracker_modified = False
             # don't count messages that are sent to previous contacts in the spam statistics
             if have_sent_messages_string == "have_not_had_contact":
-                
-                
-                if sender_userobject.client_paid_status:
+
+                if utils.get_client_vip_status(sender_userobject):
                     # VIP member has extra messages allocated
                     num_messages_allowed_in_window = constants.VIP_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                     window_hours_for_new_people_messages = constants.VIP_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES                    

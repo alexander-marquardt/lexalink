@@ -203,8 +203,10 @@ class MyHTMLCallbackGenerator():
                
                 generated_html = ""
                 will_be_reset = ""
-                
-                if not userobject.client_paid_status:
+
+
+                # Check if the user is a VIP and has extra message quota
+                if not utils.get_client_vip_status(userobject):
                     max_num_new_people_messaged_in_window = constants.GUEST_NUM_NEW_PEOPLE_MESSAGES_ALLOWED_IN_WINDOW
                     hours_before_reset = constants.GUEST_WINDOW_HOURS_FOR_NEW_PEOPLE_MESSAGES
                 else:
@@ -242,7 +244,7 @@ class MyHTMLCallbackGenerator():
                         people_in_the_past = ugettext("People that you have already exchanged messages with in the past do not count in this limit, and responding to messages does not use any of this quota")
 
 
-                        if userobject.client_paid_status:
+                        if utils.get_client_vip_status(userobject):
                             vip_member_is_allowed_to_contact = u"%s" % ugettext(
                                 "As a VIP Member, you are allowed to message %(num_new_people_txt)s every %(hr)s hours") % {
                                                          'num_new_people_txt' : num_new_people_txt, 'hr':hours_before_reset, }
