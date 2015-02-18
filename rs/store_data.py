@@ -267,7 +267,8 @@ def store_about_user(request, owner_uid, section_name):
         
        
         if text:
-            userobject.about_user = text[:ABOUT_USER_MAX_DESCRIPTION_LEN]         
+            userobject.about_user = text[:ABOUT_USER_MAX_DESCRIPTION_LEN]
+            userobject.unique_last_login = login_utils.compute_unique_last_login(userobject)
         else:
             userobject.about_user = "----"
 
