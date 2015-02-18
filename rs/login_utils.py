@@ -119,7 +119,15 @@ def compute_unique_last_login(userobject):
         user_photo_tracker = userobject.user_photos_tracker_key.get()
 
         if user_photo_tracker.profile_photo_key:
-            offset += constants.unique_last_login_offset_values_in_days['has_profile_photo_offset']
+            profile_photo = user_photo_tracker.profile_photo_key.get()
+            assert(profile_photo.is_profile)
+            if profile_photo.is_approved:
+                # photo is not approved yet, and therefore is not displayed. Don't move give full "credit"
+                # for the photo upload until the photo has been approved.
+                offset += constants.unique_last_login_offset_values_in_days['has_profile_photo_offset']
+            else:
+                offset += constants.unique_last_login_offset_values_in_days['has_private_photo_offset']
+
         elif user_photo_tracker.private_photos_keys:
             offset += constants.unique_last_login_offset_values_in_days['has_private_photo_offset']
 
