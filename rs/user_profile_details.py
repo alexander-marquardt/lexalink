@@ -447,7 +447,7 @@ class UserProfileDetails:
         enabled_checkbox_fields_list.append("turn_ons")
         
             
-    if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
+    if settings.BUILD_NAME == "gay_build" or settings.BUILD_NAME == "swinger_build":
         adult_checkbox_fields = {
             'erotic_encounters' : {
                 'label': ugettext_tuple(ugettext('Erotic encounters I am open to')),

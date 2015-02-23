@@ -172,7 +172,7 @@ def display_userobject_first_half_summary(request, display_userobject, display_o
                 generated_html += u'%s<br>' % mylist
 
 
-            if site_configuration.BUILD_NAME == "discrete_build" or site_configuration.BUILD_NAME == "gay_build" or site_configuration.BUILD_NAME == "swinger_build": # do not show turn-ons for other builds
+            if site_configuration.BUILD_NAME == "gay_build" or site_configuration.BUILD_NAME == "swinger_build": # do not show turn-ons for other builds
                 if display_userobject.turn_ons[0] != "prefer_no_say":
                     mylist = u'<strong>%s:</strong> ' % user_profile_details.UserProfileDetails.checkbox_fields['turn_ons']['label'][lang_idx]
                     mylist += utils.generic_html_generator_for_list(lang_idx, 'turn_ons', display_userobject.turn_ons)
