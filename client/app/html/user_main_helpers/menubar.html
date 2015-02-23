@@ -31,21 +31,8 @@
 
 
     {% if not guest_user_data_fields.registered_user_bool or general_information_data_fields.this_is_a_logout %}
-        {% if text_override_for_navigation_bar %}
-            <li class="top">
-                <span class="no_link">{{ text_override_for_navigation_bar }}</span>
-            </li>
-        {% else %}
-            <li class="top">
-                <a href="#" id="id-show-why-they-are-treated-as-a-guest" class="top_link">
-                    <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "as a guest" %}
-                    ( {% trans "click here for more information" %} )
-                </span>
-                </a>
-            </li>
-        {% endif %}
 
-        <li class="top-right">
+        <li class="top">
             {% if general_information_data_fields.register_enter_click_sends_to_landing %}
                <a id="id-register_enter_click_sends_to_landing-href" class="top_link"
                 href="{% url 'search_gen' %}?query_order=unique_last_login&show_registration_login_popup=true">
@@ -56,6 +43,21 @@
                 <span class="cl-blinking-registration">{% trans "Register / Enter" %}</span>
             </a>
         </li>
+
+        {% if text_override_for_navigation_bar %}
+            <li class="top-right">
+                <span class="no_link">{{ text_override_for_navigation_bar }}</span>
+            </li>
+        {% else %}
+            <li class="top-right">
+                <a href="#" id="id-show-why-they-are-treated-as-a-guest" class="top_link">
+                    <span class="no_link">{% trans "You have entered in" %} {{ app_name }} {% trans "as a guest" %}
+                    ( {% trans "click here for more information" %} )
+                </span>
+                </a>
+            </li>
+        {% endif %}
+
 
         <div id="id-show-cookies-must-be-enabled-dialog" style="display:none;">
             {% trans "unregistered-or-cookies-not-enabled-text" %}
