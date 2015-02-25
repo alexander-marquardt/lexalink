@@ -894,7 +894,7 @@ msgstr ""
 #: client/app/html/user_main_helpers/vip_membership_upgrade_message.html:4
 msgid ""
 "\n"
-"        Since you are currently a VIP member, any additional cuota that you "
+"        Since you are currently a VIP member, any additional quota that you "
 "purchase will be used to extend\n"
 "        the duration of your VIP membership.\n"
 "    "
