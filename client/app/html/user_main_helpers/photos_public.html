@@ -6,8 +6,10 @@
     <li class="cl-indent">{% trans "Photos that contain nudity or that are sexually provocative will not be approved as publicly visible" %}.
     <li class="cl-indent">{% blocktrans %}While it is acceptable to hide your face or show only a part of yourself,
                              public photos must show enough of yourself to help our members to evaluate your
-                             profile{% endblocktrans %}.
-                           {% trans 'For example, a photo focused on a toe, a hand, or an eyeball is not helpful and will be deleted or marked private' %}.
+                             profile{% endblocktrans %}.{% blocktrans %}
+    For example, a photo focused on a foot, a hand, or an eyeball, or a photo in which a person is totally hidden by their outfit is not useful and will be deleted by the administrator
+    {% endblocktrans %}.
+
 {% else %}
     <li class="cl-indent">{% trans "Public photos must clearly show your face" %}.
 {% endif %}

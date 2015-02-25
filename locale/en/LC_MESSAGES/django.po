@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-25 09:08-0500\n"
+"POT-Creation-Date: 2015-02-25 15:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -552,23 +552,26 @@ msgid ""
 "                             profile"
 msgstr ""
 
-#: client/app/html/user_main_helpers/photos_public.html:10
+#: client/app/html/user_main_helpers/photos_public.html:9
 msgid ""
-"For example, a photo focused on a toe, a hand, or an eyeball is not helpful "
-"and will be deleted or marked private"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photos_public.html:12
-msgid "Public photos must clearly show your face"
+"\n"
+"    For example, a photo focused on a foot, a hand, or an eyeball, or a "
+"photo in which a person is totally hidden by their outfit is not useful and "
+"will be deleted by the administrator\n"
+"    "
 msgstr ""
 
 #: client/app/html/user_main_helpers/photos_public.html:14
+msgid "Public photos must clearly show your face"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_public.html:16
 msgid ""
 "Photos must not have people other than yourself in them, unless it is clear "
 "which person you are in the photo"
 msgstr ""
 
-#: client/app/html/user_main_helpers/photos_public.html:15
+#: client/app/html/user_main_helpers/photos_public.html:17
 msgid ""
 "If we delete your principal profile photo and you have other publicly "
 "visible\n"
@@ -803,10 +806,10 @@ msgstr ""
 "members which must permanently use the email address that they registered "
 "with)."
 
-#: client/app/html/user_main_helpers/vip_membership_upgrade_message.html:4
+#: client/app/html/user_main_helpers/vip_membership_upgrade_message.html:5
 msgid ""
 "\n"
-"        Since you are currently a VIP member, any additional cuota that you "
+"        Since you are currently a VIP member, any additional quota that you "
 "purchase will be used to extend\n"
 "        the duration of your VIP membership.\n"
 "    "

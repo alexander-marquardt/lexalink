@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-25 09:08-0500\n"
+"POT-Creation-Date: 2015-02-25 15:08-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -601,19 +601,24 @@ msgstr ""
 "las fotos deben mostrar lo suficiente de tu mismo para ayudar a nuestros "
 "miembros evaluar tu perfil"
 
-#: client/app/html/user_main_helpers/photos_public.html:10
+#: client/app/html/user_main_helpers/photos_public.html:9
 msgid ""
-"For example, a photo focused on a toe, a hand, or an eyeball is not helpful "
-"and will be deleted or marked private"
+"\n"
+"    For example, a photo focused on a foot, a hand, or an eyeball, or a "
+"photo in which a person is totally hidden by their outfit is not useful and "
+"will be deleted by the administrator\n"
+"    "
 msgstr ""
-"Por ejemplo, una foto enfocada en un dedo del pie, una mano, o un ojo no es "
-"útil y podría ser eliminada"
+"\n"
+"Por ejemplo, una foto enfocada en un pie, una mano, o un globo ocular, o una foto en la "
+"que una persona está totalmente oculto por su atuendo no es útil y será "
+"eliminada por el administrador"
 
-#: client/app/html/user_main_helpers/photos_public.html:12
+#: client/app/html/user_main_helpers/photos_public.html:14
 msgid "Public photos must clearly show your face"
 msgstr "Cada foto debe mostrar tu cara claramente"
 
-#: client/app/html/user_main_helpers/photos_public.html:14
+#: client/app/html/user_main_helpers/photos_public.html:16
 msgid ""
 "Photos must not have people other than yourself in them, unless it is clear "
 "which person you are in the photo"
@@ -621,7 +626,7 @@ msgstr ""
 "Las fotos no deben tener otras personas que no sean tu mismo, excepto si es "
 "obvio cuál persona eres tu en la foto"
 
-#: client/app/html/user_main_helpers/photos_public.html:15
+#: client/app/html/user_main_helpers/photos_public.html:17
 msgid ""
 "If we delete your principal profile photo and you have other publicly "
 "visible\n"
@@ -891,16 +896,17 @@ msgstr ""
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
 
-#: client/app/html/user_main_helpers/vip_membership_upgrade_message.html:4
+#: client/app/html/user_main_helpers/vip_membership_upgrade_message.html:5
 msgid ""
 "\n"
 "        Since you are currently a VIP member, any additional quota that you "
 "purchase will be used to extend\n"
 "        the duration of your VIP membership.\n"
 "    "
-msgstr 
+msgstr ""
 "\n"
-"Dado que actualmente eres miembro VIP, cualquier cuota adicional que compras se utilizará para extender la duración de tu estado de socio VIP.\n"
+"Dado que actualmente eres miembro VIP, cualquier cuota adicional que compras "
+"se utilizará para extender la duración de tu estado de socio VIP.\n"
 "    "
 
 #: client/app/html/user_main_helpers/vip_payment_options.html:27
