@@ -4,9 +4,11 @@
     <h1>Warning - PayPal country override to {{ payments_common_data.country_code }}</h1>
 {% endif %}
 
+
 {% if paypal_data.testing_paypal_sandbox %}
 
     <h1>Warning - PayPal sandbox code enabled</h1>
+
 
     <form id="id-paypal-payment-form" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 

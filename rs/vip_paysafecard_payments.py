@@ -119,8 +119,7 @@ def generate_paysafe_radio_options(currency, membership_prices, prices_with_curr
     # paypal_radio_options
     generated_html = u''
     for member_category in vip_payments_common.vip_membership_categories:
-        duration = u"%s" % vip_payments_common.vip_option_values[member_category]['duration']
-        duration_units = u"%s" % vip_payments_common.vip_option_values[member_category]['duration_units']
+
 
         if member_category == vip_payments_common.DEFAULT_SELECTED_VIP_OPTION:
             selected = "checked"
@@ -129,9 +128,12 @@ def generate_paysafe_radio_options(currency, membership_prices, prices_with_curr
 
         savings_html = vip_payments_common.get_html_showing_savings(currency, member_category, vip_discounted_paysafe_prices_percentage_savings, original_prices_with_currency_units)
 
+        has_discount = True if original_prices_with_currency_units else False
+        duration_html =  vip_payments_common.get_html_showing_duration(member_category, has_discount)
+
         generated_html += u"""<input type="radio" name="amount" value="%(price)s" %(selected)s>
-        <strong>%(duration)s %(duration_units)s</strong>: %(display_price)s  %(savings_html)s<br>\n""" % {
-            'duration': duration, 'duration_units' : duration_units,
+        <strong>%(duration_html)s</strong>: %(display_price)s %(savings_html)s<br>\n""" % {
+            'duration_html': duration_html,
             'selected' : selected,
             'price' : membership_prices[currency][member_category],
             'savings_html': savings_html,

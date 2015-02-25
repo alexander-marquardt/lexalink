@@ -29,8 +29,9 @@
             </strong>
 
         </div>
-        <p>
-            {% include "user_main_helpers/paysafecard_purchase_form.html" %}
+        <p></p>
+        {% include "user_main_helpers/vip_membership_upgrade_message.html" %}
+        {% include "user_main_helpers/paysafecard_purchase_form.html" %}
 
         <p>
             {% blocktrans %}
@@ -48,8 +49,9 @@
                 {% blocktrans with app_name as app_name %}Purchase VIP status with a credit or debit card{% endblocktrans %}
             </strong>
         </div>
-        <p>
-            {% include "user_main_helpers/paypal_purchase_form.html" %}
+        <p></p>
+        {% include "user_main_helpers/vip_membership_upgrade_message.html" %}
+        {% include "user_main_helpers/paypal_purchase_form.html" %}
 
         <p>
             {% blocktrans %}
@@ -75,10 +77,10 @@
             <strong>
                 {% blocktrans with app_name as app_name %}Purchase VIP status with a PayPal account{% endblocktrans %}
             </strong>
-
         </div>
-        <p>
-            {% include "user_main_helpers/paypal_purchase_form.html" %}
+        <p></p>
+        {% include "user_main_helpers/vip_membership_upgrade_message.html" %}
+        {% include "user_main_helpers/paypal_purchase_form.html" %}
 
         <p>
             {% blocktrans %}

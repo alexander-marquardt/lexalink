@@ -41,6 +41,7 @@ def render_payment_options(request, userobject):
             payments_common_data['language'] = request.LANGUAGE_CODE
             payments_common_data['owner_nid'] = userobject.key.integer_id()
             payments_common_data['username'] = userobject.username
+            payments_common_data['user_has_discount'] = user_has_discount
             payments_common_data['user_has_discount_flag'] = user_has_discount_flag
             paypal_data = vip_paypal_payments.generate_paypal_data(request, userobject, http_country_code, user_has_discount)
             paysafecard_data = vip_paysafecard_payments.generate_paysafecard_data(http_country_code, user_has_discount)

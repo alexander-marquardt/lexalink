@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-25 07:23-0500\n"
+"POT-Creation-Date: 2015-02-25 09:08-0500\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -426,11 +426,11 @@ msgstr "Mostrar estados de conexión"
 msgid "Exit"
 msgstr "Salir"
 
-#: client/app/html/user_main_helpers/paypal_purchase_form.html:23
+#: client/app/html/user_main_helpers/paypal_purchase_form.html:25
 msgid "VIP Membership Purchase"
 msgstr "Cuota de miembro VIP"
 
-#: client/app/html/user_main_helpers/paypal_purchase_form.html:33
+#: client/app/html/user_main_helpers/paypal_purchase_form.html:35
 #: client/app/html/user_main_helpers/paysafecard_purchase_form.html:21
 msgid "Purchase"
 msgstr "Comprar"
@@ -461,66 +461,66 @@ msgstr ""
 "Todas las fotos son revisadas, y los administradores del sitio pueden borrar "
 "las fotos que violan nuestras reglas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:6
+#: client/app/html/user_main_helpers/photo_rules.html:3
+msgid "General information"
+msgstr "Información general"
+
+#: client/app/html/user_main_helpers/photo_rules.html:5
+msgid "Photo rules:"
+msgstr "Reglas para fotos:"
+
+#: client/app/html/user_main_helpers/photo_rules.html:7
+msgid "Public photos rules"
+msgstr "Reglas para fotos publicas"
+
+#: client/app/html/user_main_helpers/photo_rules.html:9
+msgid "Private photos rules"
+msgstr "Reglas para fotos privadas"
+
+#: client/app/html/user_main_helpers/photo_rules.html:11
+msgid "Prohibited photos"
+msgstr "Fotos prohibidas"
+
+#: client/app/html/user_main_helpers/photos.html:10
+msgid "I understand and accept these rules"
+msgstr "Entiendo y acepto las normas"
+
+#: client/app/html/user_main_helpers/photos.html:184
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+#: client/app/html/user_main_helpers/photos.html:192
+msgid "View photo upload rules"
+msgstr "Ver las reglas para fotos"
+
+#: client/app/html/user_main_helpers/photos_general.html:6
 msgid "All photos in your profile must be of yourself"
 msgstr "Las fotos que pongas en tu perfil deben ser fotos de tu mismo"
 
-#: client/app/html/user_main_helpers/photo_rules.html:7
+#: client/app/html/user_main_helpers/photos_general.html:7
 msgid "Photos must not be copied from other websites or from other profiles"
 msgstr "Fotos no deben ser copias de otras páginas o de otros perfiles"
 
-#: client/app/html/user_main_helpers/photo_rules.html:8
+#: client/app/html/user_main_helpers/photos_general.html:8
 msgid "Photos must not be focused on the crotch, breasts, or butt"
 msgstr ""
 "Fotos no pueden estar focalizadas en zonas púbicas, los senos o las nalgas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:9
+#: client/app/html/user_main_helpers/photos_general.html:9
 msgid ""
 "Photos be clear (not blurry, pixelated, dark, or taken from a far distance)"
 msgstr ""
 "Cada foto debe ser clara (no borrosa, pixelada, oscura, o tomada desde una "
 "distancia lejana)"
 
-#: client/app/html/user_main_helpers/photo_rules.html:12
+#: client/app/html/user_main_helpers/photos_general.html:12
 msgid "No pornographic or nude photos allowed"
 msgstr "No fotos pornográficas o nudistas"
 
-#: client/app/html/user_main_helpers/photo_rules.html:14
+#: client/app/html/user_main_helpers/photos_general.html:14
 #, python-format
 msgid "All people in each photo must be at least %(age)s years old"
 msgstr "Las personas en las fotos deben ser mayores de %(age)s años"
-
-#: client/app/html/user_main_helpers/photos.html:9
-msgid "General information"
-msgstr "Información general"
-
-#: client/app/html/user_main_helpers/photos.html:11
-msgid "Photo rules:"
-msgstr "Reglas para fotos:"
-
-#: client/app/html/user_main_helpers/photos.html:13
-msgid "Public photos rules"
-msgstr "Reglas para fotos publicas"
-
-#: client/app/html/user_main_helpers/photos.html:15
-msgid "Private photos rules"
-msgstr "Reglas para fotos privadas"
-
-#: client/app/html/user_main_helpers/photos.html:17
-msgid "Prohibited photos"
-msgstr "Fotos prohibidas"
-
-#: client/app/html/user_main_helpers/photos.html:19
-msgid "I understand and accept these rules"
-msgstr "Entiendo y acepto las normas"
-
-#: client/app/html/user_main_helpers/photos.html:193
-msgid "Save changes"
-msgstr "Guardar cambios"
-
-#: client/app/html/user_main_helpers/photos.html:201
-msgid "View photo upload rules"
-msgstr "Ver las reglas para fotos"
 
 #: client/app/html/user_main_helpers/photos_private.html:6
 msgid ""
@@ -891,6 +891,18 @@ msgstr ""
 "(mientras que los miembros no VIP tienen que mantener la dirección con la "
 "que se registraron)."
 
+#: client/app/html/user_main_helpers/vip_membership_upgrade_message.html:4
+msgid ""
+"\n"
+"        Since you are currently a VIP member, any additional cuota that you "
+"purchase will be used to extend\n"
+"        the duration of your VIP membership.\n"
+"    "
+msgstr 
+"\n"
+"Dado que actualmente eres miembro VIP, cualquier cuota adicional que compras se utilizará para extender la duración de tu estado de socio VIP.\n"
+"    "
+
 #: client/app/html/user_main_helpers/vip_payment_options.html:27
 msgid ""
 "Purchase VIP status with cash!\n"
@@ -902,9 +914,9 @@ msgstr ""
 "css\" href=\"https://www.paysafecard.com/pos/\" target=\"_blank\">Compra una "
 "paysafecard</a> en un lugar cerca de ti."
 
-#: client/app/html/user_main_helpers/vip_payment_options.html:36
-#: client/app/html/user_main_helpers/vip_payment_options.html:55
-#: client/app/html/user_main_helpers/vip_payment_options.html:84
+#: client/app/html/user_main_helpers/vip_payment_options.html:37
+#: client/app/html/user_main_helpers/vip_payment_options.html:57
+#: client/app/html/user_main_helpers/vip_payment_options.html:86
 msgid ""
 "\n"
 "            This is a one-time VIP membership payment that does not "
@@ -915,11 +927,11 @@ msgstr ""
 "Vamos a procesar un único pago de socio VIP que no se renueva "
 "automáticamente."
 
-#: client/app/html/user_main_helpers/vip_payment_options.html:48
+#: client/app/html/user_main_helpers/vip_payment_options.html:49
 msgid "Purchase VIP status with a credit or debit card"
 msgstr "Compra estado VIP con una tarjeta de crédito o débito"
 
-#: client/app/html/user_main_helpers/vip_payment_options.html:60
+#: client/app/html/user_main_helpers/vip_payment_options.html:62
 msgid ""
 "\n"
 "            Credit and debit card payments are processed by PayPal, an eBay "
@@ -932,7 +944,7 @@ msgstr ""
 "grandes del mundo.\n"
 "        "
 
-#: client/app/html/user_main_helpers/vip_payment_options.html:66
+#: client/app/html/user_main_helpers/vip_payment_options.html:68
 #, python-format
 msgid ""
 "To protect your privacy, if you choose to pay with credit or debit card you "
@@ -945,7 +957,7 @@ msgstr ""
 "débito, se te cobrará con un nombre discreto que sería difícil de vincular a "
 "%(app_name)s."
 
-#: client/app/html/user_main_helpers/vip_payment_options.html:76
+#: client/app/html/user_main_helpers/vip_payment_options.html:78
 msgid "Purchase VIP status with a PayPal account"
 msgstr "Compra estado VIP con una cuenta de PayPal"
 
@@ -2258,9 +2270,9 @@ msgstr ""
 "Tu perfil no es completo. <strong>Debes escribir una descripción de más de "
 "%(num_chars)s carácteres (aproximadamente %(num_lines)s líneas) antes de que "
 "puedes enviar mensajes a los otros miembros.</strong>Tu descripción debe ser "
-"original, y debe describirte y lo que estás buscando. "
-"Descripciones que no sigan estas directrices pueden resultar en la "
-"eliminación de tu perfil sin aviso previo."
+"original, y debe describirte y lo que estás buscando. Descripciones que no "
+"sigan estas directrices pueden resultar en la eliminación de tu perfil sin "
+"aviso previo."
 
 #: rs/localizations.py:53 rs/localizations.py:67
 msgid "Arabic"
@@ -5000,19 +5012,30 @@ msgstr "Descuento de %(discount_percentage)s"
 msgid "Regular price"
 msgstr "Precio normal"
 
-#: rs/vip_paysafecard_payments.py:424
+#: rs/vip_payments_common.py:201
+msgid "additional-singular"
+msgid_plural "additional-plural"
+msgstr[0] "adicional"
+msgstr[1] "adicionales"
+
+#: rs/vip_payments_common.py:205
+#, python-format
+msgid "%(duration)s %(additional_html)s %(duration_units)s"
+msgstr "%(duration)s %(duration_units)s %(additional_html)s"
+
+#: rs/vip_paysafecard_payments.py:426
 msgid ""
 "Congratulations. You have been awarded VIP status! Check your messages for "
 "more details"
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:425
+#: rs/vip_paysafecard_payments.py:427
 msgid ""
 "<p>There has been an error processing your payment.<p>Our automated systems "
 "have notified us of this problem and we will investigate as soon as possible."
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:481
+#: rs/vip_paysafecard_payments.py:483
 msgid ""
 "Transaction aborted by user. Your paysafecard will not be charged, and VIP "
 "status has not been awarded."

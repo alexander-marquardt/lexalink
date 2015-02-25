@@ -1,7 +1,7 @@
 import logging
 
 from django.utils.translation import ugettext_lazy
-from django.utils.translation import ugettext
+from django.utils.translation import ugettext, ungettext
 
 import settings
 from rs import error_reporting
@@ -190,3 +190,21 @@ def get_html_showing_savings(currency, member_category, vip_discounted_paysafe_p
         savings_html = ''
 
     return savings_html
+
+
+def get_html_showing_duration(member_category, has_discount):
+
+    duration = u"%s" % vip_option_values[member_category]['duration']
+    duration_units = u"%s" % vip_option_values[member_category]['duration_units']
+
+    if has_discount:
+        additional_html = ungettext('additional-singular', 'additional-plural', int(duration)) % {'duration': duration}
+    else:
+        additional_html = ''
+
+    duration_html = ugettext("%(duration)s %(additional_html)s %(duration_units)s") % {
+        'duration': duration,
+        'duration_units' : duration_units,
+        'additional_html':additional_html}
+
+    return duration_html

@@ -80,11 +80,14 @@ def generate_paypal_radio_options(currency, prices_with_currency_units, original
         else:
             selected = ''
 
+        has_discount = True if original_prices_with_currency_units else False
         savings_html = vip_payments_common.get_html_showing_savings(currency, member_category, vip_paypal_discounted_prices_percentage_savings, original_prices_with_currency_units)
+        duration_html =  vip_payments_common.get_html_showing_duration(member_category, has_discount)
 
         generated_html += u"""<input type="radio" name="os0" value="%(duration)s %(duration_units)s" %(selected)s>
-        <strong>%(duration)s %(duration_units)s</strong>: %(total_price)s %(savings_html)s<br>\n""" % {
+        <strong>%(duration_html)s</strong>: %(total_price)s %(savings_html)s<br>\n""" % {
             'duration': duration, 'duration_units' : duration_units,
+            'duration_html': duration_html,
             'selected' : selected,
             'savings_html': savings_html,
             'total_price' : prices_with_currency_units[currency][member_category]}
