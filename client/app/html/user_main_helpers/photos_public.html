@@ -1,0 +1,19 @@
+{% load i18n %}
+
+
+<ul class="cl-margin-below">
+{% if ADULT_ORIENTED_SITE %}
+    <li class="cl-indent">{% trans "Photos that contain nudity or that are sexually provocative will not be approved as publicly visible" %}.
+    <li class="cl-indent">{% blocktrans %}While it is acceptable to hide your face or show only a part of yourself,
+                             public photos must show enough of yourself to help our members to evaluate your
+                             profile{% endblocktrans %}.
+                           {% trans 'For example, a photo focused on a toe, a hand, or an eyeball is not helpful and will be deleted or marked private' %}.
+{% else %}
+    <li class="cl-indent">{% trans "Public photos must clearly show your face" %}.
+{% endif %}
+    <li class="cl-indent">{% trans "Photos must not have people other than yourself in them, unless it is clear which person you are in the photo" %}.
+    <li class="cl-indent">{% blocktrans %}If we delete your principal profile photo and you have other publicly visible
+                             photos, then we may make any of these other publicly visible photos become your principal
+                             profile photo{% endblocktrans %}.
+</ul>
+

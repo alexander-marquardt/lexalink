@@ -1,0 +1,12 @@
+
+{% load i18n %}
+
+
+<ul class="cl-margin-below">
+    <li class="cl-indent">{% trans 'Private photos are hidden from everyone except people that you have authorized by giving them your key'%}.
+    <li class="cl-indent">{% trans 'When you view other profiles, you will see a key symbol that you can click on to give access to you private photos' %}.
+    <li class="cl-indent">{% trans "To remove access to your private photos, click on the key symbol in the profile that you have previously given a key to" %}.
+    {% if ADULT_ORIENTED_SITE %}
+    <li class="cl-indent">{% trans "Private photos may be sensual but must not be pornographic" %}.
+    {% endif %}
+</ul>

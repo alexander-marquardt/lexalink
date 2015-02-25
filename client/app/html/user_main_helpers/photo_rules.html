@@ -2,29 +2,16 @@
 
 
 <ul class="cl-margin-below">
-    <li class="cl-indent">{% blocktrans with app_name as app %}Public photos (all photos not marked as private) are visible to everyone,
-                              including people that are not registered in {{ app}}{% endblocktrans %}.
-    <li class="cl-indent">{% trans 'When you view other profiles, you will see a key symbol that you can click on to give access to you private photos' %}.
-    <li class="cl-indent">{% trans 'Private photos are hidden from everyone except people that you have authorized by giving them your key'%}.
-    <li class="cl-indent">{% trans "To remove access to your private photos, click on the key symbol in the profile that you have previously given a key to" %}.
-    <li class="cl-indent">{% trans 'Photos in your profile must be your own photos. Photos that you do not own or that you have copied may be deleted' %}.
+
     <li class="cl-indent">{% trans 'All photos in your profile must be of yourself' %}.
+    <li class="cl-indent">{% trans 'Photos must not be copied from other websites or from other profiles' %}.
     <li class="cl-indent">{% trans 'Photos must not be focused on the crotch, breasts, or butt' %}.
-    <li class="cl-indent">{% blocktrans %}While it is acceptable to hide your face or show only a part of yourself,
-                             photos must show enough of yourself to help our members to evaluate your
-                             profile{% endblocktrans %}.
-                           {% trans 'For example, a photo focused on a toe, a hand, or an eyeball is not helpful and may be deleted' %}.
-{% if ADULT_ORIENTED_SITE %}
-    <li class="cl-indent">{% trans "Photos that contain nudity or that are sexually provocative will not be approved as publicly visible" %}.
-    <li class="cl-indent">{% trans "Private photos may be sensual but must not be pornographic" %}.
-{% else %}
+    <li class="cl-indent">{% trans 'Photos be clear (not blurry, pixelated, dark, or taken from a far distance)' %}.
+
+{% if not ADULT_ORIENTED_SITE %}
     <li class="cl-indent">{% trans "No pornographic or nude photos allowed" %}.
 {% endif %}
-    <li class="cl-indent">{% blocktrans %}If we delete your principal profile photo and you have other publicly visible
-                             photos, then we may make any of these other publicly visible photos become your principal
-                             profile photo{% endblocktrans %}.
-    <li class="cl-indent">{% blocktrans with minimum_registration_age as age %}All people shown in an image must be at least {{ age }} years old{% endblocktrans %}.
-    <li class="cl-indent">{% trans "Photos that do not follow the rules will be erased without notification" %}.
+    <li class="cl-indent">{% blocktrans with minimum_registration_age as age %}All people in each photo must be at least {{ age }} years old{% endblocktrans %}.
 
 </ul>
 

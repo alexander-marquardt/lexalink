@@ -6,9 +6,15 @@
      for other clients in the system -->
 
     <div id="id-show_photo_rules_popup" style="display:none;">
-        <strong>{% trans "Photo Rules:" %}</strong>
+        <strong>{% trans "General information" %}</strong>
+        {% include "user_main_helpers/photo_instructions.html" %}
+        <strong>{% trans "Photo rules:" %}</strong>
         {% include "user_main_helpers/photo_rules.html" %}
-        <strong>{% trans "Prohibited Photos:" %}</strong>
+        <strong>{% trans "Public photos rules" %}</strong>
+        {% include "user_main_helpers/photos_public.html" %}
+        <strong>{% trans "Private photos rules" %}</strong>
+        {% include "user_main_helpers/photos_private.html" %}
+        <strong>{% trans "Prohibited photos" %}</strong>
         {% include "user_main_helpers/photos_prohibited.html" %}
         <br><br><input type="button" class="cl-submit" id="id-show_photo_rules_popup-close" alt="" value="{% trans 'I understand and accept these rules' %}">
     </div>
@@ -41,7 +47,7 @@
             
             $.get("/rs/ajax/check_if_photo_rules_to_be_shown/", function(html_response) {
                if (html_response == "show_rules") {
-                   showDialogPopup("#id-show_photo_rules_popup", 700, 600, false);
+                   showDialogPopup("#id-show_photo_rules_popup", 700, 800, false);
                }
             });
 
@@ -198,7 +204,7 @@
 
     <script type="text/javascript">
         $("#id-show_photo_rules_anchor").click(function() {
-            showDialogPopup("#id-show_photo_rules_popup", 700, 600, true);
+            showDialogPopup("#id-show_photo_rules_popup", 700, 800, true);
             return false; 
         });
     </script>

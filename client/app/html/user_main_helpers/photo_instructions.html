@@ -1,0 +1,11 @@
+
+{% load i18n %}
+
+
+<ul class="cl-margin-below">
+    <li class="cl-indent">{% blocktrans with app_name as app %}Public photos (all photos not marked as private) are visible to everyone,
+                              including people that are not registered in {{ app}}{% endblocktrans %}.
+    <li class="cl-indent">{% trans 'Profiles with public photos are displayed first when people order their searches by "Completed Profiles First"' %}.
+    <li class="cl-indent">{% trans "All photos are reviewed, and site administrators may delete any photos that violate our rules" %}.
+
+</ul>

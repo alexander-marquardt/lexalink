@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-17 03:17-0500\n"
+"POT-Creation-Date: 2015-02-25 07:23-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,7 +190,7 @@ msgstr ""
 msgid "Code"
 msgstr ""
 
-#: client/app/html/login_helpers/verification.html:32 rs/login_utils.py:621
+#: client/app/html/login_helpers/verification.html:32 rs/login_utils.py:641
 msgid "Verification code"
 msgstr ""
 
@@ -265,77 +265,77 @@ msgstr ""
 msgid "photos"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:234
+#: client/app/html/user_main_helpers/main_body.html:233
 msgid "Last entrance:"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:264
+#: client/app/html/user_main_helpers/main_body.html:263
 msgid "Administrative stuff (never displayed publicly)"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:272
+#: client/app/html/user_main_helpers/main_body.html:271
 msgid "VIP Status"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:279
+#: client/app/html/user_main_helpers/main_body.html:278
 #, python-format
 msgid ""
 "\n"
 "            You currently have VIP status that will expire %(expires)s."
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:282
+#: client/app/html/user_main_helpers/main_body.html:281
 msgid "You currently do not have VIP status"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:306
+#: client/app/html/user_main_helpers/main_body.html:305
 msgid "See my profile:"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:308
-#: client/app/html/user_main_helpers/main_body.html:331
-#: client/app/html/user_main_helpers/main_body.html:333
+#: client/app/html/user_main_helpers/main_body.html:307
+#: client/app/html/user_main_helpers/main_body.html:330
+#: client/app/html/user_main_helpers/main_body.html:332
 msgid "click here"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:314
+#: client/app/html/user_main_helpers/main_body.html:313
 msgid "If you want to see how your profile will appear."
 msgstr ""
 "If you want to see how your profile will appear from the perspective of "
 "other users, click on the link to the left."
 
-#: client/app/html/user_main_helpers/main_body.html:327
+#: client/app/html/user_main_helpers/main_body.html:326
 msgid "Eliminate your profile:"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:331
+#: client/app/html/user_main_helpers/main_body.html:330
 msgid "Are you sure you want to eliminate your profile?"
 msgstr ""
 
-#: client/app/html/user_main_helpers/main_body.html:339
+#: client/app/html/user_main_helpers/main_body.html:338
 msgid "If you want to eliminate your profile/account."
 msgstr ""
 "If you want to eliminate your profile/account, click on the link to the "
 "left  (careful -- you will not be able to enter with the same account after "
 "it has been eliminated)."
 
-#: client/app/html/user_main_helpers/menubar.html:41
-msgid "You have entered in"
-msgstr ""
-
-#: client/app/html/user_main_helpers/menubar.html:41
-msgid "as a guest"
-msgstr ""
-
-#: client/app/html/user_main_helpers/menubar.html:42
-msgid "click here for more information"
-msgstr ""
-
-#: client/app/html/user_main_helpers/menubar.html:56
+#: client/app/html/user_main_helpers/menubar.html:43
 msgid "Register / Enter"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:61
+#: client/app/html/user_main_helpers/menubar.html:54
+msgid "You have entered in"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:54
+msgid "as a guest"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:55
+msgid "click here for more information"
+msgstr ""
+
+#: client/app/html/user_main_helpers/menubar.html:63
 msgid "unregistered-or-cookies-not-enabled-text"
 msgstr ""
 "<p>It appears that you are not logged in. You can register and log in by "
@@ -347,56 +347,56 @@ msgstr ""
 "target='_blank' href=\"http://www.uline.com/Signin/cookie_instructions.aspx"
 "\">here</a>."
 
-#: client/app/html/user_main_helpers/menubar.html:101
+#: client/app/html/user_main_helpers/menubar.html:103
 msgid "Edit or delete"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:109 rs/email_utils.py:586
+#: client/app/html/user_main_helpers/menubar.html:111 rs/email_utils.py:586
 msgid "Messages"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:111
+#: client/app/html/user_main_helpers/menubar.html:113
 msgid "unread"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:117 rs/mailbox.py:970
+#: client/app/html/user_main_helpers/menubar.html:119 rs/mailbox.py:971
 msgid "All (messages - override)"
 msgstr "All"
 
-#: client/app/html/user_main_helpers/menubar.html:122
+#: client/app/html/user_main_helpers/menubar.html:124
 msgid "Unread (plural - override)"
 msgstr "Unread"
 
-#: client/app/html/user_main_helpers/menubar.html:127
+#: client/app/html/user_main_helpers/menubar.html:129
 msgid "Favorites"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:132
+#: client/app/html/user_main_helpers/menubar.html:134
 msgid "Received (plural - override)"
 msgstr "Received"
 
-#: client/app/html/user_main_helpers/menubar.html:137
+#: client/app/html/user_main_helpers/menubar.html:139
 msgid "Sent (plural - override)"
 msgstr "Sent"
 
-#: client/app/html/user_main_helpers/menubar.html:147
+#: client/app/html/user_main_helpers/menubar.html:149
 msgid "Profile views"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:149 rs/menubar.py:10
+#: client/app/html/user_main_helpers/menubar.html:151 rs/menubar.py:10
 #: rs/menubar.py:92
 msgid "new"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:160
+#: client/app/html/user_main_helpers/menubar.html:162
 msgid "More"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:166
+#: client/app/html/user_main_helpers/menubar.html:168
 msgid "View others online status"
 msgstr ""
 
-#: client/app/html/user_main_helpers/menubar.html:176
+#: client/app/html/user_main_helpers/menubar.html:178
 msgid "Exit"
 msgstr ""
 
@@ -409,7 +409,7 @@ msgstr ""
 msgid "Purchase"
 msgstr ""
 
-#: client/app/html/user_main_helpers/photo_rules.html:5
+#: client/app/html/user_main_helpers/photo_instructions.html:6
 #, python-format
 msgid ""
 "Public photos (all photos not marked as private) are visible to everyone,\n"
@@ -417,132 +417,167 @@ msgid ""
 "%(app)s"
 msgstr ""
 
-#: client/app/html/user_main_helpers/photo_rules.html:7
+#: client/app/html/user_main_helpers/photo_instructions.html:8
 msgid ""
-"When you view other profiles, you will see a key symbol that you can click "
-"on to give access to you private photos"
+"Profiles with public photos are displayed first when people order their "
+"searches by \"Completed Profiles First\""
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_instructions.html:9
+msgid ""
+"All photos are reviewed, and site administrators may delete any photos that "
+"violate our rules"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:6
+msgid "All photos in your profile must be of yourself"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photo_rules.html:7
+msgid "Photos must not be copied from other websites or from other profiles"
 msgstr ""
 
 #: client/app/html/user_main_helpers/photo_rules.html:8
-msgid ""
-"Private photos are hidden from everyone except people that you have "
-"authorized by giving them your key"
+msgid "Photos must not be focused on the crotch, breasts, or butt"
 msgstr ""
 
 #: client/app/html/user_main_helpers/photo_rules.html:9
 msgid ""
-"To remove access to your private photos, click on the key symbol in the "
-"profile that you have previously given a key to"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:10
-msgid ""
-"Photos in your profile must be your own photos. Photos that you do not own "
-"or that you have copied may be deleted"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:11
-msgid "All photos in your profile must be of yourself"
+"Photos be clear (not blurry, pixelated, dark, or taken from a far distance)"
 msgstr ""
 
 #: client/app/html/user_main_helpers/photo_rules.html:12
-msgid "Photos must not be focused on the crotch, breasts, or butt"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:13
-msgid ""
-"While it is acceptable to hide your face or show only a part of yourself,\n"
-"                             photos must show enough of yourself to help our "
-"members to evaluate your\n"
-"                             profile"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:16
-msgid ""
-"For example, a photo focused on a toe, a hand, or an eyeball is not helpful "
-"and may be deleted"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:18
-msgid ""
-"Photos that contain nudity or that are sexually provocative will not be "
-"approved as publicly visible"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:19
-msgid "Private photos may be sensual but must not be pornographic"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:21
 msgid "No pornographic or nude photos allowed"
 msgstr ""
 "Your profile may not contain pornographic or nude photos under any "
 "circumstances (neither public or private photos)"
 
-#: client/app/html/user_main_helpers/photo_rules.html:23
-msgid ""
-"If we delete your principal profile photo and you have other publicly "
-"visible\n"
-"                             photos, then we may make any of these other "
-"publicly visible photos become your principal\n"
-"                             profile photo"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:26
+#: client/app/html/user_main_helpers/photo_rules.html:14
 #, python-format
-msgid "All people shown in an image must be at least %(age)s years old"
-msgstr ""
-
-#: client/app/html/user_main_helpers/photo_rules.html:27
-msgid "Photos that do not follow the rules will be erased without notification"
+msgid "All people in each photo must be at least %(age)s years old"
 msgstr ""
 
 #: client/app/html/user_main_helpers/photos.html:9
-msgid "Photo Rules:"
+msgid "General information"
 msgstr ""
 
 #: client/app/html/user_main_helpers/photos.html:11
-#, fuzzy
-msgid "Prohibited Photos:"
-msgstr "Private!<br>You need<br>their key!"
+msgid "Photo rules:"
+msgstr ""
 
 #: client/app/html/user_main_helpers/photos.html:13
+#, fuzzy
+msgid "Public photos rules"
+msgstr "Private!<br>You need<br>their key!"
+
+#: client/app/html/user_main_helpers/photos.html:15
+#, fuzzy
+msgid "Private photos rules"
+msgstr "Private!<br>You need<br>their key!"
+
+#: client/app/html/user_main_helpers/photos.html:17
+#, fuzzy
+msgid "Prohibited photos"
+msgstr "Private!<br>You need<br>their key!"
+
+#: client/app/html/user_main_helpers/photos.html:19
 msgid "I understand and accept these rules"
 msgstr ""
 
-#: client/app/html/user_main_helpers/photos.html:187
+#: client/app/html/user_main_helpers/photos.html:193
 msgid "Save changes"
 msgstr ""
 
-#: client/app/html/user_main_helpers/photos.html:195
+#: client/app/html/user_main_helpers/photos.html:201
 msgid "View photo upload rules"
 msgstr ""
 
-#: client/app/html/user_main_helpers/prohibited_photos.html:4
+#: client/app/html/user_main_helpers/photos_private.html:6
+msgid ""
+"Private photos are hidden from everyone except people that you have "
+"authorized by giving them your key"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_private.html:7
+msgid ""
+"When you view other profiles, you will see a key symbol that you can click "
+"on to give access to you private photos"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_private.html:8
+msgid ""
+"To remove access to your private photos, click on the key symbol in the "
+"profile that you have previously given a key to"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_private.html:10
+msgid "Private photos may be sensual but must not be pornographic"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_prohibited.html:4
 msgid "Images that could be considered immoral or distasteful"
 msgstr ""
 
-#: client/app/html/user_main_helpers/prohibited_photos.html:5
+#: client/app/html/user_main_helpers/photos_prohibited.html:5
 msgid "Images that are pornographic"
 msgstr ""
 
-#: client/app/html/user_main_helpers/prohibited_photos.html:6
+#: client/app/html/user_main_helpers/photos_prohibited.html:6
 #, python-format
 msgid ""
 "Images that include people who have not consented to have their image "
 "published on %(app_name)s"
 msgstr ""
 
-#: client/app/html/user_main_helpers/prohibited_photos.html:7
+#: client/app/html/user_main_helpers/photos_prohibited.html:7
 msgid "Images that are protected by copyright or intellectual property laws"
 msgstr ""
 
-#: client/app/html/user_main_helpers/prohibited_photos.html:8
+#: client/app/html/user_main_helpers/photos_prohibited.html:8
 msgid "Images that are intended to promote products or services"
 msgstr ""
 
-#: client/app/html/user_main_helpers/prohibited_photos.html:9
+#: client/app/html/user_main_helpers/photos_prohibited.html:9
 msgid "Any image that might be subject to possible legal action"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_public.html:6
+msgid ""
+"Photos that contain nudity or that are sexually provocative will not be "
+"approved as publicly visible"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_public.html:7
+msgid ""
+"While it is acceptable to hide your face or show only a part of yourself,\n"
+"                             public photos must show enough of yourself to "
+"help our members to evaluate your\n"
+"                             profile"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_public.html:10
+msgid ""
+"For example, a photo focused on a toe, a hand, or an eyeball is not helpful "
+"and will be deleted or marked private"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_public.html:12
+msgid "Public photos must clearly show your face"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_public.html:14
+msgid ""
+"Photos must not have people other than yourself in them, unless it is clear "
+"which person you are in the photo"
+msgstr ""
+
+#: client/app/html/user_main_helpers/photos_public.html:15
+msgid ""
+"If we delete your principal profile photo and you have other publicly "
+"visible\n"
+"                             photos, then we may make any of these other "
+"publicly visible photos become your principal\n"
+"                             profile photo"
 msgstr ""
 
 #: client/app/html/user_main_helpers/search_inline_javascript.html:38
@@ -594,7 +629,7 @@ msgid ""
 msgstr ""
 
 #: client/app/html/user_main_helpers/test_vip_benefits_dialog.html:34
-#: rs/store_data.py:940
+#: rs/store_data.py:941
 msgid "See VIP benefits"
 msgstr ""
 
@@ -1211,8 +1246,8 @@ msgid ""
 "online"
 msgstr ""
 
-#: rs/ajax.py:714 rs/forms.py:1079 rs/login.py:771 rs/messages.py:519
-#: rs/rendering.py:446 rs/utils.py:1423
+#: rs/ajax.py:714 rs/forms.py:1079 rs/login.py:770 rs/messages.py:519
+#: rs/rendering.py:447 rs/utils.py:1422
 msgid ""
 "Internal error - this error has been logged, and will be investigated "
 "immediately"
@@ -1230,78 +1265,78 @@ msgstr ""
 "You will see the online status (Active, Idle, Away, or Offline) of all "
 "%(app_name)s members."
 
-#: rs/callbacks_from_html.py:78
+#: rs/callbacks_from_html.py:82
 msgid "Important data about me"
 msgstr ""
 
-#: rs/callbacks_from_html.py:85
+#: rs/callbacks_from_html.py:89
 msgid "More details about me"
 msgstr ""
 
-#: rs/callbacks_from_html.py:98 rs/display_profiles_summary.py:155
+#: rs/callbacks_from_html.py:102 rs/profiles_summary.py:155
 #: rs/user_profile_details.py:202
 msgid "Languages I speak"
 msgstr ""
 
-#: rs/callbacks_from_html.py:121
+#: rs/callbacks_from_html.py:125
 msgid "Email"
 msgstr ""
 
-#: rs/callbacks_from_html.py:128 rs/rendering.py:233
+#: rs/callbacks_from_html.py:132 rs/rendering.py:234
 msgid "About myself and what I am looking for"
 msgstr ""
 
-#: rs/callbacks_from_html.py:138
+#: rs/callbacks_from_html.py:142
 msgid "Headline"
 msgstr ""
 
-#: rs/callbacks_from_html.py:163
+#: rs/callbacks_from_html.py:167
 msgid "Modify my password"
 msgstr ""
 
-#: rs/callbacks_from_html.py:230
+#: rs/callbacks_from_html.py:236
 #, python-format
 msgid "Your quota will be reset %s"
 msgstr ""
 
-#: rs/callbacks_from_html.py:234
+#: rs/callbacks_from_html.py:240
 #, python-format
 msgid "%(num)s new person"
 msgid_plural "%(num)s new people"
 msgstr[0] ""
 msgstr[1] ""
 
-#: rs/callbacks_from_html.py:238
+#: rs/callbacks_from_html.py:244
 msgid ""
 "People that you have already exchanged messages with in the past do not "
 "count in this limit, and responding to messages does not use any of this "
 "quota"
 msgstr ""
 
-#: rs/callbacks_from_html.py:243
+#: rs/callbacks_from_html.py:249
 #, python-format
 msgid ""
 "As a VIP Member, you are allowed to message %(num_new_people_txt)s every "
 "%(hr)s hours"
 msgstr ""
 
-#: rs/callbacks_from_html.py:253
+#: rs/callbacks_from_html.py:259
 #, python-format
 msgid "Since you are not yet a %(vip_member)s, you can"
 msgstr ""
 
-#: rs/callbacks_from_html.py:256
+#: rs/callbacks_from_html.py:262
 msgid "You can"
 msgstr ""
 
-#: rs/callbacks_from_html.py:259
+#: rs/callbacks_from_html.py:265
 #, python-format
 msgid ""
 "%(you_are_allowed_to_contact_prefix)s contact %(num_new_people_txt)s every "
 "%(num_days)s days"
 msgstr ""
 
-#: rs/callbacks_from_html.py:273
+#: rs/callbacks_from_html.py:279
 #, python-format
 msgid ""
 "If you wish to increase this limit, read about the benefits of becoming a "
@@ -1442,7 +1477,7 @@ msgstr "saved"
 msgid "confirmed (singular)"
 msgstr "confirmed"
 
-#: rs/constants.py:655 rs/messages.py:367
+#: rs/constants.py:655 rs/messages.py:368
 msgid "sent (plural)"
 msgstr "sent"
 
@@ -1651,28 +1686,6 @@ msgstr ""
 msgid "You do not have any \"%(title)s\" yet"
 msgstr ""
 
-#: rs/display_profiles_summary.py:99
-#, python-format
-msgid "Click here to see more of %s"
-msgstr ""
-
-#: rs/display_profiles_summary.py:125
-msgid "About me"
-msgstr ""
-
-#: rs/display_profiles_summary.py:161
-msgid "Native language"
-msgstr ""
-
-#: rs/display_profiles_summary.py:212
-msgid "Last entrance"
-msgstr ""
-
-#: rs/display_profiles_summary.py:305 rs/display_profiles_summary.py:317
-#: rs/mailbox.py:993
-msgid "Next"
-msgstr ""
-
 #: rs/email_utils.py:60 rs/email_utils.py:652
 msgid "Cheers"
 msgstr ""
@@ -1692,7 +1705,7 @@ msgid "New password"
 msgstr ""
 
 #: rs/email_utils.py:233 rs/email_utils.py:291 rs/email_utils.py:370
-#: rs/email_utils.py:651 rs/login_utils.py:608 rs/login_utils.py:634
+#: rs/email_utils.py:651 rs/login_utils.py:628 rs/login_utils.py:654
 #, python-format
 msgid "Hello %(username)s"
 msgstr ""
@@ -1728,7 +1741,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: rs/email_utils.py:301 rs/login_utils.py:474
+#: rs/email_utils.py:301 rs/login_utils.py:494
 msgid "Error - Not authorized"
 msgstr ""
 
@@ -2869,62 +2882,62 @@ msgstr "Yemen"
 msgid "All Countries"
 msgstr ""
 
-#: rs/login.py:764
+#: rs/login.py:763
 msgid "Incorrect code"
 msgstr ""
 
-#: rs/login.py:767
+#: rs/login.py:766
 msgid "Verification code is invalid or expired"
 msgstr ""
 
-#: rs/login_utils.py:150
+#: rs/login_utils.py:170
 #, python-format
 msgid "<strong>Password</strong> must not be more than %(max_len)s characters"
 msgstr ""
 
-#: rs/login_utils.py:161
+#: rs/login_utils.py:181
 #, python-format
 msgid "<strong>Username</strong> must not be more than %(max_len)s characters"
 msgstr ""
 
-#: rs/login_utils.py:171
+#: rs/login_utils.py:191
 #, python-format
 msgid "<strong>%(field_label)s</strong> must be selected"
 msgstr ""
 
-#: rs/login_utils.py:373
+#: rs/login_utils.py:393
 msgid "We have deleted the profile of"
 msgstr ""
 
-#: rs/login_utils.py:440 rs/login_utils.py:477 rs/views.py:395
+#: rs/login_utils.py:460 rs/login_utils.py:497 rs/views.py:395
 msgid "You have exited"
 msgstr ""
 
-#: rs/login_utils.py:472
+#: rs/login_utils.py:492
 #, python-format
 msgid "Profile %(username)s has already been deleted, or never existed"
 msgstr ""
 
-#: rs/login_utils.py:606
+#: rs/login_utils.py:626
 msgid "Verification of your email and registration"
 msgstr ""
 
-#: rs/login_utils.py:610
+#: rs/login_utils.py:630
 #, python-format
 msgid "To activate your account in %(app_name)s click on the following link"
 msgstr ""
 
-#: rs/login_utils.py:622
+#: rs/login_utils.py:642
 msgid ""
 "If clicking on the link appears not to work, you can copy and paste it into "
 "your browser"
 msgstr ""
 
-#: rs/login_utils.py:633
+#: rs/login_utils.py:653
 msgid "Verification failed"
 msgstr ""
 
-#: rs/login_utils.py:636
+#: rs/login_utils.py:656
 #, python-format
 msgid ""
 "\n"
@@ -2934,7 +2947,7 @@ msgid ""
 "delete the old account first."
 msgstr ""
 
-#: rs/login_utils.py:685
+#: rs/login_utils.py:705
 #, python-format
 msgid ""
 "We already sent an email to %(email_address)s and cannot send another email "
@@ -2942,7 +2955,7 @@ msgid ""
 "address"
 msgstr ""
 
-#: rs/login_utils.py:717
+#: rs/login_utils.py:737
 #, python-format
 msgid ""
 "We have previously sent an email to %(email_address)s to activate the "
@@ -2950,105 +2963,109 @@ msgid ""
 "            We cannot send another activation message for this account."
 msgstr ""
 
-#: rs/mailbox.py:273 rs/mailbox.py:781
+#: rs/mailbox.py:273 rs/mailbox.py:782
 msgid "From"
 msgstr ""
 
-#: rs/mailbox.py:429
+#: rs/mailbox.py:430
 msgid "To"
 msgstr ""
 
-#: rs/mailbox.py:633
+#: rs/mailbox.py:634
 msgid "Deleted (mail)"
 msgstr "Deleted"
 
-#: rs/mailbox.py:634 rs/mailbox.py:648 rs/text_fields.py:76
+#: rs/mailbox.py:635 rs/mailbox.py:649 rs/text_fields.py:76
 msgid "Received"
 msgstr ""
 
-#: rs/mailbox.py:637
+#: rs/mailbox.py:638
 msgid "Spam"
 msgstr ""
 
-#: rs/mailbox.py:638
+#: rs/mailbox.py:639
 msgid "Received (mail)"
 msgstr "Received"
 
-#: rs/mailbox.py:642 rs/text_fields.py:75
+#: rs/mailbox.py:643 rs/text_fields.py:75
 msgid "Sent"
 msgstr ""
 
-#: rs/mailbox.py:647
+#: rs/mailbox.py:648
 msgid "Read (mail)"
 msgstr "Read"
 
-#: rs/mailbox.py:651
+#: rs/mailbox.py:652
 msgid "New (mail)"
 msgstr "New"
 
-#: rs/mailbox.py:718
+#: rs/mailbox.py:719
 msgid "Message history"
 msgstr ""
 
-#: rs/mailbox.py:719
+#: rs/mailbox.py:720
 msgid "click on the message text to see more detailed history"
 msgstr ""
 
-#: rs/mailbox.py:786
+#: rs/mailbox.py:787
 msgid "click on the message to see more"
 msgstr ""
 
-#: rs/mailbox.py:812 rs/mailbox.py:977
+#: rs/mailbox.py:813 rs/mailbox.py:978
 msgid "Mark as read"
 msgstr ""
 
-#: rs/mailbox.py:818 rs/mailbox.py:975
+#: rs/mailbox.py:819 rs/mailbox.py:976
 msgid "Delete"
 msgstr ""
 
-#: rs/mailbox.py:822
+#: rs/mailbox.py:823
 msgid "Move to sent mailbox"
 msgstr ""
 
-#: rs/mailbox.py:825
+#: rs/mailbox.py:826
 msgid "Move to received mailbox"
 msgstr ""
 
-#: rs/mailbox.py:831
+#: rs/mailbox.py:832
 msgid "Mark as spam"
 msgstr ""
 
-#: rs/mailbox.py:844
+#: rs/mailbox.py:845
 msgid "Favorite"
 msgstr ""
 
-#: rs/mailbox.py:847
+#: rs/mailbox.py:848
 msgid "Add to your favorites"
 msgstr ""
 
-#: rs/mailbox.py:910
+#: rs/mailbox.py:911
 msgid "You don't have any messages in this mailbox"
 msgstr ""
 
-#: rs/mailbox.py:970
+#: rs/mailbox.py:971
 msgid "Select"
 msgstr ""
 
-#: rs/mailbox.py:970
+#: rs/mailbox.py:971
 msgid "None (messages - override)"
 msgstr "None"
 
-#: rs/mailbox.py:1010
+#: rs/mailbox.py:994 rs/profiles_summary.py:307 rs/profiles_summary.py:319
+msgid "Next"
+msgstr ""
+
+#: rs/mailbox.py:1011
 msgid ""
 "Please be polite and respond to the people that have made an honest effort "
 "to contact you."
 msgstr ""
 
-#: rs/mailbox.py:1012
+#: rs/mailbox.py:1013
 msgid "Responding to messages does not count in your daily message quota."
 msgstr ""
 
-#: rs/mailbox.py:1013
+#: rs/mailbox.py:1014
 msgid ""
 "If the message that they have sent to you is not courteous and related to "
 "what you have specified in your profile, then mark the message as spam "
@@ -3067,15 +3084,15 @@ msgstr ""
 msgid "Blocked profiles"
 msgstr ""
 
-#: rs/messages.py:365
+#: rs/messages.py:366
 msgid "Statistics of spam sent from your account:"
 msgstr ""
 
-#: rs/messages.py:366
+#: rs/messages.py:367
 msgid "of"
 msgstr ""
 
-#: rs/messages.py:368
+#: rs/messages.py:369
 msgid ""
 "If you send spam, you will have to write \"captchas\" before being "
 "allowed     to send more messages."
@@ -3172,7 +3189,24 @@ msgid ""
 "%(location)s"
 msgstr ""
 
-#: rs/rendering.py:282 rs/views.py:151
+#: rs/profiles_summary.py:99
+#, python-format
+msgid "Click here to see more of %s"
+msgstr ""
+
+#: rs/profiles_summary.py:125
+msgid "About me"
+msgstr ""
+
+#: rs/profiles_summary.py:161
+msgid "Native language"
+msgstr ""
+
+#: rs/profiles_summary.py:212
+msgid "Last entrance"
+msgstr ""
+
+#: rs/rendering.py:283 rs/views.py:151
 msgid "You must register to contact other users"
 msgstr ""
 "<em>You must <a class=\"cl-register-enter-href\" href=\"#\">register or "
@@ -3220,72 +3254,72 @@ msgstr ""
 msgid "Finished"
 msgstr ""
 
-#: rs/search_results.py:153
+#: rs/search_results.py:155
 #, python-format
 msgid "generated_search_title %(sex)s"
 msgstr "%(sex)s"
 
-#: rs/search_results.py:156 rs/search_results.py:173
+#: rs/search_results.py:158 rs/search_results.py:175
 msgid "All people (feminine)"
 msgstr "All people"
 
-#: rs/search_results.py:158
+#: rs/search_results.py:160
 msgid "All lesbian types"
 msgstr ""
 
-#: rs/search_results.py:161
+#: rs/search_results.py:163
 #, python-format
 msgid "generated_search_title %(preference)s"
 msgstr "seeking %(preference)s"
 
-#: rs/search_results.py:170
+#: rs/search_results.py:172
 #, python-format
 msgid "generated_search_title %(language_to_learn)s"
 msgstr "%(language_to_learn)s speakers"
 
-#: rs/search_results.py:176
+#: rs/search_results.py:178
 #, python-format
 msgid "generated_search_title %(language_to_teach)s"
 msgstr "that want to learn %(language_to_teach)s"
 
-#: rs/search_results.py:182
+#: rs/search_results.py:184
 #, python-format
 msgid "Sex: %(sex)s"
 msgstr ""
 
-#: rs/search_results.py:191
+#: rs/search_results.py:193
 #, python-format
 msgid "generated_search_title %(location)s"
 msgstr "In: %(location)s"
 
-#: rs/search_results.py:193
+#: rs/search_results.py:195
 msgid "In: The entire world"
 msgstr "In: The entire world"
 
-#: rs/search_results.py:196
+#: rs/search_results.py:198
 #, python-format
 msgid "generated_search_title %(age)s"
 msgstr "Age: %(age)s"
 
-#: rs/search_results.py:201
+#: rs/search_results.py:203
 msgid "Ordered by"
 msgstr ""
 
-#: rs/search_results.py:205
+#: rs/search_results.py:207
 #, python-format
 msgid "Status generated_search_title %(relationship_status)s"
 msgstr "Relationship status: %(relationship_status)s"
 
-#: rs/search_results.py:209
+#: rs/search_results.py:211
 #, python-format
 msgid "For generated_search_title %(relationship_status)s"
 msgstr "For: %(relationship_status)s"
 
-#: rs/search_results.py:370
+#: rs/search_results.py:375
 msgid "Showing results for"
 msgstr ""
 
-#: rs/store_data.py:898
+#: rs/store_data.py:899
 #, python-format
 msgid ""
 "You have exceeded the limit of %(max_keys)s on the number of keys that you "
@@ -3294,7 +3328,7 @@ msgid ""
 "take back keys that you have given to other users."
 msgstr ""
 
-#: rs/store_data.py:904
+#: rs/store_data.py:905
 #, python-format
 msgid ""
 "\n"
@@ -3306,7 +3340,7 @@ msgid ""
 "chat friends."
 msgstr ""
 
-#: rs/store_data.py:932
+#: rs/store_data.py:933
 #, python-format
 msgid ""
 "\n"
@@ -4552,47 +4586,47 @@ msgstr ""
 msgid "in"
 msgstr ""
 
-#: rs/utils.py:1365
+#: rs/utils.py:1364
 #, python-format
 msgid ""
 "If you see any other profiles like this, please send an email to "
 "%(support_email_address)s to notify us of the user name."
 msgstr ""
 
-#: rs/utils.py:1371
+#: rs/utils.py:1370
 msgid ""
 "This user has been eliminated by the administrator for violating the terms "
 "of service agreement."
 msgstr ""
 
-#: rs/utils.py:1376
+#: rs/utils.py:1375
 msgid ""
 "This user has been eliminated by the administrator for running a scam. "
 "Please do not send emails or contact them in any manner, because it is "
 "likely that their objective is to ask you for money."
 msgstr ""
 
-#: rs/utils.py:1383
+#: rs/utils.py:1382
 msgid ""
 "This user has been eliminated by the administrator for being a fake profile. "
 "Please do not send emails or contact them in any manner, since their goal is "
 "to get you to sign up for a paid service."
 msgstr ""
 
-#: rs/utils.py:1390
+#: rs/utils.py:1389
 msgid "This user profile has been eliminated"
 msgstr ""
 
-#: rs/utils.py:1591
+#: rs/utils.py:1590
 #, python-format
 msgid "%(month)s %(day)s, %(year)s"
 msgstr ""
 
-#: rs/utils.py:1612 rs/utils.py:1614
+#: rs/utils.py:1611 rs/utils.py:1613
 msgid "is"
 msgstr ""
 
-#: rs/utils.py:1612 rs/proprietary/search_engine_overrides.py:63
+#: rs/utils.py:1611 rs/proprietary/search_engine_overrides.py:63
 #: rs/proprietary/search_engine_overrides.py:66
 #: rs/proprietary/search_engine_overrides.py:69
 #: rs/proprietary/search_engine_overrides.py:72
@@ -4607,19 +4641,19 @@ msgstr ""
 msgid "100 percent free"
 msgstr "100% free"
 
-#: rs/utils.py:1612
+#: rs/utils.py:1611
 msgid "We never ask for your credit card or any other form of payment"
 msgstr ""
 
-#: rs/utils.py:1614
+#: rs/utils.py:1613
 msgid "free"
 msgstr ""
 
-#: rs/utils.py:1614
+#: rs/utils.py:1613
 msgid "chat and messages included"
 msgstr ""
 
-#: rs/utils.py:1617
+#: rs/utils.py:1616
 #, python-format
 msgid "List of benefits for registering with %(app_name)s.  %(is_free_text)s"
 msgstr ""
@@ -4678,19 +4712,19 @@ msgstr ""
 msgid "Regular price"
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:426
+#: rs/vip_paysafecard_payments.py:424
 msgid ""
 "Congratulations. You have been awarded VIP status! Check your messages for "
 "more details"
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:427
+#: rs/vip_paysafecard_payments.py:425
 msgid ""
 "<p>There has been an error processing your payment.<p>Our automated systems "
 "have notified us of this problem and we will investigate as soon as possible."
 msgstr ""
 
-#: rs/vip_paysafecard_payments.py:483
+#: rs/vip_paysafecard_payments.py:481
 msgid ""
 "Transaction aborted by user. Your paysafecard will not be charged, and VIP "
 "status has not been awarded."
