@@ -1,0 +1,17 @@
+{% load i18n %}
+
+
+<ul class="cl-margin-below">
+
+    <li class="cl-indent">{% trans 'All photos in your profile must be of yourself' %}.
+    <li class="cl-indent">{% trans 'Photos must not be copied from other websites or from other profiles' %}.
+    <li class="cl-indent">{% trans 'Photos must not be focused on the crotch, breasts, or butt' %}.
+    <li class="cl-indent">{% trans 'Photos be clear (not blurry, pixelated, dark, or taken from a far distance)' %}.
+
+{% if not ADULT_ORIENTED_SITE %}
+    <li class="cl-indent">{% trans "No pornographic or nude photos allowed" %}.
+{% endif %}
+    <li class="cl-indent">{% blocktrans with minimum_registration_age as age %}All people in each photo must be at least {{ age }} years old{% endblocktrans %}.
+
+</ul>
+

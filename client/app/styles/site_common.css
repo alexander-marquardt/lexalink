@@ -539,3 +539,15 @@ li.cl-indent {
 .cl-enter_guest-dark {
     color: #666;
 }
+
+.cl-photo-rules-popup > .cl-photo-rules-label {
+    font-weight: bold;
+}
+
+.cl-photo-rules-in-terms-and-conditions .cl-indent{
+    margin-left: 50px;
+}
+
+.cl-photo-rules-in-terms-and-conditions > .cl-photo-rules-label {
+    margin-left: 15px;
+}

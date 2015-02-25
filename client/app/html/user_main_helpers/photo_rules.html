@@ -1,17 +1,12 @@
 {% load i18n %}
 
-
-<ul class="cl-margin-below">
-
-    <li class="cl-indent">{% trans 'All photos in your profile must be of yourself' %}.
-    <li class="cl-indent">{% trans 'Photos must not be copied from other websites or from other profiles' %}.
-    <li class="cl-indent">{% trans 'Photos must not be focused on the crotch, breasts, or butt' %}.
-    <li class="cl-indent">{% trans 'Photos be clear (not blurry, pixelated, dark, or taken from a far distance)' %}.
-
-{% if not ADULT_ORIENTED_SITE %}
-    <li class="cl-indent">{% trans "No pornographic or nude photos allowed" %}.
-{% endif %}
-    <li class="cl-indent">{% blocktrans with minimum_registration_age as age %}All people in each photo must be at least {{ age }} years old{% endblocktrans %}.
-
-</ul>
-
+<span class="cl-photo-rules-label">{% trans "General information" %}</span>
+{% include "user_main_helpers/photo_instructions.html" %}
+<span class="cl-photo-rules-label">{% trans "Photo rules:" %}</span>
+{% include "user_main_helpers/photos_general.html" %}
+<span class="cl-photo-rules-label">{% trans "Public photos rules" %}</span>
+{% include "user_main_helpers/photos_public.html" %}
+<span class="cl-photo-rules-label">{% trans "Private photos rules" %}</span>
+{% include "user_main_helpers/photos_private.html" %}
+<span class="cl-photo-rules-label">{% trans "Prohibited photos" %}</span>
+{% include "user_main_helpers/photos_prohibited.html" %}
