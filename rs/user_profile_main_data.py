@@ -46,8 +46,8 @@ class UserSpec():
     
     if settings.BUILD_NAME != 'language_build':
         principal_user_data = ['sex', 'preference', 'relationship_status', 'age', 'country', 'username',]
-        simple_search_fields = [ 'sex', 'country', 'relationship_status','preference', 'region', 'query_order',
-                                 'age', 'sub_region',   ]
+        simple_search_fields = [ 'query_order', 'country', 'relationship_status', 'sex', 'region','age', 'preference',
+                                 'sub_region', ]
 
     else: #settings.BUILD_NAME == 'language_build':
         principal_user_data = ['native_language', 'language_to_learn',  'age', 'sex', 'country',  'username',]
@@ -521,14 +521,14 @@ class UserSpec():
         else: #single_build and lesbian_build
             search_relationship_status_label_tuple = ugettext_tuple(ugettext('Looking For')) # this is the type of relationship they want
             
-        search_sex_label_num = "1."
-        search_preference_label_num = "2."
-        search_age_label_num = "3."
+        search_sex_label_num = "2."
+        search_preference_label_num = "3."
+        search_age_label_num = "6."
         search_country_label_num = "4a."
         search_region_label_num = "4b."
         search_sub_region_label_num = "4c."
         search_relationship_status_label_num = "5."
-        search_query_order_label_num = "6."
+        search_query_order_label_num = "1."
         
             
     else: 
