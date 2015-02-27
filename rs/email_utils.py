@@ -476,8 +476,7 @@ def send_new_message_notification_email(request):
     # 
     # This function is called from the task queue, and therefore is called as a URL.     
     
-    is_test_mode = False
-    
+
     try:
         userobject = None
         uid = request.POST.get('uid', None)
@@ -660,7 +659,7 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
         
 
         
-        if not is_test_mode:
+        if not settings.DEVELOPMENT_SERVER:
 
             # This message will be sent to real users.
             message.to = u"%s <%s>" % (userobject.username, userobject.email_address)  
@@ -677,8 +676,9 @@ by marking the checkbox beside multiple messages and clicking "Mark as read"')
             store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.unread_mail_count_ref)        
             store_data.reset_new_contact_or_mail_counter_notification_settings(userobject.new_contact_counter_ref)
         else:
-            error_message = "Running server with is_test_mode=True -- emails not being sent out. "
-            error_reporting.log_exception(logging.error, error_message = error_message)
+            logging.info("Running on development server -- emails not being sent out.")
+            logging.info("%s" % html2text.html2text(message.html))
+            
         
         # for debugging purposes return the message contents.
         # The message contents can be removed at some point in the future for better efficiency. 
