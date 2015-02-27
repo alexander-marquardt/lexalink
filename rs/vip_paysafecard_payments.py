@@ -70,7 +70,7 @@ else:
     # Temporariliy remove display of paysafecard payment, while we are waiting for authorization from them
     vip_paysafe_card_valid_countries = {}
 
-vip_paysafecard_valid_currencies = ['EUR']#, 'USD', 'MXN', 'USD_NON_US']
+vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 VIP_DEFAULT_CURRENCY = 'EUR' # Temporarily, we only support Euros - we are waiting for authorization for USD and MXN
 
 # The following are used for storing ints as a string, which will make them shorter. These correspond to paysafecard
@@ -106,12 +106,12 @@ vip_discounted_paysafe_prices_percentage_savings = vip_payments_common.compute_s
 if site_configuration.TESTING_PAYSAFECARD:
     username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
     password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
-    merchant_id = site_configuration.PAYSAFE_TEST_MID
+    merchant_id_dict = site_configuration.PAYSAFE_TEST_MID_DICT
 
 else:
     username = site_configuration.PAYSAFE_SOAP_USERNAME
     password = site_configuration.PAYSAFE_SOAP_PASSWORD
-    merchant_id = site_configuration.PAYSAFE_MID
+    merchant_id_dict = site_configuration.PAYSAFE_MID_DICT
 
 
 def generate_paysafe_radio_options(currency, membership_prices, prices_with_currency_units, original_prices_with_currency_units = []):
@@ -244,7 +244,7 @@ def create_disposition(request):
         log_disposition_resonse_msg = 'paysafecard_disposition_response: %s'  % repr(paysafecard_disposition_response)
         if (int(paysafecard_disposition_response['errorCode']) == 0) and \
                 (int(paysafecard_disposition_response['resultCode']) == 0) and\
-                (paysafecard_disposition_response['mid'] == merchant_id) and \
+                (paysafecard_disposition_response['mid'] == merchant_id_dict[currency_code]) and \
                 (paysafecard_disposition_response['mtid'] == merchant_transaction_id):
 
             logging.info(log_disposition_resonse_msg)
@@ -262,7 +262,7 @@ def create_disposition(request):
 
             response_dict = {
                 'create_disposition_success_flag': True,
-                'merchant_id' : merchant_id,
+                'merchant_id' : merchant_id_dict[currency_code],
                 'merchant_transaction_id': merchant_transaction_id,
                 'currency_code': currency_code,
                 'amount': amount
