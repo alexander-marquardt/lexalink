@@ -54,14 +54,19 @@ xmlns:urn="urn:pscservice">
 disposition_expected_keys = ['errorCode', 'resultCode', 'mid', 'mtid']
 disposition_keys_pattern = generate_patter_dict_for_pulling_keys_from_response(disposition_expected_keys)
 
+if settings.TESTING_PAYSAFECARD:
+    paysafe_endpoint = settings.PAYSAFE_TEST_ENDPOINT
+else:
+    paysafe_endpoint = settings.PAYSAFE_ENDPOINT
 
 def get_soap_response(template_string, template_dict):
 
+    logging.info('Contacting endpoint: %s' % paysafe_endpoint)
     headers = {
         'Content-Type': 'application/soap+xml; charset=utf-8'
     }
     soap_data = template_string.substitute(template_dict)
-    request = urllib2.Request(settings.PAYSAFE_ENDPOINT, soap_data, headers)
+    request = urllib2.Request(paysafe_endpoint, soap_data, headers)
     response = urllib2.urlopen(request)
     soap_response = response.read()
     return soap_response
