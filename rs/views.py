@@ -475,8 +475,16 @@ def robots_txt(request):
 
     # Disallow searching through some permutations that we previously had specifically included links to
 
-    if settings.BUILD_NAME == "discrete_build" or settings.BUILD_NAME ==  "single_build" or settings.BUILD_NAME ==  "lesbian_build":
-         site_specific_allow_disallow = ''
+    if settings.BUILD_NAME == "discrete_build":
+         site_specific_allow_disallow = """
+Disallow: /*/search/?*age=*
+"""
+
+    elif settings.BUILD_NAME ==  "single_build" or settings.BUILD_NAME ==  "lesbian_build":
+        site_specific_allow_disallow = """
+Disallow: /*/search/?*age=*
+Disallow: /*/search/?*relationship_status=*
+"""
 
     elif settings.BUILD_NAME == "language_build":
                 site_specific_allow_disallow = """
