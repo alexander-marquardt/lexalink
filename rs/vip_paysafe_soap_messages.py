@@ -69,6 +69,7 @@ def get_soap_response(template_string, template_dict):
     request = urllib2.Request(paysafe_endpoint, soap_data, headers)
     response = urllib2.urlopen(request)
     soap_response = response.read()
+    logging.info('soap_response is: %s' % soap_response)
     return soap_response
 
 def parse_soap_response(soap_response, expected_keys, expected_keys_pattern):
@@ -92,7 +93,6 @@ def create_disposition(
 
     template_dict = locals()
     soap_response = get_soap_response(DISPOSITION_TEMPLATE, template_dict)
-    logging.info('soap_response is: %s' % soap_response)
     response_dict = parse_soap_response(soap_response, disposition_expected_keys, disposition_keys_pattern)
 
     return response_dict
@@ -158,7 +158,8 @@ def get_serial_numbers(username,
                        merchant_transaction_id,
                        transaction_currency):
 
-    template_dict = locals()
+    # Passed in arguments are copied into the template_dict by accessing locals()
+    template_dict = locals() # copy all of the arguments
     soap_response = get_soap_response(GET_SERIAL_NUMBERS_TEMPLATE, template_dict)
     response_dict = parse_soap_response(soap_response, get_serial_numbers_expected_keys, get_serial_numbers_keys_pattern)
 
