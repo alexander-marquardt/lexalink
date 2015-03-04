@@ -76,11 +76,7 @@ def parse_soap_response(soap_response, expected_keys, expected_keys_pattern):
     response_dict = {}
 
     for key in expected_keys:
-        try:
-            response_dict[key] = expected_keys_pattern[key].match(soap_response).group(1)
-        except:
-            response_dict[key] = 'parse_soap_response key %s not found' % key
-            logging.critical(response_dict[key])
+        response_dict[key] = expected_keys_pattern[key].match(soap_response).group(1)
 
     return response_dict
 
