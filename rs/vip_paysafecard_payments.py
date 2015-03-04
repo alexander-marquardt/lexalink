@@ -25,50 +25,47 @@ from rs import vip_payments_common
 from rs import vip_status_support
 from rs import vip_paysafe_soap_messages
 
-if settings.ENABLE_PAYSAFECARD:
-    # Declar all countries tha paysafecard is supported. Use a set literal for lookup efficiency
-    vip_paysafe_card_valid_countries = {
-        'AR', # Argentina
-        'AU', # Australia
-        'AT', # Austria
-        'BE', # Belgium
-        'BG', # Bulgaria
-        'CA', # Canada
-        'HR', # Croatia
-        'CY', # Cyprus
-        'CZ', # Czech Republic
-        'DK', # Denmark
-        'FI', # Finland
-        'FR', # France
-        'DE', # Germany
-        'GR', # Greece
-        'HU', # Hungary
-        'IE', # Ireland
-        'IT', # Italy
-        'LV', # Latvia
-        'LT', # Lithuania
-        'LU', # Luxembourg
-        'MT', # Malta
-        'MX', # Mexico
-        'NL', # Netherlands
-        'NO', # Norway
-        'PE', # Peru
-        'PL', # Poland
-        'PT', # Portugal
-        'RO', # Romania
-        'SK', # Slovakia
-        'SI', # Slovenia
-        'ES', # Spain
-        'SE', # Sweeden
-        'CH', # Switzerland
-        'TR', # Turkey
-        'GB', # United Kingdom
-        'US', # United States
-        'UY', # Uruguay
-    }
-else:
-    # Temporariliy remove display of paysafecard payment, while we are waiting for authorization from them
-    vip_paysafe_card_valid_countries = {}
+# Declare all countries tha paysafecard is supported. Use a set literal for lookup efficiency
+vip_paysafe_card_valid_countries = {
+    'AR', # Argentina
+    'AU', # Australia
+    'AT', # Austria
+    'BE', # Belgium
+    'BG', # Bulgaria
+    'CA', # Canada
+    'HR', # Croatia
+    'CY', # Cyprus
+    'CZ', # Czech Republic
+    'DK', # Denmark
+    'FI', # Finland
+    'FR', # France
+    'DE', # Germany
+    'GR', # Greece
+    'HU', # Hungary
+    'IE', # Ireland
+    'IT', # Italy
+    'LV', # Latvia
+    'LT', # Lithuania
+    'LU', # Luxembourg
+    'MT', # Malta
+    'MX', # Mexico
+    'NL', # Netherlands
+    'NO', # Norway
+    'PE', # Peru
+    'PL', # Poland
+    'PT', # Portugal
+    'RO', # Romania
+    'SK', # Slovakia
+    'SI', # Slovenia
+    'ES', # Spain
+    'SE', # Sweeden
+    'CH', # Switzerland
+    'TR', # Turkey
+    'GB', # United Kingdom
+    'US', # United States
+    'UY', # Uruguay
+}
+
 
 vip_paysafecard_valid_currencies = ['EUR', 'USD', 'MXN', 'USD_NON_US']
 VIP_DEFAULT_CURRENCY = 'EUR' # Temporarily, we only support Euros - we are waiting for authorization for USD and MXN
@@ -417,60 +414,75 @@ def pn_url(request):
 def ok_url(request):
     # Customer card has been sucessfully entered 'assigned' and the user has been redirected to the URL associated
     # with this function. Show the user the status of their payment.
-    paysafe_username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
-    paysafe_password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
-    merchant_transaction_id = request.GET.get('mtid')
-    transaction_currency = request.GET.get('currency')
-
-    userobject = utils_top_level.get_userobject_from_request(request)
     success_message = ugettext("Congratulations. You have been awarded VIP status! Check your messages for more details")
     user_error_message = ugettext("<p>There has been an error processing your payment."
-                             "<p>Our automated systems have notified us of this problem and we "
-                             "will investigate as soon as possible.")
+                                  "<p>Our automated systems have notified us of this problem and we "
+                                  "will investigate as soon as possible.")
+    try:
+        paysafe_username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
+        paysafe_password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
+        merchant_transaction_id = request.GET.get('mtid')
+        transaction_currency = request.GET.get('currency')
 
-    paysafe_get_serial_numbers_response = vip_paysafe_soap_messages.get_serial_numbers(paysafe_username,
-                                                                                       paysafe_password,
-                                                                                       merchant_transaction_id,
-                                                                                       transaction_currency)
+        userobject = utils_top_level.get_userobject_from_request(request)
 
-    logging.info('paysafe_get_serial_numbers_response: %s' % paysafe_get_serial_numbers_response)
 
-    internal_error_message = ''
+        paysafe_get_serial_numbers_response = vip_paysafe_soap_messages.get_serial_numbers(
+            paysafe_username, paysafe_password, merchant_transaction_id, transaction_currency)
 
-    if (int(paysafe_get_serial_numbers_response['errorCode']) != 0) or (int(paysafe_get_serial_numbers_response['resultCode']) != 0):
-        message_to_display = user_error_message
-        internal_error_message = 'errorCode or resultCode is not zero'
+        logging.info('paysafe_get_serial_numbers_response: %s' % paysafe_get_serial_numbers_response)
 
-    elif paysafe_get_serial_numbers_response['dispositionState'] == 'O':
-        # The payment has been Consumed (final debit has been called) - nothing else to do - show success message
-        logging.info('ok_url - Paysafecard payment already consumed - Nothing else to do except inform user of successful payment ')
-        message_to_display = success_message
+        internal_error_message = ''
 
-    elif paysafe_get_serial_numbers_response['dispositionState'] == 'S':
-        logging.info('ok_url - Paysafecard payment not yet consumed - we will now debit the payment')
+        if (int(paysafe_get_serial_numbers_response['errorCode']) != 0) or (int(paysafe_get_serial_numbers_response['resultCode']) != 0):
+            message_to_display = user_error_message
+            internal_error_message = 'errorCode or resultCode is not zero'
 
-        # Paysafecard has been assigned to disposition - we can now debit their account to finalize the transaction
-        serial_numbers = paysafe_get_serial_numbers_response['serialNumbers']
-        successful_debit = do_debit_and_update_vip_structures(userobject, merchant_transaction_id, serial_numbers)
-        if successful_debit:
-             message_to_display = success_message
-             logging.info('ok_url - Paysafecard payment successfully debited')
+        elif paysafe_get_serial_numbers_response['dispositionState'] == 'O':
+            # The payment has been Consumed (final debit has been called) - nothing else to do - show success message
+            logging.info('ok_url - Paysafecard payment already consumed - Nothing else to do except inform user of successful payment ')
+            message_to_display = success_message
+
+        elif paysafe_get_serial_numbers_response['dispositionState'] == 'S':
+            logging.info('ok_url - Paysafecard payment not yet consumed - we will now debit the payment')
+
+            # Paysafecard has been assigned to disposition - we can now debit their account to finalize the transaction
+            serial_numbers = paysafe_get_serial_numbers_response['serialNumbers']
+            successful_debit = do_debit_and_update_vip_structures(userobject, merchant_transaction_id, serial_numbers)
+            if successful_debit:
+                 message_to_display = success_message
+                 logging.info('ok_url - Paysafecard payment successfully debited')
+
+            else:
+                # debit failed - we don't generate an error message here, since a message was already generated
+                # inside do_debit_and_update_vip_structures
+                message_to_display = user_error_message
+                logging.info('ok_url - Error - Paysafecard payment not debited')
 
         else:
-            # debit failed - we don't generate an error message here, since a message was already generated
-            # inside do_debit_and_update_vip_structures
+            # Unknown disposition state - generate an error
             message_to_display = user_error_message
-            logging.info('ok_url - Error - Paysafecard payment not debited')
+            internal_error_message = 'Un-handled disposition state of %s' % paysafe_get_serial_numbers_response['dispositionState']
 
-    else:
-        # Unknown disposition state - generate an error
-        message_to_display = user_error_message
-        internal_error_message = 'Un-handled disposition state of %s' % paysafe_get_serial_numbers_response['dispositionState']
+        if internal_error_message:
+            disposition_error_message = "Error caused in paysafe_get_serial_numbers_response: %s " % repr(paysafe_get_serial_numbers_response)
+            error_reporting.log_exception(logging.critical, error_message=disposition_error_message)
+            email_utils.send_admin_alert_email(disposition_error_message, subject = "%s Paysafe Error" % settings.APP_NAME)
 
-    if internal_error_message:
-        disposition_error_message = "Error caused in paysafe_get_serial_numbers_response: %s " % repr(paysafe_get_serial_numbers_response)
+
+    except:
+        disposition_error_message = "Critical error in paysafecard call to ok_url - see logs for details"
         error_reporting.log_exception(logging.critical, error_message=disposition_error_message)
         email_utils.send_admin_alert_email(disposition_error_message, subject = "%s Paysafe Error" % settings.APP_NAME)
+
+        # Display the success message to the user - even though we have had an internal error, it is 99% likely
+        # that the payment went through before the call to the ok_url, and we don't want to scare the user -
+        # additionally since we will immediately investigate any failures, we will find out within a reasonable
+        # amount of time if the payment has failed. This is done because we need to see a few responses from
+        # paysafecard call to get serial numbers, so that we can verify the data that they are sending us.
+        #
+        # TODO - once we are sure that ok_url is working correctly, change this to an error message
+        message_to_display = success_message
 
     http_response = render_to_response('user_main_helpers/paysafecard_transaction_status.html', dict(
         {'message_to_display': message_to_display,

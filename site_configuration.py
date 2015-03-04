@@ -78,12 +78,6 @@ elif TESTING_PAYSAFECARD:
     VERSION_ID = 'paysafecard'
     REDIRECT_APPSPOT_URL = False
 
-# This variable and all references to it should be removed once we enable paysafecard permanently
-ENABLE_PAYSAFECARD = False
-# Remove the following two lines once we have successfully tested the final version of paysafecard
-if ENABLE_PAYSAFECARD:
-    VERSION_ID = 'paysafecard'
-    REDIRECT_APPSPOT_URL = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
