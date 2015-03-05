@@ -79,10 +79,11 @@ elif TESTING_PAYSAFECARD:
     REDIRECT_APPSPOT_URL = False
 
 
-# we are not using "test" code - we will enable the real "final" paysafecard test
-if True:
-    VERSION_ID = 'paysafecard'
-    REDIRECT_APPSPOT_URL = False
+# # we are not using "test" code - we will enable the real "final" paysafecard test but still want it running at
+# paysafecard.appspot.com (for the build scripts to work, the VERSION_ID needs to be indented)
+# if True:
+#     VERSION_ID = 'paysafecard'
+#     REDIRECT_APPSPOT_URL = False
 
 # We use the JAVASCRIPT_VERSION_ID to force a hard reload of the javascript on the client if we make a change
 # to the javascript code. We do this by checking if the javascript that the user is running matches the 
