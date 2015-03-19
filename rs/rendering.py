@@ -186,6 +186,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
 
     
     try:
+
         utils.check_if_session_close_to_expiry_and_give_more_time(request)
 
         lang_idx = localizations.input_field_lang_idx[request.LANGUAGE_CODE]
@@ -366,9 +367,13 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
             advertising_info['ad_template_list'] = side_ad_template_list    
             
             if constants.enable_google_ads:
-                side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
-                side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
-                bottom_ad_template = utils.render_google_ad('GOOGLE_AD_728x90')
+
+                # Important: we must *NEVER* show google ads when the registration verification is being show, because
+                # This includes the users email address in the URL.
+                if (not request.GET.get('show_verification', None)) and (not request.GET.get('verification_email', None)):
+                    side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
+                    side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
+                    bottom_ad_template = utils.render_google_ad('GOOGLE_AD_728x90')
                 
             elif constants.enable_amazon_ads:
                 bottom_ad_template = get_ad(request, "amazon_bottom_banner_ads")
