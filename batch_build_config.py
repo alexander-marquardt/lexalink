@@ -4,3 +4,4 @@ TARGET_DIR_FOR_UPLOAD = "/media/psf/Lexabit/lexalink-uploads"
 BUILD_NAMES_LIST = ['discrete_build']
 
 
+BUILD_NAMES_LIST = ['single_build' ,  'lesbian_build', 'language_build', 'mature_build']
