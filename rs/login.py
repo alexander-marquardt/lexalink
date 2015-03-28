@@ -385,10 +385,6 @@ def process_login(request):
             # update session to point to the current userobject
             login_utils.store_session(request, userobject)
 
-            if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
-                utils.set_display_vip_upgrade_dialog_timeout(owner_nid, constants.SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP)
-
-        
             http_country_code = request.META.get('HTTP_X_APPENGINE_COUNTRY', None)
             logging.info("Logging in User: %s IP: %s country code: %s -re-directing to edit_profile_url" % (userobject.username, os.environ['REMOTE_ADDR'], http_country_code))
 
@@ -629,9 +625,6 @@ def store_new_user_after_verify(request, lang_idx, login_dict, encrypted_passwor
         logging.info("New userobject stored: Username: %s Email: %s" %  (userobject.username, userobject.email_address))
 
         login_utils.store_session(request, userobject)
-
-        if constants.THIS_BUILD_ALLOWS_VIP_UPGRADES:
-            utils.set_display_vip_upgrade_dialog_timeout(userobject.key.integer_id(), constants.SECONDS_BEFORE_INITIAL_BECOME_A_VIP_POPUP)
 
         lang_set_in_session = lang_settings.set_language_in_session(request, request.LANGUAGE_CODE)
         assert(lang_set_in_session)    
