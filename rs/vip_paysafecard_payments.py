@@ -101,13 +101,13 @@ vip_discounted_paysafe_prices_percentage_savings = vip_payments_common.compute_s
     vip_payments_common.vip_discounted_membership_prices, vip_payments_common.vip_standard_membership_prices, vip_paysafecard_valid_currencies)
 
 if site_configuration.TESTING_PAYSAFECARD:
-    username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
-    password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
+    paysafe_soap_username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
+    paysafe_soap_password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
     merchant_id_dict = site_configuration.PAYSAFE_TEST_MID_DICT
 
 else:
-    username = site_configuration.PAYSAFE_SOAP_USERNAME
-    password = site_configuration.PAYSAFE_SOAP_PASSWORD
+    paysafe_soap_username = site_configuration.PAYSAFE_SOAP_USERNAME
+    paysafe_soap_password = site_configuration.PAYSAFE_SOAP_PASSWORD
     merchant_id_dict = site_configuration.PAYSAFE_MID_DICT
 
 
@@ -227,8 +227,8 @@ def create_disposition(request):
         nok_url = urllib.quote('http://%s/paysafecard/nok_url/' % request.META['HTTP_HOST'], '')
 
         paysafecard_disposition_response = vip_paysafe_soap_messages.create_disposition(
-            username,
-            password,
+            paysafe_soap_username,
+            paysafe_soap_password,
             merchant_transaction_id,
             amount,
             currency_code,
@@ -294,8 +294,8 @@ def do_debit_and_update_vip_structures(userobject, merchant_transaction_id, seri
 
 
             paysafecard_debit_response = vip_paysafe_soap_messages.execute_debit(
-                username,
-                password,
+                paysafe_soap_username,
+                paysafe_soap_password,
                 merchant_transaction_id,
                 paysafe_disposition.transaction_amount,
                 paysafe_disposition.transaction_currency,
@@ -419,8 +419,6 @@ def ok_url(request):
                                   "<p>Our automated systems have notified us of this problem and we "
                                   "will investigate as soon as possible.")
     try:
-        paysafe_username = site_configuration.PAYSAFE_SOAP_TEST_USERNAME
-        paysafe_password = site_configuration.PAYSAFE_SOAP_TEST_PASSWORD
         merchant_transaction_id = request.GET.get('mtid')
         transaction_currency = request.GET.get('currency')
 
@@ -428,7 +426,7 @@ def ok_url(request):
 
 
         paysafe_get_serial_numbers_response = vip_paysafe_soap_messages.get_serial_numbers(
-            paysafe_username, paysafe_password, merchant_transaction_id, transaction_currency)
+            paysafe_soap_username, paysafe_soap_password, merchant_transaction_id, transaction_currency)
 
         logging.info('paysafe_get_serial_numbers_response: %s' % paysafe_get_serial_numbers_response)
 
