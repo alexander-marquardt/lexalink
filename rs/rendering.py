@@ -79,7 +79,10 @@ def get_my_internal_advertisements(additional_ads_to_include = []):
 def get_additional_ads_to_append(request, userobject = None):
 
     additional_ads_to_append = []
-    
+
+    additional_ads_to_append.append('chat_surfing_ad1')
+    additional_ads_to_append.append('chat_surfing_ad1')
+
     try:
         if settings.BUILD_NAME == "language_build":
             # we don't currently append any additional advertisements. 
@@ -374,15 +377,12 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
                     side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
                     side_ad_template_list.append(utils.render_google_ad('GOOGLE_AD_160x600'))
                     bottom_ad_template = utils.render_google_ad('GOOGLE_AD_728x90')
-                
+
             elif constants.enable_amazon_ads:
                 bottom_ad_template = get_ad(request, "amazon_bottom_banner_ads")
                 side_ad_template_list.append(get_ad(request, "amazon_sidebar_ads"))
 
 
-
-
-            
 
                 
         random.shuffle(side_ad_template_list) # randomize the order of the advertisements.
