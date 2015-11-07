@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 15:49+0000\n"
+"POT-Creation-Date: 2015-11-07 16:06+0000\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -925,13 +925,13 @@ msgstr ""
 #: client/app/html/user_main_helpers/vip_payment_options.html:86
 msgid ""
 "\n"
-"            This is a one-time VIP membership payment that does not "
-"automatically renew.\n"
+"            This is a one-time VIP membership payment that <strong>does not "
+"automatically renew</strong>.\n"
 "            "
 msgstr ""
 "\n"
-"Vamos a procesar un único pago de socio VIP que no se renueva "
-"automáticamente."
+"Vamos a procesar un único pago de socio VIP que <strong>no se renueva "
+"automáticamente</strong>."
 
 #: client/app/html/user_main_helpers/vip_payment_options.html:49
 msgid "Purchase VIP status with a credit or debit card"
@@ -2098,7 +2098,8 @@ msgstr "Ver perfil y contactar con:"
 msgid "Eliminated"
 msgstr "Eliminado"
 
-#: rs/forms.py:299
+#: rs/forms.py:299 rs/forms.py:462
+#, python-format
 msgid "Approving (within %(wait_hours)s hours)"
 msgstr "Aprobando (dentro de %(wait_hours)s  horas)"
 
@@ -2119,6 +2120,7 @@ msgid "Public (feminine)"
 msgstr "Pública"
 
 #: rs/forms.py:444
+#, python-format
 msgid "Approving photo for public (within %(wait_hours)s hours)"
 msgstr "Aprobando para ser pública (dentro de %(wait_hours)s horas)"
 
@@ -5016,13 +5018,9 @@ msgstr "días"
 msgid "month"
 msgstr "mes"
 
-#: rs/vip_payments_common.py:46 rs/vip_payments_common.py:47
+#: rs/vip_payments_common.py:46
 msgid "months"
 msgstr "meses"
-
-#: rs/vip_payments_common.py:48
-msgid "year"
-msgstr "año"
 
 #: rs/vip_payments_common.py:185
 #, python-format
@@ -5149,6 +5147,9 @@ msgstr "a cambio de"
 #: rs/proprietary/search_engine_overrides.py:283
 msgid "Refine your search results"
 msgstr "Filtrar los resultados de búsqueda"
+
+#~ msgid "year"
+#~ msgstr "año"
 
 #~ msgid ""
 #~ "Photos in your profile must be your own photos. Photos that you do not "

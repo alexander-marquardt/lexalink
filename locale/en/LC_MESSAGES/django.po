@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 15:49+0000\n"
+"POT-Creation-Date: 2015-11-07 16:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -828,8 +828,8 @@ msgstr ""
 #: client/app/html/user_main_helpers/vip_payment_options.html:86
 msgid ""
 "\n"
-"            This is a one-time VIP membership payment that does not "
-"automatically renew.\n"
+"            This is a one-time VIP membership payment that <strong>does not "
+"automatically renew</strong>.\n"
 "            "
 msgstr ""
 
@@ -1900,7 +1900,7 @@ msgstr "See profile and get in contact with:"
 msgid "Eliminated"
 msgstr ""
 
-#: rs/forms.py:299
+#: rs/forms.py:299 rs/forms.py:462
 #, python-format
 msgid "Approving (within %(wait_hours)s hours)"
 msgstr ""
@@ -1923,7 +1923,7 @@ msgstr "Public"
 
 #: rs/forms.py:444
 #, python-format
-msgid "Approving photo for public (within %(wait_hours) hours)"
+msgid "Approving photo for public (within %(wait_hours)s hours)"
 msgstr ""
 
 #: rs/forms.py:453
@@ -1933,11 +1933,6 @@ msgstr "Private!<br>You need<br>their key!"
 #: rs/forms.py:458
 msgid "They need your key"
 msgstr "Private (they&nbsp;need your&nbsp;key)"
-
-#: rs/forms.py:462
-#, python-format
-msgid "Approving (within %(wait_hours) hours)"
-msgstr ""
 
 #: rs/forms.py:490
 msgid "Photo"
@@ -4722,12 +4717,8 @@ msgstr ""
 msgid "month"
 msgstr ""
 
-#: rs/vip_payments_common.py:46 rs/vip_payments_common.py:47
+#: rs/vip_payments_common.py:46
 msgid "months"
-msgstr ""
-
-#: rs/vip_payments_common.py:48
-msgid "year"
 msgstr ""
 
 #: rs/vip_payments_common.py:185

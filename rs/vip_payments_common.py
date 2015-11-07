@@ -19,11 +19,11 @@ if not (settings.TESTING_PAYPAL_SANDBOX or settings.TESTING_PAYSAFECARD) and TES
 VIP_3_DAYS  = "3 days"
 VIP_1_MONTH = "1 month"
 VIP_3_MONTHS = "3 months"
-VIP_6_MONTHS = "6 months"
-VIP_1_YEAR  = "1 year"
+# VIP_6_MONTHS = "6 months"
+# VIP_1_YEAR  = "1 year"
 
 # the following list will allow us to iterate over the various membership options in the correct order
-vip_membership_categories = [VIP_3_DAYS, VIP_1_MONTH, VIP_3_MONTHS, VIP_6_MONTHS, VIP_1_YEAR]
+vip_membership_categories = [VIP_3_DAYS, VIP_1_MONTH, VIP_3_MONTHS]
 DEFAULT_SELECTED_VIP_OPTION = VIP_3_MONTHS
 
 USER_HAS_DISCOUNT_STRING = 'D'
@@ -34,8 +34,8 @@ num_days_in_vip_membership_category = {
     VIP_3_DAYS  : 3,
     VIP_1_MONTH : 31,
     VIP_3_MONTHS : 93,
-    VIP_6_MONTHS : 183,
-    VIP_1_YEAR  : 365,
+    # VIP_6_MONTHS : 183,
+    # VIP_1_YEAR  : 365,
 }
 
 vip_option_values = {
@@ -44,8 +44,8 @@ vip_option_values = {
     VIP_3_DAYS : {'duration': "3", 'duration_units' : ugettext_lazy("days")},
     VIP_1_MONTH: {'duration': "1", 'duration_units' : ugettext_lazy("month")},
     VIP_3_MONTHS: {'duration': "3", 'duration_units' : ugettext_lazy("months")},
-    VIP_6_MONTHS: {'duration': "6", 'duration_units' : ugettext_lazy("months")},
-    VIP_1_YEAR: {'duration': "1", 'duration_units' : ugettext_lazy("year")},
+    # VIP_6_MONTHS: {'duration': "6", 'duration_units' : ugettext_lazy("months")},
+    # VIP_1_YEAR: {'duration': "1", 'duration_units' : ugettext_lazy("year")},
 }
 
 
@@ -55,24 +55,24 @@ vip_standard_membership_prices = {
         VIP_3_DAYS: "9.95",
         VIP_1_MONTH: "29.95",
         VIP_3_MONTHS: "49.95",
-        VIP_6_MONTHS: "69.95",
-        VIP_1_YEAR: "99.95",
+        # VIP_6_MONTHS: "69.95",
+        # VIP_1_YEAR: "99.95",
         },
     'USD': {
         #VIP_1_DAY: "6.95",
         VIP_3_DAYS: "9.95",
         VIP_1_MONTH: "29.95",
         VIP_3_MONTHS: "49.95",
-        VIP_6_MONTHS: "69.95",
-        VIP_1_YEAR: "99.95",
+        # VIP_6_MONTHS: "69.95",
+        # VIP_1_YEAR: "99.95",
         },
     'MXN': {
         #VIP_1_DAY: "69.95",
         VIP_3_DAYS: "99.95",
         VIP_1_MONTH: "299.95",
         VIP_3_MONTHS: "499.95",
-        VIP_6_MONTHS: "699.95",
-        VIP_1_YEAR: "999.95",
+        # VIP_6_MONTHS: "699.95",
+        # VIP_1_YEAR: "999.95",
         },
 }
 
@@ -82,24 +82,24 @@ vip_discounted_membership_prices = {
         VIP_3_DAYS: "8.95",
         VIP_1_MONTH: "25.95",
         VIP_3_MONTHS: "39.95",
-        VIP_6_MONTHS: "51.95",
-        VIP_1_YEAR: "69.95",
+        # VIP_6_MONTHS: "51.95",
+        # VIP_1_YEAR: "69.95",
         },
     'USD': {
         #VIP_1_DAY: "6.95",
         VIP_3_DAYS: "8.95",
         VIP_1_MONTH: "25.95",
         VIP_3_MONTHS: "39.95",
-        VIP_6_MONTHS: "51.95",
-        VIP_1_YEAR: "69.95",
+        # VIP_6_MONTHS: "51.95",
+        # VIP_1_YEAR: "69.95",
         },
     'MXN': {
         #VIP_1_DAY: "69.95",
         VIP_3_DAYS: "89.95",
         VIP_1_MONTH: "259.95",
         VIP_3_MONTHS: "399.95",
-        VIP_6_MONTHS: "519.95",
-        VIP_1_YEAR: "699.95",
+        # VIP_6_MONTHS: "519.95",
+        # VIP_1_YEAR: "699.95",
         },
 }
 
