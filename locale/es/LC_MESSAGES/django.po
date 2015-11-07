@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-27 18:57+0100\n"
+"POT-Creation-Date: 2015-11-07 15:49+0000\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -19,7 +19,7 @@ msgstr "Tienes que habilitar JavaScript para usar esta pagina"
 msgid "Become a"
 msgstr "Hazte"
 
-#: client/app/html/advertising/sidebar.html:17 rs/constants.py:565
+#: client/app/html/advertising/sidebar.html:17 rs/constants.py:567
 msgid "VIP member"
 msgstr "miembro VIP"
 
@@ -762,17 +762,17 @@ msgid "Online chat friends"
 msgstr "Chats amigos"
 
 #: client/app/html/user_main_helpers/translation_helper.html:44
-#: rs/constants.py:243
+#: rs/constants.py:245
 msgid "(Active)"
 msgstr "(Activo)"
 
 #: client/app/html/user_main_helpers/translation_helper.html:51
-#: rs/constants.py:244
+#: rs/constants.py:246
 msgid "(Idle)"
 msgstr "(Inactivo)"
 
 #: client/app/html/user_main_helpers/translation_helper.html:58
-#: rs/constants.py:245
+#: rs/constants.py:247
 msgid "(Away)"
 msgstr "(Ausente)"
 
@@ -995,13 +995,13 @@ msgstr "Más información"
 msgid "100 percent free video chat"
 msgstr "Video chat 100% gratis"
 
-#: client/app/proprietary/html/proprietary_ads/chat_surfing_ad1.html:16
+#: client/app/proprietary/html/proprietary_ads/chat_surfing_ad1.html:19
 msgid "Chat and exchange video anonymously. No registration required."
 msgstr ""
 "Chatear y el intercambio de video de forma anónima. No es necesario "
 "registrarte."
 
-#: client/app/proprietary/html/proprietary_ads/chat_surfing_ad1.html:25
+#: client/app/proprietary/html/proprietary_ads/chat_surfing_ad1.html:24
 #, python-format
 msgid "From the creators of %(app_name)s"
 msgstr "De los creadores de %(app_name)s"
@@ -1027,7 +1027,7 @@ msgid "100 percent free lesbian dating"
 msgstr "100% gratis - contactos y buscar pareja para lesbianas"
 
 #: client/app/proprietary/html/proprietary_ads/mature_build.html:14
-#: rs/constants.py:476 rs/proprietary/search_engine_overrides.py:78
+#: rs/constants.py:478 rs/proprietary/search_engine_overrides.py:78
 msgid "dating website to meet mature adults over 40 years old"
 msgstr "sitio web para conocer adultos mayores de 40 años"
 
@@ -1139,7 +1139,7 @@ msgstr "jul"
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:363
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:372
 #: client/app/proprietary/html/proprietary_html_content/RomanceSecreto_press.html:862
-#: rs/constants.py:723
+#: rs/constants.py:725
 msgid "May"
 msgstr "mayo"
 
@@ -1531,39 +1531,39 @@ msgstr "Error - ya has creado demasiados grupos"
 msgid "Error - you appear to have been logged out"
 msgstr "Error - parece que tu session ha expirado"
 
-#: rs/constants.py:246
+#: rs/constants.py:248
 msgid "(Offline)"
 msgstr "(Desconectado)"
 
-#: rs/constants.py:448
+#: rs/constants.py:450
 msgid "Your very own dating website"
 msgstr ""
 
-#: rs/constants.py:453
+#: rs/constants.py:455
 msgid "confidential dating website"
 msgstr "sitio de contactos confidenciales"
 
-#: rs/constants.py:458
+#: rs/constants.py:460
 msgid "serious dating website"
 msgstr "sitio para encuentros serios"
 
-#: rs/constants.py:461
+#: rs/constants.py:463
 msgid "website to learn languages and meet people"
 msgstr "sitio para aprender idiomas y conocer gente"
 
-#: rs/constants.py:464
+#: rs/constants.py:466
 msgid "lesbian dating website"
 msgstr "sitio de contactos para lesbianas."
 
-#: rs/constants.py:468
+#: rs/constants.py:470
 msgid "gay dating website"
 msgstr "sitio de contactos para gays"
 
-#: rs/constants.py:472
+#: rs/constants.py:474
 msgid "swingers website"
 msgstr "sitio para parejas liberales"
 
-#: rs/constants.py:572
+#: rs/constants.py:574
 msgid ""
 "<strong>Username</strong> can only contain letters and numbers, and must not "
 "contain spaces."
@@ -1571,15 +1571,15 @@ msgstr ""
 "<strong>Nick</strong> sólo puede tener caracters alfabéticos y/o números, y "
 "no debe tener espacios."
 
-#: rs/constants.py:573
+#: rs/constants.py:575
 msgid "<strong>Username</strong> needs at least 3 characters."
 msgstr "<strong>Nick</strong> necesita por lo menos 3 carácteres."
 
-#: rs/constants.py:574
+#: rs/constants.py:576
 msgid "<strong>Password</strong> required"
 msgstr "<strong>Contraseña</strong> es obligatoria"
 
-#: rs/constants.py:575
+#: rs/constants.py:577
 msgid ""
 "The <strong>Password</strong> and the <strong>Verification Password</strong> "
 "must be the same."
@@ -1587,21 +1587,21 @@ msgstr ""
 "La <strong>Contraseña</strong> y <strong>Verificar Contraseña</strong> "
 "tienen que ser lo mismo."
 
-#: rs/constants.py:576
+#: rs/constants.py:578
 msgid "The <strong>Username</strong> that you have selected is not available."
 msgstr "El <strong>Nick</strong> que has elegido no está disponible."
 
-#: rs/constants.py:577
+#: rs/constants.py:579
 msgid "<strong>Username/email + Password</strong> is incorrect"
 msgstr ""
 "La combinación de <strong>Nick/correo electrónico + contraseña</strong> es "
 "incorrecta."
 
-#: rs/constants.py:578
+#: rs/constants.py:580
 msgid "The <strong>Email Address</strong> is not valid"
 msgstr "El <strong>correo electrónico</strong> entrado no es válido."
 
-#: rs/constants.py:587
+#: rs/constants.py:589
 #, python-format
 msgid ""
 "\n"
@@ -1622,7 +1622,7 @@ msgstr ""
 "el otro usuario se convierte en un \"chat amigo\" tuyo , podrás enviarle "
 "hasta %(chat_friend_num)s mensajes cada %(hours)s horas. <br><br>"
 
-#: rs/constants.py:598
+#: rs/constants.py:600
 #, python-format
 msgid ""
 "You can only send %(guest_num)s messages to each member each %(hours)s-hour "
@@ -1631,7 +1631,7 @@ msgstr ""
 "Sólo puedes enviar %(guest_num)s mensajes a cada miembro en un periodo de "
 "%(hours)s horas. <br><br>"
 
-#: rs/constants.py:602
+#: rs/constants.py:604
 #, python-format
 msgid ""
 "As a VIP member, you can send up to %(vip_num)s messages to each member in "
@@ -1641,13 +1641,13 @@ msgstr ""
 "Como miembro VIP, puedes enviar hasta %(vip_num)s mensajes a cada miembro en "
 "un período de %(hours)s horas. Ya has llegado a este límite.<br><br>"
 
-#: rs/constants.py:607
+#: rs/constants.py:609
 #, python-format
 msgid ""
 "You can send more messages to this member %(txt_for_when_quota_resets)s."
 msgstr "Puedes enviar más mensajes a este socio %(txt_for_when_quota_resets)s."
 
-#: rs/constants.py:615
+#: rs/constants.py:617
 msgid ""
 "You must register for a <strong>free account</strong> in order to contact "
 "our members. "
@@ -1655,227 +1655,227 @@ msgstr ""
 "Tienes que registrarte para una <strong>cuenta gratuita</strong> para "
 "ponerte en contacto con nuestros miembros."
 
-#: rs/constants.py:640
+#: rs/constants.py:642
 msgid "only the last"
 msgstr "sólo los últimos"
 
-#: rs/constants.py:642
+#: rs/constants.py:644
 msgid "sent (singular)"
 msgstr "enviado"
 
-#: rs/constants.py:643
+#: rs/constants.py:645
 msgid "received (singluar)"
 msgstr "recibido"
 
-#: rs/constants.py:644
+#: rs/constants.py:646
 msgid "saved (singular)"
 msgstr "guardado"
 
-#: rs/constants.py:645
+#: rs/constants.py:647
 msgid "confirmed (singular)"
 msgstr "confirmado"
 
-#: rs/constants.py:651 rs/messages.py:368
+#: rs/constants.py:653 rs/messages.py:368
 msgid "sent (plural)"
 msgstr "enviados"
 
-#: rs/constants.py:651
+#: rs/constants.py:653
 msgid "Sent (plural)"
 msgstr "Enviados"
 
-#: rs/constants.py:652
+#: rs/constants.py:654
 msgid "received (plural)"
 msgstr "recibidos"
 
-#: rs/constants.py:652
+#: rs/constants.py:654
 msgid "Received (plural)"
 msgstr "Recibidos"
 
-#: rs/constants.py:653
+#: rs/constants.py:655
 msgid "saved (plural)"
 msgstr "guardados"
 
-#: rs/constants.py:653
+#: rs/constants.py:655
 msgid "Saved (plural)"
 msgstr "Guardados"
 
-#: rs/constants.py:654
+#: rs/constants.py:656
 msgid "confirmed (plural)"
 msgstr "confirmados"
 
-#: rs/constants.py:654
+#: rs/constants.py:656
 msgid "Confirmed (plural)"
 msgstr "Confirmados"
 
-#: rs/constants.py:659
+#: rs/constants.py:661
 msgid "sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:659
+#: rs/constants.py:661
 msgid "Sent (plural feminine)"
 msgstr "Enviadas"
 
-#: rs/constants.py:660
+#: rs/constants.py:662
 msgid "received (plural feminine)"
 msgstr "recibidas"
 
-#: rs/constants.py:660
+#: rs/constants.py:662
 msgid "Received (plural feminine)"
 msgstr "Recibidas"
 
-#: rs/constants.py:661
+#: rs/constants.py:663
 msgid "saved (plural feminine)"
 msgstr "guardadas"
 
-#: rs/constants.py:661
+#: rs/constants.py:663
 msgid "Saved (plural feminine)"
 msgstr "Guardadas"
 
-#: rs/constants.py:662
+#: rs/constants.py:664
 msgid "confirmed (plural feminine)"
 msgstr "confirmadas"
 
-#: rs/constants.py:662
+#: rs/constants.py:664
 msgid "Confirmed (plural feminine)"
 msgstr "Confirmadas"
 
-#: rs/constants.py:667
+#: rs/constants.py:669
 msgid "Greetings"
 msgstr "Saludos"
 
-#: rs/constants.py:668
+#: rs/constants.py:670
 msgid "Send them a greeting"
 msgstr "Envíale un saludo"
 
-#: rs/constants.py:669
+#: rs/constants.py:671
 msgid "Greeting"
 msgstr "Saludo"
 
-#: rs/constants.py:671
+#: rs/constants.py:673
 msgid "Winks"
 msgstr "Guiños"
 
-#: rs/constants.py:672
+#: rs/constants.py:674
 msgid "Send them a wink"
 msgstr "Envíale un guiño"
 
-#: rs/constants.py:673
+#: rs/constants.py:675
 msgid "Wink"
 msgstr "Guiño"
 
-#: rs/constants.py:676
+#: rs/constants.py:678
 msgid "My favorites"
 msgstr "Mis Favoritos"
 
-#: rs/constants.py:678
+#: rs/constants.py:680
 msgid "Kisses"
 msgstr "Besos"
 
-#: rs/constants.py:679
+#: rs/constants.py:681
 msgid "Keys"
 msgstr "Llaves"
 
-#: rs/constants.py:680
+#: rs/constants.py:682
 msgid "Chat friends"
 msgstr "Chats amigos"
 
-#: rs/constants.py:681
+#: rs/constants.py:683
 msgid "Blocked (plural)"
 msgstr "Bloqueados"
 
-#: rs/constants.py:686
+#: rs/constants.py:688
 msgid "My favorite"
 msgstr "Mi Favorito"
 
-#: rs/constants.py:688
+#: rs/constants.py:690
 msgid "Kiss"
 msgstr "Beso"
 
-#: rs/constants.py:689
+#: rs/constants.py:691
 msgid "Key"
 msgstr "Llave"
 
-#: rs/constants.py:690
+#: rs/constants.py:692
 msgid "Chat friend"
 msgstr "Amigo de chat"
 
-#: rs/constants.py:691
+#: rs/constants.py:693
 msgid "Blocked (singular)"
 msgstr "Bloqueado"
 
-#: rs/constants.py:695
+#: rs/constants.py:697
 msgid "Chat requests sent"
 msgstr "Chats amigos pedidos"
 
-#: rs/constants.py:696
+#: rs/constants.py:698
 msgid "Chat requests received"
 msgstr "Chats amigos recibidos"
 
-#: rs/constants.py:697
+#: rs/constants.py:699
 msgid "Chat connections confirmed"
 msgstr "Chats amigos confirmados"
 
-#: rs/constants.py:701
+#: rs/constants.py:703
 msgid "Add them to your list of favorites"
 msgstr "Ponle en tu lista secreta de favoritos"
 
-#: rs/constants.py:703
+#: rs/constants.py:705
 msgid "Send them a kiss"
 msgstr "Envíale un beso"
 
-#: rs/constants.py:704
+#: rs/constants.py:706
 msgid "Give them access to your private photos"
 msgstr "Dale acceso a tus fotos privadas"
 
-#: rs/constants.py:705
+#: rs/constants.py:707
 msgid "Invite them to chat with you"
 msgstr "Invítale a ser tu \"Chat amigo\""
 
-#: rs/constants.py:706
+#: rs/constants.py:708
 msgid "Block this user (delete new messages automatically)"
 msgstr "Bloquear (borrar mensajes nuevos automáticamente)"
 
-#: rs/constants.py:719
+#: rs/constants.py:721
 msgid "January"
 msgstr "enero"
 
-#: rs/constants.py:720
+#: rs/constants.py:722
 msgid "February"
 msgstr "febrero"
 
-#: rs/constants.py:721
+#: rs/constants.py:723
 msgid "March"
 msgstr "marzo"
 
-#: rs/constants.py:722
+#: rs/constants.py:724
 msgid "April"
 msgstr "abril"
 
-#: rs/constants.py:724
+#: rs/constants.py:726
 msgid "June"
 msgstr "junio"
 
-#: rs/constants.py:725
+#: rs/constants.py:727
 msgid "July"
 msgstr "julio"
 
-#: rs/constants.py:726
+#: rs/constants.py:728
 msgid "August"
 msgstr "agosto"
 
-#: rs/constants.py:727
+#: rs/constants.py:729
 msgid "September"
 msgstr "septiembre"
 
-#: rs/constants.py:728
+#: rs/constants.py:730
 msgid "October"
 msgstr "octubre"
 
-#: rs/constants.py:729
+#: rs/constants.py:731
 msgid "November"
 msgstr "noviembre"
 
-#: rs/constants.py:730
+#: rs/constants.py:732
 msgid "December"
 msgstr "diciembre"
 
@@ -2098,9 +2098,9 @@ msgstr "Ver perfil y contactar con:"
 msgid "Eliminated"
 msgstr "Eliminado"
 
-#: rs/forms.py:299 rs/forms.py:462
-msgid "Approving (within 24 hours)"
-msgstr "Aprobando (dentro de 24 horas)"
+#: rs/forms.py:299
+msgid "Approving (within %(wait_hours)s hours)"
+msgstr "Aprobando (dentro de %(wait_hours)s  horas)"
 
 #: rs/forms.py:383
 msgid "Erase photo"
@@ -2119,8 +2119,8 @@ msgid "Public (feminine)"
 msgstr "Pública"
 
 #: rs/forms.py:444
-msgid "Approving photo for public (within 24 hours)"
-msgstr "Aprobando para ser pública (dentro de 24 horas)"
+msgid "Approving photo for public (within %(wait_hours)s hours)"
+msgstr "Aprobando para ser pública (dentro de %(wait_hours)s horas)"
 
 #: rs/forms.py:453
 msgid "Private photo"
