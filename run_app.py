@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7
 
 from subprocess import call
 call(['python', './manage.py', 'runserver', 'localhost:8000']) 
