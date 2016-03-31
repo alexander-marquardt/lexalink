@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: package version\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 16:06+0000\n"
+"POT-Creation-Date: 2016-03-31 18:37+0100\n"
 "PO-Revision-Date: year-mo-da ho:mi+zone\n"
 "Last-Translator: full name <email@address>\n"
 "Language-Team: language <ll@li.org>\n"
@@ -1339,23 +1339,19 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:384
+#: rs/admin.py:382
 #, python-format
 msgid ""
-"In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
-"approximately %(shutdown_time)s minutes for maintenance"
+"<p><p><h1>*** WARNING: On %(shutdown_string)s, we are permanently closing "
+"%(app_name)s.com ***</h1> "
 msgstr ""
-"En %(minutes_to_shutdown)s minutos estamos cerrando %(app_name)s.com por un "
-"período de aproximadamente %(shutdown_time)s minutos para el mantenimiento"
+"<p><p><h1>*** ADVERTENCIA: El %(shutdown_string)s cerraremos "
+"%(app_name)s.com de forma permanente ***</h1>"
 
-#: rs/admin.py:401
+#: rs/admin.py:392
 #, python-format
-msgid ""
-"We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
-"for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
+msgid "We have permanently closed %(app_name)s.com."
 msgstr ""
-"Hemos cerrado %(app_name)s.com por aproximadamente %(shutdown_time)s minutos "
-"para el mantenimiento. Esperamos abrir en %(minutes_remaining)s minutos."
 
 #: rs/ajax.py:486 rs/html_container.py:238
 msgid "Your description"
@@ -5147,6 +5143,23 @@ msgstr "a cambio de"
 #: rs/proprietary/search_engine_overrides.py:283
 msgid "Refine your search results"
 msgstr "Filtrar los resultados de búsqueda"
+
+#~ msgid ""
+#~ "In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
+#~ "approximately %(shutdown_time)s minutes for maintenance"
+#~ msgstr ""
+#~ "En %(minutes_to_shutdown)s minutos estamos cerrando %(app_name)s.com por "
+#~ "un período de aproximadamente %(shutdown_time)s minutos para el "
+#~ "mantenimiento"
+
+#~ msgid ""
+#~ "We have closed %(app_name)s.com for approximately %(shutdown_time)s "
+#~ "minutes for maintenance.We hope to re-open in %(minutes_remaining)s "
+#~ "minutes."
+#~ msgstr ""
+#~ "Hemos cerrado %(app_name)s.com por aproximadamente %(shutdown_time)s "
+#~ "minutos para el mantenimiento. Esperamos abrir en %(minutes_remaining)s "
+#~ "minutos."
 
 #~ msgid "year"
 #~ msgstr "año"

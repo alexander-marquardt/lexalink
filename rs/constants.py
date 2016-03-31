@@ -41,12 +41,10 @@ import settings, site_configuration
 # The following "THIS_BUILD_ALLOWS_VIP_UPGRADES" is at the top because it is used in some of the other
 # constant declarations. If we don't allow the users to purchase a VIP option for a particular build,
 # then we treat all the users of that build as VIP (to some degree). 
-if site_configuration.BUILD_NAME == 'discrete_build':
-    THIS_BUILD_ALLOWS_VIP_UPGRADES = True
-else:
-    # currently, only discrete_build build allows users to upgrade to VIP. 
-    # Other sites are supported by advertising.
-    THIS_BUILD_ALLOWS_VIP_UPGRADES = False
+
+# currently, only discrete_build build allows users to upgrade to VIP.
+# Other sites are supported by advertising.
+THIS_BUILD_ALLOWS_VIP_UPGRADES = False
 
     
 if settings.BUILD_NAME == "language_build" : 

@@ -25,7 +25,7 @@
 # limitations under the License.
 ################################################################################
 
-import os, logging
+import os, logging, datetime
 
 from rs.private_data import *
 
@@ -47,7 +47,7 @@ ENABLE_GRUNT = True
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_COMPRESSED_STATIC_FILES = False
+USE_COMPRESSED_STATIC_FILES = True
 
 if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
     # Compression of static and client-side files is done using grunt, therefore ENABLE_GRUNT must be set before USE_COMPRESSED_STATIC_FILES
@@ -179,8 +179,7 @@ if BUILD_STAGING:
     REDIRECT_APPSPOT_URL = False
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
-shutdown_time = False # datetime.datetime(2012, 06, 05, 8, 30)
-SHUTDOWN_DURATION = 0
+shutdown_time = datetime.datetime(2016, 04, 16, 0, 0)
 
 if PROPRIETARY_BUILDS_AVAILABLE:
     if BUILD_NAME == 'discrete_build' or BUILD_NAME == 'lesbian_build' or BUILD_NAME == 'swinger_build' or BUILD_NAME == 'single_build':

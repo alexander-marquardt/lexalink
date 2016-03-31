@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 16:06+0000\n"
+"POT-Creation-Date: 2016-03-31 18:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1199,18 +1199,16 @@ msgstr ""
 msgid "a"
 msgstr ""
 
-#: rs/admin.py:384
+#: rs/admin.py:382
 #, python-format
 msgid ""
-"In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for "
-"approximately %(shutdown_time)s minutes for maintenance"
+"<p><p><h1>*** WARNING: On %(shutdown_string)s, we are permanently closing "
+"%(app_name)s.com ***</h1> "
 msgstr ""
 
-#: rs/admin.py:401
+#: rs/admin.py:392
 #, python-format
-msgid ""
-"We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes "
-"for maintenance.We hope to re-open in %(minutes_remaining)s minutes."
+msgid "We have permanently closed %(app_name)s.com."
 msgstr ""
 
 #: rs/ajax.py:486 rs/html_container.py:238

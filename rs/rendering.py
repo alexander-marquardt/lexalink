@@ -281,7 +281,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
 
 
         # This code is used for generating maintenance warning messages. 
-        (maintenance_soon_warning, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
+        (warning_message_text, maintenance_shutdown_warning) = admin.generate_code_for_maintenance_warning()
         
         
         unregistered_user_welcome_text = ugettext("""You must register to contact other users""") 
@@ -326,7 +326,7 @@ def render_main_html(request, generated_html, userobject = None, link_to_hide = 
     
         general_information_data_fields = {}
         general_information_data_fields['settings_debug_flag'] = site_configuration.DEBUG
-        general_information_data_fields['maintenance_soon_warning'] = maintenance_soon_warning
+        general_information_data_fields['maintenance_soon_warning'] = warning_message_text
         general_information_data_fields['maintenance_shutdown_warning'] = maintenance_shutdown_warning 
         general_information_data_fields['region_options_html'] = region_options_html
         general_information_data_fields['sub_region_options_html'] = sub_region_options_html

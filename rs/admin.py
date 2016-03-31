@@ -367,52 +367,38 @@ def generate_code_for_maintenance_warning():
     # code for printing out warnings if google is doing database maintenance and we are shut
     # down.
     
-    if settings.shutdown_time == False or settings.SHUTDOWN_DURATION == 0:
+    if settings.shutdown_time == False:
         return ('', '')
     
     shutdown_time = settings.shutdown_time
-    SHUTDOWN_DURATION = settings.SHUTDOWN_DURATION # minutes
 
-    maintenance_soon_warning_html = ''
-    maintenance_shutdown_warning_html = ''   
+    maintenance_shutdown_warning_html = ''
     
     current_time = datetime.datetime.now()
     
     time_to_shutdown = shutdown_time - current_time
-    minutes_to_shutdown, seconds = divmod(time_to_shutdown.seconds, 60)
+
+    shutdown_string = shutdown_time.strftime('%d %b %Y')
+    warning_message_text = ugettext("<p><p><h1>*** WARNING: On %(shutdown_string)s, we are permanently closing %(app_name)s.com ***</h1> ") % {
+        'shutdown_string': shutdown_string,
+        'app_name':settings.APP_NAME}
+
     
-    warning_message_text = ugettext("In %(minutes_to_shutdown)s minutes, we are closing %(app_name)s.com for \
-approximately %(shutdown_time)s minutes for maintenance") % {'minutes_to_shutdown':minutes_to_shutdown, 
-                                                             'app_name':settings.APP_NAME, 
-                                                             'shutdown_time':SHUTDOWN_DURATION}
-    
-    if time_to_shutdown < datetime.timedelta(minutes = 5) and time_to_shutdown > datetime.timedelta(minutes = 0):
-        maintenance_soon_warning_html += u"""<script type="text/javascript">alert("%s")</script>""" % warning_message_text
-    
-    # if time_to_shutdown is negative, then we are already in shutdown mode -- but only 
-    # print this warning for SHUTDOWN_DURATION minutes. 
-    elif time_to_shutdown < datetime.timedelta(minutes = 0) and\
-         time_to_shutdown > datetime.timedelta(minutes = -SHUTDOWN_DURATION):
+    # if time_to_shutdown is negative, then we are already in shutdown mode
+    if time_to_shutdown < datetime.timedelta(minutes = 0):
         
         # time_to_shutdown is a negative number
-        time_remaining = time_to_shutdown + datetime.timedelta(minutes = SHUTDOWN_DURATION)
-        minutes_remaining, seconds = divmod(time_remaining.seconds, 60)       
         
-        already_shutdown_text = ugettext("We have closed %(app_name)s.com for approximately %(shutdown_time)s minutes for maintenance.\
-We hope to re-open in %(minutes_remaining)s minutes.") % {'shutdown_time': SHUTDOWN_DURATION, 
-                                                          'minutes_remaining': minutes_remaining,
-                                                          'app_name': settings.APP_NAME  }
+        already_shutdown_text = ugettext("We have permanently closed %(app_name)s.com.") % {'app_name': settings.APP_NAME}
                 
         
         maintenance_shutdown_warning_html = u"""
-       <script type="text/javascript">alert(%(already_shutdown_text)s)</script>
-       
        <br><br><br><br><br><br> 
        <span class="cl-text-24pt-format cl-warning-text" >%(already_shutdown_text)s</span>
        <br><br><br><br><br><br> 
        """ % {'already_shutdown_text' : already_shutdown_text}
         
-    return (maintenance_soon_warning_html, maintenance_shutdown_warning_html)
+    return (warning_message_text, maintenance_shutdown_warning_html)
         
 
 
