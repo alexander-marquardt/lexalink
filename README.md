@@ -16,14 +16,14 @@ We are interested in clearly written, well documented, and understandable enhanc
 Example Installations
 ---------------------
 
-LexaLink was originally developed for the following websites, which currently (October 2012) serve tens of thousands of pages per day to thousands of daily visitors.
+LexaLink was originally developed for the following websites, which currently (October 2012) serve tens of thousands of pages per day to thousands of daily visitors. Note: these sites were closed in 2016. 
 
-* [LikeLanguage](http://www.likelanguage.com)
-* [RomanceSecreto](http://www.romancesecreto.com)
-* [SingletonSearch](http://www.singletonsearch.com)
-* [LesbianHeart](http://www.lesbianheart.com)
-* [FriendBazaar](http://www.friendbazaar.com)
-* [GaySetup](http://www.gaysetup.com)
-* [SwingerPlex](http://www.swingerplex.com)
-* [MellowDating](http://www.mellowdating.com)
+* LikeLanguage
+* RomanceSecreto
+* SingletonSearch
+* LesbianHeart
+* FriendBazaar
+* GaySetup
+* SwingerPlex
+* MellowDating
 
