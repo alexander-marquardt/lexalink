@@ -179,7 +179,7 @@ if BUILD_STAGING:
     REDIRECT_APPSPOT_URL = False
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
-shutdown_time = datetime.datetime(2016, 04, 16, 0, 0)
+shutdown_time = datetime.datetime(2016, 04, 16, 23, 59)
 
 if PROPRIETARY_BUILDS_AVAILABLE:
     if BUILD_NAME == 'discrete_build' or BUILD_NAME == 'lesbian_build' or BUILD_NAME == 'swinger_build' or BUILD_NAME == 'single_build':

@@ -51,7 +51,7 @@ urlpatterns = patterns('',
     url(r'^rs/logout/$', views.logout, name="views.logout"),
     url(r'^rs/vip_purchase_main_html/(?P<owner_nid>\d+)/$', views.vip_purchase_main_html),
     url(r'^rs/terms/$', views.terms, name="views.terms"),    
-    url(r'^rs/press/$', views.press, name="views.press"),
+    url(r'^rs/press/$', views.terms, name="views.press"),
     (r'^rs/auth/crawler_login/$', views.crawler_login),
     (r'^rs/crawler_auth/$', views.crawler_auth),
     
