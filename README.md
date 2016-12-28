@@ -16,7 +16,7 @@ We are interested in clearly written, well documented, and understandable enhanc
 Example Installations
 ---------------------
 
-LexaLink was originally developed for the following websites, which currently (October 2012) serve tens of thousands of pages per day to thousands of daily visitors. Note: these sites were closed in 2016. 
+LexaLink was originally developed for the following websites, which previously served tens of thousands of pages per day to thousands of daily visitors. Note: these sites were closed in 2016. 
 
 * LikeLanguage
 * RomanceSecreto
