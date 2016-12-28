@@ -77,9 +77,9 @@ except:
     app_id_dict = {
         # update the following values to reflect the application ids that you have registered for each of your
         # applications on the AppEngine.
-        'default_build':   'yourappid',
+        'default_build':   'lexalink-demo',
 
-        'discrete_build' : 'yourappid1', 
+        'discrete_build' : 'lexalink-demo',
         'language_build':  'yourappid2', 
         'single_build' :   'lexalink-demo',
         'lesbian_build':   'yourappid4',
@@ -88,7 +88,15 @@ except:
         'mature_build':    'yourappid8',
         
     }
-    
+
+
+    # very similar to app_id_dict, however in some cases (for unkonwn reasons) there may be more than one app id that
+    # is accessing a particlar site. For exmple RomanceSecreto.com is accessed by both romancesapp.appspot.com, as well
+    # as romanceapp.appspot.com. For this reason, we use a set to represent the app ids that will need to be redirected
+    # to the principle domain name. This probably happens because romancescreto.com used to be hosted on
+    # romanceapp.appspot.com before we switched to the high-repliation datastore.
+    redirect_app_id_dict = {}
+
     # you may wish to have an additional application id that you upload your code to for extra "in-the-cloud" testing.
     staging_appid = 'your-staging-application-id'
     
@@ -116,7 +124,22 @@ except:
     # The site is currently setup to process paypal payments - you must have a paypal account setup
     PAYPAL_ACCOUNT = 'YOUR-EMAIL-ADDRESS-FOR-PAYPAL'
     PAYPAL_SANDBOX_ACCOUNT = 'YOUR-SANDBOX-EMAIL-ADDRESS-FOR-PAYPAL'
-        
+
+    # Not currently used
+    # PAYSAFE_HMAC_KEY = 'K34grNKPXEjREGCSGOcQ60IOyFGBtcupMYthH4Hh5jiMuWyaZ'
+
+    PAYSAFE_SOAP_USERNAME = 'xxxxx'
+    PAYSAFE_SOAP_PASSWORD = 'xxxxx'
+    PAYSAFE_MID_DICT = {'EUR': '1000005878', 'USD': '1000005927', 'MXN': '1000005928'}
+    PAYSAFE_CUSTOMER_PANEL_URL = 'xxxxxx'
+    PAYSAFE_ENDPOINT = 'xxxxxx'
+
+    PAYSAFE_SOAP_TEST_USERNAME = 'xxxxxx'
+    PAYSAFE_SOAP_TEST_PASSWORD = 'xxxxxx'
+    PAYSAFE_TEST_MID_DICT = {'EUR': '1000005878', 'USD': '1000005927', 'MXN': '1000005928'}
+    PAYSAFE_CUSTOMER_PANEL_TEST_URL = 'xxxxxx'
+    PAYSAFE_TEST_ENDPOINT = 'xxxxxx'
+
     GOOGLE_AD_728x90 = 'Place your Adsense code here'
     GOOGLE_AD_160x600 = 'Place your Adsense code here'
     

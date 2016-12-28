@@ -33,7 +33,7 @@ for build_name in BUILD_NAMES_LIST:
     print "Batch uploader uploading build: %s" % (build_name)
     print "**********************************************************************\n"
     
-    pargs = ['python', '/Users/alexandermarquardt/bin/lexalink-upload.py']
+    pargs = ['python', '/Users/alexandermarquardt/Lexabit/lexalink/lexalink-upload.py']
     process = subprocess.call(pargs,  stderr=subprocess.STDOUT)
     
         

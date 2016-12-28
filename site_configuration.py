@@ -179,7 +179,7 @@ if BUILD_STAGING:
     REDIRECT_APPSPOT_URL = False
 
 # Use the following for maintenance - if no shutdown is scheduled, set shutdown_time to False or DURATION to 0
-shutdown_time = datetime.datetime(2016, 04, 16, 23, 59)
+shutdown_time = False
 
 if PROPRIETARY_BUILDS_AVAILABLE:
     if BUILD_NAME == 'discrete_build' or BUILD_NAME == 'lesbian_build' or BUILD_NAME == 'swinger_build' or BUILD_NAME == 'single_build':
@@ -212,10 +212,4 @@ if ('SERVER_SOFTWARE' in os.environ):
         DEBUG = False
         TEMPLATE_DEBUG = False
         DEVELOPMENT_SERVER = False
-
-        for build_name, domain_name in domain_name_dict.iteritems():
-            ALLOWED_HOSTS.append("." + domain_name)
-
-        for app_name, build_name in redirect_app_id_dict.iteritems():
-            ALLOWED_HOSTS.append("." + app_name + ".appspot.com")
-        ALLOWED_HOSTS.append(".rs-staging.appspot.com")
+        ALLOWED_HOSTS.append('*')
