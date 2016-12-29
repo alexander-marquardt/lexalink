@@ -40,14 +40,14 @@ VERSION_ID = 'debug-build-1'
 # of the html, css, and javascript.
 # Additionally, during development (when not using grunt to compress files), our grunt scripts provide functionality such
 # as automatically running jshint when a file changes, automatic reloading of web pages when html changes, etc. 
-ENABLE_GRUNT = True
+ENABLE_GRUNT = False
 
 # The following must be set to True before uploading - this will combine and minimize javascript 
 # and css files. This combining/minimizing is only done on upload or on  development server initialization, so this will
 # mask any changes that are made to jss/css between server restarts -- therefore this value 
 # should be set to False for developing/debugging js/css on the local development server (the original
 # js/css files would be accessed instead of the combined/minimized js/css files).
-USE_COMPRESSED_STATIC_FILES = True
+USE_COMPRESSED_STATIC_FILES = False
 
 if USE_COMPRESSED_STATIC_FILES and not ENABLE_GRUNT:
     # Compression of static and client-side files is done using grunt, therefore ENABLE_GRUNT must be set before USE_COMPRESSED_STATIC_FILES
