@@ -198,10 +198,10 @@ action-to-take: delete, undelete, disable, reset (see code for details)
 [name|email|ip]: literally enter "ip", "email", or "name" to indicate how we are selecting the profile to take the action on.
 * profile_to_remove: depending on the previous setting, this will be a name, email address, or an ip address.
 * reason_for_removal is optional, or can be set to the following values:
-* * fake - For profiles that appear to be setup to attract a client to a paid website
-* * scammer - For profiles that appear to be "nigerian scammers"
-* * terms - For profiles that have violated the terms and conditions of use.
-* * Leave this field blank if you do not wish to indicate any reason for removal.
+  * fake - For profiles that appear to be setup to attract a client to a paid website
+  * scammer - For profiles that appear to be "nigerian scammers"
+  * terms - For profiles that have violated the terms and conditions of use.
+  * Leave this field blank if you do not wish to indicate any reason for removal.
 
 Note: deleted profiles are not physically erases from the database, however we make them in-accessible. Physically erasing deleted profiles is a pending task.
 
